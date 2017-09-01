@@ -21,7 +21,9 @@ import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
 import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
 import AddFeedbackScreen from '../containers/user/addFeedback';
-
+import CarLoginScreen from '../containers/user/carLogin';
+import RegisterScreen from '../containers/user/register';
+import RegisterPwdScreen from '../containers/user/registerPwd';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -76,6 +78,23 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_REGISTER]: {
+    screen: RegisterScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-手机号',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_REGISTER_PWD]: {
+    screen: RegisterPwdScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-密码',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_LOGIN]: { screen: CarLoginScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },

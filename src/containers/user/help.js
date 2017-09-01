@@ -143,9 +143,6 @@ class HelpContainer extends BaseComponent {
 	}
 
 	static navigationOptions = ({ navigation }) => {
-	  const {state, setParams} = navigation;
-	  const isInfo = state.params.mode === 'info';
-	  const {user} = state.params;
 	  return {
 	    header: <NavigatorBar 
 	    firstLevelClick={ () => navigation.dispatch({type:RouteType.ROUTE_ADD_FEEDBACK,params:{title:'反馈问题'}})} 
