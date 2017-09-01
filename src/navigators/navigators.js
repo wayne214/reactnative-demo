@@ -15,6 +15,7 @@ import GoodsListContainer from '../containers/routes/goodsList';
 import TravelContainer from '../containers/travel/travel';
 import OrderContainer from '../containers/order/order';
 import EntrustOrderContainer from '../containers/entrust/entrustOrder';
+import SettingScreen from '../containers/user/setting';
 
 import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
@@ -80,6 +81,7 @@ export const AppNavigator = StackNavigator({
   TravelContainer: { screen: TravelContainer },
   OrderContainer: { screen: OrderContainer },
   EntrustOrderContainer: { screen: EntrustOrderContainer },
+  [RouteType.ROUTE_SETTING]: { screen: SettingScreen },
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',

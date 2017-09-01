@@ -5,7 +5,8 @@ import {
 	Text,
 	Alert,
 	Animated,
-	TouchableOpacity
+	TouchableOpacity,
+	ImageBackground
 } from 'react-native';
 import moment from 'moment';
 import Button from '../common/button';
@@ -329,9 +330,9 @@ export default class Route extends React.Component {
 			<View style={ styles.bottomView }>
 				<View style={ styles.destinationStyle }>
 					<View style={ styles.carBanContainer }>
-						<Image style={ styles.carBanStyle } source={ CarBanBg }>
+						<ImageBackground style={ [styles.carBanStyle, { padding: 3 }] } source={ CarBanBg }>
 							<Text style={ [styles.carBanText, { color: '#ffac1b' }] }>{ travelDetail.goodsType === 1 ? '干线' : '卡班' }</Text>
-						</Image>
+						</ImageBackground>
 					</View>
 					{
 						travelDetail.goodsType === 1 &&

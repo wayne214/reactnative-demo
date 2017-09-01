@@ -44,8 +44,14 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>请允许访问您的相机，以拍摄图片</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>请允许访问您的相册，以获取您相册中的图片</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
