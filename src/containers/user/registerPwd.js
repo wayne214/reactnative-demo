@@ -107,7 +107,7 @@ class RegisterContainer extends BaseComponent {
 	}
 
 	_jumpAgreement(){
-		this.props.router.push(RouteType.ROUTE_AGREEMENT_CONTENT,{title: '《冷链马甲服务协议》', type: 1});
+		this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT,params:{title: '《冷链马甲服务协议》', type: 1}});
 	}
 
 	componentWillMount () {
