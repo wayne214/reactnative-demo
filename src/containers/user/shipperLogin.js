@@ -74,6 +74,16 @@ class LoginContainer extends BaseComponent {
     Clipboard.setString(''); 
   }
   
+  static navigationOptions = ({ navigation }) => {
+    const {state, setParams} = navigation
+    return {
+      header: <NavigatorBar 
+              hiddenBackIcon={ true }
+              style={{ borderBottomColor: 'white' }} 
+              router={ navigation }/>
+    };
+  };
+
   componentWillMount () {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
@@ -94,12 +104,6 @@ class LoginContainer extends BaseComponent {
     const { navigation } = this.props;
     return (
       <View style={ styles.container }>
-        <NavigatorBar
-          title=' '
-          router={ navigation }
-          hiddenBackIcon={ true }
-          style={{ borderBottomColor: 'white'}}/>
-
         <ScrollView
           keyboardShouldPersistTaps='handled'
           showsVerticalScrollIndicator={ false }>
