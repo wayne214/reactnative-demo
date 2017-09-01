@@ -16,6 +16,15 @@ import TravelContainer from '../containers/travel/travel';
 import OrderContainer from '../containers/order/order';
 import EntrustOrderContainer from '../containers/entrust/entrustOrder';
 import SettingScreen from '../containers/user/setting';
+import AgreementScreen from '../containers/user/agreement';
+
+import HelpScreen from '../containers/user/help';
+import HelpDetailScreen from '../containers/user/helpDetail';
+import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
+import AddFeedbackScreen from '../containers/user/addFeedback';
+import CarLoginScreen from '../containers/user/carLogin';
+import RegisterScreen from '../containers/user/register';
+import RegisterPwdScreen from '../containers/user/registerPwd';
 
 import CarListScreen from '../containers/car/carList'
 
@@ -41,12 +50,74 @@ export const AppNavigator = StackNavigator({
 		}
   },
   [RouteType.ROUTE_CAR_LIST]: { screen: CarListScreen },
+  [RouteType.ROUTE_HELP]: {
+    screen: HelpScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '帮助',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_FEEDBACK]: {
+    screen: AddFeedbackScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_HELP_DETAIL]: {
+    screen: HelpDetailScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_HELP_DETAIL_FOR_FEEDBACK]: {
+    screen: HelpDetailForFeedbackScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_REGISTER]: {
+    screen: RegisterScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-手机号',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_REGISTER_PWD]: {
+    screen: RegisterPwdScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-密码',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_LOGIN]: { screen: CarLoginScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
   OrderContainer: { screen: OrderContainer },
   EntrustOrderContainer: { screen: EntrustOrderContainer },
-  [RouteType.ROUTE_SETTING]: { screen: SettingScreen },
+  [RouteType.ROUTE_SETTING]: { 
+    screen: SettingScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AGREEMENT_CONTENT]: { 
+    screen: AgreementScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',

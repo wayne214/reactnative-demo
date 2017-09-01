@@ -28,7 +28,7 @@ export default class ControlPanel extends React.Component {
 	}
 
 	render () {
-		const { user, drawer, _changeOrderTopTab } = this.props;
+		const { user, drawer, _changeOrderTopTab,navigation } = this.props;
 		let ruleText;
 		if (user.currentUserRole === 1 && user.carrierType === 1) {
 			ruleText = '公司'
@@ -156,7 +156,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_HELP) }>
+										onPress={ () => navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title:'反馈问题'}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe602;</Text>
 											<View style={ styles.rightContent }>
@@ -188,7 +188,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_SETTING, params:{title: ''}}) }>
+										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_SETTING, params:{title: '系统设置'}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe608;</Text>
 											<View style={ styles.rightContent }>
