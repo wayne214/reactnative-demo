@@ -8,6 +8,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
+import { DrawerNavigator } from 'react-navigation'
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
 import styles from '../../../assets/css/home';
@@ -150,7 +151,7 @@ class HomeContainer extends BaseComponent {
                       <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>{ '休息中' }</Text>
-                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ [styles.carNoBgStyle, { paddingLeft: 30, paddingRight: 30, paddingBottom: 10 }] } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
                           </ImageBackground>
                         </View>
@@ -172,7 +173,7 @@ class HomeContainer extends BaseComponent {
                         <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                           <View style={ styles.rightContent }>
                             <Text style={ styles.carStatusText }>{ Helper.getOrderStateStr(travelDetail.orderState, travelDetail.entrustType) }</Text>
-                            <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
+                            <ImageBackground style={ [styles.carNoBgStyle, { paddingLeft: 30, paddingRight: 30, paddingBottom: 10 }] } source={ CarNoBg }>
                               <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
                             </ImageBackground>
                           </View>
@@ -187,7 +188,7 @@ class HomeContainer extends BaseComponent {
                         <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                           <View style={ styles.rightContent }>
                             <Text style={ styles.carStatusText }>运输中</Text>
-                            <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
+                            <ImageBackground style={ [styles.carNoBgStyle, { paddingLeft: 30, paddingRight: 30, paddingBottom: 10 }] } source={ CarNoBg }>
                               <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
                             </ImageBackground>
                           </View>
@@ -225,7 +226,7 @@ class HomeContainer extends BaseComponent {
                       <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>{ Helper.getOrderStateStr(travelDetail.orderState) }</Text>
-                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ [styles.carNoBgStyle, { paddingLeft: 30, paddingRight: 30, paddingBottom: 10 }] } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
                           </ImageBackground>
                         </View>
@@ -239,7 +240,7 @@ class HomeContainer extends BaseComponent {
                       <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>运输中</Text>
-                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ [styles.carNoBgStyle, { paddingLeft: 30, paddingRight: 30, paddingBottom: 10 }] } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
                           </ImageBackground>
                         </View>

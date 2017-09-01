@@ -17,6 +17,8 @@ import OrderContainer from '../containers/order/order';
 import EntrustOrderContainer from '../containers/entrust/entrustOrder';
 import SettingScreen from '../containers/user/setting';
 
+import CarListScreen from '../containers/car/carList'
+
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -38,6 +40,7 @@ export const AppNavigator = StackNavigator({
       headerBackTitle: null
 		}
   },
+  [RouteType.ROUTE_CAR_LIST]: { screen: CarListScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
@@ -61,7 +64,7 @@ const TransitionConfiguration = () => ({
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
+  <AppNavigator navigation={ addNavigationHelpers({ dispatch, state: nav }) } />
 );
 
 AppWithNavigationState.propTypes = {
