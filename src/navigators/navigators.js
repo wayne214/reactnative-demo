@@ -30,6 +30,9 @@ import CarLoginScreen from '../containers/user/carLogin';
 import RegisterScreen from '../containers/user/register';
 import RegisterPwdScreen from '../containers/user/registerPwd';
 import CarListScreen from '../containers/car/carList'
+import MessageScreen from '../containers/message/message';
+import MessageDetailScreen from '../containers/message/messageDetail'
+
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -144,6 +147,20 @@ export const AppNavigator = StackNavigator({
   },
   [RouteType.ROUTE_ADD_DRIVER]: { 
     screen: AddDriverScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MESSAGE_LIST]: { 
+    screen: MessageScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MESSAGE_DETAIL]: { 
+    screen: MessageDetailScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
