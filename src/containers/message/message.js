@@ -204,7 +204,7 @@ class MessageContainer extends BaseComponent {
 			<View key={ rowIndex + rowData.id } style={ styles.messageCellContainer }>
 				<TouchableOpacity
 					activeOpacity={ 1 }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_MESSAGE_DETAIL, { id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }) }>
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }}) }>
 					<View style={ styles.contentContainer }>
 						<Animated.View style={ [styles.checkContainer, {
 							width: this.state.focusedAnim.interpolate({
@@ -260,12 +260,6 @@ class MessageContainer extends BaseComponent {
 	render() {
 		return (
 			<View style={ styles.container }>
-				<NavigatorBar
-					title={ this.title }
-					router={ this.props.router }
-					optTitle={ this.state.rightTitle }
-					firstLevelClick={ this._editor } />
-
 				<TabView
 					tabs={ ['通知消息', '系统公告'] }
 					changeTab={ (index) => this._changeTab(index) }/>

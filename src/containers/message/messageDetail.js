@@ -58,10 +58,10 @@ class MessageDetail extends BaseComponent {
 		super.componentWillUnmount()
 	}
 	_againAuth(){
-		this.props.router.push(RouteType.ROUTE_AUTH_INFO);
+		this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO, params: {title:'公司认证'}});
 	}
 	_waitShipper(){
-		this.props.router.replaceWithHome();
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
 		this.props.dispatch(changeTab('carriage'));
 		let linkId;
 		if(this.props.msg && this.props.msg.linkId){
@@ -80,17 +80,17 @@ class MessageDetail extends BaseComponent {
 			linkId = this.props.msg.linkId.split(":")[0];
 		}
 		if(linkId === '4'){
-			this.props.router.push(RouteType.ROUTE_BIDDING_LIST,{isBetter:true, tabIndex: 1});
+			this.props.navigation.dispatch({ type: RouteType.ROUTE_BIDDING_LIST,params: {title:'我的竞价', isBetter:true, tabIndex: 1}});
 		}else{
-			this.props.router.push(RouteType.ROUTE_BIDDING_LIST,{isBetter:true, tabIndex: 2});
+			this.props.navigation.dispatch({ type: RouteType.ROUTE_BIDDING_LIST,params: {title:'我的竞价', isBetter:true, tabIndex: 2}});
 		}
 	}
 	_routeGoods(){
-		this.props.router.replaceWithHome();
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
 		this.props.dispatch(changeTab('goods'));
 	}
 	_orderList(){
-		this.props.router.replaceWithHome();
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
 		this.props.dispatch(changeTab('order'));
 		let linkId;
 		if(this.props.msg && this.props.msg.linkId){
@@ -109,7 +109,7 @@ class MessageDetail extends BaseComponent {
 	};
 
 	render() {
-		const {router, user} = this.props;
+		const {navigation, user} = this.props;
 		let linkId;
 		let number;
 		let btn;
@@ -123,7 +123,7 @@ class MessageDetail extends BaseComponent {
 				// 			title='立即查看' 
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
-				// 			onPress = { () => router.push(RouteType.ROUTE_USER_INFO) }/>
+				// 			onPress = { () => navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}}) }/>
 				// 	</View>
 		  // 	)
 		  // }else if(linkId === '2' && user.certificationStatus === 3 ){
@@ -213,7 +213,7 @@ class MessageDetail extends BaseComponent {
 				// 			title='立即查看'
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
-				// 			onPress = { ()=> {router.push(RouteType.ROUTE_MY_CAR)}}/>
+				// 			onPress = { ()=> {navigation.dispatch({type: RouteType.ROUTE_MY_CAR, params:{title:'车辆管理'}})}}/>
 				// 	</View>
 		  // 	)
 		  // }else if(linkId === '11'){
@@ -223,7 +223,7 @@ class MessageDetail extends BaseComponent {
 				// 			title='查看订单'
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
-				// 			onPress = { ()=> {router.push(RouteType.ROUTE_ORDER_DETAIL, { orderNo : number})}}/>
+				// 			onPress = { ()=> {navigation.dispatch({type: RouteType.ROUTE_ORDER_DETAIL, params: {title:'订单详情', orderNo : number}})}}/>
 				// 	</View>
 		  // 	)
 		  // }else if(linkId === '12'){
@@ -233,7 +233,7 @@ class MessageDetail extends BaseComponent {
 				// 			title='重新上传'
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
-				// 			onPress = { ()=> {router.push(RouteType.ROUTE_ORDER_DETAIL, { orderNo : number})}}/>
+				// 			onPress = { ()=> {navigation.dispatch({type: RouteType.ROUTE_ORDER_DETAIL, params: {title:'订单详情', orderNo : number}})}}/>
 				// 	</View>
 		  // 	)
 		  // }
@@ -244,7 +244,7 @@ class MessageDetail extends BaseComponent {
 							title='查看订单'
 							style={ styles.btn }
 							textStyle={ styles.btnText }
-							onPress = { ()=> {router.push(RouteType.ROUTE_ORDER_DETAIL, { orderNo : number})}}/>
+							onPress = { ()=> {navigation.dispatch({type: RouteType.ROUTE_ORDER_DETAIL, params: {title: '订单详情', orderNo : number}})}}/>
 					</View>)
 			}
 		}
