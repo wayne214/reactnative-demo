@@ -16,6 +16,7 @@ import TravelContainer from '../containers/travel/travel';
 import OrderContainer from '../containers/order/order';
 import EntrustOrderContainer from '../containers/entrust/entrustOrder';
 import SettingScreen from '../containers/user/setting';
+import AgreementScreen from '../containers/user/agreement';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -43,7 +44,20 @@ export const AppNavigator = StackNavigator({
   TravelContainer: { screen: TravelContainer },
   OrderContainer: { screen: OrderContainer },
   EntrustOrderContainer: { screen: EntrustOrderContainer },
-  [RouteType.ROUTE_SETTING]: { screen: SettingScreen },
+  [RouteType.ROUTE_SETTING]: { 
+    screen: SettingScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AGREEMENT_CONTENT]: { 
+    screen: AgreementScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',

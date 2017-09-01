@@ -140,7 +140,7 @@ class SettingContainer extends BaseComponent {
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_INVOICE_EXPLANATION) }>
+					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '发票说明', type: 3}}) }>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>发票说明</Text>
 					</View>
@@ -151,7 +151,7 @@ class SettingContainer extends BaseComponent {
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_ABOUT_US) }>
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '关于我们', type: 2}}) }>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>关于我们</Text>
 					</View>
@@ -162,7 +162,7 @@ class SettingContainer extends BaseComponent {
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_SERVICE_PROVISION) }>
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '注册协议', type: 1}}) }>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>注册协议</Text>
 					</View>
