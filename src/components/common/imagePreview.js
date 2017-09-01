@@ -23,7 +23,7 @@ import PhotoView from 'react-native-photo-view';
 import Swiper from 'react-native-swiper';
 import * as COLOR from '../../constants/colors'
 const { height,width } = Dimensions.get('window')
-import loadingImage from '../../../assets/img/center_bg.png'
+// import loadingImage from '../../../assets/img/center_bg.png'
 
 class ImagePreview extends Component{
 	constructor(props) {

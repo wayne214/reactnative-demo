@@ -22,10 +22,13 @@ import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
 import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
 import AddFeedbackScreen from '../containers/user/addFeedback';
+import CompanyListScreen from '../containers/user/companyList';
+import DriverManagerScreen from '../containers/user/driverManager';
+import DriverInfoDetailScreen from '../containers/user/driverInfoDetail';
+import AddDriverScreen from '../containers/user/addDriver';
 import CarLoginScreen from '../containers/user/carLogin';
 import RegisterScreen from '../containers/user/register';
 import RegisterPwdScreen from '../containers/user/registerPwd';
-
 import CarListScreen from '../containers/car/carList'
 import GameScreen from '../containers/user/game'
 
@@ -120,6 +123,35 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_COMPANY_LIST]: { 
+    screen: CompanyListScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_MANAGER]: { 
+    screen: DriverManagerScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_INFO_DETAIL]: { 
+    screen: DriverInfoDetailScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_DRIVER]: { 
+    screen: AddDriverScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',
