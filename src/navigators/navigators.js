@@ -37,7 +37,7 @@ export const AppNavigator = StackNavigator({
       headerBackTitle: null
 		}
   },
-  LoginScreen: { screen: LoginScreen },
+  [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
   OrderContainer: { screen: OrderContainer },

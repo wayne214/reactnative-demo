@@ -1,19 +1,10 @@
 import * as ActionTypes from '../constants/actionType';
 // import ActionCreator from './actionCreate';
 import Storage from '../utils/storage';
-import Http from '../middleware/api';
-
 
 export function changeTab(tab) {
 	return {
 		type: ActionTypes.ACTION_CHANGE_TAB,
-		payload: tab
-	};
-}
-
-export function changeCenter(tab) {
-	return {
-		type: ActionTypes.ACTION_CHANGE_CENTER,
 		payload: tab
 	};
 }
@@ -26,6 +17,14 @@ export function getInitStateFromDB() {
 			} else {
 				dispatch(receiverUser({}));
 			}
+		});
+		Storage.get('flag').then(str => {
+			if (str) {
+				dispatch(receiveStatus(str));
+			}
+		});
+		Storage.get('alias').then(value => {
+			if (value) dispatch(receiverAlias(value));
 		});
 	}
 }
@@ -159,83 +158,15 @@ export function redictLogin() {
 	}
 }
 
-export function login({ success, fail, ...others }) {
-	return dispatch => {
-		dispatch({ type: ActionTypes.SHOW_LOADING });
-		return Http({ ...others }).then((response) => {
-			success(response);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		}).catch((error) => {
-			fail(error);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		});
-	}
-}
-
-export function register({ success, fail, ...others }) {
-	return dispatch => {
-		dispatch({ type: ActionTypes.SHOW_LOADING });
-		return Http({ ...others }).then((response) => {
-			success(response);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		}).catch((error) => {
-			fail(error);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		});
-	}
-}
-export function getSmsCode({ success, fail, ...others }) {
-	return dispatch => {
-		dispatch({ type: ActionTypes.SHOW_LOADING });
-		return Http({ ...others }).then((response) => {
-			success(response);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		}).catch((error) => {
-			fail(error);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		});
-	}
-}
-
-// 忘记登录密码(重置登录密码)
-export const resetLoginPwd = ({ success, ...others })=>{
-	return dispatch => {
-		dispatch({ type: ActionTypes.SHOW_LOADING });
-		return Http({ ...others }).then((response) => {
-			success(response);
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		}).catch((error) => {
-			dispatch({ type: ActionTypes.HIDDEN_LOADING });
-		});
-	}
-}
-export function checkPhone({ success, fail, ...others }) {
-	return dispatch => {
-		return Http({ ...others }).then((response) => {
-			success(response);
-		}).catch((error) => {
-			fail(error);
-		});
-	}
-}
-
-export function getCacheSize(size) {
+export function loginSuccess() {
 	return {
-		type: ActionTypes.ACTION_CACHE_SIZE,
-		payload: size
+		type: ActionTypes.ACTION_LOGIN_SUCCESS
 	}
 }
 
-export function getPhoneRegisterResult(params){
-	return{
-		type:ActionTypes.ACTION_PHONE_REGISTER_RESULT,
-		payload: params
-	}
-}
-
-export function getH5GameURL(url) {
+export function getGameUrl (url) {
 	return {
-		type: ActionTypes.ACTION_H5_GAME_URL,
+		type: ActionTypes.ACTION_GET_GAME_URL,
 		payload: url
 	}
 }

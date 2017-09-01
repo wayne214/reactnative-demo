@@ -1,23 +1,10 @@
 import * as ActionTypes from '../constants/actionType';
 
-export function dispatchGetAuthInfo(params) {
+export function dispatchGetESignInfo(params) {
 	return {
-		type: ActionTypes.GET_COMPANY_AUTH_FETAIL,
+		type: ActionTypes.ACTION_GET_ESIGN_INTO,
 		payload: params
-	}
-}
-export function dispatchGetPersonAuthInfo(params) {
-	return {
-		type: ActionTypes.GET_PERSON_AUTH_DETAIL,
-		payload: params
-	}
-}
-
-export function receiveUserInfo(data) {
-	return {
-		type: ActionTypes.ACTION_USER_INFO,
-		payload: data
-	}
+	};
 }
 
 export function dispatchRefreshESignTemplateInfo(params) {
