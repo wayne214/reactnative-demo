@@ -149,7 +149,7 @@ class MainContainer extends React.Component {
             firstLevelIconFontStyle={{ fontSize: 24 }}
             backViewClick={ () => state.params._openControlPanel() }
             thirdLevelClick={ () => Linking.link('tel:4006635656') }
-            secondLevelClick={ () => this.props.router.push(RouteType.ROUTE_MESSAGE_LIST) }
+            secondLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
             firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
         }
       } else {
@@ -161,7 +161,7 @@ class MainContainer extends React.Component {
             secondLevelIconFont='&#xe60f;'
             backViewClick={ () => state.params._openControlPanel() }
             secondLevelClick={ () => Linking.link('tel:4006635656') }
-            firstLevelClick={ () => this.props.router.push(RouteType.ROUTE_MESSAGE_LIST) }/>
+            firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
         }
       }
     } else if (currentTab === 'goods') {
