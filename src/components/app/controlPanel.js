@@ -75,7 +75,7 @@ export default class ControlPanel extends React.Component {
 				<TouchableOpacity
 					activeOpacity={ 1 }
 					style={ styles.gameContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_GAME_PAGE) }>
+					onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_GAME_PAGE, params: { title: '活动专区' }}) }>
 					<Image source={ GameIcon } style={ styles.gameIcon }/>
 				</TouchableOpacity>
 
@@ -104,7 +104,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_DRIVER_MANAGER) }
+										onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_MANAGER, params: {title: '司机管理'}}) }
 										style={ [styles.carManagerContainer, {  marginTop: 0 }] }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe605;</Text>

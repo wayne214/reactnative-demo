@@ -12,7 +12,7 @@ import {
   Clipboard,
   Keyboard
 } from 'react-native';
-import { fetchData, loadUser, loginSuccess } from '../../action/app';
+import { fetchData, loadUser, loginSuccess, refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
@@ -219,9 +219,9 @@ function mapDispatchToProps(dispatch) {
             currentUserRole: 1
           });
           user.save();
+          dispatch(loadUser(user));
           navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
           // console.log('lqq---user--',user);
-          dispatch(loadUser(user));
           // JPushModule.setAlias(user.userId, () => {
           //   // Toast.show('设置别名成功',user.userId)
           //   console.log("Set alias succeed");

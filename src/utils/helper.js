@@ -203,7 +203,6 @@ class HelperUtil {
 		}
 	}
 	getOrderStateStr(state){
-		console.log("=========== ??????? stat",state);
 		switch(state){
 			case 1: return '待上传装货清单'
 			case 2: return '待承运方上传出库单'

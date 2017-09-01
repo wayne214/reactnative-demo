@@ -18,6 +18,7 @@ import Tabar from '../../components/app/tabBar';
 import { changeTab, showFloatDialog, logout } from '../../action/app';
 import { changeOrderTopTab } from '../../action/order';
 import Drawer from 'react-native-drawer';
+import Linking from '../../utils/linking';
 import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
 // import Image from '../../components/common/image';
@@ -73,7 +74,7 @@ class MainContainer extends React.Component {
     if (!user || !user.userId) {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
-    this.props.navigation.setParams({ _openControlPanel: this.openControlPanel })
+    this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
   }
 
   componentWillReceiveProps(props) {
@@ -137,18 +138,31 @@ class MainContainer extends React.Component {
     const { state, setParams } = navigation
     const currentTab = state.params.currentTab
     if (currentTab === 'route') {
-      return {
-        header: <NavigatorBar
-          title='我的行程'
-          backIconFont='&#xe60a;'
-          firstLevelIconFont='&#xe609;'
-          secondLevelIconFont='&#xe60b;'
-          thirdLevelIconFont='&#xe60f;'
-          firstLevelIconFontStyle={{ fontSize: 24 }}
-          backViewClick={ () => state.params._openControlPanel() }
-          thirdLevelClick={ () => Linking.link('tel:4006635656') }
-          secondLevelClick={ () => this.props.router.push(RouteType.ROUTE_MESSAGE_LIST) }
-          firstLevelClick={ () => this.props.router.push(RouteType.ROUTE_CAR_LIST) }/>
+      if (state.params.currentRole === 1) {
+        return {
+          header: <NavigatorBar
+            title='我的行程'
+            backIconFont='&#xe60a;'
+            firstLevelIconFont='&#xe609;'
+            secondLevelIconFont='&#xe60b;'
+            thirdLevelIconFont='&#xe60f;'
+            firstLevelIconFontStyle={{ fontSize: 24 }}
+            backViewClick={ () => state.params._openControlPanel() }
+            thirdLevelClick={ () => Linking.link('tel:4006635656') }
+            secondLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
+            firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
+        }
+      } else {
+        return {
+          header: <NavigatorBar
+            title='我的行程'
+            backIconFont='&#xe60a;'
+            firstLevelIconFont='&#xe60b;'
+            secondLevelIconFont='&#xe60f;'
+            backViewClick={ () => state.params._openControlPanel() }
+            secondLevelClick={ () => Linking.link('tel:4006635656') }
+            firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
+        }
       }
     } else if (currentTab === 'goods') {
       return {

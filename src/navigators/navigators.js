@@ -22,12 +22,21 @@ import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
 import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
 import AddFeedbackScreen from '../containers/user/addFeedback';
+import CompanyListScreen from '../containers/user/companyList';
+import DriverManagerScreen from '../containers/user/driverManager';
+import DriverInfoDetailScreen from '../containers/user/driverInfoDetail';
+import AddDriverScreen from '../containers/user/addDriver';
 import CarLoginScreen from '../containers/user/carLogin';
 import RegisterScreen from '../containers/user/register';
 import RegisterPwdScreen from '../containers/user/registerPwd';
 import BargainScreen from '../containers/user/bargain';
 import ShowESignImageScreen from '../containers/user/showESignImage';
 import ShowESignInfoScreen from '../containers/user/showESignInfo';
+import CarListScreen from '../containers/car/carList'
+import MessageScreen from '../containers/message/message';
+import MessageDetailScreen from '../containers/message/messageDetail'
+
+import GameScreen from '../containers/user/game'
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -50,6 +59,7 @@ export const AppNavigator = StackNavigator({
       headerBackTitle: null
 		}
   },
+  [RouteType.ROUTE_CAR_LIST]: { screen: CarListScreen },
   [RouteType.ROUTE_HELP]: {
     screen: HelpScreen,
     navigationOptions: {
@@ -123,6 +133,7 @@ export const AppNavigator = StackNavigator({
     }
   },
   [RouteType.ROUTE_CAR_LOGIN]: { screen: CarLoginScreen },
+  [RouteType.ROUTE_GAME_PAGE]: { screen: GameScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
@@ -142,6 +153,49 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_COMPANY_LIST]: { 
+    screen: CompanyListScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_MANAGER]: { 
+    screen: DriverManagerScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_INFO_DETAIL]: { 
+    screen: DriverInfoDetailScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_DRIVER]: { 
+    screen: AddDriverScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MESSAGE_LIST]: { 
+    screen: MessageScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MESSAGE_DETAIL]: { 
+    screen: MessageDetailScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',
@@ -159,7 +213,7 @@ const TransitionConfiguration = () => ({
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
+  <AppNavigator navigation={ addNavigationHelpers({ dispatch, state: nav }) } />
 );
 
 AppWithNavigationState.propTypes = {
