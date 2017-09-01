@@ -175,7 +175,7 @@ class SettingContainer extends BaseComponent {
 					user.currentUserRole !== 1 &&
 						<TouchableOpacity
 							style={ styles.cellContainer }
-							onPress={ () => this.props.router.push(RouteType.ROUTE_COMPANY_LIST) }>
+							onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_COMPANY_LIST, params: {title: '承运商列表'}}) }>
 							<View style={ styles.leftAnd }>
 								<Text style={ styles.leftText }>承运商切换</Text>
 							</View>

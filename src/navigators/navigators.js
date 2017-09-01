@@ -22,7 +22,10 @@ import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
 import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
 import AddFeedbackScreen from '../containers/user/addFeedback';
-
+import CompanyListScreen from '../containers/user/companyList';
+import DriverManagerScreen from '../containers/user/driverManager';
+import DriverInfoDetailScreen from '../containers/user/driverInfoDetail';
+import AddDriverScreen from '../containers/user/addDriver';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -96,6 +99,35 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_COMPANY_LIST]: { 
+    screen: CompanyListScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_MANAGER]: { 
+    screen: DriverManagerScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_DRIVER_INFO_DETAIL]: { 
+    screen: DriverInfoDetailScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_DRIVER]: { 
+    screen: AddDriverScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  
 }, {
   // mode: 'modal',
   initialRouteName: 'Splash',
