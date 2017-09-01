@@ -18,6 +18,12 @@ import EntrustOrderContainer from '../containers/entrust/entrustOrder';
 import SettingScreen from '../containers/user/setting';
 import AgreementScreen from '../containers/user/agreement';
 
+import HelpScreen from '../containers/user/help';
+import HelpDetailScreen from '../containers/user/helpDetail';
+import HelpDetailForFeedbackScreen from '../containers/user/helpDetailForFeedback';
+import AddFeedbackScreen from '../containers/user/addFeedback';
+
+
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -38,6 +44,38 @@ export const AppNavigator = StackNavigator({
 			// title: '主页',
       headerBackTitle: null
 		}
+  },
+  [RouteType.ROUTE_HELP]: {
+    screen: HelpScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '帮助',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_FEEDBACK]: {
+    screen: AddFeedbackScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_HELP_DETAIL]: {
+    screen: HelpDetailScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_HELP_DETAIL_FOR_FEEDBACK]: {
+    screen: HelpDetailForFeedbackScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '反馈问题',
+      gesturesEnabled: false
+    }
   },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
