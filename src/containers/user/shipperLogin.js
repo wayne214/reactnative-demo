@@ -12,7 +12,7 @@ import {
   Clipboard,
   Keyboard
 } from 'react-native';
-import { fetchData, loadUser, loginSuccess } from '../../action/app';
+import { fetchData, loadUser, loginSuccess, refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
@@ -75,7 +75,6 @@ class LoginContainer extends BaseComponent {
   }
   
   static navigationOptions = ({ navigation }) => {
-    const {state, setParams} = navigation
     return {
       header: <NavigatorBar 
               hiddenBackIcon={ true }
@@ -152,7 +151,7 @@ class LoginContainer extends BaseComponent {
 
           <View style={ styles.bottomView }>
             <View style={ styles.forgetView }>
-              <Text onPress={ () => this.props.router.push(RouteType.ROUTE_CAR_LOGIN, {driverLogin: 'driverLogin'}) } style={ styles.text }>员工(司机)登录</Text>
+              <Text onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_CAR_LOGIN,params:{title:'',driverLogin: 'driverLogin'}}) } style={ styles.text }>员工(司机)登录</Text>
             </View>
             <View style={ styles.registerView }>
               <Text onPress={ () => this.props.router.push(RouteType.PASSWORD_PAGE, {title: '忘记密码', forgetPassword: 'carrierForgetPassword' }) } style={ styles.text }>忘记密码</Text>
@@ -171,7 +170,7 @@ class LoginContainer extends BaseComponent {
               title='注册'
               style={ styles.btnRegister }
               textStyle={ styles.btnRegText }
-              onPress={ () => this.props.router.push(RouteType.ROUTE_REGISTER) }/>
+              onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_REGISTER,params:{title:'注册'}}) }/>
           </View>
         </ScrollView>
 
@@ -220,9 +219,9 @@ function mapDispatchToProps(dispatch) {
             currentUserRole: 1
           });
           user.save();
+          dispatch(loadUser(user));
           navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
           // console.log('lqq---user--',user);
-          dispatch(loadUser(user));
           // JPushModule.setAlias(user.userId, () => {
           //   // Toast.show('设置别名成功',user.userId)
           //   console.log("Set alias succeed");

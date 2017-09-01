@@ -26,6 +26,10 @@ import CompanyListScreen from '../containers/user/companyList';
 import DriverManagerScreen from '../containers/user/driverManager';
 import DriverInfoDetailScreen from '../containers/user/driverInfoDetail';
 import AddDriverScreen from '../containers/user/addDriver';
+import CarLoginScreen from '../containers/user/carLogin';
+import RegisterScreen from '../containers/user/register';
+import RegisterPwdScreen from '../containers/user/registerPwd';
+import CarListScreen from '../containers/car/carList'
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -48,6 +52,7 @@ export const AppNavigator = StackNavigator({
       headerBackTitle: null
 		}
   },
+  [RouteType.ROUTE_CAR_LIST]: { screen: CarListScreen },
   [RouteType.ROUTE_HELP]: {
     screen: HelpScreen,
     navigationOptions: {
@@ -80,6 +85,23 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_REGISTER]: {
+    screen: RegisterScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-手机号',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_REGISTER_PWD]: {
+    screen: RegisterPwdScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '注册-密码',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_LOGIN]: { screen: CarLoginScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
@@ -145,7 +167,7 @@ const TransitionConfiguration = () => ({
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
+  <AppNavigator navigation={ addNavigationHelpers({ dispatch, state: nav }) } />
 );
 
 AppWithNavigationState.propTypes = {

@@ -18,6 +18,7 @@ import Tabar from '../../components/app/tabBar';
 import { changeTab, showFloatDialog, logout } from '../../action/app';
 import { changeOrderTopTab } from '../../action/order';
 import Drawer from 'react-native-drawer';
+import Linking from '../../utils/linking';
 import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
 // import Image from '../../components/common/image';
@@ -148,7 +149,7 @@ class MainContainer extends React.Component {
           backViewClick={ () => state.params._openControlPanel() }
           thirdLevelClick={ () => Linking.link('tel:4006635656') }
           secondLevelClick={ () => this.props.router.push(RouteType.ROUTE_MESSAGE_LIST) }
-          firstLevelClick={ () => this.props.router.push(RouteType.ROUTE_CAR_LIST) }/>
+          firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
       }
     } else if (currentTab === 'goods') {
       return {

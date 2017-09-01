@@ -52,7 +52,7 @@ export default StyleSheet.create({
 	carNoBgStyle: {
 		paddingLeft: 5,
 		paddingRight: 5,
-		marginTop: 9,
+		marginTop: 5,
 		alignItems: 'center',
 	},
 	carNo: {
