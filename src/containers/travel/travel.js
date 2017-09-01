@@ -1,10 +1,11 @@
 import React from 'react';
 import {
+  Text,
   View,
   Alert,
   Image,
-  Text,
   ScrollView,
+  ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -146,14 +147,14 @@ class HomeContainer extends BaseComponent {
                 if (travelDetail.isRest * 1 === 0) {
                   return (
                     <View style={{ flex: 1, alignItems: 'center' }}>
-                      <Image style={ styles.topContainer } source={ CarStatusBg }>
+                      <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>{ '休息中' }</Text>
-                          <Image style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
-                          </Image>
+                          </ImageBackground>
                         </View>
-                      </Image>
+                      </ImageBackground>
                       <Image source={ RouteEmpty } style={{ marginTop: -50 }}/>
                       <Text style={ styles.tipText }>您的当前车辆运输状态为休息中未接受任何订单</Text>
                       <Button
@@ -168,14 +169,14 @@ class HomeContainer extends BaseComponent {
                   if (travelDetail.orderState) {
                     return (
                       <ScrollView showsVerticalScrollIndicator={ false }>
-                        <Image style={ styles.topContainer } source={ CarStatusBg }>
+                        <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                           <View style={ styles.rightContent }>
                             <Text style={ styles.carStatusText }>{ Helper.getOrderStateStr(travelDetail.orderState, travelDetail.entrustType) }</Text>
-                            <Image style={ styles.carNoBgStyle } source={ CarNoBg }>
+                            <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
                               <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
-                            </Image>
+                            </ImageBackground>
                           </View>
-                        </Image>
+                        </ImageBackground>
                         <Route confirmShipment={ this.confirmShipments } { ...this.props } />
                       </ScrollView>
                     );
@@ -183,14 +184,14 @@ class HomeContainer extends BaseComponent {
                     // 该车辆在AB两家同时被添加，但在A公司状态为运输中，B公司应该显示为在其他承运商公司运输中
                     return (
                       <View style={{ flex: 1 }}>
-                        <Image style={ styles.topContainer } source={ CarStatusBg }>
+                        <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                           <View style={ styles.rightContent }>
                             <Text style={ styles.carStatusText }>运输中</Text>
-                            <Image style={ styles.carNoBgStyle } source={ CarNoBg }>
+                            <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
                               <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
-                            </Image>
+                            </ImageBackground>
                           </View>
-                        </Image>
+                        </ImageBackground>
                         <View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
                           <Text style={ [styles.tipText, { marginTop: 0 }] }>无法显示信息，因在其他公司承运中</Text>
                         </View>                       
@@ -221,28 +222,28 @@ class HomeContainer extends BaseComponent {
                 if (travelDetail.orderState) {
                   return (
                     <ScrollView showsVerticalScrollIndicator={ false }>
-                      <Image style={ styles.topContainer } source={ CarStatusBg }>
+                      <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>{ Helper.getOrderStateStr(travelDetail.orderState) }</Text>
-                          <Image style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
-                          </Image>
+                          </ImageBackground>
                         </View>
-                      </Image>
+                      </ImageBackground>
                       <Route confirmShipment={ this.confirmShipments } { ...this.props } />
                     </ScrollView>
                   );
                 } else {
                   return (
                     <View style={{ flex: 1 }}>
-                      <Image style={ styles.topContainer } source={ CarStatusBg }>
+                      <ImageBackground style={ styles.topContainer } source={ CarStatusBg }>
                         <View style={ styles.rightContent }>
                           <Text style={ styles.carStatusText }>运输中</Text>
-                          <Image style={ styles.carNoBgStyle } source={ CarNoBg }>
+                          <ImageBackground style={ styles.carNoBgStyle } source={ CarNoBg }>
                             <Text style={ styles.carNo }>{ travelDetail.carNo }</Text>
-                          </Image>
+                          </ImageBackground>
                         </View>
-                      </Image>
+                      </ImageBackground>
                       <View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
                         <Text style={ [styles.tipText, { marginTop: 0 }] }>无法显示信息，因在其他公司承运中</Text>
                       </View>
