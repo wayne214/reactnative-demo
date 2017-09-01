@@ -75,7 +75,7 @@ export default class ControlPanel extends React.Component {
 				<TouchableOpacity
 					activeOpacity={ 1 }
 					style={ styles.gameContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_GAME_PAGE) }>
+					onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_GAME_PAGE, params: { title: '活动专区' }}) }>
 					<Image source={ GameIcon } style={ styles.gameIcon }/>
 				</TouchableOpacity>
 

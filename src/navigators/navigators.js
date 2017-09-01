@@ -33,6 +33,7 @@ import CarListScreen from '../containers/car/carList'
 import MessageScreen from '../containers/message/message';
 import MessageDetailScreen from '../containers/message/messageDetail'
 
+import GameScreen from '../containers/user/game'
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -105,6 +106,7 @@ export const AppNavigator = StackNavigator({
     }
   },
   [RouteType.ROUTE_CAR_LOGIN]: { screen: CarLoginScreen },
+  [RouteType.ROUTE_GAME_PAGE]: { screen: GameScreen },
   [RouteType.ROUTE_LOGIN]: { screen: LoginScreen },
   GoodsListContainer: { screen: GoodsListContainer },
   TravelContainer: { screen: TravelContainer },
