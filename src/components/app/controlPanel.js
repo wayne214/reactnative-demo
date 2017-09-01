@@ -139,7 +139,7 @@ export default class ControlPanel extends React.Component {
 										user.carrierType * 1 === 1 &&
 											<TouchableHighlight
 												underlayColor='#e6eaf2'
-												onPress={ () => this.props.router.push(RouteType.ROUTE_BARGAIN) }>
+												onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BARGAIN,params:{title:'承运合同'}}) }>
 												<View style={ styles.contentContainer }>
 													<Text style={ styles.iconFont }>&#xe607;</Text>
 													<View style={ styles.rightContent }>

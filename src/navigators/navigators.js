@@ -25,6 +25,9 @@ import AddFeedbackScreen from '../containers/user/addFeedback';
 import CarLoginScreen from '../containers/user/carLogin';
 import RegisterScreen from '../containers/user/register';
 import RegisterPwdScreen from '../containers/user/registerPwd';
+import BargainScreen from '../containers/user/bargain';
+import ShowESignImageScreen from '../containers/user/showESignImage';
+import ShowESignInfoScreen from '../containers/user/showESignInfo';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -92,6 +95,30 @@ export const AppNavigator = StackNavigator({
     navigationOptions: {
       // header: null,
       // title: '注册-密码',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_BARGAIN]: {
+    screen: BargainScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '承运合同',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_SHOW_ESIGN_IMAGE]: {
+    screen: ShowESignImageScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '电子签章',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_UPDATE_ESIGN_INFO]: {
+    screen: ShowESignInfoScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '电子签章',
       gesturesEnabled: false
     }
   },

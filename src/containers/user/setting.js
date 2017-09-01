@@ -109,7 +109,7 @@ class SettingContainer extends BaseComponent {
 					user.currentUserRole === 1 &&
 						<TouchableOpacity
 							style={ styles.cellContainer }
-							onPress={ () => this.props.router.push(RouteType.ROUTE_SHOW_ESIGN_IMAGE) }>
+							onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_SHOW_ESIGN_IMAGE,params:{title:'电子签章'}}) }>
 							<View style={ styles.leftAnd }>
 								<Text style={ styles.leftText }>电签设置</Text>
 							</View>
