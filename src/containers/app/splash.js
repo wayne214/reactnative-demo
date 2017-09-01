@@ -25,7 +25,7 @@ class Splash extends Component {
 	async componentDidMount() {
 		this.props.getInitStateFromDB();
 		this.timer = setTimeout(() => {
-			// SplashScreen.hide()
+			SplashScreen.hide()
 		}, Platform.OS === 'ios' ? 500 : 2000)
 		const value = await Storage.get('IS_FIRST_FLAG')
 		if (value && value * 1 === 1) {

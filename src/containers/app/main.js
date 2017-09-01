@@ -53,8 +53,6 @@ class MainContainer extends React.Component {
     };
     this._routeTab = this._routeTab.bind(this);
     this._changeTab = this._changeTab.bind(this);
-    this._forceUpgrade = this._forceUpgrade.bind(this)
-    this._installApk = this._installApk.bind(this)
     this.openControlPanel = this.openControlPanel.bind(this);
   }
 
@@ -65,29 +63,29 @@ class MainContainer extends React.Component {
     upgrade: React.PropTypes.object
   }
 
-
-  _handleAppStateChange(currentAppState) {
-    // console.log('currentAppState is ', currentAppState);
-  }
-
-  componentDidMount () {
+  async componentDidMount () {
+    const value = await Storage.get('float')
+    if (value && value * 1 === 1 && this.props.user.userId) {
+      // show float dialog
+      this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
+    }
+    const { user } = this.props;
+    if (!user || !user.userId) {
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+    }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel })
   }
 
   componentWillReceiveProps(props) {
-    // if (props && !props.legalAccount) {
-    //   this.props.navigator.resetTo({
-    //     name: 'login',
-    //     component: LoginContainer
-    //   });
-    //   new User().delete();
-    //   props.dispatch(logout());
-    // }
+    if (props && !props.legalAccount) {
+      new User().delete();
+      props.dispatch(logout());
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+    }
   }
 
   componentWillUnmount() {
-    this.timer && clearTimeout(this.timer);
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    this.timer && clearTimeout(this.timer)
   }
 
   _renderBadge(badgeCount) {
@@ -119,11 +117,11 @@ class MainContainer extends React.Component {
       };
     }
 
-    // this.props._getUserInfo(opts, this.props.user.currentUserRole);
-    // // game url
-    // this.props.getUrl({
-    //   phone: this.props.user.phoneNumber
-    // });     
+    this.props._getUserInfo(opts, this.props.user.currentUserRole);
+    // game url
+    this.props.getUrl({
+      phone: this.props.user.phoneNumber
+    });     
   }
 
   _routeTab () {
@@ -133,25 +131,6 @@ class MainContainer extends React.Component {
       }
     ).start(() => this.state.rotateValue.setValue(0));
     this.props.dispatch(changeTab('route'));
-  }
-
-  /**
-   * [_forceUpgrade description] 强制升级
-   * @return {[type]} [description]
-   */
-  _forceUpgrade () {
-    if (Platform.OS === 'android') {
-      Toast.show('开始下载')
-      NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
-        this.setState({ showUpgrade: true });
-      });
-    } else {
-      NativeModules.NativeModule.toAppStore();
-    }
-  }
-
-  _installApk() {
-    NativeModules.NativeModule.installApk();
   }
 
   static navigationOptions = ({ navigation }) => {

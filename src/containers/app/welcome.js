@@ -17,6 +17,7 @@ import Button from '../../components/common/button';
 import Guy from '../../../assets/img/guide/guy.png';
 import Storage from '../../utils/storage';
 import { getInitStatus } from '../../action/app';
+import * as RouteType from '../../constants/routeType'
 
 class WelcomeContainer extends React.Component {
 
@@ -90,7 +91,7 @@ class WelcomeContainer extends React.Component {
 		// const { navigator } = this.props;
 		Storage.save('flag', '1');
 		Storage.save('IS_FIRST_FLAG', '1');
-		this.props.navigation.dispatch({ type: 'LoginScreen', mode: 'reset', params: { title: '登录' } })
+		this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '登录' } })
 		// NativeModules.NativeModule.inited();
 		// this.props.dispatch(getInitStatus());
 		// InteractionManager.runAfterInteractions(() => {
