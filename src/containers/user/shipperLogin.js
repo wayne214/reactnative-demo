@@ -182,7 +182,7 @@ function mapStateToProps(state) {
   return {
     loading: app.get('loading'),
     user: app.get('user'),
-    upgradeForce: app.get('upgradeForce'),
+    // upgradeForce: app.get('upgradeForce'),
   };
 }
 

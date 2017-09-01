@@ -30,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
             new SplashScreenReactPackage(),
             new PickerViewPackage(),
             new PhotoViewPackage(),
-            new PickerPackage()
+            new PickerPackage(),
+              new NativePackage()
       );
     }
   };
