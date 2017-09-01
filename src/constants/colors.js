@@ -15,7 +15,3 @@ export const TEXT_MONEY = '#FFAC1B';
 export const BORDER = '#d8d8d8';
 
 export const BUTTN_DISABLE = '#d8d8d8';
-
-export const ENTRUST_TYPE = '#f26060';
-
-export const GRAY_ICON = '#cccccc'

@@ -1,183 +1,266 @@
+export const HOME_DATA = '/mjWarehouseResourceController/queryResForPhone';
 
-//登录
-// export const LOGIN = 'http://192.168.26.99:8080//loginCtl/userLogin.shtml';
-export const LOGIN = '/loginCtl/userLogin.shtml';
+// 司机登录
+export const CAR_LOGIN = '/driver/exclude/driverLogin';
+// 承运商登录
+export const SHIPPER_LOGIN = '/carrier/exclude/login';
+
+export const ADD_ROUTER = '/carrierLineInfo/add';
+
+// 获取验证码
+export const GET_SMS_CODE = '/carrier/exclude/sendSms';
+
+// 图形验证码
+export const GET_IMG_CODE = '/carrier/exclude/getImg';
+
+// 校验验证码
+export const CHECK_SMG_CODE = '/carrier/exclude/checkPhone';
 
 // 注册
-// export const REGISTER = 'http://192.168.26.99:8080//register/registerUser.shtml';
-export const REGISTER = '/register/registerUser.shtml';
-
-//图形验证码
-// export const API_IMAGE_VCODE = 'http://192.168.26.99:8080//captcha.jpg?suffix=';
-export const API_IMAGE_VCODE = '/captcha.jpg?suffix=';
-
-// 发送短信验证码
-// export const API_SEND_SMS = 'http://192.168.26.99:8080//sms/send.shtml';
-export const API_SEND_SMS = '/sms/send.shtml';
-
-// 忘记登录密码 (拿短信验证码和新密码 设置登录密码）
-export const API_RE_SET_LOGIN_PWD = '/register/retrievePWD.shtml';
-
-// 修改登录密码 （拿旧密码 设置新密码）
-export const API_MODIFY_LOGIN_PWD = '/userInfo/resetPassword.shtml';
-
-//忘记密码时校验手机号是否已经注册
-export const CHECK_PHONE = '/register/checkMobileIsUsed.shtml';
-
-
-
+export const USER_REGISTER = '/carrier/exclude/register';
 
 export const OOS_CONFIG = '/oss/tst/exclude/getPolicy.shtml?p=';
 
-//公司认证
-export const ADD_COMPANY_AUTH = '/goods/userCenter/CompanyCertification';
+// 修改承运商密码
+export const UPDATE_PASSWORD = '/carrier/updatePassword';
 
-//公司驳回重新认证
-export const RE_ADD_COMPANY_AUTH = '/goods/userCenter/reCompanyCertification';
-
-//获取公司认证详情
-export const GET_COMPANY_AUTH_DETAIL = '/goods/userCenter/queryCompanyAuth';
-
-//获取公司印章图片
-export const GET_COMPANY_ESIGN_IMAGE = '/goods/userCenter/exclude/getSealImageCompany';
-
-//获取个人印章图片
-export const GET_PERSON_ESIGN_IMAGE = '/goods/userCenter/exclude/getSealImagePerson';
-
-//修改公司印章
-export const UPDATE_COMPANY_ESIGN_INFO = '/goods/userCenter/upCompanyEsign';
-
-//修改个人印章
-export const UPDATE_PERSON_ESIGN_INFO = '/goods/userCenter/upPersonEsign';
-
-//发布干线
-export const PUBLISH_GROUD_LINE = '/goods/resourceInfo/publishTrunk';
-
-//重新发布干线
-export const AGAIN_PUBLISH_GROUD_LINE = '/goods/resourceInfo/updateTrunk';
-
-//发布卡班
-export const PUBLISH_ON_TIME = '/goods/resourceInfo/publishCabannes';
-
-//获取卡班详情和发货日期列表
-export const PUBLISH_ON_TIME_DETAIL = '/goods/resourceInfo/queryCabanneInfoDays';
-
-//获取卡班路线
-export const GET_ONTIME_ROUTE = '/goods/resourceInfo/queryCabanneInfoListAll';
-
-//获取卡班出发时刻表
-export const GET_ONTIME_TIME = '/goods/resourceInfo/queryCabanneInfoTime';
-
-//获取卡班运费
-export const GET_FREIGHT_MONEY = '/goods/resourceInfo/getCabannePrice';
-
-//重新发布卡班
-export const UPDATE_PUBLISH_ON_TIME = '/goods/resourceInfo/updateCabannes';
-
-//消息列表
-export const MESSAGE_LIST = '/goods/message/queryMymessage';
-
-//消息详情
-export const MESSAGE_DETAIL = '/goods/message/queryMymessageInfo';
-
-//标记已读或删除
-export const UPDATE_MESSAGE = '/goods/message/readOrDel';
-
-// order
-// 确定装货
-export const CONFIRM_LOADING = 'goods/orders/confirmLoading';
-
-// 货主申请结算
-export const APPLY_CLEAR  = 'goods/orders/goodsOwnerBalance';
-
-// 货主申请协调
-export const APPLY_COORDINATION  = 'goods/orders/goodsOwnerConsult';
-
-// 货主确认收货
-export const RECEIVE_CONFIRM = 'goods/orders/goodsOwnerReceipt';
-
-// 协调结果
-export const COORDINATE_RESULT = 'goods/orders/goodsOwnerResult'
-
-// 校验添加发票
-export const CHECK_INVOICE = 'goods/orders/invoiceYes'
-
-// 结算 信息
-export const CLEAR_DETAIL = 'goods/orders/orderBatchPaymentResponse'
-
-// 查询订单详情
-export const GET_ORDER_DETAIL = 'goods/orders/toOrderDetail'
-
-// 订单列表
-export const ORDER_LIST = 'goods/orders/toOrderList'
-
-// 上传装货清单
-export const UPLOAD_BILL_GOODS_IMAGES = 'goods/orders/uploadGoodsImg'
-
-// 撮合模式上传回单
-export const UPLOAD_BILL_BACK_IMAGES = '/goods/orders/uploadGoodsImgByMatch'
-
-
-
-//添加发票信息
-export const ADD_INVOICE_INFO = '/goods/invoice/addInvoice'
-
-//修改发票信息
-export const UPDATE_INVOICE_INFO = '/goods/invoice/editInvoice'
-
-//获取发票信息
-export const GET_INVOICE_INFO = '/goods/invoice/getInvoice'
+// 承运商忘记密码
+export const CARRIER_FORGET_PASSWORD = '/carrier/exclude/forgetPassword'
 
 // 全国城市列表
 export const CITY_COUNTRY = '/regionArea/exclude/query';
 
-// 获取合同前缀
-export const GET_CONTRACT_HEADER = 'goods/orders/viewContract'
+// 添加车辆
+export const SAVE_CAR_INFO = '/carInfo/saveCarInfo';
 
-export const GET_USER_INFO = '/goods/userCenter/queryMemberDetail';
+// 添加司机
+export const SAVE_DRIVER_INFO = '/driver/saveDriverInfo';
 
-export const GET_CONFIGNOR_LIST = '/goods/resourceInfo/resourceList';
+//删除司机
+export const DELETE_DRIVER_INFO = '/driver/deleteDriverInfo';
 
-export const CANCEL_GOODS_RESOURCE = '/goods/resourceInfo/cancleResource';
+// 车辆管理列表、车辆绑定司机列表
+export const QUERY_CAR_LIST = '/carInfo/queryCarInfoList';
 
-export const DEL_GOODS_RESOURCE = '/goods/resourceInfo/resourceDel';
+//删除车辆
+export const DELETE_CAR = '/carInfo/deleteCarInfo';
 
-export const GOODS_RESOURCE_DETAIL = '/goods/resourceInfo/resourceDetail';
+// 解绑司机
+export const UNBIND_DRIVER = '/carInfo/unbindDriver';
 
-export const SHIPPER_LIST_BYID = '/goods/resourceInfo/yqdShowResourceById';
+// 绑定司机
+export const BIND_DRIVER = '/carInfo/bindDriver';
 
-export const AGRESS_SHIPPER_RESOURCE = '/goods/resourceInfo/checkCompany';
+// 司机列表
+export const DRIVER_LIST = '/driver/queryDriverInfoList';
 
-export const REFUSE_SHIPPER_RESOURCE = '/goods/resourceInfo/refuseCompany';
+//获取车辆信息详情
+export const GET_CAR_INFO = '/carInfo/getCarInfo';
 
-//提交个人认证
-export const COMMIT_PERSON_AUTH = '/goods/userCenter/personCertification';
+//更新车辆信息
+export const EDIT_CAR_INFO = '/carInfo/updateCarInfo';
 
-//查询个人认证信息
-export const SELECT_PERSON_AUTH_INFO = '/goods/userCenter/queryPersonAuth';
+//申请认证车辆信息
+export const CERTIFICATION_CAR_INFO = '/carInfo/certificationCarInfo';
 
-//关于我们
-export const ABOUT_US  = '/goods/about_us.html';
+//路线列表
+export const ROUTE_LIST = '/carrierLineInfo/list';
+
+//编辑路线
+export const EDIT_ROUTE = '/carrierLineInfo/update';
+
+//删除路线
+export const DELETE_ROUTE = '/carrierLineInfo/delete';
+
+// 系统公告
+export const SYSTEM_MESSAGE = '/note/queryNoteList';
+
+// 系统公告详情
+export const SYSTEM_MSG_DETAIL = '/note/getNoteInfo';
+
+// 更新系统公告（已读未读）
+export const SYSTEM_READ_ORNOT = '/note/updateNoteInfo';
+
+// 更新站内信
+export const UPDATE_WEB_MSG = '/message/updateMessageInfo';
+
+// 站内信
+export const STACK_MSG_LIST = '/message/queryMessageList';
+
+// 站内信详情
+export const STACK_MSG_DETAIL = '/message/getMessageInfo';
+
+//承运商详情
+export const GET_AUTHINFO_DETAIL = '/carrier/query';
+
+//获取反馈列表
+export const GET_FEEDBACK_LIST = '/problem/queryFeedList';
+
+//获取问题列表
+export const GET_PROBLEM_LIST = '/problem/queryProblemList';
+
+//查询单个问题详情
+export const GET_PROBLEM_DETAILS = '/problem/queryProblem';
+
+//查询单个反馈详情
+export const GET_FEEDBACK_DETAILS = '/problem/queryFeedBack';
+
+//反馈
+export const ADD_FEEDBACK = '/problem/saveFeedBack';
+
+// 公司认证
+export const ADD_COMPANY_AUTH = '/carrier/certification';
+
+//获取电子签章图片
+export const GET_ESIGN_IMAGE = '/esign/exclude/getSealImage';
+
+//获取电子签章信息
+export const GET_ESIGN_INFO = '/esign/getEsignInfo';
+
+//编辑电子签章信息
+export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
+
+//获取承运合同列表
+export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
+
+// 货源列表
+export const GOODS_SOURCE_LIST = '/resourceApp/getResourceList';
+
+// 货源详情
+export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
+
+// 承运商订单列表
+export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
+
+// 获取待确认（派单中）的承运单
+export const ENTRUST_ORDER_UNCONFIRMED = '/orderApp/getGoodsByCompanyId';
+
+// 获取待调度的承运单
+export const ENTRUST_ORDER_UNDISPATCH = '/orderApp/getGoodsWithDispatch';
+
+// 承运单详情
+export const ENTRUST_ORDER_DETAIL = '/orderApp/getDispatchDetail'
+
+// 确认交付
+export const CONFIRM_DELIVERY = '/orderApp/confirmDeliver'
+
+// 申请协调
+export const APPLY_COORDINATION = '/orderApp/companyAssort'
+
+
+// 承运商接受派单
+export const ACCEPT_DISPATCH = '/orderApp/acceptDispatch';
+
+//保存联系人信息
+export const SAVE_CONTACT_MESSAGE = '/contect/exclude/saveContactInfo';
+
+// 我的行程
+export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
+
+
+// 承运商调度车辆
+export const DISPATCH_CAR = '/orderApp/dispatchCar';
+
+// 确认承运
+export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';
+
+//查询司机所属承运商列表
+export const CARRIER_INFO_LIST = '/carrier/queryCarrierInfoList';
+
+
+//承运商抢单 报价
+export const ROB_GOODS = '/orderApp/robGoods';
+
+//承运商竞价 报价
+export const BIDDING_GOODS = '/orderApp/biddingGoods';
+
+// 承运商抢单（报价）列表
+export const BIDDING_LIST = '/orderApp/getBiddingByCompanyId';
+
+// 承运商详细信息
+export const CARRIER_DETAIL_INFO = '/carrier/query';
+
+// 司机详细信息
+export const CAR_DETAIL_INFO = '/driver/queryDriverInfo';
+
+// 订单详情
+export const GET_ORDER_DETAIL = '/orderApp/getOrderDetail'
+
+// 抢单详情
+export const GET_BIDDING_DETAIL = '/orderApp/getBiddingDetail'
+
+// 确认承运所需的货源信息 (货源详情)
+export const CONFIRM_TRANSPORT_DETAIL = '/orderApp/getShuntingDetail'
+
+// 上传出库单
+export const UPLOAD_BILL_OUT_IMAGE = '/orderApp/uploadbillOutImg'
+
+// 确认装货
+export const CONFIRM_INSTALL = '/orderApp/confirmShipment'
+
+
+// 合同路径
+export const GET_CONTRACT_PATH = '/orderApp/viewContract'
+
+// 确认到达
+export const CONFIRM_ARRIVEL = '/orderApp/confirmArrive'
+
+// 申请结算
+export const APPLY_CLEAR = '/orderApp/balance'
+
+//修改司机密码
+export const UPDATE_DRIVER_PASSWORD = '/driver/updatePassword'
+
+//司机忘记密码
+export const DRIVER_FORGET_PASSWORD = '/driver/exclude/forgetPassword'
+
+// 承运方确认结算
+export const CLEAR_CONFIRM = '/orderApp/confirmBalance'
+
+// 结算详情
+export const CLEAR_DETAIL = '/orderApp/balanceDetail'
+
+// 协调结果
+export const COORDINATE_RESULT = '/orderApp/assortResult'
+
+//根据驾驶证号查询司机
+export const  SELECT_DRIVER_INFO = '/driver/queryDriverInfoByDriverNumber'
+
+//根据手机号码查询司机
+export const  SELECT_DRIVER_INFO_BY_PHONE = '/driver/queryDriverInfoByPhone'
+
+// 下载APP二维码
+export const API_DOWNLOAD_APP = '/img/carrier_qr_code.png';
+
+//发票说明
+export const SETTLEMENT_EXPLAIN  = '/settlement_explain.html'
 
 //注册协议
-export const REGISTER_AGREEMENT = '/goods/registration_protocol.html';
+export const REGISTER_PROTOCOL  = '/registration_protocol.html'
 
-//自营委托协议
-export const ZIYING_AGREEMENT = '/goods/zy_tip.html';
+//关于我们
+export const ABOUT_US  = '/about_us.html'
 
-//第三方委托协议
-export const THIRD_TIP_AGREEMENT = '/goods/third_tip.html';
+//添加银行卡信息
+export const ADD_BANK_CARD_INFO = '/bankCard/saveBankCard';
 
-//找路线
-export const FIND_ROUTE = '/goods/resourceInfo/getInvoice';
+//查询银行卡列表
+export const QUERY_BANK_CARD_LIST = '/bankCard/queryListBankCard';
 
-//个体重新认证
-export const AGAIN_COMMIT_PERSON_AUTH = '/goods/userCenter/rePersonCertification';
+//删除银行卡信息
+export const DELETE_BANK_CARD = '/bankCard/deleteBankCard';
 
-// 是否配置发票信息
-export const IS_INVOICE_CONFIG = '/goods/orders/invoiceYes'
+//查询银行卡信息
+export const QUERY_BANK_CARD_BY_ID = '/bankCard/queryBankCard';
 
-export const H5_GAME_ADDRESS = '/goods/userCenter/getH5GameUrl'
+//编辑银行卡信息
+export const EDIT_BANK_CARD_INFO = '/bankCard/updateBankCard';
 
-// 申请开发票
-export const REQUEST_INVOICE = '/goods/orders/orderInvoice'
+// H5游戏链接
+export const GAME_ADDRESS = '/orderApp/getH5GameUrl';
+
+
+// 删除待调度且已取消的订单
+export const DELETE_ORDER_UNDISPATCH = '/orderApp/delDispatch'
+
+export const ORDER_RESOURCE_STATE = '/orderApp/getResourceState'
