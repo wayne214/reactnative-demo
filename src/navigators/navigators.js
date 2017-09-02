@@ -35,8 +35,17 @@ import ShowESignInfoScreen from '../containers/user/showESignInfo';
 import CarListScreen from '../containers/car/carList'
 import MessageScreen from '../containers/message/message';
 import MessageDetailScreen from '../containers/message/messageDetail'
-
 import GameScreen from '../containers/user/game'
+import MyRouteScreen from '../containers/user/route';
+import AddRouteScreen from '../containers/user/addRoute';
+import EditRouteScreen from '../containers/user/editRoute';
+import AuthRoleScreen from '../containers/user/authRole';
+import CompanyAuthScreen from '../containers/user/companyAuth';
+import PersonalAuthScreen from '../containers/user/personalAuth';
+import PersonalAuthInfoScreen from '../containers/user/personalAuthInfo';
+import UserInfoScreen from '../containers/user/userInfo';
+import PwdStepOneScreen from '../containers/user/pwdStepOne';
+import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -190,6 +199,76 @@ export const AppNavigator = StackNavigator({
   },
   [RouteType.ROUTE_MESSAGE_DETAIL]: { 
     screen: MessageDetailScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MY_ROUTE]: {
+    screen: MyRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_ROUTE]: {
+    screen: AddRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.EDIT_ROUNT_PAGE]: {
+    screen: EditRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AUTH_ROLE]: {
+    screen: AuthRoleScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_COMPANY_AUTH]: {
+    screen: CompanyAuthScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_PERSONAL_AUTH]: {
+    screen: PersonalAuthScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_PERSONAL_AUTH_DETAIL]: {
+    screen: PersonalAuthInfoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_USER_INFO]: {
+    screen: UserInfoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.PASSWORD_PAGE]: {
+    screen: PwdStepOneScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.PASSWORD_TWO_PAGE]: {
+    screen: PwdStepTwoScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false

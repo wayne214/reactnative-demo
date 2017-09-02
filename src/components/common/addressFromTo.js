@@ -6,7 +6,7 @@ import {
 	Text
 } from 'react-native';
 
-import fromto from '../../../assets/img/fromto.png'
+import fromto from '../../../assets/img/routes/fromto.png'
 import * as COLOR from '../../constants/colors'
 
 class AddressFromTo extends Component{
