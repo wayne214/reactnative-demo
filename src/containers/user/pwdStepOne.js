@@ -34,12 +34,11 @@ class PwdStepOneContainer extends BaseComponent {
 			verifyCodeKey: Math.floor(Math.random(1) * 100000000),
 		};
     this.title = props.navigation.state.params.title;
-	  this.lastRouteKey = props.nav.routes[this.props.nav.index - 1].routeName;
+	  this.lastRouteName = props.nav.routes[props.nav.index - 1].routeName;
 	  this.forgetPassword = props.navigation.state.params.forgetPassword;
 	  this._getMsgCode = this._getMsgCode.bind(this);
 	  this._nextStepReg = this._nextStepReg.bind(this);
 	  this._keyboardDidHide = this._keyboardDidHide.bind(this);
-
 	}
 	componentWillMount () {
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
@@ -59,20 +58,20 @@ class PwdStepOneContainer extends BaseComponent {
 	_getMsgCode () {
 		const ref = this.countDownView;
 		// if (!Regex.test('mobile', this.state.phone)) return Toast.show('手机号格式不正确');
-		if(this.lastRouteKey !== 'USER_INFO_PAGE'){
+		if(this.lastRouteName !== 'ROUTE_USER_INFO'){
 			if (!Regex.test('mobile', (this.state.phone+'').trim())) return Toast.show('手机号格式不正确');
 		}
 		if (!(this.state.verifyCode+'').trim()) return Toast.show('请先输入图形验证码');
 		this.props._getSmsCode({
-			phoneNumber: this.lastRouteKey === 'USER_INFO_PAGE' ? this.props.user.phoneNumber : this.state.phone.trim(),
+			phoneNumber: this.lastRouteName === 'ROUTE_USER_INFO' ? this.props.user.phoneNumber : this.state.phone.trim(),
 			verifyCode: this.state.verifyCode.trim(),
 			verifyCodeKey: this.state.verifyCodeKey,
-			verifyType: this.lastRouteKey === 'USER_INFO_PAGE'? 2 : 3, //验证类型: 1：注册 2：修改密码 3：忘记密码 4：新增司机
-			loginType: this.lastRouteKey === 'USER_INFO_PAGE' ? (this.props.user.currentUserRole === 1  ?  2 : 1) : (this.forgetPassword === 'driverForgetPassword' ? 1 : 2)  // 1: 司机 2:承运商
+			verifyType: this.lastRouteName === 'ROUTE_USER_INFO'? 2 : 3, //验证类型: 1：注册 2：修改密码 3：忘记密码 4：新增司机
+			loginType: this.lastRouteName === 'ROUTE_USER_INFO' ? (this.props.user.currentUserRole === 1  ?  2 : 1) : (this.forgetPassword === 'driverForgetPassword' ? 1 : 2)  // 1: 司机 2:承运商
 		}, ref);
 	}
 	_nextStepReg () {
-		if(this.lastRouteKey !== 'USER_INFO_PAGE')
+		if(this.lastRouteName !== 'ROUTE_USER_INFO')
 		{
 			if (!(this.state.phone+'').trim()) return Toast.show('请输入手机号码');
 			if (!Regex.test('mobile', (this.state.phone+'').trim())) return Toast.show('手机号格式不正确');
@@ -80,12 +79,12 @@ class PwdStepOneContainer extends BaseComponent {
 		if (!(this.state.verifyCode+'').trim()) return Toast.show('请先输入图形验证码');
 		if (!(this.state.code+'').trim()) return Toast.show('请先获取验证码');
 		this.props._checkSmsCode({
-			phoneNumber: this.lastRouteKey === 'USER_INFO_PAGE' ? this.props.user.phoneNumber : this.state.phone.trim(),
+			phoneNumber: this.lastRouteName === 'ROUTE_USER_INFO' ? this.props.user.phoneNumber : this.state.phone.trim(),
 			verifyCode: this.state.code.trim(),
-			verifyType: this.lastRouteKey === 'USER_INFO_PAGE'? 2 : 3, // 验证类型1：注册 2：修改密码 3：忘记密码 4：新增司机
-			loginType: this.lastRouteKey === 'USER_INFO_PAGE' ? (this.props.user.currentUserRole === 1  ?  2 : 1) : (this.forgetPassword === 'driverForgetPassword' ? 1 : 2),  // 1: 司机 2:承运商
+			verifyType: this.lastRouteName === 'ROUTE_USER_INFO'? 2 : 3, // 验证类型1：注册 2：修改密码 3：忘记密码 4：新增司机
+			loginType: this.lastRouteName === 'ROUTE_USER_INFO' ? (this.props.user.currentUserRole === 1  ?  2 : 1) : (this.forgetPassword === 'driverForgetPassword' ? 1 : 2),  // 1: 司机 2:承运商
 			inviteCode: '',
-		}, this.props.navigation, this.title, this.lastRouteKey, this.forgetPassword);
+		}, this.props.navigation, this.title, this.lastRouteName, this.forgetPassword);
 	}
 
 	static navigationOptions = ({ navigation }) => {
@@ -97,7 +96,7 @@ class PwdStepOneContainer extends BaseComponent {
 	render () {
 		const { user } = this.props;
 		let phoneNo;
-		if(this.lastRouteKey === 'USER_INFO_PAGE'){
+		if(this.lastRouteName === 'ROUTE_USER_INFO'){
 			phoneNo = (
 				<View style={ [styles.cellContainer, { marginTop: 20 }] }>
 					<Text style={ styles.labelText }>手机号</Text>
@@ -168,11 +167,12 @@ class PwdStepOneContainer extends BaseComponent {
 }
 
 function mapStateToProps (state) {
-	const { app, travel } = state;
+	const { app, travel, nav } = state;
 	return {
 		loading: app.get('loading'),
 		user: app.get('user'),
 		isNeedRefreshTravel: travel.get('isNeedRefreshTravel'),
+		nav
 	};
 }
 
@@ -192,7 +192,7 @@ function mapDispatchToProps (dispatch) {
 				}
 			}));
 		},
-		_checkSmsCode: (body, navigation, title ,lastRouteKey, forgetPassword) => {
+		_checkSmsCode: (body, navigation, title ,lastRouteName, forgetPassword) => {
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -200,7 +200,7 @@ function mapDispatchToProps (dispatch) {
 				api: CHECK_SMG_CODE,
 
 				success: () => {
-					navigation.dispatch({type: RouteType.PASSWORD_TWO_PAGE, params:{title: title, phone: body.phoneNumbe, verifyCode: body.verifyCode, verifyType: body.verifyType, lastRouteKey: lastRouteKey, forgetPassword: forgetPassword}});
+					navigation.dispatch({type: RouteType.PASSWORD_TWO_PAGE, params:{title: title, phone: body.phoneNumber, verifyCode: body.verifyCode, verifyType: body.verifyType, lastRouteName: lastRouteName, forgetPassword: forgetPassword}});
 				}
 			}));
 		}
