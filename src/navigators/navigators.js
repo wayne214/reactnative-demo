@@ -36,8 +36,26 @@ import CarListScreen from '../containers/car/carList'
 import MessageScreen from '../containers/message/message';
 import MessageDetailScreen from '../containers/message/messageDetail'
 import CarManageScreen from '../containers/user/car';
+import AddCarScreen from '../containers/car/addCar';
+import CarDetailScreen from '../containers/car/carDetail';
+import EditCarScreen from '../containers/car/editCar';
+import AuthInfoScreen from '../containers/user/authInfo';
+import CardBankManageScreen from '../containers/user/bankCardManage';
+import AddCardBankScreen from '../containers/user/addBankCard';
+import CarBindDriverScreen from '../containers/car/carBindDriver';
+import SelectDriverScreen from '../containers/car/selectDriver';
 
 import GameScreen from '../containers/user/game'
+import MyRouteScreen from '../containers/user/route';
+import AddRouteScreen from '../containers/user/addRoute';
+import EditRouteScreen from '../containers/user/editRoute';
+import AuthRoleScreen from '../containers/user/authRole';
+import CompanyAuthScreen from '../containers/user/companyAuth';
+import PersonalAuthScreen from '../containers/user/personalAuth';
+import PersonalAuthInfoScreen from '../containers/user/personalAuthInfo';
+import UserInfoScreen from '../containers/user/userInfo';
+import PwdStepOneScreen from '../containers/user/pwdStepOne';
+import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -201,6 +219,140 @@ export const AppNavigator = StackNavigator({
     navigationOptions: {
       // header: null,
       // title: '车辆管理',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_CAR]: { 
+    screen: AddCarScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '新增车辆',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_EDIT_CAR]: { 
+    screen: EditCarScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '编辑车辆',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_DETAIL]: { 
+    screen: CarDetailScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆详情',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MY_ROUTE]: {
+    screen: MyRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_ROUTE]: {
+    screen: AddRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.EDIT_ROUNT_PAGE]: {
+    screen: EditRouteScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AUTH_ROLE]: {
+    screen: AuthRoleScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_COMPANY_AUTH]: {
+    screen: CompanyAuthScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_PERSONAL_AUTH]: {
+    screen: PersonalAuthScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_PERSONAL_AUTH_DETAIL]: {
+    screen: PersonalAuthInfoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_USER_INFO]: {
+    screen: UserInfoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.PASSWORD_PAGE]: {
+    screen: PwdStepOneScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.PASSWORD_TWO_PAGE]: {
+    screen: PwdStepTwoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AUTH_INFO]: {
+    screen: AuthInfoScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '公司认证详情',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_BANK_CARD_LIST]: {
+    screen: CardBankManageScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '银行账户管理',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_BANK_CARD]: {
+    screen: AddCardBankScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '添加银行卡',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_BIND_DRIVER]: {
+    screen: CarBindDriverScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆绑定司机',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_SELECTED_DRIVER]: {
+    screen: SelectDriverScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '选择司机',
       gesturesEnabled: false
     }
   },

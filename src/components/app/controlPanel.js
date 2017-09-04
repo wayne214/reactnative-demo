@@ -47,7 +47,7 @@ export default class ControlPanel extends React.Component {
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
 					style={ styles.topContainer }
-					onPress={ () => this.props.router.push(RouteType.ROUTE_USER_INFO) }>
+					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}}) }>
 						<View style={ styles.topContainer }>
 							{
 								(() => {
@@ -121,7 +121,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_MY_ROUTE) }>
+										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MY_ROUTE, params: {title: '我的路线'}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe603;</Text>
 											<View style={ styles.rightContent }>

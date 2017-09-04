@@ -34,10 +34,13 @@ class CarContainer extends BaseComponent {
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this); 
+		this._jumpToAddCar = this._jumpToAddCar.bind(this);
+		this._jumpToBindDriver = this._jumpToBindDriver.bind(this);
 	}
 
 	componentDidMount() {
 		super.componentDidMount();
+		this.props.navigation.setParams({ navigatePress: this._jumpToAddCar,navigatePressTwo:this._jumpToBindDriver})  
 		this.props.getCars({
 			pageNo: this.state.pageNo,
 			carrierId:this.props.user.userId
@@ -78,22 +81,26 @@ class CarContainer extends BaseComponent {
 	_jumpToAddCar(){
 		const { user } = this.props;
 		// if(user.certificationStatus !== 3){
-			this.props.router.push(RouteType.ROUTE_ADD_CAR);
+			this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_CAR,params:{title:'新增车辆'}});
 			this.props.dispatch(clearImageSource());
 		// }else{
 		// 	Toast.show('您的认证被驳回！');
 		// }
 		
 	}
+	_jumpToBindDriver(){
+		this.props.navigation.dispatch({type:RouteType.ROUTE_CAR_BIND_DRIVER,params:{title:'车辆绑定司机'}})
+	}
 
 	static navigationOptions = ({ navigation }) => {
+		const {state, setParams} = navigation;
 	  return {
 	    header: <NavigatorBar 
 	    firstLevelIconFont='&#xe7bf;'
 			secondLevelIconFont='&#xe62f;'
 			secondLevelIconFontStyle={{ fontSize: 24, marginTop: 4 }}
-			secondLevelClick={ () => this.props.router.push(RouteType.ROUTE_CAR_BIND_DRIVER) }
-			firstLevelClick={ this._jumpToAddCar.bind(this) }
+			secondLevelClick={ () => navigation.state.params.navigatePressTwo() }
+			firstLevelClick={ () => navigation.state.params.navigatePress() }
 	    router={ navigation }/>
 	  };
 	};
@@ -277,12 +284,12 @@ class CarContainer extends BaseComponent {
 
 
   _editCar(carId){
-  	this.props.router.push(RouteType.ROUTE_EDIT_CAR,{carId});
+  	this.props.navigation.dispatch({type:RouteType.ROUTE_EDIT_CAR,params:{title:'编辑车辆',carId}});
   	this.props.dispatch(clearImageSource());
   }
 
   _goCarDetail(carId){
-  	this.props.router.push(RouteType.ROUTE_CAR_DETAIL,{carId});
+  	this.props.navigation.dispatch({type:RouteType.ROUTE_CAR_DETAIL,params:{title:'车辆详情',carId}});
   }
 
   _deleteCar(carId){

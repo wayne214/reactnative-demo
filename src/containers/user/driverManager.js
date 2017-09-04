@@ -63,7 +63,6 @@ class DriverManagerContainer extends BaseComponent {
     }
   }	
   static navigationOptions = ({ navigation }) => {
-	  const {setParams} = navigation;
 	  return {
 	    header: <NavigatorBar firstLevelClick={ () => {
 	    	navigation.state.params.navigatePress()

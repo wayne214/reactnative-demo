@@ -65,16 +65,19 @@ class AddressHandler {
 		return CID;
 	}
 
-	getAIDWithAName(aName){
+	getAIDWithAName(cName,aName){
 		if (aName === '不限') return '';
 		let AID;
 		this.datas.map((item1) => {
 			item1.childList.map((item2) => {
-				item2.childList.map((item3) => {
-					if(item3.regionName === aName){
-						AID = item3.regionId;
-					}
-				})
+				if (item2.regionName === cName) {
+					console.log("---- cName",item2);
+					item2.childList.map((item3) => {
+						if(item3.regionName === aName){
+							AID = item3.regionId;
+						}
+					})
+				}
 			})
 		})
 		return AID;
