@@ -87,7 +87,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_MY_CAR) }
+										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MY_CAR,params:{title:'车辆管理'}}) }
 										style={ styles.carManagerContainer }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe605;</Text>

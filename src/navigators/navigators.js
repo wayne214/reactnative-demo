@@ -35,6 +35,7 @@ import ShowESignInfoScreen from '../containers/user/showESignInfo';
 import CarListScreen from '../containers/car/carList'
 import MessageScreen from '../containers/message/message';
 import MessageDetailScreen from '../containers/message/messageDetail'
+import CarManageScreen from '../containers/user/car';
 
 import GameScreen from '../containers/user/game'
 
@@ -192,6 +193,14 @@ export const AppNavigator = StackNavigator({
     screen: MessageDetailScreen,
     navigationOptions: {
       // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_MY_CAR]: { 
+    screen: CarManageScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆管理',
       gesturesEnabled: false
     }
   },
