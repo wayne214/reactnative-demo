@@ -171,7 +171,7 @@ class LoginContainer extends BaseComponent {
 						{ carrierLogin }
 						<View style={ styles.registerView }>
 							<Text style={ styles.text }
-							onPress={ () => this.props.router.push(RouteType.PASSWORD_PAGE, {title: '忘记密码', forgetPassword: 'driverForgetPassword' }) } >忘记密码</Text>
+							onPress={ () => this.props.navigation.dispatch({type: RouteType.PASSWORD_PAGE, params: {title: '忘记密码', forgetPassword: 'driverForgetPassword' }}) }>忘记密码</Text>
 						</View>
 					</View>
 
@@ -232,7 +232,7 @@ function mapDispatchToProps(dispatch) {
 					});
 					user.save();
 					dispatch(loadUser(user));
-          navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
+          navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } })
 					// JPushModule.setAlias(user.userId, () => {
 					// 	console.log("Set alias succeed");
 					// }, () => {

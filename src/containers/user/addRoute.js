@@ -33,6 +33,7 @@ class AddRouteContainer extends BaseComponent {
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this._addRoute = this._addRoute.bind(this);
+		console.log('getCityOfCountry-----',AddressHandler.getCityOfCountry())
 	}
 
 	_selectAddress(type) {
