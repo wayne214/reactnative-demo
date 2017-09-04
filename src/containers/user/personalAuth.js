@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch) => {
 				msg: '提交成功',
 				showLoading: true,
 				success: () => {
-			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } });
+			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '我的行程' } });
 				}
 			}));
 		},

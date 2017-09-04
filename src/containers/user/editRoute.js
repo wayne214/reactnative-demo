@@ -35,7 +35,7 @@ class EditRouterContainer extends BaseComponent {
 			fromAddress: '',
 			dataSource: AddressHandler.getCityOfCountry()
 		};
-		this.data = props.navigation.state.params.Fdata;
+		this.data = props.navigation.state.params.data;
 
 		// this.key = props.router.getLastCurrentRouteKey();
 		// this.hiddingBack = (this.key === 'COMPANY_AUTH_PAGE' ? true : false);
@@ -85,7 +85,7 @@ class EditRouterContainer extends BaseComponent {
 			toProvinceName: this.filterData(this.state.toProvince)  || this.filterData(this.data.toProvinceName),
 			toCityName: this.state.toProvince ? this.filterData(this.state.toCity) : this.filterData(this.data.toCityName),
 			toAreaName: this.state.toProvince ? this.filterData(this.state.toArea) : this.filterData(this.data.toAreaName),
-		}, this.props.router, this.hiddingBack);
+		}, this.props.navigation, this.hiddingBack);
 
 	}
 
@@ -175,8 +175,9 @@ const mapStateToProps = (state) => {
 	};
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
 	return {
+		dispatch,
 		editRoute: (body, navigation, hiddingBack) => {
 			dispatch(fetchData({
 				body,

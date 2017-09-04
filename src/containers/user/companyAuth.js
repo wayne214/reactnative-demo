@@ -495,7 +495,7 @@ function mapDispatchToProps(dispatch) {
 					};
 					new User().merge(users);
 					dispatch(mergeUser(users));
-			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } });
+			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '我的行程' } });
 				}
 			}));
 		},
