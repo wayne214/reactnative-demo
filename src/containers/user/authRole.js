@@ -13,8 +13,9 @@ import { ABOUT_US } from '../../constants/api';
 import MainContainer from '../app/main';
 import * as RouteType from '../../constants/routeType';
 import { dispatchClearAuthInfo } from '../../action/carrier';
+import BaseComponent from '../../components/common/baseComponent';
 
-class AuthRoleContainer extends React.Component {
+class AuthRoleContainer extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -39,7 +40,7 @@ class AuthRoleContainer extends React.Component {
 		this.props.navigation.dispatch({type: RouteType.ROUTE_COMPANY_AUTH, params: {title:'公司认证'}});
 		this.props.dispatch(dispatchClearAuthInfo());
 	}
-	 static navigationOptions = ({ navigation }) => {
+	static navigationOptions = ({ navigation }) => {
 	  return {
 	    header: <NavigatorBar backViewClick={ () => {
 	    	navigation.state.params.navigatePress()
