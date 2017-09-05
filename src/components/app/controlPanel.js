@@ -172,7 +172,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_CUSTOME_SERVICE) }>
+										onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_CUSTOME_SERVICE, params:{title: '我的客服'}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe606;</Text>
 											<View style={ styles.rightContent }>

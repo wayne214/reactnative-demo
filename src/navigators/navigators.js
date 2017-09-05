@@ -56,6 +56,7 @@ import PersonalAuthInfoScreen from '../containers/user/personalAuthInfo';
 import UserInfoScreen from '../containers/user/userInfo';
 import PwdStepOneScreen from '../containers/user/pwdStepOne';
 import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
+import CustomServiceScreen from '../containers/user/customService';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -353,6 +354,13 @@ export const AppNavigator = StackNavigator({
     navigationOptions: {
       // header: null,
       // title: '选择司机',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CUSTOME_SERVICE]: {
+    screen: CustomServiceScreen,
+    navigationOptions: {
+      // header: null,
       gesturesEnabled: false
     }
   },
