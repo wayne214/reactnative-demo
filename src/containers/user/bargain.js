@@ -42,7 +42,7 @@ class BargainContainer extends BaseComponent {
 
 	componentDidMount() {
 		super.componentDidMount();
-		this.props.navigation.setParams({ navigatePress: this._jumpToESignUpdate, })  
+		this.props.navigation.setParams({ navigatePress: this._jumpToESignUpdate })  
 		this._changeTab(this.state.index);
 	}
 
