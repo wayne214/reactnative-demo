@@ -3,6 +3,7 @@ import {
 	View,
 	Text,
 	Image,
+	ImageBackground,
 	Animated,
 	TextInput,
 	ScrollView,
@@ -384,7 +385,7 @@ class AddCarContainer extends BaseComponent {
 		}
 		let image = (
 				<View style={ [styles.IDViewStyle, { marginTop: 5}] }>
-						<Image source={ source || exampleImage } style={ styles.IDImgStyle }>
+						<ImageBackground source={ source || exampleImage } style={ styles.IDImgStyle }>
 						{
 							(() => {
 								if (txtLoading === '正在上传') {
@@ -405,7 +406,7 @@ class AddCarContainer extends BaseComponent {
 							})()
 						}
 						{enlargeImg}
-						</Image>
+						</ImageBackground>
 				</View>);
 		return image;
 	}
