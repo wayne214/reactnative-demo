@@ -31,7 +31,7 @@ class AuthRoleContainer extends BaseComponent {
 
 	_back = () => {
 		if (this.type === 'register') {
-			this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } })
+			this.props.navigation.dispatch({ type: 'Main', params: { title: '' } })
 		} else {
 			this.props.navigation.dispatch({type: 'pop'});
 		}
