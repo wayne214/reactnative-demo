@@ -3,6 +3,7 @@ import {
 	View,
 	Text,
 	Image,
+	ImageBackground,
 	StyleSheet,
 	Dimensions,
 	TouchableOpacity
@@ -94,7 +95,7 @@ export default class BankListCell extends React.Component {
 			<View key={ index } style={{ alignItems: 'center' }}>
 				<TouchableOpacity
 					activeOpacity={ 1 }>
-					<Image style={ styles.cellContainer } source={ bankBg }>
+					<ImageBackground style={ styles.cellContainer } source={ bankBg }>
 						<Image style={ styles.icon } source={ bankIcon }/>
 						<View style={ styles.rightView }>
 							<View style={ styles.optView }>
@@ -111,7 +112,7 @@ export default class BankListCell extends React.Component {
 								<Text style={ styles.iconFont } onPress={ this.props.delFun }>&#xe61c;</Text>
 							</View>
 						</View>
-					</Image>
+					</ImageBackground>
 				</TouchableOpacity>
 			</View>
 		);

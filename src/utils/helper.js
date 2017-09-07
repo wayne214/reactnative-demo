@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { IMG_HOST } from '../constants/setting';
 
 class HelperUtil {
@@ -28,7 +27,6 @@ class HelperUtil {
 		}
 	}
 	getColor(color){
-		color = color ? color.toUpperCase(): '';
 		if(color === 'RED'){
 			return '红';
 		}else if(color === 'BLUE'){
@@ -39,34 +37,8 @@ class HelperUtil {
 			return '';
 		}
 	}
-	getPersonESignTemplateIndex(template){
-		// SQUARE
-		// RECTANGLE
-		// BORDERLESS
-		// YYGXSF
-		// FZKC
-		// HYLSF
-		template = template ? template.toUpperCase(): '';
-		// console.log('lqq---template---',template);
-		if(template === 'SQUARE'){
-			return 1;
-		}else if(template === 'FZKC'){
-			return 2;
-		}else if(template === 'HYLSF'){
-			return 3;
-		}else if(template === 'BORDERLESS'){
-			return 4;
-		}else if(template === 'RECTANGLE'){
-			return 5;
-		}else if(template === 'YYGXSF'){
-			return 6;
-		}else{
-			return 1;
-		}
-	}
 
 	getObject(map,key){
-		key = key ? key.toUpperCase() : '';
 		for(let i = 0;i< map.length;i++){
 			if(map[i].key === key){
 				return map[i];
@@ -77,14 +49,6 @@ class HelperUtil {
 	getObjectByInt(map,key){
 		for(let i = 0;i< map.length;i++){
 			if(map[i].key === key){
-				return map[i];
-			}
-		}
-		return '';
-	}
-	getObjectByValue(map,value){
-		for(let i = 0;i< map.length;i++){
-			if(map[i].value === value){
 				return map[i];
 			}
 		}
@@ -146,7 +110,7 @@ class HelperUtil {
 	}
 
 	getGoodsName(goodsName){
-		// 1畜禽类'2水产类，3牛羊肉类，4速冻调理类，5速冻面点类，6农产品类，7乳制品类，8冰产品类
+		// 1畜禽类，2水产类，3牛羊肉类，4速冻调理类，5速冻面点类，6农产品类，7乳制品类，8冰产品类
 		switch(goodsName){
 			case 1:
 				return '畜禽类'
@@ -172,95 +136,79 @@ class HelperUtil {
 				return ''
 		}
 	}
-
-	/**
-	 * 获取支付方式
-	 * @param  {[type]} payWay [description]
-	 * @return {[type]}        [description]
-	 */
-	getPayWay(payWay){
-		switch(payWay){
-			case 1:
-				return '网银转账'
-			default:
-				return ''
-		}
-	}
-
-	/**
-	 * 获取委托类型
-	 * @param  {[type]} entrustType [description]
-	 * @return {[type]}            [description]
-	 */
-	getEntrustType(entrustType){
-		switch(entrustType){
-			case 1:
-				return '自营'
-			case 2:
-				return '第三方承运'
-			default:
-				return ''
-		}
-	}
-	getOrderStateStr(state){
+	// 1待货主上传装货清单，
+	// 2待承运商上传出库单，
+	// 3待承运商装车确认，
+	// 4待货主装货确认，
+	//  5待承运商确认到达(拍摄环境照片)，
+	//  6待承运商确认交付(上传回执单)，
+	//  7待货主确认收货，
+	//  8协调中，
+	//  9协调完成，
+	//  10未结算，
+	//  11结算中，
+	//  12已完成，
+	//  13已取消
+	//  14承运方未结算
+	//  15承运方结算中
+	getOrderStateStr(state,entrustType){
+		// !entrustType && console.warn("Helper 订单状态 缺少参数 entrustType");
 		switch(state){
-			case 1: return '待上传装货清单'
-			case 2: return '待承运方上传出库单'
-			case 3: return '待承运方装货确认'
-			case 4: return '待确认装货'
-			case 5: return '待承运方到货确认'//(拍摄环境照片)'
-			case 6: return '待承运方交付确认'//(上传回执单)'
-			case 7: return '待确认收货'
+			case 1: return '待委托方上传装货清单'
+			case 2: return '待上传出库单'
+			case 3: return '待装货确认'
+			case 4: return '待委托方确认装货'
+			case 5: return '待到货确认'
+			case 6: return '待交付确认'
+			case 7: return '待委托方确认收货'
 			case 8: return '协调中'
 			case 9: return '协调完成'
 			case 10: return '未结算'
-			case 11: return '结算中'//(这个结算中是指主订单处于结算中'并不代表货主的结算状态'货主的结算状态和承运方的结算状态是独立的)
+			case 11: return '结算中'// 列表中不会出现 参照15  16
 			case 12: return '已完成'
-			case 13: return '异常取消'
-			case 14: return '结算中'
-			case 15: return '结算通知'
-			case 16: return '已结算'
-			case 17: return '未结算'
-			case 18: return '回单照片审核中'
-			case 19: return '回单照片审核驳回'
-			case 20: return '已关闭'
+			case 13: return '已取消'
+			case 14: return entrustType == 1 ? '未结算' : '回单审核中'//'承运商未结算'
+			case 15: return entrustType == 1 ? '结算中' : '回单审核驳回' //'承运商结算中'
+			case 16: return '结算中' //'待承运方结算'
+			case 17: return '承运方已结算'
+			case 18: return '已关闭'
 			default: return ''
 		}
 	}
-	// 第三方承运（撮合订单）
-	getOrderStateStrTP(state,auditProposeType){
-		switch(state){
-			case 1: return ''
-			case 2: return ''
-			case 3: return '等待装货'
-			case 4: return ''
-			case 5: return ''
-			case 6: return '等待收货'
-			case 7: return ''
-			case 8: return '协调中'
-			case 9: return '协调完成'
-			case 10: return ''
-			case 11: return ''
-			case 12: return '已完成'
-			case 13: return '异常取消'
-			case 14: return ''
-			case 15: return ''
-			case 16: return '已结算'
-			case 17: return '未结算'
-			case 18:
-				if(auditProposeType == 1){
-					return '回单审核中'
-				}else{
-					return '承运方回单审核中'
-				}
-			case 19:
-				if(auditProposeType == 1){
-					return '回单驳回'
-				}else{
-					return '承运方回单驳回'
-				}
-			case 20: return '已关闭'
-			default: return ''
+
+	transformActiveTabToOrderState(activeTab,subActiveTab){
+		// 0 -1   1-2  2-3  3-   4-8   1所有 2待装货 3待交付 4结算 5未结算 6结算中 7已结算(已完成) 8取消
+		switch(activeTab){
+			case 0: return 1
+			case 1: return 2
+			case 2: return 3
+			case 3:
+				if (subActiveTab == 0) {return 5}
+				if (subActiveTab == 1) {return 6}
+				if (subActiveTab == 2) {return 7}
+			case 4: return 8
+			default: return 1
+
+		}
+	}
+
+	transformSubActiveTabToOrderState(subActiveTab){
+		// 5未结算 6结算中 7已结算
+		switch(subActiveTab){
+			case 0: return 5
+			case 1: return 6
+			case 2: return 7
+			default: return 5
+		}
+	}
+
+	transformOrderTypeMenuIndexToType(menuIndex){//订单头部筛选条件 type: 0所有 1派单 2竞价 3抢单
+		switch(menuIndex){
+			case 0: return 0
+			case 1: return 3
+			case 2: return 2
+			case 3: return 1
+			default: return 0
 		}
 	}
 
@@ -303,13 +251,17 @@ class HelperUtil {
 		if (type == 1) {
 			return '常温'
 		}else{
-			if (min == 0) {min == '0'}
-			if (max == 0) {max = '0'}
-			if (min && max) {
-				return `${min}℃ ~ ${max}℃`
-			}else{
-				return ''
+			if (min == 0) {
+				min == '0'
 			}
+			if (max == 0) {
+				max = '0'
+			}
+			// if (min && max) {
+				return `${min.toString()}℃ ~ ${max.toString()}℃`
+			// }else{
+			// 	return ''
+			// }
 		}
 	}
 
@@ -317,69 +269,6 @@ class HelperUtil {
 		switch(type){
 			case 1:
 				return '线下结算'
-			default:
-				return ''
-		}
-	}
-
-	getResourceState(state) {
-		switch (state * 1) {
-			case 1:
-				return '待审核'
-			case 2:
-				return '竞价中'
-			case 3:
-				return '派单失败'
-			case 4:
-				return '派单中'
-			case 5:
-				return '抢单中'
-			case 6:
-				return '已成单'
-			case 7:
-				return '待调度'
-			case 8:
-				return '已驳回'
-			case 9:
-				return '已取消'
-			case 10:
-				return '已删除'
-			case 12:
-				return '待分配'
-			default:
-				return ''
-		}
-	}
-
-	// 前台显示
-	getResourceStates(state) {
-		switch (state * 1) {
-			case 1:
-				return '正在审核'
-			case 2:
-				return '正在受理'
-			case 3:
-				return '正在受理'
-			case 4:
-				return '正在受理'
-			case 5:
-				return '待选择'
-			// case 6:
-			// 	return '已成单'
-			case 7:
-				return '待承运方调度车辆'
-			case 8:
-				return '已驳回'
-			case 9:
-				return '已取消'
-			// case 10:
-			// 	return '已删除'
-			case 11:
-				return '委托失败'
-			case 12:
-				return '正在受理'
-			case 13:
-				return '已关闭'
 			default:
 				return ''
 		}
@@ -396,94 +285,42 @@ class HelperUtil {
 		return IMG_HOST + url + `?x-oss-process=image/resize,m_lfit,h_${ height },w_${ width }` + '&a=' + Math.random(1) * 100000;
 	}
 
-	//装货地点
-	getLadingAddressList(list){
-		if (list && list.length > 0) {
-			return list.map((item,index)=>{
-				return item.loadingProvinceName + (item.loadingCityName == item.loadingProvinceName ? '' : item.loadingCityName) + item.loadingAreaName + item.loadingAddress
-
-			})
-		};
-	}
-
-	/**
-	 * [isBefore description]
-	 * @param  {[type]}  startDate [description]
-	 * @param  {[type]}  endDate   [description]
-	 * @return {Boolean}           [description]
-	 */
-	isBefore (startDate, endDate) {
-		if (!startDate || !endDate) return false;
-		const sdays = startDate.split('-');
-		const edays = endDate.split('-');
-		if (edays[0] * 1 > sdays[0] * 1) {
-			console.log(111111)
-			return true;
-		}	else if (edays[0] * 1 === sdays[0] * 1 && edays[1] * 1 > sdays[1] * 1) {
-			console.log(222222)
-			return true;
-		}	else if (edays[0] * 1 === sdays[0] * 1 && edays[1] * 1 === sdays[1] * 1 && edays[2] * 1 > sdays[2] * 1) {
-			console.log(333333)
-			return true;
-		}	else if (edays[0] * 1 === sdays[0] * 1 && edays[1] * 1 === sdays[1] * 1 && edays[2] * 1 === sdays[2] * 1) {
-			console.log(444444)
-			return true;
-		}
-			console.log(555555)
-		return false;
-	}
-
-	compareTime (startTime, endTime) {
-		if (!startTime || !endTime) return false;
-		const stime = startTime.split(':');
-		const etime = endTime.split(':');
-		if (etime[0] * 1 > stime[0] * 1) {
-			console.log('结束小时大于开始小时')
-			return true;
-		}	else if (etime[0] * 1 === stime[0] * 1 && etime[1] * 1 > stime[1] * 1) {
-			console.log('结束分钟大于开始分钟')
-			return true;
-		} else if (etime[0] * 1 === stime[0] * 1 && etime[1] * 1 === stime[1] * 1) {
-			console.log('时间相同')
-			return true;
-		}
-			console.log(444444)
-		return false;
-	}
-
-// invoceType 发票：1增值税专用发票 2增值税普通发票 3否
-	getInvoicePostType(type,status){
-		let statusStr = ''
-		if (status == 2) {
-			statusStr = '(申请发票中)'
-		}else if (status == 3) {
-			statusStr = '(发票已邮寄)'
-		};
-		if (type == 1) {
-			return '增值税专用发票' + statusStr
-		}else if (type == 2) {
-			return '增值税普通发票' + statusStr
+	getFormatDate(date){
+		if (!date) return false;
+		let days;
+		// console.log('lqq--date->',date);
+		if((date+'').indexOf(' ') !== -1){
+			let left = (date+'').split(' ');
+			// console.log('lqq--left->',left[0]);
+			days = (left[0]+'').split('-');
+			// console.log('lqq--days1->',days);
 		}else{
-			return '否'
-		};
+			days = date.split('-');
+			// console.log('lqq--days2->',days);
+		}
+
+		let str = days[0];
+		if(days[1] * 1 < 10 && days[1].length === 1){
+			str += '-0'+days[1];
+		}else{
+			str += '-'+days[1];
+		}
+		if(days[2] * 1 < 10 && days[2].length === 1){
+			str += '-0'+days[2];
+		}else{
+			str += '-'+days[2];
+		}
+		// console.log('lqq--getFormatDate->',str);
+		return str;
 	}
-	// const invoiceBtnTitle = ''
-	// if (rowData.invoiceState == 1) {
-	// 	invoiceBtnTitle = '申请开发票'
-	// }else if (rowData.invoiceState == 2) {
-	// 	invoiceBtnTitle = '申请发票中'
-	// }else if (rowData.invoiceState == 3) {
-	// 	invoiceBtnTitle = '发票已邮寄'
-	// }
 
-	/**
-	 * [dateFormat description]
-	 * @param  {[type]} String date          [description]
-	 * @param  {[type]} String format        [description]
-	 * @return {[type]}        [description]
-	 */
-	dateFormat(date, format) {
-
+	fileSizeFormat(bytes){
+		if (bytes > 1024 * 1024) {
+			// M
+			return Math.round((bytes / (1024 * 1024)) * 100) * 0.01 + 'M'
+		}else{
+			return Math.round((bytes / 1024) * 100) * 0.01 + 'K'
+		}
 	}
 
 }

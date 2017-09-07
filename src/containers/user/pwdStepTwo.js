@@ -41,7 +41,7 @@ class PwdSteoTwoContainer extends BaseComponent {
     this.title = props.navigation.state.params.title;
 		this.verifyCode = props.navigation.state.params.verifyCode;
 		this.type = props.navigation.state.params.verifyType;
-		this.lastRouteKey = props.navigation.state.params.lastRouteKey;
+		this.lastRouteName = props.navigation.state.params.lastRouteName;
 		this.forgetPassword = props.navigation.state.params.forgetPassword;
 		this._register = this._register.bind(this);
 		this._keyboardDidHide = this._keyboardDidHide.bind(this);
@@ -72,7 +72,7 @@ class PwdSteoTwoContainer extends BaseComponent {
 				// username: this.state.username,
 				password: this.state.password.trim(),
 				verifyCode: this.verifyCode.trim(),
-			}, this.props.navigation, this.props.user, this.lastRouteKey, this.props.navigator, this.forgetPassword,
+			}, this.props.navigation, this.props.user, this.lastRouteName, this.forgetPassword,
 				() => {
 					this.props.shipperLogin({
 					username: this.phone.trim(),
@@ -84,7 +84,7 @@ class PwdSteoTwoContainer extends BaseComponent {
 				phoneNumber: this.phone.trim(),
 				password: this.state.password.trim(),
 				checkNumber: this.verifyCode.trim(),
-			}, this.props.navigation, this.props.user, this.lastRouteKey, this.props.navigator, this.forgetPassword,
+			}, this.props.navigation, this.props.user, this.lastRouteName, this.forgetPassword,
 				() => {
 					this.props.driverLogin({
 						username: this.phone.trim(),
@@ -169,10 +169,10 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
 	return {
-		updateCarrierPassword: (body, navigation, user, lastRouteKey, navigator, forgetPassword, cb) => {
+		updateCarrierPassword: (body, navigation, user, lastRouteName, forgetPassword, cb) => {
 			dispatch(fetchData({
 				body,
-				api:  lastRouteKey === 'USER_INFO_PAGE' ? UPDATE_PASSWORD : CARRIER_FORGET_PASSWORD ,
+				api:  lastRouteName === 'ROUTE_USER_INFO' ? UPDATE_PASSWORD : CARRIER_FORGET_PASSWORD ,
 				method: 'POST',
 				msg: '修改成功',
 				showLoading: true,
@@ -180,7 +180,7 @@ function mapDispatchToProps (dispatch) {
 				success: () => {
 					setTimeout(() => {
 						if(user.currentUserRole === 1){
-							navigator.dispatch({ type: 'ROUTE_LOGIN', mode: 'reset' });
+							navigation.dispatch({ type: 'ROUTE_LOGIN', params:{title:''} });
 							new User().delete();
 							dispatch(logout());
 						}else if(forgetPassword === 'carrierForgetPassword'){
@@ -190,10 +190,10 @@ function mapDispatchToProps (dispatch) {
 				},
 			}));
 		},
-		updateDriverPassword: (body, router, user, lastRouteKey, navigator, forgetPassword, cb) => {
+		updateDriverPassword: (body, navigation, user, lastRouteName,forgetPassword, cb) => {
 			dispatch(fetchData({
 				body,
-				api: lastRouteKey === 'USER_INFO_PAGE' ? UPDATE_DRIVER_PASSWORD : DRIVER_FORGET_PASSWORD,
+				api: lastRouteName === 'ROUTE_USER_INFO' ? UPDATE_DRIVER_PASSWORD : DRIVER_FORGET_PASSWORD,
 				method: 'POST',
 				msg: '修改成功',
 				showLoading: true,
@@ -201,7 +201,7 @@ function mapDispatchToProps (dispatch) {
 				success: () => {
 					setTimeout(() => {
 						if(user.currentUserRole === 2){
-							navigator.dispatch({ type: 'ROUTE_CAR_LOGIN', mode: 'reset' });
+							navigation.dispatch({ type: 'ROUTE_CAR_LOGIN',params: { title: '' } });
 							new User().delete();
 							dispatch(logout());
 						}else if(forgetPassword === 'driverForgetPassword'){
@@ -238,7 +238,7 @@ function mapDispatchToProps (dispatch) {
 						currentUserRole: 1
 					});
 					user.save();
-			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } });
+			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
 					dispatch(loadUser(user));
 					// JPushModule.setAlias(user.userId, () => {
 					// 	// Toast.show('设置别名成功',user.userId)
@@ -278,7 +278,7 @@ function mapDispatchToProps (dispatch) {
 					});
 					user.save();
 					dispatch(loadUser(user));
-			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } });
+			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
 					// JPushModule.setAlias(user.userId, () => {
 					// 	console.log("Set alias succeed");
 					// }, () => {

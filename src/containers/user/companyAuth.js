@@ -12,7 +12,7 @@ import {
 	Keyboard,
 	Alert,
 	Dimensions,
-	Platform
+	ImageBackground
 } from 'react-native';
 import Regex from '../../utils/regex';
 import Toast from '../../utils/toast';
@@ -236,7 +236,7 @@ class CompanyAuthContainer extends BaseComponent {
 				</TouchableOpacity>)
 		}
 		let image = (
-			<Image style={ styles.img } source={ source || exampleImage }>
+			<ImageBackground style={ styles.img } source={ source || exampleImage }>
 				{
 					(() => {
 						if (textLoading === '正在上传') {
@@ -257,7 +257,7 @@ class CompanyAuthContainer extends BaseComponent {
 					})()
 				}
 				{ enlargeImg }
-			</Image>);
+			</ImageBackground>);
 		return image;
 	}
 	static navigationOptions = ({ navigation }) => {
@@ -495,7 +495,7 @@ function mapDispatchToProps(dispatch) {
 					};
 					new User().merge(users);
 					dispatch(mergeUser(users));
-			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '' } });
+			    navigation.dispatch({ type: 'Main',  params: { title: '', currentTab: 'route' }});
 				}
 			}));
 		},

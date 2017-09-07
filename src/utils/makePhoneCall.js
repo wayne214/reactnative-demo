@@ -1,3 +1,8 @@
+/*
+* @author:  yinyongqian
+* @createTime:  2017-08-11, 09:59:55 GMT+0800
+* @description:  description
+*/
 import React from 'react'
 import {
 	Linking,

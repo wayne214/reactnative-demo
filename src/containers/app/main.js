@@ -72,6 +72,7 @@ class MainContainer extends React.Component {
   }
 
   async componentDidMount () {
+    this.props._getCityOfCountry();
     const value = await Storage.get('float')
     if (value && value * 1 === 1 && this.props.user.userId) {
       // show float dialog
@@ -276,6 +277,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
+    _getCityOfCountry: () => {
+      dispatch(fetchData({
+        api: CITY_COUNTRY,
+        method: 'GET',
+        cache: true,
+        cacheType: 'city'
+      }));
+    },
     _getUserInfo: (body, role) => {
       dispatch(fetchData({
         body,

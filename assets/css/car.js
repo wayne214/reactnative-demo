@@ -165,8 +165,6 @@ export default StyleSheet.create({
 	},
 	listView: {
 		flex: 1, 
-		position: 'absolute', 
-		top: Platform.OS === 'ios' ? 64 : 50, 
 		left: 0, 
 		right: 0, 
 		bottom: 0

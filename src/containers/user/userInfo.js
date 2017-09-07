@@ -137,7 +137,7 @@ class UserInfoContainer extends BaseComponent {
 	
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.router.push(RouteType.ROUTE_BANK_CARD_LIST) }>
+					 onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>
 					<View style={ styles.cellContainer }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>银行账户管理</Text>

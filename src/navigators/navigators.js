@@ -35,6 +35,16 @@ import ShowESignInfoScreen from '../containers/user/showESignInfo';
 import CarListScreen from '../containers/car/carList'
 import MessageScreen from '../containers/message/message';
 import MessageDetailScreen from '../containers/message/messageDetail'
+import CarManageScreen from '../containers/user/car';
+import AddCarScreen from '../containers/car/addCar';
+import CarDetailScreen from '../containers/car/carDetail';
+import EditCarScreen from '../containers/car/editCar';
+import AuthInfoScreen from '../containers/user/authInfo';
+import CardBankManageScreen from '../containers/user/bankCardManage';
+import AddCardBankScreen from '../containers/user/addBankCard';
+import CarBindDriverScreen from '../containers/car/carBindDriver';
+import SelectDriverScreen from '../containers/car/selectDriver';
+
 import GameScreen from '../containers/user/game'
 import MyRouteScreen from '../containers/user/route';
 import AddRouteScreen from '../containers/user/addRoute';
@@ -46,6 +56,7 @@ import PersonalAuthInfoScreen from '../containers/user/personalAuthInfo';
 import UserInfoScreen from '../containers/user/userInfo';
 import PwdStepOneScreen from '../containers/user/pwdStepOne';
 import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
+import CustomServiceScreen from '../containers/user/customService';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -204,6 +215,38 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
+  [RouteType.ROUTE_MY_CAR]: { 
+    screen: CarManageScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆管理',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_CAR]: { 
+    screen: AddCarScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '新增车辆',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_EDIT_CAR]: { 
+    screen: EditCarScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '编辑车辆',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_DETAIL]: { 
+    screen: CarDetailScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆详情',
+      gesturesEnabled: false
+    }
+  },
   [RouteType.ROUTE_MY_ROUTE]: {
     screen: MyRouteScreen,
     navigationOptions: {
@@ -269,6 +312,53 @@ export const AppNavigator = StackNavigator({
   },
   [RouteType.PASSWORD_TWO_PAGE]: {
     screen: PwdStepTwoScreen,
+    navigationOptions: {
+      // header: null,
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_AUTH_INFO]: {
+    screen: AuthInfoScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '公司认证详情',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_BANK_CARD_LIST]: {
+    screen: CardBankManageScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '银行账户管理',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_ADD_BANK_CARD]: {
+    screen: AddCardBankScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '添加银行卡',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CAR_BIND_DRIVER]: {
+    screen: CarBindDriverScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '车辆绑定司机',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_SELECTED_DRIVER]: {
+    screen: SelectDriverScreen,
+    navigationOptions: {
+      // header: null,
+      // title: '选择司机',
+      gesturesEnabled: false
+    }
+  },
+  [RouteType.ROUTE_CUSTOME_SERVICE]: {
+    screen: CustomServiceScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
