@@ -8,6 +8,7 @@ import {
   View,
   Image,
   AppState,
+  BackHandler,
   NativeAppEventEmitter,
   TouchableOpacity
 } from 'react-native';
@@ -52,9 +53,11 @@ class MainContainer extends React.Component {
       showUpgrade: false,
       rotateValue: new Animated.Value(0)
     };
-    this._routeTab = this._routeTab.bind(this);
-    this._changeTab = this._changeTab.bind(this);
-    this.openControlPanel = this.openControlPanel.bind(this);
+    this._routeTab = this._routeTab.bind(this)
+    this._changeTab = this._changeTab.bind(this)
+    this.handleBack = this.handleBack.bind(this)
+    this._forceUpgrade = this._forceUpgrade.bind(this)
+    this.openControlPanel = this.openControlPanel.bind(this)
   }
 
   static propTypes = {
@@ -62,6 +65,10 @@ class MainContainer extends React.Component {
     currentTab: React.PropTypes.string.isRequired,
     tabs: React.PropTypes.instanceOf(Immutable.List),
     upgrade: React.PropTypes.object
+  }
+
+  componentWillMount() {
+    if (Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.handleBack);
   }
 
   async componentDidMount () {
@@ -87,6 +94,24 @@ class MainContainer extends React.Component {
 
   componentWillUnmount() {
     this.timer && clearTimeout(this.timer)
+    if (Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
+  }
+
+  handleBack () {
+    if (this.props.nav.routes.length > 1) {
+      this.props.navigation.dispatch({ type: 'pop' })
+      return true
+    }
+
+    Storage.save('float', '2');
+    this.props.dispatch(showFloatDialog(false));
+
+    if (this.lastPressTimer && this.lastPressTimer + 2000 >= Date.now()) {
+      return false
+    }
+    Toast.show('再按一次退出')
+    this.lastPressTimer = Date.now()
+    return true
   }
 
   _renderBadge(badgeCount) {
@@ -132,6 +157,21 @@ class MainContainer extends React.Component {
       }
     ).start(() => this.state.rotateValue.setValue(0));
     this.props.dispatch(changeTab('route'));
+  }
+
+  /**
+   * [_forceUpgrade description] 强制升级
+   * @return {[type]} [description]
+   */
+  _forceUpgrade () {
+    if (Platform.OS === 'android') {
+      Toast.show('开始下载')
+      NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
+        this.setState({ showUpgrade: true });
+      });
+    } else {
+      NativeModules.NativeModule.toAppStore();
+    }
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -196,6 +236,20 @@ class MainContainer extends React.Component {
           { ...this.props }
           click={ this.openControlPanel }
           changeTab={ this._changeTab } />
+        {
+          this.props.upgradeForce && !this.props.showFloatDialog &&
+            <View style={ styles.upgradeContainer }>
+              <View style={ styles.upgradeView }>
+                <Image style={{ width: 50, height: 55, marginTop: 15 }} source={ require('../../../assets/img/app/upgrade_icon.png')}/>
+                <Text style={ styles.upgradeText }>冷链马甲承运方升级啦，界面焕然一新，修复了已知bug,赶快升级体验吧</Text>
+                <Button onPress={ this._forceUpgrade } title='立即更新' style={{ backgroundColor: 'white', width: 100, height: Platform.OS === 'ios' ? 40 : 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#17a9df' }}/>
+                {
+                  Platform.OS === 'android' && this.state.showUpgrade &&
+                    <Button onPress={ this._installApk } title='已下载，立即安装' style={{ backgroundColor: 'white', width: 100, height: 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#1ab036' }}/>
+                }
+              </View>
+            </View>
+        }
       </Drawer>
     );
   }
@@ -203,8 +257,9 @@ class MainContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { app } = state;
+  const { app, nav } = state;
   return {
+    nav,
     user: app.get('user'),
     tabs: app.get('tabs'),
     upgrade: app.get('upgrade'),
