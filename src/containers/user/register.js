@@ -56,7 +56,6 @@ class RegisterContainer extends BaseComponent {
   	super.componentWillUnmount();
   }
 
-
 	_getMsgCode() {
 		const ref = this.countDownView;
 		if (!Regex.test('mobile', (this.state.phone+'').trim() )) return Toast.show('手机号格式不正确');
