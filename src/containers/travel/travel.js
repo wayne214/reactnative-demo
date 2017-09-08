@@ -63,7 +63,7 @@ class HomeContainer extends BaseComponent {
     }, 100);
   }
 
-  componentWillReceiveProps(props) {  
+  componentWillReceiveProps(props) {
     if (props && props.isNeedRefreshTravel) {
       // 点击我的行程刷新
       let _carId;
@@ -118,6 +118,29 @@ class HomeContainer extends BaseComponent {
 
     return (
       <View style={ styles.container }>
+      {
+        true ?
+           <NavigatorBar
+              title='我的行程'
+              backIconFont='&#xe60a;'
+              firstLevelIconFont='&#xe609;'
+              secondLevelIconFont='&#xe60b;'
+              thirdLevelIconFont='&#xe60f;'
+              firstLevelIconFontStyle={{ fontSize: 24 }}
+              backViewClick={ () => state.params._openControlPanel() }
+              thirdLevelClick={ () => Linking.link('tel:4006635656') }
+              secondLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
+              firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
+        :
+          <NavigatorBar
+              title='我的行程'
+              backIconFont='&#xe60a;'
+              firstLevelIconFont='&#xe60b;'
+              secondLevelIconFont='&#xe60f;'
+              backViewClick={ () => state.params._openControlPanel() }
+              secondLevelClick={ () => Linking.link('tel:4006635656') }
+              firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
+      }
         {
           (() => {
             if (user.currentUserRole === 1) {
@@ -195,7 +218,7 @@ class HomeContainer extends BaseComponent {
                         </ImageBackground>
                         <View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
                           <Text style={ [styles.tipText, { marginTop: 0 }] }>无法显示信息，因在其他公司承运中</Text>
-                        </View>                       
+                        </View>
                       </View>
                     );
                   }
