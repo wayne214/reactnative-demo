@@ -123,7 +123,7 @@ class MainContainer extends React.Component {
     // game url
     this.props.getUrl({
       phone: this.props.user.phoneNumber
-    });     
+    });
   }
 
   _routeTab () {
@@ -167,15 +167,18 @@ class MainContainer extends React.Component {
       }
     } else if (currentTab === 'goods') {
       return {
-        header: <NavigatorBar title='线路货源' hiddenBackIcon={ true }/>
+        header: null
       }
+      // return {
+      //   header: <NavigatorBar title='线路货源' hiddenBackIcon={ true }/>
+      // }
     } else if (currentTab === 'carriage') {
       return {
         header: <NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
       }
     } else if (currentTab === 'order') {
       return {
-        header: <NavigatorBar title='我的订单' hiddenBackIcon={ true }/>
+        header: null//<NavigatorBar title='我的订单' hiddenBackIcon={ true }/>
       }
     }
   }

@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
 	View,
 	StyleSheet,
 	Image,
 	Text
 } from 'react-native';
-import PropTypes from 'prop-types';
 import * as COLOR from '../../constants/colors'
-import CompeteOver from '../../../assets/img/order/header_icon.png'
+import CompeteOver from '../../../assets/img/app/header_icon.png'
 
 class SupplyAndNeed extends Component{
 	constructor(props) {
@@ -23,60 +22,44 @@ class SupplyAndNeed extends Component{
 
 	render() {
 		let realPrice = ''
-		const {orderType,entrustOrderStatus,orderState,goodsType} = this.props
+		const {orderType,entrustOrderStatus,orderState} = this.props
 		if (orderType == 'ENTRUST' && entrustOrderStatus == 2 && orderState == 1){
 			realPrice = this.props.carrierDealPrice.toString()
 		}else{
 			if (orderState == 12) {
-				realPrice = this.props.goodsownerPaymentPrice.toString()
+				realPrice = this.props.carrierPaymentPrice.toString()
 			}else{
-				realPrice = this.props.goodsownerDealPrice.toString()
+				realPrice = this.props.freight.toString()
 			}
 		}
 		return (
 			<View style={styles.container}>
 				<Image source={CompeteOver} style={styles.headerImage}/>
-
-				{
-					goodsType == 1 ?//干线
-						<View style={styles.supplyAndNeedInfoView}>
-							<View style={styles.supplyView}>
-								<View style={styles.supplyContent}>
-									<Text style={{fontSize: 10,color:'white'}}>有</Text>
-								</View>
-								<View style={{height: 15,borderRadius: 1,borderWidth: 1,borderColor: COLOR.TEXT_LIGHT,paddingLeft: 3,paddingRight: 3,justifyContent: 'center'}}>
-									<Text style={styles.supplyText}>{`${this.props.goodsNameStr} ${this.props.goodsSKU}`}</Text>
-								</View>
-							</View>
-							<View style={styles.needView}>
-								<View style={[styles.supplyContent,{backgroundColor: COLOR.APP_THEME}]}>
-									<Text style={{fontSize: 10,color:'white'}}>求</Text>
-								</View>
-								{
-									this.props.carLength && this.props.carLength.length > 0 ?
-										<View style={[styles.needContent]}>
-											<Text style={styles.needText}>{this.props.carLength}</Text>
-										</View>
-									: null
-								}
-								<View style={[styles.needContent,{marginLeft: 3}]}>
-									<Text style={styles.needText}>冷藏车</Text>
-								</View>
-							</View>
+				<View style={styles.supplyAndNeedInfoView}>
+					<View style={styles.supplyView}>
+						<View style={styles.supplyContent}>
+							<Text style={{fontSize: 10,color:'white'}}>有</Text>
 						</View>
-					: //卡班
-						<View style={[styles.supplyAndNeedInfoView,{justifyContent: 'center'}]}>
-							<View style={styles.supplyView}>
-								<View style={styles.supplyContent}>
-									<Text style={{fontSize: 10,color:'white'}}>有</Text>
-								</View>
-								<View style={{height: 15,borderRadius: 1,borderWidth: 1,borderColor: COLOR.TEXT_LIGHT,paddingLeft: 3,paddingRight: 3,justifyContent: 'center'}}>
-									<Text style={styles.supplyText}>{`${this.props.goodsNameStr} ${this.props.goodsSKU}`}</Text>
-								</View>
-							</View>
+						<View style={{height: 15,borderRadius: 1,borderWidth: 1,borderColor: COLOR.TEXT_LIGHT,paddingLeft: 3,paddingRight: 3,justifyContent: 'center'}}>
+							<Text style={styles.supplyText}>{`${this.props.goodsNameStr} ${this.props.goodsSKU}`}</Text>
 						</View>
-				}
-
+					</View>
+					<View style={styles.needView}>
+						<View style={[styles.supplyContent,{backgroundColor: COLOR.APP_THEME}]}>
+							<Text style={{fontSize: 10,color:'white'}}>求</Text>
+						</View>
+						{
+							this.props.carLength && this.props.carLength.length > 0 ?
+								<View style={[styles.needContent]}>
+									<Text style={styles.needText}>{this.props.carLength}</Text>
+								</View>
+							: null
+						}
+						<View style={[styles.needContent,{marginLeft: 3}]}>
+							<Text style={styles.needText}>冷藏车</Text>
+						</View>
+					</View>
+				</View>
 				<View style={styles.priceView}>
 					<View style={styles.priceSeperation}></View>
 					{

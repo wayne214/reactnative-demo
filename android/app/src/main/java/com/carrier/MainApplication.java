@@ -3,6 +3,8 @@ package com.carrier;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import org.wonday.pdf.RCTPdfView;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.reactnative.photoview.PhotoViewPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new RCTPdfView(),
             new SplashScreenReactPackage(),
             new PickerViewPackage(),
             new PhotoViewPackage(),

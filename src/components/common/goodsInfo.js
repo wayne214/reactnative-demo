@@ -5,12 +5,14 @@ import {
 	View,
 	StyleSheet,
 	Image,
-	Text
+	Text,
+	TouchableOpacity
 } from 'react-native';
-import PropTypes from 'prop-types';
-import addressFromPoint from '../../../assets/img/order/from_point.png'
-import addressToPoint from '../../../assets/img/order/to_point.png'
+import addressFromPoint from '../../../assets/img/routes/from_point.png'
+import addressToPoint from '../../../assets/img/routes/to_point.png'
 import * as COLOR from '../../constants/colors'
+import MakePhoneCall from '../../utils/makePhoneCall.js'
+import Toast from '../../utils/toast.js'
 
 class GoodsInfo extends Component{
 	constructor(props) {
@@ -18,7 +20,7 @@ class GoodsInfo extends Component{
 	}
 
 	static propTypes = {
-	  style: PropTypes.style,
+	  style: View.propTypes.style,
 	};
 	componentDidMount(){
 		const configData = {
@@ -45,7 +47,7 @@ class GoodsInfo extends Component{
 	}
 
 	render() {
-		const {configData = {}} = this.props
+		const {configData = {}, shipperPhone} = this.props
 		return (
 			<View style={styles.goodsContent}>
 				<View style={styles.addressInfo}>
@@ -55,7 +57,7 @@ class GoodsInfo extends Component{
 						</View>
 						<View style={styles.itemContent}>
 							<Text style={styles.addressText}>{configData.from}</Text>
-							<Text style={styles.markText}>起始地</Text>
+							<Text style={styles.markText}>始发地</Text>
 						</View>
 					</View>
 					<View style={styles.addressInfoItem}>
@@ -69,6 +71,26 @@ class GoodsInfo extends Component{
 					</View>
 				</View>
 				<View style={styles.goodsInfo}>
+					{
+						shipperPhone ?
+							<View style={styles.goodsDetailItem}>
+								<Text style={styles.goodsInfoIcon}>&#xe60f;</Text>
+								<Text style={styles.goodsDetailMark}>发货人电话：</Text>
+								<View style={{flex: 1}}>
+									<TouchableOpacity onPress={()=>{
+										MakePhoneCall.call(shipperPhone,()=>{
+											Toast.show('当前设备不支持打电话')
+										})
+									}} activeOpacity={0.8}>
+										<View style={styles.contactShipper}>
+											<Text style={{fontFamily: 'iconfont',color:'white'}}>&#xe614;</Text>
+											<Text style={{color: 'white'}}> 拨打电话</Text>
+										</View>
+									</TouchableOpacity>
+								</View>
+							</View>
+						: null
+					}
 					{
 						configData.loadingListStrArr && configData.loadingListStrArr.length > 0 ?
 							<View style={styles.goodsDetailItem}>
@@ -105,7 +127,7 @@ class GoodsInfo extends Component{
 					</View>
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsInfoIcon}>&#xe627;</Text>
-						<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '发车时间：'}</Text>
+						<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>
 						<Text style={styles.goodsDetailContent}>{configData.goodsType == 1 ? configData.installDate : configData.carBanDate}</Text>
 					</View>
 
@@ -183,7 +205,7 @@ const styles = StyleSheet.create({
 		marginTop: 2,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 2
+		marginBottom: 2,
 	},
 	goodsDetailMark: {
 		marginRight: 5,
@@ -195,6 +217,18 @@ const styles = StyleSheet.create({
 		color: COLOR.TEXT_BLACK,
 		fontSize: 14
 	},
+	contactShipper:{
+		flex: 1,
+		flexDirection: 'row',
+		backgroundColor: COLOR.APP_THEME,
+		width: 140,
+		height: 30,
+		justifyContent:'center',
+		alignItems:'center',
+		marginTop:2,
+		marginBottom:2,
+		borderRadius:2,
+	}
 
 })
 

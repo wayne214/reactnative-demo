@@ -58,6 +58,25 @@ import PwdStepOneScreen from '../containers/user/pwdStepOne';
 import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
 import CustomServiceScreen from '../containers/user/customService';
 
+
+// 货源列表
+import GoodsListScreen from '../containers/routes/goodsList.js'
+import PreOrderScreen from '../containers/routes/preOrder.js'
+import RuleInstructionScreen from '../containers/routes/ruleInstruction.js'
+import SearchGoodsScreen from '../containers/routes/searchGoods.js'
+import BiddingListScreen from '../containers/routes/biddingList.js'
+import DispatchCarScreen from '../containers/order/dispatchCar.js'
+import TransportConfirmScreen from '../containers/entrust/transportConfirm.js'
+import EntrustOrderDetailScreen from '../containers/entrust/entrustOrderDetail.js'
+import OrderDetailScreen from '../containers/order/orderDetail.js'
+import LadingBillScreen from '../containers/order/ladingBill.js'
+import UploadImageScreen from '../containers/order/uploadImages.js'
+import ContractDetailScreen from '../containers/order/contractDetail.js'
+import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
+import InvoiceExplanationScreen from '../containers/user/invoiceExplanation.js'
+import BillDetailScreen from '../containers/order/billDetail.js'
+import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
+
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -159,63 +178,63 @@ export const AppNavigator = StackNavigator({
   TravelContainer: { screen: TravelContainer },
   OrderContainer: { screen: OrderContainer },
   EntrustOrderContainer: { screen: EntrustOrderContainer },
-  [RouteType.ROUTE_SETTING]: { 
+  [RouteType.ROUTE_SETTING]: {
     screen: SettingScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_AGREEMENT_CONTENT]: { 
+  [RouteType.ROUTE_AGREEMENT_CONTENT]: {
     screen: AgreementScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_COMPANY_LIST]: { 
+  [RouteType.ROUTE_COMPANY_LIST]: {
     screen: CompanyListScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_DRIVER_MANAGER]: { 
+  [RouteType.ROUTE_DRIVER_MANAGER]: {
     screen: DriverManagerScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_DRIVER_INFO_DETAIL]: { 
+  [RouteType.ROUTE_DRIVER_INFO_DETAIL]: {
     screen: DriverInfoDetailScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_ADD_DRIVER]: { 
+  [RouteType.ROUTE_ADD_DRIVER]: {
     screen: AddDriverScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_MESSAGE_LIST]: { 
+  [RouteType.ROUTE_MESSAGE_LIST]: {
     screen: MessageScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_MESSAGE_DETAIL]: { 
+  [RouteType.ROUTE_MESSAGE_DETAIL]: {
     screen: MessageDetailScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_MY_CAR]: { 
+  [RouteType.ROUTE_MY_CAR]: {
     screen: CarManageScreen,
     navigationOptions: {
       // header: null,
@@ -223,7 +242,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_ADD_CAR]: { 
+  [RouteType.ROUTE_ADD_CAR]: {
     screen: AddCarScreen,
     navigationOptions: {
       // header: null,
@@ -231,7 +250,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_EDIT_CAR]: { 
+  [RouteType.ROUTE_EDIT_CAR]: {
     screen: EditCarScreen,
     navigationOptions: {
       // header: null,
@@ -239,7 +258,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  [RouteType.ROUTE_CAR_DETAIL]: { 
+  [RouteType.ROUTE_CAR_DETAIL]: {
     screen: CarDetailScreen,
     navigationOptions: {
       // header: null,
@@ -364,9 +383,142 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  
+  [RouteType.ROUTE_ROUTES_LIST]: {
+    screen: GoodsListScreen
+  },
+  [RouteType.ROUTE_PRE_ORDER]: {
+    screen: PreOrderScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_RULE_INSTRUCTION]: {
+    screen: RuleInstructionScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_SEARCH_GOODS]: {
+    screen: SearchGoodsScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black',
+      headerTitle: '搜索'
+    }
+  },
+  [RouteType.ROUTE_BIDDING_LIST]: {
+    screen: BiddingListScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black',
+    }
+  },
+  [RouteType.ROUTE_DISPATCH_CAR]: {
+    screen: DispatchCarScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black',
+      headerTitle: '调度车辆'
+    }
+  },
+  [RouteType.ROUTE_TRANSPORT_CONFIRM]: {
+    screen: TransportConfirmScreen,
+    navigationOptions: {
+      headerBackTitle: null,
+      headerStyle: {backgroundColor: 'white'},
+      headerTintColor: 'black',
+      headerTitle: '承运单确认'
+    }
+  },
+  [RouteType.ROUTE_ENTRUST_ORDER_DETAIL]: {
+    screen: EntrustOrderDetailScreen,
+    navigationOptions: {
+      headerTitle: '委托详情',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_ORDER_DETAIL]: {
+    screen: OrderDetailScreen,
+    navigationOptions: {
+      headerTitle: '订单详情',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_LADING_BILL]: {
+    screen: LadingBillScreen,
+    navigationOptions: {
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_UPLOAD_IMAGES]: {
+    screen: UploadImageScreen,
+    navigationOptions: {
+      headerTitle: '上传图片',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_CONTRACT_DETAIL]: {
+    screen: ContractDetailScreen,
+    navigationOptions: {
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_CONFIRM_DELIVERY]: {
+    screen: ConfirmDeliveryScreen,
+    navigationOptions: {
+      headerTitle: '确认交付',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_INVOICE_EXPLANATION]: {
+    screen: InvoiceExplanationScreen,
+    navigationOptions: {
+      headerTitle: '',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_BILL_DETAIL]: {
+    screen: BillDetailScreen,
+    navigationOptions: {
+      headerTitle: '',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  },
+  [RouteType.ROUTE_APPLY_COORDINATION]: {
+    screen: ApplyCoordinationScreen,
+    navigationOptions: {
+      headerTitle: '申请协调',
+      headerStyle: {backgroundColor: 'white'},
+      headerBackTitle: null,
+      headerTintColor: 'black'
+    }
+  }
+
 }, {
-  // mode: 'modal',
+  headerMode: 'screen',
   initialRouteName: 'Splash',
   transitionConfig: TransitionConfiguration
 });
