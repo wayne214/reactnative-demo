@@ -37,6 +37,8 @@ class RegisterContainer extends BaseComponent {
 	  // this.title = props.router.getCurrentRouteTitle();
 	  this._getMsgCode = this._getMsgCode.bind(this);
 	  this._nextStepReg = this._nextStepReg.bind(this);
+    this._forceUpgrade = this._forceUpgrade.bind(this);
+    this._installApk = this._installApk.bind(this);
 	}
 
 	static navigationOptions = ({ navigation }) => {
@@ -53,7 +55,6 @@ class RegisterContainer extends BaseComponent {
   componentWillUnmount () {
   	super.componentWillUnmount();
   }
-
 
 	_getMsgCode() {
 		const ref = this.countDownView;
@@ -80,6 +81,21 @@ class RegisterContainer extends BaseComponent {
 			inviteCode: (this.state.inviteCode+'').trim(),
 		}, this.props.navigation);
 	}
+
+  _forceUpgrade () {
+    if (Platform.OS === 'android') {
+      Toast.show('开始下载')
+      NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
+        this.setState({ showUpgrade: true });
+      });
+    } else {
+      NativeModules.NativeModule.toAppStore();
+    }
+  }
+
+  _installApk() {
+    NativeModules.NativeModule.installApk();
+  }
 
 	render () {
 		return (
@@ -149,6 +165,22 @@ class RegisterContainer extends BaseComponent {
 					</View>
 				</ScrollView>
 				{ this.props.loading ? this._renderLoadingView() : null }
+
+        {
+          this.props.upgradeForce && !this.props.showFloatDialog &&
+            <View style={ styles.upgradeContainer }>
+              <View style={ styles.upgradeView }>
+                <Image style={{ width: 50, height: 55, marginTop: 15 }} source={ require('../../../assets/img/app/upgrade_icon.png')}/>
+                <Text style={ styles.upgradeText }>冷链马甲承运方升级啦，界面焕然一新，修复了已知bug,赶快升级体验吧</Text>
+                <Button onPress={ this._forceUpgrade } title='立即更新' style={{ backgroundColor: 'white', width: 100, height: Platform.OS === 'ios' ? 40 : 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#17a9df' }}/>
+                {
+                  Platform.OS === 'android' && this.state.showUpgrade &&
+                    <Button onPress={ this._installApk } title='已下载，立即安装' style={{ backgroundColor: 'white', width: 100, height: 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#1ab036' }}/>
+                }
+              </View>
+            </View>
+        }
+
 			</View>
 		);
 	}
@@ -158,7 +190,9 @@ class RegisterContainer extends BaseComponent {
 function mapStateToProps (state) {
 	const { app } = state;
 	return {
-		loading: app.get('loading')
+		loading: app.get('loading'),
+		upgradeForce: app.get('upgradeForce'),
+		showFloatDialog: app.get('showFloatDialog'),
 	};
 }
 

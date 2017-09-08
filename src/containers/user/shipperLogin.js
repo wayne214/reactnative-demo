@@ -40,8 +40,8 @@ class LoginContainer extends BaseComponent {
     };
     this._login = this._login.bind(this);
     this.title = props.navigation.state.params.title;
-    // this._forceUpgrade = this._forceUpgrade.bind(this);
-    // this._installApk = this._installApk.bind(this);
+    this._forceUpgrade = this._forceUpgrade.bind(this);
+    this._installApk = this._installApk.bind(this);
     this._clearCopyText = this._clearCopyText.bind(this);
     this._keyboardDidHide = this._keyboardDidHide.bind(this);
   }
@@ -55,20 +55,20 @@ class LoginContainer extends BaseComponent {
     }, this.props.navigation, this.state.currentRole);
   }
 
-  // _forceUpgrade () {
-  //   if (Platform.OS === 'android') {
-  //     Toast.show('开始下载')
-  //     NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
-  //       this.setState({ showUpgrade: true });
-  //     });
-  //   } else {
-  //     NativeModules.NativeModule.toAppStore();
-  //   }
-  // }
+  _forceUpgrade () {
+    if (Platform.OS === 'android') {
+      Toast.show('开始下载')
+      NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
+        this.setState({ showUpgrade: true });
+      });
+    } else {
+      NativeModules.NativeModule.toAppStore();
+    }
+  }
 
-  // _installApk() {
-  //   NativeModules.NativeModule.installApk();
-  // }
+  _installApk() {
+    NativeModules.NativeModule.installApk();
+  }
 
   _clearCopyText(){
     Clipboard.setString(''); 
@@ -175,6 +175,22 @@ class LoginContainer extends BaseComponent {
         </ScrollView>
 
         { this.props.loading ? this._renderLoadingView() : null }
+
+        {
+          this.props.upgradeForce && !this.props.showFloatDialog &&
+            <View style={ styles.upgradeContainer }>
+              <View style={ styles.upgradeView }>
+                <Image style={{ width: 50, height: 55, marginTop: 15 }} source={ require('../../../assets/img/app/upgrade_icon.png')}/>
+                <Text style={ styles.upgradeText }>冷链马甲承运方升级啦，界面焕然一新，修复了已知bug,赶快升级体验吧</Text>
+                <Button onPress={ this._forceUpgrade } title='立即更新' style={{ backgroundColor: 'white', width: 100, height: Platform.OS === 'ios' ? 40 : 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#17a9df' }}/>
+                {
+                  Platform.OS === 'android' && this.state.showUpgrade &&
+                    <Button onPress={ this._installApk } title='已下载，立即安装' style={{ backgroundColor: 'white', width: 100, height: 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#1ab036' }}/>
+                }
+              </View>
+            </View>
+        }
+        
       </View>
     );
   }
@@ -185,7 +201,8 @@ function mapStateToProps(state) {
   return {
     loading: app.get('loading'),
     user: app.get('user'),
-    // upgradeForce: app.get('upgradeForce'),
+    upgradeForce: app.get('upgradeForce'),
+    showFloatDialog: app.get('showFloatDialog'),
   };
 }
 
