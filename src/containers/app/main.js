@@ -230,8 +230,12 @@ class MainContainer extends React.Component {
         })}>
         <Tabar
           { ...this.props }
+          getDrawer={()=>{
+            return this._drawer
+          }}
           click={ this.openControlPanel }
           changeTab={ this._changeTab } />
+
         {
           this.props.upgradeForce && !this.props.showFloatDialog &&
             <View style={ styles.upgradeContainer }>
