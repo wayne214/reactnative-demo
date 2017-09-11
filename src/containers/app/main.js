@@ -179,46 +179,38 @@ class MainContainer extends React.Component {
     const { state, setParams } = navigation
     const currentTab = state.params.currentTab
     if (currentTab === 'route') {
-      if (state.params.currentRole === 1) {
-        return {
-          header: <NavigatorBar
-            title='我的行程'
-            backIconFont='&#xe60a;'
-            firstLevelIconFont='&#xe609;'
-            secondLevelIconFont='&#xe60b;'
-            thirdLevelIconFont='&#xe60f;'
-            firstLevelIconFontStyle={{ fontSize: 24 }}
-            backViewClick={ () => state.params._openControlPanel() }
-            thirdLevelClick={ () => Linking.link('tel:4006635656') }
-            secondLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
-            firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
-        }
-      } else {
-        return {
-          header: <NavigatorBar
-            title='我的行程'
-            backIconFont='&#xe60a;'
-            firstLevelIconFont='&#xe60b;'
-            secondLevelIconFont='&#xe60f;'
-            backViewClick={ () => state.params._openControlPanel() }
-            secondLevelClick={ () => Linking.link('tel:4006635656') }
-            firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
-        }
+      return {
+        header:  null
       }
-    } else if (currentTab === 'goods') {
+      // if (state.params.currentRole === 1) {
+      //   return {
+      //     header: <NavigatorBar
+      //       title='我的行程'
+      //       backIconFont='&#xe60a;'
+      //       firstLevelIconFont='&#xe609;'
+      //       secondLevelIconFont='&#xe60b;'
+      //       thirdLevelIconFont='&#xe60f;'
+      //       firstLevelIconFontStyle={{ fontSize: 24 }}
+      //       backViewClick={ () => state.params._openControlPanel() }
+      //       thirdLevelClick={ () => Linking.link('tel:4006635656') }
+      //       secondLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
+      //       firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
+      //   }
+      // } else {
+      //   return {
+      //     header: <NavigatorBar
+      //       title='我的行程'
+      //       backIconFont='&#xe60a;'
+      //       firstLevelIconFont='&#xe60b;'
+      //       secondLevelIconFont='&#xe60f;'
+      //       backViewClick={ () => state.params._openControlPanel() }
+      //       secondLevelClick={ () => Linking.link('tel:4006635656') }
+      //       firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
+      //   }
+      // }
+    } else{
       return {
         header: null
-      }
-      // return {
-      //   header: <NavigatorBar title='线路货源' hiddenBackIcon={ true }/>
-      // }
-    } else if (currentTab === 'carriage') {
-      return {
-        header: <NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
-      }
-    } else if (currentTab === 'order') {
-      return {
-        header: null//<NavigatorBar title='我的订单' hiddenBackIcon={ true }/>
       }
     }
   }

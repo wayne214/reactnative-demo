@@ -284,6 +284,12 @@ class OrderList extends BaseComponent {
     }
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      header: (<View style={{backgroundColor: 'orange',height: 64,flex: 1}}><Text>这是订单列表的导航栏</Text></View>)
+    }
+  }
+
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     const {
