@@ -66,10 +66,3 @@ export function dispatchClearAllSeclected(params) {
 		payload: params
 	}
 }
-
-export function dispatchChangeTab(params){
-	return{
-		type: ActionTypes.ACTION_CHANGE_TAB,
-		payload: params
-	}
-}
