@@ -138,6 +138,7 @@ class EntrustOrderList extends BaseComponent {
 		if (user.currentUserRole == 1) {
 			return (
 				<View style={styles.container}>
+					<NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
 					<ScrollableTabView
 						style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
 						renderTabBar={() =>
