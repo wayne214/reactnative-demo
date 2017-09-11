@@ -31,6 +31,13 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		marginLeft: 16
 	},
+	iconFontRight: {
+		fontSize: 16,		
+		color: '#2562b4',
+		fontFamily: 'iconfont',
+		alignItems: 'center',
+		marginLeft: 16
+	},
 	logoContainer: {
 		marginTop: 30,
 	},

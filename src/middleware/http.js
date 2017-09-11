@@ -143,7 +143,7 @@ export default store => next => action => {
 
 		if (showLoading && !cacheData) next({ type: ActionTypes.SHOW_LOADING });
 
-		fetchData(fullPath, options).then(response => {
+		fetchData(fullPath, options, next, app).then(response => {
 			if (successToast) Toast.show(msg);
 			if (success) success(response);
 			if (cache) {
@@ -168,7 +168,7 @@ export default store => next => action => {
 	});
 };
 
-function fetchData (fullPath, { body, method, headers }) {
+function fetchData (fullPath, { body, method, headers }, next, app) {
 
 	if (method === 'GET') {
 		fullPath += `?${ body }`;
@@ -182,13 +182,18 @@ function fetchData (fullPath, { body, method, headers }) {
 		}).then(response => {
 			return response.json();
 		}).then(responseData => {
-			
 			if (DEBUG) console.log('%c server response is ', 'color:red', responseData);
 			if (responseData.code === '0000' || responseData.status === '200') {
 				if (responseData.code === '0000') resolve(responseData.data);
 				if (responseData.code === '200') resolve(responseData);
+				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
+			} else if (responseData.code === '0099') {
+				// 强制升级
+				next({ type: ActionTypes.UPGRADE_FORCE, payload: responseData.data })
+				reject(responseData);
 			} else {
 				reject(responseData);
+				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
 			}
 		}).catch(error => reject(error));
 	});

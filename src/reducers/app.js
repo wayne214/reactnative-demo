@@ -72,7 +72,8 @@ const initState = Immutable.fromJS({
 	legalAccount: true,
 	upgradeForce: false,
 	upgradeForceUrl: '',
-	gameUrl: ''
+	gameUrl: '',
+	hotLine: 'tel:4006635656'
 });
 
 export default (state = initState, action) => {

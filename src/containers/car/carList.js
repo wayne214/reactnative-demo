@@ -187,7 +187,7 @@ class CarListContainer extends BaseComponent {
 				// console.log({ id, carState: type });
 				this.props.dispatch(dispatchDefaultCar({ id, carState: type, carNo: carNo }));				
 				this.props.dispatch(refreshTravel());
-				this.props.router.pop();
+				this.props.navigation.dispatch({ type: 'pop' })
 			} },
 			{ text: '取消', onPress: () => console.log('') }
 		]);
@@ -218,21 +218,7 @@ class CarListContainer extends BaseComponent {
 			</TouchableHighlight>
 		);
   }
-				// <View style={ [styles.navContainer, adjustToolBarHeigth] }>
-				// 	<TouchableOpacity
-				// 		activeOpacity={ 1 }
-				// 		onPress={ this._showModal }
-				// 		style={ [styles.searchBar, adjustStaBarHeight] }>
-				// 		<Text style={ styles.iconFont }>&#xe610;</Text>
-				// 		<Text style={ styles.placehold }>{ this.state.showKey || '请输入车牌号/司机姓名/手机号' }</Text>
-				// 	</TouchableOpacity>
-				// 	<TouchableOpacity
-				// 		activeOpacity={ 1 }
-				// 		onPress={ () => this.props.router.pop() }
-				// 		style={ [styles.textContainer, adjustStaBarHeight] }>
-				// 		<Text style={ styles.cancelText }>返回</Text>
-				// 	</TouchableOpacity>
-				// </View>
+
 	render () {
 		return (
 			<View style={ styles.container }>
@@ -251,13 +237,14 @@ class CarListContainer extends BaseComponent {
 						<Text style={ styles.cellText }>状态</Text>
 					</View>
 				</View>
+
 				<View style={ styles.line }></View>
 
 				<ListView
 					style={ styles.listView }
-					renderRow={ this._renderItem }
 					enableEmptySections={ true }
 					onEndReachedThreshold={ 100 }
+					renderRow={ this._renderItem }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
 

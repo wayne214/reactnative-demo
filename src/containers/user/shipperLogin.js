@@ -120,6 +120,20 @@ class LoginContainer extends BaseComponent {
                 value={ this.state.username }
                 underlineColorAndroid={ 'transparent' }
                 onChangeText={ (text) => this.setState({ username: text }) }/>
+                
+                <View 
+                  opacity={(this.state.username+'').trim().length>0? 1: 0} >
+                  <TouchableOpacity 
+                    opacityActive={ 1 } 
+                    onPress={ () => {
+                      this.setState({ username: ''})
+                    } }
+                    >
+                    <Text 
+                      style={ styles.iconFontRight }>&#xe613;</Text>
+                  </TouchableOpacity>
+                </View>
+                
             </View>
 
             <View style={ [styles.cell, { marginTop: 20 }] }>

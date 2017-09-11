@@ -34,7 +34,7 @@ class MessageContainer extends BaseComponent {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-	  	currentTab: 0,
+	  	currentTab:props.navigation.state.params.currentTab || 0,
       isActive: false,
 			focusedAnim: new Animated.Value(0),
       rightTitle: '编辑'
@@ -45,7 +45,8 @@ class MessageContainer extends BaseComponent {
 	  this._endReached = this._endReached.bind(this);
 	  this._checkedAll = this._checkedAll.bind(this);
 	  this._changeTab = this._changeTab.bind(this);
-	  	this._change = this._change.bind(this);
+	  this._change = this._change.bind(this);
+	  console.log('currentTab----',props.navigation.state.params.currentTab);
 	}
 
 	componentDidMount() {
@@ -56,10 +57,16 @@ class MessageContainer extends BaseComponent {
 				this.props.navigator.pop();
 			});
 		} else {
-			this.props.getWebMsgs({
-				pageNo: this.state.pageNo,
-				userId: this.props.user.userId,
-			});	
+			if(this.state.currentTab === 1){
+				this._changeTab(1);
+			}else{
+				this.props.getWebMsgs({
+					pageNo: this.state.pageNo,
+					userId: user.userId,
+				});
+
+			}	
+			
 			if(user.currentUserRole === 1){
 				this.props._getUserInfo();
 			}
@@ -254,7 +261,7 @@ class MessageContainer extends BaseComponent {
 
 	_changeTab(index) {
 		this._getMsg(index);
-		this.setState({ pageNo: 1, currentTab: index });
+		this.setState({ pageNo: 1, currentTab: index,initChoose: true });
 		this.props.dispatch(dispatchRefreshCheckBox({checkStatus: false}));
 	}
 	render() {
@@ -262,6 +269,7 @@ class MessageContainer extends BaseComponent {
 			<View style={ styles.container }>
 				<TabView
 					tabs={ ['通知消息', '系统公告'] }
+					currentTab = {this.state.currentTab}
 					changeTab={ (index) => this._changeTab(index) }/>
 
 				<ListView

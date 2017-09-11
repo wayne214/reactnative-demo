@@ -233,6 +233,11 @@ export default StyleSheet.create({
 		color:'#cccccc',
 		marginRight: 10,
 	},
+	blackRightText: {
+		fontSize: 15,
+		color:'#333333',
+		marginRight: 10,
+	},
 	blockContainer: {
 		borderBottomWidth: 1,
 		borderBottomColor: '#e6eaf2'
