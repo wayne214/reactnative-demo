@@ -197,6 +197,7 @@ class OrderList extends BaseComponent {
     this._showCoordinateResult = this._showCoordinateResult.bind(this)
   }
   componentDidMount() {
+    console.log(" ===== did mount action ?");
     super.componentDidMount()
     const {user} = this.props
     setTimeout(()=>{
@@ -234,6 +235,7 @@ class OrderList extends BaseComponent {
   _refreshList(){
     const {currentMenuIndex} = this.state
     const {activeTab,activeSubTab} = this.props
+    console.log("====== currentMenuIndex ,activeTab, activeSubTab",currentMenuIndex,activeTab,activeSubTab);
     this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab)
   }
 
@@ -280,15 +282,11 @@ class OrderList extends BaseComponent {
   componentWillReceiveProps(nextProps){
     const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled,orderUnPay,orderPaying,orderPayed} = nextProps
     if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore') && !orderUnPay.get('isLoadingMore') && !orderPaying.get('isLoadingMore') && !orderPayed.get('isLoadingMore')) {
+
       this._refreshList()
     }
   }
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      header: (<View style={{backgroundColor: 'orange',height: 64,flex: 1}}><Text>这是订单列表的导航栏</Text></View>)
-    }
-  }
 
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})

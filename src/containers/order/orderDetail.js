@@ -35,11 +35,9 @@ class OrderDetail extends Component {
 	constructor(props) {
 	  super(props);
 	  this._showCoordinateResult = this._showCoordinateResult.bind(this)
-	  const {orderNo,refreshOrderList} = props.navigation.state.params
+	  const {orderNo} = props.navigation.state.params
 	  this.state = {
 	  	orderNo,
-	  	refreshOrderList,
-	  	shouldOrderListRefresh: false,
 	  	showCoordination: false
 	  }
 	  console.log("----- 订单详情  参数 orderNo: ",orderNo);
@@ -55,6 +53,19 @@ class OrderDetail extends Component {
 	}
 	componentWillUnmount() {
 		this.props._clearOrderDetail()
+	}
+	static navigationOptions = ({navigation}) => {
+		const {params} = navigation.state;
+		return {
+			header:(
+				<NavigatorBar router={navigation} title={ '订单详情' } backViewClick={()=>{
+					navigation.dispatch({type: 'pop'})
+					if (params.refreshOrderList && params.shouldOrderListRefresh) {
+						params.refreshOrderList()
+					};
+				}}/>
+			)
+		}
 	}
 
 	_showCoordinateResult(result){
@@ -83,7 +94,7 @@ class OrderDetail extends Component {
 	}
 	render() {
 		const {orderDetail} = this.props
-		const {showCoordination,refreshOrderList,shouldOrderListRefresh} = this.state
+		const {showCoordination} = this.state
 		console.log("====== i am order detail",orderDetail);
 		let floderItemCount = 4
 		if (orderDetail){
@@ -98,12 +109,7 @@ class OrderDetail extends Component {
 		}
 
 		return <View style={styles.container}>
-			{/*<NavigatorBar router={this.props.router} title={ '订单详情' } backViewClick={()=>{
-							this.props.router.pop()
-							if (refreshOrderList && shouldOrderListRefresh) {
-								refreshOrderList()
-							};
-						}}/>*/}
+			{/**/}
 			{
 				orderDetail ?
 					<ScrollView style={styles.scrollView}>
@@ -344,9 +350,12 @@ class OrderDetail extends Component {
 															},()=>{
 																Toast.show('装货确认成功！');
 																this.props._getOrderDetail({orderNo: this.state.orderNo})
-																this.setState({
+																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
+																// this.setState({
+																// 	shouldOrderListRefresh: true
+																// })
 															})
 														}}]
 													)
@@ -362,9 +371,12 @@ class OrderDetail extends Component {
 													Alert.alert('温馨提示','拍摄您周围的环境照片，或能确认您到达目的地的重点建筑物环境照片以确认到达',
 														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
 														{text: '立即拍照', onPress: ()=>{
-															this.setState({
+															this.props.navigation.setParams({
 																shouldOrderListRefresh: true
 															})
+															// this.setState({
+															// 	shouldOrderListRefresh: true
+															// })
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
@@ -379,21 +391,40 @@ class OrderDetail extends Component {
 											}
 										]}/>
 									}else if (orderDetail.orderState == 6 ) {
-
-										return <ButtonView dataSource={[
-											{
-												title: '确认交付',
+										const dataSource = []
+										if (orderDetail.consultState == 1) {
+											dataSource.push({
+												title: '申请协调',
 												callBack: ()=>{
 													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_CONFIRM_DELIVERY,
+														type: RouteType.ROUTE_APPLY_COORDINATION,
 														params: {
 															orderNo: orderDetail.orderNo,
 															entrustType: orderDetail.entrustType
 														}
 													})
 												}
+											})
+										}
+										dataSource.push([{
+											title: '确认交付',
+											callBack: ()=>{
+												Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
+													[{text: '取消', onPress: ()=>{}, style: 'cancel' },
+													{text: '立即上传', onPress: ()=>{
+														this.props.navigation.dispatch({
+															type: RouteType.ROUTE_UPLOAD_IMAGES,
+															params: {
+																orderNo: orderDetail.orderNo,
+																uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+																entrustType: orderDetail.entrustType
+															}
+														})
+													}}]
+												);
 											}
-										]}/>
+										}])
+										return <ButtonView dataSource={dataSource}/>
 									}else if (orderDetail.orderState == 9){
 										return <ButtonView dataSource={[
 											{
@@ -445,12 +476,16 @@ class OrderDetail extends Component {
 																	}},
 																	{text: '查看并申请', onPress:()=>{
 																		this.props._applyClear({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{
-																			this.setState({
-																				shouldOrderListRefresh: true
-																			})
-																			this.props._getOrderDetail({orderNo: this.state.orderNo})
-																			this.props.navigation.dispatch({type: RouteType.ROUTE_INVOICE_EXPLANATION})
-																		})
+																				this.props.navigation.setParams({
+																					shouldOrderListRefresh: true
+																				})
+																				// this.setState({
+																				// 	shouldOrderListRefresh: true
+																				// })
+																				this.props._getOrderDetail({orderNo: this.state.orderNo})
+																				this.props.navigation.dispatch({type: RouteType.ROUTE_INVOICE_EXPLANATION})
+																			}
+																		)
 																	}}
 																])
 															}
@@ -466,9 +501,12 @@ class OrderDetail extends Component {
 												callBack: ()=>{
 													console.log(" ===== title: '确认结算', ");
 													this.props._clearConfirm({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{
-														this.setState({
+														this.props.navigation.setParams({
 															shouldOrderListRefresh: true
 														})
+														// this.setState({
+														// 	shouldOrderListRefresh: true
+														// })
 													})
 												}
 											}
@@ -531,9 +569,12 @@ class OrderDetail extends Component {
 																Toast.show('装货确认成功！');
 																// this.props.router.pop()
 																this.props._getOrderDetail({orderNo: this.state.orderNo})
-																this.setState({
+																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
+																// this.setState({
+																// 	shouldOrderListRefresh: true
+																// })
 															})
 														}}]
 													)
