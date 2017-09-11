@@ -156,29 +156,10 @@ export default class Route extends React.Component {
 		// const address = travelDetail.addressList[0];
 		// if (!address) return null;
 
-
-		let stepThreeText;
-		let stepThreeView;
-		let stepThreeNum;
-		let stepFourText;
-		let stepFourNum;
-		let stepFourView;
-
-		let stepFiveText;
-		let stepFiveNum;
-		let stepFiveView;
-
-		let stepSixText;
-		let stepSixNum;
-		let stepSixView;
-
-		let confirmBtn;
-		let confirmBtnText;
-		let uploadBtn;
-		let uploadBtnText;
-
-		let confirmBtnDisable;
-		let uploadBtnDisable;
+		let stepThreeText, stepThreeView, stepThreeNum, stepFourText, stepFourNum, stepFourView;
+		let stepFiveText, stepFiveNum, stepFiveView, stepSixText, stepSixNum, stepSixView
+		let confirmBtn, confirmBtnText, uploadBtn, uploadBtnText, confirmBtnDisable, uploadBtnDisable
+		
 		if (orderStatus === 1
 				|| orderStatus === 2
 					|| orderStatus === 3

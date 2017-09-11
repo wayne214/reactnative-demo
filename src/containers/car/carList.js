@@ -187,7 +187,7 @@ class CarListContainer extends BaseComponent {
 				// console.log({ id, carState: type });
 				this.props.dispatch(dispatchDefaultCar({ id, carState: type, carNo: carNo }));				
 				this.props.dispatch(refreshTravel());
-				this.props.router.pop();
+				this.props.navigation.dispatch({ type: 'pop' })
 			} },
 			{ text: '取消', onPress: () => console.log('') }
 		]);
