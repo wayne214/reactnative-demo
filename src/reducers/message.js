@@ -4,7 +4,6 @@ import { PAGE_SIZE } from '../constants/setting';
 import Message from '../models/message';
 
 const initState = Immutable.fromJS({
-	currentTab: 0,
 	msg: {
 		ids: [],
 		msgs: [],
@@ -154,10 +153,6 @@ export default (state = initState, action) => {
  			newState = newState.setIn(['msg', 'ids'], Immutable.fromJS([]));
  			newState = newState.set('isCheckedAll', false);
  			newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS(selectMsg));							
-			return newState;
-
-		case ActionTypes.ACTION_CHANGE_TAB:
-			newState = newState.set('currentTab',action.payload || 0);
 			return newState;
 
 		default:

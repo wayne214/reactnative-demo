@@ -13,7 +13,7 @@ export default class Help extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentTab: 0,
+			currentTab: this.props.currentTab ? this.props.currentTab : 0,
 		};
 
 	}

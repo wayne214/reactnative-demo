@@ -86,11 +86,11 @@ class MessageDetail extends BaseComponent {
 		}
 	}
 	_routeGoods(){
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'goods' } })
 		this.props.dispatch(changeTab('goods'));
 	}
 	_orderList(){
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order' } })
 		this.props.dispatch(changeTab('order'));
 		let linkId;
 		if(this.props.msg && this.props.msg.linkId){
