@@ -565,7 +565,7 @@ class AddCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.setState({ visible: true, data: CAR_CATEGORY }) }>
-									<Text style={ styles.rightText }>{ this.state.carCategoryMap.value || '请选择车辆类别' }</Text>
+									<Text style={ this.state.carCategoryMap.value ? styles.blackRightText : styles.rightText }>{ this.state.carCategoryMap.value || '请选择车辆类别' }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -577,7 +577,7 @@ class AddCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.setState({ visible: true, data: CAR_TYPE }) }>
-									<Text style={ styles.rightText }>{ this.state.carTypeMap.value || '请选择车辆类型' }</Text>
+									<Text style={ this.state.carTypeMap.value ? styles.blackRightText : styles.rightText }>{ this.state.carTypeMap.value || '请选择车辆类型' }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -625,7 +625,7 @@ class AddCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.setState({ visible: true, data: CAR_VEHICLE }) }>
-									<Text style={ styles.rightText }>{ this.state.carVehicelMap.value || '请选择车辆长度' }</Text>
+									<Text style={ this.state.carVehicelMap.value ? styles.blackRightText : styles.rightText }>{ this.state.carVehicelMap.value || '请选择车辆长度' }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>

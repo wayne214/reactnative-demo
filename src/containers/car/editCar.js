@@ -376,7 +376,7 @@ class EditCarContainer extends BaseComponent {
 				canEdit: false
 			});
 		}
-		this.props.navigation.setParams({ navigatePress: this._editCar })  
+		this.props.navigation.setParams({ navigatePress: this._editCar,optTitle:this.isGCar?'':'保存' })  
 		this._getCarInfo();
 	}
 
@@ -534,7 +534,7 @@ class EditCarContainer extends BaseComponent {
 	    header: <NavigatorBar 
 	    picker={ Picker }
 	    firstLevelClick={ () => { navigation.state.params.navigatePress() } } 
-	    optTitle='保存'
+	    optTitle={navigation.state.params.optTitle}
 	    router={ navigation }/>
 	  };
 	};
@@ -695,7 +695,7 @@ class EditCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_CATEGORY }) : null }>
-									<Text style={ styles.rightText }>{ this.state.carCategoryMap.value || HelperUtil.getCarCategory(this.props.car.get('carCategory')) }</Text>
+									<Text style={ this.state.canEdit ? (this.state.carCategoryMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carCategoryMap.value || HelperUtil.getCarCategory(this.props.car.get('carCategory')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -707,7 +707,7 @@ class EditCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_TYPE }) : null }>
-									<Text style={ styles.rightText }>{ this.state.carTypeMap.value || HelperUtil.getCarType(this.props.car.get('carType')) }</Text>
+									<Text style={ this.state.canEdit ? (this.state.carTypeMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carTypeMap.value || HelperUtil.getCarType(this.props.car.get('carType')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -755,7 +755,7 @@ class EditCarContainer extends BaseComponent {
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
 									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_VEHICLE }) : null }>
-									<Text style={ styles.rightText }>{ this.state.carVehicelMap.value || HelperUtil.getCarLength(this.props.car.get('carLength')) }</Text>
+									<Text style={ this.state.canEdit ? (this.state.carVehicelMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carVehicelMap.value || HelperUtil.getCarLength(this.props.car.get('carLength')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
