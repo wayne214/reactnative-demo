@@ -36,7 +36,6 @@ class HomeContainer extends BaseComponent {
     this.state = {};
     this._addCar = this._addCar.bind(this);
     this.confirmShipments = this.confirmShipments.bind(this);
-    this._openControlPanel = this._openControlPanel.bind(this)
   }
 
   static propTypes = {
@@ -114,56 +113,34 @@ class HomeContainer extends BaseComponent {
     this.props.router.push(RouteType.ROUTE_ADD_CAR)
   }
 
-  _openControlPanel () {
-    console.log("======= _openControlPanel",this.props.getDrawer());
-    const drawer = this.props.getDrawer();
-    drawer.open();
-    // get user detail info
-    let opts;
-    if (this.props.user.currentUserRole === 1) {
-      opts = {};
-    } else {
-      opts = {
-        carrierId: this.props.user.carrierId,
-        driverId: this.props.user.userId
-      };
-    }
-
-    this.props._getUserInfo(opts, this.props.user.currentUserRole);
-    // game url
-    this.props.getUrl({
-      phone: this.props.user.phoneNumber
-    });
-  }
-
   render() {
     const { user, travelDetail, carPayLoad, navigation } = this.props;
 
     return (
       <View style={ styles.container }>
-      {
-        user.currentUserRole === 1 ?
-           <NavigatorBar
+        {
+          user.currentUserRole === 1 ?
+            <NavigatorBar
               title='我的行程'
               backIconFont='&#xe60a;'
               firstLevelIconFont='&#xe609;'
               secondLevelIconFont='&#xe60b;'
               thirdLevelIconFont='&#xe60f;'
               firstLevelIconFontStyle={{ fontSize: 24 }}
-              backViewClick={ () => this._openControlPanel() }
-              thirdLevelClick={ () => Linking.link('tel:4006635656') }
-              secondLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
-              firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
-        :
-          <NavigatorBar
+              backViewClick={ this.props.openControlPanel }
+              thirdLevelClick={ () => Linking.link(this.props.hotLine) }
+              secondLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }
+              firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
+          :
+            <NavigatorBar
               title='我的行程'
               backIconFont='&#xe60a;'
               firstLevelIconFont='&#xe60b;'
               secondLevelIconFont='&#xe60f;'
-              backViewClick={ () => this._openControlPanel() }
-              secondLevelClick={ () => Linking.link('tel:4006635656') }
-              firstLevelClick={ () => navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
-      }
+              backViewClick={ this.props.openControlPanel }
+              secondLevelClick={ () => Linking.link(this.props.hotLine) }
+              firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { title: '我的消息' }}) }/>
+        }
         {
           (() => {
             if (user.currentUserRole === 1) {
@@ -317,6 +294,7 @@ const mapStateToProps = state => {
     travelDetail: travel.get('travelDetail'),
     carPayLoad: travel.get('carPayLoad'),
     payload: travel.get('payload'),
+    hotLine: app.get('hotLine'),
     isNeedRefreshTravel: travel.get('isNeedRefreshTravel')
   };
 }
