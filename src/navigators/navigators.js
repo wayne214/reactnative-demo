@@ -93,7 +93,7 @@ export const AppNavigator = StackNavigator({
   Main: {
 		screen: MainScreen,
 		navigationOptions: {
-      // header: null,
+      header: null,
 			// title: '主页',
       headerBackTitle: null
 		}

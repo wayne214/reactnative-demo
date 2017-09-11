@@ -98,7 +98,7 @@ export default class Route extends React.Component {
 		Alert.alert('', '确认上传吗', [
 			{ text: '取消', onPress: () => console.log('') },
 			{ text: '上传回执单', onPress: () => {
-				router.push(RouteType.ROUTE_UPLOAD_IMAGES, { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_BACK_IMAGE', entrustType: travelDetail.entrustType })
+				this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_BACK_IMAGE', entrustType: travelDetail.entrustType }})
 			} },
 		]);
 	}
@@ -156,29 +156,10 @@ export default class Route extends React.Component {
 		// const address = travelDetail.addressList[0];
 		// if (!address) return null;
 
-
-		let stepThreeText;
-		let stepThreeView;
-		let stepThreeNum;
-		let stepFourText;
-		let stepFourNum;
-		let stepFourView;
-
-		let stepFiveText;
-		let stepFiveNum;
-		let stepFiveView;
-
-		let stepSixText;
-		let stepSixNum;
-		let stepSixView;
-
-		let confirmBtn;
-		let confirmBtnText;
-		let uploadBtn;
-		let uploadBtnText;
-
-		let confirmBtnDisable;
-		let uploadBtnDisable;
+		let stepThreeText, stepThreeView, stepThreeNum, stepFourText, stepFourNum, stepFourView;
+		let stepFiveText, stepFiveNum, stepFiveView, stepSixText, stepSixNum, stepSixView
+		let confirmBtn, confirmBtnText, uploadBtn, uploadBtnText, confirmBtnDisable, uploadBtnDisable
+		
 		if (orderStatus === 1
 				|| orderStatus === 2
 					|| orderStatus === 3
@@ -366,10 +347,10 @@ export default class Route extends React.Component {
 						travelDetail.entrustType * 1 === 1 &&
 							<TouchableOpacity
 								activeOpacity={ 1 }
-								onPress={ () => this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL, {
+								onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_CONTRACT_DETAIL, params: {
 															orderNo: travelDetail.orderNo,
 															contractNo: travelDetail.contractNo
-														})}
+														}})}
 								style={ styles.optContainer }>
 								<View style={ styles.textContainer }>
 									<Text style={ [styles.addressText, { marginLeft: 10 }] }>查看合同</Text>
@@ -399,7 +380,7 @@ export default class Route extends React.Component {
 									title='查看订单'
 									style={ styles.btnOpt }
 									textStyle={ styles.btnText }
-									onPress={ () => this.props.router.push(RouteType.ROUTE_ORDER_DETAIL, { orderNo: travelDetail.orderNo }) }/>
+									onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_ORDER_DETAIL, params: { orderNo: travelDetail.orderNo }}) }/>
 								<Animated.Text
 									style={ [styles.arrow, {
 										transform: [
@@ -478,7 +459,7 @@ export default class Route extends React.Component {
 											title='上传出库单'
 											style={ styles.btnOpt }
 											textStyle={ styles.btnText }
-											onPress={ () => this.props.router.push(RouteType.ROUTE_UPLOAD_IMAGES, { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_OUT_IMAGE', entrustType: travelDetail.entrustType }) }/>
+											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_OUT_IMAGE', entrustType: travelDetail.entrustType }}) }/>
 								}
 								{
 									orderStatus === 3 &&
@@ -566,7 +547,7 @@ export default class Route extends React.Component {
 											title='拍照上传'
 											style={ styles.btnOpt }
 											textStyle={ styles.btnText }
-											onPress={ () => this.props.router.push(RouteType.ROUTE_UPLOAD_IMAGES, { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_ENVIRONMENT_IMAGES', entrustType: travelDetail.entrustType }) }/>
+											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_ENVIRONMENT_IMAGES', entrustType: travelDetail.entrustType }}) }/>
 								}
 								{
 									(travelDetail.entrustType === 2 && orderStatus === 6 || orderStatus === 9 && travelDetail.entrustType === 2) &&
