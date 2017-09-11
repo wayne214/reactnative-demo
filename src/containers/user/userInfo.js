@@ -56,6 +56,15 @@ class UserInfoContainer extends BaseComponent {
 
 	render () {
 		const { user } = this.props;
+		let name ;
+		let lastName;
+		if(user.corporation){
+			name = user.corporation.split("");
+			lastName = name[name.length - 1];
+		}else if(user.driverName){
+			name = user.driverName.split("");
+			lastName = name[name.length - 1];
+		}
 		let authStatusText;
 		let textColor;
 		if (user.currentUserRole === 1) {
@@ -90,7 +99,7 @@ class UserInfoContainer extends BaseComponent {
 						})()
 					}
 					<View style={ styles.userInfoContainer }>
-						<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || (user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '')) : (user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '') }</Text>
+						<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>
 					</View>
 				</View>
 

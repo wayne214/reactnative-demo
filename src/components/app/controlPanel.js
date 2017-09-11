@@ -221,7 +221,7 @@ export default class ControlPanel extends React.Component {
 
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_CUSTOME_SERVICE) }>
+										onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_CUSTOME_SERVICE, params: {title: '我的客服'}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe606;</Text>
 											<View style={ styles.rightContent }>
@@ -229,7 +229,7 @@ export default class ControlPanel extends React.Component {
 													<Text style={ styles.firstLevelText }>客服</Text>
 												</View>
 												<Text style={ styles.secondLevelText }>
-													7021为您竭诚服务 400 663 5656
+													7×24h为您竭诚服务 400 663 5656
 												</Text>
 											</View>
 										</View>
