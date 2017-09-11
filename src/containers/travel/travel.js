@@ -114,7 +114,7 @@ class HomeContainer extends BaseComponent {
   }
 
   render() {
-    const { user, travelDetail, carPayLoad } = this.props;
+    const { user, travelDetail, carPayLoad, navigation } = this.props;
 
     return (
       <View style={ styles.container }>
