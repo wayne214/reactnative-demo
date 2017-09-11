@@ -106,13 +106,13 @@ class LoginContainer extends BaseComponent {
 
 	render() {
 		let carrierLogin;
-		if(this.driverLogin === 'driverLogin'){
+		// if(this.driverLogin === 'driverLogin'){
 			carrierLogin = (
 				<View style={ styles.forgetView }>
 					<Text style={ styles.text }
 					onPress={ () => this.props.navigation.dispatch({type:'pop'})}>承运商登录</Text>
 				</View>)
-		}
+		// }
 		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
@@ -138,6 +138,18 @@ class LoginContainer extends BaseComponent {
 								value={ this.state.username }
 								underlineColorAndroid={ 'transparent' }
 								onChangeText={ (text) => this.setState({ username: text }) }/>
+								 <View 
+                  opacity={(this.state.username+'').trim().length>0? 1: 0} >
+                  <TouchableOpacity 
+                    opacityActive={ 1 } 
+                    onPress={ () => {
+                      this.setState({ username: ''})
+                    } }
+                    >
+                    <Text 
+                      style={ styles.iconFontRight }>&#xe613;</Text>
+                  </TouchableOpacity>
+                </View>
 						</View>
 
 						<View style={ [styles.cell, { marginTop: 20 }] }>

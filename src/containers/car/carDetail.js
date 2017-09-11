@@ -209,7 +209,7 @@ class CarDetailContainer extends BaseComponent {
 							style={ [styles.hiddenContainer, {
 								height: this.state.carValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [0, 308]
+									outputRange: [0, 264]
 								})
 							}] }>					
 							<View style={ styles.hiddenCellContainer }>
@@ -254,7 +254,7 @@ class CarDetailContainer extends BaseComponent {
 									<Text style={ styles.hiddenTextCube }>方</Text>		
 								</View>
 							</View>
-							<View style={ styles.hiddenCellContainer }>
+							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }]}>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>车辆长度</Text>
 								</View>
@@ -262,6 +262,8 @@ class CarDetailContainer extends BaseComponent {
 									<Text style={ [styles.hiddenTextCube, textStyle] }>{ HelperUtil.getCarLength(this.props.car.get('carLength')) }</Text>
 								</View>
 							</View>
+							{
+								false && 
 							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }] }>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>强制报废期止</Text>
@@ -270,6 +272,7 @@ class CarDetailContainer extends BaseComponent {
 									<Text style={ [styles.rightText, textStyle] }>{ this.props.car && HelperUtil.getFormatDate(this.props.car.get('scrapDate')) }</Text>
 								</View>
 							</View>
+						}
 						</Animated.View>
 					</View>
 

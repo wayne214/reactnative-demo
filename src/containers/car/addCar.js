@@ -198,7 +198,7 @@ class AddCarContainer extends BaseComponent {
 			&& !this.state.heavy
 			&& !this.state.cube
 			&& !this.state.carVehicelMap.key
-			&& !this.state.rejectTime
+			// && !this.state.rejectTime
 			){
 			return Toast.show('请至少填写一项信息');
 		}
@@ -250,7 +250,7 @@ class AddCarContainer extends BaseComponent {
 			carLength: (!this.state.carVehicelMap.key)?'': this.state.carVehicelMap.key,
 			loadSize: (!this.state.heavy)?'': this.state.heavy,
 			volumeSize: (!this.state.cube)?'': this.state.cube,
-			scrapDate: (!this.state.rejectTime)?'': HelperUtil.getFormatDate(this.state.rejectTime),
+			// scrapDate: (!this.state.rejectTime)?'': HelperUtil.getFormatDate(this.state.rejectTime),
 			carImageUrl: this.props.addCarCarName,
 			drivingLicenseUrl: this.props.addCarLiencesName,
 			operateLicenseUrl: this.props.addCarYunYName,
@@ -280,7 +280,7 @@ class AddCarContainer extends BaseComponent {
 		if (!Regex.test('twoDecimal', this.state.cube)) return Toast.show('体积数值小数点后不超过两位');
 		if (this.state.cube > 999 || this.state.cube <= 0) return Toast.show('体积输入值应为0~999之间的数');
 		if (!this.state.carVehicelMap.key) return Toast.show('请选择车辆长度');
-		if (!this.state.rejectTime) return Toast.show('请选择报废日期');
+		// if (!this.state.rejectTime) return Toast.show('请选择报废日期');
 		if (!this.state.addCarCarImgSource  ) return Toast.show('请上传车辆图片');
 		if (!this.state.addCarLiencesImgSource ) return Toast.show('请上传行驶证图片');
 		if (!this.state.addCarYunYImgSource ) return Toast.show('请上传营运证图片');
@@ -326,7 +326,7 @@ class AddCarContainer extends BaseComponent {
 			carLength: this.state.carVehicelMap.key,
 			loadSize: this.state.heavy,
 			volumeSize: this.state.cube,
-			scrapDate: HelperUtil.getFormatDate(this.state.rejectTime),
+			// scrapDate: HelperUtil.getFormatDate(this.state.rejectTime),
 			carImageUrl: this.props.addCarCarName,
 			drivingLicenseUrl: this.props.addCarLiencesName,
 			operateLicenseUrl: this.props.addCarYunYName,
@@ -538,7 +538,7 @@ class AddCarContainer extends BaseComponent {
 							style={ [styles.hiddenContainer, {
 								height: this.state.carValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [0, 308]
+									outputRange: [0, 264]
 								})
 							}] }>
 							<View style={ styles.hiddenCellContainer }>
@@ -617,7 +617,7 @@ class AddCarContainer extends BaseComponent {
 									<Text style={ styles.hiddenTextCube }>方</Text>
 								</View>
 							</View>
-							<View style={ styles.hiddenCellContainer }>
+							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }] }>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>车辆长度</Text>
 								</View>
@@ -629,6 +629,7 @@ class AddCarContainer extends BaseComponent {
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
+							{ false &&
 							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }] }>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>强制报废期止</Text>
@@ -641,6 +642,7 @@ class AddCarContainer extends BaseComponent {
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
+						}
 						</Animated.View>
 					</View>
 
