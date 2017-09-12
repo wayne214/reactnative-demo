@@ -24,7 +24,7 @@ import * as RouteType from '../../constants/routeType';
 import { fetchData, loadUser ,logout,loginSuccess } from '../../action/app';
 import Regex from '../../utils/regex';
 import User from '../../models/user';
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 
 class PwdSteoTwoContainer extends BaseComponent {
 
@@ -116,13 +116,13 @@ class PwdSteoTwoContainer extends BaseComponent {
 						onSubmitEditing={Keyboard.dismiss}
 						value={this.state.password}
 						onChangeText={ (text) => this.setState({ password: text }) }/>
-					<TouchableOpacity 
-						visible={this.state.passwordWindowIsShow} 
-						style={ styles.passwordWindow } 
-						opacityActive={1} 
+					<TouchableOpacity
+						visible={this.state.passwordWindowIsShow}
+						style={ styles.passwordWindow }
+						opacityActive={1}
 						onPress={()=>{
 						this.setState({ passwordWindowIsShow: false});
-						Clipboard.setString(''); 
+						Clipboard.setString('');
 						this.refs.inputpassword.focus()}}>
 					</TouchableOpacity>
 				</View>
@@ -137,13 +137,13 @@ class PwdSteoTwoContainer extends BaseComponent {
 						onSubmitEditing={Keyboard.dismiss}
 						value={this.state.passwdAgain}
 						onChangeText={ (text) => this.setState({ passwdAgain: text }) }/>
-					<TouchableOpacity 
-						visible={this.state.passwordWindowIsShow} 
-						style={ styles.passwordWindow } 
-						opacityActive={1} 
+					<TouchableOpacity
+						visible={this.state.passwordWindowIsShow}
+						style={ styles.passwordWindow }
+						opacityActive={1}
 						onPress={()=>{
 						this.setState({ passwordWindowIsShow: false});
-						Clipboard.setString(''); 
+						Clipboard.setString('');
 						this.refs.inputpasswordAgain.focus()}}>
 					</TouchableOpacity>
 				</View>
@@ -240,13 +240,13 @@ function mapDispatchToProps (dispatch) {
 					user.save();
 			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
 					dispatch(loadUser(user));
-					// JPushModule.setAlias(user.userId, () => {
-					// 	// Toast.show('设置别名成功',user.userId)
-					// 	console.log("Set alias succeed");
-					// }, () => {
-					// 	// Toast.show('设置别名失败')
-					// 	console.warn("Set alias failed");
-					// });
+					JPushModule.setAlias(user.userId, () => {
+						// Toast.show('设置别名成功',user.userId)
+						console.log("Set alias succeed");
+					}, () => {
+						// Toast.show('设置别名失败')
+						console.warn("Set alias failed");
+					});
 				}
 			}));
 		},
@@ -279,11 +279,11 @@ function mapDispatchToProps (dispatch) {
 					user.save();
 					dispatch(loadUser(user));
 			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
-					// JPushModule.setAlias(user.userId, () => {
-					// 	console.log("Set alias succeed");
-					// }, () => {
-					// 	console.warn("Set alias failed");
-					// });
+					JPushModule.setAlias(user.userId, () => {
+						console.log("Set alias succeed");
+					}, () => {
+						console.warn("Set alias failed");
+					});
 				}
 			}));
 		},

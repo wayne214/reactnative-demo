@@ -34,7 +34,8 @@ RCT_EXPORT_METHOD(toAppStore)
   NSString * result = str ? str : @"null";
   
   NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-  return @{ @"firstDayOfTheWeek": result, @"VERSION": version };
+  NSNumber *iosOSVersion = @([[UIDevice currentDevice].systemVersion floatValue]);
+  return @{ @"firstDayOfTheWeek": result, @"VERSION": version, @"IOS_OS_VERSION": iosOSVersion };
 }
 
 @end

@@ -8,7 +8,13 @@
  */
 
 #import "AppDelegate.h"
+#import <CodePush/CodePush.h>
+#import <RCTJPushModule.h>
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
 
+#import "UMMobClick/MobClick.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "SplashScreen.h"
@@ -17,9 +23,44 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  // 测试环境
+   UMConfigInstance.appKey = @"599a68ef45297d108e001673";
+  //生产环境
+//  UMConfigInstance.appKey = @"599a79aa5312dd5e3700003b";
+  [MobClick startWithConfigure:UMConfigInstance];
+  
+  if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+ #ifdef NSFoundationVersionNumber_iOS_9_x_Max
+  JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+   entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+ 
+#endif
+  } else {
+    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                      UIUserNotificationTypeSound |
+                                                      UIUserNotificationTypeAlert)
+                                          categories:nil];
+  }
+#ifdef DEBUG
+  [JPUSHService setDebugMode];
+  [JPUSHService setupWithOption:launchOptions appKey:@"fca499d00bccff3bcf99906b"
+                        channel:nil apsForProduction:false];
+#else
+  [JPUSHService setLogOFF];
+  [JPUSHService setupWithOption:launchOptions appKey:@"fca499d00bccff3bcf99906b"
+                        channel:nil apsForProduction:true];
+#endif
+  
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  
+#ifdef DEBUG
+    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+#else
+    jsCodeLocation = [CodePush bundleURL];
+#endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"carrier"
@@ -36,4 +77,33 @@
   return YES;
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [JPUSHService registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+}
+
+//iOS7
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler {
+//[[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+//}
+
+
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+  NSDictionary * userInfo = notification.request.content.userInfo;
+  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    [JPUSHService handleRemoteNotification:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+  }
+  completionHandler(UNNotificationPresentationOptionAlert);
+}
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+  NSDictionary * userInfo = response.notification.request.content.userInfo;
+  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    [JPUSHService handleRemoteNotification:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:userInfo];
+  }
+  completionHandler();
+}
 @end

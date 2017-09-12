@@ -28,11 +28,6 @@ import javax.annotation.Nullable;
  */
 
 public class NativeModule extends ReactContextBaseJavaModule {
-    private static final String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-    public static OSS oss;
-    public static final String bucket = "sdk-demo";
-    private static final String accessKey = "accessKey";
-    private static final String accessKeySecret = "screctKey";
 
     private NotificationManager mNotifyManager;
     NotificationCompat.Builder mBuilder;
