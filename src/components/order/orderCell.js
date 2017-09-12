@@ -329,18 +329,40 @@ class OrderCell extends Component{
 																	</Button>
 																: null
 															}
+															{
+																rowData.orderState == 6 && rowData.consultState == 1 ?//待交付且未申请过协调
+																	<Button activeOpacity={0.8} style={[styles.buttonStyle,{marginRight: 10}]}
+																		textStyle={{fontSize: 14,color: 'white'}}
+																		onPress={()=>{
+																			this.props.navigation.dispatch({
+																				type: RouteType.ROUTE_APPLY_COORDINATION,
+																				params: {
+																					orderNo: rowData.orderNo,
+																					entrustType: rowData.entrustType
+																				}
+																			})
+																		}}>
+																	  申请协调
+																	</Button>
+																: null
+															}
 															<Button activeOpacity={0.8} style={styles.buttonStyle}
 																textStyle={{fontSize: 14,color: 'white'}}
 																onPress={()=>{
 																	console.log("------ 确认交付",rowData);
-																	this.props.navigation.dispatch({
-																		type: RouteType.ROUTE_CONFIRM_DELIVERY,
-																		params: {
-																			orderNo: rowData.orderNo,
-																			orderState: rowData.orderState,
-																			entrustType: rowData.entrustType
-																		}
-																	})
+																	Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
+																		[{text: '取消', onPress: ()=>{}, style: 'cancel' },
+																		{text: '立即上传', onPress: ()=>{
+																			this.props.navigation.dispatch({
+																				type: RouteType.ROUTE_UPLOAD_IMAGES,
+																				params: {
+																					orderNo: rowData.orderNo,
+																					uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+																					entrustType: rowData.entrustType
+																				}
+																			})
+																		}}]
+																	);
 																}}>
 															  确认交付
 															</Button>

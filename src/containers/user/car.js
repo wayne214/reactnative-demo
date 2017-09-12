@@ -125,9 +125,13 @@ class CarContainer extends BaseComponent {
 		let showInfo = null;
 
 		let showNameAndPhone = false;
-		let showBtn = 0;//0:不显示删除和编辑，1：显示删除和编辑；2显示删除
+		let showBtn = 0;//0:不显示删除和编辑，1：显示删除和编辑；2显示删除;3:显示编辑
+		let editGCar = false ;//TRUE:对挂车编辑
 
 		// console.log('lqq---item---driverId-',rowData.get('driverId'),'--certificationStatus--',rowData.get('certificationStatus'),'--carState-',rowData.get('carState'));
+		//certificationStatus: 认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过 ,
+		//carState: 车辆状态 0=空闲 1=使用中 ,
+		//carType: 车辆类型 1=厢式货车 2=集装箱挂车 3=集装箱车 4=箱式挂车 ,
 		if(rowData.get('driverId')){
 			showNameAndPhone = true;
 		}else{
@@ -139,7 +143,13 @@ class CarContainer extends BaseComponent {
 			
 		}else if(rowData.get('certificationStatus') === 2 
 									&& rowData.get('carState') === 0){
-			showBtn = 2;
+			if(rowData.get('carType') === 2 || rowData.get('carType') === 4 ){
+				editGCar = true;
+				showBtn = 1;
+			}else{
+				editGCar = false;
+				showBtn = 2;
+			}	
 			
 		}else{
 			showBtn = 0;
@@ -166,7 +176,7 @@ class CarContainer extends BaseComponent {
 											<TouchableOpacity
 												activeOpacity={ 1 }
 												style={ styles.optView }
-												onPress={ this._editCar.bind(this,rowData.get('carId')) }>
+												onPress={ this._editCar.bind(this,rowData.get('carId'),editGCar) }>
 												<Text style={ [styles.iconFont, { marginRight: 5 }] }>&#xe617;</Text>
 												<Text style={ styles.secondLevelText }>编辑</Text>
 											</TouchableOpacity>
@@ -210,7 +220,7 @@ class CarContainer extends BaseComponent {
 											<TouchableOpacity
 												activeOpacity={ 1 }
 												style={ styles.optView }
-												onPress={ this._editCar.bind(this,rowData.get('carId')) }>
+												onPress={ this._editCar.bind(this,rowData.get('carId'),editGCar) }>
 												<Text style={ [styles.iconFont, { marginRight: 5 }] }>&#xe617;</Text>
 												<Text style={ styles.secondLevelText }>编辑</Text>
 											</TouchableOpacity>
@@ -283,8 +293,10 @@ class CarContainer extends BaseComponent {
   }	
 
 
-  _editCar(carId){
-  	this.props.navigation.dispatch({type:RouteType.ROUTE_EDIT_CAR,params:{title:'编辑车辆',carId}});
+  _editCar(carId,isGCar){
+  	//isGCar: 已认证、运输中的挂车=true,其余的都是FALSE
+  	// console.log('_editCar--isGCar--',isGCar);
+  	this.props.navigation.dispatch({type:RouteType.ROUTE_EDIT_CAR,params:{title:'编辑车辆',carId,isGCar}});
   	this.props.dispatch(clearImageSource());
   }
 

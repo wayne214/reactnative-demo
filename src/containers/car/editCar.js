@@ -89,6 +89,8 @@ class EditCarContainer extends BaseComponent {
 
 			shouldShow: false,
 			imagePathes: [],
+
+			canEdit: true,
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		// this.key = props.router.getLastCurrentRouteKey();
@@ -100,6 +102,8 @@ class EditCarContainer extends BaseComponent {
 		// this.hiddingBack = (this.key === 'EDIT_ROUTER_PAGE' ? true : false);
 		this._showImage = this._showImage.bind(this);
 		this.carId = props.navigation.state.params.carId;
+		this.isGCar = props.navigation.state.params.isGCar;
+
 	}
 
 
@@ -145,6 +149,8 @@ class EditCarContainer extends BaseComponent {
 	}
 
 	_initTimePicker() {
+		if(!this.state.canEdit)
+			return null;
     Picker.init({
         pickerData: DateHandler.createDateData(),
         pickerConfirmBtnText: '确定',
@@ -178,7 +184,7 @@ class EditCarContainer extends BaseComponent {
 			&& !this.state.heavy
 			&& !this.state.cube
 			&& !this.state.carVehicelMap.key
-			&& !this.state.rejectTime
+			// && !this.state.rejectTime
 			){
 			return Toast.show('请至少填写一项信息');
 		}
@@ -250,7 +256,7 @@ class EditCarContainer extends BaseComponent {
 			loadSize: this.state.heavy?this.state.heavy:'' ,//	可载重货
 			volumeSize: this.state.cube?this.state.cube:'' ,//	可载体积
 			carLength: this.state.carVehicelMap.key? this.state.carVehicelMap.key:'' ,//	车辆长度 1:4.2, 2:5.5, 3:6.2, 4:6.8, 5:7.4, 6:7.6, 7:8.6, 8:9.6, 9:12.5, 10:13.7, 11:15, 12:16.5
-			scrapDate: this.state.rejectTime ? HelperUtil.getFormatDate(this.state.rejectTime):'' , //	强制报废期
+			// scrapDate: this.state.rejectTime ? HelperUtil.getFormatDate(this.state.rejectTime):'' , //	强制报废期
 			carImageUrl: this.props.addCarCarName ? this.props.addCarCarName : this.props.car.get('carImageUrl'),
 			drivingLicenseUrl: this.props.addCarLiencesName ? this.props.addCarLiencesName : this.props.car.get('drivingLicenseUrl'),
 			operateLicenseUrl: this.props.addCarYunYName ? this.props.addCarYunYName : this.props.car.get('operateLicenseUrl'),
@@ -263,77 +269,100 @@ class EditCarContainer extends BaseComponent {
 	}
 
 	_certificationCar() {
-		// TODO 校验操作
-		if (!this.state.userName) return Toast.show('请输入车主姓名');
-		if (!this.state.phone) return Toast.show('请输入联系手机');
-		if (!Regex.test('mobile', this.state.phone)) return Toast.show('手机号格式不正确');
-		if (!this.state.opertLicence) return Toast.show('请输入运营许可证号');
-		if (!Regex.test('transportOperation', this.state.opertLicence)) return Toast.show('运营许可证号格式不正确');
-		if (!this.state.carNo) return Toast.show('请输入车牌号');
-		if (!Regex.test('carNo', this.state.carNo)) return Toast.show('车牌号格式不正确');
-		if (!this.state.carCategoryMap.key) return Toast.show('请选择车辆类别');
-		if (!this.state.carTypeMap.key) return Toast.show('请选择车辆类型');
-		
-		if (!this.state.heavy) return Toast.show('请输入最大载重');
-		if (this.state.heavy > 999 || this.state.heavy <= 0) return Toast.show('载重输入值应为0~999之间的数');
-		if (!Regex.test('twoDecimal', this.state.heavy)) return Toast.show('载重数值小数点后不超过两位');
-		if (!this.state.cube) return Toast.show('请输入最大体积');
-		if (!Regex.test('twoDecimal', this.state.cube)) return Toast.show('体积数值小数点后不超过两位');
-		if (this.state.cube > 999 || this.state.cube <= 0) return Toast.show('体积输入值应为0~999之间的数');
-		if (!this.state.carVehicelMap.key) return Toast.show('请选择车辆长度');
-		if (!this.state.rejectTime) return Toast.show('请选择报废日期');
-		if (!this.props.car.get('carImageUrl') && !this.state.addCarCarImgSource  ) return Toast.show('请上传车辆图片');
-		if (!this.props.car.get('drivingLicenseUrl') && !this.state.addCarLiencesImgSource ) return Toast.show('请上传行驶证图片');
-		if (!this.props.car.get('operateLicenseUrl') && !this.state.addCarYunYImgSource ) return Toast.show('请上传营运证图片');
-		let gCarNo = this.state.gcarNo;
-		let gCarLiencesName = this.props.addGCarLiencesName ? this.props.addGCarLiencesName : (this.props.car.get('gdrivingLicenseUrl')?this.props.car.get('gdrivingLicenseUrl'):'');
-		let gCarYunYName = this.props.addGCarYunYName ? this.props.addGCarYunYName : (this.props.car.get('goperateLicenseUrl')?this.props.car.get('goperateLicenseUrl'):'');
-		if(this.state.carTypeMap.key === 2 || this.state.carTypeMap.key === 4){
-			if (!this.state.gcarNo) return Toast.show('请输入挂车车牌号');
-			if (!Regex.test('carNo', this.state.gcarNo)) return Toast.show('挂车车牌号格式不正确');
-			if (!this.props.car.get('gdrivingLicenseUrl') && !this.state.addGCarLiencesImgSource ) return Toast.show('请上传挂车行驶证图片');
-			if (!this.props.car.get('goperateLicenseUrl') && !this.state.addGCarYunYImgSource ) return Toast.show('请上传挂车营运证图片');
-			if (this.state.driverLoadingTextAddGCarLiencesImg !== '') {
-				return Toast.show('挂车行驶证图片还未上传成功')
+		if(this.state.canEdit){//编辑
+			// TODO 校验操作
+			if (!this.state.userName) return Toast.show('请输入车主姓名');
+			if (!this.state.phone) return Toast.show('请输入联系手机');
+			if (!Regex.test('mobile', this.state.phone)) return Toast.show('手机号格式不正确');
+			if (!this.state.opertLicence) return Toast.show('请输入运营许可证号');
+			if (!Regex.test('transportOperation', this.state.opertLicence)) return Toast.show('运营许可证号格式不正确');
+			if (!this.state.carNo) return Toast.show('请输入车牌号');
+			if (!Regex.test('carNo', this.state.carNo)) return Toast.show('车牌号格式不正确');
+			if (!this.state.carCategoryMap.key) return Toast.show('请选择车辆类别');
+			if (!this.state.carTypeMap.key) return Toast.show('请选择车辆类型');
+			
+			if (!this.state.heavy) return Toast.show('请输入最大载重');
+			if (this.state.heavy > 999 || this.state.heavy <= 0) return Toast.show('载重输入值应为0~999之间的数');
+			if (!Regex.test('twoDecimal', this.state.heavy)) return Toast.show('载重数值小数点后不超过两位');
+			if (!this.state.cube) return Toast.show('请输入最大体积');
+			if (!Regex.test('twoDecimal', this.state.cube)) return Toast.show('体积数值小数点后不超过两位');
+			if (this.state.cube > 999 || this.state.cube <= 0) return Toast.show('体积输入值应为0~999之间的数');
+			if (!this.state.carVehicelMap.key) return Toast.show('请选择车辆长度');
+			// if (!this.state.rejectTime) return Toast.show('请选择报废日期');
+			if (!this.props.car.get('carImageUrl') && !this.state.addCarCarImgSource  ) return Toast.show('请上传车辆图片');
+			if (!this.props.car.get('drivingLicenseUrl') && !this.state.addCarLiencesImgSource ) return Toast.show('请上传行驶证图片');
+			if (!this.props.car.get('operateLicenseUrl') && !this.state.addCarYunYImgSource ) return Toast.show('请上传营运证图片');
+			let gCarNo = this.state.gcarNo;
+			let gCarLiencesName = this.props.addGCarLiencesName ? this.props.addGCarLiencesName : (this.props.car.get('gdrivingLicenseUrl')?this.props.car.get('gdrivingLicenseUrl'):'');
+			let gCarYunYName = this.props.addGCarYunYName ? this.props.addGCarYunYName : (this.props.car.get('goperateLicenseUrl')?this.props.car.get('goperateLicenseUrl'):'');
+			if(this.state.carTypeMap.key === 2 || this.state.carTypeMap.key === 4){
+				if (!this.state.gcarNo) return Toast.show('请输入挂车车牌号');
+				if (!Regex.test('carNo', this.state.gcarNo)) return Toast.show('挂车车牌号格式不正确');
+				if (!this.props.car.get('gdrivingLicenseUrl') && !this.state.addGCarLiencesImgSource ) return Toast.show('请上传挂车行驶证图片');
+				if (!this.props.car.get('goperateLicenseUrl') && !this.state.addGCarYunYImgSource ) return Toast.show('请上传挂车营运证图片');
+				if (this.state.driverLoadingTextAddGCarLiencesImg !== '') {
+					return Toast.show('挂车行驶证图片还未上传成功')
+				}
+				if (this.state.driverLoadingTextAddGCarYunYImg !== '') {
+					return Toast.show('挂车营运证图片还未上传成功')
+				}
+			}else{
+				gCarNo = '';
+				gCarLiencesName = '';
+				gCarYunYName = '';
 			}
-			if (this.state.driverLoadingTextAddGCarYunYImg !== '') {
-				return Toast.show('挂车营运证图片还未上传成功')
+			if (this.state.driverLoadingTextAddCarCarImg !== '') {
+				return Toast.show('车辆图片还未上传成功')
 			}
-		}else{
-			gCarNo = '';
-			gCarLiencesName = '';
-			gCarYunYName = '';
-		}
-		if (this.state.driverLoadingTextAddCarCarImg !== '') {
-			return Toast.show('车辆图片还未上传成功')
-		}
-		if (this.state.driverLoadingTextAddCarLiencesImg !== '') {
-			return Toast.show('行驶证图片还未上传成功')
-		}
-		if (this.state.driverLoadingTextAddCarYunYImg !== '') {
-			return Toast.show('营运证图片还未上传成功')
+			if (this.state.driverLoadingTextAddCarLiencesImg !== '') {
+				return Toast.show('行驶证图片还未上传成功')
+			}
+			if (this.state.driverLoadingTextAddCarYunYImg !== '') {
+				return Toast.show('营运证图片还未上传成功')
+			}
+
+			this.props.certificationCarInfo({
+				id: this.carId,//	车辆ID
+				carrierId: this.props.user.userId,
+				carName: this.state.userName,
+				phoneNumber: this.state.phone,
+				transportationLicense: this.state.opertLicence,
+				carNo: this.state.carNo,
+				gcarNo: gCarNo,
+				carType: this.state.carTypeMap.key,
+				carCategory: this.state.carCategoryMap.key,
+				carLength: this.state.carVehicelMap.key,
+				loadSize: this.state.heavy,
+				volumeSize: this.state.cube,
+				// scrapDate: HelperUtil.getFormatDate(this.state.rejectTime),
+				carImageUrl: this.props.addCarCarName ? this.props.addCarCarName : this.props.car.get('carImageUrl'),
+				drivingLicenseUrl: this.props.addCarLiencesName ? this.props.addCarLiencesName : this.props.car.get('drivingLicenseUrl'),
+				operateLicenseUrl: this.props.addCarYunYName ? this.props.addCarYunYName : this.props.car.get('operateLicenseUrl'),
+				gdrivingLicenseUrl: gCarLiencesName,
+				goperateLicenseUrl: gCarYunYName
+			}, this.props.navigation);
+		}else{//挂车编辑
+			let gCarNo = this.state.gcarNo;
+			let gCarLiencesName = this.props.addGCarLiencesName ? this.props.addGCarLiencesName : (this.props.car.get('gdrivingLicenseUrl')?this.props.car.get('gdrivingLicenseUrl'):'');
+			let gCarYunYName = this.props.addGCarYunYName ? this.props.addGCarYunYName : (this.props.car.get('goperateLicenseUrl')?this.props.car.get('goperateLicenseUrl'):'');
+			if(this.state.carTypeMap.key === 2 || this.state.carTypeMap.key === 4){
+				if (!this.state.gcarNo) return Toast.show('请输入挂车车牌号');
+				if (!Regex.test('carNo', this.state.gcarNo)) return Toast.show('挂车车牌号格式不正确');
+				if (!this.props.car.get('gdrivingLicenseUrl') && !this.state.addGCarLiencesImgSource ) return Toast.show('请上传挂车行驶证图片');
+				if (!this.props.car.get('goperateLicenseUrl') && !this.state.addGCarYunYImgSource ) return Toast.show('请上传挂车营运证图片');
+				if (this.state.driverLoadingTextAddGCarLiencesImg !== '') {
+					return Toast.show('挂车行驶证图片还未上传成功')
+				}
+				if (this.state.driverLoadingTextAddGCarYunYImg !== '') {
+					return Toast.show('挂车营运证图片还未上传成功')
+				}
+			}else{
+				gCarNo = '';
+				gCarLiencesName = '';
+				gCarYunYName = '';
+			}
 		}
 
-		this.props.certificationCarInfo({
-			id: this.carId,//	车辆ID
-			carrierId: this.props.user.userId,
-			carName: this.state.userName,
-			phoneNumber: this.state.phone,
-			transportationLicense: this.state.opertLicence,
-			carNo: this.state.carNo,
-			gcarNo: gCarNo,
-			carType: this.state.carTypeMap.key,
-			carCategory: this.state.carCategoryMap.key,
-			carLength: this.state.carVehicelMap.key,
-			loadSize: this.state.heavy,
-			volumeSize: this.state.cube,
-			scrapDate: HelperUtil.getFormatDate(this.state.rejectTime),
-			carImageUrl: this.props.addCarCarName ? this.props.addCarCarName : this.props.car.get('carImageUrl'),
-			drivingLicenseUrl: this.props.addCarLiencesName ? this.props.addCarLiencesName : this.props.car.get('drivingLicenseUrl'),
-			operateLicenseUrl: this.props.addCarYunYName ? this.props.addCarYunYName : this.props.car.get('operateLicenseUrl'),
-			gdrivingLicenseUrl: gCarLiencesName,
-			goperateLicenseUrl: gCarYunYName
-		}, this.props.navigation);
 	}
 
 
@@ -341,7 +370,13 @@ class EditCarContainer extends BaseComponent {
 		super.componentDidMount();
 		// FIXME 根据车辆 ID 获取车辆详情病展示
 		// console.log('lqq--carId',this.carId);
-		this.props.navigation.setParams({ navigatePress: this._editCar })  
+		// console.log('--lqq--isGCar--',this.isGCar);
+		if(this.isGCar){
+			this.setState({
+				canEdit: false
+			});
+		}
+		this.props.navigation.setParams({ navigatePress: this._editCar,optTitle:this.isGCar?'':'保存' })  
 		this._getCarInfo();
 	}
 
@@ -499,7 +534,7 @@ class EditCarContainer extends BaseComponent {
 	    header: <NavigatorBar 
 	    picker={ Picker }
 	    firstLevelClick={ () => { navigation.state.params.navigatePress() } } 
-	    optTitle='保存'
+	    optTitle={navigation.state.params.optTitle}
 	    router={ navigation }/>
 	  };
 	};
@@ -567,6 +602,7 @@ class EditCarContainer extends BaseComponent {
 										style={ styles.textInput }
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.userName }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ userName: text }) }/>
 								</View>
 							</View>
@@ -583,6 +619,7 @@ class EditCarContainer extends BaseComponent {
 										style={ styles.textInput }
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.phone }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ phone: text }) }/>
 								</View>
 							</View>
@@ -599,6 +636,7 @@ class EditCarContainer extends BaseComponent {
 										style={ styles.textInput }
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.opertLicence }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ opertLicence: text }) }/>
 								</View>
 							</View>
@@ -629,7 +667,7 @@ class EditCarContainer extends BaseComponent {
 							style={ [styles.hiddenContainer, {
 								height: this.state.carValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: [0, 308]
+									outputRange: [0, 264]
 								})
 							}] }>
 							<View style={ styles.hiddenCellContainer }>
@@ -645,6 +683,7 @@ class EditCarContainer extends BaseComponent {
 										style={ styles.textInput}
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.carNo }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ carNo: text }) }/>
 								</View>
 							</View>
@@ -655,8 +694,8 @@ class EditCarContainer extends BaseComponent {
 								<TouchableOpacity
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
-									onPress={ () => this.setState({ visible: true, data: CAR_CATEGORY }) }>
-									<Text style={ styles.rightText }>{ this.state.carCategoryMap.value || HelperUtil.getCarCategory(this.props.car.get('carCategory')) }</Text>
+									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_CATEGORY }) : null }>
+									<Text style={ this.state.canEdit ? (this.state.carCategoryMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carCategoryMap.value || HelperUtil.getCarCategory(this.props.car.get('carCategory')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -667,8 +706,8 @@ class EditCarContainer extends BaseComponent {
 								<TouchableOpacity
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
-									onPress={ () => this.setState({ visible: true, data: CAR_TYPE }) }>
-									<Text style={ styles.rightText }>{ this.state.carTypeMap.value || HelperUtil.getCarType(this.props.car.get('carType')) }</Text>
+									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_TYPE }) : null }>
+									<Text style={ this.state.canEdit ? (this.state.carTypeMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carTypeMap.value || HelperUtil.getCarType(this.props.car.get('carType')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
@@ -685,6 +724,7 @@ class EditCarContainer extends BaseComponent {
 										defaultValue={ this.props.car && this.props.car.get('loadSize') }
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.heavy }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ heavy: text }) }/>
 									<Text style={ styles.hiddenTextCube }>吨</Text>
 								</View>
@@ -702,22 +742,24 @@ class EditCarContainer extends BaseComponent {
 										defaultValue={ this.props.car && this.props.car.get('volumeSize') }
 										underlineColorAndroid={ 'transparent' }
 										value = { this.state.cube }
+										editable = { this.state.canEdit }
 										onChangeText={ text => this.setState({ cube: text }) }/>
 									<Text style={ styles.hiddenTextCube }>方</Text>
 								</View>
 							</View>
-							<View style={ styles.hiddenCellContainer }>
+							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }] }>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>车辆长度</Text>
 								</View>
 								<TouchableOpacity
 									activeOpacity={ 1 }
 									style={ styles.hiddenRight }
-									onPress={ () => this.setState({ visible: true, data: CAR_VEHICLE }) }>
-									<Text style={ styles.rightText }>{ this.state.carVehicelMap.value || HelperUtil.getCarLength(this.props.car.get('carLength')) }</Text>
+									onPress={ () => this.state.canEdit ? this.setState({ visible: true, data: CAR_VEHICLE }) : null }>
+									<Text style={ this.state.canEdit ? (this.state.carVehicelMap.value ? styles.blackRightText : styles.rightText) : styles.rightText }>{ this.state.carVehicelMap.value || HelperUtil.getCarLength(this.props.car.get('carLength')) }</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
+							{ false && 
 							<View style={ [styles.hiddenCellContainer, { borderBottomWidth: 0 }] }>
 								<View style={ styles.hiddenLeft }>
 									<Text style={ styles.hiddenText }>强制报废期止</Text>
@@ -730,6 +772,7 @@ class EditCarContainer extends BaseComponent {
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
 								</TouchableOpacity>
 							</View>
+						}
 						</Animated.View>
 					</View>
 
@@ -767,7 +810,7 @@ class EditCarContainer extends BaseComponent {
 								</View>
 								<TouchableOpacity
 									activeOpacity={ 1 }
-									onPress={ () => this.setState({ showImagePicker: true, type: 'addCarCarImg',showExampleImage: ExampleImage }) }
+									onPress={ () => this.state.canEdit ? this.setState({ showImagePicker: true, type: 'addCarCarImg',showExampleImage: ExampleImage }) : null }
 									>
 									{addCarCarImg}
 								</TouchableOpacity>
@@ -779,7 +822,7 @@ class EditCarContainer extends BaseComponent {
 								</View>
 								<TouchableOpacity
 									activeOpacity={ 1 }
-									onPress={ () => this.setState({ showImagePicker: true, type: 'addCarLiencesImg',showExampleImage: ExampleImageLicense }) }
+									onPress={ () => this.state.canEdit ? this.setState({ showImagePicker: true, type: 'addCarLiencesImg',showExampleImage: ExampleImageLicense }) : null }
 									>
 									{addCarLiencesImg}
 								</TouchableOpacity>
@@ -791,7 +834,7 @@ class EditCarContainer extends BaseComponent {
 								</View>
 								<TouchableOpacity
 									activeOpacity={ 1 }
-									onPress={ () => this.setState({ showImagePicker: true, type: 'addCarYunYImg',showExampleImage: ExampleImageTransport }) }>
+									onPress={ () => this.state.canEdit ? this.setState({ showImagePicker: true, type: 'addCarYunYImg',showExampleImage: ExampleImageTransport }) : null }>
 									{addCarYunYImg}
 								</TouchableOpacity>
 						</Animated.View>
@@ -869,7 +912,7 @@ class EditCarContainer extends BaseComponent {
 					}
 					<View style={ [styles.loginBtn, { marginBottom: 20 }] }>
 						<Button
-							title='申请认证'
+							title= {this.state.canEdit ? '申请认证':'确认修改'}
 							style={ styles.btn }
 							textStyle={ styles.btnText }
 							onPress={ () => this._certificationCar() }/>

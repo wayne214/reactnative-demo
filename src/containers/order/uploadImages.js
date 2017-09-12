@@ -66,16 +66,26 @@ class ClassName extends BaseComponent {
 	}
 	static navigationOptions = ({navigation}) => {
 		return {
-			headerRight: (
-				<Button
-					style={{borderWidth: 0,height: 34,bottom: 0,marginRight: 20,marginTop: 10}}
-					textStyle={{color: COLOR.TEXT_NORMAL,fontSize: 14}}
-					onPress={()=>{
-					  navigation.state.params.submit()
-					}}>
-					完成
-				</Button>
-			)
+			header: (
+				<NavigatorBar
+					router={navigation}
+					title={ '编辑上传' }
+					optTitle={'完成'}
+					optTitleStyle={{fontSize: 14,color: COLOR.TEXT_BLACK}}
+					firstLevelClick={()=>{
+						navigation.state.params.submit()
+					}}/>
+				),
+			// headerRight: (
+			// 	<Button
+			// 		style={{borderWidth: 0,height: 34,bottom: 0,marginRight: 20,marginTop: 10}}
+			// 		textStyle={{color: COLOR.TEXT_NORMAL,fontSize: 14}}
+			// 		onPress={()=>{
+			// 		  navigation.state.params.submit()
+			// 		}}>
+			// 		完成
+			// 	</Button>
+			// )
 		}
 	}
 	_updateImages(result){
@@ -116,8 +126,6 @@ class ClassName extends BaseComponent {
 
 	_renderImages(){
 		const box = this.state.images.map((item,index)=>{
-			console.log(" ---- width",width);
-			console.log(" ---- width -20 -30 / 3 ",(width-20-30)/3);
 			if (item == 'plus') {
 				return(
 					<TouchableOpacity style={{flex: 1,marginRight: (index % 3 == 2 ? 10 : 15)}} activeOpacity={0.8} key={'plus'}  onPress={()=>{
@@ -160,28 +168,28 @@ class ClassName extends BaseComponent {
 		this.setState({
 			loading: false
 		})
-		switch(type){
-			case 'UPLOAD_BILL_OUT_IMAGE':
-				// 'billOutImg'
-				console.log("---上传出库单 成功 orderNo ",orderNo);
-				// this.props.dispatch(changeOrderToStateWithOrderNo(3,orderNo,'orderToInstall'))
-				this.props.dispatch(configBillOutImage(orderNo,imagesString))
-				break
-			case 'UPLOAD_ENVIRONMENT_IMAGES':
-				// 'environmentImg'
-				console.log("------ 上传环境照片 成功。orderNo ",orderNo);
-				// this.props.dispatch(changeOrderToStateWithOrderNo(6,orderNo,'orderToDelivery'))
-				break
-			case 'UPLOAD_BILL_BACK_IMAGE':
-				// 'billBackImg'
-				console.log("------ 上传回单 成功。。orderNo ",orderNo);
-				// this.props.dispatch(changeOrderToStateWithOrderNo(7,orderNo,'orderToDelivery'))
-				break
-			default:
-				apiStr = ''
-		}
+		// switch(type){
+		// 	case 'UPLOAD_BILL_OUT_IMAGE':
+		// 		// 'billOutImg'
+		// 		console.log("---上传出库单 成功 orderNo ",orderNo);
+		// 		// this.props.dispatch(changeOrderToStateWithOrderNo(3,orderNo,'orderToInstall'))
+		// 		this.props.dispatch(configBillOutImage(orderNo,imagesString))
+		// 		break
+		// 	case 'UPLOAD_ENVIRONMENT_IMAGES':
+		// 		// 'environmentImg'
+		// 		console.log("------ 上传环境照片 成功。orderNo ",orderNo);
+		// 		// this.props.dispatch(changeOrderToStateWithOrderNo(6,orderNo,'orderToDelivery'))
+		// 		break
+		// 	case 'UPLOAD_BILL_BACK_IMAGE':
+		// 		// 'billBackImg'
+		// 		console.log("------ 上传回单 成功。。orderNo ",orderNo);
+		// 		// this.props.dispatch(changeOrderToStateWithOrderNo(7,orderNo,'orderToDelivery'))
+		// 		break
+		// 	default:
+		// 		apiStr = ''
+		// }
 		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order' } })
-		this.props.dispatch(shouldOrderListRefreshAction(true))
+		// this.props.dispatch(shouldOrderListRefreshAction(true))
 	}
 
 	_uploadFailed(msg){
@@ -221,14 +229,7 @@ class ClassName extends BaseComponent {
 			return (Platform.OS === 'android' ? 'file://' : '') + item
 		})
 		return <View style={styles.container}>
-			{/*<NavigatorBar
-							router={this.props.router}
-							title={ '编辑上传' }
-							optTitle={'完成'}
-							optTitleStyle={{fontSize: 14,color: COLOR.TEXT_BLACK}}
-							firstLevelClick={()=>{
-								this._submit()
-							}}/>*/}
+			{/**/}
 			<View style={styles.viewContent}>
 				{this._renderImages()}
 			</View>
