@@ -25,7 +25,7 @@ const { height,width } = Dimensions.get('window')
 
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
-
+import ScrollAD from '../../components/common/scrollAD.js'
 
 class GoodsList extends Component {
   constructor(props) {
@@ -109,7 +109,7 @@ class GoodsList extends Component {
                 })
               }}/>
         }
-
+        <ScrollAD content={'1234234134123412341234 12341 12341 12341 155'}/>
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
