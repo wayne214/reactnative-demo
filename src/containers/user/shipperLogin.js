@@ -24,7 +24,7 @@ import Storage from '../../utils/storage';
 import User from '../../models/user';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 
 class LoginContainer extends BaseComponent {
 
@@ -71,14 +71,14 @@ class LoginContainer extends BaseComponent {
   }
 
   _clearCopyText(){
-    Clipboard.setString(''); 
+    Clipboard.setString('');
   }
-  
+
   static navigationOptions = ({ navigation }) => {
     return {
-      header: <NavigatorBar 
+      header: <NavigatorBar
               hiddenBackIcon={ true }
-              style={{ borderBottomColor: 'white' }} 
+              style={{ borderBottomColor: 'white' }}
               router={ navigation }/>
     };
   };
@@ -120,20 +120,20 @@ class LoginContainer extends BaseComponent {
                 value={ this.state.username }
                 underlineColorAndroid={ 'transparent' }
                 onChangeText={ (text) => this.setState({ username: text }) }/>
-                
-                <View 
+
+                <View
                   opacity={(this.state.username+'').trim().length>0? 1: 0} >
-                  <TouchableOpacity 
-                    opacityActive={ 1 } 
+                  <TouchableOpacity
+                    opacityActive={ 1 }
                     onPress={ () => {
                       this.setState({ username: ''})
                     } }
                     >
-                    <Text 
+                    <Text
                       style={ styles.iconFontRight }>&#xe613;</Text>
                   </TouchableOpacity>
                 </View>
-                
+
             </View>
 
             <View style={ [styles.cell, { marginTop: 20 }] }>
@@ -149,12 +149,12 @@ class LoginContainer extends BaseComponent {
                   underlineColorAndroid={ 'transparent' }
                   onSubmitEditing={Keyboard.dismiss}
                   onChangeText={ (text) => this.setState({ password: text }) }/>
-                <TouchableOpacity 
-                  visible={this.state.passwordWindowIsShow} 
-                  style={ styles.passwordWindow } 
-                  opacityActive={ 1 } 
+                <TouchableOpacity
+                  visible={this.state.passwordWindowIsShow}
+                  style={ styles.passwordWindow }
+                  opacityActive={ 1 }
                   onPress={ () => {
-                    Clipboard.setString(''); 
+                    Clipboard.setString('');
                     this.refs.password.focus()
                     this.setState({ passwordWindowIsShow: false})
                   } }>
@@ -204,7 +204,7 @@ class LoginContainer extends BaseComponent {
               </View>
             </View>
         }
-        
+
       </View>
     );
   }
@@ -252,14 +252,14 @@ function mapDispatchToProps(dispatch) {
           user.save();
           dispatch(loadUser(user));
           navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } })
-          // console.log('lqq---user--',user);
-          // JPushModule.setAlias(user.userId, () => {
-          //   // Toast.show('设置别名成功',user.userId)
-          //   console.log("Set alias succeed");
-          // }, () => {
-          //   // Toast.show('设置别名失败')
-          //   console.warn("Set alias failed");
-          // });
+          console.log('lqq---user--',user);
+          JPushModule.setAlias(user.userId, () => {
+            // Toast.show('设置别名成功',user.userId)
+            console.log("Set alias succeed");
+          }, () => {
+            // Toast.show('设置别名失败')
+            console.warn("Set alias failed");
+          });
         }
       }));
     },
