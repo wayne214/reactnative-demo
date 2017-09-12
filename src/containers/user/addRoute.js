@@ -33,7 +33,6 @@ class AddRouteContainer extends BaseComponent {
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this._addRoute = this._addRoute.bind(this);
-		console.log('getCityOfCountry-----',AddressHandler.getCityOfCountry())
 	}
 
 	_selectAddress(type) {
@@ -106,7 +105,7 @@ class AddRouteContainer extends BaseComponent {
 						activeOpacity={ 1 }
 						style={ [styles.hiddenRight, { flex: 3 }] }
 						onPress={ this._selectAddress.bind(this, 'from') }>
-						<Text style={ styles.routeText }>{ this.state.fromAddress || '请选择' }</Text>
+						<Text style={ this.state.fromAddress ? styles.routeText : styles.rightText }>{ this.state.fromAddress || '请选择' }</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={ [styles.hiddenCellContainer, { backgroundColor: 'white' }] }>
@@ -117,7 +116,7 @@ class AddRouteContainer extends BaseComponent {
 						activeOpacity={ 1 }
 						style={ [styles.hiddenRight, { flex: 3 }] }
 						onPress={ this._selectAddress.bind(this, 'to')}>
-						<Text style={ styles.routeText }>{ this.state.toAddress || '请选择' }</Text>
+						<Text style={ this.state.toAddress ? styles.routeText : styles.rightText }>{ this.state.toAddress || '请选择' }</Text>
 					</TouchableOpacity>
 				</View>
 
