@@ -73,6 +73,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -115,9 +116,34 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
-    buildTypes {
+
+    signingConfigs {
         release {
+            keyAlias 'android'
+            keyPassword '20150921'
+            storeFile file('../keystores/android.keystore')
+            storePassword '20150921'
+        }
+    }
+
+    buildTypes {
+        staging {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
+            buildConfigField "String", "CODEPUSH_KEY", '"mJoOxuPYFFQMYbcePHq7686SniSF118907b3-0f39-4b62-b03d-f9737ab02817"'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            buildConfigField "String", "CODEPUSH_KEY", '""'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -145,6 +171,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-code-push')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-pdf')
     compile project(':react-native-splash-screen')
@@ -154,7 +181,7 @@ dependencies {
 //    compile fileTree(dir: "libs", include: ["*.jar"])
     compile project(':jpush-react-native')
     compile project(':jcore-react-native')
-    compile "com.android.support:appcompat-v7:23.0.1"
+//    compile "com.android.support:appcompat-v7:23.0.1"
 
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.facebook.fresco:animated-gif:0.13.0'
