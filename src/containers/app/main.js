@@ -30,7 +30,7 @@ import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS } from
 import { updateMsgList } from '../../action/message';
 import User from '../../models/user';
 import Storage from '../../utils/storage';
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 import { openNotification } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
@@ -44,20 +44,23 @@ const getRegistrationIdEvent = "getRegistrationId";
 class MainContainer extends React.Component {
 
   constructor(props) {
-    // if (Platform.OS === 'android') {
-    //   JPushModule.initPush();
-    //   JPushModule.notifyJSDidLoad(() => console.log('fuck'));
-    // }
+    if (Platform.OS === 'android') {
+      JPushModule.initPush();
+      JPushModule.notifyJSDidLoad(() => console.log('fuck'));
+    }
     super(props);
     this.state = {
       showUpgrade: false,
-      rotateValue: new Animated.Value(0)
+      rotateValue: new Animated.Value(0),
+      appState: AppState.currentState,
+      previousAppStates: '',
     };
     this._routeTab = this._routeTab.bind(this)
     this._changeTab = this._changeTab.bind(this)
     this.handleBack = this.handleBack.bind(this)
     this._forceUpgrade = this._forceUpgrade.bind(this)
     this.openControlPanel = this.openControlPanel.bind(this)
+    this._handleAppStateChange = this._handleAppStateChange.bind(this)
   }
 
   static propTypes = {
@@ -72,6 +75,7 @@ class MainContainer extends React.Component {
   }
 
   async componentDidMount () {
+    AppState.addEventListener('change', this._handleAppStateChange);
     this.props._getCityOfCountry();
     const value = await Storage.get('float')
     if (value && value * 1 === 1 && this.props.user.userId) {
@@ -83,6 +87,102 @@ class MainContainer extends React.Component {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+// JPush
+    JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
+      Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{
+        console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
+      }}])
+    })
+    JPushModule.addReceiveNotificationListener((map) => {
+      Alert.alert('addReceiveNotificationListener','3qrwwqer',[{text: 'ok',onPress:()=>{
+        console.log(" ===== addReceiveNotificationListener ",map);
+      }}])
+    });
+
+    if (Platform.OS === 'ios') {
+
+      this.notifySubscription = NativeAppEventEmitter.addListener('ReceiveNotification',(notification) => {
+        JPushModule.setBadge(0, (success) => {
+          console.log(success)
+        });
+        console.log(`app --- 最新状态 ${this.state.appState}`)
+        console.log('iOS  ----ReceiveNotification ',notification)
+        if (notification.messsageId) {
+          if (this.state.appState == 'background') {
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
+          }else if(this.state.appState == 'active') {
+            if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
+              Alert.alert('温馨提示','您有新消息',[
+                {text: '忽略',onPress: ()=>{}},
+                {text: '查看',onPress: ()=>{
+                  this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
+                }}
+              ])
+            }
+          }
+        };
+      });
+      console.log(" ======== this is notifySubscription",this.notifySubscription);
+      //iOS 10 之后才有  监听 OpenNotification 事件，点击推送的时候会执行这个回调
+      this.openNotifySubscription = NativeAppEventEmitter.addListener('OpenNotification',(notification) => {
+        JPushModule.setBadge(0, (success) => {
+          console.log(success)
+        });
+        console.log('iOS ----OpenNotification ',notification,this.props.user)
+        if (notification.messsageId) {
+          setTimeout(()=>{
+            console.log("------ 1 秒后 ?? user是谁？",this.props.user);
+            if (this.props.user && this.props.user.userId) {
+              this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
+            }else{
+              this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+            }
+          }, 1000);
+        }
+      });
+      console.log(" ======== this is openNotifySubscription",this.openNotifySubscription)
+      // 每次启动后清空角标
+      JPushModule.setBadge(0, (success) => {
+        console.log(success)
+      });
+    }else{
+      JPushModule.addReceiveCustomMsgListener((message) => {
+        // this.setState({pushMsg: message});
+        console.log("收到 android 自定义消息 ",message);
+      });
+      JPushModule.addReceiveNotificationListener((message) => {
+        console.log("收到 Android 通知: ",message);
+      })
+      // 点击通知后，将会触发此事件
+      JPushModule.addReceiveOpenNotificationListener((message) => {
+        console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
+        // this.props.dispatch(openNotification(true));
+        // const currentRoute = this.props.router.getCurrentRoute();
+        // if (currentRoute.key === 'MESSAGE_PAGE' || currentRoute.key === 'MESSAGE_DETAIL_PAGE') this.props.dispatch(updateMsgList());
+        // if (currentRoute.key === 'MESSAGE_DETAIL_PAGE') return this.props.router.pop();
+        // if (currentRoute.key !== 'MESSAGE_PAGE') this.props.router.push(RouteType.ROUTE_MESSAGE_LIST);
+      });
+
+
+
+      // JPushModule.addReceiveCustomMsgListener((message) => {
+      //   // this.setState({pushMsg: message});
+      //   console.log("===== get android push message ",message);
+      // });
+      // JPushModule.addReceiveNotificationListener((message) => {
+      //   console.log("receive android notification: " + message);
+      // })
+    }
+  }
+  _handleAppStateChange(appState) {
+    const previousAppStates = this.state.appState
+    console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
+
+    this.setState({
+      appState,
+      previousAppStates,
+    });
   }
 
   componentWillReceiveProps(props) {
@@ -94,8 +194,16 @@ class MainContainer extends React.Component {
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
-    if (Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
+    if (Platform.OS === 'android') {
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
+      JPushModule.removeReceiveCustomMsgListener();
+      JPushModule.removeReceiveNotificationListener();
+    }else{
+      this.notifySubscription && this.notifySubscription.remove();
+      this.openNotifySubscription && this.openNotifySubscription.remove();
+    }
   }
 
   handleBack () {
@@ -174,7 +282,7 @@ class MainContainer extends React.Component {
       NativeModules.NativeModule.toAppStore();
     }
   }
-  
+
   render() {
     const { upgrade } = this.props;
     return (

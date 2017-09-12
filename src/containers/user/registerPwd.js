@@ -26,7 +26,7 @@ import * as RouteType from '../../constants/routeType';
 import { fetchData, getInitStateFromDB } from '../../action/app';
 import User from '../../models/user';
 import Regex from '../../utils/regex';
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 
 class RegisterContainer extends BaseComponent {
 
@@ -56,7 +56,7 @@ class RegisterContainer extends BaseComponent {
 
 	static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    router={ navigation }/>
 	  };
 	};
@@ -103,7 +103,7 @@ class RegisterContainer extends BaseComponent {
 	}
 
 	_clearCopyText(){
-		Clipboard.setString(''); 
+		Clipboard.setString('');
 	}
 
 	_jumpAgreement(){
@@ -133,10 +133,10 @@ class RegisterContainer extends BaseComponent {
 	}
 
 	render () {
-		const { router } = this.props; 
+		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
-				<Text style={ styles.tipText }>设置登录密码</Text>			
+				<Text style={ styles.tipText }>设置登录密码</Text>
 				<View style={ [styles.cellContainer, { marginTop: 20 }]  }>
 					<Text style={ styles.labelTextPwd }>设置密码</Text>
 					<View style={ styles.passwordContainer }>
@@ -149,12 +149,12 @@ class RegisterContainer extends BaseComponent {
 							value = { this.state.password }
 							onSubmitEditing={Keyboard.dismiss}
 							onChangeText={ (text) => this.setState({ password: text }) }/>
-						<TouchableOpacity 
-							visible={this.state.passwordWindowIsShow} 
-							style={ styles.passwordWindow } 
-							opacityActive={ 1 } 
+						<TouchableOpacity
+							visible={this.state.passwordWindowIsShow}
+							style={ styles.passwordWindow }
+							opacityActive={ 1 }
 							onPress={ () => {
-								Clipboard.setString(''); 
+								Clipboard.setString('');
 								this.refs.password.focus()
 								this.setState({ passwordWindowIsShow: false})
 							} }>
@@ -173,12 +173,12 @@ class RegisterContainer extends BaseComponent {
 							value = { this.state.passwdAgain }
 							onSubmitEditing={Keyboard.dismiss}
 							onChangeText={ (text) => this.setState({ passwdAgain: text }) }/>
-						<TouchableOpacity 
-							visible={this.state.rePasswordWindowIsShow} 
-							style={ styles.passwordWindow } 
-							opacityActive={ 1 } 
+						<TouchableOpacity
+							visible={this.state.rePasswordWindowIsShow}
+							style={ styles.passwordWindow }
+							opacityActive={ 1 }
 							onPress={ () => {
-								Clipboard.setString(''); 
+								Clipboard.setString('');
 								this.refs.rePassword.focus()
 								this.setState({ rePasswordWindowIsShow: false})
 							} }>
@@ -208,7 +208,7 @@ class RegisterContainer extends BaseComponent {
 				<Modal
 					transparent={ true }
 					backdropOpacity={ 0 }
-					backdropColor='rgba(0, 0, 0, 0.8)'				
+					backdropColor='rgba(0, 0, 0, 0.8)'
 					onRequestClose={ () => console.log('') }
 					supportedOrientations={['landscape', 'portrait']}
 					visible={ this.state.visible }>
@@ -231,7 +231,7 @@ class RegisterContainer extends BaseComponent {
 									onPress={ this._toAuth }>
 									<Text style={ styles.authText }>去认证</Text>
 								</TouchableOpacity>
-							</View>							
+							</View>
 						</View>
 					</View>
 				</Modal>
@@ -265,11 +265,11 @@ function mapDispatchToProps (dispatch) {
 						currentUserRole: 1
 					});
 					user.save();
-					// JPushModule.setAlias(user.userId, () => {
-					// 	console.log("Set alias succeed");
-					// }, () => {
-					// 	console.warn("Set alias failed");
-					// });
+					JPushModule.setAlias(user.userId, () => {
+						console.log("Set alias succeed");
+					}, () => {
+						console.warn("Set alias failed");
+					});
 					dispatch(getInitStateFromDB());
 				}
 			}));

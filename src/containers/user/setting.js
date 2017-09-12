@@ -17,7 +17,7 @@ import User from '../../models/user';
 import { receiverAlias } from '../../action/app';
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 import Toast from '../../utils/toast';
 import {DEBUG} from '../../constants/setting';
 import Storage from '../../utils/storage';
@@ -41,18 +41,18 @@ class SettingContainer extends BaseComponent {
 	}
 
 	_onValueChange(value) {
-		// const alias = value ? this.props.user.userId : '';
-		// // console.log('alias is ', alias);
-		// Storage.save('alias', alias ? '1' : '2');
-		// JPushModule.setAlias(alias, () => {
-		// 	Toast.show(alias ? '接收通知成功' : '关闭通知成功');
-		//   // console.log('set alias success');
-		// 	this.props.dispatch(receiverAlias(alias ? '1' : '2'));
-		// 	this.setState({ isOpen: !this.state.isOpen });
-		// }, () => {
-		// 	Toast.show('设置消息推送失败');
-		// 	// console.log('set alias fail');
-		// });
+		const alias = value ? this.props.user.userId : '';
+		// console.log('alias is ', alias);
+		Storage.save('alias', alias ? '1' : '2');
+		JPushModule.setAlias(alias, () => {
+			Toast.show(alias ? '接收通知成功' : '关闭通知成功');
+		  // console.log('set alias success');
+			this.props.dispatch(receiverAlias(alias ? '1' : '2'));
+			this.setState({ isOpen: !this.state.isOpen });
+		}, () => {
+			Toast.show('设置消息推送失败');
+			// console.log('set alias fail');
+		});
 	}
 
 	_logoutAction(){
@@ -61,9 +61,9 @@ class SettingContainer extends BaseComponent {
 	  this.props.dispatch(logout());
 	  this.props.navigation.dispatch({type:RouteType.ROUTE_LOGIN, params:{title:''}});
 	  if (Platform.OS === 'ios') {
-		  // JPushModule.setBadge(0, (success) => {
-		    // console.log(success)
-		  // });
+		  JPushModule.setBadge(0, (success) => {
+		    console.log(success)
+		  });
 		}
 	}
 
@@ -73,24 +73,24 @@ class SettingContainer extends BaseComponent {
 			'确定退出吗',
 			[
 				{ text: '稍后', onPress: () => {
-					// if (DEBUG) this._logoutAction();
+					if (DEBUG) this._logoutAction();
 				}, style: 'cancel' },
 				{ text: '退出', onPress: () => {
-					// this.setState({
-					// 	showLoading: true
-					// })
-					// JPushModule.setAlias('', () => {
+					this.setState({
+						showLoading: true
+					})
+					JPushModule.setAlias('', () => {
 						this._logoutAction()
-					//   this.setState({
-					//   	showLoading: false
-					//   })
-					// }, () => {
-					// 	// console.log("Set alias empty fail");
-					// 	this.setState({
-					// 		showLoading: false
-					// 	})
-					// 	Toast.show('退出失败，请重试！');
-					// })
+					  this.setState({
+					  	showLoading: false
+					  })
+					}, () => {
+						// console.log("Set alias empty fail");
+						this.setState({
+							showLoading: false
+						})
+						Toast.show('退出失败，请重试！');
+					})
 				}},
 			]
 		);
