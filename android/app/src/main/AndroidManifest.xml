@@ -5,9 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.CAMERA" />
@@ -39,21 +37,18 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
-<<<<<<< HEAD
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-=======
              <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
->>>>>>> 812c58c7ac97f1256264f4c1f064a3eec6f1b0eb
         </intent-filter>
       </activity>
 
-<meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
-<meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
+    <meta-data android:name="JPUSH_CHANNEL" android:value="${APP_CHANNEL}"/>
+    <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
 
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
+        <!-- test 59799dcfaed1792524001498     production 599a796bcae7e71126000229-->
+        <meta-data android:value="59799dcfaed1792524001498" android:name="UMENG_APPKEY"/>
+
     </application>
 
 </manifest>

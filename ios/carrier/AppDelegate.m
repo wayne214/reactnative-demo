@@ -8,11 +8,13 @@
  */
 
 #import "AppDelegate.h"
+#import <CodePush/CodePush.h>
 #import <RCTJPushModule.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "UMMobClick/MobClick.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "SplashScreen.h"
@@ -21,6 +23,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  // 测试环境
+   UMConfigInstance.appKey = @"599a68ef45297d108e001673";
+  //生产环境
+//  UMConfigInstance.appKey = @"599a79aa5312dd5e3700003b";
+  [MobClick startWithConfigure:UMConfigInstance];
+  
   if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
  #ifdef NSFoundationVersionNumber_iOS_9_x_Max
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
@@ -46,7 +55,12 @@
   
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  
+#ifdef DEBUG
+    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+#else
+    jsCodeLocation = [CodePush bundleURL];
+#endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"carrier"

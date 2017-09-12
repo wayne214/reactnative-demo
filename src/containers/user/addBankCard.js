@@ -30,6 +30,7 @@ class AddBankCardContainer extends BaseComponent{
 			bankName:'',
 			accountName:'',
 			accountNo: '',
+			isLoad: true,
 		};
 	  // this.title = props.router.getCurrentRouteTitle();
 	  this._judgeStyle = this._judgeStyle.bind(this);
@@ -39,12 +40,16 @@ class AddBankCardContainer extends BaseComponent{
 
 	componentDidMount() {
 		super.componentDidMount();
-		// console.log('lqq----id---',this.id);
+    console.log('lqq----componentDidMount---');
 		if(this.id && this.id !== -1){
 			this.props.getBankCardById({
 				carrierId: this.props.user.userId,
 				id: this.id,
 			});
+		}else if(this.id && this.id === -1){
+			this.setState({
+      	isLoad: false,
+      })
 		}
 		if(this.props.user.certificationStatus*1 === 2){
 			this.setState({
@@ -59,8 +64,10 @@ class AddBankCardContainer extends BaseComponent{
 
 	componentWillReceiveProps(props) {
     const { bankCardDetail } = props;
-    if (bankCardDetail) {
+    if (bankCardDetail && this.state.isLoad) {
+    	console.log('lqq----componentWillReceiveProps---');
       this.setState({
+      	isLoad: false,
       	bankName: bankCardDetail.bankName,
       	accountName: bankCardDetail.accountName,
       	accountNo: bankCardDetail.accountNumber

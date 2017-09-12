@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">carrier</string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
+    <string name="app_name">冷链马甲承运商版</string>
 </resources>

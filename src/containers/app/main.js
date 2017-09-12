@@ -315,6 +315,19 @@ class MainContainer extends React.Component {
               </View>
             </View>
         }
+
+        {
+          (() => {
+            if (upgrade.get('busy')) {
+              if (upgrade.get('downloaded')) {
+                return (<Upgrade text={`${ upgrade.get('text') }`} />);
+              } else {
+                return (<Upgrade text={`${ upgrade.get('text') }${ upgrade.get('progress') }`} />);
+              }
+            }
+          })()
+        }
+        
       </Drawer>
     );
   }
