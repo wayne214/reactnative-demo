@@ -19,7 +19,7 @@ import SimplePicker from '../../components/common/picker';
 import { CAR_TYPE, CAR_CATEGORY, CAR_VEHICLE } from '../../constants/json';
 import Picker from 'react-native-picker';
 import DateHandler from '../../utils/dateHandler';
-import { GET_CAR_INFO ,EDIT_CAR_INFO,CERTIFICATION_CAR_INFO } from '../../constants/api';
+import { GET_CAR_INFO ,EDIT_CAR_INFO,CERTIFICATION_CAR_INFO,UPDATE_GCAR } from '../../constants/api';
 import { fetchData,updateOSSConfig } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import { dispatchGetCarInfo,dispatchRefreshCar } from '../../action/car';
@@ -91,6 +91,7 @@ class EditCarContainer extends BaseComponent {
 			imagePathes: [],
 
 			canEdit: true,
+			isLoad: true,
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		// this.key = props.router.getLastCurrentRouteKey();
@@ -361,6 +362,12 @@ class EditCarContainer extends BaseComponent {
 				gCarLiencesName = '';
 				gCarYunYName = '';
 			}
+			this.props.updateGCarInfo({
+				carId: this.carId,//	车辆ID
+				gcarNo: gCarNo,
+				gdrivingLicenseUrl: gCarLiencesName,
+				goperateLicenseUrl: gCarYunYName
+			}, this.props.navigation);
 		}
 
 	}
@@ -382,9 +389,10 @@ class EditCarContainer extends BaseComponent {
 
 	componentWillReceiveProps(props) {
     const { car } = props;
-    if (car) {
+    if (car && this.state.isLoad) {
     	// console.log('lqq--car--->',car);
       this.setState({
+      	isLoad: false,
       	userName: car.get('carName'),
 				carNo: car.get('carNo'),
 				gcarNo: car.get('gcarNo'),
@@ -1010,7 +1018,7 @@ const mapDispatchToProps = dispatch => {
 				}
 			}));
 		},
-		certificationCarInfo: (body, router, hiddingBack) => {
+		certificationCarInfo: (body, navigation, hiddingBack) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -1025,8 +1033,22 @@ const mapDispatchToProps = dispatch => {
 				},
 			}));
 		},
-
-		getCarInfo:(body, router) => {
+		updateGCarInfo: (body, navigation, hiddingBack) => {
+			dispatch(fetchData({
+				body,
+				method: 'POST',
+				api: UPDATE_GCAR,
+				msg: '修改成功',
+				successToast: true,
+				showLoading: true,
+				success: () => {
+						dispatch(dispatchRefreshCar());
+						navigation.dispatch({type:'pop'});
+						// 发起车辆管理列表刷新动作 --liqingqing
+				},
+			}));
+		},
+		getCarInfo:(body, navigation) => {
 			dispatch(fetchData({
 				body,
 				method: 'GET',

@@ -46,7 +46,6 @@ class MessageContainer extends BaseComponent {
 	  this._checkedAll = this._checkedAll.bind(this);
 	  this._changeTab = this._changeTab.bind(this);
 	  this._change = this._change.bind(this);
-	  console.log('currentTab----',props.navigation.state.params.currentTab);
 	}
 
 	componentDidMount() {
@@ -261,7 +260,7 @@ class MessageContainer extends BaseComponent {
 
 	_changeTab(index) {
 		this._getMsg(index);
-		this.setState({ pageNo: 1, currentTab: index,initChoose: true });
+		this.setState({ pageNo: 1, currentTab: index });
 		this.props.dispatch(dispatchRefreshCheckBox({checkStatus: false}));
 	}
 	render() {

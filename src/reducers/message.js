@@ -13,7 +13,6 @@ const initState = Immutable.fromJS({
 	isEndReached: false,
 	isRefreshMsg: false,
 	isCheckedAll: false,
-	isRefreshView: true,
 });
 
 export default (state = initState, action) => {
@@ -126,10 +125,6 @@ export default (state = initState, action) => {
 
 		case ActionTypes.ACTION_REFRESH_MESSAGE_LIST:
 			newState = newState.set('isRefreshMsg', true);
-			return newState;
-
-		case ActionTypes.ACTION_CONTACT_MESSAGE:
-			newState = newState.set('isRefreshView', false);
 			return newState;
 
 		case ActionTypes.ACTION_CHECKBOX:
