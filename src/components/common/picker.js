@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#999999',
+    color: '#333333',
   },
   listView: {
     flex: 1,

@@ -1018,7 +1018,7 @@ const mapDispatchToProps = dispatch => {
 				}
 			}));
 		},
-		certificationCarInfo: (body, router, hiddingBack) => {
+		certificationCarInfo: (body, navigation, hiddingBack) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -1033,7 +1033,7 @@ const mapDispatchToProps = dispatch => {
 				},
 			}));
 		},
-		updateGCarInfo: (body, router, hiddingBack) => {
+		updateGCarInfo: (body, navigation, hiddingBack) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -1048,7 +1048,7 @@ const mapDispatchToProps = dispatch => {
 				},
 			}));
 		},
-		getCarInfo:(body, router) => {
+		getCarInfo:(body, navigation) => {
 			dispatch(fetchData({
 				body,
 				method: 'GET',

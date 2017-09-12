@@ -6,13 +6,13 @@ export const PAGE_SIZE = 10;
 // 7rpCvcfAnSIotnBikrOoZG49B1tv3z9H
 export const TOKEN = DEBUG ? '8aaa85b2fb864ac19e65ae389160d1ec' : '7rpCvcfAnSIotnBikrOoZG49B1tv3z9H';
 
-// export const HOST = DEBUG ? 'http://app-api-test.lenglianmajia.com/' : 'http://app-api.lenglianmajia.com/';
+export const HOST = DEBUG ? 'http://app-api-test.lenglianmajia.com/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.33.4:8882/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.29.54:8086/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.32.237:8083/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.32.117:8081/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
-export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
+// export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
 
 export const IMG_HOST = DEBUG ? 'http://img-test.lenglianmajia.com/' : 'http://img.lenglianmajia.com/';
 export const CONTRACT_HEADER = DEBUG ? 'http://file-contract-test.lenglianmajia.com' : 'http://file-contract.lenglianmajia.com/';// 合同地址前缀
