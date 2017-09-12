@@ -47,12 +47,6 @@ export function dispatchRefreshMessageList() {
 	}
 }
 
-export function dispatchRefreshContactView(){
-	return{
-		type: ActionTypes.ACTION_CONTACT_MESSAGE
-	}
-}
-
 export function dispatchRefreshCheckBox(params){
 	return{
 		type: ActionTypes.ACTION_CHECKBOX,
