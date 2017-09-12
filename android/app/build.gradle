@@ -97,8 +97,8 @@ android {
         applicationId "com.carrier"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 10
+        versionName "1.4.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -122,11 +122,19 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+//            def versionCodes = ["armeabi-v7a":1, "x86":2]
+//            def abi = output.getFilter(OutputFile.ABI)
+//            if (abi != null) {  // null for the universal-debug, universal-release variants
+//                output.versionCodeOverride =
+//                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+//            }
+            def outputFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+                def fileName = "carrier-release-${defaultConfig.versionName}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            } else if (variant.buildType.name.equals('staging')) {
+                def fileName = "carrier-staging-${defaultConfig.versionName}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
@@ -140,7 +148,7 @@ dependencies {
     compile project(':react-native-photo-view')
     compile project(':react-native-image-crop-picker')
 //    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+//    compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.facebook.fresco:animated-gif:0.13.0'
     // From node_modules
