@@ -63,6 +63,9 @@ export const EDIT_CAR_INFO = '/carInfo/updateCarInfo';
 //申请认证车辆信息
 export const CERTIFICATION_CAR_INFO = '/carInfo/certificationCarInfo';
 
+//修改挂车车辆信息
+export const UPDATE_GCAR = '/carInfo/updateGInfo';
+
 //路线列表
 export const ROUTE_LIST = '/carrierLineInfo/list';
 

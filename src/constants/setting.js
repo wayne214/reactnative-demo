@@ -12,6 +12,7 @@ export const HOST = DEBUG ? 'http://app-api-test.lenglianmajia.com/' : 'http://a
 // export const HOST = DEBUG ? 'http://192.168.32.237:8083/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.32.117:8081/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
+// export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
 
 export const IMG_HOST = DEBUG ? 'http://img-test.lenglianmajia.com/' : 'http://img.lenglianmajia.com/';
 export const CONTRACT_HEADER = DEBUG ? 'http://file-contract-test.lenglianmajia.com' : 'http://file-contract.lenglianmajia.com/';// 合同地址前缀

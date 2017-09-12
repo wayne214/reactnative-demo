@@ -26,7 +26,7 @@ import CountDown from '../../components/common/countDown'
 import GoodsInfo from '../../components/common/goodsInfo.js'
 import {fetchData} from '../../action/app'
 import {receiveGoodsDetail} from '../../action/goods'
-import Toast from 'react-native-root-toast'
+import Toast from '../../utils/toast.js'
 import * as API from '../../constants/api'
 import moment from 'moment';
 
@@ -59,7 +59,10 @@ class ClassName extends Component {
 		const {state, setParams} = navigation
 		const params = state.params
 		return {
-			title: params.isBetter ? '我要竞价' : '我要抢单'
+			header: (
+				<NavigatorBar router={navigation} title={ params.isBetter ? '我要竞价' : '我要抢单' }/>
+			)
+			// title: params.isBetter ? '我要竞价' : '我要抢单'
 		}
 	}
 
@@ -240,9 +243,9 @@ class ClassName extends Component {
 									<Text style={{marginBottom: 17}}>预计装货时间</Text>
 									<View style={styles.timeSelectInput}>
 										<View style={styles.timeFromToView}>
-											<View style={{justifyContent: 'center'}}>
-												<Text>起</Text>
-											</View>
+											{/*<View style={{justifyContent: 'center'}}>
+																							<Text>起</Text>
+																						</View>*/}
 											<View style={styles.inputsView}>
 												<View style={[styles.inputView,{marginRight: 10}]}>
 													<TouchableOpacity activeOpacity={0.7} style={{flex:1}} onPress={()=>{
@@ -274,41 +277,41 @@ class ClassName extends Component {
 												</View>
 											</View>
 										</View>
-										<View style={styles.timeFromToView}>
-											<View style={{justifyContent: 'center'}}>
-												<Text>止</Text>
-											</View>
-											<View style={styles.inputsView}>
-												<View style={[styles.inputView,{marginRight: 10}]}>
-													<TouchableOpacity activeOpacity={0.7} style={{flex:1}} onPress={()=>{
-														this._showPickerView('installDateEnd')
-													}}>
-														<View style={{flex:1,flexDirection: 'row'}}>
-															<View style={styles.pickeDateView}>
-																<Text style={{color: installDateEnd ? COLOR.TEXT_BLACK : COLOR.TEXT_LIGHT}}>{installDateEnd || '请选择日期'}</Text>
-															</View>
-															<View style={styles.pickeDateIcon}>
-																<Text style={styles.arrowIcon}>&#xe60e;</Text>
-															</View>
-														</View>
-													</TouchableOpacity>
-												</View>
-												<View style={styles.inputView}>
-													<TouchableOpacity activeOpacity={0.7} style={{flex:1}} onPress={()=>{
-														this._showPickerView('installTimeEnd')
-													}}>
-														<View style={{flex:1,flexDirection: 'row'}}>
-															<View style={styles.pickeDateView}>
-																<Text style={{color: installTimeEnd ? COLOR.TEXT_BLACK : COLOR.TEXT_LIGHT}}>{installTimeEnd || '请选择时间'}</Text>
-															</View>
-															<View style={styles.pickeDateIcon}>
-																<Text style={styles.arrowIcon}>&#xe60e;</Text>
-															</View>
-														</View>
-													</TouchableOpacity>
-												</View>
-											</View>
-										</View>
+										{/*<View style={styles.timeFromToView}>
+																					<View style={{justifyContent: 'center'}}>
+																						<Text>止</Text>
+																					</View>
+																					<View style={styles.inputsView}>
+																						<View style={[styles.inputView,{marginRight: 10}]}>
+																							<TouchableOpacity activeOpacity={0.7} style={{flex:1}} onPress={()=>{
+																								this._showPickerView('installDateEnd')
+																							}}>
+																								<View style={{flex:1,flexDirection: 'row'}}>
+																									<View style={styles.pickeDateView}>
+																										<Text style={{color: installDateEnd ? COLOR.TEXT_BLACK : COLOR.TEXT_LIGHT}}>{installDateEnd || '请选择日期'}</Text>
+																									</View>
+																									<View style={styles.pickeDateIcon}>
+																										<Text style={styles.arrowIcon}>&#xe60e;</Text>
+																									</View>
+																								</View>
+																							</TouchableOpacity>
+																						</View>
+																						<View style={styles.inputView}>
+																							<TouchableOpacity activeOpacity={0.7} style={{flex:1}} onPress={()=>{
+																								this._showPickerView('installTimeEnd')
+																							}}>
+																								<View style={{flex:1,flexDirection: 'row'}}>
+																									<View style={styles.pickeDateView}>
+																										<Text style={{color: installTimeEnd ? COLOR.TEXT_BLACK : COLOR.TEXT_LIGHT}}>{installTimeEnd || '请选择时间'}</Text>
+																									</View>
+																									<View style={styles.pickeDateIcon}>
+																										<Text style={styles.arrowIcon}>&#xe60e;</Text>
+																									</View>
+																								</View>
+																							</TouchableOpacity>
+																						</View>
+																					</View>
+																				</View>*/}
 										<View style={styles.remarkView}>
 											<Text style={styles.remarkText}>注：装货时间应在24小时内，避免造成额外损失</Text>
 										</View>
@@ -413,8 +416,8 @@ class ClassName extends Component {
 								<TouchableOpacity activeOpacity={0.7} onPress={()=>{
 									if(!installDateStart){ Toast.show('请选择预计装货起始日期'); return}
 									if(!installTimeStart){ Toast.show('请选择预计装货起始时间'); return}
-									if(!installDateEnd){ Toast.show('请选择预计装货截止日期'); return}
-									if(!installTimeEnd){ Toast.show('请选择预计装货截止时间'); return}
+									// if(!installDateEnd){ Toast.show('请选择预计装货截止日期'); return}
+									// if(!installTimeEnd){ Toast.show('请选择预计装货截止时间'); return}
 									if(!arrivalDate){ Toast.show('请选择预计到货时间'); return}
 									if(!priceValue){ Toast.show('请填写您的报价'); return}
 									this.props._biddingGoods({
@@ -425,7 +428,7 @@ class ClassName extends Component {
 										orderPrice: priceValue,
 										type: 2,//1 竞价 2 抢单,
 										loadingStartDate: `${installDateStart} ${installTimeStart}:00`,
-										loadingEndDate: `${installDateEnd} ${installTimeEnd}:00`,
+										loadingEndDate: `${installDateStart} ${installTimeStart}:00`,//`${installDateEnd} ${installTimeEnd}:00`,
 										arrivalDate: arrivalDate+' 00:00:00',
 										entrustType: goodsDetail.entrustType
 									},()=>{

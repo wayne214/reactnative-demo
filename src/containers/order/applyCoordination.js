@@ -24,7 +24,7 @@ import BaseComponent from '../../components/common/baseComponent.js'
 class ApplyCoordination extends BaseComponent {
 	constructor(props) {
 	  super(props);
-	  const {params} = this.props.router.getCurrentRoute()
+	  const {params} = this.props.navigation.state //router.getCurrentRoute()
 	  this._callHontLine = this._callHontLine.bind(this)
 	  this.state = {
 	  	orderNo: params.orderNo,
