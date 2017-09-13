@@ -28,7 +28,7 @@ class Coordination extends Component{
 	}
 	render() {
 		const {closeAction,data} = this.props
-
+		console.log(" ==== 协调结果新结果 ",data);
 		return (
 			<View style={styles.container}>
 				<View style={{borderRadius: 8}} removeClippedSubviews={true}>
@@ -48,8 +48,14 @@ class Coordination extends Component{
 					</View>
 					<View style={{width: 295,backgroundColor: 'white',padding: 15,borderBottomRightRadius: 8,borderBottomLeftRadius: 8}}>
 						<Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 15}}>申请协调方：<Text style={{color: COLOR.TEXT_BLACK}}>{data.consult}</Text></Text>
-						<Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 15}}>应收运费：<Text style={{color: COLOR.TEXT_BLACK}}>¥{data.dealPrice}</Text></Text>
-						<Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 15}}>实收运费：¥<Text style={{color: COLOR.TEXT_MONEY}}>{data.paymentPrice}</Text></Text>
+						{
+							data.entrustType === 1 && data.goodsType === 1 ? null// entrustType == 1 自营  goodsType == 1 干线
+							: <Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 15}}>应收运费：<Text style={{color: COLOR.TEXT_BLACK}}>¥{data.dealPrice}</Text></Text>
+						}
+						{
+							data.entrustType === 1 && data.goodsType === 1 ? null // entrustType == 1 自营  goodsType == 1 干线
+							: <Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 15}}>实收运费：¥<Text style={{color: COLOR.TEXT_MONEY}}>{data.paymentPrice}</Text></Text>
+						}
 						<Text style={{color: COLOR.TEXT_NORMAL,fontSize:12,marginBottom: 8}}>协调内容：</Text>
 						<Text style={{color: COLOR.TEXT_BLACK,fontSize:12,lineHeight: 25}}>{data.content}</Text>
 					</View>
