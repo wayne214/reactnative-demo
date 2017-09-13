@@ -7,6 +7,8 @@ import {
     StyleSheet,
     Dimensions,
     Image,
+    Animated,
+    Easing,
     TouchableOpacity,
     ScrollView
 } from 'react-native';
@@ -17,48 +19,65 @@ class ScrollAD extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			contentW: 0
+			contentW: 0,
+			positionX: new Animated.Value(0)
 		};
+		this._startAimate = this._startAimate.bind(this)
 	}
 
 	componentDidMount(){
 		setTimeout(()=>{
 			const {contentW} = this.state
-			let positionX = 0
 			if (this._scrollView) {
 				if (contentW <= width - 40 - 20) {
 					console.log("  广告内容小于指定的宽度就不滚动");
 					return
 				};
-				this.interval = setInterval(() =>{
-					positionX += 2
-					if (positionX > contentW - 20) {//20的偏移量
-						positionX = 0
-					};
-					this._scrollView.scrollTo({x:positionX, y:0, animated: (positionX != 0)})
-				},100)
+				this._startAimate()
 			};
 		}, 500);
+	}
+	componentWillUnmount(){
+		this.interval && clearInterval(this.interval)
+	}
 
+	_startAimate(){
+		const {contentW} = this.state
+		Animated.sequence([
+			Animated.timing(this.state.positionX, {
+          toValue: (contentW-30) * -1,
+          duration: parseInt(contentW/40) * 1000,
+          easing: Easing.linear
+      }),
+      Animated.timing(this.state.positionX, {
+          toValue: 20,
+          duration: 0,
+      })
+    ]).start((e)=>{
+    	this._startAimate()
+    })
 	}
 
 	render() {
 		const {content} = this.props
+		const {positionX} = this.state
 		return (
 			<View style={styles.container}>
 				<View style={styles.contentView}>
-					<ScrollView
+					<Animated.ScrollView
+						style={{marginLeft: positionX,flex: 1}}
+						scrollEnabled={false}
 						onContentSizeChange={(w,h)=>{
-							this.setState({
-								contentW: w
-							})
+							this.setState({contentW: w})
 						}}
 						ref={(ref) => this._scrollView = ref}
 						removeClippedSubviews={false}
 						horizontal={true}
 						showsHorizontalScrollIndicator={false}>
-						<Text style={styles.content} adjustsFontSizeToFit={false} numberOfLines={1}>{content}</Text>
-					</ScrollView>
+						<View style={{justifyContent: 'center',alignItems:'center'}}>
+							<Text style={styles.content} adjustsFontSizeToFit={false} numberOfLines={1}>{content}</Text>
+						</View>
+					</Animated.ScrollView>
 				</View>
 				<View style={styles.closeButton}>
 					<Text>关闭</Text>
@@ -69,22 +88,18 @@ class ScrollAD extends Component {
 }
 const styles = StyleSheet.create({
 	container:{
-		height: 40,
+		height: 30,
 		width,
 		flexDirection: 'row',
-		// backgroundColor: 'yellow',
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	content: {
-		flex: 1,
-		color: 'gray'
+		color: 'gray',
 	},
 	contentView:{
-		// marginLeft: 10,
-		// backgroundColor: 'orange',
-		height: 20,
-		flex: 1
+		flex: 1,
+		justifyContent: 'center'
 	},
 	closeButton: {
 		width: 40,

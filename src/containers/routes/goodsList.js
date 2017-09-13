@@ -109,7 +109,7 @@ class GoodsList extends Component {
                 })
               }}/>
         }
-        <ScrollAD content={'1234234134123412341234 12341 12341 12341 155'}/>
+        <ScrollAD content={'1234234134123412341234 1234 2341 3412 341 234 1234 1234234134123412341234 1234234134123412341234 1234234134123412341234 1234234134123412341234'}/>
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
