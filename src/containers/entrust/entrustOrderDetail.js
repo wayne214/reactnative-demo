@@ -35,24 +35,23 @@ class EntrustOrderDetail extends Component {
 	  this._detailRefresh = this._detailRefresh.bind(this)
 	  const {params} = props.navigation.state
 	  this.state = {
-	  	params,
 	  	enable: true,
 	  	disableButton: false
 	  }
-	  console.log("------ 委托详情 Data",params);
 	}
 	componentDidMount() {
 		this._detailRefresh()
+
 	}
 	componentWillUnmount(){
-		const {params} = this.state
-		if (params.refreshCallBack) {
-			params.refreshCallBack()
-		};
+		// const {params} = this.state
+		// if (params.refreshCallBack) {
+		// 	params.refreshCallBack()
+		// };
 	}
 	_detailRefresh(){
 		const {user} = this.props
-		const {params} = this.state
+		const {params} = this.props.navigation.state
 		this.props._getEntrustOrderDetail({
 			detailType: params.activeTab,//  详情类型  1派单，  2竞价，3抢单
 			companyId: user.userId,
@@ -62,17 +61,25 @@ class EntrustOrderDetail extends Component {
 	componentWillUnmount() {
 		this.props._clearEntrustOrderDetail()
 	}
+	static navigationOptions = ({navigation}) => {
+		return {
+			header: (
+				<NavigatorBar router={navigation} backViewClick={()=>{
+					if (navigation.state.params.refreshCallBack) {
+						navigation.state.params.refreshCallBack()
+					};
+					navigation.dispatch({type: 'pop'})
+				}}/>
+			)
+		}
+	}
 	render() {
-		const {params,enable,disableButton} = this.state
+		const {params} = this.props.navigation.state
+		const {enable,disableButton} = this.state
 		const {user,entrustOrderDetail} = this.props
 		const expireTime = (entrustOrderDetail && entrustOrderDetail.expireTime) ? entrustOrderDetail.expireTime : '2017-08-25 00:00:00'
 		return <View style={styles.container}>
-			{/*<NavigatorBar router={this.props.router} title={ '委托详情' } backViewClick={()=>{
-							if (params.refreshCallBack) {
-								params.refreshCallBack()
-							};
-							this.props.router.pop()
-						}}/>*/}
+			{/**/}
 			{
 				entrustOrderDetail ?
 					<ScrollView style={styles.scrollView}>
@@ -119,7 +126,7 @@ class EntrustOrderDetail extends Component {
 														this.setState({enable: false})
 														this.props.navigation.dispatch({
 															type: RouteType.ROUTE_DISPATCH_CAR,
-															params: {goodsId: entrustOrderDetail.resourceId}
+															params: {goodsId: entrustOrderDetail.resourceId, title: '调度车辆'}
 														})
 													},()=>{
 														if (params.refreshCallBack) {params.refreshCallBack()};
@@ -141,7 +148,7 @@ class EntrustOrderDetail extends Component {
 												this.props._getResourceState({goodsId: entrustOrderDetail.resourceId},(resourceState)=>{
 													this.props.navigation.dispatch({
 														type: RouteType.ROUTE_DISPATCH_CAR,
-														params: {goodsId: entrustOrderDetail.resourceId}
+														params: {goodsId: entrustOrderDetail.resourceId, title: '调度车辆'}
 													})
 												})
 											}else{

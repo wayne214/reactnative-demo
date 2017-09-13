@@ -182,7 +182,7 @@ class EntrustOrderList extends BaseComponent {
 									}
                   this.props.navigation.dispatch({
                     type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
-                    params: data
+                    params: {...data, title: '委托详情'}
                   })
 								})
 							}}
@@ -221,6 +221,7 @@ class EntrustOrderList extends BaseComponent {
 							dataSource={entrustOrderUndispatch}
 							itemClick={(data)=>{
 								data.activeTab = this.state.activeTab
+								data.title = '委托详情'
 								if (data.resourceStatus == 1) {
 									this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
 										// this.props.router.push(RouteType.ROUTE_ENTRUST_ORDER_DETAIL,data)
@@ -241,7 +242,7 @@ class EntrustOrderList extends BaseComponent {
 								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
                   this.props.navigation.dispatch({
                     type: RouteType.ROUTE_DISPATCH_CAR,
-                    params: {goodsId: data.resourceId}
+                    params: {goodsId: data.resourceId, title: '调度车辆'}
                   })
 									// this.props.router.push(RouteType.ROUTE_DISPATCH_CAR,)
 								})
