@@ -96,6 +96,7 @@ class CarContainer extends BaseComponent {
 		const {state, setParams} = navigation;
 	  return {
 	    header: <NavigatorBar 
+	    title='车辆管理'
 	    firstLevelIconFont='&#xe7bf;'
 			secondLevelIconFont='&#xe62f;'
 			secondLevelIconFontStyle={{ fontSize: 24, marginTop: 4 }}
