@@ -32,7 +32,8 @@ class GoodsList extends Component {
     super(props);
     this.state = {
       activeTab: 0,
-      searchAddressInfo: null
+      searchAddressInfo: null,
+      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
     }
   }
   componentDidMount() {
@@ -109,7 +110,18 @@ class GoodsList extends Component {
                 })
               }}/>
         }
-        <ScrollAD content={'1234234134123412341234 1234 2341 3412 341 234 1234 1234234134123412341234 1234234134123412341234 1234234134123412341234 1234234134123412341234'}/>
+        {
+          this.state.ADContent ?
+            <ScrollAD
+              content={this.state.ADContent}
+              closeAction={()=>{
+                console.log(" close ad action ");
+                this.setState({
+                  ADContent: ''
+                })
+              }}/>
+          : null
+        }
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
