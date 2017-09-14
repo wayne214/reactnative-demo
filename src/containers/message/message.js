@@ -95,7 +95,7 @@ class MessageContainer extends BaseComponent {
 
   static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar title="我的消息" firstLevelClick={ () => {
+	    header: <NavigatorBar firstLevelClick={ () => {
 	    	navigation.state.params.navigatePress()
 	    }} optTitle={ navigation.state.params.text } router={ navigation }/>
 	  };

@@ -129,7 +129,7 @@ class HomeContainer extends BaseComponent {
               firstLevelIconFontStyle={{ fontSize: 24 }}
               backViewClick={ this.props.openControlPanel }
               thirdLevelClick={ () => Linking.link(this.props.hotLine) }
-              secondLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { currentTab: 0 }}) }
+              secondLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }
               firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_LIST, params: { title: '' }}) }/>
           :
             <NavigatorBar
@@ -139,7 +139,7 @@ class HomeContainer extends BaseComponent {
               secondLevelIconFont='&#xe60f;'
               backViewClick={ this.props.openControlPanel }
               secondLevelClick={ () => Linking.link(this.props.hotLine) }
-              firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: { currentTab: 0 }}) }/>
+              firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }/>
         }
         {
           (() => {
