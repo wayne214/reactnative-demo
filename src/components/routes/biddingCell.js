@@ -51,8 +51,21 @@ class BiddingCell extends Component{
 		return (
 			<View style={styles.container}>
 				<View style={{height: 10,backgroundColor: COLOR.APP_CONTENT_BACKBG}}></View>
-				<View style={{height: 118,backgroundColor: 'white',justifyContent: 'space-between'}}>
-					<FromToSmall style={{marginTop: 18}} from={rowData.from} to={rowData.to} />
+				<View style={{height: 40,flex: 1,flexDirection: 'row',backgroundColor: 'white',alignItems:'center',justifyContent:'space-between',paddingRight: 10,paddingLeft: 10}}>
+					<Text>委托编号:{rowData.resourceId}</Text>
+					{
+						(()=>{
+						if(rowData.entrustType === 1 ){
+							return (<View style={[styles.routeType,{right: 10,backgroundColor: 'white',borderBottomLeftRadius:2,borderBottomRightRadius:2,borderWidth:1,borderColor: 'red'}]}>
+											<Text style={{fontSize: 14,color:'red'}}>自营</Text>
+										</View>)
+						}else
+							return null
+						})()
+					}
+				</View>
+				<View style={{height: 104,backgroundColor: 'white',justifyContent: 'space-between'}}>
+					<FromToSmall style={{marginTop: 4}} from={rowData.from} to={rowData.to} />
 					<View style={{flexDirection: 'row',height: 44,marginBottom:0,borderTopWidth: 1,borderTopColor: COLOR.LINE_COLOR,justifyContent: 'space-between',paddingRight: 10,paddingLeft: 10}}>
 						<View style={styles.itemView}>
 							{
@@ -170,7 +183,19 @@ const styles = StyleSheet.create({
 	toText: {
 		fontSize: 14,
 		color: COLOR.TEXT_BLACK
-	}
+	},
+	routeType:{
+		flex: 1,
+		backgroundColor: '#fff3dd',
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'absolute',
+		borderBottomLeftRadius: 2,
+		borderBottomRightRadius: 2,
+		right: 10,
+		width: 48,
+		height: 21,
+	},
 })
 
 export default BiddingCell

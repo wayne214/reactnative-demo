@@ -87,35 +87,25 @@ export default (state = initState, action) => {
 					}else if (payload.entrustOrderType == 1) {
 						let str = '待调度'
 						switch(item.resourceStatus){
-							case 2:
-								str = '已关闭';break;
-							case 3:
-								str = '已取消';break;
-							case 4:
-								str = '已删除';break;
+							case 2: str = '已关闭';break;
+							case 3: str = '已取消';break;
+							case 4: str = '已删除';break;
 						}
 						item.orderStateStr = str
 						item.entrustOrderStatus = 2//标记为待调度
 					}
-
 					return item
-
 				})
 				newState = newState.setIn([rootType,'list'],newState.getIn([rootType,'list']).concat(newArr));
 			};
-			if (newState.getIn([rootType,'list']).size < payload.total) {
-				newState = newState.setIn([rootType,'hasMore'],true)
-			}else{
-				newState = newState.setIn([rootType,'hasMore'],false)
-			}
+			newState = newState.setIn([rootType,'hasMore'],newState.getIn([rootType,'list']).size < payload.total)
 			return newState;
 
 		case ActionTypes.ACTION_GET_FREE_CAR_LIST:
-			console.log("--- reduce中 获取到供应商的司机 ",payload);
-
 			newState = newState.setIn(['freeCarList','pageNo'],payload.pageNo);
 			newState = newState.setIn(['freeCarList','isLoadingMore'],false);
 			newState = newState.setIn(['freeCarList','total'],payload.total);
+
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn(['freeCarList','list'],Immutable.fromJS([]));
 			}
@@ -126,6 +116,7 @@ export default (state = initState, action) => {
 				})
 				newState = newState.setIn(['freeCarList','list'],newState.getIn(['freeCarList','list']).concat(newArr));
 			};
+			newState = newState.setIn(['freeCarList','hasMore'],newState.getIn(['freeCarList','list']).size < payload.total)
 			return newState
 		case ActionTypes.ACTION_RECEIVE_ENTRUST_ORDER_DETAIL:
 			if (payload) {

@@ -71,7 +71,9 @@ class OrderDetail extends Component {
 	_showCoordinateResult(result){
 		this.setState({
 			showCoordination: true,
-			coordinationResult: {
+			coordinationResult: {//可以直接传result  没必要解开按key传值
+				entrustType: result.entrustType,
+				goodsType: result.goodsType,
 				content: result.priceInstruction,
 				consult: result.consultType == 1 ? '委托方' : '承运方',
 				dealPrice: result.dealPrice,
@@ -123,7 +125,14 @@ class OrderDetail extends Component {
 							<Text>成单运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierDealPrice}</Text>元</Text>
 						</View>
 						{
-							orderDetail.consultState == 3 ?
+							orderDetail.entrustType == 1 && orderDetail.goodsType == 1 && orderDetail.companyExaminePrice ?
+								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
+									<Text>审核运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.companyExaminePrice}</Text>元</Text>
+								</View>
+							: null
+						}
+						{
+							orderDetail.consultState == 3  && !(orderDetail.entrustType == 1 && orderDetail.goodsType == 1) ?// 协调完成 且 不是自营 干线
 								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
 									<Text>协调运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierPaymentPrice}</Text>元</Text>
 								</View>
@@ -430,7 +439,15 @@ class OrderDetail extends Component {
 											{
 												title: '协调结果',
 												callBack: ()=>{
-													this.props._requestCoordinateResult({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },(data)=>{this._showCoordinateResult(data)})
+													this.props._requestCoordinateResult(
+														{
+															orderNo: orderDetail.orderNo,
+															entrustType: orderDetail.entrustType,
+															goodsType: orderDetail.goodsType,
+															carId: this.props.user.carId ? this.props.user.carId : ''
+														},
+														(data)=>{this._showCoordinateResult(data)}
+													)
 												}
 											},
 											{
@@ -540,7 +557,14 @@ class OrderDetail extends Component {
 													{
 														title: '协调结果',
 														callBack: ()=>{
-															this.props._requestCoordinateResult({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },(data)=>{this._showCoordinateResult(data)})
+															this.props._requestCoordinateResult(
+																{
+																	orderNo: orderDetail.orderNo,
+																	entrustType: orderDetail.entrustType,
+																	goodsType: orderDetail.goodsType,
+																	carId: this.props.user.carId ? this.props.user.carId : ''
+																},(data)=>{this._showCoordinateResult(data)}
+															)
 														}
 													}
 												]}/>
@@ -622,7 +646,14 @@ class OrderDetail extends Component {
 											{
 												title: '协调结果',
 												callBack: ()=>{
-													this.props._requestCoordinateResult({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },(data)=>{this._showCoordinateResult(data)})
+													this.props._requestCoordinateResult(
+														{
+															orderNo: orderDetail.orderNo,
+															entrustType: orderDetail.entrustType,
+															goodsType: orderDetail.goodsType,
+															carId: this.props.user.carId ? this.props.user.carId : ''
+														},(data)=>{this._showCoordinateResult(data)}
+													)
 												}
 											},
 											{
@@ -653,7 +684,14 @@ class OrderDetail extends Component {
 													{
 														title: '协调结果',
 														callBack: ()=>{
-															this.props._requestCoordinateResult({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },(data)=>{this._showCoordinateResult(data)})
+															this.props._requestCoordinateResult(
+																{
+																	orderNo: orderDetail.orderNo,
+																	entrustType: orderDetail.entrustType,
+																	goodsType: orderDetail.goodsType,
+																	carId: this.props.user.carId ? this.props.user.carId : ''
+																},(data)=>{this._showCoordinateResult(data)}
+															)
 														}
 													}
 												]}/>
@@ -854,7 +892,7 @@ const mapDispatchToProps = (dispatch) => {
 				showLoading: true,
 				success: (data)=>{
 					console.log("------ 协调结果",data);
-					if(successCallBack){successCallBack(data)}
+					if(successCallBack){successCallBack({...data,...params})}
 				}
 			}))
 		},
