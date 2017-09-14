@@ -5,7 +5,7 @@ import {
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import styles from '../../../assets/css/car';
+import styles from '../../../assets/css/route';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
@@ -14,8 +14,7 @@ import Picker from 'react-native-picker';
 import { EDIT_ROUTE } from '../../constants/api';
 import { fetchData } from '../../action/app';
 import Toast from '../../utils/toast';
-import { dispatchRefreshAddRoute } from '../../action/route';
-import route from './route';
+import { dispatchRefreshAddRoute, selectedCarLength, checkedOneOfDatas } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 
 class EditRouterContainer extends BaseComponent {
@@ -33,13 +32,22 @@ class EditRouterContainer extends BaseComponent {
 			fromArea: '',
 			toAddress: '',
 			fromAddress: '',
+			carLength: '',
+			carLengthIds:'',
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this.data = props.navigation.state.params.data;
-
-		// this.key = props.router.getLastCurrentRouteKey();
-		// this.hiddingBack = (this.key === 'COMPANY_AUTH_PAGE' ? true : false);
 		this._editRoute = this._editRoute.bind(this);
+		this._checkedInDatas = this._checkedInDatas.bind(this);
+	}
+	componentDidMount() {
+		super.componentDidMount();
+		this.props.dispatch(selectedCarLength(this.data.carLength));
+	}
+
+	componentWillUnmount() {
+		super.componentWillUnmount();
+		Picker.hide();
 	}
 
 	_selectAddress(type) {
@@ -69,6 +77,9 @@ class EditRouterContainer extends BaseComponent {
 		const tpid = AddressHandler.getPIDWithPName(this.state.toProvince);
 		const tcid = AddressHandler.getCIDWithCName(this.state.toCity);
 		const taid = AddressHandler.getAIDWithAName(this.state.toCity,this.state.toArea);
+		if (this.props.carLengthIds && this.props.carLengthIds.length === 0) {
+  		return Toast.show('请选择车辆长度');
+  	}
 
 		this.props.editRoute({
 			carrierId: this.props.user.userId,
@@ -85,6 +96,7 @@ class EditRouterContainer extends BaseComponent {
 			toProvinceName: this.filterData(this.state.toProvince)  || this.filterData(this.data.toProvinceName),
 			toCityName: this.state.toProvince ? this.filterData(this.state.toCity) : this.filterData(this.data.toCityName),
 			toAreaName: this.state.toProvince ? this.filterData(this.state.toArea) : this.filterData(this.data.toAreaName),
+			carLength: this.props.carLengthIds.join(',') || this.data.carLength,
 		}, this.props.navigation, this.hiddingBack);
 
 	}
@@ -93,10 +105,9 @@ class EditRouterContainer extends BaseComponent {
   	return params ? params : '';
   }
 
-	componentWillUnmount() {
-		super.componentWillUnmount();
-		Picker.hide();
-	}
+	_checkedInDatas(index) {
+  	this.props.dispatch(checkedOneOfDatas(index));
+  }
 	static navigationOptions = ({ navigation }) => {
 	  return {
 	    header: <NavigatorBar router={ navigation }/>
@@ -105,6 +116,19 @@ class EditRouterContainer extends BaseComponent {
 	render () {
 		let fromText;
 		let toText;
+		let carLength;
+		const {carLengths,carLengthIds}= this.props;
+		console.log('carLengthIds---',carLengthIds);
+		const carLengthArr = carLengths.map( (item,index) =>{
+			return (
+				<TouchableOpacity 
+					key={index} 
+					style={ [item.isChecked ? styles.selectedBackView : styles.backView,{marginTop:10}] }
+					onPress={ ()=>{ this._checkedInDatas(index) }}>
+					<Text style={ item.isChecked ? styles.selectedMText: styles.mText }>{ item.value }</Text>
+				</TouchableOpacity>
+  		)
+		})
 		fromText = (
 			<View>
 				<Text style={ styles.routeText }>
@@ -123,7 +147,6 @@ class EditRouterContainer extends BaseComponent {
 						(this.data.toAreaName ? this.data.toAreaName : ''))}
 				</Text>
 			</View>)
-
 		return (
 			<View style = { styles.container }>
 				<View style={ [styles.hiddenCellContainer, { backgroundColor: 'white' }] }>
@@ -148,6 +171,14 @@ class EditRouterContainer extends BaseComponent {
 						{ toText }
 					</TouchableOpacity>
 				</View>
+				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
+					<View style={{flex:1, marginTop:10}}>
+						<Text style={ styles.hiddenText }>车辆长度</Text>
+					</View>
+					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
+						{carLengthArr}
+					</View>
+				</View>
 
 				<View style={ styles.loginBtn }>
 					<Button
@@ -169,9 +200,11 @@ class EditRouterContainer extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-	const { app } = state;
+	const { app, routes } = state;
 	return{
 		user: app.get('user'),
+		carLengths: routes.getIn(['carLength', 'carLengths']).toJS(),
+		carLengthIds : routes.getIn(['carLength', 'carLengthIds']).toJS(),
 	};
 }
 
@@ -190,7 +223,6 @@ const mapDispatchToProps = dispatch => {
 					// 修改成功
 					navigation.dispatch({type: 'pop'});
 					dispatch(dispatchRefreshAddRoute());
-
 				},
 			}));
 		}

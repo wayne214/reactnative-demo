@@ -5,7 +5,7 @@ import {
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import styles from '../../../assets/css/car';
+import styles from '../../../assets/css/route';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
@@ -13,8 +13,8 @@ import AddressHandler from '../../utils/address';
 import Picker from 'react-native-picker';
 import { ADD_ROUTER } from '../../constants/api';
 import { fetchData } from '../../action/app';
-import Toast from 'react-native-root-toast';
-import { dispatchRefreshAddRoute } from '../../action/route';
+import Toast from '../../utils/toast';
+import { dispatchRefreshAddRoute, getCarLength, checkedOneOfDatas } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 
 class AddRouteContainer extends BaseComponent {
@@ -30,9 +30,21 @@ class AddRouteContainer extends BaseComponent {
 			fromArea: '',
 			toAddress: '',
 			fromAddress: '',
+			carLength:'',
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this._addRoute = this._addRoute.bind(this);
+		this._checkedInDatas = this._checkedInDatas.bind(this);
+	}
+
+	componentDidMount() {
+		super.componentDidMount();
+		this.props.dispatch(getCarLength());
+	}
+
+	componentWillUnmount() {
+		super.componentWillUnmount();
+		Picker.hide();
 	}
 
 	_selectAddress(type) {
@@ -59,7 +71,10 @@ class AddRouteContainer extends BaseComponent {
 
 	_addRoute () {
 		if (!this.state.fromAddress) return Toast.show('请选择始发地');
-		if(!this.state.toAddress) return Toast.show('请选择目的地');
+		if (!this.state.toAddress) return Toast.show('请选择目的地');
+		if (this.props.carLengthIds && this.props.carLengthIds.length === 0  ) {
+  		return Toast.show('请选择车辆长度');
+  	}
 
 		const fpid = AddressHandler.getPIDWithPName(this.state.fromProvince);
 		const fcid = AddressHandler.getCIDWithCName(this.state.fromCity);
@@ -81,23 +96,39 @@ class AddRouteContainer extends BaseComponent {
 			toProvinceName: this.state.toProvince,
 			toCityName: this.state.toCity === '不限'? '' : this.state.toCity,
 			toAreaName: this.state.toArea === '不限'? '' : this.state.toArea,
-		}, this.props.navigation, );
+			carLength: this.props.carLengthIds.join(',')
+		}, this.props.navigation );
 	}
 
-	componentWillUnmount() {
-		super.componentWillUnmount();
-		Picker.hide();
-	}
+	_checkedInDatas(index) {
+  	this.props.dispatch(checkedOneOfDatas(index));
+  }
+
 	static navigationOptions = ({ navigation }) => {
 	  return {
 	    header: <NavigatorBar router={ navigation }/>
 	  };
 	};
 
+
 	render () {
+		const {carLengths}= this.props;
+		let perCarLength;
+		const carLengthArr = carLengths.map( (item,index) =>{
+			return (
+				<TouchableOpacity 
+					key={index} 
+					style={ [item.isChecked ? styles.selectedBackView : styles.backView,{marginTop:10}] }
+					onPress={ ()=>{
+						this._checkedInDatas(index)
+						}}>
+					<Text style={ item.isChecked ? styles.selectedMText: styles.mText }>{ item.value }</Text>
+				</TouchableOpacity>
+  		)
+		})
 		return (
 			<View style={ styles.container }>
-				<View style={ [styles.hiddenCellContainer, { backgroundColor: 'white' }] }>
+				<View style={ styles.hiddenCellContainer }>
 					<View style={ styles.hiddenLeft }>
 						<Text style={ styles.hiddenText }>始发地</Text>
 					</View>
@@ -108,7 +139,7 @@ class AddRouteContainer extends BaseComponent {
 						<Text style={ this.state.fromAddress ? styles.routeText : styles.rightText }>{ this.state.fromAddress || '请选择' }</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={ [styles.hiddenCellContainer, { backgroundColor: 'white' }] }>
+				<View style={ styles.hiddenCellContainer }>
 					<View style={ styles.hiddenLeft }>
 						<Text style={ styles.hiddenText }>目的地</Text>
 					</View>
@@ -118,6 +149,14 @@ class AddRouteContainer extends BaseComponent {
 						onPress={ this._selectAddress.bind(this, 'to')}>
 						<Text style={ this.state.toAddress ? styles.routeText : styles.rightText }>{ this.state.toAddress || '请选择' }</Text>
 					</TouchableOpacity>
+				</View>
+				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
+					<View style={{flex:1, marginTop:10}}>
+						<Text style={ styles.hiddenText }>车辆长度</Text>
+					</View>
+					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
+						{carLengthArr}
+					</View>
 				</View>
 
 				<View style={ styles.loginBtn }>
@@ -133,15 +172,18 @@ class AddRouteContainer extends BaseComponent {
 	}
 }
 const mapStateToProps = (state) => {
-	const { app } = state;
+	const { app, routes } = state;
 	return{
 		user: app.get('user'),
-		loading: app.get('loading')
+		loading: app.get('loading'),
+		carLengths: routes.getIn(['carLength', 'carLengths']).toJS(),
+		carLengthIds : routes.getIn(['carLength', 'carLengthIds']).toJS(),
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
+		dispatch,
 		addRoute: (body, navigation) => {
 			dispatch(fetchData({
 				body,

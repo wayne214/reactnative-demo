@@ -515,7 +515,7 @@ export const AppNavigator = StackNavigator({
       headerBackTitle: null,
       headerTintColor: 'black'
     }
-  }
+  },
 
 }, {
   headerMode: 'screen',
