@@ -318,11 +318,19 @@ class OrderCell extends Component{
 																		textStyle={{fontSize: 14,color: 'white'}}
 																		onPress={()=>{
 																			if (this.props._requestCoordinateResult) {
-																				this.props._requestCoordinateResult({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},(data)=>{
-																					if (this.props.showCoordination) {
-																						this.props.showCoordination(data)
+																				this.props._requestCoordinateResult(
+																					{
+																						orderNo: rowData.orderNo,
+																						entrustType: rowData.entrustType,
+																						goodsType: rowData.goodsType,
+																						carId: this.props.user.carId ? this.props.user.carId : ''
+																					},
+																					(data)=>{
+																						if (this.props.showCoordination) {
+																							this.props.showCoordination(data)
+																						}
 																					}
-																				})
+																				)
 																			}
 																		}}>
 																	  协调结果
@@ -463,11 +471,19 @@ class OrderCell extends Component{
 																	textStyle={{fontSize: 14,color: 'white'}}
 																	onPress={()=>{
 																		if (this.props._requestCoordinateResult) {
-																			this.props._requestCoordinateResult({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},(data)=>{
-																				if (this.props.showCoordination) {
-																					this.props.showCoordination(data)
+																			this.props._requestCoordinateResult(
+																				{
+																					orderNo: rowData.orderNo,
+																					entrustType: rowData.entrustType,
+																					goodsType: rowData.goodsType,
+																					carId: this.props.user.carId ? this.props.user.carId : ''
+																				},
+																				(data)=>{
+																					if (this.props.showCoordination) {
+																						this.props.showCoordination(data)
+																					}
 																				}
-																			})
+																			)
 																		}
 																	}}>
 																  协调结果
@@ -534,11 +550,19 @@ class OrderCell extends Component{
 																		textStyle={{fontSize: 14,color: 'white'}}
 																		onPress={()=>{
 																			if (this.props._requestCoordinateResult) {
-																				this.props._requestCoordinateResult({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},(data)=>{
-																					if (this.props.showCoordination) {
-																						this.props.showCoordination(data)
+																				this.props._requestCoordinateResult(
+																					{
+																						orderNo: rowData.orderNo,
+																						entrustType: rowData.entrustType,
+																						goodsType: rowData.goodsType,
+																						carId: this.props.user.carId ? this.props.user.carId : ''
+																					},
+																					(data)=>{
+																						if (this.props.showCoordination) {
+																							this.props.showCoordination(data)
+																						}
 																					}
-																				})
+																				)
 																			}
 																		}}>
 																	  协调结果
@@ -577,11 +601,19 @@ class OrderCell extends Component{
 																textStyle={{fontSize: 14,color: 'white'}}
 																onPress={()=>{
 																	if (this.props._requestCoordinateResult) {
-																		this.props._requestCoordinateResult({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},(data)=>{
-																			if (this.props.showCoordination) {
-																				this.props.showCoordination(data)
+																		this.props._requestCoordinateResult(
+																			{
+																				orderNo: rowData.orderNo,
+																				entrustType: rowData.entrustType,
+																				goodsType: rowData.goodsType,
+																				carId: this.props.user.carId ? this.props.user.carId : ''
+																			},
+																			(data)=>{
+																				if (this.props.showCoordination) {
+																					this.props.showCoordination(data)
+																				}
 																			}
-																		})
+																		)
 																	}
 																}}>
 															  协调结果
@@ -619,11 +651,19 @@ class OrderCell extends Component{
 																	textStyle={{fontSize: 14,color: 'white'}}
 																	onPress={()=>{
 																		if (this.props._requestCoordinateResult) {
-																			this.props._requestCoordinateResult({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},(data)=>{
-																				if (this.props.showCoordination) {
-																					this.props.showCoordination(data)
+																			this.props._requestCoordinateResult(
+																				{
+																					orderNo: rowData.orderNo,
+																					entrustType: rowData.entrustType,
+																					goodsType: rowData.goodsType,
+																					carId: this.props.user.carId ? this.props.user.carId : ''
+																				},
+																				(data)=>{
+																					if (this.props.showCoordination) {
+																						this.props.showCoordination(data)
+																					}
 																				}
-																			})
+																			)
 																		}
 																	}}>
 																  协调结果

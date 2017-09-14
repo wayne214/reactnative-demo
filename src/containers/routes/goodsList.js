@@ -25,14 +25,15 @@ const { height,width } = Dimensions.get('window')
 
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
-
+import ScrollAD from '../../components/common/scrollAD.js'
 
 class GoodsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeTab: 0,
-      searchAddressInfo: null
+      searchAddressInfo: null,
+      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
     }
   }
   componentDidMount() {
@@ -109,7 +110,18 @@ class GoodsList extends Component {
                 })
               }}/>
         }
-
+        {
+          this.state.ADContent ?
+            <ScrollAD
+              content={this.state.ADContent}
+              closeAction={()=>{
+                console.log(" close ad action ");
+                this.setState({
+                  ADContent: ''
+                })
+              }}/>
+          : null
+        }
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{

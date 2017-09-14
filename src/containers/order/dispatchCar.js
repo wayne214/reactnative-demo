@@ -16,6 +16,8 @@ import * as API from '../../constants/api.js'
 import {fetchData} from '../../action/app.js'
 import { getFreeCarList } from '../../action/entrust.js'
 import BaseComponent from '../../components/common/baseComponent';
+import LoadMoreFooter from '../../components/common/loadMoreFooter'
+import SearchInput from '../../components/common/searchInput.js'
 
 class DispatchCarCell extends Component {
 	constructor(props) {
@@ -70,35 +72,35 @@ class DispatchCar extends BaseComponent {
 	  	goodsId: params.goodsId
 	  }
 	  this._carBindDriver = this._carBindDriver.bind(this)
-
+	  this._searchKey = ''
 	}
 
 	componentDidMount() {
 		super.componentDidMount();
 		const {user } = this.props
     this.props.navigation.setParams({carBindDriver: this._carBindDriver})
-
-		this.props._getCarList({
-			carrierId: user.userId,
-			pageNo: 1,
-			carState: 0,//休息中
-			haveDriver: 1,//是否绑定司机 1 绑定  0 全部
-			certificationStatus: 2 //认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过
-		})
+    this._loadMoreAction(1)
+		// this.props._getCarList({
+		// 	carrierId: user.userId,
+		// 	pageNo: 1,
+		// 	searchKey: '',
+		// 	carState: 0,//休息中
+		// 	haveDriver: 1,//是否绑定司机 1 绑定  0 全部
+		// 	certificationStatus: 2 //认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过
+		// })
 	}
 
 	static navigationOptions = ({navigation}) => {
 		return {
-			headerRight: (
-				<Button
-	        style={{borderWidth: 0,height: 34,bottom: 0,marginRight: 20,marginTop: 10}}
-	        textStyle={{color: COLOR.TEXT_NORMAL,fontSize: 14}}
-	        onPress={()=>{
-	          navigation.state.params.carBindDriver()
-	        }}>
-		      绑定司机
-		    </Button>
-	    )
+			header: (
+				<NavigatorBar
+					router={navigation}
+					optTitle='绑定司机'
+					optTitleStyle={{color: COLOR.TEXT_NORMAL}}
+					firstLevelClick={ () => {
+						navigation.state.params.carBindDriver()
+					}}/>
+			)
 	  }
 	}
 
@@ -127,20 +129,50 @@ class DispatchCar extends BaseComponent {
 			rowData={rowData}
 			rowID={ rowID }/>
 	}
+	_renderFooter(){
+		const { freeCarList } = this.props;
+		if (freeCarList.get('list').size > 1) {
+			if (freeCarList.get('hasMore')) {
+				return <LoadMoreFooter />
+			}else{
+				return <LoadMoreFooter isLoadAll={true}/>
+			}
+		};
+	}
+	_toEnd(){
+		const {freeCarList, user} = this.props
+		if (freeCarList.get('isLoadingMore')){
+			console.log("------ 正在加载中");
+			return;
+		}else if(freeCarList.get('list').size >= freeCarList.get('total')) {
+			console.log("------ 已加载全部 size ",freeCarList.get('list').size);
+			return;
+		}
+		this._loadMoreAction()
+	}
+
+	_loadMoreAction(pageNo){
+		const {freeCarList, user} = this.props
+		console.log(" search key is  ",this._searchKey);
+		this.props._getCarList({
+			searchKey: this._searchKey || '',
+			carrierId: user.userId,
+			pageNo: pageNo || parseInt(freeCarList.get('pageNo')) + 1,
+			carState: 0,//休息中
+			haveDriver: 1,//是否绑定司机 1 绑定  0 全部
+			certificationStatus: 2 //认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过
+		})
+	}
 
 	render() {
 		const {freeCarList,user} = this.props
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
 		return <View style={styles.container}>
-			{/*<NavigatorBar
-							router={this.props.router}
-							title={ '调度车辆' }
-							optTitle='绑定司机'
-							optTitleStyle={{color: COLOR.TEXT_NORMAL}}
-							firstLevelClick={ () => {
-
-							}}/>*/}
+			<SearchInput searchAction={(key)=>{
+				this._searchKey = key
+				this._loadMoreAction(1)
+			}}/>
 			<View style={{padding: 10}}>
 				<Text style={{color: COLOR.TEXT_LIGHT,lineHeight: 18}}>温馨提示：该列表中仅显示休息中的可调度车辆，同时未绑定司机的车辆在该列表中无法显示，如有需要，请先到车辆管理页面绑定司机</Text>
 			</View>
@@ -163,7 +195,9 @@ class DispatchCar extends BaseComponent {
 				dataSource={ ds.cloneWithRows(freeCarList.get('list').toJS() || []) }
 				renderRow={this._renderRow.bind(this)}
 				onEndReachedThreshold={10}
-				enableEmptySections={true}/>
+				enableEmptySections={true}
+				onEndReached={ this._toEnd.bind(this) }
+				renderFooter={ this._renderFooter.bind(this) }/>
 			{ this.props.loading ? this._renderLoadingView() : null }
 		</View>
 	}

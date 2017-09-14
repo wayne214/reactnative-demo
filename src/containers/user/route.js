@@ -22,6 +22,9 @@ import Toast from '../../utils/toast';
 import AddressFromTo from '../../components/common/addressFromTo'
 import FromPoint from '../../../assets/img/routes/from_point.png';
 import ToPoint from '../../../assets/img/routes/to_point.png';
+import HelperUtil from '../../utils/helper';
+import { CAR_VEHICLE } from '../../constants/json';
+import fromto from '../../../assets/img/routes/fromto.png';
 
 class RouteContainer extends BaseComponent {
 
@@ -32,7 +35,7 @@ class RouteContainer extends BaseComponent {
 			pageNo: 1,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-      })
+      }),
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this);
@@ -43,7 +46,6 @@ class RouteContainer extends BaseComponent {
 		super.componentDidMount();
 		this.props.getRouteList({
 			pageNo: this.state.pageNo,
-			// carrierId: this.props.user.userId
 		});
 		this.props.navigation.setParams({ navigatePress: this._pushAddRoute })  
 	}
@@ -59,7 +61,6 @@ class RouteContainer extends BaseComponent {
       if( isRefreshAddRoute || isRefreshDeleteRoute){
       	this.props.getRouteList({
       		pageNo : 1,
-      		// carrierId: this.props.user.userId,
       	});
       }
       this.setState({ pageNo: 1 });
@@ -70,23 +71,46 @@ class RouteContainer extends BaseComponent {
 		if (this.props.hasMore && !this.props.isEndReached) {
 			this.props.getRouteList({
 				pageNo: this.state.pageNo + 1,
-				// carrierId: this.props.user.userId
 			});
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
 	}	
-
   _renderItem(rowData, section, row) {
+  	let carLength;
+  	let number = [];
+  	let perM;
+
+  	if(rowData.carLength){
+	  	number =(rowData.carLength+'').split(",");
+	  	const carLengths = (number.map( (item,index) => {
+	  		perM = HelperUtil.getCarLength(parseInt(number[index]));
+	  		return (
+					<View key={index} style={ [styles.backView, {marginTop:10}] }>
+						<Text style={ styles.mText }>{ perM }</Text>
+					</View>
+	  		)
+	  	}))
+	  	carLength = (
+				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
+					<View style={{flex:1, marginTop:10}}>
+						<Text style={ styles.hiddenText }>车辆长度</Text>
+					</View>
+					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
+						{carLengths}
+					</View>
+				</View>)
+  	}
+
 		return (
 			<View style={ styles.itemContainer }>
-				<View style={ [styles.addressView, { paddingTop: 10 }] }>
-					<Image source={ FromPoint } style={ styles.iconAddress } />
-					<Text style={ [styles.contentText] }>{ (rowData.fromProvinceName + rowData.fromCityName + rowData.fromAreaName)}</Text>
+				<View style={ styles.fromAndToContainer }>
+					<Image source={fromto} style={styles.fromToImage}/>
+					<View style={styles.textView}>
+						<Text style={styles.fromtoText}>{(rowData.fromProvinceName + rowData.fromCityName + rowData.fromAreaName)}</Text>
+						<Text style={styles.fromtoText}>{(rowData.toProvinceName + rowData.toCityName + rowData.toAreaName)}</Text>
+					</View>
 				</View>
-				<View style={ [styles.addressView, { marginTop: 15, paddingBottom: 10 }] }>
-					<Image source={ ToPoint } style={ styles.iconAddress }/>
-					<Text style={ [styles.contentText] }>{ (rowData.toProvinceName + rowData.toCityName + rowData.toAreaName)}</Text>
-				</View>
+				{carLength}
 				<View style={ styles.line }></View>
 				<View style={ styles.optContainer }>
 					<TouchableHighlight
@@ -102,7 +126,9 @@ class RouteContainer extends BaseComponent {
 					<TouchableHighlight
 						underlayColor='#e6eaf2'
 						style={ styles.optView }
-						onPress = { () => this.props.navigation.dispatch({type: RouteType.EDIT_ROUNT_PAGE,params: {title:'编辑路线', data: rowData }}) }>
+						onPress = { () => {
+							this.props.dispatch(dispatchClearRouteInfo())
+							this.props.navigation.dispatch({type: RouteType.EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
 						<View style={ styles.optView }>
 							<Text style={ styles.iconFontOpt }>&#xe617;</Text>
 							<Text style={ styles.optText }>编辑</Text>
@@ -124,12 +150,8 @@ class RouteContainer extends BaseComponent {
   	]);
 	} 
 	_pushAddRoute = () =>{
-  	// const { user } = this.props;
-		// if(user.certificationStatus === 3){
-		// 	Toast.show('您的认证被驳回');
-		// }else{	
-			this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_ROUTE, params: {title:'新增路线'}});
-		// }
+		this.props.dispatch(dispatchClearRouteInfo());	
+		this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_ROUTE, params: {title:'新增路线'}});
 	}
 	static navigationOptions = ({ navigation }) => {
 	  return {

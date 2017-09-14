@@ -270,7 +270,9 @@ class OrderList extends BaseComponent {
   _showCoordinateResult(result){
     this.setState({
       showCoordination: true,
-      coordinationResult: {
+      coordinationResult: {//可以直接传result  没必要解开按key传值
+        entrustType: result.entrustType,
+        goodsType: result.goodsType,
         content: result.priceInstruction,
         consult: result.consultType == 1 ? '委托方' : '承运方',
         dealPrice: result.dealPrice,
@@ -672,8 +674,7 @@ const mapDispatchToProps = (dispatch) => {
         showLoading: true,
         body: params,
         success: (data)=>{
-          // console.log("------ 协调结果",data);
-          if(successCallBack){successCallBack(data)}
+          if(successCallBack){successCallBack({...data,...params})}
         }
       }))
     },
