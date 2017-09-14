@@ -134,7 +134,7 @@ class LoginContainer extends BaseComponent {
 								style={ styles.input }
 								multiline={ false }
 								placeholder='请输入手机号'
-								keyboardType={ 'phone-pad' }
+								keyboardType='numeric'
 								value={ this.state.username }
 								underlineColorAndroid={ 'transparent' }
 								onChangeText={ (text) => this.setState({ username: text }) }/>
@@ -147,7 +147,7 @@ class LoginContainer extends BaseComponent {
                     } }
                     >
                     <Text
-                      style={ styles.iconFontRight }>&#xe613;</Text>
+                      style={ styles.iconFontRight }>&#xe634;</Text>
                   </TouchableOpacity>
                 </View>
 						</View>
