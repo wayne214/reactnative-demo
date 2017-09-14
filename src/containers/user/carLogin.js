@@ -116,11 +116,7 @@ class LoginContainer extends BaseComponent {
 		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
-				<NavigatorBar
-					title=' '
-					router={ router }
-					hiddenBackIcon={ true }
-					style={{ borderBottomColor: 'white'}}/>
+				
 
 				<ScrollView
 					keyboardShouldPersistTaps='handled'
