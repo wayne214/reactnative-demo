@@ -132,7 +132,8 @@ export default StyleSheet.create({
 	},
 	companyText: {
 		fontSize: 14,
-		color: '#999999'
+		color: '#999999',
+		textAlign: 'center',
 	},
 	changeCompanyText:{
 		fontSize: 12,
