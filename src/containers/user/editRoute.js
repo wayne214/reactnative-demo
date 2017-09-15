@@ -14,7 +14,7 @@ import Picker from 'react-native-picker';
 import { EDIT_ROUTE } from '../../constants/api';
 import { fetchData } from '../../action/app';
 import Toast from '../../utils/toast';
-import { dispatchRefreshAddRoute, selectedCarLength, checkedOneOfDatas } from '../../action/route';
+import { dispatchRefreshAddRoute, getCarLength,selectedCarLength, checkedOneOfDatas } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 
 class EditRouterContainer extends BaseComponent {
@@ -34,6 +34,7 @@ class EditRouterContainer extends BaseComponent {
 			fromAddress: '',
 			carLength: '',
 			carLengthIds:'',
+			idData: props.navigation.state.params.data.carLength ? props.navigation.state.params.data.carLength : '' ,
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this.data = props.navigation.state.params.data;
@@ -42,7 +43,11 @@ class EditRouterContainer extends BaseComponent {
 	}
 	componentDidMount() {
 		super.componentDidMount();
-		this.props.dispatch(selectedCarLength(this.data.carLength));
+		if(this.data.carLength){
+			this.props.dispatch(selectedCarLength(this.data.carLength));			
+		}else{
+			this.props.dispatch(getCarLength());
+		}
 	}
 
 	componentWillUnmount() {
@@ -77,7 +82,8 @@ class EditRouterContainer extends BaseComponent {
 		const tpid = AddressHandler.getPIDWithPName(this.state.toProvince);
 		const tcid = AddressHandler.getCIDWithCName(this.state.toCity);
 		const taid = AddressHandler.getAIDWithAName(this.state.toCity,this.state.toArea);
-		if (this.props.carLengthIds && this.props.carLengthIds.length === 0) {
+		const {carLengthIds} = this.props;
+		if (carLengthIds && carLengthIds.length === 0 && this.state.idData === '' ) {
   		return Toast.show('请选择车辆长度');
   	}
 
@@ -118,7 +124,6 @@ class EditRouterContainer extends BaseComponent {
 		let toText;
 		let carLength;
 		const {carLengths,carLengthIds}= this.props;
-		console.log('carLengthIds---',carLengthIds);
 		const carLengthArr = carLengths.map( (item,index) =>{
 			return (
 				<TouchableOpacity 

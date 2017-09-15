@@ -82,7 +82,7 @@ export default class ControlPanel extends React.Component {
 					(() => {
 						if(user.currentUserRole === 2){
 							return(
-								<View style={{alignItems: 'center',justifyContent: 'center'}}>
+								<View style={{alignItems: 'center',justifyContent: 'center', marginBottom: 40}}>
 									<View style={styles.companyFrame}>
 										<Text style={styles.companyText}>{ user.companyName|| user.driverName }</Text>
 									</View>
@@ -224,7 +224,7 @@ export default class ControlPanel extends React.Component {
 								<View>
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_HELP) }>
+										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title: "反馈问题"}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe602;</Text>
 											<View style={ styles.rightContent }>

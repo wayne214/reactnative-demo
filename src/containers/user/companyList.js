@@ -11,7 +11,7 @@ import {
 import styles from '../../../assets/css/setting';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType';
-import { CARRIER_INFO_LIST } from '../../constants/api';
+import { CARRIER_INFO_LIST, SAVE_CHANGE_CARRIER } from '../../constants/api';
 import { fetchData, mergeUser, refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import { dispatchCompanyList } from '../../action/carrier';
@@ -30,6 +30,7 @@ class CompanyListContainer extends BaseComponent {
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this);
+		this._getChangeCarrier = this._getChangeCarrier.bind(this);
 	}
 
 	componentDidMount() {
@@ -67,7 +68,7 @@ class CompanyListContainer extends BaseComponent {
 				underlayColor='#e6eaf2'
 				key={ section + row }
 				style={ styles.statusContainer }
-				onPress = { this.updateAlert.bind(this, rowData) }>
+				onPress = {() => this._getChangeCarrier(rowData) }>
 				<View style={ [styles.cellContainer, {alignItems: 'center'} ] }>
 					<Text style= { styles.companyText }>{ rowData.companyName || rowData.corporation }</Text>
 				</View>
@@ -75,20 +76,14 @@ class CompanyListContainer extends BaseComponent {
 		);
   }
 
-  updateAlert(data){
+  _getChangeCarrier(data){
   	Alert.alert('提示', '确定更改承运商吗', [
   		{ text: '取消', onPress: () => console.log('取消') },
   		{ text: '确定', onPress: () => {
-				const users = {
-					companyName: data.companyName,
-					corporation: data.corporation,
-					carrierId: data.id,
-					carId: data.carId,
-				};
-				new User().merge(users);
-				this.props.dispatch(mergeUser(users));
-				this.props.navigation.dispatch({ type: 'pop' });
-				this.props.dispatch(refreshTravel());
+  			this.props.getChangeCarrier({
+		  		driverPhone:this.props.user.phoneNumber,
+		  		carrierId: data.id,
+		  	},this.props.navigation,data);
   		} },
   	]);
 	} 
@@ -98,7 +93,6 @@ class CompanyListContainer extends BaseComponent {
 	  };
 	};
 	render () {
-		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
 			<ListView
@@ -136,6 +130,27 @@ const mapDispatchToProps = dispatch => {
 				}
 			}));
 		},
+		getChangeCarrier:(body,navigation,data) =>{
+			dispatch(fetchData({
+				body,
+				method: 'GET',
+				api: SAVE_CHANGE_CARRIER,
+				success: () => {
+					const users = {
+						companyName: data.companyName,
+						corporation: data.corporation,
+						carrierId: data.id,
+						carId: data.carId,
+					};
+					new User().merge(users);
+					dispatch(mergeUser(users));
+					navigation.dispatch({ type: 'pop' });
+					if(data.carId){
+						dispatch(refreshTravel());
+					}
+				}
+			}))
+		}
 	};
 }
 
