@@ -34,7 +34,6 @@ class EditRouterContainer extends BaseComponent {
 			fromAddress: '',
 			carLength: '',
 			carLengthIds:'',
-			idData: props.navigation.state.params.data.carLength ? props.navigation.state.params.data.carLength : '' ,
 			dataSource: AddressHandler.getCityOfCountry()
 		};
 		this.data = props.navigation.state.params.data;
@@ -83,7 +82,7 @@ class EditRouterContainer extends BaseComponent {
 		const tcid = AddressHandler.getCIDWithCName(this.state.toCity);
 		const taid = AddressHandler.getAIDWithAName(this.state.toCity,this.state.toArea);
 		const {carLengthIds} = this.props;
-		if (carLengthIds && carLengthIds.length === 0 && this.state.idData === '' ) {
+		if (carLengthIds && carLengthIds.length === 0 ) {
   		return Toast.show('请选择车辆长度');
   	}
 
@@ -102,7 +101,7 @@ class EditRouterContainer extends BaseComponent {
 			toProvinceName: this.filterData(this.state.toProvince)  || this.filterData(this.data.toProvinceName),
 			toCityName: this.state.toProvince ? this.filterData(this.state.toCity) : this.filterData(this.data.toCityName),
 			toAreaName: this.state.toProvince ? this.filterData(this.state.toArea) : this.filterData(this.data.toAreaName),
-			carLength: this.props.carLengthIds.join(',') || this.data.carLength,
+			carLength: this.props.carLengthIds.join(',') ,
 		}, this.props.navigation, this.hiddingBack);
 
 	}
