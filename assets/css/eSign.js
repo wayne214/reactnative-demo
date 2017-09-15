@@ -188,4 +188,9 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-end',
 	},
+	blackArrowText:{
+		fontSize: 15,
+		color:'#333333',
+		marginRight: 10,
+	}
 });

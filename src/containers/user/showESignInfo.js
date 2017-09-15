@@ -213,7 +213,7 @@ class ShowESignInfoContainer extends BaseComponent {
 
 								<View style={styles.arrowTextRight}>
 									<Text
-										style={ styles.arrowText }>
+										style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
 										{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }
 									</Text>
 									<Text style={ styles.arrowRight }>&#xe60d;</Text>
