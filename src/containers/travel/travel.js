@@ -24,7 +24,7 @@ import RouteLoading from '../../../assets/gif/route_loading.gif';
 import Button from '../../components/common/button';
 import { TRAVEL_ONOFCAR, QUERY_CAR_LIST, CONFIRM_INSTALL } from '../../constants/api';
 import { fetchData, refreshTravel } from '../../action/app';
-import { dispatchDravelList, dispatchDefaultCar } from '../../action/travel';
+import { dispatchDravelList, dispatchDefaultCar, travelInfoDone } from '../../action/travel';
 import Helper from '../../utils/helper';
 import { changeTab } from '../../action/app';
 
@@ -336,6 +336,9 @@ const mapDispatchToProps = dispatch => {
         api: TRAVEL_ONOFCAR,
         success: (data) => {
           dispatch(dispatchDravelList(data));
+        },
+        fail: () => {
+          dispatch(travelInfoDone())
         }
       }));
     },
