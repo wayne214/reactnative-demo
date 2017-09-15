@@ -91,6 +91,7 @@ export default (state = initState, action) => {
 
 		case ActionTypes.ACTION_SELECTED_CARLENGTH:
 			let selectedCarLengthArr = [];
+			let _carIds = [];
 			let carLength = action.payload.split(",");
 			function contains(carLength, index){
 				let i = carLength.length;
@@ -103,6 +104,9 @@ export default (state = initState, action) => {
 			}
 			CAR_VEHICLE.map(item => {
 				let flag = contains(carLength,item.key);
+				if(flag){
+					_carIds.push(item.key);
+				}
 				selectedCarLengthArr.push(new CarLength({
 					key: item.key,
 					value: item.value,
@@ -110,6 +114,7 @@ export default (state = initState, action) => {
 					isChecked: flag 
 				}));
 			});
+			newState = newState.setIn(['carLength', 'carLengthIds'],Immutable.fromJS(_carIds));
 			newState = newState.setIn(['carLength', 'carLengths'],Immutable.fromJS(selectedCarLengthArr));
 			return newState;
 

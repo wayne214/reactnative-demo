@@ -13,3 +13,9 @@ export function dispatchDefaultCar(params) {
 		payload: params
 	}
 }
+
+export function travelInfoDone() {
+	return {
+		type: ActionTypes.ACTION_TRAVEL_DONE
+	}
+}

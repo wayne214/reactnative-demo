@@ -16,7 +16,7 @@ import TravelContainer from '../containers/travel/travel';
 import OrderContainer from '../containers/order/order';
 import EntrustOrderContainer from '../containers/entrust/entrustOrder';
 import SettingScreen from '../containers/user/setting';
-import AgreementScreen from '../containers/user/agreement';
+import AgreementScreen from '../containers/user/agreement'
 
 import HelpScreen from '../containers/user/help';
 import HelpDetailScreen from '../containers/user/helpDetail';
