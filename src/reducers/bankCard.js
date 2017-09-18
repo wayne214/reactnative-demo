@@ -20,13 +20,13 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_SELECT_BANK_CARD_LIST:
 			if (action.payload.pageNo !== 1) {
 				tempBankCardList = state.getIn(['bankCard', 'bankCardManagerList']);
-			}			
+			}
 			console.log('lqq---action.payload.data-',action.payload.data);
 
 			tempBankCardList = tempBankCardList.concat(action.payload.data);
 			// action.payload.data.list.forEach(car => {
 			// 	tempBankCardList.push(new Car({
-					
+
 			// 		carrierId: car.carrierId,
 			// 		phoneNumber: car.phoneNumber,
 			// 		certificationStatus: parseInt(car.certificationStatus)

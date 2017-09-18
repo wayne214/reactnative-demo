@@ -40,7 +40,6 @@ class MessageContainer extends BaseComponent {
       rightTitle: '编辑'
 	  };
 	  this._editor = this._editor.bind(this);
-    this.title = props.navigation.state.params.title;
 	  this._renderItem = this._renderItem.bind(this);
 	  this._endReached = this._endReached.bind(this);
 	  this._checkedAll = this._checkedAll.bind(this);

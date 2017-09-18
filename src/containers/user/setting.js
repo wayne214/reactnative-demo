@@ -171,22 +171,6 @@ class SettingContainer extends BaseComponent {
 					</View>
 				</TouchableOpacity>
 
-				{
-					user.currentUserRole !== 1 &&
-						<TouchableOpacity
-							style={ styles.cellContainer }
-							onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_COMPANY_LIST, params: {title: '承运商列表'}}) }>
-							<View style={ styles.leftAnd }>
-								<Text style={ styles.leftText }>承运商切换</Text>
-							</View>
-							<View style={ [styles.rightAndBtn, { flex: 2 }] }>
-
-								<Text style={ [styles.leftText, { marginRight: 10 }] }>{ user.companyName || user.driverName  }</Text>
-								<Text style={ styles.iconFont }>&#xe60d;</Text>
-							</View>
-						</TouchableOpacity>
-				}
-
 				<View style={ styles.cellContainer }>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>当前版本号</Text>

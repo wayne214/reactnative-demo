@@ -22,9 +22,9 @@ import cn.jpush.reactnativejpush.JPushPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   // 设置为 true 将不弹出 toast
-  private boolean SHUTDOWN_TOAST = false;
+  private boolean SHUTDOWN_TOAST = true;
   // 设置为 true 将不打印 log
-  private boolean SHUTDOWN_LOG = false;
+  private boolean SHUTDOWN_LOG = true;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 

@@ -24,3 +24,23 @@ export function dispatchClearRouteInfo(){
 		type: ActionTypes.ACTION_CLEAR_ROUTE_INFO
 	};
 }
+
+export function getCarLength(){
+	return{
+		type: ActionTypes.ACTION_GET_CARLENGTH
+	};
+}
+
+export function checkedOneOfDatas(index){
+	return{
+		type: ActionTypes.CARLENGTH_SELECT_ONE_OF_DATAS,
+		payload: index
+	}
+}
+
+export function selectedCarLength(params){
+	return{
+		type: ActionTypes.ACTION_SELECTED_CARLENGTH,
+		payload: params
+	}
+}

@@ -9,7 +9,7 @@ export default StyleSheet.create({
 	userIcon: {
 		width: 80,
 		height: 80,
-		marginTop: 25,
+		// marginTop: 25,
 		backgroundColor: 'transparent'
 	},
 	userInfoContainer: {
@@ -23,7 +23,6 @@ export default StyleSheet.create({
 		color: '#333'
 	},
 	firstText: {
-		// marginTop: 10,
 		fontSize: 15,
 		color: '#333',
 		textAlign: 'center',
@@ -86,23 +85,21 @@ export default StyleSheet.create({
 	},
 	topContainer: {
 		width: width - 100,
-		height: 150,
+		height: 135,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	gameContainer: {
 		flex: 1,
-		marginTop: 10,
-		alignItems: 'center',
-		justifyContent: 'center'
+		marginTop: 40,
 	},
 	gameIcon: {
-		width: 137,
-		height: 41
+		// width: 165,
+		// height: 38
 	},
 	roleIconContainer: {
 		position: 'absolute',
-		top: 104,
+		top: 82,
 		width: 41,
 		height: 13,
 		backgroundColor: '#ffac1b',
@@ -115,5 +112,32 @@ export default StyleSheet.create({
 	roleIconText: {
 		color: 'white',
 		fontSize: 8
+	},
+	changeCompanyFrame: {
+		width: 80,
+		height: 24,
+		marginTop: 10,
+		borderRadius:12,
+		borderWidth: 1,
+		backgroundColor: 'white',
+		borderColor: '#17A9DF',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	companyFrame:{
+		marginLeft: 20,
+		marginRight: 20,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	companyText: {
+		fontSize: 14,
+		color: '#999999',
+		textAlign: 'center',
+	},
+	changeCompanyText:{
+		fontSize: 12,
+		color: '#17A9DF',
+		fontWeight: 'bold'
 	}
 });

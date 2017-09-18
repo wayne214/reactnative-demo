@@ -266,4 +266,7 @@ export const GAME_ADDRESS = '/orderApp/getH5GameUrl';
 // 删除待调度且已取消的订单
 export const DELETE_ORDER_UNDISPATCH = '/orderApp/delDispatch'
 
-export const ORDER_RESOURCE_STATE = '/orderApp/getResourceState'
+export const ORDER_RESOURCE_STATE = '/orderApp/getResourceState';
+
+//保存司机切换的承运商
+export const SAVE_CHANGE_CARRIER = '/driver/switchCarrierRecord';

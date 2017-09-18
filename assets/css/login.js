@@ -33,7 +33,7 @@ export default StyleSheet.create({
 	},
 	iconFontRight: {
 		fontSize: 16,		
-		color: '#2562b4',
+		color: '#cccccc',
 		fontFamily: 'iconfont',
 		alignItems: 'center',
 		marginLeft: 16

@@ -11,7 +11,7 @@ import {
 import styles from '../../../assets/css/panel';
 import UserIcon from '../../../assets/img/user/user_icon.png';
 import QRCODE from '../../../assets/img/user/qr_code.png';
-import GameIcon from '../../../assets/img/app/game_icon.png';
+import GameIcon from '../../../assets/img/app/activity.png';
 import CompanyIcon from '../../../assets/img/user/company_icon.png';
 import GeCompanyIcon from '../../../assets/img/user/ge_compony_icon.png';
 import * as RouteType from '../../constants/routeType'
@@ -44,6 +44,13 @@ export default class ControlPanel extends React.Component {
 				style={ styles.container }
 				showsVerticalScrollIndicator={ false }>
 
+				<TouchableOpacity
+					activeOpacity={ 1 }
+					style={ styles.gameContainer }
+					onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_GAME_PAGE, params: { title: '活动专区' }}) }>
+					<Image source={ GameIcon } style={ styles.gameIcon }/>
+				</TouchableOpacity>
+
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
 					style={ styles.topContainer }
@@ -71,13 +78,25 @@ export default class ControlPanel extends React.Component {
 							}
 						</View>
 				</TouchableHighlight>
+				{
+					(() => {
+						if(user.currentUserRole === 2){
+							return(
+								<View style={{alignItems: 'center',justifyContent: 'center', marginBottom: 40}}>
+									<View style={styles.companyFrame}>
+										<Text style={styles.companyText}>{ user.companyName|| user.driverName }</Text>
+									</View>
+									<TouchableOpacity 
+										style={styles.changeCompanyFrame}
+										onPress={()=>this.props.navigation.dispatch({type:RouteType.ROUTE_COMPANY_LIST, params: {title: '承运商列表'}})}>
+										<Text style={styles.changeCompanyText}>切换承运商</Text>
+									</TouchableOpacity>
+								</View>
+							)
+						}
 
-				<TouchableOpacity
-					activeOpacity={ 1 }
-					style={ styles.gameContainer }
-					onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_GAME_PAGE, params: { title: '活动专区' }}) }>
-					<Image source={ GameIcon } style={ styles.gameIcon }/>
-				</TouchableOpacity>
+					})()
+				}
 
 				{
 					(() => {
@@ -205,7 +224,7 @@ export default class ControlPanel extends React.Component {
 								<View>
 									<TouchableHighlight
 										underlayColor='#e6eaf2'
-										onPress={ () => this.props.router.push(RouteType.ROUTE_HELP) }>
+										onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title: "反馈问题"}}) }>
 										<View style={ styles.contentContainer }>
 											<Text style={ styles.iconFont }>&#xe602;</Text>
 											<View style={ styles.rightContent }>

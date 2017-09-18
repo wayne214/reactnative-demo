@@ -27,6 +27,9 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_CHANGE_TAB:
 			if (action.payload === 'route') newState = newState.set('isNeedRefreshTravel', true);
 			return newState;
+		case ActionTypes.ACTION_TRAVEL_DONE:
+			newState = newState.set('isNeedRefreshTravel', false);
+			return newState
 		default:
 			return newState;
 	}
