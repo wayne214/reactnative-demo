@@ -87,7 +87,10 @@ class TransportConfirm extends Component {
 										<TouchableOpacity activeOpacity={0.8} onPress={()=>{
 												this.props.dispatch({
 													type: RouteType.ROUTE_CONTRACT_DETAIL,
-													params: {isTemplate: true}
+													params: {
+														title: '合同模板',
+														isTemplate: true
+													}
 												})
 										}}>
 											<View>

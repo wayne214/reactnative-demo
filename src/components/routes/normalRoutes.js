@@ -8,11 +8,13 @@ import {
 	Image,
 	Text,
 	TouchableOpacity,
+	RefreshControl
 } from 'react-native';
 import * as COLOR from '../../constants/colors'
 import GoodsCell from './goodsCell'
 import LoadMoreFooter from '../common/loadMoreFooter'
 import emptyList from '../../../assets/img/order/empty_order_list.png'
+import {changeGoodsListIsRefreshing} from '../../action/goods.js'
 
 class NormalRoutes extends Component{
 	constructor(props) {
@@ -65,6 +67,17 @@ class NormalRoutes extends Component{
 						style={{flex:1}}
 						dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
 						renderRow={this._renderRow.bind(this)}
+						refreshControl={
+							<RefreshControl
+								refreshing={ dataSource.get('isRefreshing') }
+								onRefresh={ ()=>{
+									this.props.dispatch(changeGoodsListIsRefreshing(type, true))//刷新货源列表
+									this.props.refreshList && this.props.refreshList(1, true)
+								}}
+								tintColor="gray"
+								colors={['#ff0000', '#00ff00', '#0000ff']}
+								progressBackgroundColor="gray"/>
+						}
 						onEndReachedThreshold={10}
 						enableEmptySections={true}
 						onEndReached={ this._toEnd.bind(this) }

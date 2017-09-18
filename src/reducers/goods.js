@@ -9,14 +9,16 @@ const initState = Immutable.fromJS({
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	betterGoodsSource: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	goodsDetail:{}
 });
@@ -28,6 +30,9 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_CHANGE_GOODS_LIST_LOADING_MORE://2 优质（竞价）货源列表  3 普通（抢单）货源列表
 			newState = newState.setIn([payload == 3 ? 'goodsSource' : 'betterGoodsSource','isLoadingMore'],true);
 			return newState
+		case ActionTypes.ACTION_CHANGE_GOODS_LIST_IS_REFRESHING:
+			newState = newState.setIn([action.payload.goodsSourceype,'isRefreshing'],true);
+			return newState
 		case ActionTypes.ACTION_RECEIVE_GOODS_LIST:
 			let rootType = 'goodsSource'
 			if (payload.goodsType == 2) {
@@ -37,6 +42,7 @@ export default (state = initState, action) => {
 			}
 			newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
 			newState = newState.setIn([rootType,'isLoadingMore'],false);
+			newState = newState.setIn([rootType,'isRefreshing'],false);
 			newState = newState.setIn([rootType,'total'],payload.total);
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn([rootType,'list'],Immutable.fromJS([]));

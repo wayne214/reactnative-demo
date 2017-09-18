@@ -88,92 +88,68 @@ class MainContainer extends React.Component {
     }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 // JPush
+
+  /**
+   * iOS Only
+   * 监听：应用没有启动的状态点击推送打开应用
+   * @param {Function} cb = (notification) => {}
+   */
     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
-      Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{
-        console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
-      }}])
+      console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
+      Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{}}])
     })
-    JPushModule.addReceiveNotificationListener((map) => {
-      Alert.alert('addReceiveNotificationListener','3qrwwqer',[{text: 'ok',onPress:()=>{
+
+    /**
+     * 监听：接收推送事件
+     * @param {} cb = (Object）=> {}
+     */
+    if (NativeModules.NativeModule.IOS_OS_VERSION < 9) {
+      JPushModule.addReceiveNotificationListener((map) => {
         console.log(" ===== addReceiveNotificationListener ",map);
-      }}])
+        Alert.alert('提示','你在前台收到消息',[{text: 'ok',onPress:()=>{}}])
+      });
+    };
+
+
+    /**
+     * 监听：点击推送事件
+     * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
+     *
+     */
+    JPushModule.addReceiveOpenNotificationListener((message) => {
+      console.log("点击通知 触发", message);
+      Alert.alert('点击通知 触发','addReceiveOpenNotificationListener',[{text: 'ok',onPress:()=>{}}])
     });
 
-    if (Platform.OS === 'ios') {
 
-      this.notifySubscription = NativeAppEventEmitter.addListener('ReceiveNotification',(notification) => {
-        JPushModule.setBadge(0, (success) => {
-          console.log(success)
-        });
-        console.log(`app --- 最新状态 ${this.state.appState}`)
-        console.log('iOS  ----ReceiveNotification ',notification)
-        if (notification.messsageId) {
-          if (this.state.appState == 'background') {
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
-          }else if(this.state.appState == 'active') {
-            if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
-              Alert.alert('温馨提示','您有新消息',[
-                {text: '忽略',onPress: ()=>{}},
-                {text: '查看',onPress: ()=>{
-                  this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
-                }}
-              ])
-            }
-          }
-        };
-      });
-      console.log(" ======== this is notifySubscription",this.notifySubscription);
-      //iOS 10 之后才有  监听 OpenNotification 事件，点击推送的时候会执行这个回调
-      this.openNotifySubscription = NativeAppEventEmitter.addListener('OpenNotification',(notification) => {
-        JPushModule.setBadge(0, (success) => {
-          console.log(success)
-        });
-        console.log('iOS ----OpenNotification ',notification,this.props.user)
-        if (notification.messsageId) {
-          setTimeout(()=>{
-            console.log("------ 1 秒后 ?? user是谁？",this.props.user);
-            if (this.props.user && this.props.user.userId) {
-              this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
-            }else{
-              this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
-            }
-          }, 1000);
-        }
-      });
-      console.log(" ======== this is openNotifySubscription",this.openNotifySubscription)
-      // 每次启动后清空角标
-      JPushModule.setBadge(0, (success) => {
-        console.log(success)
-      });
-    }else{
-      JPushModule.addReceiveCustomMsgListener((message) => {
-        // this.setState({pushMsg: message});
-        console.log("收到 android 自定义消息 ",message);
-      });
-      JPushModule.addReceiveNotificationListener((message) => {
-        console.log("收到 Android 通知: ",message);
-      })
-      // 点击通知后，将会触发此事件
-      JPushModule.addReceiveOpenNotificationListener((message) => {
-        console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
-        this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
-        // this.props.dispatch(openNotification(true));
-        // const currentRoute = this.props.router.getCurrentRoute();
-        // if (currentRoute.key === 'MESSAGE_PAGE' || currentRoute.key === 'MESSAGE_DETAIL_PAGE') this.props.dispatch(updateMsgList());
-        // if (currentRoute.key === 'MESSAGE_DETAIL_PAGE') return this.props.router.pop();
-        // if (currentRoute.key !== 'MESSAGE_PAGE') this.props.router.push(RouteType.ROUTE_MESSAGE_LIST);
-      });
+    // this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
 
 
+    // if (Platform.OS === 'ios') {
+    //   this.notifySubscription = NativeAppEventEmitter.addListener('ReceiveNotification',(notification) => {
+    //     Alert.alert('NativeAppEventEmitter','.addListener(ReceiveNotification',[{text: 'ok',onPress:()=>{}}])
+    //     console.log(" ====== =ios ReceiveNotification ",notification);
+    //   });
 
-      // JPushModule.addReceiveCustomMsgListener((message) => {
-      //   // this.setState({pushMsg: message});
-      //   console.log("===== get android push message ",message);
-      // });
-      // JPushModule.addReceiveNotificationListener((message) => {
-      //   console.log("receive android notification: " + message);
-      // })
-    }
+    //   //iOS 10 之后才有  监听 OpenNotification 事件，点击推送的时候会执行这个回调
+    //   this.openNotifySubscription = NativeAppEventEmitter.addListener('OpenNotification',(notification) => {
+    //     Alert.alert('NativeAppEventEmitter','.addListener(OpenNotification',[{text: 'ok',onPress:()=>{}}])
+    //     console.log('iOS ----OpenNotification ',notification,this.props.user)
+    //   });
+
+    // }else{
+    //   JPushModule.addReceiveCustomMsgListener((message) => {
+    //     console.log("收到 android 自定义消息 ",message);
+    //   });
+    //   JPushModule.addReceiveNotificationListener((message) => {
+    //     console.log("收到 Android 通知: ",message);
+    //   })
+    //   // 点击通知后，将会触发此事件
+    //   JPushModule.addReceiveOpenNotificationListener((message) => {
+    //     console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
+    //     this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+    //   });
+    // }
   }
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
@@ -201,8 +177,17 @@ class MainContainer extends React.Component {
       JPushModule.removeReceiveCustomMsgListener();
       JPushModule.removeReceiveNotificationListener();
     }else{
-      this.notifySubscription && this.notifySubscription.remove();
-      this.openNotifySubscription && this.openNotifySubscription.remove();
+      JPushModule.removeReceiveOpenNotificationListener(()=>{
+        console.log(" ==== 移除 点击推送事件 监听 ");
+      });
+      JPushModule.removeOpenNotificationLaunchAppEventListener(()=>{
+        console.log(" === 移除启动 launch监听");
+      })
+      JPushModule.removeReceiveNotificationListener(()=>{
+        console.log(" === 移除 接收推送事件 的监听");
+      })
+      // this.notifySubscription && this.notifySubscription.remove();
+      // this.openNotifySubscription && this.openNotifySubscription.remove();
     }
   }
 
@@ -327,7 +312,7 @@ class MainContainer extends React.Component {
             }
           })()
         }
-        
+
       </Drawer>
     );
   }
@@ -407,3 +392,104 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+
+
+
+// // JPush
+//     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
+//       Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{
+//         console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
+//       }}])
+//     })
+//     JPushModule.addReceiveNotificationListener((map) => {
+//       // Alert.alert('addReceiveNotificationListener','3qrwwqer',[{text: 'ok',onPress:()=>{
+//       //   console.log(" ===== addReceiveNotificationListener ",map);
+//       // }}])
+//       if (this.state.appState == 'background') {
+//         this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//       }else if(this.state.appState == 'active') {
+//         if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
+//           Alert.alert('温馨提示','您有新消息',[
+//             {text: '忽略',onPress: ()=>{}},
+//             {text: '查看',onPress: ()=>{
+//               this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//             }}
+//           ])
+//         }
+//       }
+//     });
+
+//     if (Platform.OS === 'ios') {
+//       this.notifySubscription = NativeAppEventEmitter.addListener('ReceiveNotification',(notification) => {
+//         JPushModule.setBadge(0, (success) => {
+//           console.log(success)
+//         });
+//         console.log(`app --- 最新状态 ${this.state.appState}`)
+//         console.log('iOS  ----ReceiveNotification ',notification)
+//         if (notification.messsageId) {
+//           if (this.state.appState == 'background') {
+//             this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//           }else if(this.state.appState == 'active') {
+//             if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
+//               Alert.alert('温馨提示','您有新消息',[
+//                 {text: '忽略',onPress: ()=>{}},
+//                 {text: '查看',onPress: ()=>{
+//                   this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//                 }}
+//               ])
+//             }
+//           }
+//         };
+//       });
+
+//       //iOS 10 之后才有  监听 OpenNotification 事件，点击推送的时候会执行这个回调
+//       this.openNotifySubscription = NativeAppEventEmitter.addListener('OpenNotification',(notification) => {
+//         JPushModule.setBadge(0, (success) => {
+//           console.log(success)
+//         });
+//         console.log('iOS ----OpenNotification ',notification,this.props.user)
+//         if (notification.messsageId) {
+//           setTimeout(()=>{
+//             console.log("------ 1 秒后 ?? user是谁？",this.props.user);
+//             if (this.props.user && this.props.user.userId) {
+//               this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//             }else{
+//               this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+//             }
+//           }, 1000);
+//         }
+//       });
+
+//       // 每次启动后清空角标
+//       JPushModule.setBadge(0, (success) => {
+//         console.log(success)
+//       });
+//     }else{
+//       JPushModule.addReceiveCustomMsgListener((message) => {
+//         // this.setState({pushMsg: message});
+//         console.log("收到 android 自定义消息 ",message);
+//       });
+//       JPushModule.addReceiveNotificationListener((message) => {
+//         console.log("收到 Android 通知: ",message);
+//       })
+//       // 点击通知后，将会触发此事件
+//       JPushModule.addReceiveOpenNotificationListener((message) => {
+//         console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
+//         this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
+//         // this.props.dispatch(openNotification(true));
+//         // const currentRoute = this.props.router.getCurrentRoute();
+//         // if (currentRoute.key === 'MESSAGE_PAGE' || currentRoute.key === 'MESSAGE_DETAIL_PAGE') this.props.dispatch(updateMsgList());
+//         // if (currentRoute.key === 'MESSAGE_DETAIL_PAGE') return this.props.router.pop();
+//         // if (currentRoute.key !== 'MESSAGE_PAGE') this.props.router.push(RouteType.ROUTE_MESSAGE_LIST);
+//       });
+
+
+
+//       // JPushModule.addReceiveCustomMsgListener((message) => {
+//       //   // this.setState({pushMsg: message});
+//       //   console.log("===== get android push message ",message);
+//       // });
+//       // JPushModule.addReceiveNotificationListener((message) => {
+//       //   console.log("receive android notification: " + message);
+//       // })
+//     }

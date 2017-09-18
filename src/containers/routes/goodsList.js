@@ -33,15 +33,26 @@ class GoodsList extends Component {
     this.state = {
       activeTab: 0,
       searchAddressInfo: null,
-      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
+      ADContent: null
     }
+    this._refreshList = this._refreshList.bind(this)
   }
   componentDidMount() {
+
+    this._refreshList()
+    this.setState({
+      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
+    })
+  }
+
+  _refreshList(){
     const {user} = this.props
+    const {activeTab,searchAddressInfo} = this.state
     this.props._getNormalGoodsList({
-      type: 0,
+      type: activeTab || 0,
       companyId: user.userId,
-      pageNo: 1
+      pageNo: 1,
+      ...searchAddressInfo
     },user)
   }
   static navigationOptions = ({navigation}) => {
@@ -55,7 +66,8 @@ class GoodsList extends Component {
       goodsSource={},
       betterGoodsSource={},
       _getNormalGoodsList,
-      user
+      user,
+      dispatch
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
@@ -115,10 +127,7 @@ class GoodsList extends Component {
             <ScrollAD
               content={this.state.ADContent}
               closeAction={()=>{
-                console.log(" close ad action ");
-                this.setState({
-                  ADContent: ''
-                })
+                this.setState({ADContent: ''})
               }}/>
           : null
         }
@@ -165,11 +174,11 @@ class GoodsList extends Component {
             tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
             tabBarTextStyle={{fontSize:15}}>
             <NormalRoutes
+              type='goodsSource'
               tabLabel="普通货源市场"
               dataSource={goodsSource}
-              itemClick={(itemData)=>{
-
-              }}
+              dispatch={dispatch}
+              refreshList={this._refreshList}
               grabOrderAction={(itemData)=>{
                 if (user.certificationStatus != 2) {
                   Toast.show('您的账号未认证不能进行抢单操作！')
@@ -220,12 +229,11 @@ class GoodsList extends Component {
                 </View>
               :
                 <NormalRoutes
-                  type='better'
+                  type='betterGoodsSource'
                   tabLabel="优质货源市场"
+                  dispatch={dispatch}
                   dataSource={betterGoodsSource}
-                  itemClick={(itemData)=>{
-
-                  }}
+                  refreshList={this._refreshList}
                   endCounttingCallBack={(id)=>{
                     console.log(" ===== itemData.resourceId",id);
                     this.props._endCountCallBack(id)
@@ -312,6 +320,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     _getNormalGoodsList: (params,user)=>{
 
       //3 抢单（普通货源）  2 报价（优质货源）

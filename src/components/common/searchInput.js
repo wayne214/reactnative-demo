@@ -43,7 +43,7 @@ class SearchInput extends React.Component {
 						style={{flex: 1,marginLeft: 5,marginRight: 5,padding: 0}}
 						onEndEditing={ () => {
 							console.log(" ==== 输入结束");
-							searchAction && searchAction(inputValue)
+							searchAction && searchAction(inputValue && inputValue.trim() || '')//首尾去空
 						}}
 						defaultValue={ '' }
 						underlineColorAndroid={ 'transparent' }

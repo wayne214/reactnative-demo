@@ -10,6 +10,7 @@ import {
     Animated,
     Easing,
     TouchableOpacity,
+    InteractionManager,
     ScrollView
 } from 'react-native';
 const { width, height } = Dimensions.get('window')
@@ -46,19 +47,21 @@ class ScrollAD extends Component {
 
 	_startAimate(){
 		const {contentW} = this.state
-		Animated.sequence([
-			Animated.timing(this.state.positionX, {
-          toValue: (contentW) * -1,
-          duration: parseInt(contentW/40) * 1000,
-          easing: Easing.linear
-      }),
-      Animated.timing(this.state.positionX, {
-          toValue: width - buttonWidth,
-          duration: 0,
-      })
-    ]).start((e)=>{
-    	this._startAimate()
-    })
+		InteractionManager.runAfterInteractions(() => {
+			Animated.sequence([
+				Animated.timing(this.state.positionX, {
+	          toValue: (contentW) * -1,
+	          duration: parseInt(contentW/40) * 1000,
+	          easing: Easing.linear
+	      }),
+	      Animated.timing(this.state.positionX, {
+	          toValue: width - buttonWidth,
+	          duration: 0,
+	      })
+	    ]).start((e)=>{
+	    	this._startAimate()
+	    })
+	  })
 	}
 
 	render() {
