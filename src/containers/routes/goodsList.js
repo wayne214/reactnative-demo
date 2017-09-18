@@ -16,6 +16,7 @@ import NormalRoutes from '../../components/routes/normalRoutes'
 // import SegmentTabBar from '../../components/common/segmentTabBar'
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
+import { receiveInSiteNotice } from '../../action/app.js'
 import { fetchData } from '../../action/app.js'
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
 import * as API from '../../constants/api.js'
@@ -33,16 +34,11 @@ class GoodsList extends Component {
     this.state = {
       activeTab: 0,
       searchAddressInfo: null,
-      ADContent: null
     }
     this._refreshList = this._refreshList.bind(this)
   }
   componentDidMount() {
-
     this._refreshList()
-    this.setState({
-      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
-    })
   }
 
   _refreshList(){
@@ -67,7 +63,8 @@ class GoodsList extends Component {
       betterGoodsSource={},
       _getNormalGoodsList,
       user,
-      dispatch
+      dispatch,
+      insiteNotice
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
@@ -92,14 +89,14 @@ class GoodsList extends Component {
               assistIconFont='&#xe619;'
               assistIconFontStyle={{fontSize: 14,marginLeft: 5}}
               assistIconClick={()=>{
-                this.props.dispatch({type: RouteType.ROUTE_RULE_INSTRUCTION})
+                this.props.dispatch({type: RouteType.ROUTE_RULE_INSTRUCTION, params: {title: '市场规则说明'}})
               }}
               backTitle={activeTab == 1 ? '竞价管理' : '抢单管理'}
               backTitleStyle={{fontSize: 14}}
               backViewClick={()=>{
                 this.props.navigation.dispatch({
                   type: RouteType.ROUTE_BIDDING_LIST,
-                  params: {isBetter: activeTab == 1}
+                  params: {isBetter: activeTab == 1, title: activeTab == 1 ? '我的竞价' : '我的抢单'}
                 })
               }}
               firstLevelIconFont='&#xe610;'
@@ -108,6 +105,7 @@ class GoodsList extends Component {
                 this.props.dispatch({
                   type: RouteType.ROUTE_SEARCH_GOODS,
                   params: {
+                    title: '搜索',
                     searchEditCallBack: (data)=>{
                       this.setState({
                         searchAddressInfo: data
@@ -123,11 +121,11 @@ class GoodsList extends Component {
               }}/>
         }
         {
-          this.state.ADContent ?
+          insiteNotice ?
             <ScrollAD
-              content={this.state.ADContent}
+              content={insiteNotice}
               closeAction={()=>{
-                this.setState({ADContent: ''})
+                dispatch(receiveInSiteNotice())
               }}/>
           : null
         }
@@ -312,6 +310,7 @@ const styles =StyleSheet.create({
 const mapStateToProps = (state) => {
   const {goods,app} = state
   return {
+    insiteNotice: app.get('insiteNotice'),
     user: app.get('user'),
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource')

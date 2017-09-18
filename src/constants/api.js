@@ -270,3 +270,7 @@ export const ORDER_RESOURCE_STATE = '/orderApp/getResourceState';
 
 //保存司机切换的承运商
 export const SAVE_CHANGE_CARRIER = '/driver/switchCarrierRecord';
+
+
+// 线路货源顶部广告
+export const INSITE_NOTICE = '/siteNote/querySiteNoteList'

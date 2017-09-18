@@ -154,7 +154,7 @@ export function refreshTravel() {
 
 export function redictLogin() {
 	return {
-		type: ActionTypes.ACTION_REDICT_LOGIN	
+		type: ActionTypes.ACTION_REDICT_LOGIN
 	}
 }
 
@@ -168,5 +168,12 @@ export function getGameUrl (url) {
 	return {
 		type: ActionTypes.ACTION_GET_GAME_URL,
 		payload: url
+	}
+}
+
+export const receiveInSiteNotice = (notice = '')=>{
+	return {
+		type: ActionTypes.ACTION_RECEIVE_IN_SITE_NOTICE,
+		payload: notice
 	}
 }

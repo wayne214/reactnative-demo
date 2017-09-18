@@ -25,8 +25,8 @@ import Upgrade from '../../components/app/upgrade';
 // import Image from '../../components/common/image';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl } from '../../action/app';
-import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS } from '../../constants/api';
+import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice } from '../../action/app';
+import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE } from '../../constants/api';
 import { updateMsgList } from '../../action/message';
 import User from '../../models/user';
 import Storage from '../../utils/storage';
@@ -150,6 +150,10 @@ class MainContainer extends React.Component {
     //     this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
     //   });
     // }
+
+    // 获取站内公告
+    this.props.getNotice()
+
   }
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
@@ -387,6 +391,21 @@ const mapDispatchToProps = (dispatch) => {
           dispatch(getGameUrl(data))
         },
       }));
+    },
+    getNotice: ()=>{
+      //// 承运方 1 委托方2
+      // dispatch(fetchData({
+      //   body: {
+      //     publishTarget: 1
+      //   },
+      //   method: 'POST',
+      //   api: INSITE_NOTICE,
+      //   success: (data) => {
+          const data = {notice: '这是站内公告'}
+          console.log(" ==== in site notice ",data);
+          dispatch(receiveInSiteNotice(data.notice))
+      //   },
+      // }));
     }
   }
 }

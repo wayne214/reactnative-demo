@@ -18,8 +18,10 @@ class RuleInstruction extends Component {
 	componentDidMount() {
 
 	}
-	static navigationOptions = {
-		headerTitle: '市场规则说明'
+	static navigationOptions = ({navigation}) => {
+		return {
+			header: <NavigatorBar router={navigation} />
+		}
 	}
 	render() {
 		return <View style={styles.container}>
