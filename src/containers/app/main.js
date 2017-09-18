@@ -394,18 +394,22 @@ const mapDispatchToProps = (dispatch) => {
     },
     getNotice: ()=>{
       //// 承运方 1 委托方2
-      // dispatch(fetchData({
-      //   body: {
-      //     publishTarget: 1
-      //   },
-      //   method: 'POST',
-      //   api: INSITE_NOTICE,
-      //   success: (data) => {
-          const data = {notice: '这是站内公告'}
-          console.log(" ==== in site notice ",data);
-          dispatch(receiveInSiteNotice(data.notice))
-      //   },
-      // }));
+      dispatch(fetchData({
+        body: {
+          publishTarget: 1
+        },
+        method: 'POST',
+        api: INSITE_NOTICE,
+        success: (data) => {
+          let noticeContent = ''
+          if (data && data.length > 0) {
+            data.forEach((item,index,array)=>{
+              noticeContent = noticeContent + (index == 0 ? '' : '            ') + item.noteContent
+            })
+          };
+          dispatch(receiveInSiteNotice(noticeContent))
+        },
+      }));
     }
   }
 }
