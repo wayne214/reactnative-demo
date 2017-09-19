@@ -34,6 +34,11 @@ class SearchGoods extends Component {
 	componentDidMount() {
 
 	}
+	static navigationOptions = ({navigation}) => {
+		return {
+			header: <NavigatorBar router={navigation} picker={Picker}/>
+		}
+	}
 	_selectAddress(type) {
 		Picker.init({
 			pickerData: this.state.dataSource,
@@ -98,10 +103,7 @@ class SearchGoods extends Component {
 	render() {
 		const {addressTo,addressFrom} = this.state
 		return <View style={styles.container}>
-			{/*<NavigatorBar
-							router={this.props.router}
-							picker={Picker}
-							title={ '搜索' }/>*/}
+
 			<View style={styles.tipView}>
 				<Text style={styles.tips}>搜索起始地目的地</Text>
 			</View>

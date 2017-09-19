@@ -16,6 +16,7 @@ import NormalRoutes from '../../components/routes/normalRoutes'
 // import SegmentTabBar from '../../components/common/segmentTabBar'
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
+import { receiveInSiteNotice } from '../../action/app.js'
 import { fetchData } from '../../action/app.js'
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
 import * as API from '../../constants/api.js'
@@ -33,15 +34,21 @@ class GoodsList extends Component {
     this.state = {
       activeTab: 0,
       searchAddressInfo: null,
-      ADContent: '你看到的是一条广告，没错这就是广告，垃圾广告，又没什么卵用，非要加不可'
     }
+    this._refreshList = this._refreshList.bind(this)
   }
   componentDidMount() {
+    this._refreshList()
+  }
+
+  _refreshList(){
     const {user} = this.props
+    const {activeTab,searchAddressInfo} = this.state
     this.props._getNormalGoodsList({
-      type: 0,
+      type: activeTab || 0,
       companyId: user.userId,
-      pageNo: 1
+      pageNo: 1,
+      ...searchAddressInfo
     },user)
   }
   static navigationOptions = ({navigation}) => {
@@ -55,7 +62,9 @@ class GoodsList extends Component {
       goodsSource={},
       betterGoodsSource={},
       _getNormalGoodsList,
-      user
+      user,
+      dispatch,
+      insiteNotice
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
@@ -80,14 +89,14 @@ class GoodsList extends Component {
               assistIconFont='&#xe619;'
               assistIconFontStyle={{fontSize: 14,marginLeft: 5}}
               assistIconClick={()=>{
-                this.props.dispatch({type: RouteType.ROUTE_RULE_INSTRUCTION})
+                this.props.dispatch({type: RouteType.ROUTE_RULE_INSTRUCTION, params: {title: '市场规则说明'}})
               }}
               backTitle={activeTab == 1 ? '竞价管理' : '抢单管理'}
               backTitleStyle={{fontSize: 14}}
               backViewClick={()=>{
                 this.props.navigation.dispatch({
                   type: RouteType.ROUTE_BIDDING_LIST,
-                  params: {isBetter: activeTab == 1}
+                  params: {isBetter: activeTab == 1, title: activeTab == 1 ? '我的竞价' : '我的抢单'}
                 })
               }}
               firstLevelIconFont='&#xe610;'
@@ -96,6 +105,7 @@ class GoodsList extends Component {
                 this.props.dispatch({
                   type: RouteType.ROUTE_SEARCH_GOODS,
                   params: {
+                    title: '搜索',
                     searchEditCallBack: (data)=>{
                       this.setState({
                         searchAddressInfo: data
@@ -111,14 +121,11 @@ class GoodsList extends Component {
               }}/>
         }
         {
-          this.state.ADContent ?
+          insiteNotice ?
             <ScrollAD
-              content={this.state.ADContent}
+              content={insiteNotice}
               closeAction={()=>{
-                console.log(" close ad action ");
-                this.setState({
-                  ADContent: ''
-                })
+                dispatch(receiveInSiteNotice())
               }}/>
           : null
         }
@@ -165,11 +172,11 @@ class GoodsList extends Component {
             tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
             tabBarTextStyle={{fontSize:15}}>
             <NormalRoutes
+              type='goodsSource'
               tabLabel="普通货源市场"
               dataSource={goodsSource}
-              itemClick={(itemData)=>{
-
-              }}
+              dispatch={dispatch}
+              refreshList={this._refreshList}
               grabOrderAction={(itemData)=>{
                 if (user.certificationStatus != 2) {
                   Toast.show('您的账号未认证不能进行抢单操作！')
@@ -220,12 +227,11 @@ class GoodsList extends Component {
                 </View>
               :
                 <NormalRoutes
-                  type='better'
+                  type='betterGoodsSource'
                   tabLabel="优质货源市场"
+                  dispatch={dispatch}
                   dataSource={betterGoodsSource}
-                  itemClick={(itemData)=>{
-
-                  }}
+                  refreshList={this._refreshList}
                   endCounttingCallBack={(id)=>{
                     console.log(" ===== itemData.resourceId",id);
                     this.props._endCountCallBack(id)
@@ -304,6 +310,7 @@ const styles =StyleSheet.create({
 const mapStateToProps = (state) => {
   const {goods,app} = state
   return {
+    insiteNotice: app.get('insiteNotice'),
     user: app.get('user'),
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource')
@@ -312,6 +319,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     _getNormalGoodsList: (params,user)=>{
 
       //3 抢单（普通货源）  2 报价（优质货源）

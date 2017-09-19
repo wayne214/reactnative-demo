@@ -36,9 +36,12 @@ class BiddingList extends BaseComponent {
 	  	activeTab: params.tabIndex || 0
 	  }
 	}
-	static navigationOptions = ({navigation, screenProps}) => ({
-		headerTitle: navigation.state.isBetter ? '我的竞价' : '我的抢单'
-	})
+	static navigationOptions = ({navigation, screenProps}) => {
+		return {
+			header: <NavigatorBar router={navigation}/>
+		}
+	}
+		// headerTitle: navigation.state.isBetter ? '我的竞价' : '我的抢单',
 	componentDidMount() {
 		super.componentDidMount()
 		const {user} = this.props
@@ -56,7 +59,7 @@ class BiddingList extends BaseComponent {
 		const {user, ordering, orderSuccess, orderFailed, bidding, biddingSuccess, biddingFailed} = this.props
 		const {isBetter,activeTab} = this.state
 		return <View style={styles.container}>
-			{/*<NavigatorBar router={this.props.router} title={ params.isBetter ? '我的竞价' : '我的抢单' }/>*/}
+			{/**/}
 			<ScrollableTabView
 				style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
 				renderTabBar={() => <DefaultTabBar style={{height: 50,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}} tabStyle={{paddingBottom: 2}}/>}

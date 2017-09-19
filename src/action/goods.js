@@ -34,3 +34,13 @@ export const betterGoodsSourceEndCount = (id) => {
 		payload: id
 	}
 }
+
+export const changeGoodsListIsRefreshing = (goodsSourceype, isRefreshing) => {
+	return {
+		type: ActionTypes.ACTION_CHANGE_GOODS_LIST_IS_REFRESHING,
+		payload: {
+			goodsSourceype,
+			isRefreshing
+		}
+	}
+}

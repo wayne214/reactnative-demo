@@ -73,7 +73,8 @@ const initState = Immutable.fromJS({
 	upgradeForce: false,
 	upgradeForceUrl: '',
 	gameUrl: '',
-	hotLine: 'tel:4006635656'
+	hotLine: 'tel:4006635656',
+	insiteNotice: '',//站内公告
 });
 
 export default (state = initState, action) => {
@@ -163,6 +164,9 @@ export default (state = initState, action) => {
       return newState;
     case ActionTypes.ACTION_GET_GAME_URL:
     	newState = newState.set('gameUrl', action.payload)
+    	return newState
+    case ActionTypes.ACTION_RECEIVE_IN_SITE_NOTICE:
+    	newState = newState.set('insiteNotice', action.payload)
     	return newState
 		default:
 			return newState;
