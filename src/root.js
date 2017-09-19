@@ -9,7 +9,7 @@ import codePush from 'react-native-code-push'
 const store = configureStore();
 
 class Root extends React.Component {
-  
+
   constructor(props) {
     super(props);
   	this.store = store

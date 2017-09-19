@@ -1,6 +1,7 @@
 package com.carrier;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
@@ -25,6 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
   private boolean SHUTDOWN_TOAST = true;
   // 设置为 true 将不打印 log
   private boolean SHUTDOWN_LOG = true;
+
+  public static String location = "";
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -64,5 +67,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    getApplicationContext().startService(new Intent(getApplicationContext(), LogService.class));
   }
 }

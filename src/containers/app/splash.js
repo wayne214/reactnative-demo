@@ -5,6 +5,7 @@ import {
 	Text,
 	Dimensions,
 	Platform,
+	AppRegistry,
 	NativeModules,
 	InteractionManager,
 } from 'react-native'

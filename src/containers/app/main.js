@@ -10,7 +10,8 @@ import {
   AppState,
   BackHandler,
   NativeAppEventEmitter,
-  TouchableOpacity
+  TouchableOpacity,
+  DeviceEventEmitter
 } from 'react-native';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
@@ -23,6 +24,7 @@ import Linking from '../../utils/linking';
 import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
 // import Image from '../../components/common/image';
+import SplashScreen from 'react-native-splash-screen'
 import NavigatorBar from '../../components/common/navigatorbar';
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
 import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl } from '../../action/app';
@@ -36,6 +38,7 @@ import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
 // import LoginContainer from '../user/shipperLogin';
 import Button from '../../components/common/button'
+import Geolocation from 'Geolocation'
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
@@ -145,9 +148,9 @@ class MainContainer extends React.Component {
       JPushModule.setBadge(0, (success) => {
         console.log(success)
       });
-    }else{
+
+    } else {
       JPushModule.addReceiveCustomMsgListener((message) => {
-        // this.setState({pushMsg: message});
         console.log("收到 android 自定义消息 ",message);
       });
       JPushModule.addReceiveNotificationListener((message) => {
@@ -157,23 +160,31 @@ class MainContainer extends React.Component {
       JPushModule.addReceiveOpenNotificationListener((message) => {
         console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
         this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST})
-        // this.props.dispatch(openNotification(true));
-        // const currentRoute = this.props.router.getCurrentRoute();
-        // if (currentRoute.key === 'MESSAGE_PAGE' || currentRoute.key === 'MESSAGE_DETAIL_PAGE') this.props.dispatch(updateMsgList());
-        // if (currentRoute.key === 'MESSAGE_DETAIL_PAGE') return this.props.router.pop();
-        // if (currentRoute.key !== 'MESSAGE_PAGE') this.props.router.push(RouteType.ROUTE_MESSAGE_LIST);
       });
-
-
-
-      // JPushModule.addReceiveCustomMsgListener((message) => {
-      //   // this.setState({pushMsg: message});
-      //   console.log("===== get android push message ",message);
-      // });
-      // JPushModule.addReceiveNotificationListener((message) => {
-      //   console.log("receive android notification: " + message);
-      // })
     }
+
+    DeviceEventEmitter.addListener('scheduleLog', (data) => {
+      console.log(111111, ' ', data)
+    })
+
+    if (Platform.OS === 'android') {
+      this.timer = setTimeout(() => {
+  			SplashScreen.hide()
+  		}, 2000)
+    }
+
+    Geolocation.getCurrentPosition(location => {
+      Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
+      console.log('----syccess: ', location)
+    }, fail => {
+      Toast.show('---- ', fail)
+      console.log('-------fail:', fail)
+    }, {
+      timeout: 5000,
+      maximumAge: 1000,
+      enableHighAccuracy: false
+    })
+
   }
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
@@ -327,7 +338,7 @@ class MainContainer extends React.Component {
             }
           })()
         }
-        
+
       </Drawer>
     );
   }

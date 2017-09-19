@@ -3,11 +3,9 @@ import { NavigationActions } from 'react-navigation'
 import { AppNavigator } from '../navigators/navigators'
 
 const firstAction = AppNavigator.router.getActionForPathAndParams('Splash');
-const tempNavState = AppNavigator.router.getStateForAction(firstAction);
-const secondAction = AppNavigator.router.getActionForPathAndParams('Main');
+
 const initialNavState = AppNavigator.router.getStateForAction(
-  firstAction,
-  // tempNavState
+  firstAction
 );
 
 export default function nav(state = initialNavState, action) {
@@ -31,7 +29,7 @@ export default function nav(state = initialNavState, action) {
           key: state.routes[currentKeyIndex + 1].key
         }), state)
     }
-  } else 
+  } else
   if (action.mode && action.mode === 'reset') {
     nextState = AppNavigator.router.getStateForAction(NavigationActions.reset({
      index: 0,
@@ -44,13 +42,13 @@ export default function nav(state = initialNavState, action) {
   } else if (action.type === 'Navigation/BACK') {
     nextState = AppNavigator.router.getStateForAction(action, state);
   } else if (action.type === 'Navigation/SET_PARAMS') {
-    nextState = AppNavigator.router.getStateForAction(action, state);    
+    nextState = AppNavigator.router.getStateForAction(action, state);
   } else {
     nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({
       routeName: action.type,
       params: action.params,
       action: NavigationActions.navigate({ routeName: action.type })
-    }), state);        
+    }), state);
   }
 
   // switch (action.type) {

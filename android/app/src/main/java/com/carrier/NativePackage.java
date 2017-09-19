@@ -22,6 +22,7 @@ public class NativePackage implements ReactPackage {
         list.add(new com.carrier.NativeModule(reactContext));
         list.add(new OssModule(reactContext));
         list.add(new UmengAnalyticsModule(reactContext));
+        list.add(new TimeLogModule(reactContext));
         return list;
     }
 
