@@ -237,7 +237,7 @@ class MainContainer extends React.Component {
     // }
 
     // 获取站内公告
-    if(this.props.user.user_id){
+    if(user.user_id){
       this.props.getNotice()
     }
   }
