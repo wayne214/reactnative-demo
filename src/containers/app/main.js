@@ -237,8 +237,9 @@ class MainContainer extends React.Component {
     // }
 
     // 获取站内公告
-    this.props.getNotice()
-
+    if(this.props.user.user_id){
+      this.props.getNotice()
+    }
   }
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
