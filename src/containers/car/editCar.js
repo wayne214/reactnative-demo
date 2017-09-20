@@ -9,7 +9,8 @@ import {
 	ScrollView,
 	NativeModules,
 	TouchableOpacity,
-	Platform
+	Platform,
+	Alert,
 } from 'react-native'
 import { connect } from 'react-redux';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -362,12 +363,22 @@ class EditCarContainer extends BaseComponent {
 				gCarLiencesName = '';
 				gCarYunYName = '';
 			}
-			this.props.updateGCarInfo({
-				carId: this.carId,//	车辆ID
-				gcarNo: gCarNo,
-				gdrivingLicenseUrl: gCarLiencesName,
-				goperateLicenseUrl: gCarYunYName
-			}, this.props.navigation);
+
+			Alert.alert('', '确认更改挂车信息？',
+				[
+					{ text: '取消', onPress: () => {
+					}},
+					{ text: '确定', onPress: () => {
+						this.props.updateGCarInfo({
+										carId: this.carId,//	车辆ID
+										gcarNo: gCarNo,
+										gdrivingLicenseUrl: gCarLiencesName,
+										goperateLicenseUrl: gCarYunYName
+									}, this.props.navigation);
+					}},
+				]
+			);
+			
 		}
 
 	}
