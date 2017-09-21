@@ -111,7 +111,7 @@ class BankCardManageContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -158,6 +158,7 @@ const mapStateToProps = state => {
 		isEndReached: bankCard.get('isEndReached'),		
 		bankCardList: bankCard.getIn(['bankCard', 'bankCardManagerList']),
 		isRefresh: bankCard.get('isRefresh'),
+		upgrade: app.get('upgrade'),
 	}
 }
 

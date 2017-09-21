@@ -96,7 +96,7 @@ class HelpDetailForFeedbackContainer extends BaseComponent {
 							</View>	
 						</View>						
 				}
-		
+			{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 		);
 	}
@@ -104,7 +104,8 @@ class HelpDetailForFeedbackContainer extends BaseComponent {
 const mapStateToProps = state => {
 	const { help } = state;
 	return {
-		feedback: help.getIn(['help','feedbackDetailsInfo'])
+		feedback: help.getIn(['help','feedbackDetailsInfo']),
+		upgrade: app.get('upgrade'),
 	}
 }
 

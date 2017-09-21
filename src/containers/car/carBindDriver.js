@@ -135,6 +135,7 @@ class CarBindDriverContainer extends BaseComponent {
 					dataSource={ this.state.dataSource }/>
 
 				{ this.props.loading ? this._renderLoadingView() : null }
+				{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 		);
 	}
@@ -148,7 +149,8 @@ function mapStateToProps(state) {
 		hasMore: car.get('hasMore'),
 		isRefreshCar: car.get('isRefreshCar'),
 		isEndReached: car.get('isEndReached'),
-		cars: car.getIn(['car', 'carbindDriverList'])
+		cars: car.getIn(['car', 'carbindDriverList']),
+		upgrade: app.get('upgrade'),
 	};
 }
 

@@ -51,6 +51,7 @@ class AuthInfoContainer extends BaseComponent {
 		return (
 			<View style={ styles.container }>
 				<AuthInfo { ...this.props } />
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -59,7 +60,8 @@ const mapStateToProps = state => {
 	const { app,carrier } = state;
 	return {
 		user: app.get('user'),
-		carrierInfo: carrier.getIn(['carrierInfo','carrierInfoDetail'])
+		carrierInfo: carrier.getIn(['carrierInfo','carrierInfoDetail']),
+		upgrade: app.get('upgrade'),
 	}
 }
 

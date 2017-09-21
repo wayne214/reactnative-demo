@@ -168,7 +168,7 @@ class HelpContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-							
+					{ this._renderUpgrade(this.props.upgrade) }		
 			</View>
 		);
 	}
@@ -224,7 +224,8 @@ const mapStateToProps = state => {
 		hasMore: help.get('hasMore'),
 		isEndReached: help.get('isEndReached'),		
 		selectList: help.getIn(['help', 'selectList']),
-		isRefreshFeedbackList: help.get('isRefreshFeedbackList')
+		isRefreshFeedbackList: help.get('isRefreshFeedbackList'),
+		upgrade: app.get('upgrade'),
 	}
 }
 
