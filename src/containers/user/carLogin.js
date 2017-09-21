@@ -43,6 +43,7 @@ class LoginContainer extends BaseComponent {
 		// this.lastRouteKey = props.router.getLastCurrentRouteKey();
 		// console.log('***lastRouteKey**',this.lastRouteKey);
 		this.driverLogin = props.navigation.state.params.driverLogin;
+		this.driver = props.navigation.state.params.diverChange;
 		this._forceUpgrade = this._forceUpgrade.bind(this);
 		this._installApk = this._installApk.bind(this);
 		this._clearCopyText = this._clearCopyText.bind(this);
@@ -107,11 +108,19 @@ class LoginContainer extends BaseComponent {
 	render() {
 		let carrierLogin;
 		// if(this.driverLogin === 'driverLogin'){
+		if(this.driver === 'driver'){
+			carrierLogin = (
+				<View style={ styles.forgetView }>
+					<Text style={ styles.text }
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_LOGIN, params:{title:''}})}>承运商登录</Text>
+				</View>)
+		}else{
 			carrierLogin = (
 				<View style={ styles.forgetView }>
 					<Text style={ styles.text }
 					onPress={ () => this.props.navigation.dispatch({type:'pop'})}>承运商登录</Text>
 				</View>)
+		}
 		// }
 		const { router } = this.props;
 		return (
