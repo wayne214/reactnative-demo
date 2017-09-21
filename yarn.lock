@@ -3686,9 +3686,9 @@ react-native-photo-view@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/react-native-photo-view/download/react-native-photo-view-1.4.0.tgz#b6cf3ccc471ca8164e5e9ba1a5ed7c38e64952a8"
 
-react-native-picker@^4.1.2:
-  version "4.1.2"
-  resolved "http://registry.npm.taobao.org/react-native-picker/download/react-native-picker-4.1.2.tgz#ead116a53a420cd3eafc33b705f69fb5e63a73d4"
+react-native-picker@4.0.19:
+  version "4.0.19"
+  resolved "http://registry.npm.taobao.org/react-native-picker/download/react-native-picker-4.0.19.tgz#2cbf2f69385985f6a960cf45096c944ac34ba333"
 
 react-native-root-modal@^1.1.1:
   version "1.1.1"
