@@ -99,7 +99,15 @@ class UserInfoContainer extends BaseComponent {
 						})()
 					}
 					<View style={ styles.userInfoContainer }>
-						<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>
+					{
+						(() => {
+							if(user.certificationStatus === 2 || user.currentUserRole === 2){
+								return(<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>)
+							}else{
+								return(<Text style={ styles.firstLevelText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>)
+							}
+						})()
+					}
 					</View>
 				</View>
 

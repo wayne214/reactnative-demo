@@ -39,6 +39,8 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* carrierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* carrierTests.m */; };
 		3E092306A9944C85AA126AA7 /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4E21FF7DADD4DFFBD949C69 /* libRCTPdf.a */; };
+		4506F0AF1F73471800FF95CE /* qidong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4506F0AD1F73471800FF95CE /* qidong@2x.png */; };
+		4506F0B01F73471800FF95CE /* qidong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4506F0AE1F73471800FF95CE /* qidong@3x.png */; };
 		5B2292441F725595005A3D20 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */; };
 		5B22924C1F72578A005A3D20 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B22924A1F72578A005A3D20 /* LaunchScreen.xib */; };
 		5B93CDF61F677F9200F00857 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -405,6 +407,8 @@
 		2F3B32F524E24F01B19281C3 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJPushModule.a; sourceTree = "<group>"; };
 		373EA5A6511D4B5BA29F61DF /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		3F133A29C1BA4189A26257C5 /* Foundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4506F0AD1F73471800FF95CE /* qidong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qidong@2x.png"; sourceTree = "<group>"; };
+		4506F0AE1F73471800FF95CE /* qidong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qidong@3x.png"; sourceTree = "<group>"; };
 		4922B3DDFC8D4336A271BB56 /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		4C4DA34B8D244CD3A95C1021 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		4F1939B2F9C04215BE85558D /* Security.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -816,6 +820,8 @@
 			children = (
 				5B93CDF81F677F9800F00857 /* QBImagePicker.framework */,
 				5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */,
+				4506F0AD1F73471800FF95CE /* qidong@2x.png */,
+				4506F0AE1F73471800FF95CE /* qidong@3x.png */,
 				78C3745E1F5906B5002C4CFE /* font */,
 				13B07FAE1A68108700A75B9A /* carrier */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1343,6 +1349,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4506F0AF1F73471800FF95CE /* qidong@2x.png in Resources */,
+				4506F0B01F73471800FF95CE /* qidong@3x.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				5B22924C1F72578A005A3D20 /* LaunchScreen.xib in Resources */,
 				7882EB121F590B7A00A8B8D0 /* iconfont.ttf in Resources */,
@@ -1553,7 +1561,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODEPUSH_KEY = "6E0zBIn7AK7naO9i49cUvZzFyYo1118907b3-0f39-4b62-b03d-f9737ab02817";
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
@@ -1597,7 +1604,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1842,7 +1848,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
