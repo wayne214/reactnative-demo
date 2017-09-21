@@ -69,7 +69,7 @@ class ApplyCoordination extends BaseComponent {
 			]
 		)
 	}
-	const navigationOptions = ({navigation})=>{
+	static navigationOptions = ({navigation})=>{
 		return {
 			header: <NavigatorBar router={navigation}/>
 		}

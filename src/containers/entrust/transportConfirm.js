@@ -47,7 +47,7 @@ class TransportConfirm extends Component {
 	componentWillUnmount() {
 		this.props._clearOrderDetail()
 	}
-	const navigationOptions = ({navigation})=>{
+	static navigationOptions = ({navigation})=>{
 		return {
 			header: <NavigatorBar router={navigation}/>
 		}
