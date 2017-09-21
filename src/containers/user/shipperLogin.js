@@ -85,6 +85,10 @@ class LoginContainer extends BaseComponent {
 
   componentWillMount () {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    this.setState({
+      passwordWindowIsShow: true
+    });
+    console.log('lqq--componentWillMount---');
   }
 
   componentDidMount(){
@@ -149,8 +153,9 @@ class LoginContainer extends BaseComponent {
                   underlineColorAndroid={ 'transparent' }
                   onSubmitEditing={Keyboard.dismiss}
                   onChangeText={ (text) => this.setState({ password: text }) }/>
+                {
+                  this.state.passwordWindowIsShow &&
                 <TouchableOpacity
-                  visible={this.state.passwordWindowIsShow}
                   style={ styles.passwordWindow }
                   opacityActive={ 1 }
                   onPress={ () => {
@@ -159,6 +164,7 @@ class LoginContainer extends BaseComponent {
                     this.setState({ passwordWindowIsShow: false})
                   } }>
                 </TouchableOpacity>
+              }
               </View>
             </View>
           </View>
