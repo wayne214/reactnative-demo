@@ -109,6 +109,7 @@ class ConfirmDelivery extends Component {
 							this.props.navigation.dispatch({
 								type: RouteType.ROUTE_APPLY_COORDINATION,
 								params: {
+									title: '申请协调',
 									orderNo,entrustType
 								}
 							})//这里肯定是自营的 entrustType === 1

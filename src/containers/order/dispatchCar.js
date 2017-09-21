@@ -122,7 +122,7 @@ class DispatchCar extends BaseComponent {
 				this.props._getResourceState({goodsId},(resourceState)=>{
 					this.props.navigation.dispatch({
 						type: RouteType.ROUTE_TRANSPORT_CONFIRM,
-						params: {goodsId,carId: data.id}
+						params: {goodsId,carId: data.id, title: '承运单确认'}
 					})
 				})
 			}}

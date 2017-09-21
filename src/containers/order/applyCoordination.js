@@ -69,7 +69,11 @@ class ApplyCoordination extends BaseComponent {
 			]
 		)
 	}
-
+	const navigationOptions = ({navigation})=>{
+		return {
+			header: <NavigatorBar router={navigation}/>
+		}
+	}
 	render() {
 		const { otherReasonContent,applyerName,applyerPhone,reasons } = this.state
 		const reasonsComponent = reasons.map((item,index)=>{
@@ -104,7 +108,7 @@ class ApplyCoordination extends BaseComponent {
 			)
 		})
 		return <View style={styles.container}>
-			{/*<NavigatorBar router={this.props.router} title={ '货物交付协调申请' }/>*/}
+			{/**/}
 			<ScrollView keyboardShouldPersistTaps='handled'>
 				<View style={styles.topInfoView}>
 					<Text style={styles.topInfoText}>如您的货品在交付过程中遇到问题，请填写如下信息提交协调申请或者直接拨打客服电话：<Text onPress={()=>{
@@ -176,7 +180,7 @@ class ApplyCoordination extends BaseComponent {
 									}
 									console.log("------ 提交申请",params);
 									this.props._submitApplication(params,()=>{
-										this.props.router.replaceWithHome()
+										this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
 										this.props.dispatch(shouldOrderListRefreshAction(true))
 									})
 								}}>

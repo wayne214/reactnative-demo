@@ -345,6 +345,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_APPLY_COORDINATION,
 																				params: {
+																					title: '申请协调',
 																					orderNo: rowData.orderNo,
 																					entrustType: rowData.entrustType
 																				}
@@ -535,6 +536,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_APPLY_COORDINATION,
 																				params: {
+																					title: '申请协调',
 																					orderNo: rowData.orderNo,
 																					entrustType: rowData.entrustType
 																				}

@@ -47,13 +47,15 @@ class TransportConfirm extends Component {
 	componentWillUnmount() {
 		this.props._clearOrderDetail()
 	}
+	const navigationOptions = ({navigation})=>{
+		return {
+			header: <NavigatorBar router={navigation}/>
+		}
+	}
 	render() {
 		const {agree,carId} = this.state
 		const {transpostConfirmDetail} = this.props
 		return <View style={styles.container}>
-			<NavigatorBar
-				router={this.props.router}
-				title={ '承运单确认' }/>
 			{
 				transpostConfirmDetail ?
 					<ScrollView>
@@ -113,8 +115,7 @@ class TransportConfirm extends Component {
 											entrustType: transpostConfirmDetail.entrustType
 										},()=>{
 											Toast.show('承运成功！')
-											// this.props.router.replaceWithHome();
-											// this.props._toOrderListPage()
+											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
 										})
 									}}>
 								  确认承运

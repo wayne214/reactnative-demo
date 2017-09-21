@@ -408,6 +408,7 @@ class OrderDetail extends Component {
 													this.props.navigation.dispatch({
 														type: RouteType.ROUTE_APPLY_COORDINATION,
 														params: {
+															title: '申请协调',
 															orderNo: orderDetail.orderNo,
 															entrustType: orderDetail.entrustType
 														}
@@ -614,6 +615,7 @@ class OrderDetail extends Component {
 													this.props.navigation.dispatch({
 														type: RouteType.ROUTE_APPLY_COORDINATION,
 														params: {
+															title: '申请协调',
 															orderNo: orderDetail.orderNo,
 															entrustType: orderDetail.entrustType
 														}
