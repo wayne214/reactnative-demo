@@ -39,6 +39,7 @@ import Toast from '../../utils/toast'
 // import LoginContainer from '../user/shipperLogin';
 import Button from '../../components/common/button'
 import Geolocation from 'Geolocation'
+import codePush from 'react-native-code-push'
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
@@ -196,10 +197,10 @@ class MainContainer extends React.Component {
     }
 
     Geolocation.getCurrentPosition(location => {
-      Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
+      // Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
       console.log('----syccess: ', location)
     }, fail => {
-      Toast.show('---- ', fail)
+      // Toast.show('---- ', fail)
       console.log('-------fail:', fail)
     }, {
       timeout: 5000,
@@ -297,6 +298,39 @@ class MainContainer extends React.Component {
     return true
   }
 
+  codePushStatusDidChange (status) {
+    switch(status) {
+      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+        this.props.dispatch(upgrade({
+          text: '正在下载更新内容',
+          busy: true,
+          downloaded: false,
+        }));
+        break;
+      case codePush.SyncStatus.INSTALLING_UPDATE:
+        this.props.dispatch(upgrade({
+          text: '正在更新内容',
+          busy: true,
+          downloaded: true,
+        }));
+        break;
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        this.props.dispatch(upgrade({
+          text: '更新成功',
+          busy: true,
+          downloaded: true,
+        }));
+        break;
+    }
+  }
+
+  codePushDownloadDidProgress (progress) {
+    this.props.dispatch(upgrade({
+      busy: true,
+      progress: parseInt((progress.receivedBytes / progress.totalBytes) * 100) + '%' ///*+ '--' + receive + '/' + total*/
+    }));
+  }
+
   _renderBadge(badgeCount) {
     if (!badgeCount) {
       return null;
@@ -390,17 +424,7 @@ class MainContainer extends React.Component {
             </View>
         }
 
-        {
-          (() => {
-            if (upgrade.get('busy')) {
-              if (upgrade.get('downloaded')) {
-                return (<Upgrade text={`${ upgrade.get('text') }`} />);
-              } else {
-                return (<Upgrade text={`${ upgrade.get('text') }${ upgrade.get('progress') }`} />);
-              }
-            }
-          })()
-        }
+        { this._renderUpgrade(upgrade) }
 
       </Drawer>
     );
@@ -499,7 +523,23 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+Main = codePush({
+  installMode: codePush.InstallMode.IMMEDIATE,
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  updateDialog: {
+    title: '温馨提示',
+    descriptionPrefix: '',
+    optionalUpdateMessage: '',
+    appendReleaseDescription: true,
+    optionalInstallButtonLabel: '更新',
+    optionalIgnoreButtonLabel: '暂不更新',
+    mandatoryUpdateMessage: '即将更新app',
+    mandatoryContinueButtonLabel: '更新',
+  }
+})(MainContainer)
+codePush.allowRestart()
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 
 
