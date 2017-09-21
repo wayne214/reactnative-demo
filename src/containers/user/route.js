@@ -173,6 +173,8 @@ class RouteContainer extends BaseComponent {
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
 				{ this.props.loading ? this._renderLoadingView() : null }
+
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -185,7 +187,8 @@ const mapStateToProps = state => {
 		routes: routes.get('routeList'),		
 		isRefreshAddRoute: routes.get('isRefreshAddRoute'),
 		isRefreshDeleteRoute: routes.get('isRefreshDeleteRoute'),
-		loading: app.get('loading')
+		loading: app.get('loading'),
+		upgrade: app.get('upgrade'),
 
 	}
 }

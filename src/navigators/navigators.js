@@ -73,7 +73,6 @@ import LadingBillScreen from '../containers/order/ladingBill.js'
 import UploadImageScreen from '../containers/order/uploadImages.js'
 import ContractDetailScreen from '../containers/order/contractDetail.js'
 import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
-import InvoiceExplanationScreen from '../containers/user/invoiceExplanation.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
@@ -484,15 +483,6 @@ export const AppNavigator = StackNavigator({
     screen: ConfirmDeliveryScreen,
     navigationOptions: {
       headerTitle: '确认交付',
-      headerStyle: {backgroundColor: 'white'},
-      headerBackTitle: null,
-      headerTintColor: 'black'
-    }
-  },
-  [RouteType.ROUTE_INVOICE_EXPLANATION]: {
-    screen: InvoiceExplanationScreen,
-    navigationOptions: {
-      headerTitle: '',
       headerStyle: {backgroundColor: 'white'},
       headerBackTitle: null,
       headerTintColor: 'black'

@@ -72,13 +72,18 @@ class AuthRoleContainer extends BaseComponent {
 					<Text style={ styles.desTip }>温馨提示:</Text>
 					<Text style={ styles.desTip }>请按照您的身份类型进行认证，如您是公司性质请选择企业用户；如果您是个体司机、车队，请选择个体用户</Text>
 				</View>
+				
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 
 		);
 	}
 }
 const mapStateToProps = (state) => {
-	return {}
+	const { app } = state;
+	return {
+		upgrade: app.get('upgrade'),
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
