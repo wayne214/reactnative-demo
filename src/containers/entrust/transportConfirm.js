@@ -55,6 +55,7 @@ class TransportConfirm extends Component {
 	render() {
 		const {agree,carId} = this.state
 		const {transpostConfirmDetail} = this.props
+		if (!(transpostConfirmDetail && transpostConfirmDetail.resourceId)) {return null};
 		return <View style={styles.container}>
 			{
 				transpostConfirmDetail ?
@@ -87,7 +88,7 @@ class TransportConfirm extends Component {
 											</TouchableOpacity>
 										</View>
 										<TouchableOpacity activeOpacity={0.8} onPress={()=>{
-												this.props.dispatch({
+												this.props.navigation.dispatch({
 													type: RouteType.ROUTE_CONTRACT_DETAIL,
 													params: {
 														title: '合同模板',
@@ -116,6 +117,7 @@ class TransportConfirm extends Component {
 										},()=>{
 											Toast.show('承运成功！')
 											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
+											this.props._toOrderListPage()
 										})
 									}}>
 								  确认承运
@@ -146,6 +148,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		dispatch,
 		_getOrderDetail: (params)=>{
 			dispatch(fetchData({
 				api: API.CONFIRM_TRANSPORT_DETAIL,
