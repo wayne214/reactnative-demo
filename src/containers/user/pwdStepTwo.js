@@ -204,7 +204,7 @@ function mapDispatchToProps (dispatch) {
 				success: () => {
 					setTimeout(() => {
 						if(user.currentUserRole === 2){
-							navigation.dispatch({ type: 'ROUTE_CAR_LOGIN',params: { title: '', diverChange:'driver' } });
+							navigation.dispatch({ type: 'ROUTE_CAR_LOGIN',params: { title: '' } });
 							new User().delete();
 							dispatch(logout());
 						}else if(forgetPassword === 'driverForgetPassword'){
