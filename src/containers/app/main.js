@@ -27,9 +27,10 @@ import Upgrade from '../../components/app/upgrade';
 import SplashScreen from 'react-native-splash-screen'
 import NavigatorBar from '../../components/common/navigatorbar';
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice } from '../../action/app';
+import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice, upgrade } from '../../action/app';
 import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE } from '../../constants/api';
 import { updateMsgList, dispatchRefreshMessageList } from '../../action/message';
+import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
 import JPushModule from 'jpush-react-native';
@@ -45,12 +46,12 @@ const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const getRegistrationIdEvent = "getRegistrationId";
 
-class MainContainer extends React.Component {
+class MainContainer extends BaseComponent {
 
   constructor(props) {
     if (Platform.OS === 'android') {
       JPushModule.initPush();
-      JPushModule.notifyJSDidLoad(() => console.log('fuck'));
+      JPushModule.notifyJSDidLoad(() => console.log(''));
     }
     super(props);
     this.state = {
@@ -66,6 +67,8 @@ class MainContainer extends React.Component {
     this.openControlPanel = this.openControlPanel.bind(this)
     this._handleAppStateChange = this._handleAppStateChange.bind(this)
     this._pushToMessageList = this._pushToMessageList.bind(this)
+    this.codePushStatusDidChange = this.codePushStatusDidChange.bind(this)
+    this.codePushDownloadDidProgress = this.codePushDownloadDidProgress.bind(this)
   }
 
   static propTypes = {
@@ -92,7 +95,7 @@ class MainContainer extends React.Component {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
-// JPush
+    // JPush
 
   /**
    * iOS Only
@@ -150,11 +153,11 @@ class MainContainer extends React.Component {
       })
     }
 
-/**
- * 监听：点击推送事件
- * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
- *
- */
+  /**
+   * 监听：点击推送事件
+   * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
+   *
+   */
     // 点击通知后，将会触发此事件
     JPushModule.addReceiveOpenNotificationListener((message) => {
       console.log("点击通知 触发", message);
@@ -191,6 +194,7 @@ class MainContainer extends React.Component {
       this.props.getNotice()
     }
   }
+
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
     console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
@@ -369,6 +373,7 @@ class MainContainer extends React.Component {
         tweenHandler={(ratio) => ({
           main: { opacity: (2-ratio) / 2 }
         })}>
+
         <Tabar
           { ...this.props }
           changeTab={ this._changeTab }
@@ -389,7 +394,7 @@ class MainContainer extends React.Component {
             </View>
         }
 
-        { this._renderUpgrade(upgrade) }
+        { this._renderUpgrade(this.props.upgrade) }
 
       </Drawer>
     );

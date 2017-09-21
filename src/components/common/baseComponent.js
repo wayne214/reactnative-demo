@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingView from './loading';
 import { NativeModules } from 'react-native'
-import Upgrade from '../../components/app/upgrade'
+import Upgrade from '../app/upgrade'
 
 export default class BaseComponent extends React.Component {
 
