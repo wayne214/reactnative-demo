@@ -195,6 +195,9 @@ class ContractDetail extends BaseComponent {
 				})()
 			}
 			{this.state.loading ? this._renderLoadingView() : null}
+
+			{ this._renderUpgrade(this.props.upgrade) }
+
 		</View>
 	}
 }
@@ -217,7 +220,10 @@ const styles =StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-	return {}
+	const { app } = state
+	return {
+		upgrade: app.get('upgrade'),
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -237,4 +243,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContractDetail);
-

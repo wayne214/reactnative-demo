@@ -30,8 +30,9 @@ import { dispatchBankCardList } from '../../action/bankCard';
 import Button from 'apsl-react-native-button'
 import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
+import BaseComponent from '../../components/common/baseComponent'
 
-class OrderDetail extends Component {
+class OrderDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
 	  this._showCoordinateResult = this._showCoordinateResult.bind(this)
@@ -714,6 +715,9 @@ class OrderDetail extends Component {
 					})
 				}}/>
 			</Modal>
+
+			{ this._renderUpgrade(this.props.upgrade) }
+
 		</View>
 	}
 }
@@ -824,6 +828,7 @@ const mapStateToProps = (state) => {
 	return {
 		nav,
 		user: app.get('user'),
+		upgrade: app.get('upgrade'),
 		orderDetail: order.get('orderDetail')
 	}
 }

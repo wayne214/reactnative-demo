@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingView from './loading';
 import { NativeModules } from 'react-native'
+import Upgrade from '../app/upgrade'
 
 export default class BaseComponent extends React.Component {
 
@@ -19,6 +20,18 @@ export default class BaseComponent extends React.Component {
 
 	_renderLoadingView() {
 		return <LoadingView />;
+	}
+
+	_renderUpgrade(upgrade) {
+		if (upgrade.get('busy')) {
+			if (upgrade.get('downloaded')) {
+				return (<Upgrade text={`${ upgrade.get('text') }`} />);
+			} else {
+				return (<Upgrade text={`${ upgrade.get('text') }${ upgrade.get('progress') }`} />);
+			}
+		} else {
+			return null
+		}
 	}
 
 	render() {
