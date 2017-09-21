@@ -10,8 +10,9 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import styles from '../../../assets/css/setting';
 import CustomServiceIcon from '../../../assets/img/user/icon_service.png';
 import Link from '../../utils/linking';
+import BaseComponent from '../../components/common/baseComponent';
 
-class CustomServiceContainer extends React.Component {
+class CustomServiceContainer extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -42,10 +43,23 @@ class CustomServiceContainer extends React.Component {
 						<Text style={ styles.fontPhone }>&#xe60f;</Text>
 					</View>
 					<Text style={ styles.phoneText }>400-663-5656</Text>
-				</TouchableOpacity>				
+				</TouchableOpacity>			
+
+				{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 		);
 	}
 }
 
-export default connect()(CustomServiceContainer);
+const mapStateToProps = (state) => {
+	const { app } = state;
+	return {
+		upgrade: app.get('upgrade'),
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomServiceContainer);

@@ -160,6 +160,8 @@ class PwdStepOneContainer extends BaseComponent {
 						onPress={ this._nextStepReg } />
 				</View>
 				{ this.props.loading ? this._renderLoadingView() : null }
+
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -171,6 +173,7 @@ function mapStateToProps (state) {
 	return {
 		loading: app.get('loading'),
 		user: app.get('user'),
+		upgrade: app.get('upgrade'),
 		isNeedRefreshTravel: travel.get('isNeedRefreshTravel'),
 		nav
 	};

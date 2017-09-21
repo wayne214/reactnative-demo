@@ -180,7 +180,7 @@ class RegisterContainer extends BaseComponent {
               </View>
             </View>
         }
-
+        { this._renderUpgrade(this.props.upgrade) }	
 			</View>
 		);
 	}
@@ -193,6 +193,7 @@ function mapStateToProps (state) {
 		loading: app.get('loading'),
 		upgradeForce: app.get('upgradeForce'),
 		showFloatDialog: app.get('showFloatDialog'),
+		upgrade: app.get('upgrade'),
 	};
 }
 

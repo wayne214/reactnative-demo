@@ -162,6 +162,8 @@ class AddBankCardContainer extends BaseComponent{
 					</View>
 				</View>
 				{ this.props.loading ? this._renderLoadingView() : null }
+				{ this._renderUpgrade(this.props.upgrade) }
+
 			</View>
 		);
 	}
@@ -171,6 +173,7 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),
 		loading: app.get('loading'),
+		upgrade: app.get('upgrade'),
 		bankCardDetail: bankCard.getIn(['bankCard', 'bankCardDetail']),
 	}
 }

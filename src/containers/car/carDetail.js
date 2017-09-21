@@ -422,6 +422,7 @@ class CarDetailContainer extends BaseComponent {
 							shouldShow: false
 						})
 					}}/>
+					{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 		);
 	}
@@ -430,7 +431,8 @@ const mapStateToProps = state => {
 	const { app, car } = state;
 	return {
 		user: app.get('user'),
-		car: car.getIn(['car','carDetail'])
+		car: car.getIn(['car','carDetail']),
+		upgrade: app.get('upgrade'),
 	}
 }
 

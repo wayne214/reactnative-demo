@@ -97,6 +97,7 @@ class ShowESignImageContainer extends BaseComponent {
 							</View>
 						</View>
 					</ScrollView>
+					{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 			);
 	}
@@ -107,6 +108,7 @@ const mapStateToProps = state => {
 		user: app.get('user'),
 		loading: app.get('loading'),
 		isRefresh: eSign.get('isRefresh'),
+		upgrade: app.get('upgrade'),
 	}
 }
 

@@ -311,6 +311,8 @@ class MessageContainer extends BaseComponent {
 					</View>
 				</Animated.View>
 				{ this.props.loading ? this._renderLoadingView() : null }
+
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		)
 	}
@@ -327,6 +329,7 @@ const mapStateToProps = (state) => {
 		isEndReached: message.get('isEndReached'),
 		isCheckedAll: message.get('isCheckedAll'),
 		isRefreshMsg: message.get('isRefreshMsg'),
+		upgrade: app.get('upgrade'),
 
 	};
 }

@@ -990,6 +990,7 @@ class EditCarContainer extends BaseComponent {
 							shouldShow: false
 						})
 					}}/>
+					{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -1006,6 +1007,7 @@ const mapStateToProps = state => {
 		addCarYunYName: app.getIn(['ossImg', 'addCarYunYName']),
 		addGCarLiencesName: app.getIn(['ossImg', 'addGCarLiencesName']),
 		addGCarYunYName: app.getIn(['ossImg', 'addGCarYunYName']),
+		upgrade: app.get('upgrade'),
 	}
 }
 

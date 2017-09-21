@@ -167,6 +167,8 @@ class AddRouteContainer extends BaseComponent {
 						onPress={ this._addRoute }/>
 				</View>
 			{ this.props.loading ? this._renderLoadingView() : null }
+
+			{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -178,6 +180,7 @@ const mapStateToProps = (state) => {
 		loading: app.get('loading'),
 		carLengths: routes.getIn(['carLength', 'carLengths']).toJS(),
 		carLengthIds : routes.getIn(['carLength', 'carLengthIds']).toJS(),
+		upgrade: app.get('upgrade'),
 	};
 }
 

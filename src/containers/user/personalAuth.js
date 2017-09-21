@@ -98,6 +98,8 @@ class PersonalAuthContainer extends BaseComponent {
 
 				{ this.props.loading ? this._renderLoadingView() : null }
 
+				{ this._renderUpgrade(this.props.upgrade) }
+
 			</View>
 		);
 	}
@@ -108,6 +110,7 @@ const mapStateToProps = (state) => {
 	return {
 		user: app.get('user'),
 		loading: app.get('loading'), 
+		upgrade: app.get('upgrade'),
 	}
 }
 

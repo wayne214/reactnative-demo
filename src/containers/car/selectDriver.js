@@ -117,7 +117,7 @@ class SelectDriverContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-									
+					{ this._renderUpgrade(this.props.upgrade) }				
 			</View>
 		);
 	}
@@ -130,6 +130,7 @@ const mapStateToProps = state => {
 		hasMore: driver.get('hasMore'),
 		isEndReached: driver.get('isEndReached'),		
 		drivers: driver.getIn(['driver', 'selectDriverList']),
+		upgrade: app.get('upgrade'),
 	}
 }
 

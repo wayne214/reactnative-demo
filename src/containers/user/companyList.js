@@ -103,6 +103,8 @@ class CompanyListContainer extends BaseComponent {
 				onEndReached={ this._endReached }
 				dataSource={ this.state.dataSource }/>
 				{ this.props.loading ? this._renderLoadingView() : null }
+
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -113,7 +115,8 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),	
 		companyList: carrier.get('companyList')	,	
-		loading: app.get('loading')
+		loading: app.get('loading'),
+		upgrade: app.get('upgrade'),
 	}
 }
 

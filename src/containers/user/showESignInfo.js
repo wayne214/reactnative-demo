@@ -235,6 +235,7 @@ class ShowESignInfoContainer extends BaseComponent {
 					modalPress={ () => this.setState({ visible: false }) }
 					onPickerSelect={ data => this._onPickerSelect(data) } />
 					{ this.props.loading ? this._renderLoadingView() : null }
+					{ this._renderUpgrade(this.props.upgrade) }	
 			</View>
 			);
 	}
@@ -246,7 +247,8 @@ const mapStateToProps = state => {
 		loading: app.get('loading'),
 		eSignInfo: eSign.getIn(['eSign','eSignInfoDetail']),
 		isRefresh: eSign.get('isRefresh'),
-		isCricleTemplate: eSign.get('isCricleTemplate')
+		isCricleTemplate: eSign.get('isCricleTemplate'),
+		upgrade: app.get('upgrade'),
 	}
 }
 

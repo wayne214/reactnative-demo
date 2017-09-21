@@ -50,6 +50,8 @@ class GameContainer extends BaseComponent {
 					onLoadEnd={ this._onLoadEnd }
 					onLoadStart={ this._onLoadStart }
 					source={{ uri: this.props.url }}/>
+
+				{ this._renderUpgrade(this.props.upgrade) }
 					
 			</View>
 
@@ -59,7 +61,8 @@ class GameContainer extends BaseComponent {
 const mapStateToProps = (state) => {
 	const { app } = state;
 	return {
-		url: app.get('gameUrl')
+		url: app.get('gameUrl'),
+		upgrade: app.get('upgrade'),
 	}
 }
 

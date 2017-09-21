@@ -27,9 +27,10 @@ import Upgrade from '../../components/app/upgrade';
 import SplashScreen from 'react-native-splash-screen'
 import NavigatorBar from '../../components/common/navigatorbar';
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice } from '../../action/app';
+import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice, upgrade } from '../../action/app';
 import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE } from '../../constants/api';
 import { updateMsgList, dispatchRefreshMessageList } from '../../action/message';
+import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
 import JPushModule from 'jpush-react-native';
@@ -39,17 +40,18 @@ import Toast from '../../utils/toast'
 // import LoginContainer from '../user/shipperLogin';
 import Button from '../../components/common/button'
 import Geolocation from 'Geolocation'
+import codePush from 'react-native-code-push'
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const getRegistrationIdEvent = "getRegistrationId";
 
-class MainContainer extends React.Component {
+class MainContainer extends BaseComponent {
 
   constructor(props) {
     if (Platform.OS === 'android') {
       JPushModule.initPush();
-      JPushModule.notifyJSDidLoad(() => console.log('fuck'));
+      JPushModule.notifyJSDidLoad(() => console.log(''));
     }
     super(props);
     this.state = {
@@ -65,6 +67,8 @@ class MainContainer extends React.Component {
     this.openControlPanel = this.openControlPanel.bind(this)
     this._handleAppStateChange = this._handleAppStateChange.bind(this)
     this._pushToMessageList = this._pushToMessageList.bind(this)
+    this.codePushStatusDidChange = this.codePushStatusDidChange.bind(this)
+    this.codePushDownloadDidProgress = this.codePushDownloadDidProgress.bind(this)
   }
 
   static propTypes = {
@@ -91,7 +95,7 @@ class MainContainer extends React.Component {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
-// JPush
+    // JPush
 
   /**
    * iOS Only
@@ -149,11 +153,11 @@ class MainContainer extends React.Component {
       })
     }
 
-/**
- * 监听：点击推送事件
- * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
- *
- */
+  /**
+   * 监听：点击推送事件
+   * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
+   *
+   */
     // 点击通知后，将会触发此事件
     JPushModule.addReceiveOpenNotificationListener((message) => {
       console.log("点击通知 触发", message);
@@ -171,10 +175,10 @@ class MainContainer extends React.Component {
     }
 
     Geolocation.getCurrentPosition(location => {
-      Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
+      // Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
       console.log('----syccess: ', location)
     }, fail => {
-      Toast.show('---- ', fail)
+      // Toast.show('---- ', fail)
       console.log('-------fail:', fail)
     }, {
       timeout: 5000,
@@ -190,6 +194,7 @@ class MainContainer extends React.Component {
       this.props.getNotice()
     }
   }
+
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
     console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
@@ -260,6 +265,39 @@ class MainContainer extends React.Component {
     Toast.show('再按一次退出')
     this.lastPressTimer = Date.now()
     return true
+  }
+
+  codePushStatusDidChange (status) {
+    switch(status) {
+      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+        this.props.dispatch(upgrade({
+          text: '正在下载更新内容',
+          busy: true,
+          downloaded: false,
+        }));
+        break;
+      case codePush.SyncStatus.INSTALLING_UPDATE:
+        this.props.dispatch(upgrade({
+          text: '正在更新内容',
+          busy: true,
+          downloaded: true,
+        }));
+        break;
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        this.props.dispatch(upgrade({
+          text: '更新成功',
+          busy: true,
+          downloaded: true,
+        }));
+        break;
+    }
+  }
+
+  codePushDownloadDidProgress (progress) {
+    this.props.dispatch(upgrade({
+      busy: true,
+      progress: parseInt((progress.receivedBytes / progress.totalBytes) * 100) + '%' ///*+ '--' + receive + '/' + total*/
+    }));
   }
 
   _renderBadge(badgeCount) {
@@ -335,6 +373,7 @@ class MainContainer extends React.Component {
         tweenHandler={(ratio) => ({
           main: { opacity: (2-ratio) / 2 }
         })}>
+
         <Tabar
           { ...this.props }
           changeTab={ this._changeTab }
@@ -355,17 +394,7 @@ class MainContainer extends React.Component {
             </View>
         }
 
-        {
-          (() => {
-            if (upgrade.get('busy')) {
-              if (upgrade.get('downloaded')) {
-                return (<Upgrade text={`${ upgrade.get('text') }`} />);
-              } else {
-                return (<Upgrade text={`${ upgrade.get('text') }${ upgrade.get('progress') }`} />);
-              }
-            }
-          })()
-        }
+        { this._renderUpgrade(this.props.upgrade) }
 
       </Drawer>
     );
@@ -464,7 +493,23 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+Main = codePush({
+  installMode: codePush.InstallMode.IMMEDIATE,
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  updateDialog: {
+    title: '温馨提示',
+    descriptionPrefix: '',
+    optionalUpdateMessage: '',
+    appendReleaseDescription: true,
+    optionalInstallButtonLabel: '更新',
+    optionalIgnoreButtonLabel: '暂不更新',
+    mandatoryUpdateMessage: '即将更新app',
+    mandatoryContinueButtonLabel: '更新',
+  }
+})(MainContainer)
+codePush.allowRestart()
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 
 

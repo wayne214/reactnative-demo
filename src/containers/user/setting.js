@@ -189,6 +189,8 @@ class SettingContainer extends BaseComponent {
 						onPress={ this._logout }/>
 				</View>
 				{this.state.showLoading ? this._renderLoadingView() : null}
+
+				{ this._renderUpgrade(this.props.upgrade) }
 			</View>
 		);
 	}
@@ -198,7 +200,8 @@ function mapStateToProps (state) {
 	const { app } = state;
 	return {
 		user: app.get('user'),
-		alias: app.get('alias')
+		alias: app.get('alias'),
+		upgrade: app.get('upgrade'),
 	};
 }
 
