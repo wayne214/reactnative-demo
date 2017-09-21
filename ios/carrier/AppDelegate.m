@@ -24,6 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
+  
   // 测试环境
    UMConfigInstance.appKey = @"599a68ef45297d108e001673";
   //生产环境
