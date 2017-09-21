@@ -103,6 +103,9 @@ class BillDetail extends BaseComponent {
 						</ScrollView>
 					: null
 				}
+
+				{ this._renderUpgrade(this.props.upgrade) }
+
 			</View>
 		)
 	}
@@ -129,8 +132,9 @@ const styles =StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-	const {order} = state
+	const {order, app } = state
 	return {
+		upgrade: app.get('upgrade'),
 		clearDetail: order.get('clearDetail')
 	}
 }
@@ -156,4 +160,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BillDetail);
-
