@@ -106,13 +106,19 @@ class LoginContainer extends BaseComponent {
 
 	render() {
 		let carrierLogin;
-		// if(this.driverLogin === 'driverLogin'){
+		if(this.driverLogin === 'driverLogin'){
 			carrierLogin = (
 				<View style={ styles.forgetView }>
 					<Text style={ styles.text }
 					onPress={ () => this.props.navigation.dispatch({type:'pop'})}>承运商登录</Text>
 				</View>)
-		// }
+		}else{
+			carrierLogin = (
+				<View style={ styles.forgetView }>
+					<Text style={ styles.text }
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_LOGIN, params:{title:''}})}>承运商登录</Text>
+				</View>)
+		}
 		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
