@@ -6,7 +6,7 @@ import Upgrade from '../app/upgrade'
 export default class BaseComponent extends React.Component {
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.title = (props.navigation.state.params && props.navigation.state.params.title) ? props.navigation.state.params.title : '首页'
 	}
 
@@ -19,15 +19,15 @@ export default class BaseComponent extends React.Component {
 	}
 
 	_renderLoadingView() {
-		return <LoadingView />;
+		return <LoadingView />
 	}
 
 	_renderUpgrade(upgrade) {
 		if (upgrade.get('busy')) {
 			if (upgrade.get('downloaded')) {
-				return (<Upgrade text={`${ upgrade.get('text') }`} />);
+				return (<Upgrade text={ `${ upgrade.get('text') }` } />)
 			} else {
-				return (<Upgrade text={`${ upgrade.get('text') }${ upgrade.get('progress') }`} />);
+				return (<Upgrade text={` ${ upgrade.get('text') }${ upgrade.get('progress') }` } />)
 			}
 		} else {
 			return null
@@ -35,7 +35,7 @@ export default class BaseComponent extends React.Component {
 	}
 
 	render() {
-		return null;
+		return null
 	}
 
 }
