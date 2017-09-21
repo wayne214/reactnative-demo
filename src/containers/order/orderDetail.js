@@ -417,7 +417,7 @@ class OrderDetail extends BaseComponent {
 												}
 											})
 										}
-										dataSource.push([{
+										dataSource.push({
 											title: '确认交付',
 											callBack: ()=>{
 												Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
@@ -434,7 +434,7 @@ class OrderDetail extends BaseComponent {
 													}}]
 												);
 											}
-										}])
+										})
 										return <ButtonView dataSource={dataSource}/>
 									}else if (orderDetail.orderState == 9){
 										return <ButtonView dataSource={[

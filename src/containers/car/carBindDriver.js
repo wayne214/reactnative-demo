@@ -38,6 +38,7 @@ class CarBindDriverContainer extends BaseComponent {
 	}
 
 	componentDidMount() {
+		this.props.navigation.setParams({ navigatePress: this._backClick})  
 		this.props.getCarList({
 			pageNo: this.state.pageNo,
 			carrierId: this.props.user.userId,
@@ -113,7 +114,8 @@ class CarBindDriverContainer extends BaseComponent {
 	static navigationOptions = ({ navigation }) => {
 	  return {
 	    header: <NavigatorBar  
-	    router={ navigation }/>
+	    router={ navigation }
+	    backViewClick={() => navigation.state.params.navigatePress() }/>
 	  };
 	};
 

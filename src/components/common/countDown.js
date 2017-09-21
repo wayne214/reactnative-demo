@@ -37,7 +37,7 @@ class CountDown extends Component{
 	}
 
 	static propTypes = {
-	  style: PropTypes.style,
+	  // style: PropTypes.style,
 	  overTime: PropTypes.string.isRequired,
 	  timeItemStyle: View.propTypes.style,
 	  endCounttingCallBack: PropTypes.func

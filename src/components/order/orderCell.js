@@ -118,7 +118,6 @@ class OrderCell extends Component{
 															<CountDown key={rowData.resourceId} overTime={expireTime} timeItemStyle={{backgroundColor: COLOR.TEXT_BLACK}} endCounttingCallBack={()=>{
 																console.log(" ===== 过期 不能再接受派单");
 																this.props.removeOverTimeOrder(rowData.resourceId)
-																// this.setState({acceptButtonEnable: false})
 															}}/>
 													</View>
 													<View style={styles.buttonViewInside}>
@@ -468,7 +467,7 @@ class OrderCell extends Component{
 													return (
 														<View style={styles.buttonView}>
 															<View style={styles.buttonViewInside}>
-																<Button activeOpacity={0.8} style={[styles.buttonStyle,{marginRight: 10}]}
+																<Button activeOpacity={0.8} style={styles.buttonStyle}
 																	textStyle={{fontSize: 14,color: 'white'}}
 																	onPress={()=>{
 																		if (this.props._requestCoordinateResult) {
@@ -649,7 +648,7 @@ class OrderCell extends Component{
 													return (
 														<View style={styles.buttonView}>
 															<View style={styles.buttonViewInside}>
-																<Button activeOpacity={0.8} style={[styles.buttonStyle,{marginRight: 10}]}
+																<Button activeOpacity={0.8} style={styles.buttonStyle}
 																	textStyle={{fontSize: 14,color: 'white'}}
 																	onPress={()=>{
 																		if (this.props._requestCoordinateResult) {
