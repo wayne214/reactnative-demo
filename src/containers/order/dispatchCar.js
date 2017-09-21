@@ -108,8 +108,9 @@ class DispatchCar extends BaseComponent {
 		this.props.navigation.dispatch({
 			type: RouteType.ROUTE_CAR_BIND_DRIVER,
 			params: {
+				title: '车辆绑定司机',
 				_refreshCallBack:()=>{
-					this.props._getCarList({carrierId: user.userId,pageNo: 1,carState: 0,haveDriver: 1,certificationStatus: 2})
+					this.props._getCarList({carrierId: this.props.user.userId,pageNo: 1,carState: 0,haveDriver: 1,certificationStatus: 2})
 				}
 			}
 		})

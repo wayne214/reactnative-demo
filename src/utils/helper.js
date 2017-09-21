@@ -172,7 +172,7 @@ class HelperUtil {
 			case 16: return '结算中' //'待承运方结算'
 			case 17: return '承运方已结算'
 			case 18: return '已关闭'
-			case 19: return '核价中'
+			case 19: return '运费核对中'
 			default: return ''
 		}
 	}
