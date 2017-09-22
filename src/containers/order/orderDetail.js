@@ -455,15 +455,19 @@ class OrderDetail extends BaseComponent {
 											{
 												title: '确认交付',
 												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_CONFIRM_DELIVERY,
-														params: {
-															orderNo: orderDetail.orderNo,
-															orderState: 9,
-															entrustType: orderDetail.entrustType
-														}
-													})
-													// this.props.router.push(RouteType.ROUTE_CONFIRM_DELIVERY,{})
+													Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
+														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
+														{text: '立即上传', onPress: ()=>{
+															this.props.navigation.dispatch({
+																type: RouteType.ROUTE_UPLOAD_IMAGES,
+																params: {
+																	orderNo: orderDetail.orderNo,
+																	uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+																	entrustType: orderDetail.entrustType
+																}
+															})
+														}}]
+													);
 												}
 											}
 										]}/>

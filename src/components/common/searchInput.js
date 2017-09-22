@@ -53,6 +53,15 @@ class SearchInput extends React.Component {
 								inputValue: text
 							})
 						} }/>
+						{
+							inputValue && inputValue.trim().length > 0 ?
+								<Text onPress={()=>{
+									this.setState({
+										inputValue: ''
+									})
+								}} style={{fontFamily: 'iconfont',fontSize: 16, padding: 5}}>&#xe634;</Text>
+							: null
+						}
 				</View>
 			</View>
 		)
