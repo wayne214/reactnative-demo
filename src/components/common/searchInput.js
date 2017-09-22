@@ -63,6 +63,7 @@ class SearchInput extends React.Component {
             	<Text style={{color: '#cccccc', fontFamily: 'iconfont', alignItems: 'center',marginRight: 10 }}>&#xe634;</Text>
             </TouchableOpacity>
           </View>
+
 				</View>
 			</View>
 		)
