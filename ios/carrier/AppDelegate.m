@@ -18,12 +18,13 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "SplashScreen.h"
+#import "IQKeyboardManager.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
+  [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
   
   // 测试环境
    UMConfigInstance.appKey = @"599a68ef45297d108e001673";
