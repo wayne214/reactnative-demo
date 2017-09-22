@@ -63,7 +63,7 @@ class RegisterContainer extends BaseComponent {
 
 	_toAuth () {
 		this.setState({ visible: false });
-		this.props.router.push(RouteType.ROUTE_AUTH_ROLE, 'register');
+		this.props.navigation.dispatch({type:RouteType.ROUTE_AUTH_ROLE,params:{title:'认证角色'}});
 	}
 
 	_toMain () {

@@ -82,7 +82,7 @@ export default class AuthInfoContainer extends React.Component {
 							title='申请重新认证'
 							style={ styles.btnAuth }
 							textStyle={ styles.btnAuthText }
-							onPress={ () => this.props.router.push(RouteType.ROUTE_AUTH_ROLE) }/>
+							onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_AUTH_ROLE,params:{title:'重新认证'}}) }/>
 					</View>
 				</View>								
 			);
