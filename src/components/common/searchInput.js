@@ -3,7 +3,8 @@ import {
 	View,
 	Text,
 	Keyboard,
-	TextInput
+	TextInput,
+	TouchableOpacity
 } from 'react-native'
 import * as COLOR from '../../constants/colors.js'
 
@@ -53,12 +54,20 @@ class SearchInput extends React.Component {
 								inputValue: text
 							})
 						} }/>
+					<View opacity={inputValue.trim().length>0? 1: 0} >
+            <TouchableOpacity
+              opacityActive={ 1 }
+              onPress={ () => {
+                this.setState({ inputValue: ''})
+              } } >
+            	<Text style={{color: '#cccccc', fontFamily: 'iconfont', alignItems: 'center',marginRight: 10 }}>&#xe634;</Text>
+            </TouchableOpacity>
+          </View>
 				</View>
 			</View>
 		)
 	}
 
 }
-
 export default SearchInput
 
