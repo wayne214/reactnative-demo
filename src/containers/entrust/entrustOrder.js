@@ -195,7 +195,10 @@ class EntrustOrderList extends BaseComponent {
 									companyPhone: user.phoneNumber
 								},()=>{
 									Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
-									this.props.router.push(RouteType.ROUTE_DISPATCH_CAR,{goodsId: data.resourceId})
+									this.props.navigation.dispatch({
+									  type: RouteType.ROUTE_DISPATCH_CAR,
+									  params: {goodsId: data.resourceId, title: '调度车辆'}
+									})
 								},()=>{
 									// refreshCallBack
 									this.props._getEntrustOrderList({
@@ -224,14 +227,12 @@ class EntrustOrderList extends BaseComponent {
 								data.title = '委托详情'
 								if (data.resourceStatus == 1) {
 									this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
-										// this.props.router.push(RouteType.ROUTE_ENTRUST_ORDER_DETAIL,data)
                     this.props.navigation.dispatch({
                       type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
                       params: data
                     })
 									})
 								}else{
-									// this.props.router.push(RouteType.ROUTE_ENTRUST_ORDER_DETAIL,data)
                   this.props.navigation.dispatch({
                     type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
                     params: data
@@ -244,7 +245,6 @@ class EntrustOrderList extends BaseComponent {
                     type: RouteType.ROUTE_DISPATCH_CAR,
                     params: {goodsId: data.resourceId, title: '调度车辆'}
                   })
-									// this.props.router.push(RouteType.ROUTE_DISPATCH_CAR,)
 								})
 							}}
 							deleteOrderUndispatch={(goodsId)=>{

@@ -274,3 +274,7 @@ export const SAVE_CHANGE_CARRIER = '/driver/switchCarrierRecord';
 
 // 线路货源顶部广告
 export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
+
+
+// 收集log
+export const API_COLLECT_LOG = 'app/log/log'

@@ -41,6 +41,10 @@ import Toast from '../../utils/toast'
 import Button from '../../components/common/button'
 import Geolocation from 'Geolocation'
 import codePush from 'react-native-code-push'
+import TimeToDoSomething from '../../logUtil/timeToDoSomething.js'
+import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
+
+import {getAddressWithLocation} from '../../logUtil/geolocation.js'
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
@@ -174,27 +178,51 @@ class MainContainer extends BaseComponent {
   		}, 2000)
     }
 
+
+
+    TimeToDoSomething.sendMsgToNative();
+    this.uploadLoglistener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+      // this._getCurrentPosition();
+      //   console.log("JS 收到原生消息",data,new Date());
+    });
+
+    // 获取站内公告
+    if(user.userId){
+      this.props.getNotice()
+    }
+    const locationData = {};
+    ReadAndWriteFileUtil.writeFile('App启动',
+      locationData.city,
+      locationData.latitude,
+      locationData.longitude,
+      locationData.phone,
+      locationData.province,
+      locationData.district,
+      0,
+      '',
+      '', 'App启动');
+  }
+
+  _getCurrentPosition(){
     Geolocation.getCurrentPosition(location => {
-      // Toast.show('---- ', location.coords.longitude + "\n纬度：" + location.coords.latitude)
-      console.log('----syccess: ', location)
+      getAddressWithLocation(location.coords.longitude,location.coords.latitude).then((locationData)=>{
+        console.log(" ======= = binggo ",locationData);
+        ReadAndWriteFileUtil.appendFile('定位', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, 0, '定位');
+        TimeToDoSomething.uploadDataFromLocalMsg();
+      },(error)=>{
+        if (error.code == '0001') {
+          console.log(" ===== 位置解析失败，但是坐标肯定是没错的 ",error.location);
+        };
+      })
     }, fail => {
-      // Toast.show('---- ', fail)
       console.log('-------fail:', fail)
     }, {
       timeout: 5000,
       maximumAge: 1000,
       enableHighAccuracy: false
     })
-
-    // this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-
-
-    // 获取站内公告
-    if(user.userId){
-      this.props.getNotice()
-    }
   }
-
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
     console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
@@ -233,6 +261,8 @@ class MainContainer extends BaseComponent {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
+    this.uploadLoglistener
+
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
       JPushModule.removeReceiveCustomMsgListener();
@@ -255,7 +285,7 @@ class MainContainer extends BaseComponent {
     if (routeName === 'ROUTE_LOGIN' || routeName === 'ROUTE_CAR_LOGIN') {
         return true;
     }
-      
+
 
     if (this.props.nav.routes.length > 1) {
       this.props.navigation.dispatch({ type: 'pop' })
