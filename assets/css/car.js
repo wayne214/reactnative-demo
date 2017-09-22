@@ -227,6 +227,7 @@ export default StyleSheet.create({
 		flex: 1,
 		padding: 0,
 		marginRight: 15,
+		fontSize: 15,
 	},
 	rightText: {
 		fontSize: 15,
