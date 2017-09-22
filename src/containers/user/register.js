@@ -113,6 +113,18 @@ class RegisterContainer extends BaseComponent {
 								underlineColorAndroid={ 'transparent' }
 								value = { this.state.phone }
 								onChangeText={ (text) => this.setState({ phone: text }) }/>
+								<View
+                  opacity={(this.state.phone+'').trim().length>0? 1: 0} >
+                  <TouchableOpacity
+                    opacityActive={ 1 }
+                    onPress={ () => {
+                      this.setState({ phone: ''})
+                    } }
+                    >
+                    <Text
+                      style={ styles.iconFontRight }>&#xe634;</Text>
+                  </TouchableOpacity>
+                </View>
 						</View>
 						<View style={ styles.cellContainer }>
 							<Text style={ styles.labelText }>图形验证码</Text>

@@ -186,5 +186,13 @@ export default StyleSheet.create({
   	bottom: 0,
   	left: 0,
   	right: 0,
-  }
+  },
+  iconFontRight: {
+		fontSize: 16,		
+		color: '#cccccc',
+		fontFamily: 'iconfont',
+		alignItems: 'center',
+		marginLeft: 16,
+		marginRight: 15
+	},
 });

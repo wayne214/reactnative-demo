@@ -251,6 +251,12 @@ class MainContainer extends BaseComponent {
   }
 
   handleBack () {
+    let routeName = this.props.nav.routes.length>1?this.props.nav.routes[this.props.nav.index - 1].routeName:'';
+    if (routeName !== 'ROUTE_LOGIN' && routeName !== 'ROUTE_CAR_LOGIN') {
+        return true;
+    }
+      
+
     if (this.props.nav.routes.length > 1) {
       this.props.navigation.dispatch({ type: 'pop' })
       return true
