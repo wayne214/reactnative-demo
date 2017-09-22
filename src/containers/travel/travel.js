@@ -110,7 +110,7 @@ class HomeContainer extends BaseComponent {
   }
 
   _addCar() {
-    this.props.router.push(RouteType.ROUTE_ADD_CAR)
+    this.props.navigation.dispatch({ type: RouteType.ROUTE_ADD_CAR, params: { title:  '添加车辆' } })
   }
 
   render() {
