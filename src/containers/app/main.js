@@ -251,7 +251,7 @@ class MainContainer extends BaseComponent {
   }
 
   handleBack () {
-    let routeName = this.props.nav.routes.length>1?this.props.nav.routes[this.props.nav.index].routeName:'';
+    let routeName = this.props.nav.routes.length>0?this.props.nav.routes[this.props.nav.index].routeName:'';
     if (routeName === 'ROUTE_LOGIN' || routeName === 'ROUTE_CAR_LOGIN') {
         return true;
     }
