@@ -9,9 +9,10 @@
 #import "NativeModule.h"
 #import "AppDelegate.h"
 
-//#import "AppDelegate.h"
+#import <React/RCTEventDispatcher.h>
 
 @implementation NativeModule
+@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
 
@@ -38,5 +39,14 @@ RCT_EXPORT_METHOD(toAppStore)
   return @{ @"firstDayOfTheWeek": result, @"VERSION": version, @"IOS_OS_VERSION": iosOSVersion };
 }
 
+RCT_EXPORT_METHOD(RNSendMsgToNative)
+{
+  dispatch_sync(dispatch_get_main_queue(), ^{
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
+  });
+}
+- (void)sendParamsToRN{
+  [self.bridge.eventDispatcher sendAppEventWithName:@"nativeSendMsgToRN" body:@{@"msg":@"123"}];
+}
 @end
 

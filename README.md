@@ -32,3 +32,13 @@
 
     [手动配置部分](https://github.com/jpush/jpush-react-native#2手动操作部分自动配置后部分操作需要手动修改)
     
+
+
+- [react-native-fs](https://github.com/itinance/react-native-fs)
+    
+    react-native link react-native-fs
+
+- [react-native-device-info](https://github.com/rebeccahughes/react-native-device-info)
+    
+    react-native link react-native-device-info
+
