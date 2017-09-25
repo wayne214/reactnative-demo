@@ -26,7 +26,7 @@ const { height,width } = Dimensions.get('window')
 
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
-import ScrollAD from '../../components/common/scrollAD.js'
+// import ScrollAD from '../../components/common/scrollAD.js'
 
 class GoodsList extends Component {
   constructor(props) {
@@ -56,6 +56,16 @@ class GoodsList extends Component {
       headerStyle: {backgroundColor: 'white'},
     }
   }
+
+  // { 123line
+  //   insiteNotice ?
+  //     <ScrollAD
+  //       content={insiteNotice}
+  //       closeAction={()=>{
+  //         dispatch(receiveInSiteNotice())
+  //       }}/>
+  //   : null
+  // }
 
   render() {
     const {
@@ -120,15 +130,7 @@ class GoodsList extends Component {
                 })
               }}/>
         }
-        {
-          insiteNotice ?
-            <ScrollAD
-              content={insiteNotice}
-              closeAction={()=>{
-                dispatch(receiveInSiteNotice())
-              }}/>
-          : null
-        }
+
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
@@ -373,4 +375,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoodsList);
-

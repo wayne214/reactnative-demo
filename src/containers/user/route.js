@@ -16,7 +16,7 @@ import { fetchData, getInitStateFromDB } from '../../action/app';
 import { dispatchRouteList } from '../../action/route';
 import Button from '../../components/common/button';
 import editRoute from './editRoute';
-import { dispatchRefreshDeleteRoute, dispatchClearRouteInfo } from '../../action/route';
+import { dispatchRefreshDeleteRoute } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 import Toast from '../../utils/toast';
 import AddressFromTo from '../../components/common/addressFromTo'
@@ -127,7 +127,6 @@ class RouteContainer extends BaseComponent {
 						underlayColor='#e6eaf2'
 						style={ styles.optView }
 						onPress = { () => {
-							this.props.dispatch(dispatchClearRouteInfo())
 							this.props.navigation.dispatch({type: RouteType.EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
 						<View style={ styles.optView }>
 							<Text style={ styles.iconFontOpt }>&#xe617;</Text>
@@ -149,8 +148,7 @@ class RouteContainer extends BaseComponent {
   		} },
   	]);
 	} 
-	_pushAddRoute = () =>{
-		this.props.dispatch(dispatchClearRouteInfo());	
+	_pushAddRoute = () =>{	
 		this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_ROUTE, params: {title:'新增路线'}});
 	}
 	static navigationOptions = ({ navigation }) => {
@@ -174,7 +172,7 @@ class RouteContainer extends BaseComponent {
 					dataSource={ this.state.dataSource }/>
 				{ this.props.loading ? this._renderLoadingView() : null }
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -189,6 +187,8 @@ const mapStateToProps = state => {
 		isRefreshDeleteRoute: routes.get('isRefreshDeleteRoute'),
 		loading: app.get('loading'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 
 	}
 }

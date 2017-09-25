@@ -104,7 +104,7 @@ class BillDetail extends BaseComponent {
 					: null
 				}
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 
 			</View>
 		)
@@ -135,6 +135,8 @@ const mapStateToProps = (state) => {
 	const {order, app } = state
 	return {
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 		clearDetail: order.get('clearDetail')
 	}
 }

@@ -45,7 +45,7 @@ class CustomServiceContainer extends BaseComponent {
 					<Text style={ styles.phoneText }>400-663-5656</Text>
 				</TouchableOpacity>			
 
-				{ this._renderUpgrade(this.props.upgrade) }	
+				{ this._renderUpgrade(this.props) }	
 			</View>
 		);
 	}
@@ -55,6 +55,8 @@ const mapStateToProps = (state) => {
 	const { app } = state;
 	return {
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

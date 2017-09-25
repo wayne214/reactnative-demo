@@ -49,7 +49,7 @@ class AgreementContainer extends BaseComponent{
 		return (
 			<View style = { styles.container }>
 				<WebView source={ {uri: this.state.url} }/>
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 
 		);
@@ -59,6 +59,8 @@ const mapStateToProps = (state) => {
 	const { app } = state;
 	return {
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

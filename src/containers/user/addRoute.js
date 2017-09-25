@@ -14,7 +14,7 @@ import Picker from 'react-native-picker';
 import { ADD_ROUTER } from '../../constants/api';
 import { fetchData } from '../../action/app';
 import Toast from '../../utils/toast';
-import { dispatchRefreshAddRoute, getCarLength, checkedOneOfDatas } from '../../action/route';
+import { dispatchRefreshAddRoute, getCarLength, checkedOneOfDatas,dispatchClearRouteInfo } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 
 class AddRouteContainer extends BaseComponent {
@@ -44,6 +44,7 @@ class AddRouteContainer extends BaseComponent {
 
 	componentWillUnmount() {
 		super.componentWillUnmount();
+		this.props.dispatch(dispatchClearRouteInfo());
 		Picker.hide();
 	}
 
@@ -168,7 +169,7 @@ class AddRouteContainer extends BaseComponent {
 				</View>
 			{ this.props.loading ? this._renderLoadingView() : null }
 
-			{ this._renderUpgrade(this.props.upgrade) }
+			{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -181,6 +182,8 @@ const mapStateToProps = (state) => {
 		carLengths: routes.getIn(['carLength', 'carLengths']).toJS(),
 		carLengthIds : routes.getIn(['carLength', 'carLengthIds']).toJS(),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

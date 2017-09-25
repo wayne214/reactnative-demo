@@ -190,7 +190,7 @@ class SettingContainer extends BaseComponent {
 				</View>
 				{this.state.showLoading ? this._renderLoadingView() : null}
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -202,6 +202,8 @@ function mapStateToProps (state) {
 		user: app.get('user'),
 		alias: app.get('alias'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

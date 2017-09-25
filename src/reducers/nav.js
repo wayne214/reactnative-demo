@@ -8,6 +8,8 @@ const initialNavState = AppNavigator.router.getStateForAction(
   firstAction
 );
 
+let lastTime, lastRoute
+
 export default function nav(state = initialNavState, action) {
   let nextState;
 
@@ -44,11 +46,17 @@ export default function nav(state = initialNavState, action) {
   } else if (action.type === 'Navigation/SET_PARAMS') {
     nextState = AppNavigator.router.getStateForAction(action, state);
   } else {
-    nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({
-      routeName: action.type,
-      params: action.params,
-      action: NavigationActions.navigate({ routeName: action.type })
-    }), state);
+    const currentTime = new Date().getTime()
+    if (currentTime - lastTime < 1000 && lastRoute === action.type) {
+    } else {
+      lastTime = currentTime
+      lastRoute = action.type
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({
+        routeName: action.type,
+        params: action.params,
+        action: NavigationActions.navigate({ routeName: action.type })
+      }), state);
+    }
   }
 
   // switch (action.type) {

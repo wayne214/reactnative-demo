@@ -41,7 +41,7 @@ export default store => next => action => {
 			// 'Content-Type': "application/x-www-form-urlencoded"
 		}
 	} = action.payload;
-	
+
 	if (!api) throw new Error(' throw api should not be empty exception by sherry!');
 
 	if (!method) throw new Error(' throw method should not be empty exception by sherry!');
@@ -185,7 +185,7 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 			if (DEBUG) console.log('%c server response is ', 'color:red', responseData);
 			if (responseData.code === '0000' || responseData.status === '200') {
 				if (responseData.code === '0000') resolve(responseData.data);
-				if (responseData.code === '200') resolve(responseData);
+				if (responseData.code === '200') resolve(responseData)
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
 			} else if (responseData.code === '0099') {
 				// 强制升级

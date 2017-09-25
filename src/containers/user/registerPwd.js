@@ -235,7 +235,7 @@ class RegisterContainer extends BaseComponent {
 						</View>
 					</View>
 				</Modal>
-				{ this._renderUpgrade(this.props.upgrade) }	
+				{ this._renderUpgrade(this.props) }	
 			</View>
 		);
 	}
@@ -246,6 +246,8 @@ function mapStateToProps (state) {
 	return {
 		loading: app.get('loading'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

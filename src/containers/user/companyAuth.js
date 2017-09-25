@@ -36,7 +36,7 @@ import ExampleImageYY from '../../../assets/img/auth/business_licence.png';
 import ExampleImageC from '../../../assets/img/auth/transport_licence.png';
 import ExampleImageS from '../../../assets/img/auth/tax_enrol_certificate.png';
 import User from '../../models/user';
-import { dispatchGetCarrierDetail ,dispatchCombineStatus } from '../../action/carrier';
+import { dispatchGetCarrierDetail ,dispatchCombineStatus, dispatchClearAuthInfo } from '../../action/carrier';
 import dismissKeyboard from 'dismissKeyboard';
 import BaseComponent from '../../components/common/baseComponent';
 import EnlargeImage from '../../../assets/img/enlarge.png';
@@ -99,6 +99,7 @@ class CompanyAuthContainer extends BaseComponent {
   componentWillUnmount () {
   	super.componentWillUnmount();
 		this.keyboardDidHideListener.remove();
+		this.props.dispatch(dispatchClearAuthInfo());
   }
 
 	_keyboardDidHide() {
@@ -459,7 +460,7 @@ class CompanyAuthContainer extends BaseComponent {
 
 					{ this.props.loading ? this._renderLoadingView() : null }
 
-					{ this._renderUpgrade(this.props.upgrade) }
+					{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -477,6 +478,8 @@ function mapStateToProps(state) {
 		shuiwImgName: app.getIn(['ossImg', 'shuiwImgName']),
 		auth: carrier.getIn(['carrierInfo','carrierDetail']),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

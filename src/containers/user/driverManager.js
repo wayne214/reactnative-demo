@@ -13,7 +13,7 @@ import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
 import { DRIVER_LIST, BIND_DRIVER, DELETE_DRIVER_INFO } from '../../constants/api';
 import { fetchData } from '../../action/app';
-import { dispatchSelectDrivers, dispatchClearDriverInfo } from '../../action/driver';
+import { dispatchSelectDrivers } from '../../action/driver';
 import { dispatchRefreshCar } from '../../action/car';
 import { dispatchRefreshDriver } from '../../action/driver';
 import BaseComponent from '../../components/common/baseComponent';
@@ -134,7 +134,6 @@ class DriverManagerContainer extends BaseComponent {
   	const { user } = this.props;
 		// if(user.certificationStatus !== 3){
 			this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_DRIVER, params: {title: '新增司机'}});
-			this.props.dispatch(dispatchClearDriverInfo());
 		// }else{
 		// 	Toast.show('您的认证被驳回！');
 		// }
@@ -170,7 +169,7 @@ class DriverManagerContainer extends BaseComponent {
 					dataSource={ this.state.dataSource }/>
 					{ this.props.loading ? this._renderLoadingView() : null }
 
-					{ this._renderUpgrade(this.props.upgrade) }
+					{ this._renderUpgrade(this.props) }
 
 			</View>
 		);
@@ -187,6 +186,8 @@ const mapStateToProps = state => {
 		drivers: driver.getIn(['driver', 'selectDriverList']),
 		loading: app.get('loading'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

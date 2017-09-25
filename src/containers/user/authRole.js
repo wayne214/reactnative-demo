@@ -12,7 +12,6 @@ import { BASE_URL } from '../../constants/setting';
 import { ABOUT_US } from '../../constants/api'; 
 import MainContainer from '../app/main';
 import * as RouteType from '../../constants/routeType';
-import { dispatchClearAuthInfo } from '../../action/carrier';
 import BaseComponent from '../../components/common/baseComponent';
 
 class AuthRoleContainer extends BaseComponent {
@@ -38,7 +37,6 @@ class AuthRoleContainer extends BaseComponent {
 	}
 	_pushCompanyAuth(){
 		this.props.navigation.dispatch({type: RouteType.ROUTE_COMPANY_AUTH, params: {title:'公司认证'}});
-		this.props.dispatch(dispatchClearAuthInfo());
 	}
 	static navigationOptions = ({ navigation }) => {
 	  return {
@@ -73,7 +71,7 @@ class AuthRoleContainer extends BaseComponent {
 					<Text style={ styles.desTip }>请按照您的身份类型进行认证，如您是公司性质请选择企业用户；如果您是个体司机、车队，请选择个体用户</Text>
 				</View>
 				
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 
 		);
@@ -83,6 +81,8 @@ const mapStateToProps = (state) => {
 	const { app } = state;
 	return {
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

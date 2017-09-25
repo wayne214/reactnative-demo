@@ -248,6 +248,8 @@ class CarListContainer extends BaseComponent {
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
 
+				{ this._renderUpgrade(this.props) }	
+
 			</View>
 		);
 	}
@@ -260,7 +262,10 @@ const mapStateToProps = state => {
 		user: app.get('user'),
 		hasMore: car.get('hasMore'),
 		isEndReached: car.get('isEndReached'),
-		carList: car.getIn(['car', 'selectCarForOrderWorkList'])
+		carList: car.getIn(['car', 'selectCarForOrderWorkList']),
+		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

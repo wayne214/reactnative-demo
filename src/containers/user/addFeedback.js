@@ -87,7 +87,7 @@ class AddFeedbackContainer extends BaseComponent {
 					</View>
 					</TouchableOpacity>
 				{ this.props.loading ? this._renderLoadingView() : null }
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -98,6 +98,8 @@ const mapStateToProps = state => {
 		user: app.get('user'),
 		loading: app.get('loading'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 
 	}
 }

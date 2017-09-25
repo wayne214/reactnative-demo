@@ -117,7 +117,7 @@ class CarContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -330,6 +330,8 @@ const mapStateToProps = state => {
 		cars: car.getIn(['car', 'selectCarList']),
 		isRefreshCar: car.get('isRefreshCar'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

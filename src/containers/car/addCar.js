@@ -836,7 +836,7 @@ class AddCarContainer extends BaseComponent {
 						})
 					}}/>
 				{ this.props.loading ? this._renderLoadingView() : null }
-				{ this._renderUpgrade(this.props.upgrade) }	
+				{ this._renderUpgrade(this.props) }	
 			</View>
 		);
 	}
@@ -854,6 +854,8 @@ const mapStateToProps = state => {
 		addGCarLiencesName: app.getIn(['ossImg', 'addGCarLiencesName']),
 		addGCarYunYName: app.getIn(['ossImg', 'addGCarYunYName']),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 
