@@ -502,6 +502,9 @@ class OrderList extends BaseComponent {
               refreshList={this._refreshList}
               {...this.props}
               tabLabel={'已完成'}
+              showCoordination={(result)=>{
+                this._showCoordinateResult(result)
+              }}
               dataSource={orderCanceled}
               loadMoreAction={()=>{
                 this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderCanceled.get('pageNo')) + 1)
