@@ -87,6 +87,8 @@ class MainContainer extends BaseComponent {
   }
 
   async componentDidMount () {
+    Geolocation.requestAuthorization()
+
     AppState.addEventListener('change', this._handleAppStateChange);
     this.props._getCityOfCountry();
     const value = await Storage.get('float')
@@ -207,8 +209,16 @@ class MainContainer extends BaseComponent {
     Geolocation.getCurrentPosition(location => {
       getAddressWithLocation(location.coords.longitude,location.coords.latitude).then((locationData)=>{
         console.log(" ======= = binggo ",locationData);
-        ReadAndWriteFileUtil.appendFile('定位', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-            locationData.district, 0, '定位');
+        ReadAndWriteFileUtil.appendFile(
+          '定位', // Action
+          locationData.city,
+          locationData.latitude,
+          locationData.longitude,
+          locationData.province,
+          locationData.district,
+          0, //耗时
+          '定位'//pageName
+        );
         TimeToDoSomething.uploadDataFromLocalMsg();
       },(error)=>{
         if (error.code == '0001') {

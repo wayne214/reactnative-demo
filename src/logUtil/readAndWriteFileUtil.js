@@ -71,11 +71,12 @@ class readAndWriteFileUtil {
         const provValue = typeof (prov) === 'undefined' ? '' : prov; // 省
         const regionValue = typeof (region) === 'undefined' ? '' : region; // 区
         setTimeout(() => {
-            Storage.get('userInfo').then((value) => {
-                if (value) {
-                    userID = value.result.userId;
-                    userNAME = value.result.userName;
-                    userPhone = value.result.phone;
+            Storage.get('user').then((user) => {
+                if (user) {
+                    console.log(" ====== user ",user);
+                    userID = user.userId;
+                    userNAME = user.companyName;
+                    userPhone = user.phoneNumber
                     Storage.get('plateNumber').then((plateNum) => {
                         plateNumber = plateNum;
                         var content={'action':action, 'city': cityValue , 'lat': gpsXValue, 'lng': gpsYValue, 'phoneNum': userPhone, 'prov': provValue,
@@ -93,6 +94,7 @@ class readAndWriteFileUtil {
                 }
             });
         }, 500);
+        console.log(" ==== ",currentData,cityValue,gpsXValue,gpsYValue,provValue,regionValue);
     }
     // 读取文件
     readFile(successCallback, failCallback) {
