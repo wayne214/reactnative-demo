@@ -156,7 +156,7 @@ class PwdSteoTwoContainer extends BaseComponent {
 				</View>
 				{ this.props.loading ? this._renderLoadingView() : null }
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -167,6 +167,8 @@ function mapStateToProps (state) {
 		loading: app.get('loading'),
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

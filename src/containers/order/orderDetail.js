@@ -722,7 +722,7 @@ class OrderDetail extends BaseComponent {
 				}}/>
 			</Modal>
 
-			{ this._renderUpgrade(this.props.upgrade) }
+			{ this._renderUpgrade(this.props) }
 
 		</View>
 	}
@@ -835,6 +835,8 @@ const mapStateToProps = (state) => {
 		nav,
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 		orderDetail: order.get('orderDetail')
 	}
 }

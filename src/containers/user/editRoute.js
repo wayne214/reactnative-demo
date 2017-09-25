@@ -198,7 +198,7 @@ class EditRouterContainer extends BaseComponent {
 					}
 				</View>
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 
 			</View>
 		);
@@ -212,6 +212,8 @@ const mapStateToProps = (state) => {
 		carLengths: routes.getIn(['carLength', 'carLengths']).toJS(),
 		carLengthIds : routes.getIn(['carLength', 'carLengthIds']).toJS(),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

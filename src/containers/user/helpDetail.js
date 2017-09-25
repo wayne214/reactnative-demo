@@ -67,16 +67,18 @@ class HelpDetailContainer extends BaseComponent {
 					 && this.props.problem.get('problemAnswer')}
 					</Text>
 				</View>	
-				{ this._renderUpgrade(this.props.upgrade) }					
+				{ this._renderUpgrade(this.props) }					
 			</View>
 		);
 	}
 }
 const mapStateToProps = state => {
-	const { help } = state;
+	const { app, help } = state;
 	return {
 		problem: help.getIn(['help','problemDetailsInfo']),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 
 	}
 }

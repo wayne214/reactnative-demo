@@ -123,7 +123,7 @@ class DriverInfoDetailContainer extends BaseComponent {
 						this.setState({ showPhoto: false })}}/>
 				</ScrollView>
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 
 			</View>
 		);
@@ -135,6 +135,8 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 		driverInfoDetail: driver.get('driverInfoDetail'),
 	}
 }

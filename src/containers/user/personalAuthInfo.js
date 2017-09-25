@@ -71,7 +71,7 @@ class PersonalAuthInfoContainer extends BaseComponent {
 					</View>
 				</View>
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -82,6 +82,8 @@ const mapStateToProps = (state) => {
 		user: app.get('user'),
 		auth: carrier.get('personalInfoDetail'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

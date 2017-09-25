@@ -170,7 +170,7 @@ class DriverManagerContainer extends BaseComponent {
 					dataSource={ this.state.dataSource }/>
 					{ this.props.loading ? this._renderLoadingView() : null }
 
-					{ this._renderUpgrade(this.props.upgrade) }
+					{ this._renderUpgrade(this.props) }
 
 			</View>
 		);
@@ -187,6 +187,8 @@ const mapStateToProps = state => {
 		drivers: driver.getIn(['driver', 'selectDriverList']),
 		loading: app.get('loading'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

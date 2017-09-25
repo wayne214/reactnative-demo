@@ -319,7 +319,7 @@ class AddDriverContainer extends BaseComponent {
 
 					{ this.props.loading ? this._renderLoadingView() : null }
 
-					{ this._renderUpgrade(this.props.upgrade) }
+					{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -333,6 +333,8 @@ const mapStateToProps = state => {
 		driverLicenseImgName: app.getIn(['ossImg', 'addDriverLicense']),
 		isRefreshDriverInfo: driver.get('isRefreshDriverInfo'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

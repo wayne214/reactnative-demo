@@ -259,7 +259,7 @@ class MessageDetail extends BaseComponent {
 					{ btn }
 				</ScrollView>
 
-				{ this._renderUpgrade(this.props.upgrade) }
+				{ this._renderUpgrade(this.props) }
 			</View>
 		)
 	}
@@ -271,6 +271,8 @@ const mapStateToProps = (state) => {
 		user: app.get('user'),
 		msg: message.get('msgDetail'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

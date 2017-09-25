@@ -196,7 +196,7 @@ class ContractDetail extends BaseComponent {
 			}
 			{this.state.loading ? this._renderLoadingView() : null}
 
-			{ this._renderUpgrade(this.props.upgrade) }
+			{ this._renderUpgrade(this.props) }
 
 		</View>
 	}
@@ -223,6 +223,8 @@ const mapStateToProps = (state) => {
 	const { app } = state
 	return {
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	}
 }
 

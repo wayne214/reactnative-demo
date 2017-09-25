@@ -459,7 +459,7 @@ class CompanyAuthContainer extends BaseComponent {
 
 					{ this.props.loading ? this._renderLoadingView() : null }
 
-					{ this._renderUpgrade(this.props.upgrade) }
+					{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -477,6 +477,8 @@ function mapStateToProps(state) {
 		shuiwImgName: app.getIn(['ossImg', 'shuiwImgName']),
 		auth: carrier.getIn(['carrierInfo','carrierDetail']),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 

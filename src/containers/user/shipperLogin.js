@@ -204,7 +204,7 @@ class LoginContainer extends BaseComponent {
               </View>
             </View>
         }
-        { this._renderUpgrade(this.props.upgrade) } 
+        { this._renderUpgrade(this.props) } 
       </View>
     );
   }
@@ -218,6 +218,8 @@ function mapStateToProps(state) {
     upgradeForce: app.get('upgradeForce'),
     showFloatDialog: app.get('showFloatDialog'),
     upgrade: app.get('upgrade'),
+    upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
   };
 }
 

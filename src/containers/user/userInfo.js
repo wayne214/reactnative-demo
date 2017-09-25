@@ -164,7 +164,7 @@ class UserInfoContainer extends BaseComponent {
 						</View>
 					</View>
 				</TouchableHighlight>
-				{ this._renderUpgrade(this.props.upgrade) }	
+				{ this._renderUpgrade(this.props) }	
 			</View>
 		);
 	}
@@ -175,6 +175,8 @@ function mapStateToProps(state) {
 	return {
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
+		upgradeForce: app.get('upgradeForce'),
+    upgradeForceUrl: app.get('upgradeForceUrl'),
 	};
 }
 function mapDispatchToProps(dispatch) {
