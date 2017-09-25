@@ -20,7 +20,7 @@ import Button from '../../components/common/button';
 import { SAVE_DRIVER_INFO, GET_IMG_CODE, GET_SMS_CODE } from '../../constants/api';
 import CountDownView from '../../components/common/countDownView';
 import * as RouteType from '../../constants/routeType';
-import { dispatchRefreshDriver, dispatchRefreshDriverInfo, dispatchGetDriverInfo } from '../../action/driver';
+import { dispatchRefreshDriver, dispatchRefreshDriverInfo, dispatchGetDriverInfo, dispatchClearDriverInfo } from '../../action/driver';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
 import { OOS_CONFIG, ADD_COMPANY_AUTH ,SELECT_DRIVER_INFO, SELECT_DRIVER_INFO_BY_PHONE} from '../../constants/api';
@@ -73,6 +73,7 @@ class AddDriverContainer extends BaseComponent {
   componentWillUnmount () {
   	super.componentWillUnmount();
 		this.keyboardDidHideListener.remove();
+		this.props.dispatch(dispatchClearDriverInfo());
   }
   _keyboardDidHide() {
 		// this.refs.inputname && this.refs.inputname.blur();
@@ -340,6 +341,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		dispatch,
 		_getSmsCode: (body, ref) => {
 			dispatch(fetchData({
 				body,
