@@ -170,7 +170,7 @@ class HelperUtil {
 			case 14: return entrustType == 1 ? '未结算' : '回单审核中'//'承运商未结算'
 			case 15: return entrustType == 1 ? '结算中' : '回单审核驳回' //'承运商结算中'
 			case 16: return '结算中' //'待承运方结算'
-			case 17: return '承运方已结算'
+			case 17: return '已完成'
 			case 18: return '已关闭'
 			case 19: return '运费核对中'
 			default: return ''

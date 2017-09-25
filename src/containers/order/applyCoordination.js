@@ -17,7 +17,7 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import FoldView from '../../components/common/foldView'
 import * as API from '../../constants/api'
-import {fetchData} from '../../action/app'
+import {fetchData, changeTab} from '../../action/app'
 import {changeOrderToStateWithOrderNo,shouldOrderListRefreshAction} from '../../action/order'
 import BaseComponent from '../../components/common/baseComponent.js'
 
@@ -181,7 +181,8 @@ class ApplyCoordination extends BaseComponent {
 									console.log("------ 提交申请",params);
 									this.props._submitApplication(params,()=>{
 										this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
-										this.props.dispatch(shouldOrderListRefreshAction(true))
+										this.props.navigation.dispatch(changeTab('order'))
+										// this.props.dispatch(shouldOrderListRefreshAction(true))
 									})
 								}}>
 							  提交申请
