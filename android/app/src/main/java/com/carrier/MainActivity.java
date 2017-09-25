@@ -32,7 +32,7 @@ public class MainActivity extends ReactActivity {
         JPushInterface.init(this);
 
         initLocation();
-        startLocation();
+//        startLocation();
 
     }
 

@@ -204,7 +204,7 @@ class LoginContainer extends BaseComponent {
               </View>
             </View>
         }
-        { this._renderUpgrade(this.props) } 
+        { this._renderUpgrade(this.props) }
       </View>
     );
   }
@@ -254,7 +254,7 @@ function mapDispatchToProps(dispatch) {
           });
           user.save();
           dispatch(loadUser(user));
-          navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } })
+          navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
           console.log('lqq---user--',user);
           JPushModule.setAlias(user.userId, () => {
             // Toast.show('设置别名成功',user.userId)

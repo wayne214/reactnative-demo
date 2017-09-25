@@ -86,7 +86,12 @@ class MainContainer extends BaseComponent {
   }
 
   async componentDidMount () {
-    Geolocation.requestAuthorization()
+
+    if (Platform.OS === 'android') {
+      this.timer = setTimeout(() => {
+  			SplashScreen.hide()
+  		}, 2000)
+    }
 
     AppState.addEventListener('change', this._handleAppStateChange);
     this.props._getCityOfCountry();
@@ -100,6 +105,8 @@ class MainContainer extends BaseComponent {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
     this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+
+
     // JPush
 
   /**
@@ -116,7 +123,7 @@ class MainContainer extends BaseComponent {
      * 监听：接收推送事件
      * @param {} cb = (Object）=> {}
      */
-    if (NativeModules.NativeModule.IOS_OS_VERSION < 10) {
+    if (Platform.OS === 'ios' && NativeModules.NativeModule.IOS_OS_VERSION < 10) {
       JPushModule.addReceiveNotificationListener((map) => {
         const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
         if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
@@ -156,6 +163,11 @@ class MainContainer extends BaseComponent {
       JPushModule.addReceiveNotificationListener((message) => {
         console.log("收到 Android 通知: ",message);
       })
+      JPushModule.addReceiveOpenNotificationListener((message) => {
+		    // console.log("Android 点击通知 触发", message);
+        // Toast.show('点击通知 触发', message)
+        this._pushToMessageList(message.messsageType || message.messageType)
+		  });
     }
 
   /**
@@ -164,17 +176,12 @@ class MainContainer extends BaseComponent {
    *
    */
     // 点击通知后，将会触发此事件
-    JPushModule.addReceiveOpenNotificationListener((message) => {
-      console.log("点击通知 触发", message);
-      this._pushToMessageList(message.messsageType || message.messageType)
-    });
-
-    if (Platform.OS === 'android') {
-      this.timer = setTimeout(() => {
-  			SplashScreen.hide()
-  		}, 2000)
+    if (Platform.OS === ios) {
+      JPushModule.addReceiveOpenNotificationListener((message) => {
+        console.log("点击通知 触发", message);
+        this._pushToMessageList(message.messsageType || message.messageType)
+      });
     }
-
 
     DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
       // console.log(111111, ' ', data)
@@ -191,6 +198,8 @@ class MainContainer extends BaseComponent {
     if(user.userId){
       this.props.getNotice()
     }
+
+    Geolocation.requestAuthorization()
     const locationData = {};
     ReadAndWriteFileUtil.writeFile('App启动',
       locationData.city,
@@ -258,6 +267,8 @@ class MainContainer extends BaseComponent {
 
     console.log(" ----- ",this.props.nav);
     const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
+    console.log(" ----currentRoute- ",currentRoute);
+    // Toast.show('currentRoute', currentRoute)
     if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
       this.props.dispatch(dispatchRefreshMessageList())
     } else if (currentRoute.key === RouteType.ROUTE_MESSAGE_DETAIL) {
