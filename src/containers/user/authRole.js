@@ -12,7 +12,6 @@ import { BASE_URL } from '../../constants/setting';
 import { ABOUT_US } from '../../constants/api'; 
 import MainContainer from '../app/main';
 import * as RouteType from '../../constants/routeType';
-import { dispatchClearAuthInfo } from '../../action/carrier';
 import BaseComponent from '../../components/common/baseComponent';
 
 class AuthRoleContainer extends BaseComponent {
@@ -38,7 +37,6 @@ class AuthRoleContainer extends BaseComponent {
 	}
 	_pushCompanyAuth(){
 		this.props.navigation.dispatch({type: RouteType.ROUTE_COMPANY_AUTH, params: {title:'公司认证'}});
-		this.props.dispatch(dispatchClearAuthInfo());
 	}
 	static navigationOptions = ({ navigation }) => {
 	  return {
