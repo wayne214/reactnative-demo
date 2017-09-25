@@ -36,7 +36,7 @@ public class TimeLogModule extends ReactContextBaseJavaModule {
         public void onReceive(Context context, Intent intent) {
             if (intent.getExtras().getString("type").equals("log")) {
                 if (applicationContext != null) {
-                    applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("scheduleLog", MainApplication.location);
+                    applicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("nativeSendMsgToRN", MainApplication.location);
                 }
             }
         }

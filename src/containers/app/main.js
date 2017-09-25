@@ -67,7 +67,6 @@ class MainContainer extends BaseComponent {
     this._routeTab = this._routeTab.bind(this)
     this._changeTab = this._changeTab.bind(this)
     this.handleBack = this.handleBack.bind(this)
-    this._forceUpgrade = this._forceUpgrade.bind(this)
     this.openControlPanel = this.openControlPanel.bind(this)
     this._handleAppStateChange = this._handleAppStateChange.bind(this)
     this._pushToMessageList = this._pushToMessageList.bind(this)
@@ -168,10 +167,6 @@ class MainContainer extends BaseComponent {
       this._pushToMessageList(message.messsageType || message.messageType)
     });
 
-    DeviceEventEmitter.addListener('scheduleLog', (data) => {
-      console.log(111111, ' ', data)
-    })
-
     if (Platform.OS === 'android') {
       this.timer = setTimeout(() => {
   			SplashScreen.hide()
@@ -179,8 +174,12 @@ class MainContainer extends BaseComponent {
     }
 
 
+    DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+      // console.log(111111, ' ', data)
+      // this._getCurrentPosition();
+    })
 
-    TimeToDoSomething.sendMsgToNative();
+    if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
     this.uploadLoglistener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
       // this._getCurrentPosition();
       //   console.log("JS 收到原生消息",data,new Date());
@@ -381,21 +380,6 @@ class MainContainer extends BaseComponent {
     this.props.dispatch(changeTab('route'));
   }
 
-  /**
-   * [_forceUpgrade description] 强制升级
-   * @return {[type]} [description]
-   */
-  _forceUpgrade () {
-    if (Platform.OS === 'android') {
-      Toast.show('开始下载')
-      NativeModules.NativeModule.upgradeForce(this.props.upgradeForceUrl).then(response => {
-        this.setState({ showUpgrade: true });
-      });
-    } else {
-      NativeModules.NativeModule.toAppStore();
-    }
-  }
-
   render() {
     const { upgrade } = this.props;
     return (
@@ -415,22 +399,7 @@ class MainContainer extends BaseComponent {
           changeTab={ this._changeTab }
           openControlPanel={ this.openControlPanel } />
 
-        {
-          this.props.upgradeForce && !this.props.showFloatDialog &&
-            <View style={ styles.upgradeContainer }>
-              <View style={ styles.upgradeView }>
-                <Image style={{ width: 50, height: 55, marginTop: 15 }} source={ require('../../../assets/img/app/upgrade_icon.png')}/>
-                <Text style={ styles.upgradeText }>冷链马甲承运方升级啦，界面焕然一新，修复了已知bug,赶快升级体验吧</Text>
-                <Button onPress={ this._forceUpgrade } title='立即更新' style={{ backgroundColor: 'white', width: 100, height: Platform.OS === 'ios' ? 40 : 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#17a9df' }}/>
-                {
-                  Platform.OS === 'android' && this.state.showUpgrade &&
-                    <Button onPress={ this._installApk } title='已下载，立即安装' style={{ backgroundColor: 'white', width: 100, height: 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#1ab036' }}/>
-                }
-              </View>
-            </View>
-        }
-
-        { this._renderUpgrade(this.props.upgrade) }
+        { this._renderUpgrade(this.props) }
 
       </Drawer>
     );

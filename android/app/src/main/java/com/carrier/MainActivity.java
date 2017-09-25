@@ -192,7 +192,7 @@ public class MainActivity extends ReactActivity {
                 //解析定位结果，
                 String result = sb.toString();
                 Log.i("----1-- ", result);
-                Toast.makeText(MainActivity.this, "" + result, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "" + result, Toast.LENGTH_SHORT).show();
 //                tvResult.setText(result);
             } else {
 //                tvResult.setText("定位失败，loc is null");
