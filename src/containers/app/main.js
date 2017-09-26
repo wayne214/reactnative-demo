@@ -176,7 +176,7 @@ class MainContainer extends BaseComponent {
    *
    */
     // 点击通知后，将会触发此事件
-    if (Platform.OS === ios) {
+    if (Platform.OS === 'ios') {
       JPushModule.addReceiveOpenNotificationListener((message) => {
         console.log("点击通知 触发", message);
         this._pushToMessageList(message.messsageType || message.messageType)
