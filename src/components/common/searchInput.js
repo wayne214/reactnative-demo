@@ -44,9 +44,14 @@ class SearchInput extends React.Component {
 						placeholder='请输入车辆号或司机姓名或手机号'
 						style={{flex: 1,marginLeft: 5,marginRight: 5,padding: 0}}
 						onEndEditing={ () => {
-							console.log(" ==== 输入结束");
+							console.log(" ==onEndEditing== 输入结束");
 							searchAction && searchAction(inputValue && inputValue.trim() || '')//首尾去空
 						}}
+						onSubmitEditing={ () => {
+							console.log(" ==onSubmitEditing== 输入结束");
+							searchAction && searchAction(inputValue && inputValue.trim() || '')//首尾去空
+						}
+						}
 						defaultValue={ '' }
 						underlineColorAndroid={ 'transparent' }
 						value = { inputValue }
@@ -61,7 +66,9 @@ class SearchInput extends React.Component {
             <TouchableOpacity
               opacityActive={ 1 }
               onPress={ () => {
-                this.setState({ inputValue: ''})
+              	// console.log(" ==XXX== 输入结束",searchAction);
+              	searchAction && searchAction('')
+                this.setState({ inputValue: ''});
               } } >
             	<Text style={{color: '#cccccc', fontFamily: 'iconfont', alignItems: 'center',marginRight: 10 }}>&#xe634;</Text>
             </TouchableOpacity>
