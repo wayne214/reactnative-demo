@@ -62,6 +62,7 @@ class PersonalAuthContainer extends BaseComponent {
 						<View style={ styles.textRight }>
 							<TextInput
 								textAlign='right'
+								returnKeyType='done'
 								placeholder='请输入姓名'
 								placeholderTextColor='#ccc'
 								style={ styles.textInput }
@@ -78,6 +79,7 @@ class PersonalAuthContainer extends BaseComponent {
 						<View style={ styles.textRight }>
 							<TextInput
 								textAlign='right'
+								returnKeyType='done'
 								placeholder='请输入身份证号码'
 								placeholderTextColor='#ccc'
 								style={ styles.textInput }

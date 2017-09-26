@@ -284,6 +284,7 @@ class CompanyAuthContainer extends BaseComponent {
 				<TextInput
 					ref='inputcompany'
 					textAlign='right'
+					returnKeyType='done'
 					placeholder='请输入公司名称'
 					placeholderTextColor='#ccc'
 					style={ styles.inputText}
@@ -296,6 +297,7 @@ class CompanyAuthContainer extends BaseComponent {
 					<TextInput
 						ref='inputname'
 						textAlign='right'
+						returnKeyType='done'
 						placeholder='请输入法人姓名'
 						placeholderTextColor='#ccc'
 						style={ styles.textInput }
@@ -328,6 +330,7 @@ class CompanyAuthContainer extends BaseComponent {
 						<TextInput
 							ref='inputcode'
 							textAlign='right'
+							returnKeyType='done'
 							placeholder='请输入信用代码'
 							placeholderTextColor='#ccc'
 							style={ styles.textInput }
@@ -355,6 +358,7 @@ class CompanyAuthContainer extends BaseComponent {
 						<TextInput
 							ref='inputcode'
 							textAlign='right'
+							returnKeyType='done'
 							placeholder='请输入组织机构代码'
 							placeholderTextColor='#ccc'
 							style={ styles.textInput }

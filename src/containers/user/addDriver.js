@@ -188,6 +188,7 @@ class AddDriverContainer extends BaseComponent {
 					<TextInput
 						ref='inputname'
 						textAlign='right'
+						returnKeyType='done'
 						placeholder='请输入司机姓名'
 						placeholderTextColor='#ccc'
 						style={ styles.textInput }
@@ -205,6 +206,7 @@ class AddDriverContainer extends BaseComponent {
 					<TextInput
 						ref='inputdriverId'
 						textAlign='right'
+						returnKeyType='done'
 						placeholder='请输入驾驶证号(身份证号)'
 						placeholderTextColor='#ccc'
 						style={ styles.textInput }
@@ -222,6 +224,7 @@ class AddDriverContainer extends BaseComponent {
 					<TextInput
 						ref='inputphone'
 						textAlign='right'
+						keyboardType= 'numeric'
 						placeholder='请输入联系手机号'
 						placeholderTextColor='#ccc'
 						style={ styles.textInput }
@@ -246,6 +249,7 @@ class AddDriverContainer extends BaseComponent {
 							<TextInput
 								ref='inputcode'
 								textAlign='right'
+								returnKeyType='done'
 								placeholder='请输入验证码'
 								placeholderTextColor='#ccc'
 								style={ styles.textInput }
@@ -267,6 +271,7 @@ class AddDriverContainer extends BaseComponent {
 							<TextInput
 							  ref='inputphoneCode'
 								textAlign='right'
+								returnKeyType='done'
 								placeholder='请输入手机验证码'
 								placeholderTextColor='#ccc'
 								style={ styles.textInput }
