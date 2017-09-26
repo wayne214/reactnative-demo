@@ -488,7 +488,7 @@ class OrderDetail extends BaseComponent {
 																	console.log("cancle...");
 																}},
 																{text: '去设置', onPress:()=>{
-																	this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD})
+																	this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}})
 																}}
 															])
 														}else{
@@ -506,7 +506,7 @@ class OrderDetail extends BaseComponent {
 																				// 	shouldOrderListRefresh: true
 																				// })
 																				this.props._getOrderDetail({orderNo: this.state.orderNo})
-																				this.props.navigation.dispatch({type: RouteType.ROUTE_INVOICE_EXPLANATION})
+																				this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}})
 																			}
 																		)
 																	}}
