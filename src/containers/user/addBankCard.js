@@ -131,6 +131,7 @@ class AddBankCardContainer extends BaseComponent{
 						<View style={ styles.hiddenRight }>
 							<TextInput 
 								textAlign = 'right'
+								returnKeyType='done'
 								placeholder='请输入账户名称'
 								style = { [styles.textInput, {marginRight : 10}] }
 								underlineColorAndroid={ 'transparent' }
@@ -145,6 +146,7 @@ class AddBankCardContainer extends BaseComponent{
 						<View style={ styles.hiddenRight }>
 							<TextInput 
 								textAlign = 'right'
+								returnKeyType='done'
 								placeholder='请输入开户行账号'
 								keyboardType= 'numeric'
 								style = { [styles.textInput, {marginRight : 10}] }

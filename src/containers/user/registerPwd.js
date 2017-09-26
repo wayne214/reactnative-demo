@@ -143,6 +143,7 @@ class RegisterContainer extends BaseComponent {
 						<TextInput
 							ref='password'
 							placeholder='请输入密码'
+							returnKeyType='done'
 							secureTextEntry={ true }
 							style={ styles.textInput }
 							underlineColorAndroid={ 'transparent' }
@@ -167,6 +168,7 @@ class RegisterContainer extends BaseComponent {
 						<TextInput
 							ref='rePassword'
 							placeholder='请输入密码'
+							returnKeyType='done'
 							secureTextEntry={ true }
 							style={ styles.textInput }
 							underlineColorAndroid={ 'transparent' }
