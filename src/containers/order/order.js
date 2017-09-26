@@ -486,7 +486,7 @@ class OrderList extends BaseComponent {
                                   carId: user.carId ? user.carId : ''
                                 },()=>{
                                   this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_INVOICE_EXPLANATION
+                                    type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}
                                   })
                                 })
                               }}
