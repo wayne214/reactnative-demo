@@ -397,7 +397,7 @@ class OrderCell extends Component{
 																				}},
 																				{text: '去设置', onPress:()=>{
 																					this.props.navigation.dispatch({
-																						type: RouteType.ROUTE_ADD_BANK_CARD
+																						type: RouteType.ROUTE_ADD_BANK_CARD,params:{title:'新增开户行',id:-1}
 																					})
 																				}}
 																			])

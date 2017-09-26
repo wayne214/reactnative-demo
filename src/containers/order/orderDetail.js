@@ -488,7 +488,7 @@ class OrderDetail extends BaseComponent {
 																	console.log("cancle...");
 																}},
 																{text: '去设置', onPress:()=>{
-																	this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD})
+																	this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}})
 																}}
 															])
 														}else{
