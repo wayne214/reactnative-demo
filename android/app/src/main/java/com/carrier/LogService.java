@@ -53,7 +53,7 @@ public class LogService extends Service {
             }
         };
         if (timer != null && task != null) {
-            timer.schedule(task, 60, 10 * 1000);
+            timer.schedule(task, 60, 60 * 1000);
         }
         return START_STICKY;
     }
