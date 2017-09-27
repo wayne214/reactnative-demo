@@ -44,7 +44,7 @@ class LadingBill extends Component {
 	static navigationOptions = ({navigation}) => {
 		const {params} = navigation.state
 		return {
-			headerTitle: params.title
+			header: <NavigatorBar router={navigation}/>
 		}
 	}
 	render() {
@@ -68,7 +68,7 @@ class LadingBill extends Component {
 			return HelperUtil.getFullImgPath(item, width * 2,height)
 		})
 		return <View style={styles.container}>
-			{/*<NavigatorBar router={this.props.router} title={ title }/>*/}
+
 			<ScrollView style={{flex: 1}}>
 				<View style={styles.scrollViewContent}>
 					{photos}

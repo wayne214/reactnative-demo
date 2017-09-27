@@ -177,3 +177,21 @@ export const receiveInSiteNotice = (notice = '')=>{
 		payload: notice
 	}
 }
+
+export const appendLogToFile = (pageName,action,startTime)=>{
+	return {
+		type: ActionTypes.ACTION_APPEND_LOG,
+		payload: {
+			pageName,action,startTime
+		}
+	}
+}
+
+export const writeLogToFile = (pageName,action,phoneNumber,userId,userName, startTime)=>{
+	return {
+		type: ActionTypes.ACTION_WRITE_LOG,
+		payload: {
+			pageName,action,phoneNumber,userId,userName, startTime
+		}
+	}
+}

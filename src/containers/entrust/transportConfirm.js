@@ -19,11 +19,11 @@ import Button from 'apsl-react-native-button'
 import GoodsInfo from '../../components/common/goodsInfo'
 import DetailTop from '../../components/common/detailTop'
 import * as ENUM from '../../constants/enum'
-import {fetchData,changeTab} from '../../action/app'
+import {fetchData,changeTab,appendLogToFile} from '../../action/app'
 import {receiveTransportConfirmOrderDetail} from '../../action/entrust'
 import {changeOrderTopTab} from '../../action/order'
 import Toast from '../../utils/toast'
-
+let startTime = 0
 const { height,width } = Dimensions.get('window')
 
 class TransportConfirm extends Component {
@@ -150,6 +150,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		dispatch,
 		_getOrderDetail: (params)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.CONFIRM_TRANSPORT_DETAIL,
 				method: 'GET',
@@ -157,6 +158,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("---------- 确认承运 委托单详情",data);
 					dispatch(receiveTransportConfirmOrderDetail(data))
+					dispatch(appendLogToFile('确认承运','获取委托单详情',startTime))
 				}
 			}))
 		},
@@ -164,6 +166,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(receiveTransportConfirmOrderDetail())
 		},
 		_transportConfirm: (params,successCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.TRANSPORT_CONFIRM,
 				method: 'POST',
@@ -172,12 +175,14 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("------ 合同签订成功",data);
 					if (successCallBack) {successCallBack()};
+					dispatch(appendLogToFile('确认承运','确认承运',startTime))
 				}
 			}))
 		},
 		_toOrderListPage: ()=>{
 			dispatch(changeTab('order'))
 			dispatch(changeOrderTopTab(0,0))
+			dispatch(appendLogToFile('确认承运','跳转到订单列表',0))
 		}
 	}
 }

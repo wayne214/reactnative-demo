@@ -12,7 +12,7 @@ import {
 	Clipboard,
 	Keyboard
 } from 'react-native';
-import { fetchData, loadUser, loginSuccess } from '../../action/app';
+import { fetchData, loadUser, loginSuccess, writeLogToFile } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
@@ -25,6 +25,8 @@ import User from '../../models/user';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
 import JPushModule from 'jpush-react-native';
+let startTime = 0;
+let endTime = 0;
 
 class LoginContainer extends BaseComponent {
 
@@ -122,7 +124,7 @@ class LoginContainer extends BaseComponent {
 		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
-				
+
 
 				<ScrollView
 					keyboardShouldPersistTaps='handled'
@@ -239,6 +241,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		login: (body, navigation, currentRole) => {
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -272,6 +275,15 @@ function mapDispatchToProps(dispatch) {
 					}, () => {
 						console.warn("Set alias failed");
 					});
+					lastTime = new Date().getTime();
+					dispatch(writeLogToFile(
+						'登录',
+						'用户登录-司机登录',
+						user.phoneNumber,//phoneNum
+						user.userId,//userId
+						user.companyName + '-' + user.driverName,//userName
+						endTime - startTime,//useTime,
+					))
 				}
 			}));
 		},

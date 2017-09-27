@@ -24,13 +24,14 @@ import DetailTop from '../../components/common/detailTop.js'
 import * as ENUM from '../../constants/enum.js'
 const { height,width } = Dimensions.get('window')
 import * as API from '../../constants/api'
-import {fetchData} from '../../action/app'
+import {fetchData, appendLogToFile} from '../../action/app'
 import {receiveOrderDetail,changeOrderToStateWithOrderNo} from '../../action/order'
 import { dispatchBankCardList } from '../../action/bankCard';
 import Button from 'apsl-react-native-button'
 import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
+let startTime = 0
 
 class OrderDetail extends BaseComponent {
 	constructor(props) {
@@ -180,7 +181,8 @@ class OrderDetail extends BaseComponent {
 													type: RouteType.ROUTE_CONTRACT_DETAIL,
 													params: {
 														orderNo: orderDetail.orderNo,
-														contractNo: orderDetail.companyContractNo
+														contractNo: orderDetail.companyContractNo,
+														title: '合同详情'
 													}
 												})
 												// this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL,{
@@ -844,6 +846,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		_getOrderDetail:(params)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.GET_ORDER_DETAIL,
 				method: 'GET',
@@ -852,6 +855,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("------ 获取订单详情的数据",data);
 					dispatch(receiveOrderDetail(data))
+					dispatch(appendLogToFile('订单详情','获取订单详情',startTime))
 				}
 			}))
 		},
@@ -859,6 +863,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(receiveOrderDetail())
 		},
 		_clearConfirm: (params,successCallBack) =>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.CLEAR_CONFIRM,
 				method: 'POST',
@@ -868,10 +873,12 @@ const mapDispatchToProps = (dispatch) => {
 					console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
 					dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderPaying'))
 					if (successCallBack) {successCallBack()}
+					dispatch(appendLogToFile('订单详情','确认结算',startTime))
 				}
 			}))
 		},
 		_applyClear: (params,successCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.APPLY_CLEAR,
 				method: 'POST',
@@ -880,24 +887,28 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
 					Toast.show('申请成功')
+					dispatch(appendLogToFile('订单详情','申请结算成功',startTime))
 					// dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
 					if (successCallBack) {successCallBack()}
 				}
 			}))
 		},
 		_confirmInstall: (params,successCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.CONFIRM_INSTALL,
 				method: 'POST',
 				showLoading: true,
 				body: params,
 				success: (data)=>{
+					dispatch(appendLogToFile('订单详情','确认装货成功',startTime))
 					if (successCallBack){successCallBack()}
 					// dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
 				}
 			}))
 		},
 		_requestCoordinateResult: (params,successCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.COORDINATE_RESULT,
 				method: 'GET',
@@ -906,10 +917,12 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("------ 协调结果",data);
 					if(successCallBack){successCallBack({...data,...params})}
+					dispatch(appendLogToFile('订单详情','查看协调结果',startTime))
 				}
 			}))
 		},
 		_getBankCardList: (carrierId,successCallBack,failCallBack) => {
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				body:{
 					pageNo: 1,
@@ -920,6 +933,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data) => {
 					successCallBack && successCallBack(data)
 					dispatch(dispatchBankCardList({ data, pageNo: 1}));
+					dispatch(appendLogToFile('订单详情','查询是否添加银行卡信息',startTime))
 				}
 			}));
 		},

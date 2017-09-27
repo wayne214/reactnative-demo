@@ -28,27 +28,21 @@ const upLoadLogger = () => {
     ReadAndWriteFileUtil.mkDir();
     ReadAndWriteFileUtil.deleteFile(); // 如果目录存在就删除
     ReadAndWriteFileUtil.copyFile(() => {
-        console.log('COPY FILE SUCCESSED');
+        console.log('日志拷贝成功');
         ReadAndWriteFileUtil.writeFile(); // 清空原文件
         let formData = new FormData();
         let file = {uri: ReadAndWriteFileUtil.getPath(), type: 'multipart/form-data', name: 'logger.txt'};
         formData.append('logFile', file);
         const url = XYT_HOST + API.API_COLLECT_LOG;
-        // ReadAndWriteFileUtil.readFile((result) => {
-        //     // console.log('fileContent',result);
-        // }, (err) => { console.log('文件不存在', err); });
-        // ReadAndWriteFileUtil.isFilePathExists((value) => {
-        //     console.log('destPathFile IS exists', value);
-        // });
         upLoadImageManager(url,
             formData,
             () => {
-                console.log('开始请求数据');
+                console.log('开始上传日志');
             },
             (response) => {
                 console.log('responseData', response);
                 if (response.code === 200) {
-                    console.log('上传成功');
+                    console.log('日志上传成功',new Date());
                 }
                 ReadAndWriteFileUtil.deleteFile(); // 上传成功后删除目的文件
             },
@@ -61,7 +55,7 @@ const upLoadLogger = () => {
 };
 /* 上传本地的数据到服务器*/
 const uploadDataFromLocalMsg = (data)=>{
-    console.log('接收到数据，即将进行上传操作');
+    // console.log('接收到数据，即将进行上传操作');
     upLoadLogger();
 };
 

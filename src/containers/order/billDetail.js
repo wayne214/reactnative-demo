@@ -33,11 +33,15 @@ class BillDetail extends BaseComponent {
 	componentWillUnmount() {
 		this.props._clearlearDetail()
 	}
+	static navigationOptions = ({navigation}) => {
+		return {
+			header: <NavigatorBar router={navigation} title={ '结算清单详情' }/>
+		}
+	}
 	render() {
 		const { clearDetail } = this.props
 		return (
 			<View style={styles.container}>
-				<NavigatorBar router={this.props.router} title={ '结算清单详情' }/>
 				{
 					clearDetail ?
 						<ScrollView>

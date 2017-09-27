@@ -9,11 +9,14 @@ import Storage from '../utils/storage';
 
 // const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 const path = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/logger.txt' : RNFS.DocumentDirectoryPath + '/logger.txt'; // 文件路径
-const destPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/logger.txt' : RNFS.DocumentDirectoryPath + '/abc/logger.txt'; // 文件路径
+const destPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/loggertoupload.txt' : RNFS.DocumentDirectoryPath + '/abc/loggertoupload.txt'; // 文件路径
+const floderPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/loggertoupload.txt' : RNFS.DocumentDirectoryPath + '/abc'
+
 const platForm = Platform.OS === 'ios' ? 'IOS' : 'Android';
 const deviceModels = DeviceInfo.getModel();
-const appName = '货主版APP';
+const appName = '承运方APP';
 const version = DeviceInfo.getVersion();
+
 
 let userID = '';
 let userNAME = '';
@@ -21,6 +24,7 @@ let userPhone = '';
 let plateNumber = '';
 
 class readAndWriteFileUtil {
+
     // 写内容到文件中
     /**
      * 参数说明：
@@ -40,19 +44,25 @@ class readAndWriteFileUtil {
      * deviceModel: 设备型号
      * page: 页面信息
      * */
-    writeFile(action, city, gpsX, gpsY, phoneNum, prov, region, useTime, userId, userName, pageName) {
+    writeFile(pageName, action, phoneNum, userId, userName, useTime) {
+        console.log(" ==== global ??? ",global.locationData);
         const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        const cityValue = typeof (city) === 'undefined' ? '' : city; // 市
-        const gpsXValue = typeof (gpsX) === 'undefined' ? 0 : gpsX; // 纬度
-        const gpsYValue = typeof (gpsY) === 'undefined' ? 0 : gpsY; // 经度
-        const provValue = typeof (prov) === 'undefined' ? '' : prov; // 省
-        const regionValue = typeof (region) === 'undefined' ? '' : region; // 区
-        Storage.get('plateNumber').then((value) => {
-            plateNumber = value;
-        });
-        var content={'action':action, 'city': cityValue , 'lat': gpsXValue, 'lng': gpsYValue, 'phoneNum': phoneNum, 'prov': provValue,
-            'region': regionValue, 'time': currentData, 'useTime': useTime, 'userId': userId, 'userName': userName,
-            'app': appName, 'platform': platForm, 'deviceModel' : deviceModels, 'page' : pageName, 'plateNumber' : plateNumber, 'version' : version};
+        const locationData = global.locationData || {}
+        var content={
+            action,
+            lat: locationData.latitude || 0,
+            lng: locationData.longitude || 0,
+            phoneNum,
+            time: currentData,
+            useTime,
+            userId,
+            userName,
+            app: appName,
+            platform: platForm,
+            deviceModel : deviceModels,
+            page : pageName,
+            version : version
+        };
         var jsonarr = JSON.stringify(content);
         RNFS.writeFile(path, jsonarr + '\n', 'utf8')
             .then((success) => {
@@ -63,39 +73,44 @@ class readAndWriteFileUtil {
             });
     }
     // 向文件中添加内容
-    appendFile(action, city, gpsX, gpsY, prov, region, useTime, pageName) {
+    appendFile(pageName, action, useTime) {
+        const locationData = global.locationData || {}
         const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        const cityValue = typeof (city) === 'undefined' ? '' : city; // 市
-        const gpsXValue = typeof (gpsX) === 'undefined' ? 0 : gpsX; // 纬度
-        const gpsYValue = typeof (gpsY) === 'undefined' ? 0 : gpsY; // 经度
-        const provValue = typeof (prov) === 'undefined' ? '' : prov; // 省
-        const regionValue = typeof (region) === 'undefined' ? '' : region; // 区
         setTimeout(() => {
             Storage.get('user').then((user) => {
                 if (user) {
-                    console.log(" ====== user ",user);
                     userID = user.userId;
                     userNAME = user.companyName;
                     userPhone = user.phoneNumber
-                    Storage.get('plateNumber').then((plateNum) => {
-                        plateNumber = plateNum;
-                        var content={'action':action, 'city': cityValue , 'lat': gpsXValue, 'lng': gpsYValue, 'phoneNum': userPhone, 'prov': provValue,
-                            'region': regionValue, 'time': currentData, 'useTime': useTime, 'userId': userID, 'userName': userNAME,
-                            'app': appName, 'platform': platForm, 'deviceModel' : deviceModels, 'page' : pageName, 'plateNumber': plateNumber, 'version': version };
-                        var jsonarr = JSON.stringify(content);
-                        RNFS.appendFile(path, jsonarr + '\n', 'utf8')
-                            .then((success) => {
-                                console.log('FILE APPEND SUCCESS');
-                            })
-                            .catch((err) => {
-                                console.log(err.message);
-                            });
-                    });
+                    var content={
+                        action,
+                        lat: locationData.latitude || 0,
+                        lng: locationData.longitude || 0,
+                        phoneNum: userPhone,
+                        time: currentData,
+                        useTime: useTime,
+                        userId: userID,
+                        userName: userNAME,
+                        app: appName,
+                        platform: platForm,
+                        deviceModel : deviceModels,
+                        page : pageName,
+                        version
+                    };
+                    var jsonarr = JSON.stringify(content);
+                    RNFS.appendFile(path, jsonarr + '\n', 'utf8')
+                        .then((success) => {
+                            console.log('FILE APPEND SUCCESS');
+                        })
+                        .catch((err) => {
+                            console.log(err.message);
+                        });
                 }
             });
         }, 500);
-        console.log(" ==== ",currentData,cityValue,gpsXValue,gpsYValue,provValue,regionValue);
     }
+
+
     // 读取文件
     readFile(successCallback, failCallback) {
         RNFS.readFile(destPath, 'utf8')
@@ -145,7 +160,7 @@ class readAndWriteFileUtil {
     // 复制文件
     copyFile(successCallback) {
         console.log('yuanpath---', path);
-        console.log('destpath---', destPath);
+        // console.log('destpath---', destPath);
         RNFS.copyFile(path, destPath)
             .then(() => {
                 // console.log('COPY FILE SUCCESSED');
@@ -189,9 +204,9 @@ class readAndWriteFileUtil {
             NSURLIsExcludedFromBackupKey: true, // iOS only
         };
 
-        return RNFS.mkdir(destPath, options)
+        return RNFS.mkdir(floderPath, options)
             .then((res) => {
-                console.log('MKDIR success');
+                console.log('创建日志目录');
 
             }).catch((err) => {
                 console.log('err----', err);

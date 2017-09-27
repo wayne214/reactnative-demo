@@ -408,7 +408,11 @@ class OrderCell extends Component{
 																						console.log("cancle...");
 																					}},
 																					{text: '查看并申请', onPress:()=>{
-																						this.props._applyClear({orderNo: rowData.orderNo, carId: this.props.user.carId ? this.props.user.carId : ''},()=>{
+																						this.props._applyClear({
+																							orderNo: rowData.orderNo,
+																							carId: this.props.user.carId ? this.props.user.carId : '',
+																							activeTab: this.props.activeTab || 0
+																						},()=>{
 																							this.props.navigation.dispatch({
 																								type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}
 																							})

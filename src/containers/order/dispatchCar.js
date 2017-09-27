@@ -13,12 +13,12 @@ import * as RouteType from '../../constants/routeType'
 import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import * as API from '../../constants/api.js'
-import {fetchData} from '../../action/app.js'
+import {fetchData,appendLogToFile} from '../../action/app.js'
 import { getFreeCarList } from '../../action/entrust.js'
 import BaseComponent from '../../components/common/baseComponent';
 import LoadMoreFooter from '../../components/common/loadMoreFooter'
 import SearchInput from '../../components/common/searchInput.js'
-
+let startTime = 0
 class DispatchCarCell extends Component {
 	constructor(props) {
 	  super(props);
@@ -243,6 +243,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		_getCarList:(params)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.QUERY_CAR_LIST,
 				method: 'POST',
@@ -251,6 +252,7 @@ const mapDispatchToProps = (dispatch) => {
 					console.log("------- 获取到供应商的司机。。。",data);
 					data.pageNo = params.pageNo,
 					dispatch(getFreeCarList(data))
+					dispatch(appendLogToFile('调度车辆','获取可调度车辆列表',startTime))
 				}
 			}))
 		},
@@ -266,6 +268,7 @@ const mapDispatchToProps = (dispatch) => {
 		// 	}))
 		// }
 		_getResourceState: (params,successCallBack,failCallBack)=>{
+			startTime = new Date().getTime();
 			// console.log("校验委托是否正常（1正常 2货源以关闭  3货源以取消  4货源以删除）");
 			dispatch(fetchData({
 				api: API.ORDER_RESOURCE_STATE,
@@ -284,6 +287,7 @@ const mapDispatchToProps = (dispatch) => {
 					}else if (data == 4) {
 						Toast.show('货源已删除')
 					}
+					dispatch(appendLogToFile('调度车辆','校验货源状态是否正常',startTime))
 				},
 				fail: (data)=>{
 					failCallBack && failCallBack(data)
