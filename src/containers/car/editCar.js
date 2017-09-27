@@ -93,6 +93,9 @@ class EditCarContainer extends BaseComponent {
 
 			canEdit: true,
 			isLoad: true,
+
+			gCarOldNo: '',//获取的挂车车牌号
+			isShowExample: false,//是否强制展示示例图
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		// this.key = props.router.getLastCurrentRouteKey();
@@ -420,6 +423,7 @@ class EditCarContainer extends BaseComponent {
 				carCategoryMap: HelperUtil.getObject(CAR_CATEGORY,car.get('carCategory')),
 				carTypeMap: HelperUtil.getObject(CAR_TYPE,car.get('carType')),
 				carVehicelMap: HelperUtil.getObject(CAR_VEHICLE,car.get('carLength')),
+				gCarOldNo: (HelperUtil.getObject(CAR_TYPE,car.get('carType')).key === 2 || HelperUtil.getObject(CAR_TYPE,car.get('carType')).key === 4) ? car.get('gCarNo'):'',
       });
     }
   }
@@ -484,26 +488,36 @@ class EditCarContainer extends BaseComponent {
 			// source = this.state.addGCarLiencesImgSource || this.props.car.get('goperateLicenseUrl');
 			// exampleImage = ExampleImageCarLincences;
 			txtLoading = this.state.driverLoadingTextAddGCarLiencesImg;
-			if(this.state.addGCarLiencesImgSource ){
-				source = this.state.addGCarLiencesImgSource ;
-			}else if(this.props.car.get('gdrivingLicenseUrl')){
-				source = {uri:  HelperUtil.getFullImgPath(this.props.car.get('gdrivingLicenseUrl'))};
-			}else{
+			if(this.state.isShowExample){
 				source = ExampleImageCarLincences;
 				showExampleImage = true;
+			}else{
+				if(this.state.addGCarLiencesImgSource ){
+					source = this.state.addGCarLiencesImgSource ;
+				}else if(this.props.car.get('gdrivingLicenseUrl')){
+					source = {uri:  HelperUtil.getFullImgPath(this.props.car.get('gdrivingLicenseUrl'))};
+				}else{
+					source = ExampleImageCarLincences;
+					showExampleImage = true;
+				}
 			}
 			break;
 			case 5:
 			// source = this.state.addGCarYunYImgSource || this.props.car.get('gdrivingLicenseUrl');
 			// exampleImage = ExampleImageCarTransport;
 			txtLoading = this.state.driverLoadingTextAddGCarYunYImg;
-			if(this.state.addGCarYunYImgSource ){
-				source = this.state.addGCarYunYImgSource ;
-			}else if(this.props.car.get('goperateLicenseUrl')){
-				source = {uri:  HelperUtil.getFullImgPath(this.props.car.get('goperateLicenseUrl'))};
-			}else{
+			if(this.state.isShowExample){
 				source = ExampleImageCarTransport;
 				showExampleImage = true;
+			}else{
+				if(this.state.addGCarYunYImgSource ){
+				source = this.state.addGCarYunYImgSource ;
+				}else if(this.props.car.get('goperateLicenseUrl')){
+					source = {uri: HelperUtil.getFullImgPath(this.props.car.get('goperateLicenseUrl'))};
+				}else{
+					source = ExampleImageCarTransport;
+					showExampleImage = true;
+				}
 			}
 			break;
 		}
@@ -574,8 +588,8 @@ class EditCarContainer extends BaseComponent {
 		let addCarCarImg = this._showImage(1);
 		let addCarLiencesImg = this._showImage(2);
 		let addCarYunYImg = this._showImage(3);
-		let addGCarLiencesImg = this._showImage(4);
-		let addGCarYunYImg = this._showImage(5);
+		let addGCarLiencesImg = this._showImage(4,this.state.isShowExample);
+		let addGCarYunYImg = this._showImage(5,this.state.isShowExample);
 		return (
 			<View style={ styles.container }>
 				<ScrollView
@@ -905,7 +919,18 @@ class EditCarContainer extends BaseComponent {
 												style={ styles.textInput }
 												underlineColorAndroid={ 'transparent' }
 												value = { this.state.gcarNo }
-												onChangeText={ text => this.setState({ gcarNo: text }) }/>
+												onChangeText={ text => {
+													if((text+'').trim() === this.state.gCarOldNo ){
+														this.setState({
+															isShowExample: true,
+														});
+													}else{
+														this.setState({
+															isShowExample: false
+														});
+													}
+													this.setState({ gcarNo: text };
+													} }/>
 										</View>
 									</View>
 								<View style={ [styles.hiddenCellContainer,{borderBottomWidth:0}]  }>
