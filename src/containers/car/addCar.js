@@ -470,6 +470,7 @@ class AddCarContainer extends BaseComponent {
 									<TextInput
 										ref='inputname'
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入车主姓名(公司名称)'
 										placeholderTextColor='#ccc'
 										style={ styles.textInput }
@@ -503,6 +504,7 @@ class AddCarContainer extends BaseComponent {
 									<TextInput
 										ref='inputyunying'
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入运营许可证号'
 										placeholderTextColor='#ccc'
 										style={ styles.textInput }
@@ -549,6 +551,7 @@ class AddCarContainer extends BaseComponent {
 									<TextInput
 										ref='inputcar'
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入车牌号'
 										placeholderTextColor='#ccc'
 										style={ styles.textInput }
@@ -747,6 +750,7 @@ class AddCarContainer extends BaseComponent {
 											<TextInput
 												ref='inputcarId'
 												textAlign='right'
+												returnKeyType='done'
 												placeholder='请输入挂车牌号'
 												placeholderTextColor='#ccc'
 												style={ styles.textInput }

@@ -75,7 +75,6 @@ import ContractDetailScreen from '../containers/order/contractDetail.js'
 import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
-import InvoiceExplanationScreen from '../containers/order/invoiceExplanation.js'
 
 
 export const AppNavigator = StackNavigator({
@@ -508,9 +507,7 @@ export const AppNavigator = StackNavigator({
       headerTintColor: 'black'
     }
   },
-  [RouteType.ROUTE_INVOICE_EXPLANATION]: {
-    screen: InvoiceExplanationScreen,
-  }
+
 
 }, {
   headerMode: 'screen',

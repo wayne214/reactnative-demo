@@ -177,6 +177,7 @@ class ShowESignInfoContainer extends BaseComponent {
 								<View style={styles.cellRight}>
 									<TextInput
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入横向文'
 										placeholderTextColor='#ccc'
 										defaultValue={ eSignInfo && eSignInfo.get('sealHtext')}
@@ -194,6 +195,7 @@ class ShowESignInfoContainer extends BaseComponent {
 									<TextInput
 										textAlign='right'
 										placeholder='请输入下弦文'
+										returnKeyType='done'
 										placeholderTextColor='#ccc'
 										defaultValue={ eSignInfo && eSignInfo.get('sealQtext')}
 										style={ styles.textInput }

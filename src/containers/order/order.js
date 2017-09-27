@@ -473,7 +473,7 @@ class OrderList extends BaseComponent {
                             }},
                             {text: '去设置', onPress:()=>{
                               this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_ADD_BANK_CARD
+                                type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}
                               })
                             }}
                           ])
@@ -491,8 +491,7 @@ class OrderList extends BaseComponent {
                                 },()=>{
                                   console.log(" ===去发票说明");
                                   this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_INVOICE_EXPLANATION,
-                                    params: {title: '发票说明'}
+                                    type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}
                                   })
                                 })
                               }}

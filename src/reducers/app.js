@@ -14,7 +14,7 @@ const initState = Immutable.fromJS({
 	},
 	tabs: [
 		{
-			title: '我的行程1',
+			title: '我的行程',
 			key: 'route',
 			badgeCount: 0,
 			withStatusBar: true,

@@ -164,6 +164,7 @@ class LoginContainer extends BaseComponent {
 								style={ styles.input }
 								multiline={ false }
 								placeholder='请输入密码'
+								returnKeyType='done'
 								secureTextEntry={ !this.state.showPwd }
 								value={ this.state.password }
 								underlineColorAndroid={ 'transparent' }

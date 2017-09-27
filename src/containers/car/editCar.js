@@ -615,6 +615,7 @@ class EditCarContainer extends BaseComponent {
 								<View style={ styles.hiddenRight }>
 									<TextInput
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入车主姓名'
 										placeholderTextColor='#ccc'
 										defaultValue={ this.props.car && this.props.car.get('carName') }
@@ -649,6 +650,7 @@ class EditCarContainer extends BaseComponent {
 								<View style={ styles.hiddenRight }>
 									<TextInput
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入运营许可证号'
 										placeholderTextColor='#ccc'
 										defaultValue={ this.props.car && this.props.car.get('transportationLicense') }
@@ -696,6 +698,7 @@ class EditCarContainer extends BaseComponent {
 								<View style={ styles.hiddenRight }>
 									<TextInput
 										textAlign='right'
+										returnKeyType='done'
 										placeholder='请输入车牌号'
 										placeholderTextColor='#ccc'
 										defaultValue={ this.props.car && this.props.car.get('carNo') }
@@ -894,6 +897,7 @@ class EditCarContainer extends BaseComponent {
 										<View style={ styles.hiddenRight }>
 											<TextInput
 												ref='inputcarId'
+												returnKeyType='done'
 												textAlign='right'
 												placeholder='请输入挂车牌号'
 												placeholderTextColor='#ccc'
