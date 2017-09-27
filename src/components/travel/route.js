@@ -98,7 +98,7 @@ export default class Route extends React.Component {
 		Alert.alert('', '确认上传吗', [
 			{ text: '取消', onPress: () => console.log('') },
 			{ text: '上传回执单', onPress: () => {
-				this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_BACK_IMAGE', entrustType: travelDetail.entrustType }})
+				this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: {title: '上传回执单', orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_BACK_IMAGE', entrustType: travelDetail.entrustType }})
 			} },
 		]);
 	}
@@ -159,7 +159,7 @@ export default class Route extends React.Component {
 		let stepThreeText, stepThreeView, stepThreeNum, stepFourText, stepFourNum, stepFourView;
 		let stepFiveText, stepFiveNum, stepFiveView, stepSixText, stepSixNum, stepSixView
 		let confirmBtn, confirmBtnText, uploadBtn, uploadBtnText, confirmBtnDisable, uploadBtnDisable
-		
+
 		if (orderStatus === 1
 				|| orderStatus === 2
 					|| orderStatus === 3
@@ -459,7 +459,7 @@ export default class Route extends React.Component {
 											title='上传出库单'
 											style={ styles.btnOpt }
 											textStyle={ styles.btnText }
-											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_OUT_IMAGE', entrustType: travelDetail.entrustType }}) }/>
+											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { title: '上传出库单', orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_BILL_OUT_IMAGE', entrustType: travelDetail.entrustType }}) }/>
 								}
 								{
 									orderStatus === 3 &&
@@ -547,7 +547,7 @@ export default class Route extends React.Component {
 											title='拍照上传'
 											style={ styles.btnOpt }
 											textStyle={ styles.btnText }
-											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_ENVIRONMENT_IMAGES', entrustType: travelDetail.entrustType }}) }/>
+											onPress={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_UPLOAD_IMAGES, params: { title:'上传环境照片', orderNo: travelDetail.orderNo, uploadType: 'UPLOAD_ENVIRONMENT_IMAGES', entrustType: travelDetail.entrustType }}) }/>
 								}
 								{
 									(travelDetail.entrustType === 2 && orderStatus === 6 || orderStatus === 9 && travelDetail.entrustType === 2) &&

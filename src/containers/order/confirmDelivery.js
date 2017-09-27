@@ -50,6 +50,7 @@ class ConfirmDelivery extends Component {
 					this.props.navigation.dispatch({
 						type: RouteType.ROUTE_UPLOAD_IMAGES,
 						params: {
+							title: '上传回执单',
 							orderNo,
 							uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 							remark,
