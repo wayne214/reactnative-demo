@@ -348,7 +348,7 @@ const styles =StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: width - 39 * 2,
+    // width: width - 39 * 2,
   },
   closeButton: {
     width: 39,
