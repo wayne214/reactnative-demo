@@ -23,7 +23,7 @@ import { CAR_TYPE, CAR_CATEGORY, CAR_VEHICLE } from '../../constants/json';
 import Picker from 'react-native-picker';
 import DateHandler from '../../utils/dateHandler';
 import { SAVE_CAR_INFO ,CERTIFICATION_CAR_INFO } from '../../constants/api';
-import { fetchData, updateOSSConfig } from '../../action/app';
+import { fetchData, updateOSSConfig,clearImageSource } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import BaseComponent from '../../components/common/baseComponent';
 import { dispatchRefreshCar } from '../../action/car';
@@ -339,6 +339,7 @@ class AddCarContainer extends BaseComponent {
 		super.componentWillUnmount();
 		this.keyboardDidHideListener.remove();
 		if (Picker) Picker.hide();
+		this.props.dispatch(clearImageSource());
 	}
 
 	_showImage(type){
@@ -865,6 +866,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		dispatch,
 		saveCarInfo: (body, navigation) => {
 			dispatch(fetchData({
 				body,

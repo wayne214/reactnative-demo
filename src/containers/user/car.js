@@ -82,7 +82,7 @@ class CarContainer extends BaseComponent {
 		const { user } = this.props;
 		// if(user.certificationStatus !== 3){
 			this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_CAR,params:{title:'新增车辆'}});
-			this.props.dispatch(clearImageSource());
+			// this.props.dispatch(clearImageSource());
 		// }else{
 		// 	Toast.show('您的认证被驳回！');
 		// }
@@ -298,7 +298,7 @@ class CarContainer extends BaseComponent {
   	//isGCar: 已认证、运输中的挂车=true,其余的都是FALSE
   	// console.log('_editCar--isGCar--',isGCar);
   	this.props.navigation.dispatch({type:RouteType.ROUTE_EDIT_CAR,params:{title:'编辑车辆',carId,isGCar}});
-  	this.props.dispatch(clearImageSource());
+  	// this.props.dispatch(clearImageSource());
   }
 
   _goCarDetail(carId){
