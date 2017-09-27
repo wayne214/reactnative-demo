@@ -15,12 +15,12 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import UserIcon from '../../../assets/img/user/user_icon.png';
 import * as RouteType from '../../constants/routeType';
 import { QUERY_CAR_LIST,DELETE_CAR } from '../../constants/api';
-import { fetchData,clearImageSource } from '../../action/app';
+import { fetchData,clearImageSource, appendLogToFile } from '../../action/app';
 import { dispatchSelectCars,dispatchRefreshCar } from '../../action/car';
 import HelperUtil from '../../utils/helper';
 import Toast from '../../utils/toast';
 import BaseComponent from '../../components/common/baseComponent';
-
+let startTime = 0
 class CarContainer extends BaseComponent {
 
 	constructor(props) {
@@ -33,14 +33,14 @@ class CarContainer extends BaseComponent {
       })
 		};
 		this._endReached = this._endReached.bind(this);
-		this._renderItem = this._renderItem.bind(this); 
+		this._renderItem = this._renderItem.bind(this);
 		this._jumpToAddCar = this._jumpToAddCar.bind(this);
 		this._jumpToBindDriver = this._jumpToBindDriver.bind(this);
 	}
 
 	componentDidMount() {
 		super.componentDidMount();
-		this.props.navigation.setParams({ navigatePress: this._jumpToAddCar,navigatePressTwo:this._jumpToBindDriver})  
+		this.props.navigation.setParams({ navigatePress: this._jumpToAddCar,navigatePressTwo:this._jumpToBindDriver})
 		this.props.getCars({
 			pageNo: this.state.pageNo,
 			carrierId:this.props.user.userId
@@ -66,7 +66,7 @@ class CarContainer extends BaseComponent {
     		this.setState({ dataSource: this.state.dataSource.cloneWithRows(cars.toArray()) });
     	}
     }
-  }	
+  }
 
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
@@ -76,17 +76,17 @@ class CarContainer extends BaseComponent {
 			});
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
-	}	
+	}
 
 	_jumpToAddCar(){
 		const { user } = this.props;
 		// if(user.certificationStatus !== 3){
 			this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_CAR,params:{title:'新增车辆'}});
-			this.props.dispatch(clearImageSource());
+			// this.props.dispatch(clearImageSource());
 		// }else{
 		// 	Toast.show('您的认证被驳回！');
 		// }
-		
+
 	}
 	_jumpToBindDriver(){
 		this.props.navigation.dispatch({type:RouteType.ROUTE_CAR_BIND_DRIVER,params:{title:'车辆绑定司机'}})
@@ -95,7 +95,7 @@ class CarContainer extends BaseComponent {
 	static navigationOptions = ({ navigation }) => {
 		const {state, setParams} = navigation;
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    title='车辆管理'
 	    firstLevelIconFont='&#xe7bf;'
 			secondLevelIconFont='&#xe62f;'
@@ -141,8 +141,8 @@ class CarContainer extends BaseComponent {
 		if(rowData.get('certificationStatus') === 0
 									|| rowData.get('certificationStatus') === 3){
 			showBtn = 1;
-			
-		}else if(rowData.get('certificationStatus') === 2 
+
+		}else if(rowData.get('certificationStatus') === 2
 									&& rowData.get('carState') === 0){
 			if(rowData.get('carType') === 2 || rowData.get('carType') === 4 ){
 				editGCar = true;
@@ -150,8 +150,8 @@ class CarContainer extends BaseComponent {
 			}else{
 				editGCar = false;
 				showBtn = 2;
-			}	
-			
+			}
+
 		}else{
 			showBtn = 0;
 		}
@@ -202,7 +202,7 @@ class CarContainer extends BaseComponent {
 												<Text style={ [styles.iconFont, { marginRight: 5 }] }>&#xe61c;</Text>
 												<Text style={ styles.secondLevelText }>删除</Text>
 											</TouchableOpacity>
-										</View>	
+										</View>
 									</View>
 								</View>);
 			}else if(!showNameAndPhone && showBtn === 1){
@@ -241,15 +241,15 @@ class CarContainer extends BaseComponent {
 												<Text style={ [styles.iconFont, { marginRight: 5 }] }>&#xe61c;</Text>
 												<Text style={ styles.secondLevelText }>删除</Text>
 											</TouchableOpacity>
-										</View>	
+										</View>
 									</View>
 								</View>);
 			}
-			
+
 		}else{
 			showInfo = null;
 		}
-		
+
 		return (
 			<TouchableHighlight
 				underlayColor='#e6eaf2'
@@ -264,41 +264,41 @@ class CarContainer extends BaseComponent {
 							<View style={ styles.rightContent }>
 								<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 17 }}>
 									<Text style={ [styles.firstLevelText] }>{ rowData.get('carNo') }</Text>
-									
+
 										{(()=>{
-											if(rowData.get('certificationStatus') === 2){												
+											if(rowData.get('certificationStatus') === 2){
 												return (<View style={ styles.carStatus }><Text style={ styles.unpass }>{ HelperUtil.getCarStatus(rowData.get('carState')) }</Text></View>);
 											}else{
 												return (<View style={ styles.carStatus }><Text style={ styles.unpass }>{ HelperUtil.getCarCertificationStatus(rowData.get('certificationStatus'))}</Text></View>);
 											}
 										})()}
-									
+
 								</View>
 								<View style={ styles.centerContent  }>
 									<Text style={ [styles.secondLevelText, { marginTop: 11 }] }>车辆类型：</Text>
 									<Text style={ [styles.secondLevelText, { marginTop: 11 }] }>{ HelperUtil.getCarType(rowData.get('carType')) }</Text>
 									<Text style={ [styles.secondLevelText, { marginTop: 11, marginLeft: 10 }] }>车辆类别：</Text>
-									<Text style={ [styles.secondLevelText, { marginTop: 11 }] }>{ HelperUtil.getCarCategory(rowData.get('carCategory')) }</Text>								
+									<Text style={ [styles.secondLevelText, { marginTop: 11 }] }>{ HelperUtil.getCarCategory(rowData.get('carCategory')) }</Text>
 								</View>
 							</View>
 						</View>
 					</TouchableOpacity>
 					{
-						showInfo							
+						showInfo
 					}
-					
+
 
 				</View>
 			</TouchableHighlight>
 		);
-  }	
+  }
 
 
   _editCar(carId,isGCar){
   	//isGCar: 已认证、运输中的挂车=true,其余的都是FALSE
   	// console.log('_editCar--isGCar--',isGCar);
   	this.props.navigation.dispatch({type:RouteType.ROUTE_EDIT_CAR,params:{title:'编辑车辆',carId,isGCar}});
-  	this.props.dispatch(clearImageSource());
+  	// this.props.dispatch(clearImageSource());
   }
 
   _goCarDetail(carId){
@@ -312,7 +312,7 @@ class CarContainer extends BaseComponent {
 	      [
 	        { text: '删除', onPress: () => {
 	        	this.props.deleteCar({
-		  				carId: carId,	        		
+		  				carId: carId,
 	        	});
 	        } },
 	        { text: '取消', onPress: () => console.log('cancel') },
@@ -326,7 +326,7 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),
 		hasMore: car.get('hasMore'),
-		isEndReached: car.get('isEndReached'),		
+		isEndReached: car.get('isEndReached'),
 		cars: car.getIn(['car', 'selectCarList']),
 		isRefreshCar: car.get('isRefreshCar'),
 		upgrade: app.get('upgrade'),
@@ -339,6 +339,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		getCars: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -346,10 +347,12 @@ const mapDispatchToProps = dispatch => {
 				success: (data) => {
 					dispatch(dispatchSelectCars({ data, pageNo: body.pageNo }));
 					// console.log('lqq--',data);
+					dispatch(appendLogToFile('车辆管理','获取车辆列表', startTime))
 				}
 			}));
 		},
 		deleteCar: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -360,6 +363,7 @@ const mapDispatchToProps = dispatch => {
 				success: (data) => {
 					// console.log('lqq--',data);
 					dispatch(dispatchRefreshCar());
+					dispatch(appendLogToFile('车辆管理','删除车辆', startTime))
 
 				}
 			}));

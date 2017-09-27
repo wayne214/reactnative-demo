@@ -24,7 +24,7 @@ import { dispatchRefreshDriver, dispatchRefreshDriverInfo, dispatchGetDriverInfo
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
 import { OOS_CONFIG, ADD_COMPANY_AUTH ,SELECT_DRIVER_INFO, SELECT_DRIVER_INFO_BY_PHONE} from '../../constants/api';
-import { fetchData, updateOSSConfig } from '../../action/app';
+import { fetchData, updateOSSConfig,appendLogToFile } from '../../action/app';
 import { HOST, OSS_ADD_DRIVER } from '../../constants/setting';
 import CardIDImg from '../../../assets/img/user/driveID.png';
 import CommonImagePicker from '../../components/common/commonImagePicker';
@@ -32,7 +32,7 @@ import ExampleImage from '../../../assets/img/auth/driver_license.png';
 import HelperUtil from '../../utils/helper';
 import EnlargeImage from '../../../assets/img/enlarge.png';
 import ImagePreview from '../../components/common/imagePreview'
-
+let startTime = 0
 const { height,width } = Dimensions.get('window')
 
 class AddDriverContainer extends BaseComponent {
@@ -115,7 +115,7 @@ class AddDriverContainer extends BaseComponent {
 		if (!this.state.code) return Toast.show('请输入手机验证码');
 		if (!this.state.addDriverLicenseSource) return Toast.show('请上传驾驶证照片');
 		if (this.state.driverLoadingText !== '') return Toast.show('驾驶证照片还未上传成功');
-	
+
 		this.props.saveDriverInfo({
 			carrierId: this.props.user.userId,
 			driverName: this.state.driverName,
@@ -144,13 +144,13 @@ class AddDriverContainer extends BaseComponent {
 		let enlargeImg;
 		let imagePathes=[];
 		imagePathes.push(this.state.addDriverLicenseSource.uri);
-		if (this.state.addDriverLicenseSource) {			
-			enlargeImg =(						
+		if (this.state.addDriverLicenseSource) {
+			enlargeImg =(
 				<TouchableOpacity style = {styles.touchStyle}
 					onPress={()=>{this.setState({showPhoto: true, activeIndex: 1})}}>
 					<ImageBackground style={styles.enlargeStyle} source={this.state.enlargeImage}/>
-				</TouchableOpacity>)					
-		} 
+				</TouchableOpacity>)
+		}
 		driverIdCardImage = (
 			<View style={ styles.IDViewStyle }>
 				<TouchableOpacity
@@ -348,6 +348,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		_getSmsCode: (body, ref) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				api: GET_SMS_CODE,
@@ -357,10 +358,12 @@ const mapDispatchToProps = dispatch => {
 				showLoading: true,
 				success: () => {
 					ref.startCountDown();
+					dispatch(appendLogToFile('新增司机','获取验证码',startTime))
 				}
 			}));
 		},
 		saveDriverInfo: (body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -371,6 +374,7 @@ const mapDispatchToProps = dispatch => {
 				success: () => {
 					navigation.dispatch({ type: 'pop' });
 					dispatch(dispatchRefreshDriver());
+					dispatch(appendLogToFile('新增司机','保存修改司机信息',startTime))
 				}
 			}));
 		},

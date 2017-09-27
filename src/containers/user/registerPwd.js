@@ -23,11 +23,11 @@ import Modal from 'react-native-root-modal';
 import CheckBox from '../../components/common/checkbox';
 import { USER_REGISTER, CITY_COUNTRY } from '../../constants/api';
 import * as RouteType from '../../constants/routeType';
-import { fetchData, getInitStateFromDB } from '../../action/app';
+import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app';
 import User from '../../models/user';
 import Regex from '../../utils/regex';
 import JPushModule from 'jpush-react-native';
-
+let startTime = 0
 class RegisterContainer extends BaseComponent {
 
 	constructor(props) {
@@ -237,7 +237,7 @@ class RegisterContainer extends BaseComponent {
 						</View>
 					</View>
 				</Modal>
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -256,6 +256,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
 	return {
 		register: (body, router, cb) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				api: USER_REGISTER,
@@ -264,6 +265,7 @@ function mapDispatchToProps (dispatch) {
 				showLoading: true,
 				successToast: true,
 				success: (data) => {
+					// dispatch(appendLogToFile('注册','注册成功', startTime))
 					cb();
 					const user = new User({
 						userId: data,
@@ -271,12 +273,16 @@ function mapDispatchToProps (dispatch) {
 						currentUserRole: 1
 					});
 					user.save();
+					startTime = new Date().getTime()
 					JPushModule.setAlias(user.userId, () => {
 						console.log("Set alias succeed");
+						// dispatch(appendLogToFile('注册','设置推送别名成功', startTime))
 					}, () => {
 						console.warn("Set alias failed");
+						// dispatch(appendLogToFile('注册','设置推送别名失败', startTime))
 					});
 					dispatch(getInitStateFromDB());
+
 				}
 			}));
 		}

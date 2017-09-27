@@ -27,12 +27,18 @@ const { height,width } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
+import Marquee from '@remobile/react-native-marquee';
 let startTime = 0
 
 class GoodsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      width: width,
+      height: 36,
+      btnWidth: 39,
+      left: 0,
+      marginLeft:0,
       activeTab: 0,
       searchAddressInfo: null,
     }
@@ -132,6 +138,25 @@ class GoodsList extends Component {
                 })
                 this.props.dispatch(appendLogToFile('线路货源','搜索',0))
               }}/>
+        }
+
+        {
+          <View style={[styles.rollContainer,{width: this.state.width, height: this.state.height}]}>
+            <View style={styles.contentView}>
+              <Marquee style={{width: width - 39}}> 
+                { '          ' + insiteNotice  }
+              </Marquee>
+            </View>
+            <View style={[styles.closeButton,{marginLeft: this.state.marginLeft}]}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
+                // this.props.dispatch(receiveInSiteNotice('')); 
+                this.setState({width:0, height: 0, btnWidth:0, left: -39, marginLeft: -39})
+              }}>&#xe638;</Text>
+            </View>
+            <View style={[styles.leftButton, {width: this.state.btnWidth, height: this.state.height,left: this.state.left}]}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+            </View>
+          </View>
         }
 
           {
@@ -309,6 +334,36 @@ const styles =StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     color: COLOR.TEXT_LIGHT
+  },
+  rollContainer:{
+    // height: 36,
+    // width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF8EE'
+  },
+  contentView:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width - 39 * 2,
+  },
+  closeButton: {
+    width: 39,
+    height: 36,
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: '#FFF8EE'
+  },
+  leftButton:{
+    position: 'absolute',
+    // width: 39,
+    // height: 36,
+    backgroundColor: '#FFF8EE',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })
 

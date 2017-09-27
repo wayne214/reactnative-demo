@@ -12,11 +12,11 @@ import * as RouteType from '../../constants/routeType';
 import AddressHandler from '../../utils/address';
 import Picker from 'react-native-picker';
 import { ADD_ROUTER } from '../../constants/api';
-import { fetchData } from '../../action/app';
+import { fetchData, appendLogToFile } from '../../action/app';
 import Toast from '../../utils/toast';
 import { dispatchRefreshAddRoute, getCarLength, checkedOneOfDatas,dispatchClearRouteInfo } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
-
+let startTime = 0
 class AddRouteContainer extends BaseComponent {
 	constructor(props) {
 		super(props);
@@ -117,8 +117,8 @@ class AddRouteContainer extends BaseComponent {
 		let perCarLength;
 		const carLengthArr = carLengths.map( (item,index) =>{
 			return (
-				<TouchableOpacity 
-					key={index} 
+				<TouchableOpacity
+					key={index}
 					style={ [item.isChecked ? styles.selectedBackView : styles.backView,{marginTop:10}] }
 					onPress={ ()=>{
 						this._checkedInDatas(index)
@@ -191,6 +191,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		addRoute: (body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				api: ADD_ROUTER,
@@ -201,6 +202,7 @@ function mapDispatchToProps(dispatch) {
 				success: () => {
 					navigation.dispatch({ type: 'pop' });
 					dispatch(dispatchRefreshAddRoute());
+					dispatch(appendLogToFile('新增路线','添加路线',startTime))
 				},
 			}));
 		}

@@ -17,7 +17,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import styles from '../../../assets/css/main';
 import Tabar from '../../components/app/tabBar';
-import { changeTab, showFloatDialog, logout } from '../../action/app';
+import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
 import { changeOrderTopTab } from '../../action/order';
 import Drawer from 'react-native-drawer';
 import Linking from '../../utils/linking';
@@ -380,6 +380,7 @@ class MainContainer extends BaseComponent {
     this.props.getUrl({
       phone: this.props.user.phoneNumber
     });
+    this.props.dispatch(appendLogToFile('我的行程','查看个人中心',0))
   }
 
   _routeTab () {

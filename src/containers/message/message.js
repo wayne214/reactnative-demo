@@ -15,7 +15,7 @@ import BaseComponent from '../../components/common/baseComponent';
 import styles from '../../../assets/css/message';
 import TabView from '../../components/common/tabView';
 import { SYSTEM_MESSAGE, SYSTEM_READ_ORNOT, STACK_MSG_LIST, UPDATE_WEB_MSG , CARRIER_DETAIL_INFO} from '../../constants/api';
-import { fetchData, getInitStateFromDB } from '../../action/app';
+import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app';
 import { updateMsgList, passSysMessage, passWebMessage, dispatchRefreshCheckBox } from '../../action/message';
 import CheckBox from '../../components/common/checkbox';
 import Toast from '../../utils/toast';
@@ -24,7 +24,7 @@ import * as RouteType from '../../constants/routeType';
 import LoginContainer from '../user/shipperLogin';
 import CarLoginContainer from '../user/carLogin';
 import User from '../../models/user';
-
+let startTime = 0
 class MessageContainer extends BaseComponent {
 
 	constructor(props) {
@@ -63,13 +63,13 @@ class MessageContainer extends BaseComponent {
 					userId: user.userId,
 				});
 
-			}	
-			
+			}
+
 			if(user.currentUserRole === 1){
 				this.props._getUserInfo();
 			}
 		}
-		this.props.navigation.setParams({ navigatePress: this._change, text: this.state.rightTitle })  
+		this.props.navigation.setParams({ navigatePress: this._change, text: this.state.rightTitle })
 
 	}
 
@@ -99,11 +99,11 @@ class MessageContainer extends BaseComponent {
 	    	navigation.state.params.navigatePress()
 	    }} optTitle={ navigation.state.params.text } router={ navigation }/>
 	  };
-	}; 
+	};
 
-  _change = () => {  
+  _change = () => {
   	this._editor();
-  } 
+  }
 
 
 	_endReached() {
@@ -116,7 +116,7 @@ class MessageContainer extends BaseComponent {
 			} else {
 				this.props.getWebMsgs({
 					pageNo: this.state.pageNo + 1,
-					userId: this.props.user.userId,					
+					userId: this.props.user.userId,
 				})
 			}
 
@@ -127,8 +127,8 @@ class MessageContainer extends BaseComponent {
 	_editor() {
 		this._toggle();
 		this.props.navigation.setParams({ text: this.state.rightTitle === '编辑' ? '取消' : '编辑' });
-		this.setState({ 
-			isActive: !this.state.isActive,			
+		this.setState({
+			isActive: !this.state.isActive,
 			rightTitle: this.state.rightTitle === '编辑' ? '取消' : '编辑',
 		});
 		this.props.dispatch(dispatchRefreshCheckBox({checkStatus: false}));
@@ -142,7 +142,7 @@ class MessageContainer extends BaseComponent {
         duration: 200,
       },
     ).start();
-  }		
+  }
 
   _delOrReadedMsg(type) {
   	if (this.props.ids && this.props.ids.toArray().length === 0  ) {
@@ -157,7 +157,7 @@ class MessageContainer extends BaseComponent {
 	        	this.props.updateMsgStatus({
 		  				readOrDel: 'del',
 							userId: this.props.user.userId,
-		  				messageId: this.props.ids.join(','),	        		
+		  				messageId: this.props.ids.join(','),
 	        	}, this.state.currentTab);
 	        	this._editor();
 	        } },
@@ -192,13 +192,13 @@ class MessageContainer extends BaseComponent {
   		}else{
 				Toast.show('所选消息已为读取状态');
 				this._editor();
-  		}	
+  		}
   	}
   }
 
   _checkedAll() {
   	this.props.dispatch(isCheckedAll(!this.props.isCheckedAll));
-  }  
+  }
 
   _checkedInDatas(selectedIndex) {
   	this.props.dispatch(checkedOneOfDatas(selectedIndex));
@@ -220,7 +220,7 @@ class MessageContainer extends BaseComponent {
 							<CheckBox
 								style={{ marginTop: 2 }}
 								contentStyle={{ width: 20 }}
-								isChecked={ rowData.isChecked }								
+								isChecked={ rowData.isChecked }
 								checkedFun={ this._checkedInDatas.bind(this, rowIndex) }/>
 						</Animated.View>
 						<View style={ styles.iconContainer }>
@@ -340,6 +340,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		getSystemMsg: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -347,10 +348,12 @@ const mapDispatchToProps = dispatch => {
 				api: SYSTEM_MESSAGE,
 				success: (data) => {
 					dispatch(passSysMessage({ data, pageNo: body.pageNo }));
+					dispatch(appendLogToFile('消息列表','获取站内公告', startTime))
 				}
 			}));
 		},
 		updateMsgStatus: (body, currentTab) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -360,10 +363,12 @@ const mapDispatchToProps = dispatch => {
 				api: currentTab === 0 ? UPDATE_WEB_MSG : SYSTEM_READ_ORNOT,
 				success: () => {
 					dispatch(updateMsgList());
+					dispatch(appendLogToFile('消息列表',(body.readOrDel === 'del' ? '删除成功': '标记成功'), startTime))
 				}
 			}));
 		},
 		getWebMsgs: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -371,6 +376,7 @@ const mapDispatchToProps = dispatch => {
 				api: STACK_MSG_LIST,
 				success: (data) => {
 					dispatch(passWebMessage({ data, pageNo: body.pageNo }));
+					dispatch(appendLogToFile('消息列表','获取站内信', startTime))
 				}
 			}));
 		},

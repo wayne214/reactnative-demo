@@ -21,7 +21,7 @@ import { CAR_TYPE, CAR_CATEGORY, CAR_VEHICLE } from '../../constants/json';
 import Picker from 'react-native-picker';
 import DateHandler from '../../utils/dateHandler';
 import { GET_CAR_INFO ,EDIT_CAR_INFO,CERTIFICATION_CAR_INFO,UPDATE_GCAR } from '../../constants/api';
-import { fetchData,updateOSSConfig } from '../../action/app';
+import { fetchData,updateOSSConfig,clearImageSource } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import { dispatchGetCarInfo,dispatchRefreshCar } from '../../action/car';
 import HelperUtil from '../../utils/helper';
@@ -439,6 +439,7 @@ class EditCarContainer extends BaseComponent {
 	componentWillUnmount() {
 		super.componentWillUnmount();
 		if (Picker) Picker.hide();
+		this.props.dispatch(clearImageSource());
 	}
 	
 	_showImage(type){
@@ -1025,6 +1026,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		dispatch,
 		editCarInfo: (body, navigation) => {
 			dispatch(fetchData({
 				body,

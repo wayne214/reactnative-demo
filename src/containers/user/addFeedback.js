@@ -12,14 +12,14 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import Help from '../../components/user/help';
 import TabView from '../../components/common/tabView';
 import { ADD_FEEDBACK } from '../../constants/api';
-import { fetchData } from '../../action/app';
+import { fetchData,appendLogToFile } from '../../action/app';
 import Regex from '../../utils/regex';
 import Toast from '../../utils/toast';
 import * as RouteType from '../../constants/routeType';
 import { dispatchGetFeedbackDetails,dispatchUpdateFeedbackList } from '../../action/help';
 import UserIcon from '../../../assets/img/user/user_icon.png';
 import BaseComponent from '../../components/common/baseComponent';
-
+let startTime = 0
 class AddFeedbackContainer extends BaseComponent {
 
 	constructor(props) {
@@ -35,7 +35,7 @@ class AddFeedbackContainer extends BaseComponent {
 	static navigationOptions = ({ navigation }) => {
 	  const {state, setParams} = navigation;
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    router={ navigation }/>
 	  };
 	};
@@ -59,18 +59,18 @@ class AddFeedbackContainer extends BaseComponent {
 		}else{
 			Toast.show('请输入您遇到的问题');
 		}
-		
+
 	}
 
 	render () {
 		const { navigation } = this.props;
 		return (
 			<View style={ styles.container }>
-					<View style={ styles.inputContainer}> 
+					<View style={ styles.inputContainer}>
 						<TextInput style={ styles.inputTxt }
 							multiline = {true}
 							numberOfLines = {4}
-							underlineColorAndroid={ 'transparent' } 
+							underlineColorAndroid={ 'transparent' }
 							placeholder='请输入您遇到的问题'
 							placeholderTextColor='#ccc'
 							textAlignVertical= 'top'
@@ -83,7 +83,7 @@ class AddFeedbackContainer extends BaseComponent {
 							style={ styles.btnPress }
 							textStyle={ styles.btnText }
 							>提交</Text>
-												
+
 					</View>
 					</TouchableOpacity>
 				{ this.props.loading ? this._renderLoadingView() : null }
@@ -107,6 +107,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		addFeedBack:(body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -118,6 +119,7 @@ const mapDispatchToProps = dispatch => {
 					// console.log('lqq--success-');
 					dispatch(dispatchUpdateFeedbackList());
 					navigation.dispatch({type:'pop'});
+					dispatch(appendLogToFile('反馈问题','添加问题反馈', startTime))
 				},
 				fail: () => {
 					// console.log('lqq--fail-');
