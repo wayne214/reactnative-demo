@@ -27,7 +27,7 @@ const { height,width } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
-import Marquee from '@remobile/react-native-marquee';
+// import Marquee from '@remobile/react-native-marquee';
 let startTime = 0
 
 class GoodsList extends Component {
