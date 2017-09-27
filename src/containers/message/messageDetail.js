@@ -7,7 +7,7 @@ import {
 	Platform
 } from 'react-native';
 import styles from '../../../assets/css/message';
-import { fetchData, changeTab } from '../../action/app';
+import { fetchData, changeTab, appendLogToFile } from '../../action/app';
 import NavigatorBar from '../../components/common/navigatorbar';
 import { SYSTEM_MSG_DETAIL, STACK_MSG_DETAIL, UPDATE_WEB_MSG ,SYSTEM_READ_ORNOT} from '../../constants/api';
 import { passMsgDetail , dispatchRefreshMessageList} from '../../action/message';
@@ -16,7 +16,7 @@ import * as RouteType from '../../constants/routeType';
 import { passWebMessage } from '../../action/message';
 import { changeOrderTopTab } from '../../action/order';
 import BaseComponent from '../../components/common/baseComponent';
-
+let startTime = 0
 class MessageDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
@@ -38,7 +38,7 @@ class MessageDetail extends BaseComponent {
 			options = {
 				noteId: this.noteId,
 				userId: this.props.user.userId,
-			};			
+			};
 		}
 
 		this.props.getMsgDetail( options, this.type, this.props );
@@ -120,7 +120,7 @@ class MessageDetail extends BaseComponent {
 		  // 	btn = (
 		  // 		<View style={ styles.loginBtn }>
 				// 		<Button
-				// 			title='立即查看' 
+				// 			title='立即查看'
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
 				// 			onPress = { () => navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}}) }/>
@@ -150,7 +150,7 @@ class MessageDetail extends BaseComponent {
 		  // 	btn = (
 		  // 		<View style={ styles.loginBtn }>
 				// 		<Button
-				// 			title= '立即查看' 
+				// 			title= '立即查看'
 				// 			style={ styles.btn }
 				// 			textStyle={ styles.btnText }
 				// 			onPress = { this._waitShipper.bind(this) }/>
@@ -249,7 +249,7 @@ class MessageDetail extends BaseComponent {
 			}
 		}
 		return (
-			<View style={ styles.container }>			
+			<View style={ styles.container }>
 				<ScrollView
 					showsVerticalScrollIndicator={ false }>
 					<View style={ styles.msgDetail }>
@@ -280,12 +280,14 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		dispatch,
 		getMsgDetail: ( body, type, props ) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: type === 0 ? 'GET' : 'POST',
 				api: type === 1 ? SYSTEM_MSG_DETAIL : STACK_MSG_DETAIL,
 				success: (data) => {
-					dispatch(passMsgDetail(data));			
+					dispatch(passMsgDetail(data));
+					dispatch(appendLogToFile('消息详情','消息详情',startTime))
 				}
 			}));
 		},

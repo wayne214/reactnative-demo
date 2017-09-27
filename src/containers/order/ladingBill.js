@@ -15,6 +15,7 @@ import {
 import NavigatorBar from '../../components/common/navigatorbar'
 import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
+import {appendLogToFile} from '../../action/app.js'
 import * as RouteType from '../../constants/routeType'
 // import Swiper from 'react-native-swiper';
 import HelperUtil from '../../utils/helper';
@@ -39,7 +40,7 @@ class LadingBill extends Component {
 	  };
 	}
 	componentDidMount() {
-
+		this.props.dispatch(appendLogToFile('查看图片',this.props.navigation.state.params.title,0))
 	}
 	static navigationOptions = ({navigation}) => {
 		const {params} = navigation.state
@@ -112,7 +113,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {}
+	return {dispatch}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LadingBill);

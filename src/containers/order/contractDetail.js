@@ -18,14 +18,14 @@ import {
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
 import * as API from '../../constants/api'
-import {fetchData} from '../../action/app'
+import {fetchData, appendLogToFile } from '../../action/app'
 import Toast from 'react-native-root-toast';
 import Pdf from 'react-native-pdf'
 import BaseComponent from '../../components/common/baseComponent'
 import { CONTRACT_HEADER,CONTRACT_TEMPLATE_URL } from '../../constants/setting'
 import LoadingView from '../../components/common/loading.js';
 import Button from 'apsl-react-native-button'
-
+let startTime = 0
 class ContractDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
@@ -44,8 +44,8 @@ class ContractDetail extends BaseComponent {
 	  	...params
 	  }
 	  this.pdf = null;
-	  this._shareMessage = this._shareMessage.bind(this);
-	  this._showResult = this._showResult.bind(this);
+	  // this._shareMessage = this._shareMessage.bind(this);
+	  // this._showResult = this._showResult.bind(this);
 	}
 	componentDidMount() {
 		if (this.state.isTemplate) {
@@ -80,6 +80,7 @@ class ContractDetail extends BaseComponent {
 								{ text: '复制到剪贴板', onPress: () => {
 									Clipboard.setString(params.uri)
 									Toast.show('已复制到剪贴板')
+									this.props.dispatch(appendLogToFile('合同','复制合同下载链接',0))
 								}}
 							])
 						}else{
@@ -90,48 +91,30 @@ class ContractDetail extends BaseComponent {
 			}
 		}
 	}
-  _shareMessage(content) {
-    Share.share({
-      message: content,
-      title: '合同下载地址',
-      url: this.state.uri
-    })
-    .then(this._showResult)
-    .catch((error) => this.setState({result: 'error: ' + error.message}));
-  }
-  _showResult(result) {
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          this.setState({result: 'shared with an activityType: ' + result.activityType});
-        } else {
-          this.setState({result: 'shared'});
-        }
-      } else if (result.action === Share.dismissedAction) {
-        this.setState({result: 'dismissed'});
-      }
-    }
+  // _shareMessage(content) {
+  //   Share.share({
+  //     message: content,
+  //     title: '合同下载地址',
+  //     url: this.state.uri
+  //   })
+  //   .then(this._showResult)
+  //   .catch((error) => this.setState({result: 'error: ' + error.message}));
+  // }
+  // _showResult(result) {
+  //     if (result.action === Share.sharedAction) {
+  //       if (result.activityType) {
+  //         this.setState({result: 'shared with an activityType: ' + result.activityType});
+  //       } else {
+  //         this.setState({result: 'shared'});
+  //       }
+  //     } else if (result.action === Share.dismissedAction) {
+  //       this.setState({result: 'dismissed'});
+  //     }
+  //   }
 	render() {
 		const {uri,isTemplate} = this.state
 		console.log("-------- 合同地址 ",uri);
 		return <View style={styles.container}>
-			{
-				// isTemplate ?
-				// 	<NavigatorBar router={this.props.router} title={ '合同详情' }/>
-				// :
-				// 	<NavigatorBar router={this.props.router} title={ '合同详情' } firstLevelIconFont='&#xe61a;' firstLevelClick={ () => {
-				// 		// this._shareMessage(`合同下载地址：${uri}`);
-				// 		if (uri) {
-				// 			Alert.alert('合同下载地址',uri,[
-				// 				{ text: '复制到剪贴板', onPress: () => {
-				// 					Clipboard.setString(uri)
-				// 					Toast.show('已复制到剪贴板')
-				// 				}}
-				// 			])
-				// 		}else{
-				// 			Toast.show('未找到合同下载链接')
-				// 		}
-				// 	}}/>
-			}
 			{
 				(()=>{
 					if (!uri) {
@@ -230,7 +213,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		dispatch,
 		_getContractPath: (params,successCallBack)=>{
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				api: API.GET_CONTRACT_PATH,
 				method: 'GET',
@@ -238,6 +223,7 @@ const mapDispatchToProps = (dispatch) => {
 				showLoading: true,
 				success: (data)=>{
 					if (successCallBack) {successCallBack(data)};
+					dispatch(appendLogToFile('合同','合同详情',startTime))
 				}
 			}))
 		}

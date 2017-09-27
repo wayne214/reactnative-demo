@@ -11,8 +11,9 @@ import {
 import styles from '../../../assets/css/setting';
 import NavigatorBar from '../../components/common/navigatorbar';
 import { BASE_URL } from '../../constants/setting';
-import { REGISTER_PROTOCOL, ABOUT_US, SETTLEMENT_EXPLAIN} from '../../constants/api'; 
+import { REGISTER_PROTOCOL, ABOUT_US, SETTLEMENT_EXPLAIN} from '../../constants/api';
 import BaseComponent from '../../components/common/baseComponent';
+import {appendLogToFile} from '../../action/app.js'
 
 class AgreementContainer extends BaseComponent{
 
@@ -30,14 +31,18 @@ class AgreementContainer extends BaseComponent{
 			this.setState({
 				url : BASE_URL + REGISTER_PROTOCOL,
 			});
+			this.props.dispatch(appendLogToFile('注册协议','注册协议',0))
 		}else if(this.type === 2){//关于我们
 			this.setState({
 				url : BASE_URL + ABOUT_US,
 			});
+			this.props.dispatch(appendLogToFile('关于我们','关于我们',0))
+
 		}else if(this.type === 3){//发票说明
 			this.setState({
 				url : BASE_URL + SETTLEMENT_EXPLAIN,
 			});
+			this.props.dispatch(appendLogToFile('发票说明','发票说明',0))
 		}
 	}
 	static navigationOptions = ({ navigation }) => {
@@ -65,6 +70,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {}
+	return {dispatch}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AgreementContainer);

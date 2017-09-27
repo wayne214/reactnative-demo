@@ -27,6 +27,7 @@ const { height,width } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
+// import Marquee from '@remobile/react-native-marquee';
 let startTime = 0
 
 class GoodsList extends Component {
@@ -132,6 +133,26 @@ class GoodsList extends Component {
                 })
                 this.props.dispatch(appendLogToFile('线路货源','搜索',0))
               }}/>
+        }
+
+        {
+          !insiteNotice ?
+          <View style={styles.rollContainer}>
+            <View style={styles.contentView}>
+              <Marquee style={{width: width - 39}}> 
+                { '          ' +  insiteNotice }
+              </Marquee>
+            </View>
+            <View style={styles.closeButton}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
+                this.props.dispatch(receiveInSiteNotice());
+              }}>&#xe638;</Text>
+            </View>
+            <View style={styles.leftButton}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+            </View>
+          </View>
+          : null
         }
 
           {
@@ -309,6 +330,37 @@ const styles =StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     color: COLOR.TEXT_LIGHT
+  },
+  rollContainer:{
+    height: 36,
+    width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF8EE'
+  },
+  contentView:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width - 39 * 2,
+  },
+  closeButton: {
+    width: 39,
+    height: 36,
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: '#FFF8EE'
+  },
+  leftButton:{
+    position: 'absolute',
+    left: 0,
+    width: 39,
+    height: 36,
+    backgroundColor: '#FFF8EE',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })
 

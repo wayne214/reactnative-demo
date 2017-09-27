@@ -12,7 +12,7 @@ import styles from '../../../assets/css/route';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType';
 import {ROUTE_LIST, DELETE_ROUTE } from '../../constants/api';
-import { fetchData, getInitStateFromDB } from '../../action/app';
+import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app';
 import { dispatchRouteList } from '../../action/route';
 import Button from '../../components/common/button';
 import editRoute from './editRoute';
@@ -25,7 +25,7 @@ import ToPoint from '../../../assets/img/routes/to_point.png';
 import HelperUtil from '../../utils/helper';
 import { CAR_VEHICLE } from '../../constants/json';
 import fromto from '../../../assets/img/routes/fromto.png';
-
+let startTime = 0
 class RouteContainer extends BaseComponent {
 
 	constructor(props) {
@@ -47,7 +47,7 @@ class RouteContainer extends BaseComponent {
 		this.props.getRouteList({
 			pageNo: this.state.pageNo,
 		});
-		this.props.navigation.setParams({ navigatePress: this._pushAddRoute })  
+		this.props.navigation.setParams({ navigatePress: this._pushAddRoute })
 	}
 
 	componentWillUnmount() {
@@ -65,7 +65,7 @@ class RouteContainer extends BaseComponent {
       }
       this.setState({ pageNo: 1 });
     }
-  }	
+  }
 
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
@@ -74,7 +74,7 @@ class RouteContainer extends BaseComponent {
 			});
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
-	}	
+	}
   _renderItem(rowData, section, row) {
   	let carLength;
   	let number = [];
@@ -118,7 +118,7 @@ class RouteContainer extends BaseComponent {
 						style={ styles.optView }
 						onPress = { this.deleteAlert.bind(this, rowData.id) }>
 						<View style={ styles.optView }>
-							<Text style={ styles.iconFontOpt }>&#xe61c;</Text>						
+							<Text style={ styles.iconFontOpt }>&#xe61c;</Text>
 							<Text style={ styles.optText }>删除</Text>
 						</View>
 					</TouchableHighlight>
@@ -147,8 +147,8 @@ class RouteContainer extends BaseComponent {
   			});
   		} },
   	]);
-	} 
-	_pushAddRoute = () =>{	
+	}
+	_pushAddRoute = () =>{
 		this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_ROUTE, params: {title:'新增路线'}});
 	}
 	static navigationOptions = ({ navigation }) => {
@@ -181,8 +181,8 @@ class RouteContainer extends BaseComponent {
 const mapStateToProps = state => {
 	const { app, routes } = state;
 	return {
-		user: app.get('user'),	
-		routes: routes.get('routeList'),		
+		user: app.get('user'),
+		routes: routes.get('routeList'),
 		isRefreshAddRoute: routes.get('isRefreshAddRoute'),
 		isRefreshDeleteRoute: routes.get('isRefreshDeleteRoute'),
 		loading: app.get('loading'),
@@ -197,17 +197,20 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		getRouteList: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'GET',
 				api: ROUTE_LIST,
 				success: (data) => {
 					dispatch(dispatchRouteList({ data, pageNo: body.pageNo }));
+					dispatch(appendLogToFile('我的路线','我的路线',startTime))
 				}
 			}));
 		},
 
 		deleteRouteList: (body, router) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -217,6 +220,8 @@ const mapDispatchToProps = dispatch => {
 				showLoading: true,
 				success:(data) => {
 					dispatch(dispatchRefreshDeleteRoute());
+					dispatch(appendLogToFile('我的路线','删除路线',startTime))
+
 
 				}
 

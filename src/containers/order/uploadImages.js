@@ -17,7 +17,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
 import * as COLOR from '../../constants/colors'
 import * as API from '../../constants/api'
-import {fetchData,refreshTravel} from '../../action/app'
+import {fetchData,refreshTravel,appendLogToFile} from '../../action/app'
 import {changeOrderToStateWithOrderNo,configBillOutImage} from '../../action/order'
 import { HOST, OSS_ORDER } from '../../constants/setting';
 import { OOS_CONFIG, ADD_COMPANY_AUTH } from '../../constants/api';
@@ -32,6 +32,7 @@ import BaseComponent from '../../components/common/baseComponent';
 import ImagePreview from '../../components/common/imagePreview.js'
 import Button from 'apsl-react-native-button'
 
+let startTime = 0
 
 class ClassName extends BaseComponent {
 	constructor(props) {
@@ -152,6 +153,7 @@ class ClassName extends BaseComponent {
 	}
 
 	_uploadSuccess(type,imagesString){
+		this.props.dispatch(appendLogToFile('上传图片',this.props.navigation.state.params.title,startTime))
 		const {orderNo} = this.state
 		console.log("===上传成功回调 = type",type);
 		this.setState({
@@ -277,6 +279,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		dispatch,
 		_uploadImages: (configData,successCallBack, failCallBack, travelData)=>{
+			startTime = new Date().getTime()
 			const {uploadType,images,orderNo,orderRemark,entrustType} = configData
 			let apiStr = ''
 			let imageParamsKey = ''
