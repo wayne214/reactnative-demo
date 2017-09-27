@@ -10,7 +10,7 @@ import {
 import styles from '../../../assets/css/bargain';
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
-import { fetchData } from '../../action/app';
+import { fetchData, appendLogToFile } from '../../action/app';
 import TabView from '../../components/common/tabView';
 import * as RouteType from '../../constants/routeType';
 import { GET_CARRIR_BARGAIN_LIST } from '../../constants/api';
@@ -18,7 +18,7 @@ import { dispatchBargainList } from '../../action/carrier';
 import DateFormat from 'moment';
 import Toast from '../../utils/toast';
 
-
+let startTime = 0
 class BargainContainer extends BaseComponent {
 
 	constructor(props) {
@@ -33,7 +33,7 @@ class BargainContainer extends BaseComponent {
 		};
 		this._endReached = this._endReached.bind(this);
 		this._changeTab = this._changeTab.bind(this);
-		this._renderItem = this._renderItem.bind(this); 
+		this._renderItem = this._renderItem.bind(this);
 		this._jumpToDetails = this._jumpToDetails.bind(this);
 		this._jumpToBargainDetails = this._jumpToBargainDetails.bind(this);
 		this._jumpToESignUpdate = this._jumpToESignUpdate.bind(this);
@@ -42,14 +42,14 @@ class BargainContainer extends BaseComponent {
 
 	componentDidMount() {
 		super.componentDidMount();
-		this.props.navigation.setParams({ navigatePress: this._jumpToESignUpdate })  
+		this.props.navigation.setParams({ navigatePress: this._jumpToESignUpdate })
 		this._changeTab(this.state.index);
 	}
 
 	componentWillUnmount() {
 		super.componentWillUnmount();
 	}
-	
+
 	componentWillReceiveProps(props) {
 		const { bargainList } = props;
     // console.log('lqq--will-bargainList-',bargainList.toArray());
@@ -69,7 +69,7 @@ class BargainContainer extends BaseComponent {
     	}
       }
 	}
-	
+
 	_changeTab(index){
 		// console.log('lqq---index--',index);
 		switch(index){
@@ -131,10 +131,10 @@ class BargainContainer extends BaseComponent {
 				default:
 					break;
 			}
-			
+
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
-	}	
+	}
 	_jumpToDetails(orderNo){
 
 	}
@@ -158,8 +158,8 @@ class BargainContainer extends BaseComponent {
 	static navigationOptions = ({ navigation }) => {
 		const {state, setParams} = navigation;
 	  return {
-	    header: <NavigatorBar 
-	    firstLevelClick={ () => { navigation.state.params.navigatePress() } } 
+	    header: <NavigatorBar
+	    firstLevelClick={ () => { navigation.state.params.navigatePress() } }
 	    optTitle='签章设置'
 	    router={ navigation }/>
 	  };
@@ -180,12 +180,12 @@ class BargainContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-				{ this._renderUpgrade(this.props) }			
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
 
-	
+
 
 	_renderItem(rowData, section, row) {
 		return (
@@ -215,7 +215,7 @@ class BargainContainer extends BaseComponent {
 							<Text style={ styles.orderNoText }>承运车辆：<Text style={ styles.bargainTextNo }>{rowData.get('carNo')}</Text></Text>
 						</View>
 						<View style={ styles.rightContainer }>
-						
+
 							<View style={ styles.statusView }>
 								{
 									(() => {
@@ -241,7 +241,7 @@ const mapStateToProps = state => {
 		user: app.get('user'),
 		hasMore: carrier.get('hasMore'),
 		isEndReached: carrier.get('isEndReached'),
-		isRefresh: carrier.get('isRefresh'),		
+		isRefresh: carrier.get('isRefresh'),
 		bargainList: carrier.getIn(['carrierInfo','bargainInfoList']),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
@@ -252,6 +252,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		getBarginList: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -259,6 +260,7 @@ const mapDispatchToProps = dispatch => {
 				success: (data) => {
 					// console.log('lqq-getBarginList-data-',data);
 					dispatch(dispatchBargainList({ data, pageNo: body.pageNo }));
+					dispatch(appendLogToFile('承运合同','获取合同列表',startTime))
 				}
 			}));
 		}

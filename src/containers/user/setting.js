@@ -25,6 +25,8 @@ import { Switch } from 'react-native-switch';
 import BaseComponent from '../../components/common/baseComponent'
 // import Link from '../../utils/linking'
 import Package from '../../../package.json'
+import {appendLogToFile} from '../../action/app.js'
+let startTime = 0
 
 class SettingContainer extends BaseComponent {
 
@@ -40,12 +42,18 @@ class SettingContainer extends BaseComponent {
 	  this._onValueChange = this._onValueChange.bind(this);
 	}
 
+	componentDidMount(){
+		this.props.dispatch(appendLogToFile('设置','设置',0))
+	}
+
 	_onValueChange(value) {
 		const alias = value ? this.props.user.userId : '';
 		// console.log('alias is ', alias);
 		Storage.save('alias', alias ? '1' : '2');
+		startTime = new Date().getTime()
 		JPushModule.setAlias(alias, () => {
 			Toast.show(alias ? '接收通知成功' : '关闭通知成功');
+			this.props.dispatch(appendLogToFile('设置',(alias ? '接收通知成功' : '关闭通知成功'),startTime))
 		  // console.log('set alias success');
 			this.props.dispatch(receiverAlias(alias ? '1' : '2'));
 			this.setState({ isOpen: !this.state.isOpen });
@@ -79,17 +87,21 @@ class SettingContainer extends BaseComponent {
 					this.setState({
 						showLoading: true
 					})
+					startTime = new Date().getTime()
 					JPushModule.setAlias('', () => {
 						this._logoutAction()
 					  this.setState({
 					  	showLoading: false
 					  })
+					  this.props.dispatch(appendLogToFile('设置','退出登录成功',startTime))
 					}, () => {
 						// console.log("Set alias empty fail");
 						this.setState({
 							showLoading: false
 						})
 						Toast.show('退出失败，请重试！');
+						this.props.dispatch(appendLogToFile('设置','退出登录失败',startTime))
+
 					})
 				}},
 			]

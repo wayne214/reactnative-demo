@@ -109,7 +109,7 @@ class BiddingList extends BaseComponent {
         		this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
         			this.props.navigation.dispatch({
         				type: RouteType.ROUTE_DISPATCH_CAR,
-        				params: {goodsId: data.resourceId}
+        				params: {goodsId: data.resourceId,title: '调度车辆',}
         			})
         		})
         	}}

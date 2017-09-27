@@ -23,7 +23,7 @@ import { CAR_TYPE, CAR_CATEGORY, CAR_VEHICLE } from '../../constants/json';
 import Picker from 'react-native-picker';
 import DateHandler from '../../utils/dateHandler';
 import { SAVE_CAR_INFO ,CERTIFICATION_CAR_INFO } from '../../constants/api';
-import { fetchData, updateOSSConfig } from '../../action/app';
+import { fetchData, updateOSSConfig, appendLogToFile } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import BaseComponent from '../../components/common/baseComponent';
 import { dispatchRefreshCar } from '../../action/car';
@@ -39,7 +39,7 @@ import ExampleImageCarTransport from '../../../assets/img/car/default_yunyingzhe
 import HelperUtil from '../../utils/helper';
 import EnlargeImage from '../../../assets/img/enlarge.png';
 import ImagePreview from '../../components/common/imagePreview.js';
-
+let startTime = 0
 class AddCarContainer extends BaseComponent {
 
 	constructor(props) {
@@ -110,7 +110,7 @@ class AddCarContainer extends BaseComponent {
 
   componentDidMount(){
 		super.componentDidMount();
-		this.props.navigation.setParams({ navigatePress: this._addCar })  
+		this.props.navigation.setParams({ navigatePress: this._addCar })
 	}
 
 
@@ -206,7 +206,7 @@ class AddCarContainer extends BaseComponent {
 		if (this.state.phone && !Regex.test('mobile', this.state.phone)) return Toast.show('手机号格式不正确');
 		if (this.state.opertLicence && !Regex.test('transportOperation', this.state.opertLicence)) return Toast.show('运营许可证号格式不正确');
 		if (this.state.carNo && !Regex.test('carNo', this.state.carNo)) return Toast.show('车牌号格式不正确');
-		
+
 		if (this.state.heavy && (this.state.heavy > 999 || this.state.heavy <= 0)) return Toast.show('载重输入值应为0~999之间的数');
 		if (this.state.heavy && !Regex.test('twoDecimal', this.state.heavy)) return Toast.show('载重数值小数点后不超过两位');
 		if (this.state.cube && !Regex.test('twoDecimal', this.state.cube)) return Toast.show('体积数值小数点后不超过两位');
@@ -227,7 +227,7 @@ class AddCarContainer extends BaseComponent {
 			if (this.state.driverLoadingTextAddGCarYunYImg !== '') {
 				return Toast.show('挂车营运证图片还未上传成功')
 			}
-		} 
+		}
 		if (this.state.driverLoadingTextAddCarCarImg !== '') {
 			return Toast.show('车辆图片还未上传成功')
 		}
@@ -236,7 +236,7 @@ class AddCarContainer extends BaseComponent {
 		}
 		if (this.state.driverLoadingTextAddCarYunYImg !== '') {
 			return Toast.show('营运证图片还未上传成功')
-		}	
+		}
 
 		this.props.saveCarInfo({
 			carrierId: this.props.user.userId,
@@ -272,7 +272,7 @@ class AddCarContainer extends BaseComponent {
 		if (!Regex.test('carNo', this.state.carNo)) return Toast.show('车牌号格式不正确');
 		if (!this.state.carCategoryMap.key) return Toast.show('请选择车辆类别');
 		if (!this.state.carTypeMap.key) return Toast.show('请选择车辆类型');
-		
+
 		if (!this.state.heavy) return Toast.show('请输入最大载重');
 		if (this.state.heavy > 999 || this.state.heavy <= 0) return Toast.show('载重输入值应为0~999之间的数');
 		if (!Regex.test('twoDecimal', this.state.heavy)) return Toast.show('载重数值小数点后不超过两位');
@@ -414,9 +414,9 @@ class AddCarContainer extends BaseComponent {
 	static navigationOptions = ({ navigation }) => {
 		const {state, setParams} = navigation;
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    picker={ Picker }
-	    firstLevelClick={ () => { navigation.state.params.navigatePress() } } 
+	    firstLevelClick={ () => { navigation.state.params.navigatePress() } }
 	    optTitle='保存'
 	    router={ navigation }/>
 	  };
@@ -676,7 +676,7 @@ class AddCarContainer extends BaseComponent {
 									outputRange: [0, 642]
 								})
 							}] }>
-							
+
 								<View style={ [styles.hiddenCellContainer,{borderBottomWidth:0}] }>
 									<View style={ styles.hiddenLeft }>
 										<Text style={ styles.hiddenText }>车辆图片</Text>
@@ -714,7 +714,7 @@ class AddCarContainer extends BaseComponent {
 						</Animated.View>
 					</View>
 					{
-						(this.state.carTypeMap.key === 2 || this.state.carTypeMap.key === 4) &&		
+						(this.state.carTypeMap.key === 2 || this.state.carTypeMap.key === 4) &&
 						<View style={ styles.blockContainer }>
 							<TouchableOpacity
 								activeOpacity={ 1 }
@@ -759,7 +759,7 @@ class AddCarContainer extends BaseComponent {
 												onChangeText={ text => this.setState({ gcarNo: text }) }/>
 										</View>
 									</View>
-								
+
 								<View style={ [styles.hiddenCellContainer,{borderBottomWidth:0}]  }>
 									<View style={ styles.hiddenLeft }>
 										<Text style={ styles.hiddenText }>行驶证图片</Text>
@@ -840,7 +840,7 @@ class AddCarContainer extends BaseComponent {
 						})
 					}}/>
 				{ this.props.loading ? this._renderLoadingView() : null }
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -865,7 +865,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		dispatch,
 		saveCarInfo: (body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -881,10 +883,12 @@ const mapDispatchToProps = dispatch => {
 						dispatch(dispatchRefreshCar());
 						navigation.dispatch({type:'pop'});
 					// }
+					dispatch(appendLogToFile('添加车辆','添加车辆成功',startTime))
 				},
 			}));
 		},
 		certificationCarInfo: (body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -895,6 +899,7 @@ const mapDispatchToProps = dispatch => {
 				success: () => {
 					dispatch(dispatchRefreshCar());
 					navigation.dispatch({type:'pop'});
+					dispatch(appendLogToFile('添加车辆','申请车辆认证成功',startTime))
 					// if (hiddingBack) {
 					// 	router.push(RouteType.ROUTE_ADD_DRIVER);
 					// } else {

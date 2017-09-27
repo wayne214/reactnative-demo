@@ -12,13 +12,13 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
 import { DRIVER_LIST, BIND_DRIVER, DELETE_DRIVER_INFO } from '../../constants/api';
-import { fetchData } from '../../action/app';
+import { fetchData, appendLogToFile } from '../../action/app';
 import { dispatchSelectDrivers } from '../../action/driver';
 import { dispatchRefreshCar } from '../../action/car';
 import { dispatchRefreshDriver } from '../../action/driver';
 import BaseComponent from '../../components/common/baseComponent';
 import Toast from '../../utils/toast';
-
+let startTime = 0
 class DriverManagerContainer extends BaseComponent {
 
 	constructor(props) {
@@ -32,7 +32,7 @@ class DriverManagerContainer extends BaseComponent {
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this);
-		this._deleteDriver = this._deleteDriver.bind(this); 
+		this._deleteDriver = this._deleteDriver.bind(this);
 		this._jumpToAddDriver = this._jumpToAddDriver.bind(this);
 	}
 
@@ -42,7 +42,7 @@ class DriverManagerContainer extends BaseComponent {
 			pageNo: this.state.pageNo,
 			carrierId: this.props.user.userId
 		});
-		this.props.navigation.setParams({ navigatePress: this._jumpToAddDriver })  
+		this.props.navigation.setParams({ navigatePress: this._jumpToAddDriver })
 	}
 
 	componentWillUnmount() {
@@ -61,7 +61,7 @@ class DriverManagerContainer extends BaseComponent {
 				this.setState({ pageNo: 1 });
       }
     }
-  }	
+  }
   static navigationOptions = ({ navigation }) => {
 	  return {
 	    header: <NavigatorBar firstLevelClick={ () => {
@@ -137,7 +137,7 @@ class DriverManagerContainer extends BaseComponent {
 		// }else{
 		// 	Toast.show('您的认证被驳回！');
 		// }
-		
+
   }
 
 	render () {
@@ -157,7 +157,7 @@ class DriverManagerContainer extends BaseComponent {
 					</View>
 					<View style={ styles.statusCell }>
 						<Text style={ styles.statusText }>司机管理</Text>
-					</View>					
+					</View>
 				</View>
 
 				<ListView
@@ -181,7 +181,7 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),
 		hasMore: driver.get('hasMore'),
-		isEndReached: driver.get('isEndReached'),		
+		isEndReached: driver.get('isEndReached'),
 		isRefreshDriver: driver.get('isRefreshDriver'),
 		drivers: driver.getIn(['driver', 'selectDriverList']),
 		loading: app.get('loading'),
@@ -195,6 +195,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		bindDriver: (body, router) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -205,20 +206,24 @@ const mapDispatchToProps = dispatch => {
 				success: () => {
 					router.pop();
 					dispatch(dispatchRefreshCar());
+					dispatch(appendLogToFile('司机管理','解绑司机', startTime))
 				}
 			}));
 		},
 		getDrivers: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
 				api: DRIVER_LIST,
 				success: (data) => {
 					dispatch(dispatchSelectDrivers({ data, pageNo: body.pageNo }));
+					dispatch(appendLogToFile('司机管理','获取司机列表', startTime))
 				}
 			}));
 		},
 		deleteDriver: (body) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -226,6 +231,7 @@ const mapDispatchToProps = dispatch => {
 				showLoading: true,
 				success: () => {
 					dispatch(dispatchRefreshDriver());
+					dispatch(appendLogToFile('司机管理','删除司机', startTime))
 				}
 			}));
 		}

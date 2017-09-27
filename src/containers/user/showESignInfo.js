@@ -15,7 +15,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
 import SimplePicker from '../../components/common/picker';
 import { ESIGN_COLOR_TYPE } from '../../constants/json';
-import { fetchData } from '../../action/app';
+import { fetchData,appendLogToFile } from '../../action/app';
 import { GET_ESIGN_INFO,EDIT_ESIGN_INFO } from '../../constants/api';
 import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo } from '../../action/eSign';
 import CheckBox from '../../components/common/checkbox';
@@ -24,7 +24,7 @@ import Regex from '../../utils/regex';
 import HelperUtil from '../../utils/helper';
 import ESignOne from '../../../assets/img/user/eSignTemplateOne.png';
 import ESignTwo from '../../../assets/img/user/eSignTemplateTwo.png';
-
+let startTime = 0
 class ShowESignInfoContainer extends BaseComponent {
 
 	constructor(props) {
@@ -48,7 +48,7 @@ class ShowESignInfoContainer extends BaseComponent {
 
 	static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    router={ navigation }/>
 	  };
 	};
@@ -62,7 +62,7 @@ class ShowESignInfoContainer extends BaseComponent {
 		super.componentWillUnmount();
 		this.timer && clearTimeout(this.timer);
 	}
-	
+
 	componentWillReceiveProps(props) {
 		const {eSignInfo,isRefresh} = props;
 		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
@@ -237,7 +237,7 @@ class ShowESignInfoContainer extends BaseComponent {
 					modalPress={ () => this.setState({ visible: false }) }
 					onPickerSelect={ data => this._onPickerSelect(data) } />
 					{ this.props.loading ? this._renderLoadingView() : null }
-					{ this._renderUpgrade(this.props) }	
+					{ this._renderUpgrade(this.props) }
 			</View>
 			);
 	}
@@ -261,6 +261,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		dispatch,
 		getESignInfo: (body, router) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -268,6 +269,7 @@ const mapDispatchToProps = dispatch => {
 				success: (data) => {
 					// console.log('lqq---getESignInfo--success-->'+data);
 					dispatch(dispatchGetESignInfo({data}));
+					dispatch(appendLogToFile('电子签章','电子签章信息',startTime))
 				},
 				fail: () => {
 					// console.log('lqq---getESignInfo--fail-->');
@@ -275,6 +277,7 @@ const mapDispatchToProps = dispatch => {
 			}));
 		},
 		editESignInfo:(body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -284,6 +287,7 @@ const mapDispatchToProps = dispatch => {
 				msg: '保存成功',
 				success: (data) => {
 					navigation.dispatch({type:'pop'});
+					dispatch(appendLogToFile('电子签章','保存修改电子签章',startTime))
 					// dispatch(dispatchRefreshESignTemplateInfo());
 					// console.log('lqq---editESignInfo--success-->'+data);
 				},

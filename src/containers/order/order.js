@@ -262,6 +262,7 @@ class OrderList extends BaseComponent {
                 currentMenuIndex: index
               })
               this._updateListWithIndex(index,activeTab,activeSubTab)
+              dispatch(appendLogToFile('订单列表', '筛选-'+item,0))
             };
           }}>
           {item}

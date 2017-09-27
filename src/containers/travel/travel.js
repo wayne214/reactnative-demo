@@ -23,11 +23,11 @@ import RouteNoCar from '../../../assets/img/car/route_no_car.png';
 import RouteLoading from '../../../assets/gif/route_loading.gif';
 import Button from '../../components/common/button';
 import { TRAVEL_ONOFCAR, QUERY_CAR_LIST, CONFIRM_INSTALL } from '../../constants/api';
-import { fetchData, refreshTravel } from '../../action/app';
+import { fetchData, refreshTravel, appendLogToFile } from '../../action/app';
 import { dispatchDravelList, dispatchDefaultCar, travelInfoDone } from '../../action/travel';
 import Helper from '../../utils/helper';
 import { changeTab } from '../../action/app';
-
+let startTime = 0
 class HomeContainer extends BaseComponent {
 
   constructor(props) {
@@ -303,6 +303,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     getCarList: (body) => {
+      startTime = new Date().getTime()
       dispatch(fetchData({
         body,
         method: 'POST',
@@ -325,10 +326,12 @@ const mapDispatchToProps = dispatch => {
             }));
             dispatch(dispatchDefaultCar({ id: data.list[0].id, carState: data.list[0].carState, carNo: data.list[0].carNo }));
           }
+          dispatch(appendLogToFile('我的行程','获取车辆列表',startTime))
         }
       }));
     },
     getTravel: (body) => {
+      startTime = new Date().getTime()
       dispatch(fetchData({
         body,
         method: 'GET',
@@ -336,6 +339,7 @@ const mapDispatchToProps = dispatch => {
         api: TRAVEL_ONOFCAR,
         success: (data) => {
           dispatch(dispatchDravelList(data));
+          dispatch(appendLogToFile('我的行程','获取行程',startTime))
         },
         fail: () => {
           dispatch(travelInfoDone())
@@ -343,6 +347,7 @@ const mapDispatchToProps = dispatch => {
       }));
     },
     _confirmShipment: (body, params) => {
+      startTime = new Date().getTime()
       dispatch(fetchData({
         body,
         method: 'POST',
@@ -352,6 +357,7 @@ const mapDispatchToProps = dispatch => {
         api: CONFIRM_INSTALL,
         success: (data) => {
           dispatch(refreshTravel());
+          dispatch(appendLogToFile('我的行程','装货成功',startTime))
         }
       }));
     }

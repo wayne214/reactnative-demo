@@ -24,15 +24,15 @@ import DateHandler from '../../utils/dateHandler'
 import Picker from '../../utils/picker'
 import CountDown from '../../components/common/countDown'
 import GoodsInfo from '../../components/common/goodsInfo.js'
-import {fetchData} from '../../action/app'
+import {fetchData,appendLogToFile } from '../../action/app'
 import {receiveGoodsDetail} from '../../action/goods'
 import Toast from '../../utils/toast.js'
 import * as API from '../../constants/api'
 import moment from 'moment';
-
+let startTime = 0
 const { height,width } = Dimensions.get('window')
 
-class ClassName extends Component {
+class PreOrder extends Component {
 	constructor(props) {
 	  super(props);
 	  const {params} = this.props.navigation.state //this.props.router.getCurrentRoute().params;
@@ -69,6 +69,11 @@ class ClassName extends Component {
 	componentDidMount() {
 		const {params} = this.state
 		const {user} = this.props
+		if (params.isBetter) {
+			this.props.dispatch(appendLogToFile('我要抢单','获取委托详情',0))
+		}else{
+			this.props.dispatch(appendLogToFile('我要竞价','获取委托详情',0))
+		}
 		if (params) {
 			// 点抢单或者报价按钮就回调这个接口 并把数据存在reducer上
 			//
@@ -665,6 +670,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		dispatch,
 		_clearGoodsDetail: ()=>{
 			dispatch(receiveGoodsDetail())
 		},
@@ -686,6 +692,7 @@ const mapDispatchToProps = (dispatch) => {
 		_biddingGoods: (params,successCallBack)=>{
 			const api = params.type == 1 ? API.BIDDING_GOODS : API.ROB_GOODS
 			console.log("------ api",api);
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				api,
 				method: 'POST',
@@ -693,8 +700,10 @@ const mapDispatchToProps = (dispatch) => {
 				showLoading: true,
 				success: (data)=>{
 					if (params.type == 1) {
+						dispatch(appendLogToFile('我要竞价','报价成功',startTime))
 						console.log("----- 竞价 报价提交成功，。。",data,successCallBack);
 					}else{
+						dispatch(appendLogToFile('我也抢单','报价成功',startTime))
 						console.log("=------ 抢单议价提交成功，，， ",data,successCallBack);
 					}
 					if (successCallBack) {successCallBack()};
@@ -705,5 +714,5 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClassName);
+export default connect(mapStateToProps, mapDispatchToProps)(PreOrder);
 

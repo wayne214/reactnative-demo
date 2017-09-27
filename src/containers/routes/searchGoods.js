@@ -14,6 +14,7 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import Picker from 'react-native-picker';
 import AddressHandler from '../../utils/address';
+import {appendLogToFile } from '../../action/app.js'
 
 
 class SearchGoods extends Component {
@@ -86,6 +87,7 @@ class SearchGoods extends Component {
 		const {params} = this.props.navigation.state;
 		const {addressFrom,addressTo} = this.state
 		if (params.searchEditCallBack) {
+			this.props.dispatch(appendLogToFile('搜索货源','发起搜索',0))
 			this.props.navigation.dispatch({ type: 'pop' })
 			if (addressFrom || addressTo) {
 				params.searchEditCallBack({fromProvinceCode,fromCityCode,fromAreaCode,toProvinceCode,toCityCode,toAreaCode,addressFrom,addressTo})
@@ -185,7 +187,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {}
+	return {dispatch}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchGoods);

@@ -18,10 +18,10 @@ import { HOST } from '../../constants/setting';
 import * as RouteType from '../../constants/routeType';
 import { GET_IMG_CODE, GET_SMS_CODE, CHECK_SMG_CODE } from '../../constants/api';
 import CountDownView from '../../components/common/countDownView';
-import { fetchData } from '../../action/app';
+import { fetchData,appendLogToFile } from '../../action/app';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
-
+let startTime = 0
 class RegisterContainer extends BaseComponent {
 
 	constructor(props) {
@@ -43,7 +43,7 @@ class RegisterContainer extends BaseComponent {
 
 	static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar 
+	    header: <NavigatorBar
 	    router={ navigation }/>
 	  };
 	};
@@ -173,7 +173,7 @@ class RegisterContainer extends BaseComponent {
 								style={ styles.btn }
 								textStyle={ styles.btnText }
 								onPress={ this._nextStepReg } />
-						</View>						
+						</View>
 					</View>
 				</ScrollView>
 				{ this.props.loading ? this._renderLoadingView() : null }
@@ -192,7 +192,7 @@ class RegisterContainer extends BaseComponent {
               </View>
             </View>
         }
-        { this._renderUpgrade(this.props) }	
+        { this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -215,6 +215,7 @@ function mapDispatchToProps (dispatch) {
 	return {
 		dispatch,
 		_getSmsCode: (body, ref) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				api: GET_SMS_CODE,
@@ -224,10 +225,12 @@ function mapDispatchToProps (dispatch) {
 				showLoading: true,
 				success: () => {
 					ref.startCountDown();
+					// dispatch(appendLogToFile('注册','获取验证码',startTime))
 				}
 			}));
 		},
 		_checkSmsCode: (body, navigation) => {
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -235,6 +238,7 @@ function mapDispatchToProps (dispatch) {
 				api: CHECK_SMG_CODE,
 				success: () => {
 					navigation.dispatch({type:RouteType.ROUTE_REGISTER_PWD,params:{title:'注册',phone: body.phoneNumber, code: body.verifyCode ,inviteCode: body.inviteCode}});
+					// dispatch(appendLogToFile('注册','校验短信验证码',startTime))
 				}
 			}));
 		}

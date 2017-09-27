@@ -13,7 +13,7 @@ import UserIcon from '../../../assets/img/user/user_icon.png';
 import * as RouteType from '../../constants/routeType';
 import CompanyIcon from '../../../assets/img/user/company_icon.png';
 import { dispatchClearAuthInfo } from '../../action/carrier';
-import { clearCombineImg } from '../../action/app';
+import { clearCombineImg,appendLogToFile } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import GeCompanyIcon from '../../../assets/img/user/ge_compony_icon.png';
 
@@ -47,6 +47,7 @@ class UserInfoContainer extends BaseComponent {
 
 	componentDidMount(){
 		super.componentDidMount();
+		this.props.dispatch(appendLogToFile('会员信息','会员信息',0))
 	}
 	static navigationOptions = ({ navigation }) => {
 	  return {
@@ -136,9 +137,9 @@ class UserInfoContainer extends BaseComponent {
 									<Text style={ [styles.authText, { color: textColor }] }>{ authStatusText }</Text>
 								</View>
 							</View>
-						</TouchableHighlight>					
+						</TouchableHighlight>
 				}
-				
+
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
 					 onPress={ () => this.props.navigation.dispatch({type: RouteType.PASSWORD_PAGE, params: {title: '修改登录密码'}}) }>
@@ -147,11 +148,11 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.leftText }>修改登录密码</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.iconFont }>&#xe60d;</Text>						
+							<Text style={ styles.iconFont }>&#xe60d;</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
-	
+
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
 					 onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>
@@ -164,7 +165,7 @@ class UserInfoContainer extends BaseComponent {
 						</View>
 					</View>
 				</TouchableHighlight>
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
