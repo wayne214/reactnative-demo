@@ -69,7 +69,6 @@ class ClassName extends BaseComponent {
 			header: (
 				<NavigatorBar
 					router={navigation}
-					title={ '编辑上传' }
 					optTitle={'完成'}
 					optTitleStyle={{fontSize: 14,color: COLOR.TEXT_BLACK}}
 					firstLevelClick={()=>{

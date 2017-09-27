@@ -214,6 +214,7 @@ class OrderCell extends Component{
 																	this.props.navigation.dispatch({
 																		type: RouteType.ROUTE_UPLOAD_IMAGES,
 																		params: {
+																			title: '上传出库单',
 																			orderNo: rowData.orderNo,
 																			uploadType: 'UPLOAD_BILL_OUT_IMAGE',
 																			entrustType: rowData.entrustType,
@@ -294,6 +295,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_UPLOAD_IMAGES,
 																				params: {
+																					title: '上传环境照片',
 																					orderNo: rowData.orderNo,
 																					uploadType: 'UPLOAD_ENVIRONMENT_IMAGES',
 																					entrustType: rowData.entrustType
@@ -364,6 +366,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_UPLOAD_IMAGES,
 																				params: {
+																					title: '上传回执单',
 																					orderNo: rowData.orderNo,
 																					uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																					entrustType: rowData.entrustType
@@ -584,6 +587,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_UPLOAD_IMAGES,
 																				params: {
+																					title: '上传回执单',
 																					orderNo: rowData.orderNo,
 																					uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																					entrustType: rowData.entrustType,
@@ -633,6 +637,7 @@ class OrderCell extends Component{
 																			this.props.navigation.dispatch({
 																				type: RouteType.ROUTE_UPLOAD_IMAGES,
 																				params: {
+																					title: '上传回执单',
 																					entrustType: rowData.entrustType,
 																					orderNo: rowData.orderNo,
 																					uploadType: 'UPLOAD_BILL_BACK_IMAGE',

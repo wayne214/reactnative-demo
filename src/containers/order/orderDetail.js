@@ -307,6 +307,7 @@ class OrderDetail extends BaseComponent {
 												this.props.navigation.dispatch({
 													type: RouteType.ROUTE_UPLOAD_IMAGES,
 													params: {
+														title: '上传出库单',
 														orderNo: orderDetail.orderNo,
 														entrustType: orderDetail.entrustType,
 														uploadType: 'UPLOAD_BILL_OUT_IMAGE'
@@ -392,6 +393,7 @@ class OrderDetail extends BaseComponent {
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
+																	title: '上传环境照片',
 																	orderNo: orderDetail.orderNo,
 																	entrustType: orderDetail.entrustType,
 																	uploadType: 'UPLOAD_ENVIRONMENT_IMAGES'
@@ -428,6 +430,7 @@ class OrderDetail extends BaseComponent {
 														this.props.navigation.dispatch({
 															type: RouteType.ROUTE_UPLOAD_IMAGES,
 															params: {
+																title: '上传回执单',
 																orderNo: orderDetail.orderNo,
 																uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																entrustType: orderDetail.entrustType
@@ -463,6 +466,7 @@ class OrderDetail extends BaseComponent {
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
+																	title: '上传回执单',
 																	orderNo: orderDetail.orderNo,
 																	uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																	entrustType: orderDetail.entrustType
@@ -639,6 +643,7 @@ class OrderDetail extends BaseComponent {
 														this.props.navigation.dispatch({
 															type: RouteType.ROUTE_UPLOAD_IMAGES,
 															params: {
+																title: '上传回执单',
 																orderNo: orderDetail.orderNo,
 																uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																entrustType: orderDetail.entrustType,
@@ -674,6 +679,7 @@ class OrderDetail extends BaseComponent {
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
+																	title: '上传回执单',
 																	orderNo: orderDetail.orderNo,
 																	uploadType: 'UPLOAD_BILL_BACK_IMAGE',
 																	entrustType: orderDetail.entrustType,
