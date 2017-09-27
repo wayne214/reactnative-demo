@@ -27,7 +27,7 @@ const { height,width } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
-// import Marquee from '@remobile/react-native-marquee';
+import Marquee from '@remobile/react-native-marquee';
 let startTime = 0
 
 class GoodsList extends Component {
@@ -140,7 +140,24 @@ class GoodsList extends Component {
               }}/>
         }
 
-
+        {
+          <View style={[styles.rollContainer,{width: this.state.width, height: this.state.height}]}>
+            <View style={styles.contentView}>
+              <Marquee style={{width: width - 39}}> 
+                { '          ' + insiteNotice  }
+              </Marquee>
+            </View>
+            <View style={[styles.closeButton,{marginLeft: this.state.marginLeft}]}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
+                // this.props.dispatch(receiveInSiteNotice('')); 
+                this.setState({width:0, height: 0, btnWidth:0, left: -39, marginLeft: -39})
+              }}>&#xe638;</Text>
+            </View>
+            <View style={[styles.leftButton, {width: this.state.btnWidth, height: this.state.height,left: this.state.left}]}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+            </View>
+          </View>
+        }
 
           {
             searchAddressInfo ?
