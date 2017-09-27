@@ -17,7 +17,7 @@ import NormalRoutes from '../../components/routes/normalRoutes'
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
 import { receiveInSiteNotice } from '../../action/app.js'
-import { fetchData } from '../../action/app.js'
+import { fetchData, appendLogToFile } from '../../action/app.js'
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
@@ -27,6 +27,7 @@ const { height,width } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
+let startTime = 0
 
 class GoodsList extends Component {
   constructor(props) {
@@ -100,6 +101,7 @@ class GoodsList extends Component {
               assistIconFontStyle={{fontSize: 14,marginLeft: 5}}
               assistIconClick={()=>{
                 this.props.dispatch({type: RouteType.ROUTE_RULE_INSTRUCTION, params: {title: '市场规则说明'}})
+                this.props.dispatch(appendLogToFile('线路货源','查看线路货源规则说明',0))
               }}
               backTitle={activeTab == 1 ? '竞价管理' : '抢单管理'}
               backTitleStyle={{fontSize: 14}}
@@ -128,6 +130,7 @@ class GoodsList extends Component {
                     }
                   }
                 })
+                this.props.dispatch(appendLogToFile('线路货源','搜索',0))
               }}/>
         }
 
@@ -323,7 +326,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
     _getNormalGoodsList: (params,user)=>{
-
+      startTime = new Date().getTime();
       //3 抢单（普通货源）  2 报价（优质货源）
       if (params.type == 0) {
         params.modeState = 3
@@ -341,12 +344,15 @@ const mapDispatchToProps = (dispatch) => {
         success: (data) => {
           if (params.modeState == 2) {
             console.log("- ---- 优质货源列表",data);
+            dispatch(appendLogToFile('线路货源','获取优质货源列表',startTime))
           }else if (params.modeState == 3){
             console.log("- ---- 普通源列表",data);
+            dispatch(appendLogToFile('线路货源','获取普通源列表',startTime))
           }
           data.pageNo = params.pageNo
           data.goodsType = params.modeState
           dispatch(receiveGoodsList(data))
+
 
         }
       }))
@@ -356,6 +362,7 @@ const mapDispatchToProps = (dispatch) => {
     },
 
     _getResourceDetail: (resourceId,userId,successCallBack,failCallBack)=>{
+      startTime = new Date().getTime();
       dispatch(fetchData({
         api: API.RESOURCE_DETAIL,
         method: 'POST',
@@ -368,6 +375,7 @@ const mapDispatchToProps = (dispatch) => {
           console.log("------ get resource detail success ",data);
           dispatch(receiveGoodsDetail(data))
           successCallBack && successCallBack(data.resourceState)
+          dispatch(appendLogToFile('线路货源','获取货源详情',startTime))
         }
       }))
     }

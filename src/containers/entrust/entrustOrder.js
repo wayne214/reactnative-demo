@@ -18,13 +18,14 @@ import emptyList from '../../../assets/img/order/empty_order_list.png'
 import * as RouteType from '../../constants/routeType'
 import * as COLOR from '../../constants/colors'
 import * as API from '../../constants/api'
-import {fetchData,entrustListShouldRefresh} from '../../action/app'
+import {fetchData,entrustListShouldRefresh,appendLogToFile} from '../../action/app'
 import {getEntrustOrderList,changeEntrustOrderListLoadingMore,acceptDesignateWithID,deleteUndispatchAndCancelledOrder,removeOverTimeOrderFromList} from '../../action/entrust'
 import LoadMoreFooter from '../../components/common/loadMoreFooter'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import BaseComponent from '../../components/common/baseComponent.js'
 
 const { height,width } = Dimensions.get('window')
+let startTime = 0
 
 class EntrustOrderListItem extends Component {
 	constructor(props) {
@@ -309,6 +310,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		_getEntrustOrderList: (params, showLoading)=> {
+			startTime = new Date().getTime();
 			dispatch(changeEntrustOrderListLoadingMore(0))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNCONFIRMED,
@@ -320,10 +322,12 @@ const mapDispatchToProps = (dispatch) => {
 					data.entrustOrderType = 0
 					data.pageNo = params.pageNo
 					dispatch(getEntrustOrderList(data))
+					dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
 				}
 			}))
 		},
 		_getEntrustOrderUndispatch: (params,showLoading)=>{
+			startTime = new Date().getTime();
 			dispatch(changeEntrustOrderListLoadingMore(1))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNDISPATCH,
@@ -335,10 +339,12 @@ const mapDispatchToProps = (dispatch) => {
 					data.entrustOrderType = 1
 					data.pageNo = params.pageNo
 					dispatch(getEntrustOrderList(data))
+					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
 				}
 			}))
 		},
 		_acceptDesignate: (params,successCallBack,refreshCallBack)=>{
+			startTime = new Date().getTime();
 			console.log(" ------ 接受派单 successCallBack",successCallBack);
 			dispatch(fetchData({
 				api: API.ACCEPT_DISPATCH,
@@ -348,6 +354,8 @@ const mapDispatchToProps = (dispatch) => {
 					console.log("  --- 接受派单成功 --- ",data);
 					if(successCallBack){successCallBack()}
 					dispatch(acceptDesignateWithID(params.goodsId))
+					dispatch(appendLogToFile('我的承运','接受派单成功',startTime))
+
 				},
 				fail: (data)=>{
 					console.log("-------- fail",data);
@@ -361,6 +369,7 @@ const mapDispatchToProps = (dispatch) => {
 			}))
 		},
 		_deleteOrderUndispatch: (goodsId,successCallBack,failCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.DELETE_ORDER_UNDISPATCH,
 				method: 'POST',
@@ -370,6 +379,7 @@ const mapDispatchToProps = (dispatch) => {
 					console.log("  --- 删除待调度且已取消的订单成功 --- ",data);
 					successCallBack && successCallBack(data)
 					dispatch(deleteUndispatchAndCancelledOrder(goodsId))
+					dispatch(appendLogToFile('我的承运','删除待调度且已取消的订单',startTime))
 				},
 				fail: (data)=>{
 					console.log("-------- 删除失败 ",data);
@@ -378,6 +388,7 @@ const mapDispatchToProps = (dispatch) => {
 			}))
 		},
 		_getResourceState: (params,successCallBack,failCallBack)=>{
+			startTime = new Date().getTime();
 			console.log("校验委托是否正常（1正常 2货源以关闭  3货源以取消  4货源以删除）");
 			dispatch(fetchData({
 				api: API.ORDER_RESOURCE_STATE,
@@ -396,6 +407,8 @@ const mapDispatchToProps = (dispatch) => {
 					}else if (data == 4) {
 						Toast.show('货源已删除')
 					}
+					dispatch(appendLogToFile('我的承运','校验货源状态是否正常',startTime))
+
 				},
 				fail: (data)=>{
 					failCallBack && failCallBack(data)

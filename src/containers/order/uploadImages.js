@@ -75,17 +75,7 @@ class ClassName extends BaseComponent {
 					firstLevelClick={()=>{
 						navigation.state.params.submit()
 					}}/>
-				),
-			// headerRight: (
-			// 	<Button
-			// 		style={{borderWidth: 0,height: 34,bottom: 0,marginRight: 20,marginTop: 10}}
-			// 		textStyle={{color: COLOR.TEXT_NORMAL,fontSize: 14}}
-			// 		onPress={()=>{
-			// 		  navigation.state.params.submit()
-			// 		}}>
-			// 		完成
-			// 	</Button>
-			// )
+				)
 		}
 	}
 	_updateImages(result){

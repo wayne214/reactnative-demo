@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(toAppStore)
 RCT_EXPORT_METHOD(RNSendMsgToNative)
 {
   dispatch_sync(dispatch_get_main_queue(), ^{
-    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval: 60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
   });
 }
 - (void)sendParamsToRN{

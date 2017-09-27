@@ -44,7 +44,7 @@ import codePush from 'react-native-code-push'
 import TimeToDoSomething from '../../logUtil/timeToDoSomething.js'
 import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
 
-import {getAddressWithLocation} from '../../logUtil/geolocation.js'
+import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
@@ -72,6 +72,7 @@ class MainContainer extends BaseComponent {
     this._pushToMessageList = this._pushToMessageList.bind(this)
     this.codePushStatusDidChange = this.codePushStatusDidChange.bind(this)
     this.codePushDownloadDidProgress = this.codePushDownloadDidProgress.bind(this)
+    this._getCurrentPosition = this._getCurrentPosition.bind(this)
   }
 
   static propTypes = {
@@ -116,7 +117,7 @@ class MainContainer extends BaseComponent {
    */
     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
       console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
-      Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{}}])
+      // Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{}}])
     })
 
     /**
@@ -132,8 +133,9 @@ class MainContainer extends BaseComponent {
            */
           this._pushToMessageList(map.messsageType || map.messageType)
         }else{
+          const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
           // 不在消息列表 alert 提醒
-          Alert.alert('温馨提示','收到一条新消息',[
+          Alert.alert('温馨提示',alertTitle,[
             {
               text: '忽略',
               onPress:()=>{}
@@ -176,63 +178,51 @@ class MainContainer extends BaseComponent {
    *
    */
     // 点击通知后，将会触发此事件
-    if (Platform.OS === ios) {
+    if (Platform.OS === 'ios') {
       JPushModule.addReceiveOpenNotificationListener((message) => {
         console.log("点击通知 触发", message);
         this._pushToMessageList(message.messsageType || message.messageType)
       });
     }
 
-    DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-      // console.log(111111, ' ', data)
-      // this._getCurrentPosition();
+    if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
+    this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+      this._getCurrentPosition();
     })
 
-    if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
-    this.uploadLoglistener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-      // this._getCurrentPosition();
-      //   console.log("JS 收到原生消息",data,new Date());
-    });
+    // this.uploadLoglistener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+    //   this._getCurrentPosition();
+    // });
 
     // 获取站内公告
     if(user.userId){
       this.props.getNotice()
     }
-
-    Geolocation.requestAuthorization()
-    const locationData = {};
-    ReadAndWriteFileUtil.writeFile('App启动',
-      locationData.city,
-      locationData.latitude,
-      locationData.longitude,
-      locationData.phone,
-      locationData.province,
-      locationData.district,
-      0,
-      '',
-      '', 'App启动');
+    // Geolocation.requestAuthorization()
+    Geolocation.getCurrentPosition(location => {
+      const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
+      global.locationData = locationData
+    }, fail => {
+      console.log('-------fail:', fail)
+    }, {
+      timeout: 5000,
+      maximumAge: 1000,
+      enableHighAccuracy: false
+    })
   }
 
   _getCurrentPosition(){
+    console.log(" -- main getcurrent this",this);
+    const {user} = this.props
+    if (!(user && user.userId)) {
+      console.log("   用户未登录 不提交日志 ");
+      return
+    }
     Geolocation.getCurrentPosition(location => {
-      getAddressWithLocation(location.coords.longitude,location.coords.latitude).then((locationData)=>{
-        console.log(" ======= = binggo ",locationData);
-        ReadAndWriteFileUtil.appendFile(
-          '定位', // Action
-          locationData.city,
-          locationData.latitude,
-          locationData.longitude,
-          locationData.province,
-          locationData.district,
-          0, //耗时
-          '定位'//pageName
-        );
-        TimeToDoSomething.uploadDataFromLocalMsg();
-      },(error)=>{
-        if (error.code == '0001') {
-          console.log(" ===== 位置解析失败，但是坐标肯定是没错的 ",error.location);
-        };
-      })
+      const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
+      global.locationData = locationData
+        console.log(" ======= = binggo ",global.locationData);
+      TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
       console.log('-------fail:', fail)
     }, {
@@ -281,7 +271,7 @@ class MainContainer extends BaseComponent {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
-    this.uploadLoglistener
+    this.uploadLoglistener && this.uploadLoglistener.remove()
 
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
@@ -536,104 +526,3 @@ Main = codePush({
 codePush.allowRestart()
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
-
-
-// // JPush
-//     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
-//       Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{
-//         console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
-//       }}])
-//     })
-//     JPushModule.addReceiveNotificationListener((map) => {
-//       // Alert.alert('addReceiveNotificationListener','3qrwwqer',[{text: 'ok',onPress:()=>{
-//       //   console.log(" ===== addReceiveNotificationListener ",map);
-//       // }}])
-//       if (this.state.appState == 'background') {
-//         this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//       }else if(this.state.appState == 'active') {
-//         if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
-//           Alert.alert('温馨提示','您有新消息',[
-//             {text: '忽略',onPress: ()=>{}},
-//             {text: '查看',onPress: ()=>{
-//               this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//             }}
-//           ])
-//         }
-//       }
-//     });
-
-//     if (Platform.OS === 'ios') {
-//       this.notifySubscription = NativeAppEventEmitter.addListener('ReceiveNotification',(notification) => {
-//         JPushModule.setBadge(0, (success) => {
-//           console.log(success)
-//         });
-//         console.log(`app --- 最新状态 ${this.state.appState}`)
-//         console.log('iOS  ----ReceiveNotification ',notification)
-//         if (notification.messsageId) {
-//           if (this.state.appState == 'background') {
-//             this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//           }else if(this.state.appState == 'active') {
-//             if(NativeModules.NativeModule.IOS_OS_VERSION < 10){
-//               Alert.alert('温馨提示','您有新消息',[
-//                 {text: '忽略',onPress: ()=>{}},
-//                 {text: '查看',onPress: ()=>{
-//                   this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//                 }}
-//               ])
-//             }
-//           }
-//         };
-//       });
-
-//       //iOS 10 之后才有  监听 OpenNotification 事件，点击推送的时候会执行这个回调
-//       this.openNotifySubscription = NativeAppEventEmitter.addListener('OpenNotification',(notification) => {
-//         JPushModule.setBadge(0, (success) => {
-//           console.log(success)
-//         });
-//         console.log('iOS ----OpenNotification ',notification,this.props.user)
-//         if (notification.messsageId) {
-//           setTimeout(()=>{
-//             console.log("------ 1 秒后 ?? user是谁？",this.props.user);
-//             if (this.props.user && this.props.user.userId) {
-//               this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//             }else{
-//               this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
-//             }
-//           }, 1000);
-//         }
-//       });
-
-//       // 每次启动后清空角标
-//       JPushModule.setBadge(0, (success) => {
-//         console.log(success)
-//       });
-//     }else{
-//       JPushModule.addReceiveCustomMsgListener((message) => {
-//         // this.setState({pushMsg: message});
-//         console.log("收到 android 自定义消息 ",message);
-//       });
-//       JPushModule.addReceiveNotificationListener((message) => {
-//         console.log("收到 Android 通知: ",message);
-//       })
-//       // 点击通知后，将会触发此事件
-//       JPushModule.addReceiveOpenNotificationListener((message) => {
-//         console.log("Android 点击通知 触发", message);//if (notification.messsageId) {
-//         this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params:{currentTab: 0}})
-//         // this.props.dispatch(openNotification(true));
-//         // const currentRoute = this.props.router.getCurrentRoute();
-//         // if (currentRoute.key === 'MESSAGE_PAGE' || currentRoute.key === 'MESSAGE_DETAIL_PAGE') this.props.dispatch(updateMsgList());
-//         // if (currentRoute.key === 'MESSAGE_DETAIL_PAGE') return this.props.router.pop();
-//         // if (currentRoute.key !== 'MESSAGE_PAGE') this.props.router.push(RouteType.ROUTE_MESSAGE_LIST);
-//       });
-
-
-
-//       // JPushModule.addReceiveCustomMsgListener((message) => {
-//       //   // this.setState({pushMsg: message});
-//       //   console.log("===== get android push message ",message);
-//       // });
-//       // JPushModule.addReceiveNotificationListener((message) => {
-//       //   console.log("receive android notification: " + message);
-//       // })
-//     }

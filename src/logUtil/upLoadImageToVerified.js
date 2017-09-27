@@ -33,9 +33,9 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
         headers.DeviceId = global.UDID;
         headers.PhoneNum = global.phone;
     }
-    console.log('%c HTTP Request', 'color:blue');
-    console.log(`%c request url ${url}`, 'color:green');
-    console.log(`%c Request params ${JSON.stringify(data)}`, 'color:green');
+    // console.log('%c HTTP Request', 'color:blue');
+    // console.log(`%c request url ${url}`, 'color:green');
+    // console.log(`%c Request params ${JSON.stringify(data)}`, 'color:green');
 
     const myFetch = fetch(url, {
         method: 'POST',

@@ -1,6 +1,27 @@
 
 import Coordtransform from 'coordtransform'
 
+export const getAMapLocation = (longitude,latitude) =>{
+	const wgs84togcj02 = Coordtransform.wgs84togcj02(longitude,latitude);
+	return {
+		longitude: wgs84togcj02[0],
+		latitude: wgs84togcj02[1]
+	}
+}
+
+export const getBaiduMapLoacation = (longitude,latitude) => {
+	const wgs84togcj02 = Coordtransform.wgs84togcj02(longitude,latitude);
+	const amapCoords = {
+		longitude: wgs84togcj02[0],
+		latitude: wgs84togcj02[1]
+	}
+	const gcj02tobd09 = Coordtransform.gcj02tobd09(amapCoords.longitude, amapCoords.latitude);
+	return {
+		longitude: gcj02tobd09[0],
+		latitude: gcj02tobd09[1]
+	}
+}
+
 const URLHeader = 'http://api.map.baidu.com/geocoder/v2/?output=json&pois=1&ak=tKviYWmG131ZLf2Cp4G0jFHq5eZuNd9E&location='
 export function getAddressWithLocation(lng,lat) {
 	const wgs84togcj02 = Coordtransform.wgs84togcj02(lng,lat);

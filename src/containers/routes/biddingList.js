@@ -15,12 +15,13 @@ import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-vi
 import BiddingListComponent from '../../components/routes/biddingList'
 import * as RouteType from '../../constants/routeType'
 import * as API from '../../constants/api'
-import {fetchData} from '../../action/app'
+import {fetchData, appendLogToFile} from '../../action/app'
 import {receivePreOrderList} from '../../action/preOrder'
 import BaseComponent from '../../components/common/baseComponent.js'
 import Toast from '../../utils/toast.js'
 
 const { height,width } = Dimensions.get('window')
+let startTime = 0
 
 class BiddingList extends BaseComponent {
 	constructor(props) {
@@ -201,6 +202,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		_getBiddingList: (params)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.BIDDING_LIST,
 				method: 'GET',
@@ -211,15 +213,19 @@ const mapDispatchToProps = (dispatch) => {
 					data.pageNo = params.pageNo
 					if (params.type == 1) {
 						// console.log(" ----- 获取我的竞价 列表",data.list);
+						dispatch(appendLogToFile('竞价列表','获取我的竞价列表',startTime))
 					}else{
 						// console.log(" ----- 获取我的抢单 列表",data.list);
+						dispatch(appendLogToFile('抢单列表','获取我的抢单列表',startTime))
 					}
 					dispatch(receivePreOrderList(data))
+
 				}
 			}))
 		},
 		_getResourceState: (params,successCallBack,failCallBack)=>{
 			// console.log("校验委托是否正常（1正常 2货源以关闭  3货源以取消  4货源以删除）");
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.ORDER_RESOURCE_STATE,
 				method: 'GET',
@@ -237,6 +243,7 @@ const mapDispatchToProps = (dispatch) => {
 					}else if (data == 4) {
 						Toast.show('货源已删除')
 					}
+					dispatch(appendLogToFile('竞价列表','校验货源状态是否正常',startTime))
 				},
 				fail: (data)=>{
 					failCallBack && failCallBack(data)

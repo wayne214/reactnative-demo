@@ -19,13 +19,14 @@ import GoodsInfo from '../../components/common/goodsInfo'
 import * as ENUM from '../../constants/enum.js'
 import * as RouteType from '../../constants/routeType'
 import * as API from '../../constants/api'
-import {fetchData} from '../../action/app'
+import {fetchData,appendLogToFile} from '../../action/app'
 import {receiveEntrustOrderDetail,deleteUndispatchAndCancelledOrder} from '../../action/entrust'
 
 import HelperUtil from '../../utils/helper'
 import Toast from '../../utils/toast.js';
 import CountDown from '../../components/common/countDown.js'
 import moment from 'moment'
+let startTime = 0
 
 const { height,width } = Dimensions.get('window')
 
@@ -93,11 +94,13 @@ class EntrustOrderDetail extends Component {
 						}}/>
 						{
 							params.entrustOrderStatus == 1 ?
-								<View style={{height: 30,flexDirection: 'row',backgroundColor: 'white',alignItems: 'center',justifyContent:'flex-end',paddingRight: 10}}>
-									<Text>剩余时间：</Text>
-									<CountDown overTime={expireTime} timeItemStyle={{backgroundColor: COLOR.TEXT_BLACK}} endCounttingCallBack={()=>{
-										this.setState({disableButton: true})
-									}}/>
+								<View style={{height: 30, backgroundColor: 'white',alignItems: 'center'}}>
+									<View style={{position:'absolute',left: width - 160,flexDirection: 'row',marginTop: 7,}}>
+										<Text>剩余时间：</Text>
+										<CountDown overTime={expireTime} timeItemStyle={{backgroundColor: COLOR.TEXT_BLACK}} endCounttingCallBack={()=>{
+											this.setState({disableButton: true})
+										}}/>
+									</View>
 								</View>
 							: null
 						}
@@ -209,6 +212,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		_getEntrustOrderDetail: (params)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: params.detailType == 0 ? API.ENTRUST_ORDER_DETAIL : API.CONFIRM_TRANSPORT_DETAIL,
 				method: 'GET',
@@ -217,6 +221,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("---------- 获取到委托单详情",data);
 					dispatch(receiveEntrustOrderDetail(data))
+					dispatch(appendLogToFile('委托详情','获取委托详情',startTime))
 				}
 			}))
 		},
@@ -224,6 +229,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(receiveEntrustOrderDetail())
 		},
 		_acceptDesignate: (params,successCallBack,setButtonDisable)=>{
+			startTime = new Date().getTime();
 			console.log(" ------ 接受派单 successCallBack",successCallBack);
 			dispatch(fetchData({
 				api: API.ACCEPT_DISPATCH,
@@ -233,6 +239,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					console.log("  --- 接受派单成功 --- ",data);
 					if(successCallBack){successCallBack()}
+					dispatch(appendLogToFile('委托详情','接受派单成功',startTime))
 				},
 				fail: (data)=>{
 					console.log(" ===== 接受派单 失败",data);
@@ -246,6 +253,7 @@ const mapDispatchToProps = (dispatch) => {
 			}))
 		},
 		_deleteOrderUndispatch: (goodsId,successCallBack,failCallBack)=>{
+			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.DELETE_ORDER_UNDISPATCH,
 				method: 'POST',
@@ -255,6 +263,7 @@ const mapDispatchToProps = (dispatch) => {
 					// console.log("  --- 删除待调度且已取消的订单成功 --- ",data);
 					successCallBack && successCallBack(data)
 					dispatch(deleteUndispatchAndCancelledOrder(goodsId))
+					dispatch(appendLogToFile('委托详情','删除待调度且已取消的订单',startTime))
 				},
 				fail: (data)=>{
 					// console.log("-------- 删除失败 ",data);
@@ -263,6 +272,7 @@ const mapDispatchToProps = (dispatch) => {
 			}))
 		},
 		_getResourceState: (params,successCallBack,failCallBack)=>{
+			startTime = new Date().getTime();
 			// console.log("校验委托是否正常（1正常 2货源以关闭  3货源以取消  4货源以删除）");
 			dispatch(fetchData({
 				api: API.ORDER_RESOURCE_STATE,
@@ -281,6 +291,8 @@ const mapDispatchToProps = (dispatch) => {
 					}else if (data == 4) {
 						Toast.show('货源已删除')
 					}
+					dispatch(appendLogToFile('委托详情','校验货源状态是否正常',startTime))
+
 				},
 				fail: (data)=>{
 					failCallBack && failCallBack(data)

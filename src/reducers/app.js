@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import * as ActionTypes from '../constants/actionType';
+import ReadAndWriteFileUtil from '../logUtil/readAndWriteFileUtil.js'
 
 const initState = Immutable.fromJS({
 	currentTab: 'route',
@@ -167,6 +168,17 @@ export default (state = initState, action) => {
     	return newState
     case ActionTypes.ACTION_RECEIVE_IN_SITE_NOTICE:
     	newState = newState.set('insiteNotice', action.payload)
+    	return newState
+    case ActionTypes.ACTION_APPEND_LOG:
+    	const appendEndTime = new Date().getTime();
+    	const appendStartTime = action.payload.startTime || 0
+    	ReadAndWriteFileUtil.appendFile(
+    		action.payload.pageName,
+    		action.payload.action,
+    		(appendStartTime < 1 ? 0 : (appendEndTime - appendStartTime)),
+    		// global.locationData.latitude,
+    		// global.locationData.longitude
+    	)
     	return newState
 		default:
 			return newState;

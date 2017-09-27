@@ -24,7 +24,7 @@ import OrderCell from '../../components/order/orderCell'
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import Coordination from '../../components/order/coordinatation'
 import { dispatchDefaultCar } from '../../action/travel';
-import {fetchData} from '../../action/app'
+import {fetchData, appendLogToFile} from '../../action/app'
 import {
   receiveOrderList,
   changeOrderLoadingMoreState,
@@ -47,6 +47,7 @@ import { refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent.js'
 
 const { height,width } = Dimensions.get('window')
+let startTime = 0
 
 class OrderListItem extends Component {
   constructor(props) {
@@ -120,11 +121,13 @@ class OrderListItemClear extends Component {
       setSubActiveTab,
       batchHandle,
       itemClick,
-      loadMoreAction
+      loadMoreAction,
+      activeSubTab
     } = this.props
+    console.log(" ====== activeSubTab ",activeSubTab);
     return (
       <ScrollableTabView
-        page={this.props.activeSubTab < 2 ? this.props.activeSubTab : 0}
+        page={activeSubTab < 2 ? activeSubTab : 0}
         style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
         renderTabBar={() =>
           <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
@@ -483,10 +486,13 @@ class OrderList extends BaseComponent {
                               {text: '查看并申请', onPress:()=>{
                                 this.props._applyClear({
                                   orderNo: allOrderNoArr.join(','),
-                                  carId: user.carId ? user.carId : ''
+                                  carId: user.carId ? user.carId : '',
+                                  activeTab
                                 },()=>{
+                                  console.log(" ===去发票说明");
                                   this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_INVOICE_EXPLANATION
+                                    type: RouteType.ROUTE_INVOICE_EXPLANATION,
+                                    params: {title: '发票说明'}
                                   })
                                 })
                               }}
@@ -592,6 +598,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(changeOrderTopTab(activeTab,activeSubTab))
     },
     _getCompanyOrderList: (params)=>{
+      startTime = new Date().getTime();
       dispatch(changeOrderLoadingMoreState(params.orderState))
       dispatch(fetchData({
         api: API.GET_COMPANY_ORDER_LIST,
@@ -603,10 +610,12 @@ const mapDispatchToProps = (dispatch) => {
           data.orderState = params.orderState
           data.pageNo = params.pageNo
           dispatch(receiveOrderList(data))
+          dispatch(appendLogToFile('订单','获取订单列表',startTime))
         }
       }))
     },
     _confirmInstall: (params)=>{
+      startTime = new Date().getTime();
       dispatch(fetchData({
         api: API.CONFIRM_INSTALL,
         method: 'POST',
@@ -620,6 +629,8 @@ const mapDispatchToProps = (dispatch) => {
           // 更新我的行程
           dispatch(refreshTravel());
           // dispatch(dispatchDefaultCar({ id: payload.id, carState: payload.carState, carNo: payload.orderNo }));
+          dispatch(appendLogToFile('订单','承运商确认装货完成',startTime))
+
         }
       }))
     },
@@ -639,19 +650,28 @@ const mapDispatchToProps = (dispatch) => {
     },
     _setAllUnPayEditing: (isEditing) => {
       dispatch(setAllUnPayEditing(isEditing))
+      startTime = new Date().getTime();
+      dispatch(appendLogToFile('订单','批量结算全选',startTime))
     },
     _applyClear: (params,successCallBack)=>{
+      startTime = new Date().getTime();
       dispatch(fetchData({
         api: API.APPLY_CLEAR,
         method: 'POST',
         showLoading: true,
         body: params,
         success: (data)=>{
-          // console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
+          console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
           Toast.show('申请成功')
           dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
-          dispatch(changeOrderTopTab(3,1))
-          if (successCallBack) {successCallBack()}
+          if (params.activeTab == 3) {
+            dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
+          };
+          if (successCallBack) {
+            successCallBack()
+          }
+          dispatch(appendLogToFile('订单','申请结算成功',startTime))
+
         }
       }))
     },
@@ -659,6 +679,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(changeSelectStateWithOrderNo(orderNo))
     },
     _clearConfirm: (params) =>{
+      startTime = new Date().getTime();
       dispatch(fetchData({
         api: API.CLEAR_CONFIRM,
         showLoading: true,
@@ -667,21 +688,26 @@ const mapDispatchToProps = (dispatch) => {
         success: (data)=>{
           // console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderPaying'))
+          dispatch(appendLogToFile('订单','确认结算成功',startTime))
+
         }
       }))
     },
     _requestCoordinateResult: (params,successCallBack)=>{
+      startTime = new Date().getTime();
       dispatch(fetchData({
         api: API.COORDINATE_RESULT,
         method: 'GET',
         showLoading: true,
         body: params,
         success: (data)=>{
+          dispatch(appendLogToFile('订单','查看协调结果',startTime))
           if(successCallBack){successCallBack({...data,...params})}
         }
       }))
     },
     _getBankCardList: (carrierId,successCallBack,failCallBack) => {
+      startTime = new Date().getTime();
       dispatch(fetchData({
         body:{
           pageNo: 1,
@@ -692,6 +718,7 @@ const mapDispatchToProps = (dispatch) => {
         success: (data) => {
           successCallBack && successCallBack(data)
           dispatch(dispatchBankCardList({ data, pageNo: 1}));
+          dispatch(appendLogToFile('订单','查询是否添加银行卡信息',startTime))
         }
       }));
     },

@@ -67,27 +67,27 @@ class ContractDetail extends BaseComponent {
 	}
 	static navigationOptions = ({navigation}) => {
 		const {params} = navigation.state
-		return {
-			headerTitle: params.isTemplate ? '合同模板' : '合同详情',
-			headerRight: params.isTemplate ? null : (
-					<Button
-						style={{borderWidth: 0,height: 34,bottom: 0,marginRight: 20,marginTop: 10}}
-						textStyle={{color: COLOR.TEXT_NORMAL,fontSize: 14}}
-						onPress={()=>{
-						  if (params.uri) {
-						  	Alert.alert('合同下载地址',params.uri,[
-						  		{ text: '复制到剪贴板', onPress: () => {
-						  			Clipboard.setString(params.uri)
-						  			Toast.show('已复制到剪贴板')
-						  		}}
-						  	])
-						  }else{
-						  	Toast.show('未找到合同下载链接')
-						  }
-						}}>
-						下载
-					</Button>
+		if (params.isTemplate) {
+			return {
+				header: <NavigatorBar router={navigation}/>
+			}
+		}else{
+			return {
+				header: (
+					<NavigatorBar router={navigation} firstLevelIconFont='&#xe61a;' firstLevelClick={ () => {
+						if (params.uri) {
+							Alert.alert('合同下载地址',params.uri,[
+								{ text: '复制到剪贴板', onPress: () => {
+									Clipboard.setString(params.uri)
+									Toast.show('已复制到剪贴板')
+								}}
+							])
+						}else{
+							Toast.show('未找到合同下载链接')
+						}
+					}}/>
 				)
+			}
 		}
 	}
   _shareMessage(content) {

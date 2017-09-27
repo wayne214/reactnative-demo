@@ -12,7 +12,7 @@ import {
   Clipboard,
   Keyboard
 } from 'react-native';
-import { fetchData, loadUser, loginSuccess, refreshTravel } from '../../action/app';
+import { fetchData, loadUser, loginSuccess, refreshTravel ,appendLogToFile} from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
@@ -25,6 +25,12 @@ import User from '../../models/user';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
 import JPushModule from 'jpush-react-native';
+import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
+import Geolocation from 'Geolocation'
+import {getAMapLocation} from '../../logUtil/geolocation.js'
+
+let startTime = 0;
+let endTime = 0;
 
 class LoginContainer extends BaseComponent {
 
@@ -85,6 +91,18 @@ class LoginContainer extends BaseComponent {
 
   componentWillMount () {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    Geolocation.getCurrentPosition(location => {
+      const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
+      global.locationData = locationData
+
+    }, fail => {
+      console.log('-------fail:', fail)
+    }, {
+      timeout: 5000,
+      maximumAge: 1000,
+      enableHighAccuracy: false
+    })
+    ReadAndWriteFileUtil.writeFile();
   }
 
   componentDidMount(){
@@ -227,6 +245,7 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     login: (body, navigation, currentRole) => {
+      startTime = new Date().getTime();
       dispatch(fetchData({
         body,
         method: 'GET',
@@ -256,12 +275,14 @@ function mapDispatchToProps(dispatch) {
           dispatch(loadUser(user));
           navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
           console.log('lqq---user--',user);
+          dispatch(appendLogToFile('登录','用户登录-承运商登录',startTime))
+          startTime = new Date().getTime();
           JPushModule.setAlias(user.userId, () => {
-            // Toast.show('设置别名成功',user.userId)
             console.log("Set alias succeed");
+            dispatch(appendLogToFile('登录','设置推送别名成功',startTime))
           }, () => {
-            // Toast.show('设置别名失败')
             console.warn("Set alias failed");
+            dispatch(appendLogToFile('登录','设置推送别名失败',startTime))
           });
         }
       }));
