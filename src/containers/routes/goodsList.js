@@ -143,13 +143,13 @@ class GoodsList extends Component {
         {
           <View style={[styles.rollContainer,{width: this.state.width, height: this.state.height}]}>
             <View style={styles.contentView}>
-              <Marquee style={{width: width - 39}}> 
+              <Marquee style={{width: width - 39}}>
                 { '          ' + insiteNotice  }
               </Marquee>
             </View>
             <View style={[styles.closeButton,{marginLeft: this.state.marginLeft}]}>
               <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
-                // this.props.dispatch(receiveInSiteNotice('')); 
+                // this.props.dispatch(receiveInSiteNotice(''));
                 this.setState({width:0, height: 0, btnWidth:0, left: -39, marginLeft: -39})
               }}>&#xe638;</Text>
             </View>
@@ -348,7 +348,7 @@ const styles =StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: width - 39 * 2,
+    // width: width - 39 * 2,
   },
   closeButton: {
     width: 39,
