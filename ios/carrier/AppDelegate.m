@@ -105,4 +105,22 @@
   completionHandler();
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  UIApplication * app = [UIApplication sharedApplication];
+  //声明一个任务标记 全局的  __block  UIBackgroundTaskIdentifier bgTask;
+  bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (bgTask != UIBackgroundTaskInvalid) {
+        bgTask = UIBackgroundTaskInvalid;
+      }
+    });
+  }];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (bgTask != UIBackgroundTaskInvalid){
+        bgTask = UIBackgroundTaskInvalid;
+      }
+    });
+  });
+}
 @end

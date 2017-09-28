@@ -10,7 +10,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+  __block UIBackgroundTaskIdentifier bgTask;
+}
 @property (nonatomic, strong) UIWindow *window;
 
 @end

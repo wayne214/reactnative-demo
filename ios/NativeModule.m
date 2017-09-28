@@ -21,6 +21,7 @@ RCT_EXPORT_METHOD(inited)
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:@"init" forKey:@"app_init"];
   [defaults synchronize];
+//  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendParamsToRN) name:@"ios-native-call-js" object:@{}];
 }
 
 RCT_EXPORT_METHOD(toAppStore)
@@ -41,9 +42,9 @@ RCT_EXPORT_METHOD(toAppStore)
 
 RCT_EXPORT_METHOD(RNSendMsgToNative)
 {
-  dispatch_sync(dispatch_get_main_queue(), ^{
-    [NSTimer scheduledTimerWithTimeInterval: 60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
-  });
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      [NSTimer scheduledTimerWithTimeInterval: 60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
+    });  
 }
 - (void)sendParamsToRN{
   [self.bridge.eventDispatcher sendAppEventWithName:@"nativeSendMsgToRN" body:@{@"msg":@"123"}];

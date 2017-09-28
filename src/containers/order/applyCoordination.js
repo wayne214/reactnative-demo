@@ -17,10 +17,11 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import FoldView from '../../components/common/foldView'
 import * as API from '../../constants/api'
-import {fetchData, changeTab} from '../../action/app'
+import {fetchData, changeTab, appendLogToFile} from '../../action/app'
+import {changeOrderTopTab} from '../../action/order.js'
 import {changeOrderToStateWithOrderNo,shouldOrderListRefreshAction} from '../../action/order'
 import BaseComponent from '../../components/common/baseComponent.js'
-
+let startTime = 0
 class ApplyCoordination extends BaseComponent {
 	constructor(props) {
 	  super(props);
@@ -180,9 +181,10 @@ class ApplyCoordination extends BaseComponent {
 									}
 									console.log("------ 提交申请",params);
 									this.props._submitApplication(params,()=>{
-										this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
-										this.props.navigation.dispatch(changeTab('order'))
-										// this.props.dispatch(shouldOrderListRefreshAction(true))
+										this.props.navigation.dispatch(changeOrderTopTab(0,0))
+										setTimeout(()=>{
+											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
+										}, 500);
 									})
 								}}>
 							  提交申请
@@ -262,12 +264,15 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		dispatch,
 		_submitApplication: (params,successCallBack)=>{
+			startTime = new Date().getTime()
 			dispatch(fetchData({
 				api: API.APPLY_COORDINATION,
 				method: 'POST',
 				body: params,
+				showLoading: true,
 				success: (data)=>{
-					console.log("===== 协调申请提交成功");
+					Toast.show('协调申请提交成功')
+					dispatch(appendLogToFile('申请协调','订单申请协调',startTime))
 					if (successCallBack) {successCallBack()};
 					// dispatch(changeOrderToStateWithOrderNo(8,params.orderNo,'orderToDelivery'))
 				}

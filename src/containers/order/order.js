@@ -262,7 +262,7 @@ class OrderList extends BaseComponent {
                 currentMenuIndex: index
               })
               this._updateListWithIndex(index,activeTab,activeSubTab)
-              dispatch(appendLogToFile('订单列表', '筛选-'+item,0))
+              this.props.dispatch(appendLogToFile('订单列表', '筛选-'+item,0))
             };
           }}>
           {item}
@@ -594,6 +594,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     _changeOrderTab:(activeTab,activeSubTab)=>{
       dispatch(changeOrderTopTab(activeTab,activeSubTab))
     },
@@ -651,7 +652,7 @@ const mapDispatchToProps = (dispatch) => {
     _setAllUnPayEditing: (isEditing) => {
       dispatch(setAllUnPayEditing(isEditing))
       startTime = new Date().getTime();
-      dispatch(appendLogToFile('订单','批量结算全选',startTime))
+      isEditing && dispatch(appendLogToFile('订单','批量结算全选',startTime))
     },
     _applyClear: (params,successCallBack)=>{
       startTime = new Date().getTime();

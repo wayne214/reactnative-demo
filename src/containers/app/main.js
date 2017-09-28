@@ -105,7 +105,7 @@ class MainContainer extends BaseComponent {
     if (!user || !user.userId) {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
     }
-    this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+    // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
 
     // JPush
@@ -185,14 +185,12 @@ class MainContainer extends BaseComponent {
       });
     }
 
-    if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
+    // if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
+
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+      console.log(" ==== 定时任务 ");
       this._getCurrentPosition();
     })
-
-    // this.uploadLoglistener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-    //   this._getCurrentPosition();
-    // });
 
     // 获取站内公告
     if(user.userId){
@@ -212,7 +210,6 @@ class MainContainer extends BaseComponent {
   }
 
   _getCurrentPosition(){
-    console.log(" -- main getcurrent this",this);
     const {user} = this.props
     if (!(user && user.userId)) {
       console.log("   用户未登录 不提交日志 ");
@@ -221,7 +218,7 @@ class MainContainer extends BaseComponent {
     Geolocation.getCurrentPosition(location => {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
-        console.log(" ======= = binggo ",global.locationData);
+        console.log("定位信息",global.locationData);
       TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
       console.log('-------fail:', fail)
@@ -271,7 +268,9 @@ class MainContainer extends BaseComponent {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
+
     this.uploadLoglistener && this.uploadLoglistener.remove()
+    console.log(" === = remove linster",this.uploadLoglistener);
 
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
