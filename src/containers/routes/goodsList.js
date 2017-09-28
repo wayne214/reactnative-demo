@@ -133,20 +133,22 @@ class GoodsList extends Component {
         {
           insiteNotice ?
             <View style={styles.rollContainer}>
+              <View style={styles.leftButton}>
+                <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+              </View>
+              <View style={styles.contentView}>
+                <Text style={{ color:'#FFAC1A', fontSize:14}} numberOfLines={1}>{insiteNotice}</Text>
+              </View>
               <View style={styles.closeButton}>
                 <View style={ {backgroundColor: '#FFF8EE',height:36, width:39,justifyContent: 'center',alignItems: 'center', }}>
                   <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
-                    this.props.dispatch(receiveInSiteNotice())
+                    this.props.dispatch(receiveInSiteNotice());
                   }}>&#xe638;</Text>
                 </View>
               </View>
-              <View style={styles.leftButton}>
-                <Text onPress={ () => this.props.dispatch(receiveInSiteNotice()) } style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
-              </View>
             </View>
-          </View>
-          : null
-        }
+            : null
+          }
 
           {
             searchAddressInfo ?
