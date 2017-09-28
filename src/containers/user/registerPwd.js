@@ -68,7 +68,7 @@ class RegisterContainer extends BaseComponent {
 
 	_toMain () {
 		this.setState({ visible: false });
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route', insiteNotice: this.props.insiteNotice } })
 	}
 
 	_register () {
@@ -250,6 +250,7 @@ function mapStateToProps (state) {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	};
 }
 
