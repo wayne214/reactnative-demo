@@ -169,20 +169,20 @@ export default (state = initState, action) => {
 				console.warn("缺少参数",targetOrderNo && toState && orderTopType);
 				return newState
 			};
-			// if ((orderTopType == 'orderUnPay' && toState == 15) || toState == 12) {
-			// 	let newOrderList = newState.getIn([orderTopType,'list'])
-			// 	let targetIndex = -1
-			// 	newOrderList.map((item,index)=>{
-			// 		if (item.orderNo == targetOrderNo) {
-			// 			targetIndex = index
-			// 		}
-			// 	})
-			// 	if (targetIndex != -1) {
-			// 		newOrderList = newOrderList.delete(targetIndex)
-			// 	}
-			// 	newState = newState.setIn([orderTopType,'list'],newOrderList)
-			// 	return newState
-			// }
+			if ((orderTopType == 'orderUnPay' && toState == 15) || toState == 12) {
+				let newOrderList = newState.getIn([orderTopType,'list'])
+				let targetIndex = -1
+				newOrderList.map((item,index)=>{
+					if (item.orderNo == targetOrderNo) {
+						targetIndex = index
+					}
+				})
+				if (targetIndex != -1) {
+					newOrderList = newOrderList.delete(targetIndex)
+				}
+				newState = newState.setIn([orderTopType,'list'],newOrderList)
+				return newState
+			}
 			const typeArr = [orderTopType]
 			if (typeArr.indexOf('orderAll') == -1) {
 				typeArr.push('orderAll')

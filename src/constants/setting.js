@@ -1,5 +1,5 @@
 
-export const DEBUG = true // process.env.NODE_ENV === 'development';
+export const DEBUG = false // process.env.NODE_ENV === 'development';
 
 export const PAGE_SIZE = 10;
 
