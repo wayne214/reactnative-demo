@@ -42,7 +42,7 @@ class PersonalAuthContainer extends BaseComponent {
 			corporation: this.state.name,
 			idCard: this.state.idCard,
 			carrierType: 2,
-		},this.props.navigation);
+		},this.props.navigation, this.props.insiteNotice);
 	}
 	static navigationOptions = ({ navigation }) => {
 	  return {
@@ -115,13 +115,14 @@ const mapStateToProps = (state) => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		dispatch,
-		addPersonalAuthInfo: (body, navigation) => {
+		addPersonalAuthInfo: (body, navigation,insiteNotice) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -130,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
 				msg: '提交成功',
 				showLoading: true,
 				success: () => {
-			    navigation.dispatch({ type: 'Main',  params: { title: '', currentTab: 'route' } });
+			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route', insiteNotice: insiteNotice } });
 				}
 			}));
 		},

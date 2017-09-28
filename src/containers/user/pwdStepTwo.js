@@ -77,7 +77,7 @@ class PwdSteoTwoContainer extends BaseComponent {
 					this.props.shipperLogin({
 					username: this.phone.trim(),
 					password: this.state.password.trim(),
-				}, this.props.navigation, this.state.currentRole);
+				}, this.props.navigation, this.state.currentRole,this.props.insiteNotice);
 			});
 		}else if (this.props.user.currentUserRole === 2 || this.forgetPassword === 'driverForgetPassword' ){
 			this.props.updateDriverPassword({
@@ -89,7 +89,7 @@ class PwdSteoTwoContainer extends BaseComponent {
 					this.props.driverLogin({
 						username: this.phone.trim(),
 						password: this.state.password.trim(),
-					}, this.props.navigation, this.state.currentRole);
+					}, this.props.navigation, this.state.currentRole, this.props.insiteNotice);
 			});
 		}
 
@@ -169,6 +169,7 @@ function mapStateToProps (state) {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	};
 }
 
@@ -217,7 +218,7 @@ function mapDispatchToProps (dispatch) {
 
 			}))
 		},
-		shipperLogin: (body, navigation, currentRole) => {
+		shipperLogin: (body, navigation, currentRole,insiteNotice) => {
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -243,7 +244,7 @@ function mapDispatchToProps (dispatch) {
 						currentUserRole: 1
 					});
 					user.save();
-			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
+			    navigation.dispatch({ type: 'Main',mode: 'reset', params: { title: '', currentTab: 'route', insiteNotice: insiteNotice} });
 					dispatch(loadUser(user));
 					JPushModule.setAlias(user.userId, () => {
 						// Toast.show('设置别名成功',user.userId)
@@ -255,7 +256,7 @@ function mapDispatchToProps (dispatch) {
 				}
 			}));
 		},
-		driverLogin: (body, navigation, currentRole) => {
+		driverLogin: (body, navigation, currentRole,insiteNotice) => {
 			dispatch(fetchData({
 				body,
 				method: 'GET',
@@ -283,7 +284,7 @@ function mapDispatchToProps (dispatch) {
 					});
 					user.save();
 					dispatch(loadUser(user));
-			    navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } });
+			    navigation.dispatch({ type: 'Main',mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice: insiteNotice } });
 					JPushModule.setAlias(user.userId, () => {
 						console.log("Set alias succeed");
 					}, () => {

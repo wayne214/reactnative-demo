@@ -30,7 +30,7 @@ class AuthRoleContainer extends BaseComponent {
 
 	_back = () => {
 		if (this.type === 'register') {
-			this.props.navigation.dispatch({ type: 'Main', params: { title: '' } })
+			this.props.navigation.dispatch({ type: 'Main', mode: 'reset',params: { title: '',insiteNotice: this.props.insiteNotice } })
 		} else {
 			this.props.navigation.dispatch({type: 'pop'});
 		}
@@ -83,6 +83,7 @@ const mapStateToProps = (state) => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	}
 }
 

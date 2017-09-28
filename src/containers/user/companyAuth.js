@@ -196,7 +196,7 @@ class CompanyAuthContainer extends BaseComponent {
 					businessLicenseImgUrl: _businessLicenseImgUrl,
 					taxRegCertificateImgUrl: this.props.shuiwImgName, // 税务登记证图片地址
 					organizationCodeCertificateImgUrl: this.props.companyImgName, // 组织机构代码证图片地址
-				}, this.props.navigation);
+				}, this.props.navigation,this.props.insiteNotice);
   		}},
   	]);
 	}
@@ -484,13 +484,14 @@ function mapStateToProps(state) {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
-		addCompanyAuthInfo: (body, navigation) => {
+		addCompanyAuthInfo: (body, navigation,insiteNotice) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
@@ -505,7 +506,7 @@ function mapDispatchToProps(dispatch) {
 					};
 					new User().merge(users);
 					dispatch(mergeUser(users));
-			    navigation.dispatch({ type: 'Main',  params: { title: '', currentTab: 'route' }});
+			    navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route', insiteNotice: insiteNotice}});
 				}
 			}));
 		},

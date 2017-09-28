@@ -57,7 +57,7 @@ class LoginContainer extends BaseComponent {
 		this.props.login({
 			username: this.state.username.trim(),
 			password: this.state.password.trim(),
-		}, this.props.navigation, this.state.currentRole);
+		}, this.props.navigation, this.state.currentRole,this.props.insiteNotice);
 	}
 
 	_forceUpgrade () {
@@ -234,13 +234,14 @@ function mapStateToProps(state) {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
-		login: (body, navigation, currentRole) => {
+		login: (body, navigation, currentRole,insiteNotice) => {
 			startTime = new Date().getTime();
 			dispatch(fetchData({
 				body,
@@ -269,7 +270,7 @@ function mapDispatchToProps(dispatch) {
 					});
 					user.save();
 					dispatch(loadUser(user));
-          navigation.dispatch({ type: 'Main', params: { title: '', currentTab: 'route' } })
+          navigation.dispatch({ type: 'Main',mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice:insiteNotice } })
 					JPushModule.setAlias(user.userId, () => {
 						console.log("Set alias succeed");
 					}, () => {
