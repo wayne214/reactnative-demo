@@ -61,7 +61,7 @@ class MessageDetail extends BaseComponent {
 		this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO, params: {title:'公司认证'}});
 	}
 	_waitShipper(){
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'center',insiteNotice: this.props.insiteNotice } })
 		this.props.dispatch(changeTab('carriage'));
 		let linkId;
 		if(this.props.msg && this.props.msg.linkId){
@@ -86,11 +86,11 @@ class MessageDetail extends BaseComponent {
 		}
 	}
 	_routeGoods(){
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'goods' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'goods', insiteNotice: this.props.insiteNotice } })
 		this.props.dispatch(changeTab('goods'));
 	}
 	_orderList(){
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order', insiteNotice: this.props.insiteNotice } })
 		this.props.dispatch(changeTab('order'));
 		let linkId;
 		if(this.props.msg && this.props.msg.linkId){
@@ -273,6 +273,7 @@ const mapStateToProps = (state) => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    insiteNotice: app.get('insiteNotice'),
 	}
 }
 

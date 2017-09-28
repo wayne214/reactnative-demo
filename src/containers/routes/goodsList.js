@@ -100,7 +100,6 @@ class GoodsList extends Component {
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
-
     let flag = (this.props.nav.routes.length === 1 && this.props.nav.routes[this.props.nav.index].routeName === 'Main')
 
     if (user.currentUserRole == 1) {
@@ -157,7 +156,7 @@ class GoodsList extends Component {
               }}/>
         }
         {
-          insiteNotice ?
+          this.props.note && insiteNotice ?
           <View style={styles.rollContainer}>
             <View style={styles.leftButton}>
               <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>

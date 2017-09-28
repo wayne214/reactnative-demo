@@ -183,7 +183,7 @@ class ApplyCoordination extends BaseComponent {
 									this.props._submitApplication(params,()=>{
 										this.props.navigation.dispatch(changeOrderTopTab(0,0))
 										setTimeout(()=>{
-											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
+											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order',insiteNotice: this.props.insiteNotice}})
 										}, 500);
 									})
 								}}>
@@ -256,7 +256,8 @@ const styles =StyleSheet.create({
 const mapStateToProps = (state) => {
 	const {app} = state
 	return {
-		user: app.get('user')
+		user: app.get('user'),
+		insiteNotice: app.get('insiteNotice'),
 	}
 }
 

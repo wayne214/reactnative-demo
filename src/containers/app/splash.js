@@ -36,7 +36,7 @@ class Splash extends Component {
 			this.routeName = 'Welcome'
 		}
 		this.timer = setTimeout(() => {
-			this.props.navigation.dispatch({ type: this.routeName, mode: 'reset', params: { title: '', currentTab: 'route' } })
+			this.props.navigation.dispatch({ type: this.routeName, mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice:'123' } })
 		}, Platform.OS === 'ios' ? 100 : 1500);
 	}
 

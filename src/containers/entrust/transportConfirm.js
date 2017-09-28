@@ -116,7 +116,7 @@ class TransportConfirm extends Component {
 											entrustType: transpostConfirmDetail.entrustType
 										},()=>{
 											Toast.show('承运成功！')
-											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order'}})
+											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order',insiteNotice: this.props.insiteNotice}})
 											this.props._toOrderListPage()
 										})
 									}}>
@@ -142,6 +142,7 @@ const styles =StyleSheet.create({
 const mapStateToProps = (state) => {
 	const {app,entrust} = state
 	return {
+		insiteNotice: app.get('insiteNotice'),
 		transpostConfirmDetail: entrust.get('transpostConfirmDetail')
 	}
 }

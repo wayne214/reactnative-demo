@@ -73,6 +73,8 @@ class MainContainer extends BaseComponent {
     this.codePushStatusDidChange = this.codePushStatusDidChange.bind(this)
     this.codePushDownloadDidProgress = this.codePushDownloadDidProgress.bind(this)
     this._getCurrentPosition = this._getCurrentPosition.bind(this)
+    this.insiteNotice = props.navigation.state.params.insiteNotice;
+
   }
 
   static propTypes = {
@@ -428,6 +430,7 @@ class MainContainer extends BaseComponent {
 
         <Tabar
           { ...this.props }
+          note={this.insiteNotice}
           changeTab={ this._changeTab }
           openControlPanel={ this.openControlPanel } />
 

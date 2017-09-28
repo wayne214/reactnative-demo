@@ -179,7 +179,7 @@ class ClassName extends BaseComponent {
 		// 	default:
 		// 		apiStr = ''
 		// }
-		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order' } })
+		this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'order' ,insiteNotice: this.props.insiteNotice} })
 		// this.props.dispatch(shouldOrderListRefreshAction(true))
 	}
 
@@ -272,6 +272,7 @@ const mapStateToProps = (state) => {
 	const { app } = state;
 	return {
 		user: app.get('user'),
+		insiteNotice: app.get('insiteNotice'),
 	}
 }
 

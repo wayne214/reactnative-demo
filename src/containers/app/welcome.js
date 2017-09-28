@@ -91,7 +91,7 @@ class WelcomeContainer extends React.Component {
 		// const { navigator } = this.props;
 		Storage.save('flag', '1');
 		Storage.save('IS_FIRST_FLAG', '1');
-		this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+		this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '', insiteNotice:'123'} })
 		// NativeModules.NativeModule.inited();
 		// this.props.dispatch(getInitStatus());
 		// InteractionManager.runAfterInteractions(() => {
