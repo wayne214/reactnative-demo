@@ -22,6 +22,7 @@
     "clean:android": "code-push deployment clear carrier-android Staging"
   },
   "dependencies": {
+    "@remobile/react-native-marquee": "^1.0.1",
     "apsl-react-native-button": "^3.1.0",
     "coordtransform": "^2.1.2",
     "jcore-react-native": "^1.1.8-beta2",
