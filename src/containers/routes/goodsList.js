@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
   Image,
+  Platform,
   Dimensions,
   InteractionManager
 } from 'react-native';
@@ -28,6 +29,7 @@ import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 import Marquee from '../../components/common/marquee';
+import TabView from '../../components/common/tabView';
 let startTime = 0
 
 class GoodsList extends Component {
@@ -42,15 +44,14 @@ class GoodsList extends Component {
       marginLeft:0,
       activeTab: 0,
       searchAddressInfo: null,
+      currentTab: 0,
+      stop: false,
     }
+    this._changeTab = this._changeTab.bind(this);
     this._refreshList = this._refreshList.bind(this)
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ start: true })
-      console.log('=============')
-    }, 5000)
     InteractionManager.runAfterInteractions(() => {
       this._refreshList()
     })
@@ -64,8 +65,34 @@ class GoodsList extends Component {
       companyId: user.userId,
       pageNo: 1,
       ...searchAddressInfo
-    },user)
+    },user, () => {
+      this.setState({ start: true })
+    })
   }
+
+  _changeTab(index) {
+    this.setState({ start: false })
+    const { user } = this.props
+    this.setState({ currentTab: index });
+    let obj ={ i: index, from: index === 0 ? 1 : 0}
+    console.log(obj)
+    if (obj.i == obj.from) {return}
+    this.setState({
+      activeTab: obj.i
+    })
+    const param = this.state.searchAddressInfo || {}
+    param.type = obj.i
+    param.companyId = user.userId
+    param.pageNo = 1
+    if (user.certificationStatus == 2 && user.carrierType == 2 && obj.i == 1) {
+      return
+    };
+    InteractionManager.runAfterInteractions(()=>{
+      this.props._getNormalGoodsList(param,user, () => {
+        this.setState({ start: true })
+      })
+    })
+	}
 
   render() {
     const {
@@ -135,13 +162,31 @@ class GoodsList extends Component {
               }}/>
         }
         {
-          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') &&
+          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') ?
             <Marquee
               speed={50}
-              text={ '111111111111111我的你的大驾的哈哈哈哈我我哦我我 坎坎坷坷顶顶顶顶哈哈哈哈；；；；；加加加' }
+              text={ insiteNotice }
               textStyle={{ fontSize: 14, color: 'red' }} />
+          :
+            null
         }
 
+        {
+          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') ?
+            <View style={styles.rollContainer}>
+              <View style={styles.closeButton}>
+                <View style={ {backgroundColor: '#FFF8EE',height:36, width:39,justifyContent: 'center',alignItems: 'center', }}>
+                  <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
+                    this.props.dispatch(receiveInSiteNotice())
+                  }}>&#xe638;</Text>
+                </View>
+              </View>
+              <View style={styles.leftButton}>
+                <Text onPress={ () => this.props.dispatch(receiveInSiteNotice()) } style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+              </View>
+            </View>
+          : null
+        }
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
@@ -156,132 +201,105 @@ class GoodsList extends Component {
               }}/>
             : null
           }
-          <ScrollableTabView
-            style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
-            renderTabBar={() =>
-              <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
-                tabStyle={{paddingBottom: 2}}/>
-            }
-            onChangeTab={(obj)=>{
-              if (obj.i == obj.from) {return}
-              this.setState({
-                activeTab: obj.i
-              })
-              const param = searchAddressInfo || {}
-              param.type = obj.i
-              param.companyId = user.userId
-              param.pageNo = 1
-              if (user.certificationStatus == 2 && user.carrierType == 2 && obj.i == 1) {
-                return
-              };
-              InteractionManager.runAfterInteractions(()=>{
-                _getNormalGoodsList(param,user)
-              })
 
+          <TabView
+  					tabs={ ['普通货源市场', '优质货源市场'] }
+  					currentTab = {this.state.currentTab}
+  					changeTab={ (index) => this._changeTab(index) }/>
 
-            }}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 90,marginLeft:(width*0.5-90)*0.5 }}
-            tabBarActiveTextColor={COLOR.APP_THEME}
-            tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
-            tabBarTextStyle={{fontSize:15}}>
-            <NormalRoutes
-              type='goodsSource'
-              tabLabel="普通货源市场"
-              dataSource={goodsSource}
-              dispatch={dispatch}
-              refreshList={this._refreshList}
-              grabOrderAction={(itemData)=>{
-                if (user.certificationStatus != 2) {
-                  Toast.show('您的账号未认证不能进行抢单操作！')
-                  return
-                }
-                if (user.carrierType == 2 && user.certificationStatus == 2 && itemData.entrustType == 1) {
-                  // 已认证的个体用户 且 当前选择的货源是自营货源
-                  Toast.show('个体用户不能参与自营货源的抢单操作')
-                  return
-                };
-                itemData.refreshCallBack = ()=>{
-                  this.props._getNormalGoodsList({
-                    type: 0,
-                    companyId: user.userId,
-                    pageNo: 1
-                  },user)
-                }
-                this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
-                  if (resourceState == 5) {
-                    this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_PRE_ORDER,
-                      params: itemData
-                    })
-                    // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
-                  }else{
-                    Toast.show('委托已取消或关闭，不能再抢单')
+          {
+            this.state.currentTab === 0 ?
+              <NormalRoutes
+                type='goodsSource'
+                tabLabel="普通货源市场"
+                dataSource={goodsSource}
+                dispatch={dispatch}
+                refreshList={this._refreshList}
+                grabOrderAction={(itemData)=>{
+                  if (user.certificationStatus != 2) {
+                    Toast.show('您的账号未认证不能进行抢单操作！')
+                    return
                   }
-                })
-              }}
-              loadMoreAction={()=>{
-                const param = searchAddressInfo || {}
-                param.type = 0
-                param.companyId = user.userId
-                param.pageNo = parseInt(goodsSource.get('pageNo')) + 1,
-                _getNormalGoodsList(param,user)
-              }}/>
-            {
-              user.certificationStatus == 2 && user.carrierType == 2 ?
-                <View tabLabel="优质货源市场" style={{flex: 1}}>
-                  <View style={{justifyContent: 'center'}}>
-                    <View style={styles.limitView}>
-                      <Image source={driver_limit}/>
-                      <Text style={styles.limitText}>由于您登录的为个体账号，无权限访问该页面</Text>
-                      <Text style={styles.limitText}>请使用公司账号进行访问操作</Text>
-                      <Text style={styles.limitText}>给您带来不便请谅解</Text>
-                    </View>
-                  </View>
-                </View>
-              :
-                <NormalRoutes
-                  type='betterGoodsSource'
-                  tabLabel="优质货源市场"
-                  dispatch={dispatch}
-                  dataSource={betterGoodsSource}
-                  refreshList={this._refreshList}
-                  endCounttingCallBack={(id)=>{
-                    console.log(" ===== itemData.resourceId",id);
-                    this.props._endCountCallBack(id)
-                  }}
-                  biddingAction={(itemData)=>{
-                    if (user.certificationStatus != 2) {
-                      Toast.show('您的账号未认证不能进行报价操作！')
-                      return
+                  if (user.carrierType == 2 && user.certificationStatus == 2 && itemData.entrustType == 1) {
+                    // 已认证的个体用户 且 当前选择的货源是自营货源
+                    Toast.show('个体用户不能参与自营货源的抢单操作')
+                    return
+                  };
+                  itemData.refreshCallBack = ()=>{
+                    this.props._getNormalGoodsList({
+                      type: 0,
+                      companyId: user.userId,
+                      pageNo: 1
+                    },user)
+                  }
+                  this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
+                    if (resourceState == 5) {
+                      this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_PRE_ORDER,
+                        params: itemData
+                      })
+                      // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
+                    }else{
+                      Toast.show('委托已取消或关闭，不能再抢单')
                     }
-                    itemData.refreshCallBack = ()=>{
-                      this.props._getNormalGoodsList({
-                        type: 1,
-                        companyId: user.userId,
-                        pageNo: 1
-                      },user)
+                  })
+                }}
+                loadMoreAction={()=>{
+                  const param = searchAddressInfo || {}
+                  param.type = this.state.currentTab
+                  // param.type = 0
+                  param.companyId = user.userId
+                  param.pageNo = this.state.currentTab === 0 ? parseInt(goodsSource.get('pageNo')) + 1 : parseInt(betterGoodsSource.get('pageNo')) + 1,
+                  _getNormalGoodsList(param,user)
+                }}
+                endCounttingCallBack={(id)=>{
+                  console.log(" ===== itemData.resourceId",id);
+                  this.props._endCountCallBack(id)
+                }}/>
+            :
+              <NormalRoutes
+                type='betterGoodsSource'
+                tabLabel="优质货源市场"
+                dispatch={dispatch}
+                dataSource={betterGoodsSource}
+                refreshList={this._refreshList}
+                endCounttingCallBack={(id)=>{
+                  console.log(" ===== itemData.resourceId",id);
+                  this.props._endCountCallBack(id)
+                }}
+                biddingAction={(itemData)=>{
+                  if (user.certificationStatus != 2) {
+                    Toast.show('您的账号未认证不能进行报价操作！')
+                    return
+                  }
+                  itemData.refreshCallBack = ()=>{
+                    this.props._getNormalGoodsList({
+                      type: 1,
+                      companyId: user.userId,
+                      pageNo: 1
+                    },user)
+                  }
+                  this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
+                    if (resourceState == 2) {
+                      this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_PRE_ORDER,
+                        params: itemData
+                      })
+                      // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
+                    }else{
+                      Toast.show('委托已取消或关闭，不能再报价')
                     }
-                    this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
-                      if (resourceState == 2) {
-                        this.props.navigation.dispatch({
-                          type: RouteType.ROUTE_PRE_ORDER,
-                          params: itemData
-                        })
-                        // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
-                      }else{
-                        Toast.show('委托已取消或关闭，不能再报价')
-                      }
-                    })
-                  }}
-                  loadMoreAction={()=>{
-                    const param = searchAddressInfo || {}
-                    param.type = 1
-                    param.companyId = user.userId
-                    param.pageNo = parseInt(betterGoodsSource.get('pageNo')) + 1,
-                    _getNormalGoodsList(param,user)
-                  }}/>
-            }
-          </ScrollableTabView>
+                  })
+                }}
+                loadMoreAction={()=>{
+                  const param = searchAddressInfo || {}
+                  param.type = 1
+                  param.companyId = user.userId
+                  param.pageNo = parseInt(betterGoodsSource.get('pageNo')) + 1,
+                  _getNormalGoodsList(param,user)
+                }}/>
+          }
+
         </View>
       )
     }else{
@@ -318,14 +336,6 @@ const styles =StyleSheet.create({
     fontSize: 14,
     color: COLOR.TEXT_LIGHT
   },
-  rollContainer:{
-    // height: 36,
-    // width,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF8EE'
-  },
   contentView:{
     flex: 1,
     flexDirection: 'row',
@@ -333,21 +343,33 @@ const styles =StyleSheet.create({
     alignItems: 'center',
     // width: width - 39 * 2,
   },
+  rollContainer:{
+  	position:'absolute',
+  	left:0,
+  	top: Platform.OS === 'ios' ? 64 : 50,
+  	right:0,
+		height: 36,
+		width,
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
   closeButton: {
-    width: 39,
-    height: 36,
-    justifyContent: 'center',
-    alignItems:'center',
-    backgroundColor: '#FFF8EE'
-  },
+		flex: 1,
+		width: 39,
+		height: 36,
+		justifyContent: 'center',
+		alignItems:'flex-end',
+	},
   leftButton:{
-    position: 'absolute',
-    // width: 39,
-    // height: 36,
-    backgroundColor: '#FFF8EE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
+		flex: 1,
+		position: 'absolute',
+		left: 0,
+		width: 39,
+		height: 36,
+		backgroundColor: '#FFF8EE',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}
 })
 
 const mapStateToProps = (state) => {
@@ -366,7 +388,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    _getNormalGoodsList: (params,user)=>{
+    _getNormalGoodsList: (params,user, cb)=>{
       startTime = new Date().getTime();
       //3 抢单（普通货源）  2 报价（优质货源）
       if (params.type == 0) {
@@ -394,7 +416,7 @@ const mapDispatchToProps = (dispatch) => {
           data.goodsType = params.modeState
           dispatch(receiveGoodsList(data))
 
-
+          cb()
         }
       }))
     },
@@ -424,3 +446,159 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoodsList);
+
+          //
+          // <ScrollableTabView
+          //   style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
+          //   renderTabBar={() =>
+          //     <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
+          //       tabStyle={{paddingBottom: 2}}/>
+          //   }
+          //   onChangeTab={(obj)=>{
+          //     console.log(obj)
+          //     if (obj.i == obj.from) {return}
+          //     this.setState({
+          //       activeTab: obj.i
+          //     })
+          //     const param = searchAddressInfo || {}
+          //     param.type = obj.i
+          //     param.companyId = user.userId
+          //     param.pageNo = 1
+          //     if (user.certificationStatus == 2 && user.carrierType == 2 && obj.i == 1) {
+          //       return
+          //     };
+          //     InteractionManager.runAfterInteractions(()=>{
+          //       _getNormalGoodsList(param,user)
+          //     })
+          //
+          //
+          //   }}
+          //   tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 90,marginLeft:(width*0.5-90)*0.5 }}
+          //   tabBarActiveTextColor={COLOR.APP_THEME}
+          //   tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
+          //   tabBarTextStyle={{fontSize:15}}>
+          //
+          //   <NormalRoutes
+          //     type='goodsSource'
+          //     tabLabel="普通货源市场"
+          //     dataSource={goodsSource}
+          //     dispatch={dispatch}
+          //     refreshList={this._refreshList}
+          //     grabOrderAction={(itemData)=>{
+          //       if (user.certificationStatus != 2) {
+          //         Toast.show('您的账号未认证不能进行抢单操作！')
+          //         return
+          //       }
+          //       if (user.carrierType == 2 && user.certificationStatus == 2 && itemData.entrustType == 1) {
+          //         // 已认证的个体用户 且 当前选择的货源是自营货源
+          //         Toast.show('个体用户不能参与自营货源的抢单操作')
+          //         return
+          //       };
+          //       itemData.refreshCallBack = ()=>{
+          //         this.props._getNormalGoodsList({
+          //           type: 0,
+          //           companyId: user.userId,
+          //           pageNo: 1
+          //         },user)
+          //       }
+          //       this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
+          //         if (resourceState == 5) {
+          //           this.props.navigation.dispatch({
+          //             type: RouteType.ROUTE_PRE_ORDER,
+          //             params: itemData
+          //           })
+          //           // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
+          //         }else{
+          //           Toast.show('委托已取消或关闭，不能再抢单')
+          //         }
+          //       })
+          //     }}
+          //     loadMoreAction={()=>{
+          //       const param = searchAddressInfo || {}
+          //       param.type = 0
+          //       param.companyId = user.userId
+          //       param.pageNo = parseInt(goodsSource.get('pageNo')) + 1,
+          //       _getNormalGoodsList(param,user)
+          //     }}
+          //     biddingAction={(itemData)=>{
+          //       if (user.certificationStatus != 2) {
+          //         Toast.show('您的账号未认证不能进行报价操作！')
+          //         return
+          //       }
+          //       itemData.refreshCallBack = ()=>{
+          //         this.props._getNormalGoodsList({
+          //           type: 1,
+          //           companyId: user.userId,
+          //           pageNo: 1
+          //         },user)
+          //       }
+          //       this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
+          //         if (resourceState == 2) {
+          //           this.props.navigation.dispatch({
+          //             type: RouteType.ROUTE_PRE_ORDER,
+          //             params: itemData
+          //           })
+          //           // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
+          //         }else{
+          //           Toast.show('委托已取消或关闭，不能再报价')
+          //         }
+          //       })
+          //     }}
+          //     />
+          //
+          //   {
+          //     user.certificationStatus == 2 && user.carrierType == 2 ?
+          //       <View tabLabel="优质货源市场" style={{flex: 1}}>
+          //         <View style={{justifyContent: 'center'}}>
+          //           <View style={styles.limitView}>
+          //             <Image source={driver_limit}/>
+          //             <Text style={styles.limitText}>由于您登录的为个体账号，无权限访问该页面</Text>
+          //             <Text style={styles.limitText}>请使用公司账号进行访问操作</Text>
+          //             <Text style={styles.limitText}>给您带来不便请谅解</Text>
+          //           </View>
+          //         </View>
+          //       </View>
+          //     :
+          //       <NormalRoutes
+          //         type='betterGoodsSource'
+          //         tabLabel="优质货源市场"
+          //         dispatch={dispatch}
+          //         dataSource={betterGoodsSource}
+          //         refreshList={this._refreshList}
+          //         endCounttingCallBack={(id)=>{
+          //           console.log(" ===== itemData.resourceId",id);
+          //           this.props._endCountCallBack(id)
+          //         }}
+          //         biddingAction={(itemData)=>{
+          //           if (user.certificationStatus != 2) {
+          //             Toast.show('您的账号未认证不能进行报价操作！')
+          //             return
+          //           }
+          //           itemData.refreshCallBack = ()=>{
+          //             this.props._getNormalGoodsList({
+          //               type: 1,
+          //               companyId: user.userId,
+          //               pageNo: 1
+          //             },user)
+          //           }
+          //           this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
+          //             if (resourceState == 2) {
+          //               this.props.navigation.dispatch({
+          //                 type: RouteType.ROUTE_PRE_ORDER,
+          //                 params: itemData
+          //               })
+          //               // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
+          //             }else{
+          //               Toast.show('委托已取消或关闭，不能再报价')
+          //             }
+          //           })
+          //         }}
+          //         loadMoreAction={()=>{
+          //           const param = searchAddressInfo || {}
+          //           param.type = 1
+          //           param.companyId = user.userId
+          //           param.pageNo = parseInt(betterGoodsSource.get('pageNo')) + 1,
+          //           _getNormalGoodsList(param,user)
+          //         }}/>
+          //   }
+          // </ScrollableTabView>

@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { View, Animated, Easing, Text, InteractionManager } from 'react-native';
 
 export default class MarqueeLabel extends Component {
+
+  constructor(props) {
+    super(props)
+    this.stop = this.stop.bind(this)
+  }
+  
   state = {
     textWidth: 0,
     textHeight: 0,
@@ -23,6 +29,12 @@ export default class MarqueeLabel extends Component {
     if (this.state.animation !== null) {
       this.state.animation.stop()
     }
+  }
+
+  stop() {
+    InteractionManager.runAfterInteractions(() => {
+      this.state.animation.stop()
+    })
   }
 
   componentWillReceiveProps(nextProps) {

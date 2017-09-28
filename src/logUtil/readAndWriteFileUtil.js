@@ -9,8 +9,8 @@ import Storage from '../utils/storage';
 
 // const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 const path = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/logger.txt' : RNFS.DocumentDirectoryPath + '/logger.txt'; // 文件路径
-const destPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/loggertoupload.txt' : RNFS.DocumentDirectoryPath + '/abc/loggertoupload.txt'; // 文件路径
-const floderPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/loggertoupload.txt' : RNFS.DocumentDirectoryPath + '/abc'
+const destPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/logger.txt' : RNFS.DocumentDirectoryPath + '/abc/logger.txt'; // 文件路径
+const floderPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/logger.txt' : RNFS.DocumentDirectoryPath + '/abc'
 
 const platForm = Platform.OS === 'ios' ? 'IOS' : 'Android';
 const deviceModels = DeviceInfo.getModel();
@@ -44,33 +44,37 @@ class readAndWriteFileUtil {
      * deviceModel: 设备型号
      * page: 页面信息
      * */
-    writeFile(pageName, action, phoneNum, userId, userName, useTime) {
-        console.log(" ==== global ??? ",global.locationData);
+    writeFile(pageName, action='定位', phoneNum, userId, userName, useTime) {
         const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         const locationData = global.locationData || {}
-        var content={
-            action,
-            lat: locationData.latitude || 0,
-            lng: locationData.longitude || 0,
-            phoneNum,
-            time: currentData,
-            useTime,
-            userId,
-            userName,
-            app: appName,
-            platform: platForm,
-            deviceModel : deviceModels,
-            page : pageName,
-            version : version
-        };
-        var jsonarr = JSON.stringify(content);
-        RNFS.writeFile(path, jsonarr + '\n', 'utf8')
-            .then((success) => {
-                console.log('FILE WRITTEN!');
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+        Storage.get('user').then((user) => {
+            if (user) {
+                var content={
+                    action,
+                    lat: locationData.latitude || 0,
+                    lng: locationData.longitude || 0,
+                    phoneNum: phoneNum || user.phoneNumber,
+                    time: currentData,
+                    useTime,
+                    userId: userId || user.userId,
+                    userName: userName || user.companyName,
+                    app: appName,
+                    platform: platForm,
+                    deviceModel : deviceModels,
+                    page : pageName,
+                    version : version
+                };
+                var jsonarr = JSON.stringify(content);
+                RNFS.writeFile(path, jsonarr + '\n', 'utf8')
+                    .then((success) => {
+                        console.log('FILE WRITTEN!');
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    });
+            }
+        })
+
     }
     // 向文件中添加内容
     appendFile(pageName, action, useTime) {
@@ -149,13 +153,18 @@ class readAndWriteFileUtil {
     }
     // 删除文件
     deleteFile() {
-        RNFS.unlink(destPath)
-            .then(() => {
-                console.log('FILE DELETED SUCCESS');
-            })
-            .catch((err) => {
-                console.log('FILE DELETE FAILED',err.message);
-            });
+        // RNFS.exists(destPath).then((exists)=>{
+        //     if (exists) {
+                RNFS.unlink(destPath)
+                    .then(() => {
+                        console.log('FILE DELETED SUCCESS');
+                    })
+                    .catch((err) => {
+                        console.log('FILE DELETE FAILED',err.message);
+                    });
+        //     };
+        // })
+
     }
     // 复制文件
     copyFile(successCallback) {
@@ -199,7 +208,7 @@ class readAndWriteFileUtil {
             });
     }
     /*创建目录*/
-    mkDir() {
+    mkDir(successCallBack) {
         const options = {
             NSURLIsExcludedFromBackupKey: true, // iOS only
         };
@@ -207,7 +216,7 @@ class readAndWriteFileUtil {
         return RNFS.mkdir(floderPath, options)
             .then((res) => {
                 console.log('创建日志目录');
-
+                successCallBack && successCallBack()
             }).catch((err) => {
                 console.log('err----', err);
             });

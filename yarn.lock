@@ -4,7 +4,11 @@
 
 "@remobile/react-native-marquee@^1.0.1":
   version "1.0.1"
+<<<<<<< HEAD
   resolved "http://registry.npm.taobao.org/@remobile/react-native-marquee/download/@remobile/react-native-marquee-1.0.1.tgz#6b58fa5914d2aa5ab1b5626b2d9ac2c681317515"
+=======
+  resolved "https://registry.yarnpkg.com/@remobile/react-native-marquee/-/react-native-marquee-1.0.1.tgz#6b58fa5914d2aa5ab1b5626b2d9ac2c681317515"
+>>>>>>> 3a3672c8e7bb4d444deb60e6526632fffec76110
 
 abab@^1.0.3:
   version "1.0.3"

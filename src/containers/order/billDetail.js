@@ -42,12 +42,10 @@ class BillDetail extends BaseComponent {
 		const { clearDetail } = this.props
 		return (
 			<View style={styles.container}>
-				{
-					clearDetail ?
-						<ScrollView>
-							<View style={styles.itemView}>
-								<Text style={styles.itemName}>订单编号</Text>
-								<TouchableOpacity activeOpacity={0.8} onPress={()=>{
+			{
+				/**
+				 * <TouchableOpacity activeOpacity={0.8} onPress={()=>{
+
 									if (this.props.router.getLastCurrentRouteKey() == 'ORDER_DETAIL_PAGE') {
 										this.props.router.pop()
 									}else{
@@ -59,6 +57,14 @@ class BillDetail extends BaseComponent {
 										<Text style={{fontFamily: 'iconfont',color: COLOR.TEXT_LIGHT}}>&#xe60d;</Text>
 									</View>
 								</TouchableOpacity>
+				 */
+			}
+				{
+					clearDetail ?
+						<ScrollView>
+							<View style={styles.itemView}>
+								<Text style={styles.itemName}>订单编号</Text>
+								<Text style={{color: COLOR.TEXT_BLACK}}>{clearDetail.orderNo}</Text>
 							</View>
 							<View style={styles.itemView}>
 								<Text style={styles.itemName}>运单编号</Text>
