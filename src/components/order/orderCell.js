@@ -450,7 +450,7 @@ class OrderCell extends Component{
 														</View>
 													</View>
 												)
-											}else if (rowData.orderState == 12) {// case 12: '已完成'
+											}else if (rowData.orderState == 12 || rowData.orderState == 17) {// case 12: '已完成'
 												return (
 													<View style={styles.buttonView}>
 														<View style={styles.buttonViewInside}>
