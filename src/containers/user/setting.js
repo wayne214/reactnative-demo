@@ -81,7 +81,7 @@ class SettingContainer extends BaseComponent {
 			'确定退出吗',
 			[
 				{ text: '稍后', onPress: () => {
-					if (DEBUG) this._logoutAction();
+					// if (DEBUG) this._logoutAction();
 				}, style: 'cancel' },
 				{ text: '退出', onPress: () => {
 					this.setState({

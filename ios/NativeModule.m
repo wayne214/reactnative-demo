@@ -8,6 +8,7 @@
 
 #import "NativeModule.h"
 #import "AppDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
 #import <React/RCTEventDispatcher.h>
 
@@ -43,11 +44,16 @@ RCT_EXPORT_METHOD(toAppStore)
 RCT_EXPORT_METHOD(RNSendMsgToNative)
 {
     dispatch_sync(dispatch_get_main_queue(), ^{
-      [NSTimer scheduledTimerWithTimeInterval: 60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
-    });  
+//      if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+//
+//      }else{
+        [NSTimer scheduledTimerWithTimeInterval: 60 target:self selector:@selector(sendParamsToRN) userInfo:nil repeats:YES];
+//      }
+    });
 }
 - (void)sendParamsToRN{
   [self.bridge.eventDispatcher sendAppEventWithName:@"nativeSendMsgToRN" body:@{@"msg":@"123"}];
 }
+
 @end
 

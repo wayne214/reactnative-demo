@@ -20,6 +20,7 @@ import * as API from '../../constants/api'
 import {fetchData, changeTab, appendLogToFile} from '../../action/app'
 import {changeOrderTopTab} from '../../action/order.js'
 import {changeOrderToStateWithOrderNo,shouldOrderListRefreshAction} from '../../action/order'
+import Toast from '../../utils/toast.js'
 import BaseComponent from '../../components/common/baseComponent.js'
 let startTime = 0
 class ApplyCoordination extends BaseComponent {
@@ -182,6 +183,7 @@ class ApplyCoordination extends BaseComponent {
 									console.log("------ 提交申请",params);
 									this.props._submitApplication(params,()=>{
 										this.props.navigation.dispatch(changeOrderTopTab(0,0))
+										Toast.show('协调申请提交成功')
 										setTimeout(()=>{
 											this.props.navigation.dispatch({mode: 'reset',type: 'Main',params: {currentTab: 'order',insiteNotice: this.props.insiteNotice}})
 										}, 500);
@@ -272,7 +274,6 @@ const mapDispatchToProps = (dispatch) => {
 				body: params,
 				showLoading: true,
 				success: (data)=>{
-					Toast.show('协调申请提交成功')
 					dispatch(appendLogToFile('申请协调','订单申请协调',startTime))
 					if (successCallBack) {successCallBack()};
 					// dispatch(changeOrderToStateWithOrderNo(8,params.orderNo,'orderToDelivery'))
