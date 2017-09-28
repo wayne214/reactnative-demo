@@ -27,9 +27,9 @@
   [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
   
   // 测试环境
-   UMConfigInstance.appKey = @"599a68ef45297d108e001673";
+//   UMConfigInstance.appKey = @"599a68ef45297d108e001673";
   //生产环境
-//  UMConfigInstance.appKey = @"599a79aa5312dd5e3700003b";
+  UMConfigInstance.appKey = @"599a79aa5312dd5e3700003b";
   [MobClick startWithConfigure:UMConfigInstance];
   
   if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
