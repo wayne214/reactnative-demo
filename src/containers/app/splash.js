@@ -25,7 +25,7 @@ class Splash extends Component {
 
 	async componentDidMount() {
 		this.props.getInitStateFromDB();
-		NativeModules.NativeModule.RNSendMsgToNative();
+		if (Platform.OS === 'ios') NativeModules.NativeModule.RNSendMsgToNative();
 		this.timer = setTimeout(() => {
 			SplashScreen.hide()
 		}, Platform.OS === 'ios' ? 500 : 2000)
