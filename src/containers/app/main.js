@@ -126,13 +126,11 @@ class MainContainer extends BaseComponent {
      */
     if (Platform.OS === 'ios' && NativeModules.NativeModule.IOS_OS_VERSION < 10) {
       JPushModule.addReceiveNotificationListener((map) => {
-        const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
-        if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
-          /**
-           * 如果当前在消息列表 肯定已经登录 直接刷新
-           */
-          this._pushToMessageList(map.messsageType || map.messageType)
-        }else{
+        console.log(" === push ", map);
+
+        if (this.state.appState == 'background') {
+            this._pushToMessageList(map.messsageType || map.messageType)
+        }else if(this.state.appState == 'active') {
           const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
           // 不在消息列表 alert 提醒
           Alert.alert('温馨提示',alertTitle,[
@@ -148,6 +146,28 @@ class MainContainer extends BaseComponent {
             }
           ])
         }
+        // const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
+        // if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
+        //   /**
+        //    * 如果当前在消息列表 肯定已经登录 直接刷新
+        //    */
+        //   this._pushToMessageList(map.messsageType || map.messageType)
+        // }else{
+        //   const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
+        //   // 不在消息列表 alert 提醒
+        //   Alert.alert('温馨提示',alertTitle,[
+        //     {
+        //       text: '忽略',
+        //       onPress:()=>{}
+        //     },
+        //     {
+        //       text: '查看',
+        //       onPress:()=>{
+        //         this._pushToMessageList(map.messsageType || map.messageType)
+        //       }
+        //     }
+        //   ])
+        // }
         console.log(" ===== addReceiveNotificationListener ",map);
       });
     };
