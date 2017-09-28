@@ -118,7 +118,7 @@ class MainContainer extends BaseComponent {
    * @param {Function} cb = (notification) => {}
    */
     JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
-      console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
+      // console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
       // Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{}}])
     })
 
@@ -128,7 +128,7 @@ class MainContainer extends BaseComponent {
      */
     if (Platform.OS === 'ios' && NativeModules.NativeModule.IOS_OS_VERSION < 10) {
       JPushModule.addReceiveNotificationListener((map) => {
-        console.log(" === push ", map);
+        // console.log(" === push ", map);
 
         if (this.state.appState == 'background') {
             this._pushToMessageList(map.messsageType || map.messageType)
@@ -170,7 +170,7 @@ class MainContainer extends BaseComponent {
         //     }
         //   ])
         // }
-        console.log(" ===== addReceiveNotificationListener ",map);
+        // console.log(" ===== addReceiveNotificationListener ",map);
       });
     };
 
@@ -178,14 +178,14 @@ class MainContainer extends BaseComponent {
     if (Platform.OS === 'ios') {
       // 每次启动后清空角标
       JPushModule.setBadge(0, (success) => {
-        console.log(success)
+        // console.log(success)
       });
     } else {
       JPushModule.addReceiveCustomMsgListener((message) => {
-        console.log("收到 android 自定义消息 ",message);
+        // console.log("收到 android 自定义消息 ",message);
       });
       JPushModule.addReceiveNotificationListener((message) => {
-        console.log("收到 Android 通知: ",message);
+        // console.log("收到 Android 通知: ",message);
       })
       JPushModule.addReceiveOpenNotificationListener((message) => {
 		    // console.log("Android 点击通知 触发", message);
@@ -202,7 +202,7 @@ class MainContainer extends BaseComponent {
     // 点击通知后，将会触发此事件
     if (Platform.OS === 'ios') {
       JPushModule.addReceiveOpenNotificationListener((message) => {
-        console.log("点击通知 触发", message);
+        // console.log("点击通知 触发", message);
         this._pushToMessageList(message.messsageType || message.messageType)
       });
     }
@@ -210,7 +210,7 @@ class MainContainer extends BaseComponent {
     // if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
 
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-      console.log(" ==== 定时任务 ");
+      // console.log(" ==== 定时任务 ");
       this._getCurrentPosition();
     })
 
@@ -223,7 +223,7 @@ class MainContainer extends BaseComponent {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
     }, fail => {
-      console.log('-------fail:', fail)
+      // console.log('-------fail:', fail)
     }, {
       timeout: 10 * 1000,
       maximumAge: 60 * 1000,
@@ -235,7 +235,7 @@ class MainContainer extends BaseComponent {
     // console.log(" -- main getcurrent this",this);
     const {user} = this.props
     if (!(user && user.userId)) {
-      console.log("   用户未登录 不提交日志 ");
+      // console.log("   用户未登录 不提交日志 ");
       return
     }
     Geolocation.getCurrentPosition(location => {
@@ -244,7 +244,7 @@ class MainContainer extends BaseComponent {
         console.log("定位信息",global.locationData);
       TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
-      console.log('-------fail:', fail)
+      // console.log('-------fail:', fail)
     }, {
       timeout: 10 * 1000,
       maximumAge: 60 * 1000,
@@ -253,7 +253,7 @@ class MainContainer extends BaseComponent {
   }
   _handleAppStateChange(appState) {
     const previousAppStates = this.state.appState
-    console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
+    // console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
     this.setState({
       appState,
       previousAppStates,
@@ -275,9 +275,9 @@ class MainContainer extends BaseComponent {
       return;
     };
 
-    console.log(" ----- ",this.props.nav);
+    // console.log(" ----- ",this.props.nav);
     const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
-    console.log(" ----currentRoute- ",currentRoute);
+    // console.log(" ----currentRoute- ",currentRoute);
     // Toast.show('currentRoute', currentRoute)
     if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
       this.props.dispatch(dispatchRefreshMessageList())
@@ -293,7 +293,7 @@ class MainContainer extends BaseComponent {
     this.timer && clearTimeout(this.timer)
 
     this.uploadLoglistener && this.uploadLoglistener.remove()
-    console.log(" === = remove linster",this.uploadLoglistener);
+    // console.log(" === = remove linster",this.uploadLoglistener);
 
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
@@ -301,13 +301,13 @@ class MainContainer extends BaseComponent {
       JPushModule.removeReceiveNotificationListener();
     }else{
       JPushModule.removeReceiveOpenNotificationListener(()=>{
-        console.log(" ==== 移除 点击推送事件 监听 ");
+        // console.log(" ==== 移除 点击推送事件 监听 ");
       });
       JPushModule.removeOpenNotificationLaunchAppEventListener(()=>{
-        console.log(" === 移除启动 launch监听");
+        // console.log(" === 移除启动 launch监听");
       })
       JPushModule.removeReceiveNotificationListener(()=>{
-        console.log(" === 移除 接收推送事件 的监听");
+        // console.log(" === 移除 接收推送事件 的监听");
       })
     }
   }
