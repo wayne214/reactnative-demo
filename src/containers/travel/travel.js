@@ -116,7 +116,7 @@ class HomeContainer extends BaseComponent {
 
   render() {
     const { user, travelDetail, carPayLoad, navigation } = this.props;
-
+    console.log('0----------======== ', this.props.nav)
     return (
       <View style={ styles.container }>
 
@@ -288,8 +288,9 @@ class HomeContainer extends BaseComponent {
 }
 
 const mapStateToProps = state => {
-  const { app, travel } = state;
+  const { app, travel, nav } = state;
   return {
+    nav,
     user: app.get('user'),
     loading: app.get('loading'),
     loadingPage: app.get('loadingPage'),
