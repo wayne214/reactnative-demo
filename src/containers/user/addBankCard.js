@@ -40,7 +40,7 @@ class AddBankCardContainer extends BaseComponent{
 
 	componentDidMount() {
 		super.componentDidMount();
-    console.log('lqq----componentDidMount---');
+    // console.log('lqq----componentDidMount---');
 		if(this.id && this.id !== -1){
 			this.props.getBankCardById({
 				carrierId: this.props.user.userId,
@@ -65,7 +65,7 @@ class AddBankCardContainer extends BaseComponent{
 	componentWillReceiveProps(props) {
     const { bankCardDetail } = props;
     if (bankCardDetail && this.state.isLoad) {
-    	console.log('lqq----componentWillReceiveProps---');
+    	// console.log('lqq----componentWillReceiveProps---');
       this.setState({
       	isLoad: false,
       	bankName: bankCardDetail.bankName,
