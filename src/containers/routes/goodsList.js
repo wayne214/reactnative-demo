@@ -7,7 +7,6 @@ import {
   Text,
   StyleSheet,
   Image,
-  Platform,
   Dimensions,
   InteractionManager
 } from 'react-native';
@@ -28,27 +27,19 @@ import { resetADFlag } from '../../action/app'
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
-import Marquee from '../../components/common/marquee';
-import TabView from '../../components/common/tabView';
 let startTime = 0
 
 class GoodsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      start: false,
       activeTab: 0,
       searchAddressInfo: null,
-      currentTab: 0,
-      stop: false,
     }
     this._refreshList = this._refreshList.bind(this)
   }
-
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      this._refreshList()
-    })
+    this._refreshList()
   }
 
   _refreshList(){
@@ -60,6 +51,11 @@ class GoodsList extends Component {
       pageNo: 1,
       ...searchAddressInfo
     },user)
+  }
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerStyle: {backgroundColor: 'white'},
+    }
   }
 
   render() {
@@ -73,8 +69,6 @@ class GoodsList extends Component {
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
-
-    let flag = (this.props.nav.routes.length === 1 && this.props.nav.routes[this.props.nav.index].routeName === 'Main')
 
     if (user.currentUserRole == 1) {
       return (
@@ -172,7 +166,6 @@ class GoodsList extends Component {
                 tabStyle={{paddingBottom: 2}}/>
             }
             onChangeTab={(obj)=>{
-              console.log(obj)
               if (obj.i == obj.from) {return}
               this.setState({
                 activeTab: obj.i
@@ -236,33 +229,7 @@ class GoodsList extends Component {
                 param.companyId = user.userId
                 param.pageNo = parseInt(goodsSource.get('pageNo')) + 1,
                 _getNormalGoodsList(param,user)
-              }}
-              biddingAction={(itemData)=>{
-                if (user.certificationStatus != 2) {
-                  Toast.show('您的账号未认证不能进行报价操作！')
-                  return
-                }
-                itemData.refreshCallBack = ()=>{
-                  this.props._getNormalGoodsList({
-                    type: 1,
-                    companyId: user.userId,
-                    pageNo: 1
-                  },user)
-                }
-                this.props._getResourceDetail(itemData.resourceId,user.userId,(resourceState)=>{
-                  if (resourceState == 2) {
-                    this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_PRE_ORDER,
-                      params: itemData
-                    })
-                    // this.props.router.push(RouteType.ROUTE_PRE_ORDER,itemData)
-                  }else{
-                    Toast.show('委托已取消或关闭，不能再报价')
-                  }
-                })
-              }}
-              />
-
+              }}/>
             {
               user.certificationStatus == 2 && user.carrierType == 2 ?
                 <View tabLabel="优质货源市场" style={{flex: 1}}>
@@ -319,8 +286,6 @@ class GoodsList extends Component {
                   }}/>
             }
           </ScrollableTabView>
-
-
         </View>
       )
     }else{
@@ -386,13 +351,10 @@ const styles =StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const {goods,app, nav} = state
+  const {goods,app} = state
   return {
-    nav,
-    showAD: app.get('showAD'),
     insiteNotice: app.get('insiteNotice'),
     user: app.get('user'),
-    currentTab: app.get('currentTab'),
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource')
   }
@@ -457,5 +419,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoodsList);
-
-          //
