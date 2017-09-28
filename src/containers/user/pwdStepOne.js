@@ -92,7 +92,7 @@ class PwdStepOneContainer extends BaseComponent {
 	    header: <NavigatorBar router={ navigation }/>
 	  };
 	};
-	
+
 	render () {
 		const { user } = this.props;
 		let phoneNo;
@@ -205,7 +205,7 @@ function mapDispatchToProps (dispatch) {
 				api: CHECK_SMG_CODE,
 
 				success: () => {
-					navigation.dispatch({type: RouteType.PASSWORD_TWO_PAGE, params:{title: title, phone: body.phoneNumber, verifyCode: body.verifyCode, verifyType: body.verifyType, lastRouteName: lastRouteName, forgetPassword: forgetPassword}});
+					navigation.dispatch({type: RouteType.ROUTE_PASSWORD_TWO_PAGE, params:{title: title, phone: body.phoneNumber, verifyCode: body.verifyCode, verifyType: body.verifyType, lastRouteName: lastRouteName, forgetPassword: forgetPassword}});
 				}
 			}));
 		}

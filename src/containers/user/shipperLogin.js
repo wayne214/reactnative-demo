@@ -187,7 +187,7 @@ class LoginContainer extends BaseComponent {
               <Text onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_CAR_LOGIN,params:{title:'',driverLogin: 'driverLogin'}}) } style={ styles.text }>员工(司机)登录</Text>
             </View>
             <View style={ styles.registerView }>
-              <Text onPress={ () => this.props.navigation.dispatch({type: RouteType.PASSWORD_PAGE, params: {title: '忘记密码', forgetPassword: 'carrierForgetPassword' }}) } style={ styles.text }>忘记密码</Text>
+              <Text onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '忘记密码', forgetPassword: 'carrierForgetPassword' }}) } style={ styles.text }>忘记密码</Text>
             </View>
           </View>
 

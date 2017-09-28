@@ -280,7 +280,7 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  [RouteType.EDIT_ROUNT_PAGE]: {
+  [RouteType.ROUTE_EDIT_ROUNT_PAGE]: {
     screen: EditRouteScreen,
     navigationOptions: {
       // header: null,
@@ -322,14 +322,14 @@ export const AppNavigator = StackNavigator({
       gesturesEnabled: false
     }
   },
-  [RouteType.PASSWORD_PAGE]: {
+  [RouteType.ROUTE_PASSWORD_PAGE]: {
     screen: PwdStepOneScreen,
     navigationOptions: {
       // header: null,
       gesturesEnabled: false
     }
   },
-  [RouteType.PASSWORD_TWO_PAGE]: {
+  [RouteType.ROUTE_PASSWORD_TWO_PAGE]: {
     screen: PwdStepTwoScreen,
     navigationOptions: {
       // header: null,

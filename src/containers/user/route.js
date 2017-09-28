@@ -127,7 +127,7 @@ class RouteContainer extends BaseComponent {
 						underlayColor='#e6eaf2'
 						style={ styles.optView }
 						onPress = { () => {
-							this.props.navigation.dispatch({type: RouteType.EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
+							this.props.navigation.dispatch({type: RouteType.ROUTE_EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
 						<View style={ styles.optView }>
 							<Text style={ styles.iconFontOpt }>&#xe617;</Text>
 							<Text style={ styles.optText }>编辑</Text>

@@ -142,7 +142,7 @@ class UserInfoContainer extends BaseComponent {
 
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.navigation.dispatch({type: RouteType.PASSWORD_PAGE, params: {title: '修改登录密码'}}) }>
+					 onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}}) }>
 					<View style={ styles.cellContainer }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>修改登录密码</Text>
