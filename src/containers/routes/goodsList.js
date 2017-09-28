@@ -175,7 +175,7 @@ class GoodsList extends Component {
           </View>
           : null
         }
-        
+
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
@@ -324,13 +324,6 @@ const styles =StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     color: COLOR.TEXT_LIGHT
-  },
-  contentView:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // width: width - 39 * 2,
   },
   rollContainer:{
     height: 36,
