@@ -37,11 +37,6 @@ class GoodsList extends Component {
     super(props);
     this.state = {
       start: false,
-      width: width,
-      height: 36,
-      btnWidth: 39,
-      left: 0,
-      marginLeft:0,
       activeTab: 0,
       searchAddressInfo: null,
       currentTab: 0,
@@ -162,31 +157,25 @@ class GoodsList extends Component {
               }}/>
         }
         {
-          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') ?
-            <Marquee
-              speed={50}
-              text={ insiteNotice }
-              textStyle={{ fontSize: 14, color: 'red' }} />
-          :
-            null
-        }
-
-        {
-          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') ?
-            <View style={styles.rollContainer}>
-              <View style={styles.closeButton}>
-                <View style={ {backgroundColor: '#FFF8EE',height:36, width:39,justifyContent: 'center',alignItems: 'center', }}>
-                  <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
-                    this.props.dispatch(receiveInSiteNotice())
-                  }}>&#xe638;</Text>
-                </View>
-              </View>
-              <View style={styles.leftButton}>
-                <Text onPress={ () => this.props.dispatch(receiveInSiteNotice()) } style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+          insiteNotice ?
+          <View style={styles.rollContainer}>
+            <View style={styles.leftButton}>
+              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
+            </View>
+            <View style={styles.contentView}>
+              <Text style={{ color:'#FFAC1A', fontSize:14}} numberOfLines={1}>{insiteNotice}</Text>
+            </View>
+            <View style={styles.closeButton}>
+              <View style={ {backgroundColor: '#FFF8EE',height:36, width:39,justifyContent: 'center',alignItems: 'center', }}>
+                <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
+                  this.props.dispatch(receiveInSiteNotice());
+                }}>&#xe638;</Text>
               </View>
             </View>
+          </View>
           : null
         }
+        
           {
             searchAddressInfo ?
               <SearchGoodsFilterView searchAddressInfo={searchAddressInfo} closeAction={()=>{
@@ -344,32 +333,31 @@ const styles =StyleSheet.create({
     // width: width - 39 * 2,
   },
   rollContainer:{
-  	position:'absolute',
-  	left:0,
-  	top: Platform.OS === 'ios' ? 64 : 50,
-  	right:0,
-		height: 36,
-		width,
-		flexDirection: 'row',
-		justifyContent: 'center',
-	},
-  closeButton: {
-		flex: 1,
-		width: 39,
-		height: 36,
-		justifyContent: 'center',
-		alignItems:'flex-end',
-	},
+    height: 36,
+    width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   leftButton:{
-		flex: 1,
-		position: 'absolute',
-		left: 0,
-		width: 39,
-		height: 36,
-		backgroundColor: '#FFF8EE',
-		justifyContent: 'center',
-		alignItems: 'center',
-	}
+    width: 39,
+    height: 36,
+    backgroundColor: '#FFF8EE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentView:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width - 39 * 2,
+    backgroundColor: '#FFF8EE',
+  },
+  closeButton: {
+    width: 39,
+    height: 36,
+    justifyContent: 'center',
+    alignItems:'flex-end',
+  },
 })
 
 const mapStateToProps = (state) => {
