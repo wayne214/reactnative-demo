@@ -25,7 +25,7 @@ let startTime = 0
 class ApplyCoordination extends BaseComponent {
 	constructor(props) {
 	  super(props);
-	  const {params} = this.props.navigation.state //router.getCurrentRoute()
+	  const {params} = this.props.navigation.state
 	  this._callHontLine = this._callHontLine.bind(this)
 	  this.state = {
 	  	orderNo: params.orderNo,
