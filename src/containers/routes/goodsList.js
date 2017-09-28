@@ -347,7 +347,7 @@ const styles =StyleSheet.create({
   },
   contentView:{
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     width: width - 39 * 2,
     backgroundColor: '#FFF8EE',
