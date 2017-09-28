@@ -275,7 +275,7 @@ function mapDispatchToProps(dispatch) {
           user.save();
           dispatch(loadUser(user));
           navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
-          console.log('lqq---user--',user);
+          // console.log('lqq---user--',user);
           dispatch(appendLogToFile('登录','用户登录-承运商登录',startTime))
           startTime = new Date().getTime();
           JPushModule.setAlias(user.userId, () => {

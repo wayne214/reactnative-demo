@@ -519,7 +519,7 @@ class EditCarContainer extends BaseComponent {
 		if(source && !showExampleImage){
 			let temp = [];
 			temp.push(source.uri);
-			console.log('lqq---source.uri--',source.uri);
+			// console.log('lqq---source.uri--',source.uri);
 			enlargeImg=(
 				<TouchableOpacity style = {styles.touchStyle}
 					onPress={()=>{this.setState({shouldShow: true,imagePathes: temp})}}>

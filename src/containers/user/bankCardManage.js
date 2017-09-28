@@ -174,7 +174,7 @@ const mapDispatchToProps = dispatch => {
 				api: QUERY_BANK_CARD_LIST,
 				success: (data) => {
 					dispatch(dispatchBankCardList({ data, pageNo: body.pageNo }));
-					console.log('lqq--',data);
+					// console.log('lqq--',data);
 				}
 			}));
 		},
@@ -187,7 +187,7 @@ const mapDispatchToProps = dispatch => {
 				msg: '删除成功',
 				api: DELETE_BANK_CARD,
 				success: (data) => {
-					console.log('lqq--',data);
+					// console.log('lqq--',data);
 					dispatch(dispatchRefreshBankCard());
 
 				}
