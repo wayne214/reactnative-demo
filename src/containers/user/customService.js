@@ -43,9 +43,9 @@ class CustomServiceContainer extends BaseComponent {
 						<Text style={ styles.fontPhone }>&#xe60f;</Text>
 					</View>
 					<Text style={ styles.phoneText }>400-663-5656</Text>
-				</TouchableOpacity>			
+				</TouchableOpacity>
 
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}

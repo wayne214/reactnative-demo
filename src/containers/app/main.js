@@ -205,14 +205,14 @@ class MainContainer extends BaseComponent {
     }, fail => {
       console.log('-------fail:', fail)
     }, {
-      timeout: 5000,
-      maximumAge: 1000,
+      timeout: 10 * 1000,
+      maximumAge: 60 * 1000,
       enableHighAccuracy: false
     })
   }
 
   _getCurrentPosition(){
-    console.log(" -- main getcurrent this",this);
+    // console.log(" -- main getcurrent this",this);
     const {user} = this.props
     if (!(user && user.userId)) {
       console.log("   用户未登录 不提交日志 ");
@@ -226,8 +226,8 @@ class MainContainer extends BaseComponent {
     }, fail => {
       console.log('-------fail:', fail)
     }, {
-      timeout: 5000,
-      maximumAge: 1000,
+      timeout: 10 * 1000,
+      maximumAge: 60 * 1000,
       enableHighAccuracy: false
     })
   }

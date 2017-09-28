@@ -23,17 +23,18 @@ import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import Toast from 'react-native-root-toast'
 const { height,width } = Dimensions.get('window')
-
+import { resetADFlag } from '../../action/app'
 import * as COLOR from '../../constants/colors'
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
-import Marquee from '@remobile/react-native-marquee';
+import Marquee from '../../components/common/marquee';
 let startTime = 0
 
 class GoodsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      start: false,
       width: width,
       height: 36,
       btnWidth: 39,
@@ -44,8 +45,15 @@ class GoodsList extends Component {
     }
     this._refreshList = this._refreshList.bind(this)
   }
+
   componentDidMount() {
-    this._refreshList()
+    setTimeout(() => {
+      this.setState({ start: true })
+      console.log('=============')
+    }, 5000)
+    InteractionManager.runAfterInteractions(() => {
+      this._refreshList()
+    })
   }
 
   _refreshList(){
@@ -58,21 +66,6 @@ class GoodsList extends Component {
       ...searchAddressInfo
     },user)
   }
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerStyle: {backgroundColor: 'white'},
-    }
-  }
-
-  // { 123line
-  //   insiteNotice ?
-  //     <ScrollAD
-  //       content={insiteNotice}
-  //       closeAction={()=>{
-  //         dispatch(receiveInSiteNotice())
-  //       }}/>
-  //   : null
-  // }
 
   render() {
     const {
@@ -85,6 +78,8 @@ class GoodsList extends Component {
     } = this.props
     const {activeTab,searchAddressInfo} = this.state
     const searchIcon = (user.certificationStatus == 2 && user.carrierType == 2 && activeTab == 1) ? '' : '&#xe610;'
+
+    let flag = (this.props.nav.routes.length === 1 && this.props.nav.routes[this.props.nav.index].routeName === 'Main')
 
     if (user.currentUserRole == 1) {
       return (
@@ -139,24 +134,12 @@ class GoodsList extends Component {
                 this.props.dispatch(appendLogToFile('线路货源','搜索',0))
               }}/>
         }
-
         {
-          <View style={[styles.rollContainer,{width: this.state.width, height: this.state.height}]}>
-            <View style={styles.contentView}>
-              <Marquee style={{width: width - 39}}>
-                { '          ' + insiteNotice  }
-              </Marquee>
-            </View>
-            <View style={[styles.closeButton,{marginLeft: this.state.marginLeft}]}>
-              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}} onPress={()=>{
-                // this.props.dispatch(receiveInSiteNotice(''));
-                this.setState({width:0, height: 0, btnWidth:0, left: -39, marginLeft: -39})
-              }}>&#xe638;</Text>
-            </View>
-            <View style={[styles.leftButton, {width: this.state.btnWidth, height: this.state.height,left: this.state.left}]}>
-              <Text style={{fontFamily: 'iconfont',color: '#FFAC1A'}}>&#xe639;</Text>
-            </View>
-          </View>
+          (this.state.start && flag && insiteNotice && this.props.currentTab === 'goods') &&
+            <Marquee
+              speed={50}
+              text={ '111111111111111我的你的大驾的哈哈哈哈我我哦我我 坎坎坷坷顶顶顶顶哈哈哈哈；；；；；加加加' }
+              textStyle={{ fontSize: 14, color: 'red' }} />
         }
 
           {
@@ -368,10 +351,13 @@ const styles =StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const {goods,app} = state
+  const {goods,app, nav} = state
   return {
+    nav,
+    showAD: app.get('showAD'),
     insiteNotice: app.get('insiteNotice'),
     user: app.get('user'),
+    currentTab: app.get('currentTab'),
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource')
   }

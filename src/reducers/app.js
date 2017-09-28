@@ -3,6 +3,7 @@ import * as ActionTypes from '../constants/actionType';
 import ReadAndWriteFileUtil from '../logUtil/readAndWriteFileUtil.js'
 
 const initState = Immutable.fromJS({
+	showAD: true,
 	currentTab: 'route',
 	loading: false,
 	index: 1,
@@ -180,6 +181,9 @@ export default (state = initState, action) => {
     		// global.locationData.longitude
     	)
     	return newState
+		case ActionTypes.ACTION_RESET_AD:
+			newState = newState.set('showAD', action.payload);
+			return newState;
 		default:
 			return newState;
 	}

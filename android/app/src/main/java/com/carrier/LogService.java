@@ -1,18 +1,10 @@
 package com.carrier;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.support.annotation.IntDef;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.facebook.react.HeadlessJsTaskService;
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.jstasks.HeadlessJsTaskConfig;
+import android.content.Intent;
+
+import android.os.IBinder;
 
 import java.util.Timer;
 import java.util.TimerTask;

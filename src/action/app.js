@@ -195,3 +195,10 @@ export const writeLogToFile = (pageName,action,phoneNumber,userId,userName, star
 		}
 	}
 }
+
+export function resetADFlag(flag) {
+	return {
+		type: ActionTypes.ACTION_RESET_AD,
+		payload: flag
+	}
+}

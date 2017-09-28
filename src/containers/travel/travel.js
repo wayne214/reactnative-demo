@@ -27,6 +27,7 @@ import { fetchData, refreshTravel, appendLogToFile } from '../../action/app';
 import { dispatchDravelList, dispatchDefaultCar, travelInfoDone } from '../../action/travel';
 import Helper from '../../utils/helper';
 import { changeTab } from '../../action/app';
+
 let startTime = 0
 class HomeContainer extends BaseComponent {
 
@@ -118,6 +119,7 @@ class HomeContainer extends BaseComponent {
 
     return (
       <View style={ styles.container }>
+
         {
           user.currentUserRole === 1 ?
             <NavigatorBar
