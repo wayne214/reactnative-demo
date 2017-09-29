@@ -59,7 +59,6 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>App plays audio</string>
 		<string>location</string>
 		<string>remote-notification</string>
 	</array>
