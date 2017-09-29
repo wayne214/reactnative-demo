@@ -143,8 +143,7 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-            buildConfigField "String", "CODEPUSH_KEY", '"mJoOxuPYFFQMYbcePHq7686SniSF118907b3-0f39-4b62-b03d-f9737ab02817"'
-//            buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
+            buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
