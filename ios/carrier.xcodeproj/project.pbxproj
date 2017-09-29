@@ -1112,7 +1112,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = DF7D3DZVHK;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1790,8 +1790,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODEPUSH_KEY = "6E0zBIn7AK7naO9i49cUvZzFyYo1118907b3-0f39-4b62-b03d-f9737ab02817";
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
@@ -1823,8 +1824,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "ea277091-b4eb-4204-bfe3-00f7f7ae59c0";
-				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1834,8 +1835,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
 				ENABLE_BITCODE = NO;
@@ -1866,8 +1868,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "ea277091-b4eb-4204-bfe3-00f7f7ae59c0";
-				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2092,8 +2094,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: xiao chen (4GQ54CCFW2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
 				ENABLE_BITCODE = NO;
@@ -2124,8 +2127,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "4941bb22-bbe1-4076-a027-e1b9f1a53f43";
-				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_adhoc;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging;
