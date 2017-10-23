@@ -24,9 +24,17 @@ const receiveMsgFromNative = (data)=> {
 };
 
 const upLoadLogger = () => {
-    //console.log('10秒钟调用一次');
+    ReadAndWriteFileUtil.isFilePathExists((isExist)=>{
+        if (isExist) {
+            console.log("===  检测到文件存在 先删除");
+            ReadAndWriteFileUtil.deleteFile(uploadAction());
+        }else{
+            uploadAction();
+        }
+    })
+};
+const uploadAction = () => {
     ReadAndWriteFileUtil.mkDir(()=>{
-        ReadAndWriteFileUtil.deleteFile(); // 如果目录存在就删除
         ReadAndWriteFileUtil.copyFile(() => {
             console.log('日志拷贝成功');
             ReadAndWriteFileUtil.writeFile(); // 清空原文件
@@ -60,9 +68,7 @@ const upLoadLogger = () => {
 
         }); // 拷贝文件
     });
-
-
-};
+}
 /* 上传本地的数据到服务器*/
 const uploadDataFromLocalMsg = (data)=>{
     // console.log('接收到数据，即将进行上传操作');

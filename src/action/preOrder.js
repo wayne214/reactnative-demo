@@ -6,3 +6,14 @@ export const receivePreOrderList = (data) => {
 		payload: data
 	}
 }
+
+export const changePreOrderListIsRefreshing = (type, state, refreshing) => {
+	return {
+		type: ActionTypes.ACTION_CHANGE_PRE_ORDER_LIST_REFRESHING,
+		payload: {
+			type,
+			state,
+			refreshing
+		}
+	}
+}

@@ -10,21 +10,24 @@ const initState = Immutable.fromJS({
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderToInstall: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderToDelivery: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderUnPay: {
 		list:[],
@@ -32,6 +35,7 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
+		isRefreshing: false,
 		isBatchEditing: false,
 		allSelected: false
 	},
@@ -40,21 +44,24 @@ const initState = Immutable.fromJS({
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderPayed: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderCanceled: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	orderDetail: null,//vehicleType
 	clearDetail: null
@@ -71,11 +78,14 @@ export default (state = initState, action) => {
 			console.log("------- change order loadingMore ",rootTypeLoading);
 			newState = newState.setIn([rootTypeLoading,'isLoadingMore'],true);
 			return newState
+		case ActionTypes.ACTION_CHANGE_ORDER_LIST_REFRESHING:
+			newState = newState.setIn([statusArr[payload.orderState],'isRefreshing'],false);
 		case ActionTypes.ACTION_RECEIVE_ORDER_LIST:
 			const rootTypeList = statusArr[payload.orderState]
 			newState = newState.setIn([rootTypeList,'pageNo'],payload.pageNo);
 			newState = newState.setIn([rootTypeList,'isLoadingMore'],false);
 			newState = newState.setIn([rootTypeList,'total'],payload.total);
+			newState = newState.setIn([rootTypeList,'isRefreshing'],false);
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn([rootTypeList,'list'],Immutable.fromJS([]));
 			}

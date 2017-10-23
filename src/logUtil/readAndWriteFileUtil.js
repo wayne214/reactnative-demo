@@ -10,7 +10,7 @@ import Storage from '../utils/storage';
 // const currentData = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 const path = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/logger.txt' : RNFS.DocumentDirectoryPath + '/logger.txt'; // 文件路径
 const destPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/logger.txt' : RNFS.DocumentDirectoryPath + '/abc/logger.txt'; // 文件路径
-const floderPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc/logger.txt' : RNFS.DocumentDirectoryPath + '/abc'
+const floderPath = Platform.OS === 'ios' ? RNFS.LibraryDirectoryPath + '/abc' : RNFS.DocumentDirectoryPath + '/abc'
 
 const platForm = Platform.OS === 'ios' ? 'IOS' : 'Android';
 const deviceModels = DeviceInfo.getModel();
@@ -152,11 +152,12 @@ class readAndWriteFileUtil {
             });
     }
     // 删除文件
-    deleteFile() {
+    deleteFile(successCallback) {
         // RNFS.exists(destPath).then((exists)=>{
         //     if (exists) {
                 RNFS.unlink(destPath)
                     .then(() => {
+                        successCallback && successCallback()
                         console.log('FILE DELETED SUCCESS');
                     })
                     .catch((err) => {

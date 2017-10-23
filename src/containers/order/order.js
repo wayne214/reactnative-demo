@@ -12,7 +12,8 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  InteractionManager
+  InteractionManager,
+  RefreshControl
   // Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -33,7 +34,8 @@ import {
   setAllUnPayEditing,
   changeSelectStateWithOrderNo,
   changeOrderTopTab,
-  shouldOrderListRefreshAction
+  shouldOrderListRefreshAction,
+  changeOrderListIsRefreshing
 } from '../../action/order'
 import { dispatchBankCardList } from '../../action/bankCard';
 import * as API from '../../constants/api'
@@ -83,13 +85,26 @@ class OrderListItem extends Component {
   }
   render(){
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    const {dataSource,haveBatch, batchHandle} = this.props
+    const {dataSource,haveBatch, batchHandle,activeTab,activeSubTab} = this.props
     if (dataSource.get('list').toJS().length > 0 || dataSource.get('isLoadingMore')) {
       return (
         <View style={{flex:1}}>
           <ListView
             style={{flex:1}}
             dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
+            refreshControl={
+              <RefreshControl
+                refreshing={ dataSource.get('isRefreshing') }
+                onRefresh={ ()=>{
+                  const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
+
+                  this.props.dispatch(changeOrderListIsRefreshing(orderState, true))//刷新货源列表
+                  this.props.refreshList && this.props.refreshList()
+                }}
+                tintColor="gray"
+                colors={['#ff0000', '#00ff00', '#0000ff']}
+                progressBackgroundColor="gray"/>
+            }
             renderRow={this._renderRow.bind(this)}
             onEndReachedThreshold={10}
             enableEmptySections={true}
@@ -160,13 +175,7 @@ class OrderListItemClear extends Component {
     )
   }
 }
-// <OrderListItem
-//  {...this.props}
-//  tabLabel={'已完成'}
-//  dataSource={orderPayed}
-//  loadMoreAction={()=>{
-//    if(loadMoreAction){loadMoreAction(2)}
-//  }}/>
+
 class OrderList extends BaseComponent {
   constructor(props) {
     super(props);
@@ -230,11 +239,7 @@ class OrderList extends BaseComponent {
       pageNo
     })
   }
-  // this.props._getEntrustOrderList({
-  //  pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-  //  companyId: user.userId,
-  //  state: 1
-  // })
+
   _refreshList(){
     const {currentMenuIndex} = this.state
     const {activeTab,activeSubTab} = this.props

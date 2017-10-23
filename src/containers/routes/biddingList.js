@@ -16,7 +16,7 @@ import BiddingListComponent from '../../components/routes/biddingList'
 import * as RouteType from '../../constants/routeType'
 import * as API from '../../constants/api'
 import {fetchData, appendLogToFile} from '../../action/app'
-import {receivePreOrderList} from '../../action/preOrder'
+import {receivePreOrderList, changePreOrderListIsRefreshing } from '../../action/preOrder'
 import BaseComponent from '../../components/common/baseComponent.js'
 import Toast from '../../utils/toast.js'
 
@@ -26,11 +26,7 @@ let startTime = 0
 class BiddingList extends BaseComponent {
 	constructor(props) {
 	  super(props);
-	  // const params = this.props.router.getCurrentRoute().params
-	  // this.state = {
-	  // 	isBetter: params.isBetter,
-	  // 	activeTab: 0
-	  // }
+	  this._refreshList = this._refreshList.bind(this);
 	  const {params} = this.props.navigation.state
 	  this.state = {
 	  	isBetter: params.isBetter,
@@ -42,7 +38,6 @@ class BiddingList extends BaseComponent {
 			header: <NavigatorBar router={navigation}/>
 		}
 	}
-		// headerTitle: navigation.state.isBetter ? '我的竞价' : '我的抢单',
 	componentDidMount() {
 		super.componentDidMount()
 		const {user} = this.props
@@ -54,6 +49,19 @@ class BiddingList extends BaseComponent {
 			pageNo: 1
 		})
 	}
+
+	_refreshList(){
+		const {user} = this.props
+		const {isBetter,activeTab} = this.state
+		this.props.dispatch(changePreOrderListIsRefreshing(isBetter ? 1 : 2,activeTab, true));
+		this.props._getBiddingList({
+			companyId: user.userId,
+			state: activeTab,
+			type: isBetter ? 1 : 2,
+			pageNo: 1,
+		})
+	}
+
 	render() {
 		const {params} = this.props.navigation.state
 		// console.log(" ------- params",params);
@@ -80,7 +88,7 @@ class BiddingList extends BaseComponent {
 						// console.log("====== Date.now(2)",Date.now());
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: parseInt(obj.i) + 1,
+							state: parseInt(obj.i),
 							type: isBetter ? 1 : 2,
 							pageNo: 1
 						})
@@ -90,11 +98,12 @@ class BiddingList extends BaseComponent {
 				<BiddingListComponent
 					isBetter={isBetter}
 					tabLabel={ isBetter ? "竞价中" : "抢单中" }
+					refreshList={this._refreshList}
 					dataSource={isBetter ? bidding : ordering}
 					loadMoreAction={()=>{
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: activeTab + 1,
+							state: activeTab,
 							type: isBetter ? 1 : 2,
 							pageNo: parseInt(isBetter ? bidding.get('pageNo') : ordering.get('pageNo')) + 1,
 						})
@@ -102,6 +111,7 @@ class BiddingList extends BaseComponent {
         <BiddingListComponent
 	        isBetter={isBetter}
         	tabLabel={ isBetter ? "竞价成功" : "抢单成功" }
+        	refreshList={this._refreshList}
         	dispatchCar={(data)=>{
         		if (!data.resourceId) {
         			console.warn('需要非空的 goodsId');
@@ -117,7 +127,7 @@ class BiddingList extends BaseComponent {
         	loadMoreAction={()=>{
         		this.props._getBiddingList({
         			companyId: user.userId,
-        			state: activeTab + 1,
+        			state: activeTab,
         			type: isBetter ? 1 : 2,
         			pageNo: parseInt(isBetter ? biddingSuccess.get('pageNo') : orderSuccess.get('pageNo')) + 1,
         		})
@@ -125,11 +135,12 @@ class BiddingList extends BaseComponent {
 				<BiddingListComponent
 					isBetter={isBetter}
 					tabLabel={ isBetter ? "竞价失败" : "抢单失败" }
+					refreshList={this._refreshList}
 					dataSource={isBetter ? biddingFailed : orderFailed}
 					loadMoreAction={()=>{
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: activeTab + 1,
+							state: activeTab,
 							type: isBetter ? 1 : 2,
 							pageNo: parseInt(isBetter ? biddingFailed.get('pageNo') : orderFailed.get('pageNo')) + 1,
 						})
@@ -139,36 +150,6 @@ class BiddingList extends BaseComponent {
 		</View>
 	}
 }
-
-// topComponent={()=>{
-// 	if (isBetter) {
-// 		return (
-// 			<View style={styles.topInfoView}>
-// 				<Text style={{fontSize: 14,color: COLOR.TEXT_NORMAL,lineHeight: 17}}>
-// 					竞价成功后请在
-// 					<Text style={{color: COLOR.TEXT_MONEY}}>24小时</Text>
-// 					内确认运输，
-// 					<Text style={{color: COLOR.TEXT_MONEY}}>逾期</Text>
-// 					将视为放弃运输订单，这样会
-// 					<Text style={{color: COLOR.TEXT_MONEY}}>影响您在平台的信用</Text>
-// 					评分，同时7日内不可再次参与竞价
-// 				</Text>
-// 			</View>
-// 		)
-// 	}else{
-// 		return (
-// 			<View style={styles.topInfoView}>
-// 				<Text style={{fontSize: 14,color: COLOR.TEXT_NORMAL,lineHeight: 17}}>抢单成功后请尽快调度车辆确认运输，
-// 					<Text style={{color: COLOR.TEXT_MONEY}}>逾期</Text>
-// 					将视为放弃运输订单，这样会
-// 					<Text style={{color: COLOR.TEXT_MONEY}}>影响您在平台的信用</Text>
-// 					评分，同时2日内不可再次参与抢单
-// 				</Text>
-// 			</View>
-// 		)
-// 	}
-
-// }}
 
 
 const styles =StyleSheet.create({
@@ -201,6 +182,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		dispatch,
 		_getBiddingList: (params)=>{
 			startTime = new Date().getTime();
 			dispatch(fetchData({

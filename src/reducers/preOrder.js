@@ -7,6 +7,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -14,6 +15,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -21,6 +23,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -28,6 +31,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -35,6 +39,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -42,6 +47,7 @@ const initState = Immutable.fromJS({
 		list:[],
 		total: 0,
 		isLoadingMore: false,
+		isRefreshing: false,
 		hasMore: true,
 		pageNo: 1
 	},
@@ -50,15 +56,17 @@ const initState = Immutable.fromJS({
 export default (state = initState, action) => {
 	let newState = state;
 	const payload = action.payload
+	const typeArr = [['bidding','biddingSuccess','biddingFailed'],['ordering','orderSuccess','orderFailed']]
+
 	switch (action.type) {
 		case ActionTypes.ACTION_RECEIVE_PRE_ORDER_LIST:
-			const typeArr = [['bidding','biddingSuccess','biddingFailed'],['ordering','orderSuccess','orderFailed']]
-			let rootType = typeArr[parseInt(payload.type)-1][parseInt(payload.state)-1]
+			let rootType = typeArr[parseInt(payload.type)-1][parseInt(payload.state)];
 			console.log(" ------ rootType is ",rootType);
 
 			newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
 			newState = newState.setIn([rootType,'isLoadingMore'],false);
 			newState = newState.setIn([rootType,'total'],payload.total);
+			newState = newState.setIn([rootType,'isRefreshing'],false);
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn([rootType,'list'],Immutable.fromJS([]));
 			}
@@ -80,6 +88,9 @@ export default (state = initState, action) => {
 			}
 
 			return newState;
+		case ActionTypes.ACTION_CHANGE_PRE_ORDER_LIST_REFRESHING:
+			let rootType2 = typeArr[parseInt(payload.type)-1][parseInt(payload.state)];
+			newState = newState.setIn([rootType2,'isRefreshing'],payload.refreshing);
 		default:
 			return newState;
 	}
