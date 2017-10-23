@@ -44,16 +44,25 @@ class CodeDialog extends Component {
     }
 
     _cancelPress() {
-        this.setState({visible: false})
+        this.props.cancelPress();
+        // this.setState({visible: false})
     }
 
     render() {
         return (
-            <Modal
-                transparent={true}
-                animationType={'none'}
-                visible={this.state.visible}
-                onRequestClose={() => console.log('ignore warining')}>
+            //<Modal
+            //    transparent={true}
+            //    animationType={'none'}
+            //    visible={this.state.visible}
+            //    onRequestClose={() => console.log('ignore warining')}>
+            <View
+                style={{
+                    position: 'absolute',
+                    backgroundColor: 'transparent',
+                    paddingBottom: 40,
+                    height,
+                    width,
+                }}>
                 <View style={styles.mainContainer}>
                     <View style={styles.container}>
                         <View style={styles.cellContainer}>
@@ -72,6 +81,7 @@ class CodeDialog extends Component {
                                        source={{uri: HOST + GET_IMG_CODE + '?verifyCodeKey=' + this.state.verifyCodeKey}}/>
                             </TouchableOpacity>
                         </View>
+                        <View style={styles.line}/>
                         <View style={styles.bottomBtn}>
                             <TouchableOpacity
                                 activeOpacity={1}
@@ -90,7 +100,7 @@ class CodeDialog extends Component {
                 </View>
 
 
-            </Modal>
+            </View>
         );
     }
 }
@@ -125,7 +135,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomColor: '#e6eaf2',
-        borderBottomWidth: 1,
         padding: 5,
     },
     labelText: {
@@ -177,5 +186,10 @@ const styles = StyleSheet.create({
     cancelText: {
         fontSize: 18,
         color: '#666666'
+    },
+    line:{
+        height: 1,
+        width:width-30,
+        backgroundColor:'#e6eaf2',
     }
 });
