@@ -112,6 +112,7 @@ class MessageContainer extends BaseComponent {
 				this.props.getSystemMsg({
 					pageNo: this.state.pageNo + 1,
 					userId: this.props.user.userId,
+					noteFlag: 1,
 				});
 			} else {
 				this.props.getWebMsgs({
@@ -253,6 +254,7 @@ class MessageContainer extends BaseComponent {
 			this.props.getSystemMsg({
 				pageNo: 1,
 				userId: this.props.user.userId,
+				noteFlag: 1,
 			});
 		}
 	}
