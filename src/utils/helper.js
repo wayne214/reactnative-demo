@@ -323,7 +323,18 @@ class HelperUtil {
 			return Math.round((bytes / 1024) * 100) * 0.01 + 'K'
 		}
 	}
-
+	formatPhone(phoneNumber){
+		const numberStr = phoneNumber + ''
+		let result = ''
+		if (numberStr.length == 11) {
+			result += numberStr.substring(0,3)
+			result += '****'
+			result += numberStr.substring(7,11)
+		}else{
+			result = '****'
+		}
+		return result
+	}
 }
 
 export default new HelperUtil();
