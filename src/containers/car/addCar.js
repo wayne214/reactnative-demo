@@ -193,7 +193,7 @@ class AddCarContainer extends BaseComponent {
 			&& !this.state.opertLicence
 			&& !this.state.carNo
 			&& !this.state.gcarNo
-			&& !this.state.carCategoryMap.key
+			// && !this.state.carCategoryMap.key
 			&& !this.state.carTypeMap.key
 			&& !this.state.heavy
 			&& !this.state.cube

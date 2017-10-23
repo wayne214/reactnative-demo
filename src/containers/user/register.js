@@ -14,6 +14,7 @@ import RegIcon from '../../../assets/img/user/reg_icon.png';
 import BaseComponent from '../../components/common/baseComponent';
 import Button from '../../components/common/button';
 import Link from '../../utils/linking';
+import CodeDialog from '../../components/common/codeDialog';
 import { HOST } from '../../constants/setting';
 import * as RouteType from '../../constants/routeType';
 import { GET_IMG_CODE, GET_SMS_CODE, CHECK_SMG_CODE } from '../../constants/api';
@@ -33,6 +34,7 @@ class RegisterContainer extends BaseComponent {
 			verifyCode: '',
 			verifyCodeKey: Math.floor(Math.random(1) * 100000000),
 			inviteCode: '',
+			visible: false,
 		};
 	  // this.title = props.router.getCurrentRouteTitle();
 	  this._getMsgCode = this._getMsgCode.bind(this);
@@ -59,14 +61,17 @@ class RegisterContainer extends BaseComponent {
 	_getMsgCode() {
 		const ref = this.countDownView;
 		if (!Regex.test('mobile', (this.state.phone+'').trim() )) return Toast.show('手机号格式不正确');
-		if (!(this.state.verifyCode+'').trim() ) return Toast.show('请先填写图形验证码');
-		this.props._getSmsCode({
-			phoneNumber: (this.state.phone+'').trim(),
-			verifyCode: (this.state.verifyCode+'').trim(),
-			verifyCodeKey: (this.state.verifyCodeKey+'').trim(),
-			verifyType: 1, // 1：承运商注册 2：司机注册
-			loginType: 2,//用户类型 1:司机 2:承运商
-		}, ref);
+		// if (!(this.state.verifyCode+'').trim() ) return Toast.show('请先填写图形验证码');
+		this.setState({
+			visible: true,
+		});
+		// this.props._getSmsCode({
+		// 	phoneNumber: (this.state.phone+'').trim(),
+		// 	verifyCode: (this.state.verifyCode+'').trim(),
+		// 	verifyCodeKey: (this.state.verifyCodeKey+'').trim(),
+		// 	verifyType: 1, // 1：承运商注册 2：司机注册
+		// 	loginType: 2,//用户类型 1:司机 2:承运商
+		// }, ref);
 	}
 
 	_nextStepReg () {
@@ -126,6 +131,7 @@ class RegisterContainer extends BaseComponent {
                   </TouchableOpacity>
                 </View>
 						</View>
+						{ false && 
 						<View style={ styles.cellContainer }>
 							<Text style={ styles.labelText }>图形验证码</Text>
 							<TextInput
@@ -141,6 +147,7 @@ class RegisterContainer extends BaseComponent {
 								<Image style={ styles.imgStyle } source={{ uri: HOST + GET_IMG_CODE + '?verifyCodeKey=' + this.state.verifyCodeKey }} />
 							</TouchableOpacity>
 						</View>
+					}
 						<View style={ styles.cellContainer }>
 							<Text style={ styles.labelText }>验证码</Text>
 							<TextInput
@@ -176,6 +183,30 @@ class RegisterContainer extends BaseComponent {
 						</View>
 					</View>
 				</ScrollView>
+				<CodeDialog
+					visible={ this.state.visible }
+					okPress={ (verifyCode,verifyCodeKey) => { 
+						console.log('lqq---okPress--',verifyCode,'---',verifyCodeKey);
+						if(!(verifyCode+'').trim()) return Toast.show('请先填写图形验证码');
+
+						this.setState({
+							verifyCodeKey: verifyCodeKey,
+							verifyCode: verifyCode,
+						});
+						const ref = this.countDownView;
+						this.props._getSmsCode({
+							phoneNumber: (this.state.phone+'').trim(),
+							verifyCode: (verifyCode+'').trim(),
+							verifyCodeKey: (verifyCodeKey+'').trim(),
+							verifyType: 1, // 1：承运商注册 2：司机注册
+							loginType: 2,//用户类型 1:司机 2:承运商
+						}, ref,(isVisible)=>{
+							this.setState({
+								visible: !isVisible,
+							});
+						});
+				} }/>
+
 				{ this.props.loading ? this._renderLoadingView() : null }
 
         {
@@ -193,6 +224,7 @@ class RegisterContainer extends BaseComponent {
             </View>
         }
         { this._renderUpgrade(this.props) }
+
 			</View>
 		);
 	}
@@ -214,7 +246,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
 	return {
 		dispatch,
-		_getSmsCode: (body, ref) => {
+		_getSmsCode: (body, ref , cb) => {
 			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
@@ -225,7 +257,14 @@ function mapDispatchToProps (dispatch) {
 				showLoading: true,
 				success: () => {
 					ref.startCountDown();
+					cb(true);
 					// dispatch(appendLogToFile('注册','获取验证码',startTime))
+				},
+				fail: (data) => {
+					if (data.code == '0002') {//图形验证码错误
+						console.log('lqq--fail--data',data);
+						cb(false);
+					};
 				}
 			}));
 		},
