@@ -12,121 +12,65 @@ import {
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
-import OrderCell from '../../components/order/orderCell'
 import Toast from '../../utils/toast.js'
-import emptyList from '../../../assets/img/order/empty_order_list.png'
 import * as RouteType from '../../constants/routeType'
 import * as COLOR from '../../constants/colors'
 import * as API from '../../constants/api'
 import {fetchData,entrustListShouldRefresh,appendLogToFile} from '../../action/app'
 import {getEntrustOrderList,changeEntrustOrderListLoadingMore,acceptDesignateWithID,deleteUndispatchAndCancelledOrder,removeOverTimeOrderFromList} from '../../action/entrust'
-import LoadMoreFooter from '../../components/common/loadMoreFooter'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import BaseComponent from '../../components/common/baseComponent.js'
-
+import EntrustOrderListItem from '../../components/entrust/entrustOrderListItem.js'
 const { height,width } = Dimensions.get('window')
 let startTime = 0
-
-class EntrustOrderListItem extends Component {
-	constructor(props) {
-	  super(props);
-	}
-	_renderRow(rowData,SectionId,rowID){
-		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
-		const {itemClick,dispatchCar,acceptDesignate} = this.props
-
-		return <OrderCell
-			{...this.props}
-			itemClick={(data)=>{
-				if(itemClick){itemClick(data)}
-			}}
-			dispatchCar={(data)=>{
-				if(dispatchCar){dispatchCar(data)}
-			}}
-			acceptDesignate={(data)=>{
-				if(acceptDesignate){acceptDesignate(data)}
-			}}
-			rowData={rowData}
-			rowID={ rowID }/>
-	}
-	_renderFooter(){
-		const { dataSource } = this.props;
-		if (dataSource.get('list').size > 1) {
-			if (dataSource.get('hasMore')) {
-				return <LoadMoreFooter />
-			}else{
-				return <LoadMoreFooter isLoadAll={true}/>
-			}
-		};
-	}
-	_toEnd(){
-		const {loadMoreAction, dataSource} = this.props
-		if (loadMoreAction) {
-			if (dataSource.get('isLoadingMore')){
-				console.log("------ 正在加载中");
-				return;
-			}else if(dataSource.get('list').size >= dataSource.get('total')) {
-				console.log("------ 已加载全部");
-				return;
-			}
-			loadMoreAction()
-		};
-	}
-	render(){
-		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-		const {dataSource} = this.props
-		if (dataSource.get('list').toJS().length > 0 || dataSource.get('isLoadingMore')) {
-			return (
-				<ListView
-					style={{flex:1}}
-					dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
-					renderRow={this._renderRow.bind(this)}
-					onEndReachedThreshold={10}
-					enableEmptySections={true}
-					onEndReached={ this._toEnd.bind(this) }
-					renderFooter={ this._renderFooter.bind(this) }/>
-			)
-		}else{
-			return <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
-				<Image source={emptyList}/>
-			</View>
-		}
-
-	}
-}
-
 
 class EntrustOrderList extends BaseComponent {
 	constructor(props) {
 	  super(props);
+	  this._refreshList = this._refreshList.bind(this)
 	  this.state = {
 	  	activeTab: 0
 	  }
 	}
 	componentDidMount() {
 		super.componentDidMount()
-		const {user,_getEntrustOrderList} = this.props
-		_getEntrustOrderList({
-			pageNo: 1,
-			companyId: user.userId,
-			state: 1
-		},true)
+		this._refreshList(true)
 	}
+
+	_refreshList(showLoading){
+	  const {user, _getEntrustOrderList,_getEntrustOrderUndispatch} = this.props
+	  const {activeTab} = this.state
+	  if (activeTab == 0) {
+	  	_getEntrustOrderList({
+	  		pageNo: 1,
+	  		companyId: user.userId,
+	  		state: 1
+	  	},showLoading)
+	  }else{
+	  	_getEntrustOrderUndispatch({
+	  		pageNo: 1,
+	  		companyId: user.userId,
+	  	},showLoading)
+	  }
+
+	}
+
 	componentWillReceiveProps(nextProps){
 		if (nextProps.shouldEntrustOrderListRefresh && !nextProps.entrustOrderUnconfirmed.get('isLoadingMore') && !nextProps.entrustOrderUndispatch.get('isLoadingMore')) {
-			const {activeTab} = this.state
-			if (activeTab == 0) {
-				this.props._getEntrustOrderList({
-					pageNo: 1,
-					companyId: nextProps.user.userId,
-					state: 1
-				})
-			}else if (activeTab == 1) {
-				this.props._getEntrustOrderUndispatch({
-					pageNo: 1,
-					companyId: nextProps.user.userId,
-				})
-			}
+			this._refreshList();
+			// const {activeTab} = this.state
+			// if (activeTab == 0) {
+			// 	this.props._getEntrustOrderList({
+			// 		pageNo: 1,
+			// 		companyId: nextProps.user.userId,
+			// 		state: 1
+			// 	})
+			// }else if (activeTab == 1) {
+			// 	this.props._getEntrustOrderUndispatch({
+			// 		pageNo: 1,
+			// 		companyId: nextProps.user.userId,
+			// 	})
+			// }
 		}
 	}
 	render() {
@@ -169,8 +113,11 @@ class EntrustOrderList extends BaseComponent {
 						tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
 						tabBarTextStyle={{fontSize:15}}>
 						<EntrustOrderListItem
+							{...this.props}
 							tabLabel={'待确认'}
+							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
+							refreshList={this._refreshList}
 							itemClick={(data)=>{
 								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
 									data.activeTab = this.state.activeTab
@@ -221,8 +168,11 @@ class EntrustOrderList extends BaseComponent {
 							}}/>
 
 						<EntrustOrderListItem
+							{...this.props}
 							tabLabel={'待调度'}
+							type={'entrustOrderUndispatch'}
 							dataSource={entrustOrderUndispatch}
+							refreshList={this._refreshList}
 							itemClick={(data)=>{
 								data.activeTab = this.state.activeTab
 								data.title = '委托详情'

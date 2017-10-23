@@ -6,12 +6,14 @@ import {
 	StyleSheet,
 	ListView,
 	Text,
-	Image
+	Image,
+	RefreshControl
 } from 'react-native';
 import * as COLOR from '../../constants/colors'
 import BiddingCell from '../../components/routes/biddingCell'
 import emptyList from '../../../assets/img/order/empty_order_list.png'
 import LoadMoreFooter from '../../components/common/loadMoreFooter'
+import {changePreOrderListIsRefreshing} from '../../action/preOrder.js'
 
 class BiddingListComponent extends Component{
 	constructor(props) {
@@ -63,6 +65,16 @@ class BiddingListComponent extends Component{
 						<ListView
 							style={{flex:1}}
 							dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
+							refreshControl={
+							  <RefreshControl
+							    refreshing={ dataSource.get('isRefreshing') }
+							    onRefresh={ ()=>{
+							      this.props.refreshList && this.props.refreshList()
+							    }}
+							    tintColor="gray"
+							    colors={['#ff0000', '#00ff00', '#0000ff']}
+							    progressBackgroundColor="gray"/>
+							}
 							renderRow={this._renderRow.bind(this)}
 							onEndReachedThreshold={10}
 							enableEmptySections={true}

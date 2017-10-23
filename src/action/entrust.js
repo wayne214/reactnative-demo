@@ -56,3 +56,13 @@ export const removeOverTimeOrderFromList = (resourceId) => {
 		payload: resourceId
 	}
 }
+
+export const changeEntrustOrderListIsRefreshing = (type, isRefreshing) => {
+	return {
+		type: ActionTypes.ACTION_CHANGE_ENTRUST_ORDER_LIST_REFRESHING,
+		payload: {
+			type,
+			isRefreshing
+		}
+	}
+}

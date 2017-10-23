@@ -15,14 +15,16 @@ const initState = Immutable.fromJS({
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	entrustOrderUndispatch: {
 		list:[],
 		total: 0,
 		isLoadingMore: false,
 		hasMore: true,
-		pageNo: 1
+		pageNo: 1,
+		isRefreshing: false
 	},
 	freeCarList: {
 		list: [],
@@ -42,15 +44,18 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_CHANGE_ENTRUST_ORDER_LIST_LOADING_MORE:
 			newState = newState.setIn([payload == 0 ? 'entrustOrderUnconfirmed' : 'entrustOrderUndispatch','isLoadingMore'],true);
 			return newState
+		case ActionTypes.ACTION_CHANGE_ENTRUST_ORDER_LIST_REFRESHING:
+			newState = newState.setIn([payload.type,'isRefreshing'],payload.isRefreshing);
+			return newState
 		case ActionTypes.ACTION_GET_ENTRUST_ORDER_LIST:
 
 			let rootType = 'entrustOrderUnconfirmed'
 			if (payload.entrustOrderType == 0) {//0 派单中  1 待调度
 				rootType = 'entrustOrderUnconfirmed'
 			}else if (payload.entrustOrderType == 1) {
-				console.log("----- 待调度");
 				rootType = 'entrustOrderUndispatch'
 			}
+			newState = newState.setIn([rootType,'isRefreshing'],false);
 			newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
 			newState = newState.setIn([rootType,'isLoadingMore'],false);
 			newState = newState.setIn([rootType,'total'],payload.total);
