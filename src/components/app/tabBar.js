@@ -165,7 +165,7 @@ export default class Tabar extends Component {
 		});
 		return (
 			<TabNavigator
-				tabBarStyle={{ backgroundColor: 'white' }}
+				tabBarStyle={{ backgroundColor: 'white', height: IS_IPHONE_X ? 77 : 49, paddingBottom: IS_IPHONE_X ? 28 : 0 }}
 				tabBarShadowStyle={{ backgroundColor: '#e6eaf2', height: 1 }}>
 				{ tabItems }
 			</TabNavigator>

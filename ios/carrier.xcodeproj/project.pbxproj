@@ -57,6 +57,7 @@
 		45ED10D21F74A6AE00559A5A /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ED10C11F74A6AE00559A5A /* IQToolbar.m */; };
 		45ED10D31F74A6AE00559A5A /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ED10C31F74A6AE00559A5A /* IQUIView+IQKeyboardToolbar.m */; };
 		45ED10D41F74A6AE00559A5A /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45ED10C51F74A6AE00559A5A /* IQKeyboardManager.bundle */; };
+		5B0AE9191FA096CA0098CAD4 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AE9181FA096C90098CAD4 /* UIDevice+Hardware.m */; };
 		5B2292441F725595005A3D20 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */; };
 		5B22924C1F72578A005A3D20 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B22924A1F72578A005A3D20 /* LaunchScreen.xib */; };
 		5B93CDF61F677F9200F00857 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -484,6 +485,8 @@
 		4F1939B2F9C04215BE85558D /* Security.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		54B6E0489E8F497E97384C45 /* libresolv.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		56D0FE530EFC4BA380010640 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
+		5B0AE9171FA096C90098CAD4 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
+		5B0AE9181FA096C90098CAD4 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		5B22924B1F72578A005A3D20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = carrier/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5B93CDF31F669B7600F00857 /* carrier.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = carrier.entitlements; path = carrier/carrier.entitlements; sourceTree = "<group>"; };
 		5B93CDF41F677F9200F00857 /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -689,6 +692,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				78C3743A1F58FC76002C4CFE /* NativeModule.h */,
 				78C3743B1F58FC76002C4CFE /* NativeModule.m */,
+				5B0AE9171FA096C90098CAD4 /* UIDevice+Hardware.h */,
+				5B0AE9181FA096C90098CAD4 /* UIDevice+Hardware.m */,
 				78C3743E1F58FCAE002C4CFE /* OssModule.h */,
 				78C3743F1F58FCAE002C4CFE /* OssModule.m */,
 				78C374411F58FCD7002C4CFE /* OssService.h */,
@@ -1622,6 +1627,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B0AE9191FA096CA0098CAD4 /* UIDevice+Hardware.m in Sources */,
 				78C3743C1F58FC76002C4CFE /* NativeModule.m in Sources */,
 				45ED10CD1F74A6AE00559A5A /* IQKeyboardReturnKeyHandler.m in Sources */,
 				45ED10C71F74A6AE00559A5A /* IQUIScrollView+Additions.m in Sources */,
