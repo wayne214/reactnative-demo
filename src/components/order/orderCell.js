@@ -20,6 +20,7 @@ import moment from 'moment'
 import Toast from '../../utils/toast.js'
 
 const { height,width } = Dimensions.get('window');
+
 const buttonWidth = width < 321 ? 95 : 106
 
 class OrderCell extends Component{
@@ -90,18 +91,41 @@ class OrderCell extends Component{
 					}
 					<View style={{flex: 1}}>
 						<View style={styles.seperationView}></View>
-						<View style={{flexDirection:'row', height : 50,backgroundColor: 'white',borderBottomWidth:1,borderBottomColor: COLOR.LINE_COLOR,justifyContent: 'space-between',paddingLeft: 10,paddingRight: 10}}>
+						<View style={{flexDirection:'row', height : 50,backgroundColor: 'white',borderBottomWidth:MINI_LINE,borderBottomColor: COLOR.LINE_COLOR,justifyContent: 'space-between',paddingLeft: 10,paddingRight: 10}}>
 							<View style={{justifyContent: 'center'}}>
 								<Text style={{color: COLOR.TEXT_LIGHT,fontSize: 14}}>{rowData.orderType == 'ENTRUST' ? `委托编号:${rowData.resourceId}` : `订单编号:${rowData.orderNo}`}</Text>
 							</View>
 							<View style={{justifyContent: 'center'}}>
-								<Text style={{color: COLOR.APP_THEME,fontSize: 14}}>{rowData.orderStateStr}</Text>
+								<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
 							</View>
 						</View>
 						<View style={styles.container}>
 
-							<AddressFromTo style={{marginTop: 25}} from={rowData.from} to={rowData.to}/>
+							<AddressFromTo style={{marginTop: 8}} from={rowData.from} to={rowData.to}/>
 							<Text style={styles.installDate}>{rowData.goodsType == 1 ? '装货时间：' : '出发时间：'}{rowData.goodsType == 1 ? rowData.installDate : rowData.carBanDate}</Text>
+							<View style={{height: 25, flexDirection: 'row',marginLeft: 30}}>
+								{
+									rowData.entrustType == 1 ?
+										<View style={styles.entrustType}>
+											<Text style={styles.entrustTypeText}>自营</Text>
+										</View>
+									: null
+								}
+								{
+									rowData.goodsTypeStr ?
+										<View style={styles.routeType}>
+											<Text style={styles.routeTypeText}>{rowData.goodsTypeStr}</Text>
+										</View>
+									: null
+								}
+							</View>
+							{
+								rowData.orderType == 'ORDER' && rowData.orderState == 15 ?
+									<View style={styles.paymentInfo}>
+										<Text style={styles.paymentInfoText}>已结金额： {rowData.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{rowData.unknotPrice || 0}元</Text>
+									</View>
+								: null
+							}
 							<SupplyAndNeed {...rowData}/>
 							<View style={styles.makeOrderView}>
 							{
@@ -179,11 +203,11 @@ class OrderCell extends Component{
 											// case 8: return '协调中'
 											// case 9: return '协调完成'								// 确认交付  确认交付 -> 新页面 -> 上传回单提交确认  或者  申请协调
 
-											// case 10: return '未结算'									// 申请结算
+											// case 10: return '未结算'									// 催款
 											// case 11: return '结算中'// 列表中不会出现 参照15  16
 											// case 12: return '已完成'									// 查看结算单
 											// case 13: return '已取消'
-											// case 14: return '未结算' //'承运商未结算'	// 申请结算
+											// case 14: return '未结算' //'承运商未结算'	// 催款
 											// case 15: return '结算中' //'承运商结算中'
 											// case 16: return '结算中' //'待承运方结算'		// 确认结算
 											// case 18: return '已关闭'
@@ -380,7 +404,10 @@ class OrderCell extends Component{
 														</View>
 													</View>
 												)
-											}else if (rowData.orderState === 10 || rowData.orderState === 14) {// case 10: '未结算'			//申请结算
+											}else if (rowData.orderState === 10 || rowData.orderState === 14) {// case 10: '未结算'			//催款
+											if (rowData.promptState === 2) {//1 未催款， 2 已催款
+												return null
+											};
 												return (
 													<View style={styles.buttonView}>
 														<View style={styles.buttonViewInside}>
@@ -406,7 +433,7 @@ class OrderCell extends Component{
 																			])
 																		}else{
 																			if (this.props._applyClear) {
-																				Alert.alert('温馨提示','请您在申请结算同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
+																				Alert.alert('温馨提示','请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
 																					{text: '取消', onPress:()=>{
 																						console.log("cancle...");
 																					}},
@@ -425,15 +452,13 @@ class OrderCell extends Component{
 																			};
 																		}
 																	})
-
-
 																}}>
-															  申请结算
+															  催款
 															</Button>
 														</View>
 													</View>
 												)
-											}else if (rowData.orderState == 16) {// case 11: '结算中'			//确认结算
+											}else if (rowData.orderState == 16) {// '已结算待确认'
 												return (
 													<View style={styles.buttonView}>
 														<View style={styles.buttonViewInside}>
@@ -530,7 +555,7 @@ class OrderCell extends Component{
 														</View>
 													</View>
 												)
-											}else if (rowData.orderState == 6 || rowData.orderState == 15) {
+											}else if (rowData.orderState == 6 || rowData.orderState == 15) {//15 运费未结清  无操作按钮
 												return (
 													<View style={styles.buttonView}>
 														<View style={styles.buttonViewInside}>
@@ -577,28 +602,32 @@ class OrderCell extends Component{
 																	</Button>
 																: null
 															}
-															<Button activeOpacity={0.8} style={styles.buttonStyle}
-																textStyle={{fontSize: 14,color: 'white'}}
-																onPress={()=>{
-																	console.log("------ 确认交付",rowData);
-																	Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
-																		[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-																		{text: '立即上传', onPress: ()=>{
-																			this.props.navigation.dispatch({
-																				type: RouteType.ROUTE_UPLOAD_IMAGES,
-																				params: {
-																					title: '上传回执单',
-																					orderNo: rowData.orderNo,
-																					uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-																					entrustType: rowData.entrustType,
-																					remark: ''
-																				}
-																			})
-																		}}]
-																	);
-																}}>
-															  确认交付
-															</Button>
+															{
+																rowData.orderState == 6 ?
+																	<Button activeOpacity={0.8} style={styles.buttonStyle}
+																		textStyle={{fontSize: 14,color: 'white'}}
+																		onPress={()=>{
+																			console.log("------ 确认交付",rowData);
+																			Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
+																				[{text: '取消', onPress: ()=>{}, style: 'cancel' },
+																				{text: '立即上传', onPress: ()=>{
+																					this.props.navigation.dispatch({
+																						type: RouteType.ROUTE_UPLOAD_IMAGES,
+																						params: {
+																							title: '上传回执单',
+																							orderNo: rowData.orderNo,
+																							uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+																							entrustType: rowData.entrustType,
+																							remark: ''
+																						}
+																					})
+																				}}]
+																			);
+																		}}>
+																	  确认交付
+																	</Button>
+																: null
+															}
 														</View>
 													</View>
 												)
@@ -690,20 +719,6 @@ class OrderCell extends Component{
 								})()
 							}
 							</View>
-							{
-								rowData.goodsTypeStr ?//1 干线 2卡班
-									<View style={styles.routeType}>
-										<Text style={styles.routeTypeText}>{rowData.goodsTypeStr}</Text>
-									</View>
-								: null
-							}
-							{
-								rowData.entrustType == 1 ?//1自营  2第三方承运
-									<View style={[styles.routeType,{right: 70,backgroundColor: 'white',borderBottomLeftRadius:2,borderBottomRightRadius:2,borderWidth:1,borderColor: 'red'}]}>
-										<Text style={[styles.routeTypeText,{color:'red'}]}>自营</Text>
-									</View>
-								: null
-							}
 						</View>
 					</View>
 				</View>
@@ -716,23 +731,23 @@ const styles = StyleSheet.create({
 		// flex: 1,
 		backgroundColor: 'white'
 	},
-	routeType:{
-		flex: 1,
-		backgroundColor: '#fff3dd',
-		justifyContent: 'center',
-		alignItems: 'center',
-		position: 'absolute',
-		borderBottomLeftRadius: 2,
-		borderBottomRightRadius: 2,
-		right: 10,
-		width: 48,
-		height: 21,
-	},
-	routeTypeText: {
-		fontSize: 14,
-		fontWeight: 'bold',
-		color: COLOR.TEXT_MONEY,
-	},
+	// routeType:{
+	// 	flex: 1,
+	// 	backgroundColor: '#fff3dd',
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center',
+	// 	position: 'absolute',
+	// 	borderBottomLeftRadius: 2,
+	// 	borderBottomRightRadius: 2,
+	// 	right: 10,
+	// 	width: 48,
+	// 	height: 21,
+	// },
+	// routeTypeText: {
+	// 	fontSize: 14,
+	// 	fontWeight: 'bold',
+	// 	color: COLOR.TEXT_MONEY,
+	// },
 	// seperationLine:{
 	// 	height: 0.5,
 	// 	backgroundColor: COLOR.LINE_COLOR
@@ -787,6 +802,52 @@ const styles = StyleSheet.create({
 		borderRadius: 2,
 		height: 35,
 		width:buttonWidth,
+	},
+	routeType:{
+		backgroundColor: '#fff8ec',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderWidth: MINI_LINE,
+		borderColor: '#FFAC1A',
+		borderRadius: 2,
+		width: 30,
+		height: 15,
+	},
+	entrustType: {
+		backgroundColor: '#FFF9F9',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderColor: COLOR.ENTRUST_TYPE,
+		borderWidth: MINI_LINE,
+		borderRadius: 2,
+		marginRight: 3,
+		width: 30,
+		height: 15,
+	},
+	entrustTypeText: {
+		color: '#f26060',
+		fontSize: 10,
+		fontWeight: 'bold'
+	},
+	routeTypeText: {
+		fontSize: 10,
+		fontWeight: 'bold',
+		color: '#FFAC1A',
+	},
+	paymentInfo: {
+		backgroundColor: '#FFF9F9',
+		height: 26,
+		margin: 10,
+		marginTop: 0,
+		paddingLeft: 20,
+		justifyContent: 'center',
+		borderColor: '#EE7979',
+		borderStyle: 'dashed',
+		borderWidth: MINI_LINE
+	},
+	paymentInfoText: {
+		color: '#F6001E',
+		fontSize: 13
 	}
 })
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { AppRegistry } from 'react-native'
+import { AppRegistry, PixelRatio } from 'react-native'
 import { Provider } from 'react-redux'
+import './utils/global.js'
 import configureStore from './store/configureStore';
 import AppReducer from './reducers/index'
 import AppWithNavigationState from './navigators/navigators'

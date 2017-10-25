@@ -465,10 +465,10 @@ class OrderList extends BaseComponent {
                         };
                       })
                       if (allOrderNoArr.length < 1) {
-                        Toast.show('请选择需要申请结算的订单')
+                        Toast.show('请选择需要催款的订单')
                         return
                       };
-                      // console.log("-------- p批量申请结算 === orderNo", allOrderNoArr);
+                      // console.log("-------- p批量催款 === orderNo", allOrderNoArr);
 
                       this.props._getBankCardList(user.userId,(data)=>{
                         // console.log("判断是否添加开户行信息 ",data);
@@ -485,7 +485,7 @@ class OrderList extends BaseComponent {
                           ])
                         }else{
                           if (this.props._applyClear) {
-                            Alert.alert('温馨提示','请您在申请结算同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
+                            Alert.alert('温馨提示','请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
                               {text: '取消', onPress:()=>{
                                 // console.log("cancle...");
                               }},
@@ -667,7 +667,7 @@ const mapDispatchToProps = (dispatch) => {
         showLoading: true,
         body: params,
         success: (data)=>{
-          console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
+          console.log(" ----- 催款成功， 改状态为15 结算中 ");
           Toast.show('申请成功')
           dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
           if (params.activeTab == 3) {
@@ -676,7 +676,7 @@ const mapDispatchToProps = (dispatch) => {
           if (successCallBack) {
             successCallBack()
           }
-          dispatch(appendLogToFile('订单','申请结算成功',startTime))
+          dispatch(appendLogToFile('订单','催款成功',startTime))
 
         }
       }))

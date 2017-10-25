@@ -151,6 +151,8 @@ class HelperUtil {
 	//  13已取消
 	//  14承运方未结算
 	//  15承运方结算中
+	//  (15,"承运方结算中(未结清)"),
+	//  (16,"待承运方确认结算(已结清)"),
 	getOrderStateStr(state,entrustType){
 		// !entrustType && console.warn("Helper 订单状态 缺少参数 entrustType");
 		switch(state){
@@ -168,8 +170,8 @@ class HelperUtil {
 			case 12: return '已完成'
 			case 13: return '已取消'
 			case 14: return entrustType == 1 ? '未结算' : '回单审核中'//'承运商未结算'
-			case 15: return entrustType == 1 ? '结算中' : '回单审核驳回' //'承运商结算中'
-			case 16: return '结算中' //'待承运方结算'
+			case 15: return entrustType == 1 ? '运费未结清' : '回单审核驳回' //'承运商结算中'
+			case 16: return '已结算待确认'
 			case 17: return '已完成'
 			case 18: return '已关闭'
 			case 19: return '运费核对中'

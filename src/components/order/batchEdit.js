@@ -69,7 +69,7 @@ class BatchEdit extends Component{
 							onPress={()=>{
 								this.props.batchApply()
 							}}>
-							申请结算
+							催款
 						</Button>
 					</View>
 				</View>
@@ -85,7 +85,7 @@ class BatchEdit extends Component{
 							})
 							this.props.startEditing(true)
 						}}>
-						批量申请结算
+						批量催款
 					</Button>
 				</View>
 			)

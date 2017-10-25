@@ -17,7 +17,6 @@ class SupplyAndNeed extends Component{
 	  style: View.propTypes.style,
 	};
 	componentDidMount(){
-
 	}
 
 	render() {
@@ -40,7 +39,7 @@ class SupplyAndNeed extends Component{
 						<View style={styles.supplyContent}>
 							<Text style={{fontSize: 10,color:'white'}}>有</Text>
 						</View>
-						<View style={{height: 15,borderRadius: 1,borderWidth: 1,borderColor: COLOR.TEXT_LIGHT,paddingLeft: 3,paddingRight: 3,justifyContent: 'center'}}>
+						<View style={{height: 15,borderRadius: 1,borderWidth: MINI_LINE,borderColor: COLOR.TEXT_LIGHT,paddingLeft: 3,paddingRight: 3,justifyContent: 'center'}}>
 							<Text style={styles.supplyText}>{`${this.props.goodsNameStr} ${this.props.goodsSKU}`}</Text>
 						</View>
 					</View>
@@ -89,8 +88,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		height: 60,
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
+		borderBottomWidth: MINI_LINE,
+		borderTopWidth: MINI_LINE,
 		borderBottomColor: COLOR.LINE_COLOR,
 		borderTopColor: COLOR.LINE_COLOR,
 		alignItems: 'center'
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
 	needContent: {
 		height: 15,
 		borderRadius: 1,
-		borderWidth: 1,
+		borderWidth: MINI_LINE,
 		paddingLeft: 3,
 		paddingRight: 3,
 		borderColor: COLOR.APP_THEME,
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
 		// alignSelf: 'flex-start'
 	},
 	priceSeperation: {
-		width: 1,
+		width: MINI_LINE,
 		height: 37,
 		backgroundColor: COLOR.LINE_COLOR,
 		position: 'absolute',

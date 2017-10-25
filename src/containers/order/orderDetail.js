@@ -113,7 +113,6 @@ class OrderDetail extends BaseComponent {
 		}
 
 		return <View style={styles.container}>
-			{/**/}
 			{
 				orderDetail ?
 					<ScrollView style={styles.scrollView}>
@@ -138,7 +137,14 @@ class OrderDetail extends BaseComponent {
 								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
 									<Text>协调运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierPaymentPrice}</Text>元</Text>
 								</View>
-							: <View style={{height: 5,backgroundColor: 'white'}}/>
+							: null
+						}
+						{
+							orderDetail.orderState === 15 ?
+								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
+									<Text style={{color: '#F6001E',fontSize: 13}}>已结金额： {orderDetail.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{orderDetail.unknotPrice || 0}元</Text>
+								</View>
+							: null
 						}
 						{
 							orderDetail.entrustType == 2 && orderDetail.orderState == 15 && orderDetail.auditProposeType == 2 ?
@@ -149,6 +155,7 @@ class OrderDetail extends BaseComponent {
 								</View>
 							: null
 						}
+						<View style={{height: 5,backgroundColor: 'white'}}/>
 						<GoodsInfo configData={orderDetail.goodsInfoData}/>
 						<FoldView title={'收发货人信息'} openHeight={floderItemCount * 44} renderContent={()=>{
 							return (
@@ -481,7 +488,7 @@ class OrderDetail extends BaseComponent {
 									}else if (orderDetail.orderState == 10 || orderDetail.orderState == 14) {
 										return <ButtonView dataSource={[
 											{
-												title: '申请结算',
+												title: '催款',
 												callBack: ()=>{
 													if (this.props.user.currentUserRole != 1) {
 														Toast.show('司机帐号没有该权限')
@@ -499,7 +506,7 @@ class OrderDetail extends BaseComponent {
 															])
 														}else{
 															if (this.props._applyClear) {
-																Alert.alert('温馨提示','请您在申请结算同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
+																Alert.alert('温馨提示','请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
 																	{text: '取消', onPress:()=>{
 																		console.log("cancle...");
 																	}},
@@ -891,9 +898,9 @@ const mapDispatchToProps = (dispatch) => {
 				showLoading: true,
 				body: params,
 				success: (data)=>{
-					console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
+					console.log(" ----- 催款成功， 改状态为15 结算中 ");
 					Toast.show('申请成功')
-					dispatch(appendLogToFile('订单详情','申请结算成功',startTime))
+					dispatch(appendLogToFile('订单详情','催款成功',startTime))
 					// dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
 					if (successCallBack) {successCallBack()}
 				}

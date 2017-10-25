@@ -1103,7 +1103,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 610;
-				ORGANIZATIONNAME = Facebook;
+				ORGANIZATIONNAME = Llmj;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -1788,6 +1788,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODEPUSH_KEY = "6E0zBIn7AK7naO9i49cUvZzFyYo1118907b3-0f39-4b62-b03d-f9737ab02817";
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
@@ -1834,6 +1835,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2093,6 +2095,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
