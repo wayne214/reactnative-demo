@@ -67,7 +67,7 @@ export default class Loading extends React.Component {
 			<Modal
 				transparent={ true }
 				backdropOpacity={ 0 }
-				backdropColor='rgba(0,0,0,0)'				
+				backdropColor='rgba(0,0,0,0)'
 				onRequestClose={ this.close }
 				supportedOrientations={['landscape', 'portrait']}
 				visible={ this.state.visible }>

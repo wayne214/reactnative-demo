@@ -40,7 +40,7 @@ export default (state = initState, action) => {
 			newState = newState.set('isEndReached', false);
 			newState = newState.set('isRefreshMsg', false);
 			
-			if (tmpMsgList.length < PAGE_SIZE) newState = newState.set('hasMore', false);
+			if (tmpMsgList.length === action.payload.data.total) newState = newState.set('hasMore', false);
 			newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS(tmpMsgList));
 			return newState;
 		case ActionTypes.MSG_SELECT_ONE_OF_DATAS:
