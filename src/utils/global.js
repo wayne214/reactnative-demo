@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, PixelRatio, Platform, NativeModules } from 'react-native';
 import * as API from '../constants/api.js'
 import * as COLOR from '../constants/colors.js'
+import * as SETTING from '../constants/setting.js'
 
 let {height, width} = Dimensions.get('window');
 
@@ -21,4 +22,5 @@ global.IOS_DEVICE_MODAL = NativeModules.NativeModule.DEVICE_MODAL
 
 global.IS_IPHONE_X = IOS_DEVICE_MODAL === 'iPhone X'
 
-console.log(" ==== is iPhone X ", IS_IPHONE_X);
+global.SETTING = SETTING
+

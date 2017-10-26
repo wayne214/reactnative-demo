@@ -25,8 +25,8 @@ export default class NavigatorBar extends React.Component {
 
 	componentWillMount() {
 		if (Platform.OS === 'ios') {
-				this.adjustToolBarHeigth = { height: (IOS_DEVICE_MODAL === 'iPhone X' ? 74 : 64) };
-				this.adjustStaBarHeight = { marginTop: (IOS_DEVICE_MODAL === 'iPhone X' ? 30 : 20) };
+				this.adjustToolBarHeigth = { height: 44 + (IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20) };
+				this.adjustStaBarHeight = { marginTop: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20 };
 		} else {
 			this.adjustToolBarHeigth = { height: 50 };
 			this.adjustStaBarHeight = { marginTop: 0 };

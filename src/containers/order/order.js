@@ -179,18 +179,14 @@ class OrderListItemClear extends Component {
 class OrderList extends BaseComponent {
   constructor(props) {
     super(props);
-    if (Platform.OS === 'ios') {
-      // if (width > 375) {
-      //  this.toolBarHeigth = 93
-      //  this.staBarHeight = 27
-      // } else {
-        this.toolBarHeigth = 64
-        this.staBarHeight = 20
-      // }
+    if (IS_IOS) {
+        this.toolBarHeigth = 44 + (IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20)
+        this.staBarHeight = IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20
     } else {
       this.toolBarHeigth = 50
       this.staBarHeight = 0
     }
+
     this.state = {
       title: '全部货源订单',
       showMenu: false,
@@ -349,7 +345,7 @@ class OrderList extends BaseComponent {
               })
             }}/>
       }
-        <View style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,flex:1}}>
+        <View style={styles.content}>
           <ScrollableTabView
             page={activeTab}
             style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
@@ -562,10 +558,14 @@ const styles =StyleSheet.create({
   },
   navButtonView: {
     flexDirection: 'row',
-
     justifyContent: 'center',
     alignItems: 'center',
     height: 44,
+  },
+  content:{
+    backgroundColor: COLOR.APP_CONTENT_BACKBG,
+    flex:1,
+    marginBottom: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_BOTTOM : 0
   },
   modalView: {
     flex: 1,
