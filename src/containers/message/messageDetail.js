@@ -109,13 +109,16 @@ class MessageDetail extends BaseComponent {
 	};
 
 	render() {
-		const {navigation, user} = this.props;
+		const {navigation, user, msg} = this.props;
 		let linkId;
 		let number;
 		let btn;
-		if(this.props.msg && this.props.msg.linkId){
-			linkId = this.props.msg.linkId.split(":")[0];
-		  number = this.props.msg.linkId.split(":")[1];
+		let content;
+		let time;
+		let messageDetail;
+		if(msg && msg.linkId){
+			linkId = msg.linkId.split(":")[0];
+		  number = msg.linkId.split(":")[1];
 		  // if(linkId === '1'){
 		  // 	btn = (
 		  // 		<View style={ styles.loginBtn }>
@@ -248,14 +251,30 @@ class MessageDetail extends BaseComponent {
 					</View>)
 			}
 		}
+		if(msg){
+			content = (this.type === 0 ? msg.content : msg.noteContent);
+			time = (this.type === 0 ? msg.createTime : msg.publishTime);
+		}
+		if (this.type === 0){
+			messageDetail = (
+				<View style={ styles.msgDetail }>
+					<Text style={ styles.text }>{ content }</Text>
+					<Text style={ styles.timeText }>{ time }</Text>
+				</View>)
+		}else{
+			messageDetail=(
+				<View style={ styles.msgDetail }>
+					<Text style={{fontSize: 17, fontWeight: 'bold',color: '#333333'}}>{msg && msg.noteTitle}</Text>
+					<Text style={ [styles.timeText,{textAlign: 'left',marginTop:10}] }>{ time }</Text>
+					<Text style={ [styles.text,{marginTop: 20}] }>{ content }</Text>
+				</View>
+			)
+		}
 		return (
 			<View style={ styles.container }>
 				<ScrollView
 					showsVerticalScrollIndicator={ false }>
-					<View style={ styles.msgDetail }>
-						<Text style={ styles.text }>{ this.props.msg && (this.props.msg.noteContent || this.props.msg.content) }</Text>
-						<Text style={ styles.timeText }>{ this.props.msg && (this.props.msg.publishTime || this.props.msg.createTime) }</Text>
-					</View>
+					{ messageDetail }
 					{ btn }
 				</ScrollView>
 

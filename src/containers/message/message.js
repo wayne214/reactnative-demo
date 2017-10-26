@@ -206,12 +206,26 @@ class MessageContainer extends BaseComponent {
   }
 
 	_renderItem(rowData, section, rowIndex) {
+		let content;
+		if(this.state.currentTab === 0){
+			content = (
+			<View style={ styles.rightContainer}>
+				<Text style={ styles.text } numberOfLines={ 2 }>{ rowData.content }</Text>
+			</View>)
+		}else{
+			content = (
+			<View style={ styles.rightContainer }>
+				<Text style={{fontSize: 15, fontWeight:'bold',color:'#333',marginTop: 18}}>{rowData.title}</Text>
+				<Text style={ [styles.text,{marginTop: 10}] } numberOfLines={ 2 }>{ rowData.content }</Text>
+				<Text style={ [styles.timeText,{textAlign: 'left',marginTop:5,marginBottom:20}] }>{ rowData.publishTime }</Text>
+			</View>)
+		}
 		return (
 			<View key={ rowIndex + rowData.id } style={ styles.messageCellContainer }>
 				<TouchableOpacity
 					activeOpacity={ 1 }
 					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }}) }>
-					<View style={ styles.contentContainer }>
+					<View style={ this.state.currentTab === 0 ? styles.contentContainer : {flexDirection: 'row'} }>
 						<Animated.View style={ [styles.checkContainer, {
 							width: this.state.focusedAnim.interpolate({
 	              inputRange: [0, 1],
@@ -233,10 +247,7 @@ class MessageContainer extends BaseComponent {
 								}
 							</View>
 						</View>
-						<View style={ styles.rightContainer }>
-							<Text style={ styles.text } numberOfLines={ 2 }>{ rowData.content }</Text>
-							<Text style={ styles.timeText }>{ rowData.publishTime }</Text>
-						</View>
+						{content}
 					</View>
 				</TouchableOpacity>
 				<View style={ styles.line }></View>
