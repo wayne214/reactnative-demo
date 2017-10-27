@@ -47,6 +47,7 @@ import topArrow from '../../../assets/img/routes/top_arrow.png'
 import BatchEdit from '../../components/order/batchEdit'
 import { refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent.js'
+import DeviceInfo from 'react-native-device-info';
 
 const { height,width } = Dimensions.get('window')
 let startTime = 0
@@ -180,8 +181,8 @@ class OrderList extends BaseComponent {
   constructor(props) {
     super(props);
     if (IS_IOS) {
-        this.toolBarHeigth = 44 + (IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20)
-        this.staBarHeight = IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_TOP : 20
+        this.toolBarHeigth = 44 + DANGER_TOP
+        this.staBarHeight = DANGER_TOP
     } else {
       this.toolBarHeigth = 50
       this.staBarHeight = 0
@@ -205,7 +206,7 @@ class OrderList extends BaseComponent {
     this._showCoordinateResult = this._showCoordinateResult.bind(this)
   }
   componentDidMount() {
-    console.log(" ===== did mount action ?");
+    console.log(" ===== did mount action ");
     super.componentDidMount()
     const {user} = this.props
     setTimeout(()=>{

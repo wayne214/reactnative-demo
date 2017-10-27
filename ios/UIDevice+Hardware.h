@@ -1,9 +1,9 @@
 //
 //  UIDevice+Hardware.h
-//  LeZhanCloud
+//  carrier
 //
-//  Created by YYQ on 15/5/9.
-//  Copyright (c) 2015年 YYQ. All rights reserved.
+//  Created by YYQ on 17/10/25.
+//  Copyright (c) 2017年 YYQ. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

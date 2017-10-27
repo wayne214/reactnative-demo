@@ -22,5 +22,9 @@ global.IOS_DEVICE_MODAL = NativeModules.NativeModule.DEVICE_MODAL
 
 global.IS_IPHONE_X = IOS_DEVICE_MODAL === 'iPhone X'
 
+global.DANGER_BOTTOM =  IS_IPHONE_X ? 34 : 0
+
+global.DANGER_TOP = IS_IPHONE_X ? 44 : 20
+
 global.SETTING = SETTING
 
