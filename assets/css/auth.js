@@ -43,11 +43,11 @@ export default StyleSheet.create({
 		borderRadius: 6,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#d8d8d8'		
+		backgroundColor: '#d8d8d8'
 	},
 	tipText: {
 		fontSize: 15,
-		color: '#999999'		
+		color: '#999999'
 	},
 	line: {
 		width: 110,
@@ -79,8 +79,8 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		borderBottomWidth: 1,
 		backgroundColor: 'white',
-		borderBottomColor: LINE_COLOR,		
-	},	
+		borderBottomColor: LINE_COLOR,
+	},
 	hiddenRight: {
 		flex: 2,
 		flexDirection: 'row',
@@ -97,11 +97,11 @@ export default StyleSheet.create({
 		fontSize: 15,
 		color: '#666',
 		marginLeft: 15,
-	},	
+	},
 	hiddenLeft: {
 		flex: 1,
 		justifyContent: 'center',
-	},	
+	},
 	textLeft:
 	{
 		flex: 2,
@@ -153,7 +153,7 @@ export default StyleSheet.create({
 		width: width - 80,
 		height: 44,
 		borderColor: '#17a9df',
-		backgroundColor: '#17a9df', 
+		backgroundColor: '#17a9df',
 	},
 	btnText: {
 		fontSize: 15,
@@ -187,7 +187,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: 'white',
-	},	
+	},
 	pressStyle: {
 		width: 200,
 		height: 150,
@@ -235,7 +235,7 @@ export default StyleSheet.create({
 	IDLeft: {
 		flex: 2,
 		justifyContent: 'center',
-	},	
+	},
 	IDRight: {
 		flex: 3,
 		flexDirection: 'row',
@@ -245,8 +245,8 @@ export default StyleSheet.create({
 	IDCellContainer: {
 		width,
 		height: 44,
-		backgroundColor: 'white',	
-	},	
+		backgroundColor: 'white',
+	},
 	IDViewStyle: {
 		width,
 		height: 150 + 15,
@@ -315,8 +315,8 @@ export default StyleSheet.create({
 		height: 30,
 	},
 	viewStyle:{
-	 width: width, 
-	 height: 15, 
+	 width: width,
+	 height: 15,
 	 backgroundColor: 'white'
 	}
 });

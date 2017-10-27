@@ -49,7 +49,7 @@ class DetailTop extends Component{
 											<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 14,color: COLOR.TEXT_LIGHT}}>运费(元)</Text>
 										</View>
 										<View style={styles.headerViewBottom}>
-											<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号:${configData.orderId}`}</Text>
+											<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号：${configData.orderId}`}</Text>
 											<Text style={{color: COLOR.APP_THEME}}>{configData.orderStatus}</Text>
 											<View style={styles.routeType}>
 												<Text style={styles.routeTypeText}>{configData.goodsTypeStr}</Text>
@@ -64,7 +64,7 @@ class DetailTop extends Component{
 											<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 14,color: COLOR.TEXT_LIGHT}}>委托状态</Text>
 										</View>
 										<View style={styles.headerViewBottom}>
-											<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号:${configData.orderId}`}</Text>
+											<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号：${configData.orderId}`}</Text>
 											<View style={styles.routeType}>
 												<Text style={styles.routeTypeText}>{configData.goodsTypeStr}</Text>
 											</View>
@@ -80,7 +80,7 @@ class DetailTop extends Component{
 										<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 14,color: COLOR.TEXT_LIGHT}}>订单状态</Text>
 									</View>
 									<View style={styles.headerViewBottom}>
-										<Text style={{color: COLOR.TEXT_BLACK}}>{`订单编号:${configData.orderId}`}</Text>
+										<Text style={{color: COLOR.TEXT_BLACK}}>{`订单编号：${configData.orderId}`}</Text>
 										<View style={styles.routeType}>
 											<Text style={styles.routeTypeText}>{configData.goodsTypeStr}</Text>
 										</View>

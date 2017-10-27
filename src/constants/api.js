@@ -208,7 +208,7 @@ export const GET_CONTRACT_PATH = '/orderApp/viewContract'
 // 确认到达
 export const CONFIRM_ARRIVEL = '/orderApp/confirmArrive'
 
-// 申请结算
+// 催款
 export const APPLY_CLEAR = '/orderApp/balance'
 
 //修改司机密码

@@ -8,6 +8,7 @@
 
 #import "NativeModule.h"
 #import "AppDelegate.h"
+#import "UIDevice+Hardware.h"
 #import <CoreLocation/CoreLocation.h>
 
 #import <React/RCTEventDispatcher.h>
@@ -35,10 +36,14 @@ RCT_EXPORT_METHOD(toAppStore)
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSString *str = [defaults objectForKey:@"app_init"];
   NSString * result = str ? str : @"null";
-  
+#ifdef DEBUG
+  NSString *deviceModal = IS_IPHONE_X ? @"iPhone X" : [[UIDevice currentDevice] hardwareSimpleDescription];
+#else
+  NSString *deviceModal = [[UIDevice currentDevice] hardwareSimpleDescription];
+#endif
   NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
   NSNumber *iosOSVersion = @([[UIDevice currentDevice].systemVersion floatValue]);
-  return @{ @"firstDayOfTheWeek": result, @"VERSION": version, @"IOS_OS_VERSION": iosOSVersion };
+  return @{ @"firstDayOfTheWeek": result, @"VERSION": version, @"IOS_OS_VERSION": iosOSVersion ,@"DEVICE_MODAL": deviceModal};
 }
 
 RCT_EXPORT_METHOD(RNSendMsgToNative)

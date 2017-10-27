@@ -12,4 +12,8 @@
 
 @interface NativeModule : NSObject <RCTBridgeModule>
 
+#define IPHONEWIDTH         [UIScreen mainScreen].bounds.size.width
+#define IPHONEHEIGHT        [UIScreen mainScreen].bounds.size.height
+#define IS_IPHONE_X         (IPHONEHEIGHT == 812 && IPHONEWIDTH == 375)
+
 @end

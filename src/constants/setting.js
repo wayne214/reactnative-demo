@@ -44,3 +44,6 @@ export const XYT_HOST = DEBUG ? 'http://mproxy-beta.xianyiscm.com/' : 'http://mp
 
 // 货主
 // http://file-test.lenglianmajia.com/contract_template/template_goods.pdf
+
+
+

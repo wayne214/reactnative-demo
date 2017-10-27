@@ -47,6 +47,7 @@ import topArrow from '../../../assets/img/routes/top_arrow.png'
 import BatchEdit from '../../components/order/batchEdit'
 import { refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent.js'
+import DeviceInfo from 'react-native-device-info';
 
 const { height,width } = Dimensions.get('window')
 let startTime = 0
@@ -179,18 +180,14 @@ class OrderListItemClear extends Component {
 class OrderList extends BaseComponent {
   constructor(props) {
     super(props);
-    if (Platform.OS === 'ios') {
-      // if (width > 375) {
-      //  this.toolBarHeigth = 93
-      //  this.staBarHeight = 27
-      // } else {
-        this.toolBarHeigth = 64
-        this.staBarHeight = 20
-      // }
+    if (IS_IOS) {
+        this.toolBarHeigth = 44 + DANGER_TOP
+        this.staBarHeight = DANGER_TOP
     } else {
       this.toolBarHeigth = 50
       this.staBarHeight = 0
     }
+
     this.state = {
       title: '全部货源订单',
       showMenu: false,
@@ -209,7 +206,7 @@ class OrderList extends BaseComponent {
     this._showCoordinateResult = this._showCoordinateResult.bind(this)
   }
   componentDidMount() {
-    console.log(" ===== did mount action ?");
+    console.log(" ===== did mount action ");
     super.componentDidMount()
     const {user} = this.props
     setTimeout(()=>{
@@ -349,7 +346,7 @@ class OrderList extends BaseComponent {
               })
             }}/>
       }
-        <View style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,flex:1}}>
+        <View style={styles.content}>
           <ScrollableTabView
             page={activeTab}
             style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
@@ -465,10 +462,10 @@ class OrderList extends BaseComponent {
                         };
                       })
                       if (allOrderNoArr.length < 1) {
-                        Toast.show('请选择需要申请结算的订单')
+                        Toast.show('请选择需要催款的订单')
                         return
                       };
-                      // console.log("-------- p批量申请结算 === orderNo", allOrderNoArr);
+                      // console.log("-------- p批量催款 === orderNo", allOrderNoArr);
 
                       this.props._getBankCardList(user.userId,(data)=>{
                         // console.log("判断是否添加开户行信息 ",data);
@@ -485,7 +482,7 @@ class OrderList extends BaseComponent {
                           ])
                         }else{
                           if (this.props._applyClear) {
-                            Alert.alert('温馨提示','请您在申请结算同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
+                            Alert.alert('温馨提示','请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
                               {text: '取消', onPress:()=>{
                                 // console.log("cancle...");
                               }},
@@ -562,10 +559,14 @@ const styles =StyleSheet.create({
   },
   navButtonView: {
     flexDirection: 'row',
-
     justifyContent: 'center',
     alignItems: 'center',
     height: 44,
+  },
+  content:{
+    backgroundColor: COLOR.APP_CONTENT_BACKBG,
+    flex:1,
+    marginBottom: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_BOTTOM : 0
   },
   modalView: {
     flex: 1,
@@ -667,7 +668,7 @@ const mapDispatchToProps = (dispatch) => {
         showLoading: true,
         body: params,
         success: (data)=>{
-          console.log(" ----- 申请结算成功， 改状态为15 结算中 ");
+          console.log(" ----- 催款成功， 改状态为15 结算中 ");
           Toast.show('申请成功')
           dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
           if (params.activeTab == 3) {
@@ -676,7 +677,7 @@ const mapDispatchToProps = (dispatch) => {
           if (successCallBack) {
             successCallBack()
           }
-          dispatch(appendLogToFile('订单','申请结算成功',startTime))
+          dispatch(appendLogToFile('订单','催款成功',startTime))
 
         }
       }))

@@ -25,13 +25,8 @@ export default class NavigatorBar extends React.Component {
 
 	componentWillMount() {
 		if (Platform.OS === 'ios') {
-			// if (width > 375) {
-			// 	this.adjustToolBarHeigth = { height: 93 };
-			// 	this.adjustStaBarHeight = { marginTop: 27 };
-			// } else {
-				this.adjustToolBarHeigth = { height: 64 };
-				this.adjustStaBarHeight = { marginTop: 20 };
-			// }
+				this.adjustToolBarHeigth = { height: 44 + DANGER_TOP };
+				this.adjustStaBarHeight = { marginTop: DANGER_TOP };
 		} else {
 			this.adjustToolBarHeigth = { height: 50 };
 			this.adjustStaBarHeight = { marginTop: 0 };
@@ -194,7 +189,7 @@ export default class NavigatorBar extends React.Component {
 		const { style, imgTitle, titleContainer } = this.props;
 		let title = ''
 		if (this.props.title) {
-			title = this.props.title	
+			title = this.props.title
 		} else if (this.props.router.state && this.props.router.state.params) {
 			title = this.props.router.state.params.title
 		}

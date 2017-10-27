@@ -235,7 +235,8 @@ class EntrustOrderList extends BaseComponent {
 const styles =StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLOR.APP_CONTENT_BACKBG
+		backgroundColor: COLOR.APP_CONTENT_BACKBG,
+		marginBottom: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_BOTTOM : 0
 	},
 	limitView: {
 		alignItems: 'center',
