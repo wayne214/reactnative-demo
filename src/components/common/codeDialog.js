@@ -18,6 +18,7 @@ import {GET_IMG_CODE, GET_SMS_CODE, CHECK_SMG_CODE} from '../../constants/api';
 import Toast from '../../utils/toast';
 import ImageCode from '../../../assets/img/app/imageCode.png';
 import PasswordBord from '../../components/common/passwordBord';
+import vcode from '../../../assets/img/app/vcode.png';
 
 const {width, height} = Dimensions.get('window')
 
@@ -29,7 +30,7 @@ class CodeDialog extends Component {
             visible: this.props.visible,
             isError: this.props.isError,
             verifyCode: '',
-            errorShow:false,
+            errorShow: false,
         };
         this._okPress = this._okPress.bind(this);
         this._cancelPress = this._cancelPress.bind(this);
@@ -50,9 +51,9 @@ class CodeDialog extends Component {
         this.props.cancelPress();
     }
 
-    codeErro(){
+    codeErro() {
         this.setState({
-            errorShow:true,
+            errorShow: true,
         })
     }
 
@@ -68,22 +69,32 @@ class CodeDialog extends Component {
                 }}>
                 <View style={styles.mainContainer}>
                     <View style={styles.container}>
-                        <TouchableOpacity onPress={()=>{
-                            this._cancelPress();
-                        }}>
+
                         <Image style={{width: 271, height: 117}} source={ImageCode}/>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                this._cancelPress();
+                            }}>
+                            <Image style={{
+                                position: 'absolute',
+                                height: 16,
+                                width: 16,
+                                bottom: 93,
+                                right: -127,
+                            }} source={vcode}/>
+
                         </TouchableOpacity>
-                            <View style={styles.cellContainer}>
+                        <View style={styles.cellContainer}>
 
                             <PasswordBord
                                 maxLength={4}
-                                onChange={(value)=> {
-                                    console.log('输入的密码：',value,'---',value.length)
+                                onChange={(value) => {
+                                    console.log('输入的密码：', value, '---', value.length)
                                     this.setState({verifyCode: value});
-                                    if (value.length == 4 ){
+                                    if (value.length == 4) {
                                         this._okPress(value);
                                     }
-
                                 }}
                             />
                             <TouchableOpacity
@@ -101,14 +112,14 @@ class CodeDialog extends Component {
                                     justifyContent: 'center',
                                     paddingBottom: 50,
                                     height: 80,
-                                    marginRight:56,
+                                    marginRight: 56,
                                 }}>
                                     <Text
                                         style={{
                                             fontSize: 12,
                                             fontFamily: 'iconfont',
                                             color: '#F6001E',
-                                            marginBottom:2,
+                                            marginBottom: 2,
                                         }}> &#xe63c; </Text>
                                     <Text
                                         style={{
@@ -123,11 +134,12 @@ class CodeDialog extends Component {
                                     justifyContent: 'center',
                                     paddingBottom: 50,
                                     height: 80,
-                                    marginRight:56,
-                                }} />
+                                    marginRight: 56,
+                                }}/>
                         }
 
                     </View>
+
                 </View>
 
 
