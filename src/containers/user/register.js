@@ -189,6 +189,7 @@ class RegisterContainer extends BaseComponent {
                         </View>
                     </View>
                 </ScrollView>
+
                 {this.state.visible ?
                     <CodeDialog
                         visible={this.state.visible}
@@ -196,7 +197,7 @@ class RegisterContainer extends BaseComponent {
                             this.codeDialog = e
                         }}
                         okPress={(verifyCode, verifyCodeKey) => {
-                            console.log('lqq---okPress--', verifyCode, '---', verifyCodeKey);
+                            console.log('---okPress--', verifyCode, '---', verifyCodeKey);
                             if (!(verifyCode + '').trim()) return Toast.show('请先填写图形验证码');
 
                             this.setState({
