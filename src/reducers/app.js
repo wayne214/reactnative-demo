@@ -12,6 +12,7 @@ const initState = Immutable.fromJS({
 		downloaded: false,
 		text: '检查更新中',
 		progress: '0%',
+		description: '为方便广大客户不同类型的结算模式，此版本实现了在线结算的系统升级，功能更全，性能更优。'
 	},
 	tabs: [
 		{

@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingView from './loading';
-import { NativeModules, Platform, View, Text, Image } from 'react-native'
+import { NativeModules, Platform, View, Text, Image, TouchableOpacity } from 'react-native'
 import Upgrade from '../app/upgrade'
 import styles from '../../../assets/css/main'
 import Button from './button'
@@ -52,13 +52,26 @@ export default class BaseComponent extends React.Component {
 			return (
 				<View style={ styles.upgradeContainer }>
 					<View style={ styles.upgradeView }>
-						<Image style={{ width: 50, height: 55, marginTop: 15 }} source={ require('../../../assets/img/app/upgrade_icon.png')}/>
-						<Text style={ styles.upgradeText }>冷链马甲承运方升级啦，界面焕然一新，修复了已知bug,赶快升级体验吧</Text>
-						<Button onPress={ this._forceUpgrade } title='立即更新' style={{ backgroundColor: 'white', width: 100, height: Platform.OS === 'ios' ? 40 : 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#17a9df' }}/>
-						{
-							Platform.OS === 'android' && this.state.showUpgrade &&
-								<Button onPress={ this._installApk } title='已下载，立即安装' style={{ backgroundColor: 'white', width: 100, height: 30, borderColor: 'white' }} textStyle={{ fontSize: 12, color: '#1ab036' }}/>
-						}
+						<Image style={{ width: 280, height: 160 }} source={ require('../../../assets/img/upgrade_icon.png')}/>
+						<Text style={ styles.upgradeTip }>{ '新功能上线' }</Text>
+						<Text style={ styles.upgradeText }>{ '为方便广大客户不同类型的结算模式，此版本实现了在线结算的系统升级，功能更全，性能更优。' }</Text>
+						<View style={ styles.optContainer }>
+							{
+								Platform.OS === 'android' && this.state.showUpgrade &&
+									<TouchableOpacity
+										activeOpacity={ 1 }
+										style={ [styles.optCell, styles.rightBorder] }
+										onPress={ this._installApk }>
+										<Text style={{ fontSize: 14, color: '#999' }}>已下载，立即安装</Text>
+									</TouchableOpacity>
+							}
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								style={ styles.optCell }
+								onPress={ this._forceUpgrade }>
+								<Text style={{ fontSize: 14, color: '#333' }}>立即更新</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</View>
 			)
