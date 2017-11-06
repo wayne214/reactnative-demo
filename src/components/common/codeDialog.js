@@ -16,6 +16,9 @@ import PropTypes from 'prop-types';
 import {HOST} from '../../constants/setting';
 import {GET_IMG_CODE, GET_SMS_CODE, CHECK_SMG_CODE} from '../../constants/api';
 import Toast from '../../utils/toast';
+import ImageCode from '../../../assets/img/app/imageCode.png';
+import PasswordBord from '../../components/common/passwordBord';
+import vcode from '../../../assets/img/app/vcode.png';
 
 const {width, height} = Dimensions.get('window')
 
@@ -27,6 +30,7 @@ class CodeDialog extends Component {
             visible: this.props.visible,
             isError: this.props.isError,
             verifyCode: '',
+            errorShow: false,
         };
         this._okPress = this._okPress.bind(this);
         this._cancelPress = this._cancelPress.bind(this);
@@ -39,22 +43,22 @@ class CodeDialog extends Component {
         }
     }
 
-    _okPress() {
-        this.props.okPress(this.state.verifyCode, this.state.verifyCodeKey);
+    _okPress(verifyCode) {
+        this.props.okPress(verifyCode, this.state.verifyCodeKey);
     }
 
     _cancelPress() {
         this.props.cancelPress();
-        // this.setState({visible: false})
+    }
+
+    codeErro() {
+        this.setState({
+            errorShow: true,
+        })
     }
 
     render() {
         return (
-            //<Modal
-            //    transparent={true}
-            //    animationType={'none'}
-            //    visible={this.state.visible}
-            //    onRequestClose={() => console.log('ignore warining')}>
             <View
                 style={{
                     position: 'absolute',
@@ -65,15 +69,34 @@ class CodeDialog extends Component {
                 }}>
                 <View style={styles.mainContainer}>
                     <View style={styles.container}>
+
+                        <Image style={{width: 271, height: 117}} source={ImageCode}/>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                this._cancelPress();
+                            }}>
+                            <Image style={{
+                                position: 'absolute',
+                                height: 16,
+                                width: 16,
+                                bottom: 93,
+                                right: -127,
+                            }} source={vcode}/>
+
+                        </TouchableOpacity>
                         <View style={styles.cellContainer}>
-                            <Text style={styles.labelText}>图形验证码</Text>
-                            <TextInput
-                                ref='inputcode'
-                                placeholder='请输入验证码'
-                                style={styles.textInput}
-                                underlineColorAndroid={'transparent'}
-                                value={this.state.verifyCode}
-                                onChangeText={(text) => this.setState({verifyCode: text})}/>
+
+                            <PasswordBord
+                                maxLength={4}
+                                onChange={(value) => {
+                                    console.log('输入的密码：', value, '---', value.length)
+                                    this.setState({verifyCode: value});
+                                    if (value.length == 4) {
+                                        this._okPress(value);
+                                    }
+                                }}
+                            />
                             <TouchableOpacity
                                 activeOpacity={1}
                                 onPress={() => this.setState({verifyCodeKey: Math.floor(Math.random(1) * 100000000)})}>
@@ -81,22 +104,42 @@ class CodeDialog extends Component {
                                        source={{uri: HOST + GET_IMG_CODE + '?verifyCodeKey=' + this.state.verifyCodeKey}}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.line}/>
-                        <View style={styles.bottomBtn}>
-                            <TouchableOpacity
-                                activeOpacity={1}
-                                style={styles.btnView}
-                                onPress={this._cancelPress}>
-                                <Text style={styles.cancelText}>取消</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                activeOpacity={1}
-                                style={styles.btnView}
-                                onPress={this._okPress}>
-                                <Text style={styles.cancelText}>确定</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {
+                            this.state.errorShow ?
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingBottom: 50,
+                                    height: 80,
+                                    marginRight: 56,
+                                }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            fontFamily: 'iconfont',
+                                            color: '#F6001E',
+                                            marginBottom: 2,
+                                        }}> &#xe63c; </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            color: '#F6001E',
+                                        }}>验证码错误，请重新输入验证码</Text>
+                                </View>
+                                :
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingBottom: 50,
+                                    height: 80,
+                                    marginRight: 56,
+                                }}/>
+                        }
+
                     </View>
+
                 </View>
 
 
@@ -119,18 +162,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.3)'
     },
     container: {
-        width: width - 30,
-        height: 160,
+        width: 271,
+        height: 240,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-        borderRadius: 6,
+        // borderRadius: 6,
         paddingTop: 30,
     },
 
     cellContainer: {
-        width,
+        width: 271,
         height: 70,
+        marginLeft: 20,
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -144,9 +188,12 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     textInput: {
-        flex: 1,
-        padding: 0,
-        fontSize: 15
+        height: 39,
+        width: 168,
+        fontSize: 15,
+        borderWidth: 0.5,
+        borderColor: '#B6B6B6',
+        marginLeft: 13,
     },
     bottomBtn: {
         width,
@@ -162,9 +209,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     imgStyle: {
-        width: 94,
-        height: 29,
-        marginRight: 15
+        width: 69,
+        height: 41,
+        // marginRight: 15,
+        resizeMode: 'contain',
+        borderWidth: 1,
+        borderColor: '#B6B6B6'
     },
     textView: {
         height: 48,
@@ -187,9 +237,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#666666'
     },
-    line:{
+    line: {
         height: 1,
-        width:width-30,
-        backgroundColor:'#e6eaf2',
+        width: width - 30,
+        backgroundColor: '#e6eaf2',
     }
 });

@@ -189,11 +189,15 @@ class RegisterContainer extends BaseComponent {
                         </View>
                     </View>
                 </ScrollView>
+
                 {this.state.visible ?
                     <CodeDialog
                         visible={this.state.visible}
+                        ref={(e) => {
+                            this.codeDialog = e
+                        }}
                         okPress={(verifyCode, verifyCodeKey) => {
-                            console.log('lqq---okPress--', verifyCode, '---', verifyCodeKey);
+                            console.log('---okPress--', verifyCode, '---', verifyCodeKey);
                             if (!(verifyCode + '').trim()) return Toast.show('请先填写图形验证码');
 
                             this.setState({
@@ -201,13 +205,14 @@ class RegisterContainer extends BaseComponent {
                                 verifyCode: verifyCode,
                             });
                             const ref = this.countDownView;
+                            const refCode = this.codeDialog;
                             this.props._getSmsCode({
                                 phoneNumber: (this.state.phone + '').trim(),
                                 verifyCode: (verifyCode + '').trim(),
                                 verifyCodeKey: (verifyCodeKey + '').trim(),
                                 verifyType: 1, // 1：承运商注册 2：司机注册
                                 loginType: 2,//用户类型 1:司机 2:承运商
-                            }, ref, (isVisible) => {
+                            }, ref,refCode, (isVisible) => {
                                 this.setState({
                                     visible: !isVisible,
                                 });
@@ -268,7 +273,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         dispatch,
-        _getSmsCode: (body, ref, cb) => {
+        _getSmsCode: (body, ref,refCode, cb) => {
             startTime = new Date().getTime()
             dispatch(fetchData({
                 body,
@@ -285,6 +290,7 @@ function mapDispatchToProps(dispatch) {
                 fail: (data) => {
                     if (data.code == '0002') {//图形验证码错误
                         console.log('lqq--fail--data', data);
+                        refCode.codeErro();
                         cb(false);
                     }
                     ;
