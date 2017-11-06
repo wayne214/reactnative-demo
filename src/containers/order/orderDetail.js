@@ -144,6 +144,7 @@ class OrderDetail extends BaseComponent {
 								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
 									<Text style={{color: '#F6001E',fontSize: 13}}>催款状态：已催款</Text>
 								</View>
+							: null
 						}
 						{
 							orderDetail.orderState === 15 ?
@@ -890,7 +891,7 @@ const mapDispatchToProps = (dispatch) => {
 				body: params,
 				success: (data)=>{
 					console.log(" ----- 催款成功， 改状态为15 结算中 ");
-					Toast.show('申请成功')
+					Toast.show('催款成功')
 					dispatch(appendLogToFile('订单详情','催款成功',startTime))
 					// dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
 					if (successCallBack) {successCallBack()}
