@@ -82,6 +82,7 @@ class BillDetail extends BaseComponent {
 								<Text style={styles.itemName}>实收金额</Text>
 								<Text>{`¥${clearDetail.payablePrice}`}</Text>
 							</View>
+							/**
 							<View style={styles.itemView}>
 								<Text style={styles.itemName}>结算金额</Text>
 								<Text>{`¥${clearDetail.companyActualPrice}`}</Text>
@@ -93,17 +94,17 @@ class BillDetail extends BaseComponent {
 										<Text>{clearDetail.priceInstruction}</Text>
 									</View>
 								: null
-							}
+							}**/
 							{
 								clearDetail.companyApplyTime ?
 									<View style={styles.itemView}>
-										<Text style={styles.itemName}>申请时间</Text>
+										<Text style={styles.itemName}>付款时间</Text>
 										<Text>{clearDetail.companyApplyTime}</Text>
 									</View>
 								: null
 							}
 							<View style={styles.itemView}>
-								<Text style={styles.itemName}>结算时间</Text>
+								<Text style={styles.itemName}>结算确认时间</Text>
 								<Text>{clearDetail.companyPaymentTime}</Text>
 							</View>
 							<View style={styles.itemView}>
