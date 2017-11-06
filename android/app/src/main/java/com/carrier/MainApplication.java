@@ -74,26 +74,4 @@ public class MainApplication extends Application implements ReactApplication {
     getApplicationContext().startService(new Intent(getApplicationContext(), LogService.class));
   }
 
-  @Override
-  public void onConfigurationChanged(Configuration newConfig)
-  {
-    if(newConfig.fontScale!=1)//非默认值
-    {
-      getResources();
-      super.onConfigurationChanged(newConfig);
-    }
-  }
-
-  @Override
-  public Resources getResources()
-  {
-    Resources res=super.getResources();
-    if(res.getConfiguration().fontScale!=1)//非默认值
-    {
-      Configuration newConfig=new Configuration();
-      newConfig.setToDefaults();//设置为默认值
-      res.updateConfiguration(newConfig,res.getDisplayMetrics());
-    }
-    return res;
-  }
 }
