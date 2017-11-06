@@ -64,6 +64,11 @@ class ContractDetail extends BaseComponent {
 				})
 			})
 		}, 500);
+		this.props.navigation.setParams({
+			copyToClipboardAndAppendLogToFile: ()=>{
+				this.props.dispatch(appendLogToFile('合同','复制合同下载链接',0))
+			}
+		})
 	}
 	static navigationOptions = ({navigation}) => {
 		const {params} = navigation.state
@@ -80,7 +85,7 @@ class ContractDetail extends BaseComponent {
 								{ text: '复制到剪贴板', onPress: () => {
 									Clipboard.setString(params.uri)
 									Toast.show('已复制到剪贴板')
-									this.props.dispatch(appendLogToFile('合同','复制合同下载链接',0))
+									params && params.copyToClipboardAndAppendLogToFile && params.copyToClipboardAndAppendLogToFile()
 								}}
 							])
 						}else{

@@ -94,3 +94,12 @@ export const changeOrderListIsRefreshing = (orderState,showLoading) => {
 		}
 	}
 }
+
+export const changeOrderurgedWithOrderNo = (orderNo) => {
+	return {
+		type: ActionTypes.ACTION_CHANGE_ORDER_URGED_WITH_ORDER_NO,
+		payload: {
+			orderNo
+		}
+	}
+}

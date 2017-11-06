@@ -140,6 +140,12 @@ class OrderDetail extends BaseComponent {
 							: null
 						}
 						{
+							promptState == 2 && [10,14].includes(orderDetail.orderState) && entrustType == 1 ?
+								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
+									<Text style={{color: '#F6001E',fontSize: 13}}>催款状态：已催款</Text>
+								</View>
+						}
+						{
 							orderDetail.orderState === 15 ?
 								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
 									<Text style={{color: '#F6001E',fontSize: 13}}>已结金额： {orderDetail.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{orderDetail.unknotPrice || 0}元</Text>
@@ -373,9 +379,6 @@ class OrderDetail extends BaseComponent {
 																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
-																// this.setState({
-																// 	shouldOrderListRefresh: true
-																// })
 															})
 														}}]
 													)
@@ -394,9 +397,6 @@ class OrderDetail extends BaseComponent {
 															this.props.navigation.setParams({
 																shouldOrderListRefresh: true
 															})
-															// this.setState({
-															// 	shouldOrderListRefresh: true
-															// })
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
@@ -515,9 +515,6 @@ class OrderDetail extends BaseComponent {
 																				this.props.navigation.setParams({
 																					shouldOrderListRefresh: true
 																				})
-																				// this.setState({
-																				// 	shouldOrderListRefresh: true
-																				// })
 																				this.props._getOrderDetail({orderNo: this.state.orderNo})
 																				this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}})
 																			}
@@ -540,9 +537,6 @@ class OrderDetail extends BaseComponent {
 														this.props.navigation.setParams({
 															shouldOrderListRefresh: true
 														})
-														// this.setState({
-														// 	shouldOrderListRefresh: true
-														// })
 													})
 												}
 											}
@@ -615,9 +609,6 @@ class OrderDetail extends BaseComponent {
 																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
-																// this.setState({
-																// 	shouldOrderListRefresh: true
-																// })
 															})
 														}}]
 													)
@@ -916,7 +907,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					dispatch(appendLogToFile('订单详情','确认装货成功',startTime))
 					if (successCallBack){successCallBack()}
-					// dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
+					dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
 				}
 			}))
 		},
