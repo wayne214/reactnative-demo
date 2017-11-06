@@ -126,7 +126,7 @@ android {
 
     productFlavors {
 
-        wandoujia {}
+        yingyongbao {}
 //        baidu {}
 //        c360 {}
 //        uc {}
