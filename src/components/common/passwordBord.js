@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, TextInput, Text, TouchableHighlight} from 'react-native';
+import {StyleSheet, View, TextInput, Text, TouchableHighlight, Platform} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        width:42 * 4,
+        width: 42 * 4,
         flexDirection: 'row',
         // borderWidth: 1,
-        borderBottomWidth:1,
-        borderLeftWidth:1,
-        borderTopWidth:1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderTopWidth: 1,
         borderColor: '#B6B6B6',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     inputItem: {
         height: 39,
@@ -46,21 +46,41 @@ export default class PasswordBord extends Component {
 
     render() {
         return (
+
             <TouchableHighlight onPress={this._onPress} activeOpacity={1} underlayColor='transparent'>
-                <View style={[styles.container, this.props.style]}>
-                    <TextInput ref={(c) => this._input = c}
-                               maxLength={this.props.maxLength}
-                               autoFocus={true}
-                               keyboardType="numeric"
-                               onChangeText={(text) => {
-                                   this.setState({text});
-                                   this.props.onChange(text)
-                               }}
-                    />
-                    {
-                        this._getInputItem()
-                    }
-                </View>
+                {Platform.OS === 'ios' ?
+                    <View style={[styles.container, this.props.style]}>
+                        <TextInput ref={(c) => this._input = c}
+                                   underlineColorAndroid={'transparent'}
+                                   maxLength={this.props.maxLength}
+                                   autoFocus={true}
+                                   onChangeText={(text) => {
+                                       this.setState({text});
+                                       this.props.onChange(text)
+                                   }}
+                        />
+                        {
+                            this._getInputItem()
+                        }
+                    </View>
+                    :
+                    <View style={[styles.container, this.props.style]}>
+                        <TextInput ref={(c) => this._input = c}
+                                   style={{height:45,zIndex:99,position:'absolute',width:42*4,opacity:0}}
+                                   underlineColorAndroid={'transparent'}
+                                   maxLength={this.props.maxLength}
+                                   autoFocus={true}
+                                   onChangeText={(text) => {
+                                       this.setState({text});
+                                       this.props.onChange(text)
+                                   }}
+                        />
+                        {
+                            this._getInputItem()
+                        }
+                    </View>
+                }
+
             </TouchableHighlight>
         )
 

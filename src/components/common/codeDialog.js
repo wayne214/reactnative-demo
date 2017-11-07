@@ -63,7 +63,7 @@ class CodeDialog extends Component {
                 style={{
                     position: 'absolute',
                     backgroundColor: 'transparent',
-                    paddingBottom: 40,
+                    paddingBottom: 45,
                     height,
                     width,
                 }}>
@@ -85,8 +85,8 @@ class CodeDialog extends Component {
                             }} source={vcode}/>
 
                         </TouchableOpacity>
-                        <View style={styles.cellContainer}>
 
+                        <View style={styles.cellContainer}>
                             <PasswordBord
                                 maxLength={4}
                                 onChange={(value) => {
@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         // borderRadius: 6,
         paddingTop: 30,
+        marginBottom:90,
     },
 
     cellContainer: {
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: '#e6eaf2',
         padding: 5,
+
     },
     labelText: {
         width: 90,
