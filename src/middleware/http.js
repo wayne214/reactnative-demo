@@ -157,7 +157,7 @@ export default store => next => action => {
 				store.dispatch(redictLogin());
 			} else {
 				if (fail) fail(failed);
-				if (failToast && failed.msg) Toast.show(failed.msg);
+				if (failToast && failed.msg && failed.code !== '0099') Toast.show(failed.msg);
 			}
 		}).catch(error => Toast.show(error))
 		.finally(() => {
