@@ -90,7 +90,7 @@ export default store => next => action => {
 	headers.user_id = _userId;
 	headers.version = NativeModules.NativeModule.VERSION;
 	headers.client_type = Platform.OS === 'ios' ? 2 : 1;
-	headers.source = 2;
+	headers.source = 1;
 
 	let options;
 	if (method === 'POST') {
