@@ -35,6 +35,7 @@ export default class BaseComponent extends React.Component {
     if (Platform.OS === 'android') {
       Toast.show('开始下载')
       NativeModules.NativeModule.upgradeForce(this.url).then(response => {
+				Toast.show('下载完成')
         this.setState({ showUpgrade: true })
       });
     } else {
