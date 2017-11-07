@@ -4,13 +4,13 @@ import {
     View,
     Modal,
     ListView,
-    Animated,
+    Platform,
     StyleSheet,
     Dimensions,
     ScrollView,
     TextInput,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {HOST} from '../../constants/setting';
@@ -71,21 +71,19 @@ class CodeDialog extends Component {
                     <View style={styles.container}>
 
                         <Image style={{width: 271, height: 117}} source={ImageCode}/>
-
                         <TouchableOpacity
-                            onPress={() => {
-                                this._cancelPress();
-                            }}>
-                            <Image style={{
+                            style={{
                                 position: 'absolute',
                                 height: 16,
                                 width: 16,
-                                bottom: 93,
-                                right: -127,
-                            }} source={vcode}/>
-
+                                top: 10,
+                                right: 10,
+                            }}
+                            onPress={() => {
+                                this._cancelPress();
+                            }}>
+                            <Image source={vcode}/>
                         </TouchableOpacity>
-
                         <View style={styles.cellContainer}>
                             <PasswordBord
                                 maxLength={4}
@@ -169,7 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         // borderRadius: 6,
         paddingTop: 30,
-        marginBottom:90,
+        marginBottom: 135,
     },
 
     cellContainer: {
