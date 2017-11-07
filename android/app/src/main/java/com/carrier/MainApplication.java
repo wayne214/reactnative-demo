@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.facebook.react.ReactApplication;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rnfs.RNFSPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -47,12 +48,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
             new RNDeviceInfo(),
             new RNFSPackage(),
             new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG),
             new RNFetchBlobPackage(),
             new RCTPdfView(),
-            new SplashScreenReactPackage(),
             new PickerViewPackage(),
             new PhotoViewPackage(),
             new PickerPackage(),
@@ -74,26 +75,26 @@ public class MainApplication extends Application implements ReactApplication {
     getApplicationContext().startService(new Intent(getApplicationContext(), LogService.class));
   }
 
-  @Override
-  public void onConfigurationChanged(Configuration newConfig)
-  {
-    if(newConfig.fontScale!=1)//非默认值
-    {
-      getResources();
-      super.onConfigurationChanged(newConfig);
-    }
-  }
-
-  @Override
-  public Resources getResources()
-  {
-    Resources res=super.getResources();
-    if(res.getConfiguration().fontScale!=1)//非默认值
-    {
-      Configuration newConfig=new Configuration();
-      newConfig.setToDefaults();//设置为默认值
-      res.updateConfiguration(newConfig,res.getDisplayMetrics());
-    }
-    return res;
-  }
+//  @Override
+//  public void onConfigurationChanged(Configuration newConfig)
+//  {
+//    if(newConfig.fontScale!=1)//非默认值
+//    {
+//      getResources();
+//      super.onConfigurationChanged(newConfig);
+//    }
+//  }
+//
+//  @Override
+//  public Resources getResources()
+//  {
+//    Resources res=super.getResources();
+//    if(res.getConfiguration().fontScale!=1)//非默认值
+//    {
+//      Configuration newConfig=new Configuration();
+//      newConfig.setToDefaults();//设置为默认值
+//      res.updateConfiguration(newConfig,res.getDisplayMetrics());
+//    }
+//    return res;
+//  }
 }

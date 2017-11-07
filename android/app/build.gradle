@@ -178,12 +178,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':react-native-device-info')
     compile project(':react-native-fs')
     compile project(':react-native-code-push')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-pdf')
-    compile project(':react-native-splash-screen')
     compile project(':react-native-picker')
     compile project(':react-native-photo-view')
     compile project(':react-native-image-crop-picker')
