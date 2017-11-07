@@ -225,6 +225,7 @@ class GoodsList extends Component {
                 })
               }}
               loadMoreAction={()=>{
+                console.log(">>>>>>>>>>>>>>>>> loadMoreAction");
                 const param = searchAddressInfo || {}
                 param.type = 0
                 param.companyId = user.userId
@@ -365,6 +366,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
     _getNormalGoodsList: (params,user)=>{
+      console.log(" --->>>>> 刷新 货源 列表");
       startTime = new Date().getTime();
       //3 抢单（普通货源）  2 报价（优质货源）
       if (params.type == 0) {
@@ -375,7 +377,7 @@ const mapDispatchToProps = (dispatch) => {
       }else if(params.type == 1){
         params.modeState = 2
       }
-      dispatch(changeGoodsListLoadingMore(params.type))
+      // dispatch(changeGoodsListLoadingMore(params.type))
       dispatch(fetchData({
         api: API.GOODS_SOURCE_LIST,
         method: 'POST',

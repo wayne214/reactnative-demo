@@ -1117,7 +1117,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = DF7D3DZVHK;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1596,7 +1596,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=/Users/YYQ/node/node-v6.2.2-darwin-x64/bin/node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1799,7 +1799,7 @@
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
@@ -1831,8 +1831,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ea277091-b4eb-4204-bfe3-00f7f7ae59c0";
+				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1845,7 +1845,7 @@
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
 				ENABLE_BITCODE = NO;
@@ -1876,8 +1876,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ea277091-b4eb-4204-bfe3-00f7f7ae59c0";
+				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2105,7 +2105,7 @@
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DF7D3DZVHK;
 				ENABLE_BITCODE = NO;
@@ -2136,8 +2136,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ea277091-b4eb-4204-bfe3-00f7f7ae59c0";
+				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging;

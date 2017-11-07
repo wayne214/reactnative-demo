@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -9,6 +9,7 @@ import {
 	Image,
 	RefreshControl
 } from 'react-native';
+import PropTypes from 'prop-types';
 import * as COLOR from '../../constants/colors'
 import BiddingCell from '../../components/routes/biddingCell'
 import emptyList from '../../../assets/img/order/empty_order_list.png'

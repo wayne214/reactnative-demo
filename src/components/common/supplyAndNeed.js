@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
 	Image,
 	Text
 } from 'react-native';
+import PropTypes from 'prop-types';
 import * as COLOR from '../../constants/colors'
 import CompeteOver from '../../../assets/img/app/header_icon.png'
 
@@ -21,14 +22,14 @@ class SupplyAndNeed extends Component{
 
 	render() {
 		let realPrice = ''
-		const {orderType,entrustOrderStatus,orderState} = this.props
+		const {orderType,entrustOrderStatus,orderState,freight} = this.props
 		if (orderType == 'ENTRUST' && entrustOrderStatus == 2 && orderState == 1){
 			realPrice = this.props.carrierDealPrice.toString()
 		}else{
 			if (orderState == 12) {
 				realPrice = this.props.carrierPaymentPrice.toString()
 			}else{
-				realPrice = this.props.freight.toString()
+				realPrice = freight ? freight.toString() : '????'
 			}
 		}
 		return (

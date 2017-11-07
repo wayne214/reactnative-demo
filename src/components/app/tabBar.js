@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Immutable from 'immutable';
 import styles from '../../../assets/css/main';
-
+import PropTypes from 'prop-types';
 import GoodsListContainer from '../../containers/routes/goodsList';
 import TravelContainer from '../../containers/travel/travel';
 import OrderContainer from '../../containers/order/order';
@@ -29,9 +29,9 @@ export default class Tabar extends Component {
 	}
 
 	static propTypes = {
-		currentTab: React.PropTypes.string,
-		changeTab: React.PropTypes.func,
-		tabs: React.PropTypes.instanceOf(Immutable.List),
+		currentTab: PropTypes.string,
+		changeTab: PropTypes.func,
+		tabs: PropTypes.instanceOf(Immutable.List),
 	}
 
 	_renderBadge(badgeCount) {

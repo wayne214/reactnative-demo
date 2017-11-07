@@ -1,15 +1,15 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
-	ListView,
+	FlatList,
 	Image,
 	Text,
 	TouchableOpacity,
-	RefreshControl
 } from 'react-native';
+import PropTypes from 'prop-types';
 import * as COLOR from '../../constants/colors'
 import GoodsCell from './goodsCell'
 import LoadMoreFooter from '../common/loadMoreFooter'
@@ -31,8 +31,9 @@ class NormalRoutes extends Component{
 	}
 
 	_renderRow(rowData,SectionId,rowID){
-		return <GoodsCell { ...this.props } rowData={rowData} rowID={ rowID }/>
+		return <GoodsCell { ...this.props } rowData={rowData.item} rowID={ rowID }/>
 	}
+	_keyExtractor = (item, index) => item.resourceId
 
 	_renderFooter(){
 		const { dataSource } = this.props;
@@ -42,7 +43,9 @@ class NormalRoutes extends Component{
 			}else{
 				return <LoadMoreFooter isLoadAll={true}/>
 			}
-		};
+		}else{
+			return null
+		}
 	}
 
 	_toEnd(){
@@ -56,40 +59,35 @@ class NormalRoutes extends Component{
 			loadMoreAction()
 		};
 	}
-
-	render() {
-		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-		const {type,dataSource,style,pushToManagerList} = this.props
-		if (dataSource.get('list').toJS().length > 0 || dataSource.get('isLoadingMore')) {
-			return (
-				<View style={[styles.container,style]}>
-					<ListView
-						style={{flex:1}}
-						dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
-						renderRow={this._renderRow.bind(this)}
-						refreshControl={
-							<RefreshControl
-								refreshing={ dataSource.get('isRefreshing') }
-								onRefresh={ ()=>{
-									this.props.dispatch(changeGoodsListIsRefreshing(type, true))//刷新货源列表
-									this.props.refreshList && this.props.refreshList(1, true)
-								}}
-								tintColor="gray"
-								colors={['#ff0000', '#00ff00', '#0000ff']}
-								progressBackgroundColor="gray"/>
-						}
-						onEndReachedThreshold={10}
-						enableEmptySections={true}
-						onEndReached={ this._toEnd.bind(this) }
-						renderFooter={ this._renderFooter.bind(this) }/>
-				</View>
-			)
-		}else{
-			return <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+	_listEmptyComponent(){
+		return (
+			<View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-44-40-49}}>
 				<Image source={emptyList}/>
 			</View>
-		}
-
+		)
+	}
+	render() {
+		const {type,dataSource,style,pushToManagerList} = this.props
+		return (
+			<View style={[styles.container,style]}>
+				<FlatList
+					style={{flex:1}}
+					onRefresh={()=>{
+						this.props.dispatch(changeGoodsListIsRefreshing(type, true))//刷新货源列表
+						this.props.refreshList && this.props.refreshList(1, true)
+					}}
+					refreshing={dataSource.get('isRefreshing')}
+					data={dataSource.get('list').toJS() || []}
+					renderItem={this._renderRow.bind(this)}
+					keyExtractor={this._keyExtractor}
+					extraData={this.state}
+					onEndReachedThreshold={0.1}
+					enableEmptySections={true}
+					onEndReached={ this._toEnd.bind(this) }
+					ListFooterComponent={this._renderFooter.bind(this)}
+					ListEmptyComponent={this._listEmptyComponent()}/>
+			</View>
+		)
 	}
 }
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text,
@@ -13,6 +13,7 @@ import {
     InteractionManager,
     ScrollView
 } from 'react-native';
+import PropTypes from 'prop-types';
 const { width, height } = Dimensions.get('window')
 import * as COLOR from '../../constants/colors'
 const adHeight = 36

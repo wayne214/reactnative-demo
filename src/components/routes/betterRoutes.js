@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet
@@ -9,9 +9,7 @@ class BetterRoutes extends Component{
 		super(props);
 	}
 
-	static propTypes = {
-	  style: View.propTypes.style,
-	};
+
 	componentDidMount(){
 
 	}

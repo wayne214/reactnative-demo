@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -8,6 +8,7 @@ import {
 	Dimensions,
 	TouchableOpacity
 } from 'react-native';
+import PropTypes from 'prop-types';
 import Button from 'apsl-react-native-button'
 const { height,width } = Dimensions.get('window');
 import * as COLOR from '../../constants/colors'

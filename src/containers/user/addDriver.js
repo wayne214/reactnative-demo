@@ -12,6 +12,7 @@ import {
     Dimensions,
     ImageBackground
 } from 'react-native';
+import PropTypes from 'prop-types';
 import styles from '../../../assets/css/auth';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -94,7 +95,7 @@ class AddDriverContainer extends BaseComponent {
 
 
     static propTypes = {
-        router: React.PropTypes.object
+        router: PropTypes.object
     }
 
     _getMsgCode() {

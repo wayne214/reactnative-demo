@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-
+import PropTypes from 'prop-types';
 import {
 	StyleSheet,
 	View,
@@ -25,12 +25,12 @@ class SegmentTabBar extends Component {
     }
 	}
 	static propTypes = {
-		goToPage: React.PropTypes.func, // 跳转到对应tab的方法
-		activeTab: React.PropTypes.number, // 当前被选中的tab下标
-		// tabs: React.PropTypes.array, // 所有tabs集合
+		goToPage: PropTypes.func, // 跳转到对应tab的方法
+		activeTab: PropTypes.number, // 当前被选中的tab下标
+		// tabs: PropTypes.array, // 所有tabs集合
 
-		tabNames: React.PropTypes.array, // 保存Tab名称
-		tabIconNames: React.PropTypes.array, // 保存Tab图标
+		tabNames: PropTypes.array, // 保存Tab名称
+		tabIconNames: PropTypes.array, // 保存Tab图标
 	}
 
 	_setAnimationValue(value) {

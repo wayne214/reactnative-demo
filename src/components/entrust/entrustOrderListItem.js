@@ -6,9 +6,8 @@ import { connect } from 'react-redux';
 import {
 	View,
 	Text,
-	ListView,
 	Image,
-	RefreshControl
+	FlatList,
 } from 'react-native';
 import OrderCell from '../order/orderCell.js'
 import {changeEntrustOrderListIsRefreshing } from '../../action/entrust.js'
@@ -22,7 +21,6 @@ export default class EntrustOrderListItem extends Component {
 	_renderRow(rowData,SectionId,rowID){
 		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
 		const {itemClick,dispatchCar,acceptDesignate} = this.props
-
 		return <OrderCell
 			{...this.props}
 			itemClick={(data)=>{
@@ -34,7 +32,7 @@ export default class EntrustOrderListItem extends Component {
 			acceptDesignate={(data)=>{
 				if(acceptDesignate){acceptDesignate(data)}
 			}}
-			rowData={rowData}
+			rowData={rowData.item}
 			rowID={ rowID }/>
 	}
 	_renderFooter(){
@@ -45,8 +43,11 @@ export default class EntrustOrderListItem extends Component {
 			}else{
 				return <LoadMoreFooter isLoadAll={true}/>
 			}
-		};
+		}else{
+			return null
+		}
 	}
+
 	_toEnd(){
 		const {loadMoreAction, dataSource} = this.props
 		if (loadMoreAction) {
@@ -60,36 +61,54 @@ export default class EntrustOrderListItem extends Component {
 			loadMoreAction()
 		};
 	}
-	render(){
-		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-		const {dataSource,type} = this.props
-		if (dataSource.get('list').toJS().length > 0 || dataSource.get('isLoadingMore')) {
-			return (
-				<ListView
-					style={{flex:1}}
-					refreshControl={
-						<RefreshControl
-							refreshing={ dataSource.get('isRefreshing') }
-							onRefresh={ ()=>{
-								this.props.dispatch(changeEntrustOrderListIsRefreshing(type, true))//刷新货源列表
-								this.props.refreshList && this.props.refreshList()
-							}}
-							tintColor="gray"
-							colors={['#ff0000', '#00ff00', '#0000ff']}
-							progressBackgroundColor="gray"/>
-					}
-					dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
-					renderRow={this._renderRow.bind(this)}
-					onEndReachedThreshold={10}
-					enableEmptySections={true}
-					onEndReached={ this._toEnd.bind(this) }
-					renderFooter={ this._renderFooter.bind(this) }/>
-			)
-		}else{
-			return <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+	_listEmptyComponent(){
+		return (
+			<View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-44-40-49}}>
 				<Image source={emptyList}/>
 			</View>
-		}
-
+		)
+	}
+	_keyExtractor = (item, index) => item.resourceId
+	render(){
+		const {dataSource,type} = this.props
+		return (
+			<FlatList
+				style={{flex:1}}
+				onRefresh={()=>{
+					this.props.dispatch(changeEntrustOrderListIsRefreshing(type, true))//刷新货源列表
+					this.props.refreshList && this.props.refreshList()
+				}}
+				refreshing={dataSource.get('isRefreshing')}
+				data={dataSource.get('list').toJS() || []}
+				renderItem={this._renderRow.bind(this)}
+				keyExtractor={this._keyExtractor}
+				extraData={this.state}
+				onEndReachedThreshold={0.1}
+				enableEmptySections={true}
+				onEndReached={ this._toEnd.bind(this) }
+				ListFooterComponent={this._renderFooter.bind(this)}
+				ListEmptyComponent={this._listEmptyComponent()}/>
+		)
 	}
 }
+
+
+// <ListView
+// 	style={{flex:1}}
+// 	refreshControl={
+// 		<RefreshControl
+// 			refreshing={ dataSource.get('isRefreshing') }
+// 			onRefresh={ ()=>{
+// 				this.props.dispatch(changeEntrustOrderListIsRefreshing(type, true))//刷新货源列表
+// 				this.props.refreshList && this.props.refreshList()
+// 			}}
+// 			tintColor="gray"
+// 			colors={['#ff0000', '#00ff00', '#0000ff']}
+// 			progressBackgroundColor="gray"/>
+// 	}
+// 	dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
+// 	renderRow={this._renderRow.bind(this)}
+// 	onEndReachedThreshold={10}
+// 	enableEmptySections={true}
+// 	onEndReached={ this._toEnd.bind(this) }
+// 	renderFooter={ this._renderFooter.bind(this) }/>

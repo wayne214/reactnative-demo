@@ -6,6 +6,7 @@ import {
 	StyleSheet
 } from 'react-native';
 import timeIcon from '../../../assets/gif/upgrade_icon.gif';
+import PropTypes from 'prop-types';
 
 export default class Upgrade extends React.Component {
 
@@ -16,7 +17,7 @@ export default class Upgrade extends React.Component {
 	}
 
 	static propTypes = {
-		text: React.PropTypes.string.isRequired
+		text: PropTypes.string.isRequired
 	}
 
 	render () {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		bottom: 0,
 		alignItems: 'center',
-		position: 'absolute',		
+		position: 'absolute',
 		justifyContent: 'center',
 		backgroundColor: '#000000b8',
 	},
