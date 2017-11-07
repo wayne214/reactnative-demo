@@ -209,7 +209,7 @@ export const GET_CONTRACT_PATH = '/orderApp/viewContract'
 export const CONFIRM_ARRIVEL = '/orderApp/confirmArrive'
 
 // 催款
-export const APPLY_CLEAR = '/orderApp/balance'
+export const APPLY_CLEAR = '/orderApp/pressMoney'
 
 //修改司机密码
 export const UPDATE_DRIVER_PASSWORD = '/driver/updatePassword'
