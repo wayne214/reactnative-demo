@@ -54,7 +54,8 @@ export default class PasswordBord extends Component {
                                    underlineColorAndroid={'transparent'}
                                    maxLength={this.props.maxLength}
                                    autoFocus={true}
-                                   keyboardType = {'numbers-and-punctuation'}
+                                   autoCorrect = {false}
+                                   keyboardType = 'numbers-and-punctuation'
                                    onChangeText={(text) => {
                                        this.setState({text});
                                        this.props.onChange(text)
@@ -70,8 +71,9 @@ export default class PasswordBord extends Component {
                                    style={{height:45,zIndex:99,position:'absolute',width:42*4,opacity:0}}
                                    underlineColorAndroid={'transparent'}
                                    maxLength={this.props.maxLength}
-                                   keyboardType = {'numbers-and-punctuation'}
+                                   keyboardType = 'numbers-and-punctuation'
                                    autoFocus={true}
+                                   autoCorrect = {false}
                                    onChangeText={(text) => {
                                        this.setState({text});
                                        this.props.onChange(text)
