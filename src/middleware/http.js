@@ -191,6 +191,9 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 				// 强制升级
 				next({ type: ActionTypes.UPGRADE_FORCE, payload: responseData.data })
 				reject(responseData);
+			} else if (responseData.code === '0098') {
+				reject(responseData)
+				if (responseData.msg) Toast.show(responseData.msg)
 			} else {
 				reject(responseData);
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })

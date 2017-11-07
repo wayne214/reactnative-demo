@@ -276,6 +276,18 @@ export default (state = initState, action) => {
 				newState = newState.setIn([item,'list'],newOrderList)
 			})
 			return newState
+		case ActionTypes.ACTION_CHANGE_ORDER_URGED_WITH_ORDER_NO:
+			['orderAll','orderUnpay'].map((item)=>{
+				let newOrderList = newState.getIn([item,'list'])
+				newOrderList = newOrderList.map((item,index)=>{
+					if (item.orderNo == payload.orderNo) {
+						item.promptState = 2
+					}
+					return item
+				})
+				newState = newState.setIn([item,'list'],newOrderList)
+			})
+			return newState
 		default:
 			return newState;
 	}

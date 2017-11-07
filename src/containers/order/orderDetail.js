@@ -140,6 +140,13 @@ class OrderDetail extends BaseComponent {
 							: null
 						}
 						{
+							orderDetail.promptState == 2 && [10,14].includes(orderDetail.orderState) && entrustType == 1 ?
+								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
+									<Text style={{color: '#F6001E',fontSize: 13}}>催款状态：已催款</Text>
+								</View>
+							: null
+						}
+						{
 							orderDetail.orderState === 15 ?
 								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
 									<Text style={{color: '#F6001E',fontSize: 13}}>已结金额： {orderDetail.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{orderDetail.unknotPrice || 0}元</Text>
@@ -373,9 +380,6 @@ class OrderDetail extends BaseComponent {
 																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
-																// this.setState({
-																// 	shouldOrderListRefresh: true
-																// })
 															})
 														}}]
 													)
@@ -394,9 +398,6 @@ class OrderDetail extends BaseComponent {
 															this.props.navigation.setParams({
 																shouldOrderListRefresh: true
 															})
-															// this.setState({
-															// 	shouldOrderListRefresh: true
-															// })
 															this.props.navigation.dispatch({
 																type: RouteType.ROUTE_UPLOAD_IMAGES,
 																params: {
@@ -515,9 +516,6 @@ class OrderDetail extends BaseComponent {
 																				this.props.navigation.setParams({
 																					shouldOrderListRefresh: true
 																				})
-																				// this.setState({
-																				// 	shouldOrderListRefresh: true
-																				// })
 																				this.props._getOrderDetail({orderNo: this.state.orderNo})
 																				this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}})
 																			}
@@ -540,9 +538,6 @@ class OrderDetail extends BaseComponent {
 														this.props.navigation.setParams({
 															shouldOrderListRefresh: true
 														})
-														// this.setState({
-														// 	shouldOrderListRefresh: true
-														// })
 													})
 												}
 											}
@@ -615,9 +610,6 @@ class OrderDetail extends BaseComponent {
 																this.props.navigation.setParams({
 																	shouldOrderListRefresh: true
 																})
-																// this.setState({
-																// 	shouldOrderListRefresh: true
-																// })
 															})
 														}}]
 													)
@@ -899,7 +891,7 @@ const mapDispatchToProps = (dispatch) => {
 				body: params,
 				success: (data)=>{
 					console.log(" ----- 催款成功， 改状态为15 结算中 ");
-					Toast.show('申请成功')
+					Toast.show('催款成功')
 					dispatch(appendLogToFile('订单详情','催款成功',startTime))
 					// dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
 					if (successCallBack) {successCallBack()}
@@ -916,7 +908,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					dispatch(appendLogToFile('订单详情','确认装货成功',startTime))
 					if (successCallBack){successCallBack()}
-					// dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
+					dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
 				}
 			}))
 		},

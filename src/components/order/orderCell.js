@@ -250,7 +250,7 @@ class OrderCell extends Component{
 														</View>
 													</View>
 												)
-											}else if (rowData.orderState == 3) {//rowData.orderState == 3
+											}else if (rowData.orderState == 3) {
 												return (
 													<View style={styles.buttonView}>
 														<View style={styles.buttonViewInside}>
@@ -293,13 +293,19 @@ class OrderCell extends Component{
 															<Button activeOpacity={0.8} style={styles.buttonStyle}
 																textStyle={{fontSize: 14,color: 'white'}}
 																onPress={()=>{
-																	if (this.props._confirmInstall) {
-																		this.props._confirmInstall({
-																			orderNo: rowData.orderNo,
-																			entrustType: rowData.entrustType,
-																			carId: this.props.user.carId ? this.props.user.carId : '',
-																		})
-																	}
+																	Alert.alert('温馨提示','请认真确认是否已装货完毕',
+																		[{text: '取消', onPress: ()=>{}, style: 'cancel' },
+																		{text: '确认', onPress: ()=>{
+																			console.log("-------- this.props.user.carId ",this.props.user.carId,rowData);
+																			if (this.props._confirmInstall) {
+																				this.props._confirmInstall({
+																					orderNo: rowData.orderNo,
+																					entrustType: rowData.entrustType,
+																					carId: this.props.user.carId ? this.props.user.carId : '',
+																				})
+																			}
+																		}}]
+																	)
 																}}>
 															  装货确认
 															</Button>

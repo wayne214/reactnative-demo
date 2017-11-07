@@ -99,7 +99,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 15
-        versionName "1.5.0"
+        versionName "1.6.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -124,6 +124,19 @@ android {
         }
     }
 
+    productFlavors {
+
+        yingyongbao {}
+//        baidu {}
+//        c360 {}
+//        uc {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+
+    }
+
     signingConfigs {
         release {
             keyAlias 'android'
@@ -143,7 +156,8 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-            buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
+            buildConfigField "String", "CODEPUSH_KEY", '"mJoOxuPYFFQMYbcePHq7686SniSF118907b3-0f39-4b62-b03d-f9737ab02817"'
+//            buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
@@ -167,10 +181,10 @@ android {
 //            }
             def outputFile = output.outputFile
             if (variant.buildType.name.equals('release')) {
-                def fileName = "carrier-release-${defaultConfig.versionName}.apk"
+                def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             } else if (variant.buildType.name.equals('staging')) {
-                def fileName = "carrier-staging-${defaultConfig.versionName}.apk"
+                def fileName = "carrier-staging-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }

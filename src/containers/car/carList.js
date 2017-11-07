@@ -70,6 +70,7 @@ class CarListContainer extends BaseComponent {
 								defaultValue={ state.params.searchKey }
 								underlineColorAndroid={ 'transparent' }
 								value = { state.params.searchKey }
+								onSubmitEditing={ () => navigation.state.params._search() }
 								onChangeText={ text => navigation.state.params._update(text) }/>
 						</View>
 						<TouchableOpacity
@@ -98,14 +99,14 @@ class CarListContainer extends BaseComponent {
 						<Text style={ styles.cancelText }>返回</Text>
 					</TouchableOpacity>
 				</View>
-	    }    	
+	    }
     }
 
   }
 
 	componentDidMount() {
 		super.componentDidMount();
-		this.props.navigation.setParams({ showKey: '', showModal: false, 
+		this.props.navigation.setParams({ showKey: '', showModal: false,
 			_showModal: this._showModal, _search: this._search, _update: this._update, _likeSearch: this._likeSearch })
 		this._fetch();
 	}
@@ -175,9 +176,9 @@ class CarListContainer extends BaseComponent {
 			haveDriver: 1,
 			searchKey: this.state.searchKey,
 			carrierId: this.props.user.userId
-		});		
+		});
 		this.setState({ showKey: this.state.searchKey });
-		this.setState({ showModal: false, pageNo: 1 });		
+		this.setState({ showModal: false, pageNo: 1 });
 		this.props.navigation.setParams({ showModal: false, showKey: this.state.searchKey })
 	}
 
@@ -185,7 +186,7 @@ class CarListContainer extends BaseComponent {
 		Alert.alert('提示', `确认选择${ carNo }车辆吗`, [
 			{ text: '确定', onPress: () => {
 				// console.log({ id, carState: type });
-				this.props.dispatch(dispatchDefaultCar({ id, carState: type, carNo: carNo }));				
+				this.props.dispatch(dispatchDefaultCar({ id, carState: type, carNo: carNo }));
 				this.props.dispatch(refreshTravel());
 				this.props.navigation.dispatch({ type: 'pop' })
 			} },
@@ -248,7 +249,7 @@ class CarListContainer extends BaseComponent {
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
 
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 
 			</View>
 		);

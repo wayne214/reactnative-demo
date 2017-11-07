@@ -35,7 +35,8 @@ import {
   changeSelectStateWithOrderNo,
   changeOrderTopTab,
   shouldOrderListRefreshAction,
-  changeOrderListIsRefreshing
+  changeOrderListIsRefreshing,
+  changeOrderurgedWithOrderNo
 } from '../../action/order'
 import { dispatchBankCardList } from '../../action/bankCard';
 import * as API from '../../constants/api'
@@ -566,7 +567,7 @@ const styles =StyleSheet.create({
   content:{
     backgroundColor: COLOR.APP_CONTENT_BACKBG,
     flex:1,
-    marginBottom: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_BOTTOM : 0
+    marginBottom: DANGER_BOTTOM
   },
   modalView: {
     flex: 1,
@@ -631,7 +632,7 @@ const mapDispatchToProps = (dispatch) => {
         success: (data)=>{
           // console.log("承运商确认装货完成 发消息改状态 ",params)
           dispatch(shouldOrderListRefreshAction(true))
-          // dispatch(changeOrderToStateWithOrderNo(params.toState,params.orderNo,params.orderTopType))
+          dispatch(changeOrderToStateWithOrderNo(params.toState || 4,params.orderNo, params.orderTopType || 'orderToInstall'))
           Toast.show('装货确认成功！')
           // 更新我的行程
           dispatch(refreshTravel());
@@ -669,8 +670,9 @@ const mapDispatchToProps = (dispatch) => {
         body: params,
         success: (data)=>{
           console.log(" ----- 催款成功， 改状态为15 结算中 ");
-          Toast.show('申请成功')
-          dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
+          Toast.show('催款成功')
+          dispatch(changeOrderurgedWithOrderNo(params.orderNo))
+          // dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
           if (params.activeTab == 3) {
             dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
           };

@@ -161,7 +161,7 @@ class GoodsList extends Component {
           }
 
           <ScrollableTabView
-            style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,marginBottom: IS_IPHONE_X ? SETTING.IPHONE_X_DANGER_BOTTOM : 0}}
+            style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,marginBottom: DANGER_BOTTOM }}
             renderTabBar={() =>
               <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
                 tabStyle={{paddingBottom: 2}}/>
