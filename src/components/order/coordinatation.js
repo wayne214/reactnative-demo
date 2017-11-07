@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	Text,
@@ -9,6 +9,7 @@ import {
 	Dimensions,
 	TouchableOpacity
 } from 'react-native';
+import PropTypes from 'prop-types';
 import topIcon from '../../../assets/img/order/coordinate.png'
 import closeIcon from '../../../assets/img/order/close_coordinate.png'
 import * as COLOR from '../../constants/colors'

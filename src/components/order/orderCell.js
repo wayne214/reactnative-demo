@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -10,6 +10,7 @@ import {
 	Dimensions,
 	Alert
 } from 'react-native';
+import PropTypes from 'prop-types';
 import AddressFromTo from '../common/addressFromTo'
 import * as COLOR from '../../constants/colors'
 import SupplyAndNeed from '../../components/common/supplyAndNeed'

@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   DeviceEventEmitter
 } from 'react-native';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import styles from '../../../assets/css/main';
@@ -78,10 +79,10 @@ class MainContainer extends BaseComponent {
   }
 
   static propTypes = {
-    dispatch: React.PropTypes.func,
-    currentTab: React.PropTypes.string.isRequired,
-    tabs: React.PropTypes.instanceOf(Immutable.List),
-    upgrade: React.PropTypes.object
+    dispatch: PropTypes.func,
+    currentTab: PropTypes.string.isRequired,
+    tabs: PropTypes.instanceOf(Immutable.List),
+    upgrade: PropTypes.object
   }
 
   componentWillMount() {
