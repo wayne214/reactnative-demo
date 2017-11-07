@@ -49,11 +49,15 @@ class DetailTop extends Component{
 											<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 32,fontWeight:'bold',color: COLOR.TEXT_BLACK}}>{configData.priceValue}</Text>
 											<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 14,color: COLOR.TEXT_LIGHT}}>运费(元)</Text>
 										</View>
-										<View style={styles.headerViewBottom}>
-											<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号：${configData.orderId}`}</Text>
-											<Text style={{color: COLOR.APP_THEME}}>{configData.orderStatus}</Text>
-											<View style={styles.routeType}>
-												<Text style={styles.routeTypeText}>{configData.goodsTypeStr}</Text>
+										<View style={{height: 60,backgroundColor: 'white',borderTopWidth: MINI_LINE,borderTopColor: COLOR.LINE_COLOR}}>
+											<View style={{flexDirection: 'row',justifyContent: 'space-between',margin: 8,marginRight: 0}}>
+												<Text style={{color: COLOR.TEXT_BLACK}}>{`委托编号：${configData.orderId}`}</Text>
+												<View style={styles.routeType}>
+													<Text style={styles.routeTypeText}>{configData.goodsTypeStr}</Text>
+												</View>
+											</View>
+											<View style={{marginLeft: 8}}>
+												<Text style={{color: COLOR.APP_THEME}}>{configData.orderStatus}</Text>
 											</View>
 										</View>
 									</View>
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		paddingRight: 10,
 		backgroundColor: 'white',
-		borderTopWidth: 1,
+		borderTopWidth: MINI_LINE,
 		borderTopColor: COLOR.LINE_COLOR,
 	},
 	routeType:{

@@ -25,11 +25,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-  
+#ifdef DEBUG
   // 测试环境
-//   UMConfigInstance.appKey = @"599a68ef45297d108e001673";
+  UMConfigInstance.appKey = @"5a0159288f4a9d7fa90000a1";//599a68ef45297d108e001673
+#else
   //生产环境
   UMConfigInstance.appKey = @"599a79aa5312dd5e3700003b";
+#endif
+  
   [MobClick startWithConfigure:UMConfigInstance];
   
   if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
