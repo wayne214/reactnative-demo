@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { 
-	View, 
-	Image, 
+import {
+	View,
+	Image,
 	Text,
 	Animated,
 	NativeModules,
@@ -18,6 +18,7 @@ import Guy from '../../../assets/img/guide/guy.png';
 import Storage from '../../utils/storage';
 import { getInitStatus } from '../../action/app';
 import * as RouteType from '../../constants/routeType'
+import PropTypes from 'prop-types';
 
 class WelcomeContainer extends React.Component {
 
@@ -29,8 +30,8 @@ class WelcomeContainer extends React.Component {
 			pageTowGuyActive: false,
 			pageOneAnim: new Animated.Value(0),
 			pageTwoAnim: new Animated.Value(0),
-			
-			
+
+
 			pageTwoGuyAnim: new Animated.Value(0.1),
 		};
 		this.pageOneText = new Animated.Value(0);
@@ -45,7 +46,7 @@ class WelcomeContainer extends React.Component {
 	}
 
 	static propTypes = {
-		navigator: React.PropTypes.object
+		navigator: PropTypes.object
 	}
 
 	componentDidMount() {

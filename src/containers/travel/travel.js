@@ -7,6 +7,7 @@ import {
   ScrollView,
   ImageBackground
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DrawerNavigator } from 'react-navigation'
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -40,8 +41,8 @@ class HomeContainer extends BaseComponent {
   }
 
   static propTypes = {
-    router: React.PropTypes.object,
-    click: React.PropTypes.func,
+    router: PropTypes.object,
+    click: PropTypes.func,
   }
 
   componentDidMount() {

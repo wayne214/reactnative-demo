@@ -10,7 +10,7 @@ import {
 	DeviceEventEmitter,
 	TouchableHighlight,
 } from 'react-native';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styless from '../../../assets/css/route';
 import styles from '../../../assets/css/carList';
@@ -43,7 +43,7 @@ class CarListContainer extends BaseComponent {
 	}
 
 	static propTypes = {
-		router: React.PropTypes.object
+		router: PropTypes.object
 	}
 
   componentWillMount () {

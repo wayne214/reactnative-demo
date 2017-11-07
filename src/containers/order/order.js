@@ -7,13 +7,12 @@ import {
   Text,
   StyleSheet,
   Platform,
-  ListView,
+  FlatList,
   Dimensions,
   Image,
   TouchableOpacity,
   Modal,
   InteractionManager,
-  RefreshControl
   // Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -59,7 +58,7 @@ class OrderListItem extends Component {
   }
 
   _renderRow(rowData,SectionId,rowID){
-    return <OrderCell {...this.props} rowData={rowData} rowID={ rowID }/>
+    return <OrderCell {...this.props} rowData={rowData.item} rowID={ rowID }/>
   }
 
   _renderFooter(){
@@ -70,7 +69,9 @@ class OrderListItem extends Component {
       }else{
         return <LoadMoreFooter isLoadAll={true}/>
       }
-    };
+    }else{
+      return null
+    }
   }
   _toEnd(){
     const {loadMoreAction, dataSource} = this.props
@@ -83,43 +84,40 @@ class OrderListItem extends Component {
         return;
       }
       loadMoreAction()
-    };
+    }
   }
-  render(){
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    const {dataSource,haveBatch, batchHandle,activeTab,activeSubTab} = this.props
-    if (dataSource.get('list').toJS().length > 0 || dataSource.get('isLoadingMore')) {
-      return (
-        <View style={{flex:1}}>
-          <ListView
-            style={{flex:1}}
-            dataSource={ ds.cloneWithRows(dataSource.get('list').toJS() || []) }
-            refreshControl={
-              <RefreshControl
-                refreshing={ dataSource.get('isRefreshing') }
-                onRefresh={ ()=>{
-                  const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
-
-                  this.props.dispatch(changeOrderListIsRefreshing(orderState, true))//刷新货源列表
-                  this.props.refreshList && this.props.refreshList()
-                }}
-                tintColor="gray"
-                colors={['#ff0000', '#00ff00', '#0000ff']}
-                progressBackgroundColor="gray"/>
-            }
-            renderRow={this._renderRow.bind(this)}
-            onEndReachedThreshold={10}
-            enableEmptySections={true}
-            onEndReached={ this._toEnd.bind(this) }
-            renderFooter={ this._renderFooter.bind(this) }/>
-          { haveBatch && batchHandle ? batchHandle() : null}
-        </View>
-      )
-    }else{
-      return <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+  _keyExtractor = (item, index) => item.orderNo
+  _listEmptyComponent(){
+    return (
+      <View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-44-40-49}}>
         <Image source={emptyList}/>
       </View>
-    }
+    )
+  }
+  render(){
+    const {dataSource,haveBatch, batchHandle,activeTab,activeSubTab} = this.props
+    return (
+      <View style={{flex:1}}>
+        <FlatList
+          style={{flex:1}}
+          data={ dataSource.get('list').toJS() || [] }
+          onRefresh={()=>{
+            const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
+            this.props.dispatch(changeOrderListIsRefreshing(orderState, true))//刷新货源列表
+            this.props.refreshList && this.props.refreshList()
+          }}
+          refreshing={dataSource.get('isRefreshing')}
+          renderItem={this._renderRow.bind(this)}
+          keyExtractor={this._keyExtractor}
+          onEndReachedThreshold={0.1}
+          enableEmptySections={true}
+          onEndReached={ this._toEnd.bind(this) }
+          ListFooterComponent={this._renderFooter.bind(this)}
+          ListEmptyComponent={this._listEmptyComponent()}/>
+
+        { haveBatch && batchHandle ? batchHandle() : null}
+      </View>
+    )
   }
 }
 
@@ -298,7 +296,6 @@ class OrderList extends BaseComponent {
 
 
   render() {
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     const {
       title,
       currentMenuIndex,

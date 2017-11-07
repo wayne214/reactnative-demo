@@ -6,6 +6,7 @@ import {
 	ListView,
 	TouchableHighlight
 } from 'react-native';
+import PropTypes from 'prop-types';
 import styles from '../../../assets/css/carBindDriver';
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
@@ -34,11 +35,11 @@ class CarBindDriverContainer extends BaseComponent {
 	}
 
 	static propTypes = {
-		router: React.PropTypes.object
+		router: PropTypes.object
 	}
 
 	componentDidMount() {
-		this.props.navigation.setParams({ navigatePress: this._backClick})  
+		this.props.navigation.setParams({ navigatePress: this._backClick})
 		this.props.getCarList({
 			pageNo: this.state.pageNo,
 			carrierId: this.props.user.userId,
@@ -113,7 +114,7 @@ class CarBindDriverContainer extends BaseComponent {
 
 	static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar  
+	    header: <NavigatorBar
 	    router={ navigation }
 	    backViewClick={() => navigation.state.params.navigatePress() }/>
 	  };
@@ -137,7 +138,7 @@ class CarBindDriverContainer extends BaseComponent {
 					dataSource={ this.state.dataSource }/>
 
 				{ this.props.loading ? this._renderLoadingView() : null }
-				{ this._renderUpgrade(this.props) }	
+				{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}

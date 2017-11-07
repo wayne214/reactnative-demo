@@ -7,6 +7,7 @@ import {
 	ListView,
 	TouchableHighlight
 } from 'react-native';
+import PropTypes from 'prop-types';
 import styles from '../../../assets/css/carBindDriver';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
@@ -33,7 +34,7 @@ class SelectDriverContainer extends BaseComponent {
 	}
 
 	static propTypes = {
-		router: React.PropTypes.object
+		router: PropTypes.object
 	}
 
 	componentDidMount() {
@@ -50,7 +51,7 @@ class SelectDriverContainer extends BaseComponent {
     if (props) {
       this.setState({ dataSource: this.state.dataSource.cloneWithRows(drivers.toArray()) });
     }
-  }	
+  }
 
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
@@ -75,7 +76,7 @@ class SelectDriverContainer extends BaseComponent {
 						carrierId: rowData.get('carrierId'),
 						driverId: rowData.get('driverId')
 					}, this.props.navigation);
-				} },				
+				} },
 			]
 		);
 	}
@@ -97,11 +98,11 @@ class SelectDriverContainer extends BaseComponent {
 				</View>
 			</TouchableHighlight>
 		);
-  }	
+  }
 
   static navigationOptions = ({ navigation }) => {
 	  return {
-	    header: <NavigatorBar  
+	    header: <NavigatorBar
 	    router={ navigation }/>
 	  };
 	};
@@ -117,7 +118,7 @@ class SelectDriverContainer extends BaseComponent {
 					onEndReachedThreshold={ 100 }
 					onEndReached={ this._endReached }
 					dataSource={ this.state.dataSource }/>
-					{ this._renderUpgrade(this.props) }				
+					{ this._renderUpgrade(this.props) }
 			</View>
 		);
 	}
@@ -128,7 +129,7 @@ const mapStateToProps = state => {
 	return {
 		user: app.get('user'),
 		hasMore: driver.get('hasMore'),
-		isEndReached: driver.get('isEndReached'),		
+		isEndReached: driver.get('isEndReached'),
 		drivers: driver.getIn(['driver', 'selectDriverList']),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),

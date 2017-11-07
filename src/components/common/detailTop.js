@@ -1,7 +1,7 @@
 
 'use strict'
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -9,6 +9,7 @@ import {
 	Text,
 	Dimensions
 } from 'react-native';
+import PropTypes from 'prop-types';
 import preOrderTop from '../../../assets/img/routes/grab_order_top.png'
 import * as COLOR from '../../constants/colors'
 import * as ENUM from '../../constants/enum.js'

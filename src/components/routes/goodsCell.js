@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -9,6 +9,7 @@ import {
 	TouchableOpacity,
 	Dimensions
 } from 'react-native';
+import PropTypes from 'prop-types';
 import AddressFromTo from '../common/addressFromTo'
 import * as COLOR from '../../constants/colors'
 import CompeteOver from '../../../assets/img/routes/competeOver.png'
