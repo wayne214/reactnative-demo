@@ -144,6 +144,7 @@ public class NativeModule extends ReactContextBaseJavaModule {
             @Override
             public void onDownloadFailed() {
                 Log.i("----", "onDownloadFailed");
+                promise.reject("0001", "onDownloadFailed");
             }
         });
     }
