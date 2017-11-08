@@ -33,12 +33,17 @@ export default class BaseComponent extends React.Component {
    * @return {[type]} [description]
    */
   _forceUpgrade () {
-    if (Platform.OS === 'android') {
+		if (Platform.OS === 'android') {
       Toast.show('开始下载')
+			this.setState({ title: '正在下载...' })
       NativeModules.NativeModule.upgradeForce(this.url).then(response => {
 				Toast.show('下载完成')
-        this.setState({ showUpgrade: true })
-      });
+        this.setState({ showUpgrade: true, title: '立即更新' })
+      }, () => {
+				// 下载失败
+				this.setState({ title: '立即更新' })
+				Toast.show('下载失败，请重新下载')
+			});
     } else {
       NativeModules.NativeModule.toAppStore();
     }
@@ -79,13 +84,12 @@ export default class BaseComponent extends React.Component {
 									activeOpacity={ 1 }
 									style={ styles.optCell }
 									onPress={ this._forceUpgrade }>
-									<Text style={{ fontSize: 14, color: '#333' }}>立即更新</Text>
+									<Text style={{ fontSize: 14, color: '#333' }}>{ this.state.title || '立即更新' }</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
 					</View>
 				</Modal>
-
 			)
 		} else if (props.upgrade.get('busy')) {
 			if (props.upgrade.get('downloaded')) {
