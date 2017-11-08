@@ -45,9 +45,9 @@ class OrderDetail extends BaseComponent {
 	  console.log("----- 订单详情  参数 orderNo: ",orderNo);
 	}
 	componentDidMount() {
-		InteractionManager.runAfterInteractions(()=>{
-			//延迟执行
-		})
+		// InteractionManager.runAfterInteractions(()=>{
+		//	//延迟执行
+		// })
 		setTimeout(()=>{
 			this.props._getOrderDetail({orderNo: this.state.orderNo})
 		}, 500);
@@ -535,6 +535,7 @@ class OrderDetail extends BaseComponent {
 												callBack: ()=>{
 													console.log(" ===== title: '确认结算', ");
 													this.props._clearConfirm({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{
+														this.props._getOrderDetail({orderNo: this.state.orderNo})
 														this.props.navigation.setParams({
 															shouldOrderListRefresh: true
 														})
