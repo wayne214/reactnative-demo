@@ -660,16 +660,14 @@ const mapDispatchToProps = (dispatch) => {
     },
     _applyClear: (params,successCallBack)=>{
       startTime = new Date().getTime();
-      // dispatch(fetchData({
-      //   api: API.APPLY_CLEAR,
-      //   method: 'POST',
-      //   showLoading: true,
-      //   body: params,
-      //   success: (data)=>{
-      //     console.log(" ----- 催款成功， 改状态为15 结算中 ");
+      dispatch(fetchData({
+        api: API.APPLY_CLEAR,
+        method: 'POST',
+        showLoading: true,
+        body: params,
+        success: (data)=>{
           Toast.show('催款成功')
           dispatch(changeOrderurgedWithOrderNo(params.orderNo))
-      //     // dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
           /**
            * 2017-11-08, 09:18:20 GMT+0800
            * 以前点击【申请结算】后变成【结算中】
@@ -681,10 +679,9 @@ const mapDispatchToProps = (dispatch) => {
           if (successCallBack) {
             successCallBack()
           }
-      //     dispatch(appendLogToFile('订单','催款成功',startTime))
-
-      //   }
-      // }))
+          dispatch(appendLogToFile('订单','催款成功',startTime))
+        }
+      }))
     },
     _changeSelectStateWithOrderNo: (orderNo) =>{
       dispatch(changeSelectStateWithOrderNo(orderNo))
