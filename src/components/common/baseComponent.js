@@ -5,6 +5,7 @@ import Upgrade from '../app/upgrade'
 import styles from '../../../assets/css/main'
 import Button from './button'
 import Toast from '../../utils/toast'
+import Modal from 'react-native-root-modal'
 
 export default class BaseComponent extends React.Component {
 
@@ -49,32 +50,42 @@ export default class BaseComponent extends React.Component {
 
 	_renderUpgrade(props) {
 		this.url = props.upgradeForceUrl ? props.upgradeForceUrl : ''
+		let _show = props.upgradeForce && !props.showFloatDialog && !props.upgrade.get('busy')
 		if (props.upgradeForce && !props.showFloatDialog && !props.upgrade.get('busy')) {
 			return (
-				<View style={ styles.upgradeContainer }>
-					<View style={ styles.upgradeView }>
-						<Image style={{ width: 280, height: 160 }} source={ require('../../../assets/img/upgrade_icon.png')}/>
-						<Text style={ styles.upgradeTip }>{ '新功能上线' }</Text>
-						<Text style={ styles.upgradeText }>{ '为方便广大客户不同类型的结算模式，此版本实现了在线结算的系统升级，功能更全，性能更优。' }</Text>
-						<View style={ styles.optContainer }>
-							{
-								Platform.OS === 'android' && this.state.showUpgrade &&
-									<TouchableOpacity
-										activeOpacity={ 1 }
-										style={ [styles.optCell, styles.rightBorder] }
-										onPress={ this._installApk }>
-										<Text style={{ fontSize: 14, color: '#999' }}>已下载，立即安装</Text>
-									</TouchableOpacity>
-							}
-							<TouchableOpacity
-								activeOpacity={ 1 }
-								style={ styles.optCell }
-								onPress={ this._forceUpgrade }>
-								<Text style={{ fontSize: 14, color: '#333' }}>立即更新</Text>
-							</TouchableOpacity>
+				<Modal
+					transparent={ true }
+					backdropOpacity={ 0 }
+					backdropColor='rgba(0, 0, 0, 0)'
+					onRequestClose={ () => console.log('') }
+					supportedOrientations={['landscape', 'portrait']}
+					visible={ _show }>
+					<View style={ styles.upgradeContainer }>
+						<View style={ styles.upgradeView }>
+							<Image style={{ width: 280, height: 160 }} source={ require('../../../assets/img/upgrade_icon.png')}/>
+							<Text style={ styles.upgradeTip }>{ '新功能上线' }</Text>
+							<Text style={ styles.upgradeText }>{ '为方便广大客户不同类型的结算模式，此版本实现了在线结算的系统升级，功能更全，性能更优。' }</Text>
+							<View style={ styles.optContainer }>
+								{
+									Platform.OS === 'android' && this.state.showUpgrade &&
+										<TouchableOpacity
+											activeOpacity={ 1 }
+											style={ [styles.optCell, styles.rightBorder] }
+											onPress={ this._installApk }>
+											<Text style={{ fontSize: 14, color: '#999' }}>已下载，立即安装</Text>
+										</TouchableOpacity>
+								}
+								<TouchableOpacity
+									activeOpacity={ 1 }
+									style={ styles.optCell }
+									onPress={ this._forceUpgrade }>
+									<Text style={{ fontSize: 14, color: '#333' }}>立即更新</Text>
+								</TouchableOpacity>
+							</View>
 						</View>
 					</View>
-				</View>
+				</Modal>
+
 			)
 		} else if (props.upgrade.get('busy')) {
 			if (props.upgrade.get('downloaded')) {

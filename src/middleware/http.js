@@ -190,6 +190,7 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
 			} else if (responseData.code === '0099') {
 				// 强制升级
+				global._flag = 1
 				next({ type: ActionTypes.UPGRADE_FORCE, payload: responseData.data })
 				reject(responseData);
 			} else if (responseData.code === '0098') {
