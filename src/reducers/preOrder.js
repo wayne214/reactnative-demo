@@ -60,7 +60,7 @@ export default (state = initState, action) => {
 
 	switch (action.type) {
 		case ActionTypes.ACTION_RECEIVE_PRE_ORDER_LIST:
-			let rootType = typeArr[parseInt(payload.type)-1][parseInt(payload.state)];
+			let rootType = typeArr[parseInt(payload.type)-1][parseInt(payload.state)-1];
 			console.log(" ------ rootType is ",rootType);
 
 			newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
