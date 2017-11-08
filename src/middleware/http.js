@@ -80,8 +80,6 @@ export default store => next => action => {
  		_userId = user.userId;
  	}
 
-	const sign = md5(TOKEN + uuid + NativeModules.NativeModule.VERSION +
-		_userId +  (Platform.OS === 'ios' ? 2 : 1) + (role === 1 ? 2 : 1) + 2 + getValues(_body), 'utf8').toLowerCase();
 
 	const paramsDic = { ..._body };
 
@@ -91,6 +89,9 @@ export default store => next => action => {
 	headers.version = NativeModules.NativeModule.VERSION;
 	headers.client_type = Platform.OS === 'ios' ? 2 : 1;
 	headers.source = 1;
+
+	const sign = md5(TOKEN + uuid + NativeModules.NativeModule.VERSION +
+		_userId +  (Platform.OS === 'ios' ? 2 : 1) + (role === 1 ? 2 : 1) + headers.source + getValues(_body), 'utf8').toLowerCase();
 
 	let options;
 	if (method === 'POST') {

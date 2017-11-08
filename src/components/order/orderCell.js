@@ -441,7 +441,7 @@ class OrderCell extends Component{
 																		}else{
 																			if (this.props._applyClear) {
 																				Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[
-																					{text: '取消', onPress:()=>{//请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请
+																					{text: '取消', onPress:()=>{
 																						console.log("cancle...");
 																					}},
 																					{text: '提交并查看', onPress:()=>{

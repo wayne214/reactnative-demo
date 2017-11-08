@@ -215,19 +215,32 @@ export default (state = initState, action) => {
 
 
 		case ActionTypes.ACTION_SET_ALL_UNPAY_SELECTED_OR_NOT:
-			// 把所有未结算的订单选中状态设置为 true 或 false    orderUnPay
+			/**
+			 * 2017-11-08, 09:39:33 GMT+0800
+			 * 把所有【未结算】且 标记为未催款的订单 选中状态设置为 true 或 false    orderUnPay
+			 *
+			 */
 			const allSelectOrderUnPayList = newState.getIn(['orderUnPay','list']).map((item,index)=>{
-				item.selected = payload
+				const isUnpayUnprompt = (item.orderState === 10 || (item.orderState === 14 && item.entrustType === 1)) && item.promptState === 1
+				if (isUnpayUnprompt) {
+					item.selected = payload
+				}
 				return item
 			})
 			newState = newState.setIn(['orderUnPay','allSelected'],payload)
 			newState = newState.setIn(['orderUnPay','list'],allSelectOrderUnPayList)
 			return newState
 		case ActionTypes.ACTION_SET_UNPAY_ORDER_BATCH_EDITING:
-			// 把所有未结算的订单 标记为正在编辑 or not
-			//     orderUnPay
+	    /**
+	     * 2017-11-08, 09:22:41 GMT+0800
+	     * 所有【未结算】且 标记为未催款的订单
+	     * 标记为正在编辑or not
+	     */
 			const editingOrderUnPayList = newState.getIn(['orderUnPay','list']).map((item,index)=>{
-				item.isBatchEditing = payload
+				const isUnpayUnprompt = (item.orderState === 10 || (item.orderState === 14 && item.entrustType === 1)) && item.promptState === 1
+				if (isUnpayUnprompt) {
+					item.isBatchEditing = payload
+				};
 				return item
 			})
 			newState = newState.setIn(['orderUnPay','list'],editingOrderUnPayList)
@@ -252,7 +265,12 @@ export default (state = initState, action) => {
 					item.selected = !item.selected
 				};
 				console.log("==== ?? ",item.selected);
-				if (!item.selected) {
+				/**
+				 * 没有选中 且 状态是【未结算】标记为 未催款
+				 * 则说明没有全选
+				 */
+				const isUnpayUnprompt = (item.orderState === 10 || (item.orderState === 14 && item.entrustType === 1)) && item.promptState === 1
+				if (!item.selected && isUnpayUnprompt) {
 					defaultSelectAll = false
 				};
 				return item
@@ -277,14 +295,16 @@ export default (state = initState, action) => {
 			})
 			return newState
 		case ActionTypes.ACTION_CHANGE_ORDER_URGED_WITH_ORDER_NO:
-			['orderAll','orderUnpay'].map((item)=>{
+			['orderAll','orderUnPay'].map((item)=>{
 				let newOrderList = newState.getIn([item,'list'])
-				newOrderList = newOrderList.map((item,index)=>{
-					if (item.orderNo == payload.orderNo) {
-						item.promptState = 2
-					}
-					return item
-				})
+				if (newOrderList) {
+					newOrderList = newOrderList.map((item,index)=>{
+						if (item.orderNo == payload.orderNo) {
+							item.promptState = 2
+						}
+						return item
+					})
+				};
 				newState = newState.setIn([item,'list'],newOrderList)
 			})
 			return newState

@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Modal,
   InteractionManager,
-  // Alert
+  Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
@@ -660,26 +660,31 @@ const mapDispatchToProps = (dispatch) => {
     },
     _applyClear: (params,successCallBack)=>{
       startTime = new Date().getTime();
-      dispatch(fetchData({
-        api: API.APPLY_CLEAR,
-        method: 'POST',
-        showLoading: true,
-        body: params,
-        success: (data)=>{
-          console.log(" ----- 催款成功， 改状态为15 结算中 ");
+      // dispatch(fetchData({
+      //   api: API.APPLY_CLEAR,
+      //   method: 'POST',
+      //   showLoading: true,
+      //   body: params,
+      //   success: (data)=>{
+      //     console.log(" ----- 催款成功， 改状态为15 结算中 ");
           Toast.show('催款成功')
           dispatch(changeOrderurgedWithOrderNo(params.orderNo))
-          // dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
-          if (params.activeTab == 3) {
-            dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
-          };
+      //     // dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
+          /**
+           * 2017-11-08, 09:18:20 GMT+0800
+           * 以前点击【申请结算】后变成【结算中】
+           * 现在点击【催款】后状态不变，只是标记为 已催款
+           */
+          // if (params.activeTab == 3) {
+          //   dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
+          // };
           if (successCallBack) {
             successCallBack()
           }
-          dispatch(appendLogToFile('订单','催款成功',startTime))
+      //     dispatch(appendLogToFile('订单','催款成功',startTime))
 
-        }
-      }))
+      //   }
+      // }))
     },
     _changeSelectStateWithOrderNo: (orderNo) =>{
       dispatch(changeSelectStateWithOrderNo(orderNo))
