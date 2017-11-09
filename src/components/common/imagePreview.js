@@ -38,19 +38,14 @@ class ImagePreview extends Component{
 	render() {
 		const {show,hide,activeIndex,imagePathes} = this.props
 		const photoViews = imagePathes.map((item,index)=>{
-			// return <Image key={index} source={{uri:(Platform.OS === 'android' ? 'file://' : '') + item }} style={{width,height,flex:1}} resizeMode={'contain'}/>
-			// loadingIndicatorSource={{uri:'https://github.com/fluidicon.png'}}
 			return (
 				<View key={ index } style={{width,height,flex:1}}>
 					<PhotoView
-
-						resizeMode={ 'contain'}
 					  source={{uri: item }}
-					  minimumZoomScale={0.5}
 					  maximumZoomScale={3}
 					  androidScaleType="fitCenter"
 					  onLoad={() => console.log("Image loaded!")}
-					  style={{width, height, flex:1}}
+					  style={{width, height}}
 					  onTap={() => {
 					  	hide && hide()
 					  }}/>
