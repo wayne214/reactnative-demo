@@ -188,7 +188,7 @@ class SettingContainer extends BaseComponent {
 						<Text style={ styles.leftText }>当前版本号</Text>
 					</View>
 					<View style={ styles.rightAndBtn }>
-						<Text style={ [styles.leftText, { marginRight: 20 }] }>{ 'V' + NativeModules.NativeModule.VERSION + (Package.build > 0 ? ('-' + Package.build) : '')}</Text>
+						<Text style={ [styles.leftText, { marginRight: 20 }] }>{ 'V' + NativeModules.NativeModule.VERSION + (IS_IOS ? (Package.build_ios > 0 ? ('-' + Package.build_ios) : '') : (Package.build_and > 0 ? ('-' + Package.build_and) : ''))}</Text>
 
 					</View>
 				</View>
