@@ -42,23 +42,7 @@ class BillDetail extends BaseComponent {
 		const { clearDetail } = this.props
 		return (
 			<View style={styles.container}>
-			{
-				/**
-				 * <TouchableOpacity activeOpacity={0.8} onPress={()=>{
 
-									if (this.props.router.getLastCurrentRouteKey() == 'ORDER_DETAIL_PAGE') {
-										this.props.router.pop()
-									}else{
-										this.props.router.push(RouteType.ROUTE_ORDER_DETAIL,{ orderNo: clearDetail.orderNo })
-									}
-								}}>
-									<View style={{flexDirection: 'row'}}>
-										<Text style={{color: COLOR.TEXT_BLACK}}>{clearDetail.orderNo}</Text>
-										<Text style={{fontFamily: 'iconfont',color: COLOR.TEXT_LIGHT}}>&#xe60d;</Text>
-									</View>
-								</TouchableOpacity>
-				 */
-			}
 				{
 					clearDetail ?
 						<ScrollView>
@@ -82,19 +66,7 @@ class BillDetail extends BaseComponent {
 								<Text style={styles.itemName}>实收金额</Text>
 								<Text>{`¥${clearDetail.payablePrice}`}</Text>
 							</View>
-							/**
-							<View style={styles.itemView}>
-								<Text style={styles.itemName}>结算金额</Text>
-								<Text>{`¥${clearDetail.companyActualPrice}`}</Text>
-							</View>
-							{
-								clearDetail.priceInstruction ?
-									<View style={styles.itemView}>
-										<Text style={styles.itemName}>差额说明</Text>
-										<Text>{clearDetail.priceInstruction}</Text>
-									</View>
-								: null
-							}**/
+
 							{
 								clearDetail.companyApplyTime ?
 									<View style={styles.itemView}>
@@ -103,10 +75,14 @@ class BillDetail extends BaseComponent {
 									</View>
 								: null
 							}
-							<View style={styles.itemView}>
-								<Text style={styles.itemName}>结算确认时间</Text>
-								<Text>{clearDetail.companyPaymentTime}</Text>
-							</View>
+							{
+								clearDetail.companyPaymentTime ?
+									<View style={styles.itemView}>
+										<Text style={styles.itemName}>结算确认时间</Text>
+										<Text>{clearDetail.companyPaymentTime}</Text>
+									</View>
+								: null
+							}
 							<View style={styles.itemView}>
 								<Text style={styles.itemName}>结算方式</Text>
 								<Text>{clearDetail.paymentTypeStr}</Text>

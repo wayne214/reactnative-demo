@@ -80,8 +80,6 @@ export default store => next => action => {
  		_userId = user.userId;
  	}
 
-	const sign = md5(TOKEN + uuid + NativeModules.NativeModule.VERSION +
-		_userId +  (Platform.OS === 'ios' ? 2 : 1) + (role === 1 ? 2 : 1) + 2 + getValues(_body), 'utf8').toLowerCase();
 
 	const paramsDic = { ..._body };
 
@@ -90,7 +88,10 @@ export default store => next => action => {
 	headers.user_id = _userId;
 	headers.version = NativeModules.NativeModule.VERSION;
 	headers.client_type = Platform.OS === 'ios' ? 2 : 1;
-	headers.source = 2;
+	headers.source = 1;
+
+	const sign = md5(TOKEN + uuid + NativeModules.NativeModule.VERSION +
+		_userId +  (Platform.OS === 'ios' ? 2 : 1) + (role === 1 ? 2 : 1) + headers.source + getValues(_body), 'utf8').toLowerCase();
 
 	let options;
 	if (method === 'POST') {
@@ -157,7 +158,7 @@ export default store => next => action => {
 				store.dispatch(redictLogin());
 			} else {
 				if (fail) fail(failed);
-				if (failToast && failed.msg) Toast.show(failed.msg);
+				if (failToast && failed.msg && failed.code !== '0099') Toast.show(failed.msg);
 			}
 		}).catch(error => Toast.show(error))
 		.finally(() => {
@@ -189,6 +190,7 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
 			} else if (responseData.code === '0099') {
 				// 强制升级
+				global._flag = 1
 				next({ type: ActionTypes.UPGRADE_FORCE, payload: responseData.data })
 				reject(responseData);
 			} else if (responseData.code === '0098') {

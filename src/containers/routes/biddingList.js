@@ -56,7 +56,7 @@ class BiddingList extends BaseComponent {
 		this.props.dispatch(changePreOrderListIsRefreshing(isBetter ? 1 : 2,activeTab, true));
 		this.props._getBiddingList({
 			companyId: user.userId,
-			state: activeTab,
+			state: activeTab+1,
 			type: isBetter ? 1 : 2,
 			pageNo: 1,
 		})
@@ -78,17 +78,14 @@ class BiddingList extends BaseComponent {
 				tabBarTextStyle={{fontSize:15}}
 				page={this.state.activeTab}
 				onChangeTab={(obj)=>{
-					// console.log("------ obj",obj);
 					if (obj.from == obj.i) {return}
 					this.setState({
 						activeTab: parseInt(obj.i)
 					})
-					// console.log("====== Date.now(1)",Date.now());
 					InteractionManager.runAfterInteractions(()=>{
-						// console.log("====== Date.now(2)",Date.now());
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: parseInt(obj.i),
+							state: parseInt(obj.i) + 1,
 							type: isBetter ? 1 : 2,
 							pageNo: 1
 						})
@@ -103,7 +100,7 @@ class BiddingList extends BaseComponent {
 					loadMoreAction={()=>{
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: activeTab,
+							state: activeTab+1,
 							type: isBetter ? 1 : 2,
 							pageNo: parseInt(isBetter ? bidding.get('pageNo') : ordering.get('pageNo')) + 1,
 						})
@@ -127,7 +124,7 @@ class BiddingList extends BaseComponent {
         	loadMoreAction={()=>{
         		this.props._getBiddingList({
         			companyId: user.userId,
-        			state: activeTab,
+        			state: activeTab+1,
         			type: isBetter ? 1 : 2,
         			pageNo: parseInt(isBetter ? biddingSuccess.get('pageNo') : orderSuccess.get('pageNo')) + 1,
         		})
@@ -140,7 +137,7 @@ class BiddingList extends BaseComponent {
 					loadMoreAction={()=>{
 						this.props._getBiddingList({
 							companyId: user.userId,
-							state: activeTab,
+							state: activeTab+1,
 							type: isBetter ? 1 : 2,
 							pageNo: parseInt(isBetter ? biddingFailed.get('pageNo') : orderFailed.get('pageNo')) + 1,
 						})

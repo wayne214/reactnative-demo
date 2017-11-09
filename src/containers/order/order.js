@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Modal,
   InteractionManager,
-  // Alert
+  Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
@@ -480,11 +480,11 @@ class OrderList extends BaseComponent {
                           ])
                         }else{
                           if (this.props._applyClear) {
-                            Alert.alert('温馨提示','请您在催款同时，将您开具好的发票邮寄至我们，以免耽误您的结算申请',[
+                            Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[
                               {text: '取消', onPress:()=>{
                                 // console.log("cancle...");
                               }},
-                              {text: '查看并申请', onPress:()=>{
+                              {text: '提交并查看', onPress:()=>{
                                 this.props._applyClear({
                                   orderNo: allOrderNoArr.join(','),
                                   carId: user.carId ? user.carId : '',
@@ -666,18 +666,20 @@ const mapDispatchToProps = (dispatch) => {
         showLoading: true,
         body: params,
         success: (data)=>{
-          console.log(" ----- 催款成功， 改状态为15 结算中 ");
           Toast.show('催款成功')
           dispatch(changeOrderurgedWithOrderNo(params.orderNo))
-          // dispatch(changeOrderToStateWithOrderNo(15,params.orderNo,'orderUnPay'))
-          if (params.activeTab == 3) {
-            dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
-          };
+          /**
+           * 2017-11-08, 09:18:20 GMT+0800
+           * 以前点击【申请结算】后变成【结算中】
+           * 现在点击【催款】后状态不变，只是标记为 已催款
+           */
+          // if (params.activeTab == 3) {
+          //   dispatch(changeOrderTopTab(3,1))//这个切换有bug 暂时只在activeTab == 3 ’结算‘ 下切换
+          // };
           if (successCallBack) {
             successCallBack()
           }
           dispatch(appendLogToFile('订单','催款成功',startTime))
-
         }
       }))
     },
