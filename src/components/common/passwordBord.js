@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    inputItemText:{
+        fontSize:22,
+    },
     inputItemBorderLeftWidth: {
         borderLeftWidth: 1,
         borderColor: '#ccc',
@@ -100,8 +103,12 @@ export default class PasswordBord extends Component {
                         key={i}
                         style={[styles.inputItem, this.props.inputItemStyle]}>
                         {i < text.length ?
-                            <View style={[styles.iconStyle, this.props.iconStyle]}>
-                            </View> : null}
+                            // <View style={[styles.iconStyle, this.props.iconStyle]}>
+                            // </View> : null
+                            <Text style={styles.inputItemText}>
+                                {text[i]}
+                            </Text> : null
+                        }
                     </View>)
             }
             else {
@@ -110,8 +117,12 @@ export default class PasswordBord extends Component {
                         key={i}
                         style={[styles.inputItem, styles.inputItemBorderLeftWidth, this.props.inputItemStyle]}>
                         {i < text.length ?
-                            <View style={[styles.iconStyle, this.props.iconStyle]}>
-                            </View> : null}
+                            // <View style={[styles.iconStyle, this.props.iconStyle]}>
+                            // </View> : null
+                            <Text style={styles.inputItemText}>
+                                {text[i]}
+                            </Text> : null
+                        }
                     </View>)
             }
             ;
