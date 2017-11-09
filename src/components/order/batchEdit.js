@@ -77,7 +77,7 @@ class BatchEdit extends Component{
 			)
 		}else{
 			return(
-				<View style={{height: 44,width,backgroundColor: 'white',bottom: 0,flexDirection: 'row',justifyContent: 'space-between',paddingLeft: 15,paddingRight: 15}}>
+				<View style={{height: 44,width,backgroundColor: 'white',bottom: 0,flexDirection: 'row',justifyContent: 'space-between',paddingLeft: 15,paddingRight: 15, borderTopWidth: MINI_LINE,borderTopColor: COLOR.LINE_COLOR}}>
 					<Button activeOpacity={0.8} style={{flex:1, marginTop:6, marginRight: 0,borderWidth: 0,borderRadius: 2,height: 31}}
 						textStyle={{fontSize: 14,color: COLOR.APP_THEME}}
 						onPress={()=>{

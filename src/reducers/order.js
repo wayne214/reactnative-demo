@@ -37,7 +37,8 @@ const initState = Immutable.fromJS({
 		pageNo: 1,
 		isRefreshing: false,
 		isBatchEditing: false,
-		allSelected: false
+		allSelected: false,
+		showBatchBar: false
 	},
 	orderPaying: {
 		list:[],
@@ -91,7 +92,16 @@ export default (state = initState, action) => {
 			}
 			if (payload.list) {
 				const newArr = payload.list.map((item)=>{
-
+					if (rootTypeList === 'orderUnPay') {
+						/**
+						 * 2017-11-09, 17:08:46 GMT+0800
+						 * 在【未结算】 (orderUnPay) 列表中需要记录有没有未催款的订单， 至少有一个这种订单时 显示【批量催款】按钮
+						 */
+						if ((item.orderState == 10 || (item.orderState == 14 && item.entrustType == 1)) && item.promptState == 1) {
+							// 未结算 且 未催款
+							newState = newState.setIn(['orderUnPay','showBatchBar'],true);
+						};
+					};
 					item.from = item.fromProvinceName == item.fromCityName ? `${item.fromProvinceName}${item.fromAreaName}` : `${item.fromProvinceName}${item.fromCityName}${item.fromAreaName}`
 					item.to = item.toProvinceName == item.toCityName ? `${item.toProvinceName}${item.toAreaName}` : `${item.toProvinceName}${item.toCityName}${item.toAreaName}`
 

@@ -139,7 +139,7 @@ class OrderListItemClear extends Component {
       loadMoreAction,
       activeSubTab
     } = this.props
-    console.log(" ====== activeSubTab ",activeSubTab);
+    console.log(" ====== activeSubTab ",activeSubTab,orderUnPay.showBatchBar);
     return (
       <ScrollableTabView
         page={activeSubTab < 2 ? activeSubTab : 0}
@@ -160,7 +160,7 @@ class OrderListItemClear extends Component {
           {...this.props}
           tabLabel={'未结算'}
           dataSource={orderUnPay}
-          haveBatch={true}
+          haveBatch={orderUnPay.get('showBatchBar')}
           loadMoreAction={()=>{
             if(loadMoreAction){loadMoreAction(0)}
           }}/>
@@ -490,6 +490,11 @@ class OrderList extends BaseComponent {
                                   carId: user.carId ? user.carId : '',
                                   activeTab
                                 },()=>{
+                                  /**
+                                   * 刷新【结算】-【未结算】列表
+                                   * 全选置为false
+                                   */
+                                  this._refreshList()
                                   console.log(" ===去发票说明");
                                   this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}
@@ -656,7 +661,7 @@ const mapDispatchToProps = (dispatch) => {
     _setAllUnPayEditing: (isEditing) => {
       dispatch(setAllUnPayEditing(isEditing))
       startTime = new Date().getTime();
-      isEditing && dispatch(appendLogToFile('订单','批量结算全选',startTime))
+      isEditing && dispatch(appendLogToFile('订单','批量催款全选',startTime))
     },
     _applyClear: (params,successCallBack)=>{
       startTime = new Date().getTime();
