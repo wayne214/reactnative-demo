@@ -543,7 +543,7 @@ class OrderDetail extends BaseComponent {
 												}
 											}
 										]}/>
-									}else if (orderDetail.orderState == 12) {
+									}else if ([12,17].includes(orderDetail.orderState)) {
 										return <ButtonView dataSource={[
 											{
 												title: '查看结算单',
