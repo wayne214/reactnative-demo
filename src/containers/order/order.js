@@ -696,6 +696,7 @@ const mapDispatchToProps = (dispatch) => {
         success: (data)=>{
           // console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderPaying'))
+          dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderAll'))
           dispatch(appendLogToFile('订单','确认结算成功',startTime))
 
         }

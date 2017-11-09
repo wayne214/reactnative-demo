@@ -1,6 +1,7 @@
 {
   "name": "carrier",
   "version": "0.0.1",
+  "build": 11091522,
   "private": true,
   "scripts": {
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",

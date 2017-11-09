@@ -179,7 +179,7 @@ export default (state = initState, action) => {
 				console.warn("缺少参数",targetOrderNo && toState && orderTopType);
 				return newState
 			};
-			if ((orderTopType == 'orderUnPay' && toState == 15) || toState == 12) {
+			if ((orderTopType == 'orderUnPay' && toState == 15) || (orderTopType == 'orderPaying' && toState == 12)) {
 				let newOrderList = newState.getIn([orderTopType,'list'])
 				let targetIndex = -1
 				newOrderList.map((item,index)=>{
