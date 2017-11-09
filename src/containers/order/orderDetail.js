@@ -486,7 +486,7 @@ class OrderDetail extends BaseComponent {
 											}
 										]}/>
 
-									}else if (orderDetail.orderState == 10 || orderDetail.orderState == 14) {
+									}else if ((orderDetail.orderState == 10 || orderDetail.orderState == 14) && orderDetail.promptState == 1) {
 										return <ButtonView dataSource={[
 											{
 												title: '催款',

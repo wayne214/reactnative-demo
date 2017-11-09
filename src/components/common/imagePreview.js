@@ -35,6 +35,10 @@ class ImagePreview extends Component{
 	  show: PropTypes.bool,
 	  hide: PropTypes.func
 	};
+	componentDidMount() {
+		const {imagePathes} = this.props
+		console.log(" --- images ",imagePathes);
+	}
 	render() {
 		const {show,hide,activeIndex,imagePathes} = this.props
 		const photoViews = imagePathes.map((item,index)=>{
@@ -47,6 +51,9 @@ class ImagePreview extends Component{
 					  onLoad={() => console.log("Image loaded!")}
 					  style={{width, height}}
 					  onTap={() => {
+					  	hide && hide()
+					  }}
+					  onViewTap={() => {
 					  	hide && hide()
 					  }}/>
 				</View>

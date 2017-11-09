@@ -285,7 +285,7 @@ class HelperUtil {
 	 * @return {[type]}        [description]
 	 */
 	getFullImgPath(url, width = 480, height = 720) {
-		return IMG_HOST + url + `?x-oss-process=image/resize,m_lfit,h_${ height },w_${ width }` + '&a=' + Math.random(1) * 100000;
+		return IMG_HOST + url + `?x-oss-process=image/resize,m_lfit,h_${ parseInt(height) },w_${  parseInt(width) }` + '&a=' + Math.random(1) * 100000;
 	}
 
 	getFormatDate(date){
