@@ -1,8 +1,6 @@
 {
   "name": "carrier",
   "version": "0.0.1",
-  "build_ios": 11100921,
-  "build_and": 0,
   "private": true,
   "scripts": {
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
@@ -16,8 +14,10 @@
     "deployment:ios": "code-push deployment ls carrier-ios -k",
     "deployment:android": "code-push deployment ls carrier-android -k",
     "collaboration": "code-push collaborator add <appName> <collaboratorEmail>",
+    "predeploy:ios": "node script/prebuild_ios",
     "deploy:ios": "code-push release-react carrier-ios ios --dev false --deploymentName Staging --mandatory false --description ",
     "deploy:ios:dev": "code-push release-react carrier-ios ios --description '修复一些问题' --dev true --mandatory false",
+    "predeploy:android": "node script/prebuild_and",
     "deploy:android": "code-push release-react carrier-android android --description '紧急修复bug,请及时更新' --dev false --deploymentName Production --mandatory true",
     "deploy:android:dev": "code-push release-react carrier-android android --dev true --mandatory false --description",
     "clean:ios": "code-push deployment clear carrier-ios Staging",
