@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         // borderRadius: 6,
         paddingTop: 30,
-        marginBottom: 135,
+        marginBottom: height/30*11,
     },
 
     cellContainer: {
