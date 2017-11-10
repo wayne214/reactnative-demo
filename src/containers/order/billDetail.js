@@ -60,11 +60,11 @@ class BillDetail extends BaseComponent {
 							</View>
 							<View style={styles.itemView}>
 								<Text style={styles.itemName}>应收金额</Text>
-								<Text>{`¥${clearDetail.carrierDealPrice}`}</Text>
+								<Text>{`¥${clearDetail.payablePrice}`}</Text>
 							</View>
 							<View style={styles.itemView}>
 								<Text style={styles.itemName}>实收金额</Text>
-								<Text>{`¥${clearDetail.payablePrice}`}</Text>
+								<Text>{`¥${clearDetail.companyActualPrice}`}</Text>
 							</View>
 
 							{

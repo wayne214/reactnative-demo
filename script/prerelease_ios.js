@@ -3,11 +3,6 @@
 const FS = require('fs');
 const path = require('path');
 const targetPath  = path.resolve()+'/app.json'
-const newDate = new Date()
-const m = newDate.getMonth()+1;
-const d = newDate.getDate();
-const h = newDate.getHours();
-const M = newDate.getMinutes();
 
 FS.readFile(targetPath,'utf8',function (err, configdata) {
 	if(err) {
@@ -16,11 +11,13 @@ FS.readFile(targetPath,'utf8',function (err, configdata) {
 	}
 	const configData = JSON.parse(configdata);
 
-	configData.build_and = '' + m + d + h + M;
+	configData.build_ios = 0;
 
 	const newconfigData = JSON.stringify(configData, null, 2);
 
 	FS.writeFileSync(targetPath,newconfigData)
 
-	console.log('准备发布更新，更新build_and号\nbuild_and=',configData.build_and);
+	console.log('准备打包，清空build_ios号\nbuild_ios=',configData.build_ios);
+
+	return;
 });

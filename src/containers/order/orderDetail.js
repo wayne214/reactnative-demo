@@ -746,7 +746,7 @@ class ButtonView extends Component {
 		const {dataSource} = this.props
 		const Buttons = dataSource.map((item,index)=>{
 			return (
-				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: (width-40-(dataSource.length-1)*20)/dataSource.length}}
+				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: (width-40-(dataSource.length-1)*15)/dataSource.length}}
 					isDisabled={item.isDisabled}
 					disabledStyle={{backgroundColor: COLOR.BUTTN_DISABLE}}
 					textStyle={{fontSize: 14,color: 'white'}}
@@ -758,7 +758,7 @@ class ButtonView extends Component {
 			)
 		})
 		return (
-			<View style={{flex: 1,flexDirection: 'row',paddingLeft: 20,paddingRight: 20,paddingTop: 20,justifyContent: 'space-between'}}>
+			<View style={{flex: 1,flexDirection: 'row',paddingLeft: 20,paddingRight: 20,paddingTop: 20,backgroundColor:'orange',justifyContent: 'space-between'}}>
 				{ Buttons }
 			</View>
 		)

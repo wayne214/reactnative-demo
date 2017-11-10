@@ -699,6 +699,7 @@ const mapDispatchToProps = (dispatch) => {
         method: 'POST',
         body: params,
         success: (data)=>{
+          Toast.show('确认结算成功')
           // console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderPaying'))
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderAll'))
