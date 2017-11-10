@@ -24,7 +24,7 @@ import Storage from '../../utils/storage';
 import { Switch } from 'react-native-switch';
 import BaseComponent from '../../components/common/baseComponent'
 // import Link from '../../utils/linking'
-import Package from '../../../package.json'
+import AppJSON from '../../../app.json'
 import {appendLogToFile} from '../../action/app.js'
 let startTime = 0
 
@@ -188,7 +188,7 @@ class SettingContainer extends BaseComponent {
 						<Text style={ styles.leftText }>当前版本号</Text>
 					</View>
 					<View style={ styles.rightAndBtn }>
-						<Text style={ [styles.leftText, { marginRight: 20 }] }>{ 'V' + NativeModules.NativeModule.VERSION + (IS_IOS ? (Package.build_ios > 0 ? ('-' + Package.build_ios) : '') : (Package.build_and > 0 ? ('-' + Package.build_and) : ''))}</Text>
+						<Text style={ [styles.leftText, { marginRight: 20 }] }>{ 'V' + NativeModules.NativeModule.VERSION + (IS_IOS ? (AppJSON.build_ios > 0 ? ('-' + AppJSON.build_ios) : '') : (AppJSON.build_and > 0 ? ('-' + AppJSON.build_and) : ''))}</Text>
 
 					</View>
 				</View>

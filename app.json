@@ -1,4 +1,6 @@
 {
   "name": "carrier",
-  "displayName": "carrier"
+  "displayName": "carrier",
+  "build_ios": "11101138",
+  "build_and": 0
 }
