@@ -190,6 +190,10 @@ export default (state = initState, action) => {
 				return newState
 			};
 			if ((orderTopType == 'orderUnPay' && toState == 15) || (orderTopType == 'orderPaying' && toState == 12)) {
+				/**
+				 * 2017-11-10, 16:34:47 GMT+0800
+				 * 未结算下的订单改状态为15  和 结算中 的订单改状态为12时 移除这个订单
+				 */
 				let newOrderList = newState.getIn([orderTopType,'list'])
 				let targetIndex = -1
 				newOrderList.map((item,index)=>{
@@ -198,6 +202,7 @@ export default (state = initState, action) => {
 					}
 				})
 				if (targetIndex != -1) {
+					console.log("未结算下的订单改状态为15  和 结算中 的订单改状态为12时 移除这个订单");
 					newOrderList = newOrderList.delete(targetIndex)
 				}
 				newState = newState.setIn([orderTopType,'list'],newOrderList)

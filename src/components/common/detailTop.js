@@ -79,8 +79,8 @@ class DetailTop extends Component{
 						}else if (configData.type === ENUM.DETAIL_TYPE.ORDER) {
 							return (
 								<View style={styles.headerView}>
-									<Image source={preOrderTop} style={{width,height: 80,position: 'absolute'}}/>
-									<View style={{justifyContent: 'center',alignItems: 'center',height: 80}}>
+									<Image source={preOrderTop} style={{width,height: width * 0.213,position: 'absolute'}}/>
+									<View style={{justifyContent: 'center',alignItems: 'center',height: width * 0.213}}>
 										<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 24,fontWeight:'bold',color: COLOR.APP_THEME}}>{configData.orderStatus}</Text>
 										<Text style={{backgroundColor: 'rgba(0,0,0,0)',fontSize: 14,color: COLOR.TEXT_LIGHT}}>订单状态</Text>
 									</View>

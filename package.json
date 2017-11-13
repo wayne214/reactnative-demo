@@ -10,6 +10,7 @@
     "android:dist": "react-native bundle --entry-file index.android.js --bundle-output ./android/app/src/main/assets/index.android.jsbundle --platform android --assets-dest ./android/app/src/main/res/ --dev false",
     "watchman": "watchman watch-del /Users/kaisun/Desktop/llmj-carrier ; watchman watch-project /Users/kaisun/Desktop/llmj-carrier",
     "ios-debug": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/shipper/main.jsbundle' --dev=true --platform='ios' --assets-dest='./ios'",
+    "preios-dist": "node script/prerelease_ios",
     "ios-dist": "rm -rf dist && mkdir dist && react-native bundle --entry-file ./index.ios.js --bundle-output ./dist/main.jsbundle --platform ios --assets-dest ./dist --dev false",
     "deployment:ios": "code-push deployment ls carrier-ios -k",
     "deployment:android": "code-push deployment ls carrier-android -k",
