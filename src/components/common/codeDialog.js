@@ -123,7 +123,7 @@ class CodeDialog extends Component {
                                         style={{
                                             fontSize: 12,
                                             color: '#F6001E',
-                                        }}>验证码错误，请重新输入验证码</Text>
+                                        }}>验证码错误，请重新输入</Text>
                                 </View>
                                 :
                                 <View style={{
