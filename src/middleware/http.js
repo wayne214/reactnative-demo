@@ -201,7 +201,7 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 				reject(responseData);
 			} else if (responseData.code === '0098') {
 				reject(responseData)
-				if (responseData.msg) Toast.show(responseData.msg)
+				if (responseData.data) Toast.show(responseData.data)
 			} else {
 				reject(responseData);
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })
