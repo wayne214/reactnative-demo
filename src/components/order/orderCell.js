@@ -78,6 +78,11 @@ class OrderCell extends Component{
 					}
 				}
 			}}>
+			{
+				/**
+				 * <Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
+				 */
+			}
 				<View style={{flex: 1,flexDirection: 'row'}}>
 					{
 						rowData.isBatchEditing ?
@@ -96,9 +101,18 @@ class OrderCell extends Component{
 							<View style={{justifyContent: 'center'}}>
 								<Text style={{color: COLOR.TEXT_LIGHT,fontSize: 14}}>{rowData.orderType == 'ENTRUST' ? `委托编号:${rowData.resourceId}` : `订单编号:${rowData.orderNo}`}</Text>
 							</View>
-							<View style={{justifyContent: 'center'}}>
-								<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
-							</View>
+							{
+								rowData.orderStateStr.length > 7 && SCREEN_WIDTH < 321  ?
+									<View style={{justifyContent: 'center',alignItems:'center'}}>
+										<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr.substring(0,parseInt(rowData.orderStateStr.length/2))}</Text>
+										<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr.substring(parseInt(rowData.orderStateStr.length/2))}</Text>
+									</View>
+								:
+									<View style={{justifyContent: 'center'}}>
+										<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
+									</View>
+							}
+
 						</View>
 						<View style={styles.container}>
 
