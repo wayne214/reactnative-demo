@@ -75,7 +75,9 @@ class MainContainer extends BaseComponent {
     this.codePushDownloadDidProgress = this.codePushDownloadDidProgress.bind(this)
     this._getCurrentPosition = this._getCurrentPosition.bind(this)
     this.insiteNotice = props.navigation.state.params.insiteNotice;
+    this._doSomethingAfterReceiveNotification = this._doSomethingAfterReceiveNotification.bind(this)
 
+    console.log(" ==== main reload constructor");
   }
 
   static propTypes = {
@@ -85,12 +87,51 @@ class MainContainer extends BaseComponent {
     upgrade: PropTypes.object
   }
 
+  _doSomethingAfterReceiveNotification(map){
+
+    console.log(" === push ", map);
+    if (this.state.appState == 'background') {
+        this._pushToMessageList(map)//map.messsageType || map.messageType
+    }else if(this.state.appState == 'active') {
+      const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
+      Alert.alert('温馨提示',alertTitle,[
+        {
+          text: '忽略',
+          onPress:()=>{}
+        },
+        {
+          text: '查看',
+          onPress:()=>{
+            this._pushToMessageList(map)
+          }
+        }
+      ])
+    }
+  }
   componentWillMount() {
     if (Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.handleBack);
   }
 
   async componentDidMount () {
 
+      // JPush
+    if (IS_IOS) {
+    /**
+     * 监听：点击推送事件
+     * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
+     */
+    // 点击通知后，将会触发此事件
+      JPushModule.setBadge(0, (success) => {
+      });
+      console.log(" ==== add listener in did mount ");
+      JPushModule.addReceiveOpenNotificationListener(this._pushToMessageList);
+      if (NativeModules.NativeModule.IOS_OS_VERSION < 10) {
+        console.log(" add --------------------- this._doSomethingAfterReceiveNotification ",this._doSomethingAfterReceiveNotification);
+        JPushModule.addReceiveNotificationListener(this._doSomethingAfterReceiveNotification);
+      };
+    } else {
+      JPushModule.addReceiveOpenNotificationListener(this._pushToMessageList);
+    }
     if (Platform.OS === 'android') {
       this.timer = setTimeout(() => {
   			SplashScreen.hide()
@@ -110,108 +151,7 @@ class MainContainer extends BaseComponent {
     }
     // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
-
-    // JPush
-
-  /**
-   * iOS Only
-   * 监听：应用没有启动的状态点击推送打开应用
-   * @param {Function} cb = (notification) => {}
-   */
-    JPushModule.addOpenNotificationLaunchAppListener( (notification) => {
-      // console.log(" ===== 监听：应用没有启动的状态点击推送打开应用 ",notification);
-      // Alert.alert('应用没有启动的状态点击推送打开应用','3qrwwqer',[{text: 'ok',onPress:()=>{}}])
-    })
-
-    /**
-     * 监听：接收推送事件
-     * @param {} cb = (Object）=> {}
-     */
-    if (Platform.OS === 'ios' && NativeModules.NativeModule.IOS_OS_VERSION < 10) {
-      JPushModule.addReceiveNotificationListener((map) => {
-        // console.log(" === push ", map);
-
-        if (this.state.appState == 'background') {
-            this._pushToMessageList(map.messsageType || map.messageType)
-        }else if(this.state.appState == 'active') {
-          const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
-          // 不在消息列表 alert 提醒
-          Alert.alert('温馨提示',alertTitle,[
-            {
-              text: '忽略',
-              onPress:()=>{}
-            },
-            {
-              text: '查看',
-              onPress:()=>{
-                this._pushToMessageList(map.messsageType || map.messageType)
-              }
-            }
-          ])
-        }
-        // const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
-        // if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
-        //   /**
-        //    * 如果当前在消息列表 肯定已经登录 直接刷新
-        //    */
-        //   this._pushToMessageList(map.messsageType || map.messageType)
-        // }else{
-        //   const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
-        //   // 不在消息列表 alert 提醒
-        //   Alert.alert('温馨提示',alertTitle,[
-        //     {
-        //       text: '忽略',
-        //       onPress:()=>{}
-        //     },
-        //     {
-        //       text: '查看',
-        //       onPress:()=>{
-        //         this._pushToMessageList(map.messsageType || map.messageType)
-        //       }
-        //     }
-        //   ])
-        // }
-        // console.log(" ===== addReceiveNotificationListener ",map);
-      });
-    };
-
-
-    if (Platform.OS === 'ios') {
-      // 每次启动后清空角标
-      JPushModule.setBadge(0, (success) => {
-        // console.log(success)
-      });
-    } else {
-      JPushModule.addReceiveCustomMsgListener((message) => {
-        // console.log("收到 android 自定义消息 ",message);
-      });
-      JPushModule.addReceiveNotificationListener((message) => {
-        // console.log("收到 Android 通知: ",message);
-      })
-      JPushModule.addReceiveOpenNotificationListener((message) => {
-		    // console.log("Android 点击通知 触发", message);
-        // Toast.show('点击通知 触发', message)
-        this._pushToMessageList(message.messsageType || message.messageType)
-		  });
-    }
-
-  /**
-   * 监听：点击推送事件
-   * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
-   *
-   */
-    // 点击通知后，将会触发此事件
-    if (Platform.OS === 'ios') {
-      JPushModule.addReceiveOpenNotificationListener((message) => {
-        // console.log("点击通知 触发", message);
-        this._pushToMessageList(message.messsageType || message.messageType)
-      });
-    }
-
-    // if (Platform.OS === 'ios') TimeToDoSomething.sendMsgToNative();
-
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-      // console.log(" ==== 定时任务 ");
       this._getCurrentPosition();
     })
 
@@ -269,17 +209,14 @@ class MainContainer extends BaseComponent {
     }
   }
 
-  _pushToMessageList(messageType=1){// messageType 1=站内信 2=系统公告
+  _pushToMessageList(message){// messageType 1=站内信 2=系统公告
+    const messageType = message.messsageType || message.messageType || 1
     const {user} = this.props
     if (!(user && user.userId)) {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } });
       return;
     };
-
-    // console.log(" ----- ",this.props.nav);
     const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
-    // console.log(" ----currentRoute- ",currentRoute);
-    // Toast.show('currentRoute', currentRoute)
     if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
       this.props.dispatch(dispatchRefreshMessageList())
     } else if (currentRoute.key === RouteType.ROUTE_MESSAGE_DETAIL) {
@@ -290,26 +227,20 @@ class MainContainer extends BaseComponent {
   }
 
   componentWillUnmount() {
+    console.log(" ----main componentWillUnmount -----移除监听");
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
-
     this.uploadLoglistener && this.uploadLoglistener.remove()
-    // console.log(" === = remove linster",this.uploadLoglistener);
 
-    if (Platform.OS === 'android') {
+    if (IS_ANDROID) {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
       JPushModule.removeReceiveCustomMsgListener();
       JPushModule.removeReceiveNotificationListener();
     }else{
-      JPushModule.removeReceiveOpenNotificationListener(()=>{
-        // console.log(" ==== 移除 点击推送事件 监听 ");
-      });
-      JPushModule.removeOpenNotificationLaunchAppEventListener(()=>{
-        // console.log(" === 移除启动 launch监听");
-      })
-      JPushModule.removeReceiveNotificationListener(()=>{
-        // console.log(" === 移除 接收推送事件 的监听");
-      })
+      console.log(" remove --------------------- this._doSomethingAfterReceiveNotification ",this._doSomethingAfterReceiveNotification)
+      JPushModule.removeReceiveOpenNotificationListener(this._pushToMessageList);
+      JPushModule.removeOpenNotificationLaunchAppEventListener()
+      JPushModule.removeReceiveNotificationListener(this._doSomethingAfterReceiveNotification)
     }
   }
 
