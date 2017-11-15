@@ -78,11 +78,6 @@ class OrderCell extends Component{
 					}
 				}
 			}}>
-			{
-				/**
-				 * <Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
-				 */
-			}
 				<View style={{flex: 1,flexDirection: 'row'}}>
 					{
 						rowData.isBatchEditing ?
@@ -112,7 +107,6 @@ class OrderCell extends Component{
 										<Text style={{color: (rowData.orderState == 15 ? '#F6001E' : COLOR.APP_THEME),fontSize: 14}}>{rowData.orderStateStr}</Text>
 									</View>
 							}
-
 						</View>
 						<View style={styles.container}>
 
