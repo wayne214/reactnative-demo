@@ -6,6 +6,7 @@
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "cd android && rm -rf app/src/main/res/drawable-* && ./gradlew assembleRelease",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "android:staging": "npm run android:dist && cd android && ./gradlew assembleStaging",
     "android:dist": "react-native bundle --entry-file index.android.js --bundle-output ./android/app/src/main/assets/index.android.jsbundle --platform android --assets-dest ./android/app/src/main/res/ --dev false",
     "watchman": "watchman watch-del /Users/kaisun/Desktop/llmj-carrier ; watchman watch-project /Users/kaisun/Desktop/llmj-carrier",
