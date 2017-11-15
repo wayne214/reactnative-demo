@@ -159,7 +159,7 @@ export default store => next => action => {
 			} else {
 				if (fail) fail(failed);
 
-				if (failToast && failed.msg && failed.code !== '0099'){
+				if (failToast && failed.msg && failed.code !== '0099' && failed.code !== '0098'){
                     if(api === '/carrier/exclude/sendSms'){
                     } else {
                         Toast.show(failed.msg);
@@ -201,7 +201,7 @@ function fetchData (fullPath, { body, method, headers }, next, app) {
 				reject(responseData);
 			} else if (responseData.code === '0098') {
 				reject(responseData)
-				if (responseData.msg) Toast.show(responseData.msg)
+				if (responseData.data) Toast.show(responseData.data)
 			} else {
 				reject(responseData);
 				if (app.get('upgradeForce')) next({ type: ActionTypes.UPGRADE_FORCE_HIDDEN })

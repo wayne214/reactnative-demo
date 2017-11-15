@@ -136,7 +136,7 @@ public class NativeModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onDownloading(int progress) {
-                Log.i("----", "" + progress);
+//                Log.i("----", "" + progress);
                 mBuilder.setProgress(100, progress, false);
                 mNotifyManager.notify(1, mBuilder.build());
             }

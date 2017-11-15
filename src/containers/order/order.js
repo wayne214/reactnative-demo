@@ -79,7 +79,7 @@ class OrderListItem extends Component {
       if (dataSource.get('isLoadingMore')){
         console.log("------ 正在加载中");
         return;
-      }else if(dataSource.get('list').size >= dataSource.get('total')) {
+      }else if(dataSource.get('list').size >= dataSource.get('total') || dataSource.get('pageNo') == dataSource.get('pages')) {
         console.log("------ 已加载全部");
         return;
       }
@@ -132,7 +132,6 @@ class OrderListItemClear extends Component {
     const {
       orderUnPay,
       orderPaying,
-      orderPayed,
       setSubActiveTab,
       batchHandle,
       itemClick,
@@ -205,7 +204,6 @@ class OrderList extends BaseComponent {
     this._showCoordinateResult = this._showCoordinateResult.bind(this)
   }
   componentDidMount() {
-    console.log(" ===== did mount action ");
     super.componentDidMount()
     const {user} = this.props
     setTimeout(()=>{
@@ -287,8 +285,8 @@ class OrderList extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled,orderUnPay,orderPaying,orderPayed} = nextProps
-    if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore') && !orderUnPay.get('isLoadingMore') && !orderPaying.get('isLoadingMore') && !orderPayed.get('isLoadingMore')) {
+    const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled,orderUnPay,orderPaying} = nextProps
+    if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore') && !orderUnPay.get('isLoadingMore') && !orderPaying.get('isLoadingMore')) {
 
       this._refreshList()
     }
@@ -316,7 +314,6 @@ class OrderList extends BaseComponent {
       orderCanceled,
       orderUnPay,
       orderPaying,
-      orderPayed,
       user
     } = this.props
     return (
@@ -407,7 +404,6 @@ class OrderList extends BaseComponent {
               tabLabel={'结算'}
               orderUnPay={orderUnPay}
               orderPaying={orderPaying}
-              orderPayed={orderPayed}
               showCoordination={(result)=>{
                 this._showCoordinateResult(result)
               }}
@@ -420,8 +416,6 @@ class OrderList extends BaseComponent {
                   this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderUnPay.get('pageNo')) + 1)
                 }else if (index == 1) {
                   this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderPaying.get('pageNo')) + 1)
-                }else if (index == 2) {
-                  this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderPayed.get('pageNo')) + 1)
                 };
               }}
               batchHandle={()=>{
@@ -594,7 +588,6 @@ const mapStateToProps = (state) => {
     orderCanceled: order.get('orderCanceled'),
     orderUnPay: order.get('orderUnPay'),
     orderPaying: order.get('orderPaying'),
-    orderPayed: order.get('orderPayed'),
     activeTab: order.get('activeTab'),
     activeSubTab: order.get('activeSubTab'),
     shouldOrderListRefresh: app.get('shouldOrderListRefresh')
@@ -700,7 +693,7 @@ const mapDispatchToProps = (dispatch) => {
         body: params,
         success: (data)=>{
           Toast.show('确认结算成功')
-          // console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
+          console.log(" 确认结算成功 改状态为12 已完成（从 orderPaying 中移除）");
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderPaying'))
           dispatch(changeOrderToStateWithOrderNo(12,params.orderNo,'orderAll'))
           dispatch(appendLogToFile('订单','确认结算成功',startTime))

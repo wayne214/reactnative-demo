@@ -22,7 +22,7 @@ FS.readFile(targetPath,'utf8',function (err, configdata) {
 
 	FS.writeFileSync(targetPath,newconfigData)
 
-	console.log('准备发布更新，更新build_ios号\nbuild_ios=',configData.build_ios);
+	console.log('准备发布热更新，更新build_ios号\nbuild_ios=',configData.build_ios);
 });
 
 
