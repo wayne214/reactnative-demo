@@ -159,7 +159,7 @@ export default store => next => action => {
 			} else {
 				if (fail) fail(failed);
 
-				if (failToast && failed.msg && failed.code !== '0099' && failed.code === '0098'){
+				if (failToast && failed.msg && failed.code !== '0099' && failed.code !== '0098'){
                     if(api === '/carrier/exclude/sendSms'){
                     } else {
                         Toast.show(failed.msg);
