@@ -76,6 +76,7 @@ export default class PasswordBord extends Component {
                                    maxLength={this.props.maxLength}
                                    keyboardType = 'numbers-and-punctuation'
                                    autoFocus={true}
+                                   caretHidden = {true}
                                    autoCorrect = {false}
                                    onChangeText={(text) => {
                                        this.setState({text});
