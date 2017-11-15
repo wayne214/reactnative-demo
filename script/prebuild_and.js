@@ -22,5 +22,5 @@ FS.readFile(targetPath,'utf8',function (err, configdata) {
 
 	FS.writeFileSync(targetPath,newconfigData)
 
-	console.log('准备发布更新，更新build_and号\nbuild_and=',configData.build_and);
+	console.log('准备发布热更新，更新build_and号\nbuild_and=',configData.build_and);
 });
