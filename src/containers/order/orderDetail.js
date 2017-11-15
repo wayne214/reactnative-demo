@@ -141,8 +141,8 @@ class OrderDetail extends BaseComponent {
 						}
 						{
 							(orderDetail.orderState == 10 || (orderDetail.orderState == 14 && orderDetail.entrustType == 1)) && orderDetail.promptState == 2 ?
-								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 30,alignItems: 'center'}}>
-									<Text style={{color: '#F6001E',fontSize: 13}}>催款状态：已催款</Text>
+								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
+									<Text>催款状态：已催款</Text>
 								</View>
 							: null
 						}

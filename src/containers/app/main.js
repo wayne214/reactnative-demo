@@ -126,7 +126,6 @@ class MainContainer extends BaseComponent {
       console.log(" ==== add listener in did mount ");
       JPushModule.addReceiveOpenNotificationListener(this._pushToMessageList);
       if (NativeModules.NativeModule.IOS_OS_VERSION < 10) {
-        console.log(" add --------------------- this._doSomethingAfterReceiveNotification ",this._doSomethingAfterReceiveNotification);
         JPushModule.addReceiveNotificationListener(this._doSomethingAfterReceiveNotification);
       };
     } else {
@@ -210,6 +209,11 @@ class MainContainer extends BaseComponent {
   }
 
   _pushToMessageList(message){// messageType 1=站内信 2=系统公告
+
+    if (message.extras && IS_ANDROID){
+      const extras = JSON.parse(message.extras)
+      message.messageType = extras.messageType
+    }
     const messageType = message.messsageType || message.messageType || 1
     const {user} = this.props
     if (!(user && user.userId)) {
@@ -227,7 +231,6 @@ class MainContainer extends BaseComponent {
   }
 
   componentWillUnmount() {
-    console.log(" ----main componentWillUnmount -----移除监听");
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
     this.uploadLoglistener && this.uploadLoglistener.remove()
@@ -237,7 +240,6 @@ class MainContainer extends BaseComponent {
       JPushModule.removeReceiveCustomMsgListener();
       JPushModule.removeReceiveNotificationListener();
     }else{
-      console.log(" remove --------------------- this._doSomethingAfterReceiveNotification ",this._doSomethingAfterReceiveNotification)
       JPushModule.removeReceiveOpenNotificationListener(this._pushToMessageList);
       JPushModule.removeOpenNotificationLaunchAppEventListener()
       JPushModule.removeReceiveNotificationListener(this._doSomethingAfterReceiveNotification)
