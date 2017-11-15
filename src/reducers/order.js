@@ -11,7 +11,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderToInstall: {
 		list:[],
@@ -19,7 +20,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderToDelivery: {
 		list:[],
@@ -27,7 +29,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderUnPay: {
 		list:[],
@@ -38,7 +41,8 @@ const initState = Immutable.fromJS({
 		isRefreshing: false,
 		isBatchEditing: false,
 		allSelected: false,
-		showBatchBar: false
+		showBatchBar: false,
+		pages: 0
 	},
 	orderPaying: {
 		list:[],
@@ -46,7 +50,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderPayed: {
 		list:[],
@@ -54,7 +59,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderCanceled: {
 		list:[],
@@ -62,7 +68,8 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+		pages: 0
 	},
 	orderDetail: null,//vehicleType
 	clearDetail: null
@@ -87,6 +94,7 @@ export default (state = initState, action) => {
 			newState = newState.setIn([rootTypeList,'isLoadingMore'],false);
 			newState = newState.setIn([rootTypeList,'total'],payload.total);
 			newState = newState.setIn([rootTypeList,'isRefreshing'],false);
+			newState = newState.setIn([rootTypeList,'pages'],payload.pages);
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn([rootTypeList,'list'],Immutable.fromJS([]));
 			}
