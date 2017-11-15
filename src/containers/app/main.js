@@ -209,10 +209,9 @@ class MainContainer extends BaseComponent {
   }
 
   _pushToMessageList(message){// messageType 1=站内信 2=系统公告
-    Toast.show(JSON.stringify(message))
-    if (message && IS_ANDROID){
+    if (message && message.extras && IS_ANDROID){
       const extras = JSON.parse(message.extras)
-      message.messageType = extras.messageType
+      message.messageType = extras.messsageType
     }
     const messageType = message.messsageType || message.messageType || 1
     const {user} = this.props
