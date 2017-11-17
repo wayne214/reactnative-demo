@@ -428,14 +428,17 @@ const mapDispatchToProps = dispatch => {
                 successToast: true,
                 showLoading: true,
                 success: () => {
+                    debugger
                     ref.startCountDown();
                     cb(true);
                     dispatch(appendLogToFile('新增司机', '获取验证码', startTime))
                 },
                 fail: (data) => {
                     if (data.code == '0002') {//图形验证码错误
-                        console.log('lqq--fail--data', data);
-                        refCode.codeErro();
+                        refCode.codeErro(data.msg);
+                        cb(false);
+                    } else {
+                        refCode.codeErro(data.msg);
                         cb(false);
                     }
                     ;
