@@ -76,7 +76,7 @@ class MainContainer extends BaseComponent {
     this._getCurrentPosition = this._getCurrentPosition.bind(this)
     this.insiteNotice = props.navigation.state.params.insiteNotice;
     this._doSomethingAfterReceiveNotification = this._doSomethingAfterReceiveNotification.bind(this)
-
+    this._pushToMessageListWithType = this._pushToMessageListWithType.bind(this)
     console.log(" ==== main reload constructor");
   }
 
@@ -214,11 +214,19 @@ class MainContainer extends BaseComponent {
       message.messageType = extras.messsageType
     }
     const messageType = message.messsageType || message.messageType || 1
-    const {user} = this.props
-    if (!(user && user.userId)) {
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } });
-      return;
-    };
+    if (messageType == 1) {
+      // 站内信
+      this._pushToMessageListWithType(1)
+    }else{
+      // 公告
+      Storage.get('user').then(result => {
+        if (result && result.userId) {
+          this._pushToMessageListWithType(2)
+        }
+      });
+    }
+  }
+  _pushToMessageListWithType(messageType){
     const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
     if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
       this.props.dispatch(dispatchRefreshMessageList())
@@ -228,7 +236,6 @@ class MainContainer extends BaseComponent {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST,params: { title: '消息', currentTab: parseInt(messageType) -1} })
     }
   }
-
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     this.timer && clearTimeout(this.timer)
