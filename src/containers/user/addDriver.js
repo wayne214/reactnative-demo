@@ -428,7 +428,6 @@ const mapDispatchToProps = dispatch => {
                 successToast: true,
                 showLoading: true,
                 success: () => {
-                    debugger
                     ref.startCountDown();
                     cb(true);
                     dispatch(appendLogToFile('新增司机', '获取验证码', startTime))
