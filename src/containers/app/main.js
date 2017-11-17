@@ -247,7 +247,6 @@ class MainContainer extends BaseComponent {
       JPushModule.removeReceiveNotificationListener();
     }else{
       JPushModule.removeReceiveOpenNotificationListener(this._pushToMessageList);
-      JPushModule.removeOpenNotificationLaunchAppEventListener()
       JPushModule.removeReceiveNotificationListener(this._doSomethingAfterReceiveNotification)
     }
   }
