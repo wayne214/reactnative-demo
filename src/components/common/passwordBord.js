@@ -60,6 +60,7 @@ export default class PasswordBord extends Component {
                                    autoCorrect = {false}
                                    keyboardType = 'numbers-and-punctuation'
                                    onChangeText={(text) => {
+                                       text = text.replace(/\s+/g,"");
                                        this.setState({text});
                                        this.props.onChange(text)
                                    }}
@@ -79,6 +80,7 @@ export default class PasswordBord extends Component {
                                    caretHidden = {true}
                                    autoCorrect = {false}
                                    onChangeText={(text) => {
+                                       text = text.replace(/\s+/g,"");
                                        this.setState({text});
                                        this.props.onChange(text)
                                    }}

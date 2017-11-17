@@ -31,6 +31,7 @@ class CodeDialog extends Component {
             isError: this.props.isError,
             verifyCode: '',
             errorShow: false,
+            errorMsg:'',
         };
         this._okPress = this._okPress.bind(this);
         this._cancelPress = this._cancelPress.bind(this);
@@ -51,9 +52,10 @@ class CodeDialog extends Component {
         this.props.cancelPress();
     }
 
-    codeErro() {
+    codeErro(msg) {
         this.setState({
             errorShow: true,
+            errorMsg:msg,
         })
     }
 
@@ -123,7 +125,7 @@ class CodeDialog extends Component {
                                         style={{
                                             fontSize: 12,
                                             color: '#F6001E',
-                                        }}>验证码错误，请重新输入</Text>
+                                        }}>{this.state.errorMsg}</Text>
                                 </View>
                                 :
                                 <View style={{
