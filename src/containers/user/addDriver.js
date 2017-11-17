@@ -125,7 +125,7 @@ class AddDriverContainer extends BaseComponent {
         if (!Regex.test('driverLicence', this.state.driverLicence)) return Toast.show('驾驶证号格式不正确');
         if (!this.state.phone) return Toast.show('请输入手机号码');
         if (!Regex.test('mobile', this.state.phone)) return Toast.show('手机号码格式不正确');
-        if (!this.state.verifyCode) return Toast.show('请输入图形验证码');
+        // if (!this.state.verifyCode) return Toast.show('请输入图形验证码');
         if (!this.state.code) return Toast.show('请输入手机验证码');
         if (!this.state.addDriverLicenseSource) return Toast.show('请上传驾驶证照片');
         if (this.state.driverLoadingText !== '') return Toast.show('驾驶证照片还未上传成功');
