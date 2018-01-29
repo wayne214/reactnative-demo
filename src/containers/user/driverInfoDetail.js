@@ -24,7 +24,7 @@ import CardIDImg from '../../../assets/img/user/driveID.png';
 import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/driver_license.png';
 import HelperUtil from '../../utils/helper';
-import ImagePreview from '../../components/common/imagePreview';
+import ImagePreview from '../../components/common/singleImagePreview.js';
 
 const { height,width } = Dimensions.get('window')
 

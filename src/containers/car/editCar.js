@@ -38,7 +38,7 @@ import { HOST, OSS_ADD_CAR } from '../../constants/setting';
 import { OOS_CONFIG, ADD_COMPANY_AUTH } from '../../constants/api';
 import DateFormat from 'moment';
 import EnlargeImage from '../../../assets/img/enlarge.png';
-import ImagePreview from '../../components/common/imagePreview.js';
+import ImagePreview from '../../components/common/singleImagePreview.js';
 import BaseComponent from '../../components/common/baseComponent';
 
 class EditCarContainer extends BaseComponent {

@@ -13,7 +13,7 @@ import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
 import ComBineIcon from '../../../assets/img/user/combime.png';
 import HelperUtil from '../../utils/helper';
-import ImagePreview from '../../components/common/imagePreview.js'
+import ImagePreview from '../../components/common/singleImagePreview.js';
 
 export default class AuthInfoContainer extends React.Component {
 

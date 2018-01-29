@@ -40,7 +40,7 @@ import { dispatchGetCarrierDetail ,dispatchCombineStatus, dispatchClearAuthInfo 
 import dismissKeyboard from 'dismissKeyboard';
 import BaseComponent from '../../components/common/baseComponent';
 import EnlargeImage from '../../../assets/img/enlarge.png';
-import ImagePreview from '../../components/common/imagePreview'
+import ImagePreview from '../../components/common/singleImagePreview.js';
 
 const { height,width } = Dimensions.get('window')
 

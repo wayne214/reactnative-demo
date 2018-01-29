@@ -38,7 +38,7 @@ import ExampleImageCarLincences from '../../../assets/img/car/default_xingshizhe
 import ExampleImageCarTransport from '../../../assets/img/car/default_yunyingzheng_img.png';
 import HelperUtil from '../../utils/helper';
 import EnlargeImage from '../../../assets/img/enlarge.png';
-import ImagePreview from '../../components/common/imagePreview.js';
+import ImagePreview from '../../components/common/singleImagePreview.js';
 let startTime = 0
 class AddCarContainer extends BaseComponent {
 

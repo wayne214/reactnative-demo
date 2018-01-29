@@ -20,7 +20,7 @@ import * as RouteType from '../../constants/routeType';
 import { dispatchGetCarInfo } from '../../action/car';
 import HelperUtil from '../../utils/helper';
 import DateFormat from 'moment';
-import ImagePreview from '../../components/common/imagePreview.js'
+import ImagePreview from '../../components/common/singleImagePreview.js';
 import BaseComponent from '../../components/common/baseComponent';
 
 

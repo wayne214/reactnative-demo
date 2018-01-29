@@ -37,7 +37,7 @@ import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/driver_license.png';
 import HelperUtil from '../../utils/helper';
 import EnlargeImage from '../../../assets/img/enlarge.png';
-import ImagePreview from '../../components/common/imagePreview';
+import ImagePreview from '../../components/common/singleImagePreview.js';
 import CodeDialog from '../../components/common/codeDialog';
 
 let startTime = 0
