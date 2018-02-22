@@ -77,6 +77,19 @@ import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
 
+// 司机首页
+import DriverHomeScreen from '../containers/driverHome/driverHome';
+// 司机货源
+import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
+// 司机订单
+import DriverOrderScreen from '../containers/driverOrder/driverOrder';
+// 我的页面---承运商和司机公用
+import MineScreen from '../containers/mine/mine';
+
+// 账号密码登录页
+import LoginWithPwdScreen from '../containers/login/login';
+import LoginWithSmsScreen from '../containers/login/loginSms';
+
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -507,11 +520,60 @@ export const AppNavigator = StackNavigator({
       headerTintColor: 'black'
     }
   },
+    [RouteType.ROUTE_DRIVER_HOME_PAGE]: {
+        screen: DriverHomeScreen,
+        navigationOptions: {
+            // headerTitle: '申请协调',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
+        }
+    },
+    [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {
+        screen: DriverGoodSourceScreen,
+        navigationOptions: {
+            // headerTitle: '申请协调',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
+        }
+    },
+    [RouteType.ROUTE_DRIVER_ORDER_PAGE]: {
+        screen: DriverOrderScreen,
+        navigationOptions: {
+            // headerTitle: '申请协调',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
+        }
+    },
+    [RouteType.ROUTE_MINE_PAGE]: {
+        screen: MineScreen,
+        navigationOptions: {
+            // headerTitle: '申请协调',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
+        }
+    },
+    [RouteType.ROUTE_LOGIN_WITH_PWD_PAGE]: {
+        screen: LoginWithPwdScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_LOGIN_WITH_SMS_PAGE]: {
+        screen: LoginWithSmsScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
 
 
 }, {
   headerMode: 'screen',
   initialRouteName: 'Splash',
+  // initialRouteName: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
   transitionConfig: TransitionConfiguration
 });
 

@@ -146,7 +146,7 @@ class MainContainer extends BaseComponent {
     }
     const { user } = this.props;
     if (!user || !user.userId) {
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
     }
     // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
@@ -204,7 +204,7 @@ class MainContainer extends BaseComponent {
     if (props && !props.legalAccount) {
       new User().delete();
       props.dispatch(logout());
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
     }
   }
 
@@ -387,6 +387,7 @@ const mapStateToProps = (state) => {
     nav,
     user: app.get('user'),
     tabs: app.get('tabs'),
+    driverTabs: app.get('driverTabs'),
     upgrade: app.get('upgrade'),
     appState: app.get('appState'),
     currentTab: app.get('currentTab'),

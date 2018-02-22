@@ -278,3 +278,15 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 
 // 收集log
 export const API_COLLECT_LOG = 'app/log/log'
+
+//获取登录密钥
+export const GET_SECTOKEN = 'app/uam/login/getSecToken';
+// 通过密码登录
+export const LOGIN_WITH_PASSWORD = 'app/uam/login/loginWithPassword';
+// 根据手机号查询账号角色信息
+export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
+
+// 获取登录验证码接口
+export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
+// 通过验证码登录
+export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';

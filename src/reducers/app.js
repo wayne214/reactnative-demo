@@ -48,6 +48,40 @@ const initState = Immutable.fromJS({
 			renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
 		},
 	],
+    driverTabs: [
+        {
+            title: '首页',
+            key: 'driverHome',
+            badgeCount: 0,
+            withStatusBar: true,
+            renderIcon: require('../../assets/img/app/icon_route.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
+        },
+        {
+            title: '货源',
+            key: 'driverGoods',
+            badgeCount: 0,
+            withStatusBar: false,
+            renderIcon: require('../../assets/img/app/icon_goods_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
+        },
+        {
+            title: '订单',
+            key: 'driverOrder',
+            badgeCount: 0,
+            withStatusBar: false,
+            renderIcon: require('../../assets/img/app/icon_cy_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_cy_press.png')
+        },
+        {
+            title: '我的',
+            key: 'mine',
+            badgeCount: 0,
+            withStatusBar: false,
+            renderIcon: require('../../assets/img/app/icon_order_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
+        },
+    ],
 	user: {},
 	messages: [],
 	citys: [],

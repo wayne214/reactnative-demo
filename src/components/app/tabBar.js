@@ -12,6 +12,10 @@ import GoodsListContainer from '../../containers/routes/goodsList';
 import TravelContainer from '../../containers/travel/travel';
 import OrderContainer from '../../containers/order/order';
 import EntrustOrderContainer from '../../containers/entrust/entrustOrder';
+import DriverHome from '../../containers/driverHome/driverHome';
+import DriverGoodSource from '../../containers/driverGoodSource/driverGoods';
+import DriverOrder from '../../containers/driverOrder/driverOrder';
+import Mine from '../../containers/mine/mine';
 
 import BadgeViewIcon from '../../../assets/img/app/message_num_bg.png';
 
@@ -65,8 +69,17 @@ export default class Tabar extends Component {
 				return React.cloneElement(<OrderContainer />, this.props);
 			case 'carriage':
 				return React.cloneElement(<EntrustOrderContainer />, this.props);
+			case 'driverHome':
+				return React.cloneElement(<DriverHome />, this.props);
+      case 'driverGoods':
+				return React.cloneElement(<DriverGoodSource />, this.props);
+      case 'driverOrder':
+        return React.cloneElement(<DriverOrder />, this.props);
+      case 'mine':
+        return React.cloneElement(<Mine />, this.props);
 			default:
-				return React.cloneElement(<TravelContainer />, this.props);
+				// return React.cloneElement(<TravelContainer />, this.props);
+				return React.cloneElement(<DriverHome />, this.props);
 		}
 	}
 
@@ -92,7 +105,80 @@ export default class Tabar extends Component {
 	}
 
 	render() {
-		const { tabs, currentTab } = this.props;
+		const { tabs, driverTabs, currentTab } = this.props;
+      // const tabItems = driverTabs.map((item, index) => {
+      //     return (
+				// 		<TabNavigator.Item
+				// 			key={ index }
+				// 			selected={ currentTab === item.get('key') }
+				// 			renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
+				// 			renderSelectedIcon={() => {
+      //             if (item.get('key') === 'driverHome') {
+      //                 return (
+				// 								<Animated.Image
+				// 									style={ [styles.tabIcon, {
+      //                         transform: [
+      //                             { scale: this.state.orderAnimatedValue.interpolate({
+      //                                 inputRange: [0, 1],
+      //                                 outputRange: [1, 0.8]
+      //                             })}
+      //                         ]
+      //                     }] }
+				// 									source={ item.get('renderSelectedIcon') }/>
+      //                 );
+      //             } else if (item.get('key') === 'driverGoods') {
+      //                 return (
+				// 								<Animated.Image
+				// 									style={ [styles.tabIcon, {
+      //                         transform: [
+      //                             { scale: this.state.goodsAnimatedValue.interpolate({
+      //                                 inputRange: [0, 1],
+      //                                 outputRange: [1, 0.8]
+      //                             })}
+      //                         ]
+      //                     }] }
+				// 									source={ item.get('renderSelectedIcon') }/>
+      //                 );
+      //             } else if (item.get('key') === 'driverOrder') {
+      //                 return (
+				// 								<Animated.Image
+				// 									style={ [styles.tabIcon, {
+      //                         transform: [
+      //                             { scale: this.state.routeAnimatedValue.interpolate({
+      //                                 inputRange: [0, 1],
+      //                                 outputRange: [1, 0.8]
+      //                             })}
+      //                         ]
+      //                     }] }
+				// 									source={ item.get('renderSelectedIcon') }/>
+      //                 );
+      //             } else if (item.get('key') === 'mine') {
+      //                 return (
+				// 								<Animated.Image
+				// 									style={ [styles.tabIcon, {
+      //                         transform: [
+      //                             { scale: this.state.carriageAnimatedValue.interpolate({
+      //                                 inputRange: [0, 1],
+      //                                 outputRange: [1, 0.8]
+      //                             })}
+      //                         ]
+      //                     }] }
+				// 									source={ item.get('renderSelectedIcon') }/>
+      //                 );
+      //             }
+      //         }}
+				// 			title={ item.get('title') }
+				// 			titleStyle={ styles.titleStyle }
+				// 			selectedTitleStyle={ styles.selectedTitleStyle }
+				// 			renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
+				// 			onPress={ this._selectTab.bind(this, item.get('key')) }>
+      //           { this._renderContainer(item.get('key')) }
+				// 		</TabNavigator.Item>
+      //     );
+      // });
+
+
+
 		const tabItems = tabs.map((item, index) => {
 			return (
 				<TabNavigator.Item
