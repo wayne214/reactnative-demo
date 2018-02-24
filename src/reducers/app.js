@@ -47,6 +47,14 @@ const initState = Immutable.fromJS({
 			renderIcon: require('../../assets/img/app/icon_order_normal.png'),
 			renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
 		},
+      {
+          title: '我的',
+          key: 'mine',
+          badgeCount: 0,
+          withStatusBar: false,
+          renderIcon: require('../../assets/img/app/icon_order_normal.png'),
+          renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
+      },
 	],
     driverTabs: [
         {

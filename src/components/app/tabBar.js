@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TabNavigator from 'react-native-tab-navigator';
+import {connect} from 'react-redux';
 import {
 	Text,
 	Image,
@@ -19,7 +20,7 @@ import Mine from '../../containers/mine/mine';
 
 import BadgeViewIcon from '../../../assets/img/app/message_num_bg.png';
 
-export default class Tabar extends Component {
+class Tabar extends Component {
 
 	constructor(props) {
 		super(props);
@@ -27,7 +28,11 @@ export default class Tabar extends Component {
 			goodsAnimatedValue: new Animated.Value(0),
 			orderAnimatedValue: new Animated.Value(0),
 			routeAnimatedValue: new Animated.Value(0),
-			carriageAnimatedValue: new Animated.Value(0)
+      carriageAnimatedValue: new Animated.Value(0),
+      driverHomeAnimatedValue: new Animated.Value(0),
+      driverGoodsAnimatedValue: new Animated.Value(0),
+      driverOrderAnimatedValue: new Animated.Value(0),
+      mineAnimatedValue: new Animated.Value(0)
 		};
 		this._renderContainer = this._renderContainer.bind(this);
 	}
@@ -100,155 +105,188 @@ export default class Tabar extends Component {
 			Animated.timing(this.state.carriageAnimatedValue,
 				{ toValue: 1 }
 			).start(() => this.state.carriageAnimatedValue.setValue(0));
-		}
-		this.props.changeTab(tab);
+		} else if (tab === 'driverHome') {
+        Animated.timing(this.state.driverHomeAnimatedValue,
+            { toValue: 1 }
+        ).start(() => this.state.driverHomeAnimatedValue.setValue(0));
+    } else if (tab === 'driverGoods') {
+        Animated.timing(this.state.driverGoodsAnimatedValue,
+            { toValue: 1 }
+        ).start(() => this.state.driverGoodsAnimatedValue.setValue(0));
+    } else if (tab === 'driverOrder') {
+        Animated.timing(this.state.driverOrderAnimatedValue,
+            { toValue: 1 }
+        ).start(() => this.state.driverOrderAnimatedValue.setValue(0));
+    } else if (tab === 'mine') {
+        Animated.timing(this.state.mineAnimatedValue,
+            { toValue: 1 }
+        ).start(() => this.state.mineAnimatedValue.setValue(0));
+    }
+      this.props.changeTab(tab);
 	}
 
 	render() {
 		const { tabs, driverTabs, currentTab } = this.props;
-      // const tabItems = driverTabs.map((item, index) => {
-      //     return (
-				// 		<TabNavigator.Item
-				// 			key={ index }
-				// 			selected={ currentTab === item.get('key') }
-				// 			renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
-				// 			renderSelectedIcon={() => {
-      //             if (item.get('key') === 'driverHome') {
-      //                 return (
-				// 								<Animated.Image
-				// 									style={ [styles.tabIcon, {
-      //                         transform: [
-      //                             { scale: this.state.orderAnimatedValue.interpolate({
-      //                                 inputRange: [0, 1],
-      //                                 outputRange: [1, 0.8]
-      //                             })}
-      //                         ]
-      //                     }] }
-				// 									source={ item.get('renderSelectedIcon') }/>
-      //                 );
-      //             } else if (item.get('key') === 'driverGoods') {
-      //                 return (
-				// 								<Animated.Image
-				// 									style={ [styles.tabIcon, {
-      //                         transform: [
-      //                             { scale: this.state.goodsAnimatedValue.interpolate({
-      //                                 inputRange: [0, 1],
-      //                                 outputRange: [1, 0.8]
-      //                             })}
-      //                         ]
-      //                     }] }
-				// 									source={ item.get('renderSelectedIcon') }/>
-      //                 );
-      //             } else if (item.get('key') === 'driverOrder') {
-      //                 return (
-				// 								<Animated.Image
-				// 									style={ [styles.tabIcon, {
-      //                         transform: [
-      //                             { scale: this.state.routeAnimatedValue.interpolate({
-      //                                 inputRange: [0, 1],
-      //                                 outputRange: [1, 0.8]
-      //                             })}
-      //                         ]
-      //                     }] }
-				// 									source={ item.get('renderSelectedIcon') }/>
-      //                 );
-      //             } else if (item.get('key') === 'mine') {
-      //                 return (
-				// 								<Animated.Image
-				// 									style={ [styles.tabIcon, {
-      //                         transform: [
-      //                             { scale: this.state.carriageAnimatedValue.interpolate({
-      //                                 inputRange: [0, 1],
-      //                                 outputRange: [1, 0.8]
-      //                             })}
-      //                         ]
-      //                     }] }
-				// 									source={ item.get('renderSelectedIcon') }/>
-      //                 );
-      //             }
-      //         }}
-				// 			title={ item.get('title') }
-				// 			titleStyle={ styles.titleStyle }
-				// 			selectedTitleStyle={ styles.selectedTitleStyle }
-				// 			renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
-				// 			onPress={ this._selectTab.bind(this, item.get('key')) }>
-      //           { this._renderContainer(item.get('key')) }
-				// 		</TabNavigator.Item>
-      //     );
-      // });
+      let tabItems = '';
+      console.log('currentTab', this.props);
+		if (this.props.currentStatus == 'driver') {
+        tabItems = driverTabs.map((item, index) => {
+            return (
+							<TabNavigator.Item
+								key={ index }
+								selected={ currentTab === item.get('key') }
+								renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
+								renderSelectedIcon={() => {
+                    if (item.get('key') === 'driverHome') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.orderAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'driverGoods') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.goodsAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'driverOrder') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.routeAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'mine') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.carriageAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    }
+                }}
+								title={ item.get('title') }
+								titleStyle={ styles.titleStyle }
+								selectedTitleStyle={ styles.selectedTitleStyle }
+								renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
+								onPress={ this._selectTab.bind(this, item.get('key')) }>
+                  { this._renderContainer(item.get('key')) }
+							</TabNavigator.Item>
+            );
+        });
+		} else {
+        tabItems = tabs.map((item, index) => {
+            return (
+							<TabNavigator.Item
+								key={ index }
+								selected={ currentTab === item.get('key') }
+								renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
+								renderSelectedIcon={() => {
+                    if (item.get('key') === 'order') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.orderAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'goods') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.goodsAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'route') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.routeAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'carriage') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.carriageAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    } else if (item.get('key') === 'mine') {
+                        return (
+													<Animated.Image
+														style={ [styles.tabIcon, {
+                                transform: [
+                                    { scale: this.state.carriageAnimatedValue.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [1, 0.8]
+                                    })}
+                                ]
+                            }] }
+														source={ item.get('renderSelectedIcon') }/>
+                        );
+                    }
+                }}
+								title={ item.get('title') }
+								titleStyle={ styles.titleStyle }
+								selectedTitleStyle={ styles.selectedTitleStyle }
+								renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
+								onPress={ this._selectTab.bind(this, item.get('key')) }>
+                  { this._renderContainer(item.get('key')) }
+							</TabNavigator.Item>
+            );
+        });
+		}
 
 
-
-		const tabItems = tabs.map((item, index) => {
-			return (
-				<TabNavigator.Item
-					key={ index }
-					selected={ currentTab === item.get('key') }
-					renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
-					renderSelectedIcon={() => {
-						if (item.get('key') === 'order') {
-							return (
-								<Animated.Image
-									style={ [styles.tabIcon, {
-										transform: [
-											{ scale: this.state.orderAnimatedValue.interpolate({
-												inputRange: [0, 1],
-												outputRange: [1, 0.8]
-											})}
-										]
-									}] }
-									source={ item.get('renderSelectedIcon') }/>
-							);
-						} else if (item.get('key') === 'goods') {
-							return (
-								<Animated.Image
-									style={ [styles.tabIcon, {
-										transform: [
-											{ scale: this.state.goodsAnimatedValue.interpolate({
-												inputRange: [0, 1],
-												outputRange: [1, 0.8]
-											})}
-										]
-									}] }
-									source={ item.get('renderSelectedIcon') }/>
-							);
-						} else if (item.get('key') === 'route') {
-							return (
-								<Animated.Image
-									style={ [styles.tabIcon, {
-										transform: [
-											{ scale: this.state.routeAnimatedValue.interpolate({
-												inputRange: [0, 1],
-												outputRange: [1, 0.8]
-											})}
-										]
-									}] }
-									source={ item.get('renderSelectedIcon') }/>
-							);
-						} else if (item.get('key') === 'carriage') {
-							return (
-								<Animated.Image
-									style={ [styles.tabIcon, {
-										transform: [
-											{ scale: this.state.carriageAnimatedValue.interpolate({
-												inputRange: [0, 1],
-												outputRange: [1, 0.8]
-											})}
-										]
-									}] }
-									source={ item.get('renderSelectedIcon') }/>
-							);
-						}
-					}}
-					title={ item.get('title') }
-					titleStyle={ styles.titleStyle }
-					selectedTitleStyle={ styles.selectedTitleStyle }
-					renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
-					onPress={ this._selectTab.bind(this, item.get('key')) }>
-					{ this._renderContainer(item.get('key')) }
-				</TabNavigator.Item>
-			);
-		});
 		return (
 			<TabNavigator
 				tabBarStyle={{ backgroundColor: 'white', height: 49 + DANGER_BOTTOM, paddingBottom: DANGER_BOTTOM }}
@@ -258,3 +296,19 @@ export default class Tabar extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+    return {
+        currentStatus: state.user.get('currentStatus'),
+    };
+
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        /*登录成功发送Action，全局保存用户信息*/
+        dispatch,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabar);

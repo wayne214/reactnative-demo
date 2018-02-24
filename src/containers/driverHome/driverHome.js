@@ -3,9 +3,20 @@ import {connect} from 'react-redux';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
+import {
+    loginSuccessAction,
+    setUserNameAction,
+    setDriverCharacterAction,
+    setOwnerCharacterAction,
+    setCurrentCharacterAction,
+    setCompanyCodeAction,
+    setOwnerNameAction
+} from '../../action/user';
 
+import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
 class driverHome extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +29,12 @@ class driverHome extends Component {
     render() {
         return <View style={styles.container}>
             <Text>司机首页</Text>
+            <TouchableOpacity onPress={()=> {
+                this.props.setCurrentCharacterAction('owner');
+                this.props.dispatch(changeTab('route'));
+            }}>
+                <Text>切换身份</Text>
+            </TouchableOpacity>
         </View>
     }
 }
@@ -36,7 +53,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        setCurrentCharacterAction: (result) => {
+            dispatch(setCurrentCharacterAction(result));
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(driverHome);
