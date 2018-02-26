@@ -3,7 +3,7 @@
  * 正则表达式
  */
 const isPhoneNumber = (phoneNumber) => {
-    const reg = /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/;
+    const reg = /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57]|16[6]|19[0-9])[0-9]{8}$/;
     return reg.test(phoneNumber);
 };
 
@@ -85,6 +85,12 @@ const timeFormatterToDateString = (time)=>{
     return dataString;
 };
 
+const equalTime = time => {
+  const reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
+  const regfull = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
+  return reg.test(time) || regfull.test(time)
+}
+
 export default {
     isPhoneNumber,
     isPassword,
@@ -94,5 +100,6 @@ export default {
     isFloat,
     leadingZeros,
     newPhone,
-    timeTrunToDateString
+    timeTrunToDateString,
+    equalTime
 };

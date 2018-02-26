@@ -14,10 +14,11 @@ import {
     Keyboard,
     TouchableOpacity,
     Platform,
-    Alert
+    Alert,
+    ImageBackground
 } from 'react-native';
 import {fetchData, loadUser} from "../../action/app";
-import LoginHeader from '../../../assets/img/login/loginHeader.png';
+import LoginBackground from '../../../assets/img/login/loginBg.png';
 import Button from 'apsl-react-native-button';
 import Toast from '../../utils/toast';
 // import JPushModule from 'jpush-react-native';
@@ -63,16 +64,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'space-between',
         width: width - 30,
-        top: 220 * width / 375,
-        // left: 10,
-        position: 'absolute',
+        paddingBottom: 10,
+        marginTop: 227 * width / 375,
         borderRadius: 4,
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowOffset:{h: 10,w: 10},
         shadowRadius: 4,
         shadowOpacity:1,
-        alignSelf: 'center',
-        paddingBottom: 10,
+        alignSelf: 'center'
     },
     leftText: {
         paddingLeft: 15,
@@ -501,15 +500,10 @@ class LoginSms extends BaseComponent {
         // console.log('lqq-render--smsCode--',smsCode);
         return (
             <View style={styles.container}>
-                <KeyboardAwareScrollView style={{width: width, height: height}}>
-                    <View style={{alignItems: 'center'}}>
-                        <Image
-                            source={LoginHeader}
-                            resizeMode={'stretch'}
-                            style={{width: width, height: width * 272 / 375}}
-                        />
-                        
-                    </View>
+                <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
+                <KeyboardAwareScrollView style={{width: width, height: height}}
+                                         alwaysBounceVertical={height < 667}
+                                         automaticallyAdjustContentInsets={false}>
                     <View style={styles.contentView}>
                         <View style={styles.cellContainer}>
                             <View style={styles.leftText}>
@@ -663,9 +657,10 @@ class LoginSms extends BaseComponent {
                                     this.props.navigation.navigate('RegisterStepOne');
                                 }}
                             >
-                                去注册
+                                立即注册
                             </Text>
-                    </View>        
+                    </View>
+                </ImageBackground>
                 {/*{*/}
                     {/*this.state.loading ? <Loading /> : null*/}
                 {/*}*/}
@@ -708,7 +703,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(fetchData({
                 body: params,
                 method: 'post',
-                api: API.GET_LOGIN_IDENETIFY_CODE,
+                api: API.API_GET_LOGIN_WITH_CODE,
                 success: data => {
                     console.log('-------data', data);
                     successCallback();
@@ -723,7 +718,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(fetchData({
                 body: params,
                 method: 'post',
-                api: API.LOGIN_WITH_VCODE,
+                api: API.API_LOGIN_WITH_CODE,
                 success: data => {
                     console.log('-------data', data);
                     successCallback(data);
