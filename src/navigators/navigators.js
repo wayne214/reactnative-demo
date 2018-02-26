@@ -78,7 +78,7 @@ import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
 
 // 司机首页
-import DriverHomeScreen from '../containers/driverHome/driverHome';
+import DriverHomeScreen from '../containers/home/home';
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 // 司机订单

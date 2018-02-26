@@ -13,7 +13,7 @@ import GoodsListContainer from '../../containers/routes/goodsList';
 import TravelContainer from '../../containers/travel/travel';
 import OrderContainer from '../../containers/order/order';
 import EntrustOrderContainer from '../../containers/entrust/entrustOrder';
-import DriverHome from '../../containers/driverHome/driverHome';
+import DriverHome from '../../containers/home/home';
 import DriverGoodSource from '../../containers/driverGoodSource/driverGoods';
 import DriverOrder from '../../containers/driverOrder/driverOrder';
 import Mine from '../../containers/mine/mine';
