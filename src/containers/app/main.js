@@ -150,7 +150,7 @@ class MainContainer extends BaseComponent {
     if (!user || !user.userId) {
       this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
     }
-    // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+    this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
       this._getCurrentPosition();

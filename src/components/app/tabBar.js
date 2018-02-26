@@ -13,7 +13,7 @@ import GoodsListContainer from '../../containers/routes/goodsList';
 import TravelContainer from '../../containers/travel/travel';
 import OrderContainer from '../../containers/order/order';
 import EntrustOrderContainer from '../../containers/entrust/entrustOrder';
-import DriverHome from '../../containers/driverHome/driverHome';
+import DriverHome from '../../containers/home/home';
 import DriverGoodSource from '../../containers/driverGoodSource/driverGoods';
 import DriverOrder from '../../containers/driverOrder/driverOrder';
 import Mine from '../../containers/mine/mine';
@@ -66,22 +66,22 @@ class Tabar extends Component {
 	 */
 	_renderContainer(key) {
 		switch(key) {
-			case 'goods':
-				return React.cloneElement(<GoodsListContainer />, this.props);
-			case 'route':
-				return React.cloneElement(<TravelContainer />, this.props);
-			case 'order':
-				return React.cloneElement(<OrderContainer />, this.props);
-			case 'carriage':
-				return React.cloneElement(<EntrustOrderContainer />, this.props);
+			// case 'goods':
+			// 	return React.cloneElement(<GoodsListContainer />, this.props);
+			// case 'route':
+			// 	return React.cloneElement(<TravelContainer />, this.props);
+			// case 'order':
+			// 	return React.cloneElement(<OrderContainer />, this.props);
+			// case 'carriage':
+			// 	return React.cloneElement(<EntrustOrderContainer />, this.props);
 			case 'driverHome':
 				return React.cloneElement(<DriverHome />, this.props);
-      case 'driverGoods':
+			case 'driverGoods':
 				return React.cloneElement(<DriverGoodSource />, this.props);
-      case 'driverOrder':
-        return React.cloneElement(<DriverOrder />, this.props);
-      case 'mine':
-        return React.cloneElement(<Mine />, this.props);
+			case 'driverOrder':
+				return React.cloneElement(<DriverOrder />, this.props);
+			case 'mine':
+				return React.cloneElement(<Mine />, this.props);
 			default:
 				// return React.cloneElement(<TravelContainer />, this.props);
 				return React.cloneElement(<DriverHome />, this.props);
@@ -127,8 +127,8 @@ class Tabar extends Component {
 
 	render() {
 		const { tabs, driverTabs, currentTab } = this.props;
-      let tabItems = '';
-      console.log('currentTab', this.props);
+        let tabItems = '';
+        console.log('currentTab', this.props);
 		if (this.props.currentStatus == 'driver') {
         tabItems = driverTabs.map((item, index) => {
             return (
@@ -285,8 +285,6 @@ class Tabar extends Component {
             );
         });
 		}
-
-
 		return (
 			<TabNavigator
 				tabBarStyle={{ backgroundColor: 'white', height: 49 + DANGER_BOTTOM, paddingBottom: DANGER_BOTTOM }}

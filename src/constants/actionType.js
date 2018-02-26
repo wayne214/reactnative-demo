@@ -247,3 +247,9 @@ export const ACTION_USER_CAR = 'ACTION_USER_CAR';
 export const ACTION_USER_CLEAR = 'ACTION_USER_CLEAR';
 
 export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING'
+
+/******************************司机角色Action*******************************/
+
+export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
+
+export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';

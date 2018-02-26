@@ -16,6 +16,7 @@ import travel from './travel';
 import eSign from './eSign';
 import bankCard from './bankCard';
 import user from './user';
+import driverOrder from './driverOrder';
 
 const initialAuthState = { isLoggedIn: false };
 
@@ -35,7 +36,8 @@ const AppReducer = combineReducers({
 	travel,
 	eSign,
 	bankCard,
-  user,
+  	user,
+	driverOrder,
 });
 
 export default AppReducer

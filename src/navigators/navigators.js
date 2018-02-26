@@ -78,7 +78,7 @@ import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
 
 // 司机首页
-import DriverHomeScreen from '../containers/driverHome/driverHome';
+import DriverHomeScreen from '../containers/home/home';
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 // 司机订单
@@ -543,10 +543,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_DRIVER_ORDER_PAGE]: {
         screen: DriverOrderScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_MINE_PAGE]: {
