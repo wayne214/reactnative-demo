@@ -319,9 +319,6 @@ export const API_LOGIN_WITH_PSD = 'app/uam/login/loginWithPassword/v3.0';
 // 获取登录验证码接口
 export const API_GET_LOGIN_WITH_CODE = '/app/uam/message/getLoginIdentifyCode';
 
-// 根据时间获取获取货源列表--司机
-export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
-
 // 天气接口
 export const API_GET_WEATHER = `/app/weather/`;
 
