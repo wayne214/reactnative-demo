@@ -2,13 +2,10 @@
 # yarn lockfile v1
 
 
-<<<<<<< Updated upstream
-=======
 "@remobile/react-native-marquee@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@remobile/react-native-marquee/-/react-native-marquee-1.0.1.tgz#6b58fa5914d2aa5ab1b5626b2d9ac2c681317515"
 
->>>>>>> Stashed changes
 abab@^1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/abab/download/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"

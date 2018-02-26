@@ -541,10 +541,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_DRIVER_ORDER_PAGE]: {
         screen: DriverOrderScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_MINE_PAGE]: {

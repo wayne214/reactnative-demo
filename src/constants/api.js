@@ -290,3 +290,13 @@ export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTe
 export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
 // 通过验证码登录
 export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';
+
+
+/********************************司机订单API*************************************/
+// 订单列表（全部，待发运）分页查询调度单
+export const API_NEW_DISPATCH_DOC_WITH_PAGE = '/app/transport/queryDeleveryWithPageV4';
+// 订单列表（待回单）
+export const API_NEW_GET_RECEIVE_ORDER_LIST = `/app/transport/queryDelReceiptWithPageV4`;
+// 运输中
+export const API_NEW_GET_ORDER_LIST_TRANSPORT = `/app/transport/queryTransportList`;
+

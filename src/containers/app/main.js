@@ -145,9 +145,9 @@ class MainContainer extends BaseComponent {
       this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
     }
     const { user } = this.props;
-    if (!user || !user.userId) {
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
-    }
+    // if (!user || !user.userId) {
+    //   this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+    // }
     // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
