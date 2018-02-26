@@ -300,3 +300,5 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `/app/transport/queryDelReceiptWit
 // 运输中
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `/app/transport/queryTransportList`;
 
+// 根据时间获取获取货源列表--司机
+export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机

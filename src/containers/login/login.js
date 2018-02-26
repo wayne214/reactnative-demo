@@ -17,7 +17,8 @@ import {
     InteractionManager,
     TouchableOpacity,
     ScrollView,
-    Alert
+    Alert,
+    ImageBackground
 } from 'react-native';
 import {fetchData, loadUser} from "../../action/app";
 import BaseComponent from '../../components/common/baseComponent';
@@ -36,6 +37,7 @@ import {
 
 // import * as StaticColor from '../../constants/staticColor';
 import LoginHeader from '../../../assets/img/login/loginHeader.png';
+import LoginBackground from '../../../assets/img/login/loginBg.png';
 import * as API from '../../constants/api';
 
 import Storage from '../../utils/storage';
@@ -44,7 +46,7 @@ import XeEncrypt from '../../utils/XeEncrypt';
 // import Validator from '../../utils/validator';
 import Regex from '../../utils/regex';
 // import {Geolocation} from 'react-native-baidu-map-xzx';
-import JPushModule from 'jpush-react-native';
+// import JPushModule from 'jpush-react-native';
 // import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 import * as RouteType from '../../constants/routeType'
 
@@ -66,10 +68,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: width - 30,
         paddingBottom: 10,
-        // height: (width - 60) * 552 / 690,
-        top: 220 * width / 375,
-        // left: 10,
-        position: 'absolute',
+        marginTop: 227 * width / 375,
         borderRadius: 4,
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowOffset:{h: 10,w: 10},
@@ -136,11 +135,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderColor: '#00000000',
     },
-    loginButtonText: {
-        fontSize: 18,
-        color: 'white',
-        textAlign: 'center'
-    },
     bottomView: {
         flex: 1,
         flexDirection: 'row',
@@ -191,6 +185,7 @@ class Login extends BaseComponent {
 
         this.loginSecretCode = this.loginSecretCode.bind(this);
         this.login = this.login.bind(this);
+        this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
         // this.getCurrentPosition = this.getCurrentPosition.bind(this);
 
         // this.success = this.success.bind(this);
@@ -213,6 +208,7 @@ class Login extends BaseComponent {
     }
 
     componentDidMount() {
+        console.log('height', height);
         // if (Platform.OS === 'ios') {
         //     // this.getCurrentPosition();
         // } else {
@@ -234,6 +230,7 @@ class Login extends BaseComponent {
     // }
     quaryAccountRoleCallback(result) {
         console.log("------账号角色信息",result);
+
         if (result) {
             if (result.length == 0) {
                 return;
@@ -436,8 +433,10 @@ class Login extends BaseComponent {
 
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
+            this.props.setCurrentCharacterAction('driver')
+            this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'driverHome' , insiteNotice:'123'} })
 
-            this.props.quaryAccountRole({},this.quaryAccountRoleCallback);
+            // this.props.quaryAccountRole({},this.quaryAccountRoleCallback);
 
         } else {
             // 跳转到绑定设备页面
@@ -470,15 +469,19 @@ class Login extends BaseComponent {
         const {phoneNumber, password} = this.state;
         return (
             <View style={styles.container}>
-                <KeyboardAwareScrollView style={{width: width, height: height}}>
-                    <View style={{alignItems: 'center'}}>
-                        <Image
-                            source={LoginHeader}
-                            resizeMode={'stretch'}
-                            style={{width: width, height: width * 272 / 375}}
-                        />
+                <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
+                <KeyboardAwareScrollView
+                    alwaysBounceVertical={height < 667}
+                    automaticallyAdjustContentInsets={false}
+                    style={{width: width, height: height}}>
+                    {/*<View style={{alignItems: 'center'}}>*/}
+                        {/*<Image*/}
+                            {/*source={LoginHeader}*/}
+                            {/*resizeMode={'stretch'}*/}
+                            {/*style={{width: width, height: width * 272 / 375}}*/}
+                        {/*/>*/}
 
-                    </View>
+                    {/*</View>*/}
 
                     <View style={styles.contentView}>
                         <View style={styles.cellContainer}>
@@ -578,6 +581,7 @@ class Login extends BaseComponent {
                         立即注册
                     </Text>
                 </View>
+                </ImageBackground>
                 {/*{*/}
                     {/*this.state.loading ? <Loading/> : null*/}
                 {/*}*/}
@@ -623,7 +627,6 @@ function mapDispatchToProps(dispatch) {
                 method: 'POST',
                 api: API.GET_SECTOKEN,
                 success: data => {
-                    console.log('-------data', data);
                     successCallback(data);
                 },
             }))
@@ -635,8 +638,9 @@ function mapDispatchToProps(dispatch) {
                 // showLoading: true,
                 api: API.LOGIN_WITH_PASSWORD,
                 success: data => {
-                    console.log('-------data', data);
+                    console.log('-login_data', data);
                     successCallback(data);
+                    dispatch(loadUser(data));
                 },
             }))
         },

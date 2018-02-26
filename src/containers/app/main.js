@@ -113,6 +113,8 @@ class MainContainer extends BaseComponent {
   }
 
   async componentDidMount () {
+    this._routeTab();
+    console.log('------aaa', this.props);
 
       // JPush
     if (IS_IOS) {
@@ -350,7 +352,7 @@ class MainContainer extends BaseComponent {
         toValue: 1
       }
     ).start(() => this.state.rotateValue.setValue(0));
-    this.props.dispatch(changeTab('route'));
+    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'driverHome' : 'route'));
   }
 
   render() {

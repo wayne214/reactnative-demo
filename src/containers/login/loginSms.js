@@ -20,7 +20,7 @@ import {fetchData, loadUser} from "../../action/app";
 import LoginHeader from '../../../assets/img/login/loginHeader.png';
 import Button from 'apsl-react-native-button';
 import Toast from '../../utils/toast';
-import JPushModule from 'jpush-react-native';
+// import JPushModule from 'jpush-react-native';
 // import {Geolocation} from 'react-native-baidu-map-xzx';
 import { NavigationActions } from 'react-navigation';
 import BaseComponent from '../../components/common/baseComponent';
@@ -144,21 +144,12 @@ const styles = StyleSheet.create({
     },
     loginButton: {
         backgroundColor: '#00000000',
-        width: width - 20,
+        width: width - 40,
         marginBottom: 0,
         height: 44,
         borderWidth: 0,
         borderColor: '#00000000',
     },
-    // loginButton: {
-    //     marginLeft: 10,
-    //     marginTop: 15,
-    //     marginRight: 10,
-    //     borderWidth: 0,
-    //     height: 44,
-    //     backgroundColor: '#0083ff',
-    //     borderRadius: 5,
-    // },
     clearButton: {
         width: 15,
         height: 15,
@@ -627,7 +618,7 @@ class LoginSms extends BaseComponent {
                                     //     this.login();
                                     //
                                     // }
-                                    this.login();
+                                    this.login(this.loginSucCallback);
                                 }}
                             >
                                 登录
