@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as ConstValue from '../../constants/constValue';
 import Carousel from 'react-native-snap-carousel';
+import HomeCell from '../../components/home/homeCell';
+import {fetchData} from '../../action/app';
+import {saveWeather} from '../../action/home';
+import {API_GET_WEATHER} from '../../constants/api';
+
+import NavigatorBar from '../../components/common/navigatorbar';
 import {
     View,
     Text,
@@ -9,7 +15,8 @@ import {
     TouchableOpacity,
     Platform,
     ScrollView,
-    Image
+    Image,
+    DeviceEventEmitter,
 } from 'react-native';
 import {
     loginSuccessAction,
@@ -34,6 +41,11 @@ import {
 import locationIcon from '../../../assets/home/location.png';
 import bannerImage1 from '../../../assets/home/banner1.png';
 import bannerImage2 from '../../../assets/home/banner2.png';
+import signIcon from '../../../assets/home/sign_icon.png';
+import receiptIcon from '../../../assets/home/receipt_icon.png';
+import dispatchIcon from '../../../assets/home/despatch_icon.png';
+import receiveIcon from '../../../assets/home/receive_icon.png';
+import roadIcon from '../../../assets/home/road_abnormality.png';
 import WeatherCell from '../../components/home/weatherCell';
 
 
@@ -57,6 +69,12 @@ const itemHeight = 125 * itemWidth / 335;
 class driverHome extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location !== nextProps.location) {
+            this.props.getWeather({city:nextProps.location});
+        }
     }
 
     componentDidMount() {
@@ -89,10 +107,155 @@ class driverHome extends Component {
         );
     }
 
+
     render() {
+        const limitView = true ?
+            <View style={styles.limitViewStyle}>
+                <Text style={{
+                    fontSize: 14,
+                    color: LIGHT_BLACK_TEXT_COLOR,
+                    alignSelf: 'center'
+                }}>{'2todo'}</Text>
+            </View> : null;
         let date = new Date();
 
+        const driverView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
+            <HomeCell
+                title="接单"// 文字
+                describe="方便接单，快速查看"
+                padding={10}// 文字与文字间距
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
+                // badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
+                renderImage={() => <Image source={receiptIcon}/>}// 图标
+                clickAction={() => { // 点击事件
+                    if (this.props.driverStatus == 2) {
+                        DeviceEventEmitter.emit('resetGood');
+                        this.props.navigation.navigate('GoodsSource');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+            <View style={styles.line}/>
+            <HomeCell
+                title="发运"
+                describe="一键发运，安全无忧"
+                padding={10}
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}
+                // badgeText={homePageState === null ? 0 : homePageState.notYetShipmentCount}
+                renderImage={() => <Image source={dispatchIcon}/>}
+                clickAction={() => {
+                    if (this.props.driverStatus == 2) {
+                        this.changeOrderTab(1);
+                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
+                        this.props.navigation.navigate('Order');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+            <View style={styles.line}/>
+            <HomeCell
+                title="签收"
+                describe="签收快捷，免去后顾之忧"
+                padding={10}
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}
+                badgeText={0}
+                renderImage={() => <Image source={signIcon}/>}
+                clickAction={() => {
+                    if (this.props.driverStatus == 2) {
+                        this.changeOrderTab(2);
+                        DeviceEventEmitter.emit('changeOrderTabPage', 2);
+                        this.props.navigation.navigate('Order');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+            <View style={styles.line}/>
+            <HomeCell
+                title="回单"
+                describe="接收回单，方便快捷"
+                padding={8}
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}
+                badgeText={0}
+                renderImage={() => <Image source={receiveIcon}/>}
+                clickAction={() => {
+                    if (this.props.driverStatus == 2) {
+                        this.changeOrderTab(3);
+                        DeviceEventEmitter.emit('changeOrderTabPage', 3);
+                        this.props.navigation.navigate('Order');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+            <View style={styles.line}/>
+            <HomeCell
+                title="道路异常"
+                describe="道路异常，上传分享"
+                padding={8}
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}
+                badgeText={0}
+                renderImage={() => <Image source={roadIcon}/>}
+                clickAction={() => {
+                    console.log('dianjile ma')
+                    this.props.getWeather({city:'北京'});
+                    // if (this.props.driverStatus == 2) {
+                    //     this.props.navigation.navigate('UploadAbnormal');
+                    // } else {
+                    //     DeviceEventEmitter.emit('certification');
+                    // }
+                }}
+            />
+        </View>;
+
+        const carrierView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
+            <HomeCell
+                title="接单"// 文字
+                describe="方便接单，快速查看"
+                padding={10}// 文字与文字间距
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
+                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.notYetReceiveCount}// 消息提示
+                renderImage={() => <Image source={receiptIcon}/>}// 图标
+                clickAction={() => { // 点击事件
+                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
+                        this.props.navigation.navigate('GoodsSource');
+                        DeviceEventEmitter.emit('resetGood');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+            <View style={styles.line}/>
+            <HomeCell
+                title="调度"
+                describe="一键调度，快捷无忧"
+                padding={10}
+                imageStyle={styles.imageView}
+                backgroundColor={{backgroundColor: WHITE_COLOR}}
+                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.noDispatchCount}
+                renderImage={() => <Image source={dispatchIcon}/>}
+                clickAction={() => {
+                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
+                        this.changeOrderTab(1);
+                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
+                        this.props.navigation.navigate('Order');
+                    } else {
+                        DeviceEventEmitter.emit('certification');
+                    }
+                }}
+            />
+        </View>;
+
         return <View style={styles.containerView}>
+
             <ScrollView>
                 <View style={styles.locationStyle}>
                     <Image source={locationIcon}/>
@@ -161,9 +324,9 @@ class driverHome extends Component {
                             alignSelf: 'center'
                         }}>{-99}℃/{99}℃</Text>
                     </View>
-
+                    {limitView}
                 </View>
-
+                {this.props.currentStatus == 'driver' ? driverView : carrierView}
             </ScrollView>
         </View>
     }
@@ -342,11 +505,29 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        location: state.home.get('locationData'),
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
     return {
+        dispatch,
+        getWeather:(city) => {
+            dispatch(fetchData({
+                body:{},
+                method: 'POST',
+                api: API_GET_WEATHER+ '?city=' + city.city,
+                success: (data) => {
+                    console.log('city=',data);
+                    dispatch(saveWeather({ data}));
+                },
+                fail: (data) => {
+                    console.log('city=',data);
+                }
+            }));
+        },
+
         setCurrentCharacterAction: (result) => {
             dispatch(setCurrentCharacterAction(result));
         },

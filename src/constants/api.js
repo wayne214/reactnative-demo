@@ -292,3 +292,6 @@ export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
 export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';
 // 根据时间获取获取货源列表--司机
 export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
+
+// 天气接口
+export const API_GET_WEATHER = `/app/weather/`;

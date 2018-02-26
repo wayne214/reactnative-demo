@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 
 import app from './app'
 import nav from './nav'
@@ -16,26 +16,28 @@ import travel from './travel';
 import eSign from './eSign';
 import bankCard from './bankCard';
 import user from './user';
+import home from './home';
 
-const initialAuthState = { isLoggedIn: false };
+const initialAuthState = {isLoggedIn: false};
 
 const AppReducer = combineReducers({
-  nav,
-  app,
-	goods,
-	order,
-	entrust,
-	preOrder,
-	car,
-	driver,
-	message,
-	carrier,
-	help,
-	routes,
-	travel,
-	eSign,
-	bankCard,
-  user,
+    nav,
+    app,
+    goods,
+    order,
+    entrust,
+    preOrder,
+    car,
+    driver,
+    message,
+    carrier,
+    help,
+    routes,
+    travel,
+    eSign,
+    bankCard,
+    user,
+    home,
 });
 
 export default AppReducer
