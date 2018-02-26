@@ -36,7 +36,6 @@ import {
 } from '../../action/user';
 
 // import * as StaticColor from '../../constants/staticColor';
-import LoginHeader from '../../../assets/img/login/loginHeader.png';
 import LoginBackground from '../../../assets/img/login/loginBg.png';
 import * as API from '../../constants/api';
 
@@ -433,7 +432,7 @@ class Login extends BaseComponent {
 
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
-            this.props.setCurrentCharacterAction('driver')
+            // this.props.setCurrentCharacterAction('driver')
             this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'driverHome' , insiteNotice:'123'} })
 
             // this.props.quaryAccountRole({},this.quaryAccountRoleCallback);
