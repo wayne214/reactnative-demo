@@ -90,6 +90,8 @@ import MineScreen from '../containers/mine/mine';
 import LoginWithPwdScreen from '../containers/login/login';
 import LoginWithSmsScreen from '../containers/login/loginSms';
 
+import DriverVerified from '../containers/driverVerified/driverVerified';
+
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -568,7 +570,12 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-
+    [RouteType.ROUTE_DRIVER_VERIFIED]: {
+        screen: DriverVerified,
+        navigationOptions: {
+            header: null
+        }
+    },
 
 }, {
   headerMode: 'screen',
