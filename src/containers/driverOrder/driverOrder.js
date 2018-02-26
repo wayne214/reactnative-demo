@@ -71,7 +71,7 @@ class driverOrder extends Component {
                 console.log('订单全部界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
                     if (global.plateNumber) {
-                        this._requestDriverOrderList({
+                        this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: 1,
                             pageSize: 10,
@@ -86,7 +86,7 @@ class driverOrder extends Component {
                 console.log('订单待发运界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
                     if(global.plateNumber) {
-                        this._requestDriverOrderList({
+                        this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: 1,
                             pageSize: 10,
@@ -100,7 +100,7 @@ class driverOrder extends Component {
                 console.log('订单待签收界面', tabIndex);
                 if(this.state.currentStatus == 'driver') {
                     if(global.plateNumber){
-                        this._requestDriverOrderList({
+                        this.props._requestDriverOrderList({
                             pageNum: 1,
                             pageSize: 10,
                             phoneNum: global.phone,
@@ -111,14 +111,18 @@ class driverOrder extends Component {
                 break;
             case 3:
                 console.log('订单待回单界面', tabIndex);
-                this._requestDriverOrderList({
-                    carrierCode: '',
-                    page: 1,
-                    pageSize: 10,
-                    phone: this.props.currentStatus == 'driver' ? global.phone : '',
-                    plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
-                    queryType: 'DDD'
-                }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                if(this.state.currentStatus == 'driver') {
+                    if (global.plateNumber) {
+                        this.props._requestDriverOrderList({
+                            carrierCode: '',
+                            page: 1,
+                            pageSize: 10,
+                            phone: this.props.currentStatus == 'driver' ? global.phone : '',
+                            plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            queryType: 'DDD'
+                        }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                    }
+                }
                 break;
         }
 
@@ -132,7 +136,7 @@ class driverOrder extends Component {
                 console.log('订单全部界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
                     if (global.plateNumber) {
-                        this._requestDriverOrderList({
+                        this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: target.get('pageNum') + 1,
                             pageSize: 10,
@@ -147,7 +151,7 @@ class driverOrder extends Component {
                 console.log('订单待发运界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
                     if(global.plateNumber) {
-                        this._requestDriverOrderList({
+                        this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: target.get('pageNum') + 1,
                             pageSize: 10,
@@ -172,14 +176,18 @@ class driverOrder extends Component {
                 break;
             case 3:
                 console.log('订单待回单界面', tabIndex);
-                this._requestDriverOrderList({
-                    carrierCode: '',
-                    page: target.get('pageNum') + 1,
-                    pageSize: 10,
-                    phone: this.props.currentStatus == 'driver' ? global.phone : '',
-                    plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
-                    queryType: 'DDD'
-                }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                if(this.state.currentStatus == 'driver') {
+                    if (global.plateNumber) {
+                        this.props._requestDriverOrderList({
+                            carrierCode: '',
+                            page: target.get('pageNum') + 1,
+                            pageSize: 10,
+                            phone: this.props.currentStatus == 'driver' ? global.phone : '',
+                            plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            queryType: 'DDD'
+                        }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                    }
+                }
                 break;
         }
     }
