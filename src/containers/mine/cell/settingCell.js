@@ -78,8 +78,22 @@ class SettingCell extends Component {
         super(props);
         // 初始状态
         this.state = {};
+        this.renderLeftIcon = this.renderLeftIcon.bind(this);
     }
-
+    renderLeftIcon() {
+        const { leftIconFont, iconFontColor, leftIconImage, leftIconImageStyle} = this.props;
+        if (leftIconFont) {
+            return (
+                <Text style={[styles.iconfont, iconFontColor]}>{leftIconFont}</Text>
+            )
+        } else if(leftIconImage) {
+            return (
+                <Image style={[{width: 19, height: 19, marginLeft: 20,}, leftIconImageStyle]} source={leftIconImage} resizeMode='stretch'/>
+            )
+        } else {
+            return null;
+        }
+    }
     render() {
         const {
             style, leftIcon, content, clickAction, showBottomLine, authenticationStatus,
@@ -139,7 +153,7 @@ class SettingCell extends Component {
                 <View style={{flex: 1}}>
                     <View style={[styles.container, {...style}]}>
                         <View style={styles.leftPart}>
-                            <Text style={[styles.iconfont, iconFontColor]}>{leftIcon}</Text>
+                            {this.renderLeftIcon()}
                             <Text style={styles.contentText}>{content}</Text>
                         </View>
                         {a}

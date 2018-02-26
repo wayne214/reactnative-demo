@@ -90,6 +90,7 @@ import MineScreen from '../containers/mine/mine';
 import LoginWithPwdScreen from '../containers/login/login';
 import LoginWithSmsScreen from '../containers/login/loginSms';
 import ModifyPwdScreen from '../containers/mine/modifyPassword';
+import AboutUsScreen from '../containers/mine/aboutUs';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -568,6 +569,12 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_MODIFY_PWD]: {
         screen: ModifyPwdScreen,
+        navigationOptions: {
+
+        }
+    },
+    [RouteType.ROUTE_ABOUT_US]: {
+        screen: AboutUsScreen,
         navigationOptions: {
 
         }

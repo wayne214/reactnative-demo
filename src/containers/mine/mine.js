@@ -17,7 +17,14 @@ import * as StaticColor from '../../constants/colors';
 import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
 import * as ConstValue from '../../constants/constValue';
 import Validator from '../../utils/validator';
-import * as RouteType from '../../constants/routeType'
+import * as RouteType from '../../constants/routeType';
+// 图标
+import PersonInfoIcon from '../../../assets/img/mine/personInfo.png';
+import CarInfoIcon from '../../../assets/img/mine/carInfo.png';
+import VertifyInfoIcon from '../../../assets/img/mine/vertifyInfo.png';
+import ModifyPwdIcon from '../../../assets/img/mine/modifyPwd.png';
+import SettingIcon from '../../../assets/img/mine/setting.png';
+import aboutUsIcon from '../../../assets/img/mine/aboutUsIcon.png';
 
 
 const {height, width} = Dimensions.get('window');
@@ -167,7 +174,7 @@ class mine extends Component {
                         <View>
                             <SettingCell
                                 style={{height: 36}}
-                                leftIcon="&#xe62a;"
+                                leftIconImage={PersonInfoIcon}
                                 content={'个人信息'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -189,7 +196,8 @@ class mine extends Component {
                                 }}
                             />
                             <SettingCell
-                                leftIcon="&#xe62b;"
+                                leftIconImage={CarInfoIcon}
+                                leftIconImageStyle={{width: 18.5, height: 17.5}}
                                 content={'车辆信息'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -224,8 +232,8 @@ class mine extends Component {
                             {
                                 this.state.verifiedState != '1202' ?
                                     <SettingCell
-                                        leftIcon="&#xe672;"
-                                        iconFontColor={{color: '#F6BD0E'}}
+                                        leftIconImage={VertifyInfoIcon}
+                                        leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
                                         showBottomLine={false}
                                         clickAction={() => {
@@ -254,8 +262,8 @@ class mine extends Component {
                             }
                             <View style={styles.separateView}/>
                             <SettingCell
-                                leftIcon="&#xe62e;"
-                                iconFontColor={{color: StaticColor.RED_CHANGE_PWD_ICON_COLOR}}
+                                leftIconImage={ModifyPwdIcon}
+                                leftIconImageStyle={{width: 15.5, height: 17.5}}
                                 content={'修改密码'}
                                 showBottomLine={false}
                                 clickAction={() => {
@@ -267,7 +275,7 @@ class mine extends Component {
                             />
                             <View style={styles.separateView}/>
                             <SettingCell
-                                leftIcon="&#xe637;"
+                                leftIconImage={SettingIcon}
                                 content={'设置'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -278,18 +286,18 @@ class mine extends Component {
                             }}
                             />
                             <SettingCell
-                                leftIcon="&#xe630;"
+                                leftIconImage={aboutUsIcon}
                                 content={'关于我们'}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
-                                        navigator.navigate('AboutUs');
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
                                     }
                                 }}
                             />
                         </View> : <View>
                             <SettingCell
-                                leftIcon="&#xe62a;"
+                                leftIconFont="&#xe62a;"
                                 content={'司机管理'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -305,7 +313,7 @@ class mine extends Component {
                                 }}
                             />
                             <SettingCell
-                                leftIcon="&#xe62b;"
+                                leftIconFont="&#xe62b;"
                                 content={'车辆管理'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -321,7 +329,7 @@ class mine extends Component {
                                 }}
                             />
                             <SettingCell
-                                leftIcon="&#xe62b;"
+                                leftIconFont="&#xe62b;"
                                 content={'常用线路设置'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -330,7 +338,7 @@ class mine extends Component {
                             />
                             <View style={styles.separateView}/>
                             <SettingCell
-                                leftIcon="&#xe62e;"
+                                leftIconFont="&#xe62e;"
                                 iconFontColor={{color: StaticColor.RED_CHANGE_PWD_ICON_COLOR}}
                                 content={'服务与设置'}
                                 showBottomLine={false}
