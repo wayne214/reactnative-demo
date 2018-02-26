@@ -179,20 +179,20 @@ class mine extends Component {
                                 showBottomLine={true}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-                                        if (this.state.verifiedState == '1202' || this.state.verifiedState == '1200') {
-                                            navigator.navigate('PersonInfo', {
-                                                phone: global.phone,
-                                            });
-
-                                        }
-                                        if (this.state.verifiedState == '1201') {
-                                            Alert.alert('提示', '实名认证中');
-                                        }
-                                        if (this.state.verifiedState == '1203') {
-                                            Alert.alert('提示', '实名认证被驳回');
-                                        }
-                                    }
+                                    // if (ClickUtil.onMultiClick()) {
+                                    //     if (this.state.verifiedState == '1202' || this.state.verifiedState == '1200') {
+                                    //         navigator.navigate('PersonInfo', {
+                                    //             phone: global.phone,
+                                    //         });
+                                    //
+                                    //     }
+                                    //     if (this.state.verifiedState == '1201') {
+                                    //         Alert.alert('提示', '实名认证中');
+                                    //     }
+                                    //     if (this.state.verifiedState == '1203') {
+                                    //         Alert.alert('提示', '实名认证被驳回');
+                                    //     }
+                                    // }
                                 }}
                             />
                             <SettingCell
@@ -202,31 +202,31 @@ class mine extends Component {
                                 showBottomLine={true}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-
-                                        if (this.state.certificationState == '1202' || this.state.certificationState == '1200') {
-                                            if (this.props.plateNumberObj) {
-                                                if (this.props.plateNumberObj.size === 0 || this.props.plateNumberObj.carStatus && this.props.plateNumberObj.carStatus === 20 || this.props.plateNumberObj.carStatus === 0) {
-
-                                                    navigator.navigate('CarInfo', {
-                                                        certificationState: this.state.certificationState,
-                                                    });
-                                                } else {
-
-                                                    navigator.navigate('CarDisablePage');
-                                                }
-                                            }
-                                        }
-                                        if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
-
-                                            navigator.navigate('CerifiedStatePage', {
-                                                qualifications: this.state.certificationState,
-                                                phone: global.phone,
-                                                plateNumber:global.plateNumber
-                                            })
-                                        }
-
-                                    }
+                                    // if (ClickUtil.onMultiClick()) {
+                                    //
+                                    //     if (this.state.certificationState == '1202' || this.state.certificationState == '1200') {
+                                    //         if (this.props.plateNumberObj) {
+                                    //             if (this.props.plateNumberObj.size === 0 || this.props.plateNumberObj.carStatus && this.props.plateNumberObj.carStatus === 20 || this.props.plateNumberObj.carStatus === 0) {
+                                    //
+                                    //                 navigator.navigate('CarInfo', {
+                                    //                     certificationState: this.state.certificationState,
+                                    //                 });
+                                    //             } else {
+                                    //
+                                    //                 navigator.navigate('CarDisablePage');
+                                    //             }
+                                    //         }
+                                    //     }
+                                    //     if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
+                                    //
+                                    //         navigator.navigate('CerifiedStatePage', {
+                                    //             qualifications: this.state.certificationState,
+                                    //             phone: global.phone,
+                                    //             plateNumber:global.plateNumber
+                                    //         })
+                                    //     }
+                                    //
+                                    // }
                                 }}
                             />
                             {
@@ -235,28 +235,29 @@ class mine extends Component {
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
+                                        showCertificatesOverdue={true}
                                         showBottomLine={false}
                                         clickAction={() => {
-                                            if (this.state.verifiedState == '1200') {
-                                                // 未认证
-                                                Storage.get(StorageKey.changePersonInfoResult).then((value) => {
-
-                                                    if (value) {
-                                                        this.props.navigation.navigate('VerifiedPage', {
-                                                            resultInfo: value,
-                                                        });
-                                                    } else {
-                                                        this.props.navigation.navigate('VerifiedPage');
-                                                    }
-                                                });
-                                            } else {
-                                                // 认证中，认证驳回，认证通过
-
-                                                this.props.navigation.navigate('VerifiedStatePage', {
-                                                    qualifications: this.state.verifiedState,
-                                                    phone: global.phone,
-                                                });
-                                            }
+                                            // if (this.state.verifiedState == '1200') {
+                                            //     // 未认证
+                                            //     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                            //
+                                            //         if (value) {
+                                            //             this.props.navigation.navigate('VerifiedPage', {
+                                            //                 resultInfo: value,
+                                            //             });
+                                            //         } else {
+                                            //             this.props.navigation.navigate('VerifiedPage');
+                                            //         }
+                                            //     });
+                                            // } else {
+                                            //     // 认证中，认证驳回，认证通过
+                                            //
+                                            //     this.props.navigation.navigate('VerifiedStatePage', {
+                                            //         qualifications: this.state.verifiedState,
+                                            //         phone: global.phone,
+                                            //     });
+                                            // }
                                         }}
                                     /> : null
                             }

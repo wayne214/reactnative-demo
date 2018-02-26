@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     rightIcon: {
-        marginRight: 10,
+        marginRight: 20,
     },
     contentText: {
         marginLeft: 15,
@@ -97,7 +97,7 @@ class SettingCell extends Component {
     render() {
         const {
             style, leftIcon, content, clickAction, showBottomLine, authenticationStatus,
-            rightIcon = rightArrow, hideArrowIcon, versionName, iconFontColor
+            rightIcon = rightArrow, hideArrowIcon, versionName, iconFontColor, showCertificatesOverdue
         } = this.props;
 
         const a =
@@ -157,6 +157,9 @@ class SettingCell extends Component {
                             <Text style={styles.contentText}>{content}</Text>
                         </View>
                         {a}
+                        {
+                            showCertificatesOverdue ? <Text style={{color: '#FF8500', fontSize:14, marginRight: 20,}}>证件过期</Text> : null
+                        }
                         {
                             hideArrowIcon ? <Text style={styles.version}>{versionName}</Text> : <Image style={styles.rightIcon} source={rightIcon}/>
                         }
