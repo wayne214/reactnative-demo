@@ -17,7 +17,8 @@ import {
     InteractionManager,
     TouchableOpacity,
     ScrollView,
-    Alert
+    Alert,
+    ImageBackground
 } from 'react-native';
 import {fetchData, loadUser} from "../../action/app";
 import BaseComponent from '../../components/common/baseComponent';
@@ -36,6 +37,7 @@ import {
 
 // import * as StaticColor from '../../constants/staticColor';
 import LoginHeader from '../../../assets/img/login/loginHeader.png';
+import LoginBackground from '../../../assets/img/login/loginBg.png';
 import * as API from '../../constants/api';
 
 import Storage from '../../utils/storage';
@@ -66,10 +68,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: width - 30,
         paddingBottom: 10,
-        // height: (width - 60) * 552 / 690,
-        top: 220 * width / 375,
-        // left: 10,
-        position: 'absolute',
+        marginTop: 227 * width / 375,
         borderRadius: 4,
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowOffset:{h: 10,w: 10},
@@ -470,18 +469,19 @@ class Login extends BaseComponent {
         const {phoneNumber, password} = this.state;
         return (
             <View style={styles.container}>
+                <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
                 <KeyboardAwareScrollView
                     alwaysBounceVertical={height < 667}
                     automaticallyAdjustContentInsets={false}
                     style={{width: width, height: height}}>
-                    <View style={{alignItems: 'center'}}>
-                        <Image
-                            source={LoginHeader}
-                            resizeMode={'stretch'}
-                            style={{width: width, height: width * 272 / 375}}
-                        />
+                    {/*<View style={{alignItems: 'center'}}>*/}
+                        {/*<Image*/}
+                            {/*source={LoginHeader}*/}
+                            {/*resizeMode={'stretch'}*/}
+                            {/*style={{width: width, height: width * 272 / 375}}*/}
+                        {/*/>*/}
 
-                    </View>
+                    {/*</View>*/}
 
                     <View style={styles.contentView}>
                         <View style={styles.cellContainer}>
@@ -581,6 +581,7 @@ class Login extends BaseComponent {
                         立即注册
                     </Text>
                 </View>
+                </ImageBackground>
                 {/*{*/}
                     {/*this.state.loading ? <Loading/> : null*/}
                 {/*}*/}
