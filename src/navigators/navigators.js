@@ -89,6 +89,11 @@ import MineScreen from '../containers/mine/mine';
 // 账号密码登录页
 import LoginWithPwdScreen from '../containers/login/login';
 import LoginWithSmsScreen from '../containers/login/loginSms';
+import ModifyPwdScreen from '../containers/mine/modifyPassword';
+import AboutUsScreen from '../containers/mine/aboutUs';
+import DriverSettingScreen from '../containers/mine/setting';
+
+import DriverVerified from '../containers/driverVerified/driverVerified';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -542,19 +547,13 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_DRIVER_ORDER_PAGE]: {
         screen: DriverOrderScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_LOGIN_WITH_PWD_PAGE]: {
@@ -569,8 +568,29 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_DRIVER_VERIFIED]: {
+        screen: DriverVerified,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MODIFY_PWD]: {
+        screen: ModifyPwdScreen,
+        navigationOptions: {
 
+        }
+    },
+    [RouteType.ROUTE_ABOUT_US]: {
+        screen: AboutUsScreen,
+        navigationOptions: {
 
+        }
+    },
+    [RouteType.ROUTE_DRIVER_SETTING]: {
+        screen: DriverSettingScreen,
+        navigationOptions: {
+        }
+    },
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

@@ -28,11 +28,11 @@ class Tabar extends Component {
 			goodsAnimatedValue: new Animated.Value(0),
 			orderAnimatedValue: new Animated.Value(0),
 			routeAnimatedValue: new Animated.Value(0),
-      carriageAnimatedValue: new Animated.Value(0),
-      driverHomeAnimatedValue: new Animated.Value(0),
-      driverGoodsAnimatedValue: new Animated.Value(0),
-      driverOrderAnimatedValue: new Animated.Value(0),
-      mineAnimatedValue: new Animated.Value(0)
+			carriageAnimatedValue: new Animated.Value(0),
+			driverHomeAnimatedValue: new Animated.Value(0),
+			driverGoodsAnimatedValue: new Animated.Value(0),
+			driverOrderAnimatedValue: new Animated.Value(0),
+			mineAnimatedValue: new Animated.Value(0)
 		};
 		this._renderContainer = this._renderContainer.bind(this);
 	}
@@ -66,22 +66,22 @@ class Tabar extends Component {
 	 */
 	_renderContainer(key) {
 		switch(key) {
-			case 'goods':
-				return React.cloneElement(<GoodsListContainer />, this.props);
-			case 'route':
-				return React.cloneElement(<TravelContainer />, this.props);
-			case 'order':
-				return React.cloneElement(<OrderContainer />, this.props);
-			case 'carriage':
-				return React.cloneElement(<EntrustOrderContainer />, this.props);
+			// case 'goods':
+			// 	return React.cloneElement(<GoodsListContainer />, this.props);
+			// case 'route':
+			// 	return React.cloneElement(<TravelContainer />, this.props);
+			// case 'order':
+			// 	return React.cloneElement(<OrderContainer />, this.props);
+			// case 'carriage':
+			// 	return React.cloneElement(<EntrustOrderContainer />, this.props);
 			case 'driverHome':
 				return React.cloneElement(<DriverHome />, this.props);
-      case 'driverGoods':
+			case 'driverGoods':
 				return React.cloneElement(<DriverGoodSource />, this.props);
-      case 'driverOrder':
-        return React.cloneElement(<DriverOrder />, this.props);
-      case 'mine':
-        return React.cloneElement(<Mine />, this.props);
+			case 'driverOrder':
+				return React.cloneElement(<DriverOrder />, this.props);
+			case 'mine':
+				return React.cloneElement(<Mine />, this.props);
 			default:
 				// return React.cloneElement(<TravelContainer />, this.props);
 				return React.cloneElement(<DriverHome />, this.props);
@@ -127,20 +127,20 @@ class Tabar extends Component {
 
 	render() {
 		const { tabs, driverTabs, currentTab } = this.props;
-      let tabItems = '';
-      console.log('currentTab', this.props);
+        let tabItems = '';
+        console.log('currentTab', this.props);
 		if (this.props.currentStatus == 'driver') {
         tabItems = driverTabs.map((item, index) => {
             return (
-							<TabNavigator.Item
-								key={ index }
-								selected={ currentTab === item.get('key') }
-								renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
-								renderSelectedIcon={() => {
+				<TabNavigator.Item
+					key={ index }
+					selected={ currentTab === item.get('key') }
+					renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
+					renderSelectedIcon={() => {
                     if (item.get('key') === 'driverHome') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.orderAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -148,12 +148,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'driverGoods') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.goodsAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -161,12 +161,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'driverOrder') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.routeAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -174,12 +174,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+							source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'mine') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.carriageAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -187,31 +187,31 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     }
                 }}
-								title={ item.get('title') }
-								titleStyle={ styles.titleStyle }
-								selectedTitleStyle={ styles.selectedTitleStyle }
-								renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
-								onPress={ this._selectTab.bind(this, item.get('key')) }>
-                  { this._renderContainer(item.get('key')) }
-							</TabNavigator.Item>
+					title={ item.get('title') }
+					titleStyle={ styles.titleStyle }
+					selectedTitleStyle={ styles.selectedTitleStyle }
+					renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
+					onPress={ this._selectTab.bind(this, item.get('key')) }>
+					  { this._renderContainer(item.get('key')) }
+				</TabNavigator.Item>
             );
         });
 		} else {
-        tabItems = tabs.map((item, index) => {
+        	tabItems = tabs.map((item, index) => {
             return (
-							<TabNavigator.Item
-								key={ index }
-								selected={ currentTab === item.get('key') }
-								renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
-								renderSelectedIcon={() => {
+				<TabNavigator.Item
+					key={ index }
+					selected={ currentTab === item.get('key') }
+					renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
+					renderSelectedIcon={() => {
                     if (item.get('key') === 'order') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.orderAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -219,12 +219,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'goods') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.goodsAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -232,12 +232,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'route') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.routeAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -245,12 +245,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'carriage') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.carriageAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -258,12 +258,12 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     } else if (item.get('key') === 'mine') {
                         return (
-													<Animated.Image
-														style={ [styles.tabIcon, {
+							<Animated.Image
+								style={ [styles.tabIcon, {
                                 transform: [
                                     { scale: this.state.carriageAnimatedValue.interpolate({
                                         inputRange: [0, 1],
@@ -271,22 +271,20 @@ class Tabar extends Component {
                                     })}
                                 ]
                             }] }
-														source={ item.get('renderSelectedIcon') }/>
+								source={ item.get('renderSelectedIcon') }/>
                         );
                     }
                 }}
-								title={ item.get('title') }
-								titleStyle={ styles.titleStyle }
-								selectedTitleStyle={ styles.selectedTitleStyle }
-								renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
-								onPress={ this._selectTab.bind(this, item.get('key')) }>
-                  { this._renderContainer(item.get('key')) }
-							</TabNavigator.Item>
+					title={ item.get('title') }
+					titleStyle={ styles.titleStyle }
+					selectedTitleStyle={ styles.selectedTitleStyle }
+					renderBadge={()=>this._renderBadge(item.get('badgeCount'))}
+					onPress={ this._selectTab.bind(this, item.get('key')) }>
+					  { this._renderContainer(item.get('key')) }
+				</TabNavigator.Item>
             );
         });
 		}
-
-
 		return (
 			<TabNavigator
 				tabBarStyle={{ backgroundColor: 'white', height: 49 + DANGER_BOTTOM, paddingBottom: DANGER_BOTTOM }}

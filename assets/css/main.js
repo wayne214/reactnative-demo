@@ -30,6 +30,16 @@ const styles = StyleSheet.create({
     width: 20,
     resizeMode: 'cover'
   },
+  driverTabIcon:{
+      fontFamily: 'iconfont',
+      fontSize: 16,
+      color: '#B4B4B4',
+  },
+  driverSelectedTabIcon:{
+      fontFamily: 'iconfont',
+      fontSize: 16,
+      color: '#0092FF',
+  },
   routeIcon: {
     position: 'absolute',
     bottom: 0,

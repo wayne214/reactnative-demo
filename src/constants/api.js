@@ -279,19 +279,61 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 // 收集log
 export const API_COLLECT_LOG = 'app/log/log'
 
-//获取登录密钥
-export const GET_SECTOKEN = 'app/uam/login/getSecToken';
-// 通过密码登录
-export const LOGIN_WITH_PASSWORD = 'app/uam/login/loginWithPassword';
-// 根据手机号查询账号角色信息
-export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
+/************************************************** 司机APP 接口 *************************************************/
+import { XYT_HOST } from './setting';
 
+/************************ 认证部分 接口 ************************/
+
+/************  司机认证部分 接口 ************/
+
+// 身份证正面
+export const API_GET_IDCARD_INFO = `${XYT_HOST}app/photo/idCard/faceSide`;
+
+// 身份证反面
+export const API_GET_IDCARD_TRUN_INFO = `${XYT_HOST}app/photo/idCard/backSide`;
+
+// 驾驶证主页
+export const API_GET_DRIVER_INFO = `${XYT_HOST}app/photo/drivingLicense/homepage`;
+
+// 驾驶证副页
+export const API_GET_DRIVER_TRUN_INFO = `${XYT_HOST}app/photo/drivingLicense/vicePage`;
+
+// 司机认证确认提交接口
+export const API_AUTH_REALNAME_COMMIT = `${XYT_HOST}app/rmc/driver/addDriver`;
+
+/********************************司机订单API*************************************/
+// 订单列表（全部，待发运）分页查询调度单
+export const API_NEW_DISPATCH_DOC_WITH_PAGE = '/app/transport/queryDeleveryWithPageV4';
+// 订单列表（待回单）
+export const API_NEW_GET_RECEIVE_ORDER_LIST = `/app/transport/queryDelReceiptWithPageV4`;
+// 运输中
+export const API_NEW_GET_ORDER_LIST_TRANSPORT = `/app/transport/queryTransportList`;
+
+// 根据时间获取获取货源列表--司机
+export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
+/********************************司机用户中心API*************************************/
+//获取登录密钥
+export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
+// 通过密码登录
+export const API_LOGIN_WITH_PSD = 'app/uam/login/loginWithPassword/v3.0';
 // 获取登录验证码接口
-export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
-// 通过验证码登录
-export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';
+export const API_GET_LOGIN_WITH_CODE = '/app/uam/message/getLoginIdentifyCode';
+
 // 根据时间获取获取货源列表--司机
 export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
 
 // 天气接口
 export const API_GET_WEATHER = `/app/weather/`;
+
+export const API_LOGIN_WITH_CODE = '/app/uam/login/loginWithVerificationCode/v3.0';
+// 修改密码
+export const API_CHANGE_PSD_WITH_OLD_PSD = '/app/uam/login/modifyPassword';
+// APP退出登录
+export const API_USER_LOGOUT = 'app/user/logout/v3.0/';
+// 根据司机id获取推送状态
+export const API_NEW_GET_PUSHSTATUS_WITH_DRIVERID = 'app/uam/jpush/getPushStatusByUserId/';
+// 更改状态
+export const API_CHANGE_ACCEPT_MESSAGE = 'app/uam/jpush/setPushStatus';
+/********************************司机伙伴资源中心API*************************************/
+// 根据手机号查询账号角色信息
+export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';

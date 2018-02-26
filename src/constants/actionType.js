@@ -246,7 +246,13 @@ export const ACTION_USER_CAR = 'ACTION_USER_CAR';
 /*清空user里面的值*/
 export const ACTION_USER_CLEAR = 'ACTION_USER_CLEAR';
 
-export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING';
-
 //保存天气信息
 export const ACTION_SAVE_WEATHER = 'ACTION_SAVE_WEATHER';
+
+export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING'
+
+/******************************司机角色Action*******************************/
+
+export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
+
+export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';
