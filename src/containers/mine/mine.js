@@ -7,6 +7,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 import * as RouteType from '../../constants/routeType'
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 
 class mine extends Component {
     constructor(props) {

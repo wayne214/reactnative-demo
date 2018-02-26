@@ -1006,7 +1006,6 @@ class Verified extends Component {
             <View style={styles.container}>
                 <NavigatorBar
                     title='司机认证'
-                    backIconFont='&#xe662;'
                     backViewClick={()=>{
                         let info = {
                             appLoading: false,

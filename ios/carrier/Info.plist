@@ -26,7 +26,7 @@
 	<string>$(CODEPUSH_KEY)</string>
 	<key>LSApplicationCategoryType</key>
 	<array>
-		<string/>
+		<string></string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

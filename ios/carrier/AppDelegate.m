@@ -19,12 +19,16 @@
 #import <React/RCTRootView.h>
 #import "SplashScreen.h"
 #import "IQKeyboardManager.h"
+#import "RCTBaiduMapViewManager.h"
+
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+  [RCTBaiduMapViewManager initSDK:@"YQTDK3RGAXnoGrLfFqyYLyPxcMft4LHn"];
+
 #ifdef DEBUG
   // 测试环境
   UMConfigInstance.appKey = @"5a0159288f4a9d7fa90000a1";//599a68ef45297d108e001673
