@@ -91,6 +91,7 @@ import LoginWithPwdScreen from '../containers/login/login';
 import LoginWithSmsScreen from '../containers/login/loginSms';
 import ModifyPwdScreen from '../containers/mine/modifyPassword';
 import AboutUsScreen from '../containers/mine/aboutUs';
+import SettingScreen from '../containers/mine/setting';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -575,6 +576,12 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_ABOUT_US]: {
         screen: AboutUsScreen,
+        navigationOptions: {
+
+        }
+    },
+    [RouteType.ROUTE_SETTING]: {
+        screen: SettingScreen,
         navigationOptions: {
 
         }

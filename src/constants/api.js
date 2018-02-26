@@ -296,3 +296,8 @@ export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; /
 export const API_CHANGE_PSD_WITH_OLD_PSD = '/app/uam/login/modifyPassword';
 // APP退出登录
 export const API_USER_LOGOUT = 'app/user/logout/v3.0/';
+// 根据司机id获取推送状态
+export const API_NEW_GET_PUSHSTATUS_WITH_DRIVERID = 'app/uam/jpush/getPushStatusByUserId/';
+
+// 更改状态
+export const API_CHANGE_ACCEPT_MESSAGE = 'app/uam/jpush/setPushStatus';

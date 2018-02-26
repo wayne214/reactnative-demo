@@ -86,61 +86,39 @@ class setting extends Component {
         this.getPushStatusAction = this.getPushStatusAction.bind(this);
         this.loginOut = this.loginOut.bind(this);
         this.speechValueChange = this.speechValueChange.bind(this);
+        this.getPushStatusCallback = this.getPushStatusCallback.bind(this);
     }
 
     componentDidMount() {
-        this.getCurrentPosition();
+        // this.getCurrentPosition();
 
-        this.getPushStatusAction();
+        this.getPushStatusAction(this.getPushStatusCallback);
 
     }
     componentWillUnmount() {
         if (this.subscription)
             this.subscription.remove();
     }
-
-    /*获取通知状态*/
-    getPushStatusAction() {
-        currentTime = new Date().getTime();
-
-        HTTPRequest({
-            url:API.API_NEW_GET_PUSHSTATUS_WITH_DRIVERID + global.userId,
-            params: {
-                id:global.userId,
-            },
-            loading: () => {
-
-            },
-            success: (response) => {
-                lastTime = new Date().getTime();
-                ReadAndWriteFileUtil.appendFile('查询推送司机APP的状态', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                    locationData.district, lastTime - currentTime, '设置页面');
-                //const loginIsAcceptMessage = response.result.toString();
-
-                this.setState({
-                    switchIsOn: response.result,
-                });
-            },
-            error: (err) => {
-
-            },
-            finish: () => {
-
-            },
-
+    getPushStatusCallback(result) {
+        this.setState({
+            switchIsOn: result,
         });
-
+    }
+    /*获取通知状态*/
+    getPushStatusAction(callback) {
+        currentTime = new Date().getTime();
+        this.props.getJPushStatus({}, callback);
     }
 
     // 获取当前位置
-    getCurrentPosition() {
-        Geolocation.getCurrentPosition().then(data => {
-            console.log('position =',JSON.stringify(data));
-            locationData = data;
-        }).catch(e =>{
-            console.log(e, 'error');
-        });
-    }
+    // getCurrentPosition() {
+    //     Geolocation.getCurrentPosition().then(data => {
+    //         console.log('position =',JSON.stringify(data));
+    //         locationData = data;
+    //     }).catch(e =>{
+    //         console.log(e, 'error');
+    //     });
+    // }
 
     /*退出登录请求*/
     loginOut(){
@@ -179,7 +157,7 @@ class setting extends Component {
         this.setState({
             speechSwitch: value,
         });
-        this.props.speechSwitchAction(value);
+        // this.props.speechSwitchAction(value);
     }
     /*通知开关状态改变*/
     valueChange(value) {
@@ -201,33 +179,12 @@ class setting extends Component {
                     status: 1,
                 }
         }
-
-
-        HTTPRequest({
-            url:API.API_CHANGE_ACCEPT_MESSAGE,
-            params: body,
-            loading: () => {
-            },
-            success: (response) => {
-            },
-            error: (err) => {
-            },
-            finish: () => {
-            },
-
-        });
+        this.props.changeStatus({body});
     }
 
     render() {
-        const navigator = this.props.navigation;
         return (
             <View style={styles.container}>
-                <NavigationBar
-                    title={'设置'}
-                    navigator={navigator}
-                    hiddenBackIcon={false}
-                />
-
                 <View style={{height: 10}}/>
 
                 <View style={styles.contentItemView}>
@@ -299,6 +256,29 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'post',
                 api: API.API_USER_LOGOUT + global.phone,
+                success: data => {
+                },
+                fail: error => {
+                }
+            }))
+        },
+        getJPushStatus: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'post',
+                api: API.API_NEW_GET_PUSHSTATUS_WITH_DRIVERID + global.userId,
+                success: data => {
+                    successCallback(data);
+                },
+                fail: error => {
+                }
+            }))
+        },
+        changeStatus: (params) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'post',
+                api: API.API_CHANGE_ACCEPT_MESSAGE,
                 success: data => {
                 },
                 fail: error => {
