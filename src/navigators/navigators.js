@@ -89,6 +89,7 @@ import MineScreen from '../containers/mine/mine';
 // 账号密码登录页
 import LoginWithPwdScreen from '../containers/login/login';
 import LoginWithSmsScreen from '../containers/login/loginSms';
+import ModifyPwdScreen from '../containers/mine/modifyPassword';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -550,10 +551,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_LOGIN_WITH_PWD_PAGE]: {
@@ -566,6 +564,12 @@ export const AppNavigator = StackNavigator({
         screen: LoginWithSmsScreen,
         navigationOptions: {
             header: null
+        }
+    },
+    [RouteType.ROUTE_MODIFY_PWD]: {
+        screen: ModifyPwdScreen,
+        navigationOptions: {
+
         }
     },
 
