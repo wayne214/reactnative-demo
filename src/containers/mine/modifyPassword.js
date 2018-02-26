@@ -241,7 +241,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(fetchData({
                 body: params,
                 method: 'post',
-                api: API.GET_SECTOKEN,
+                api: API.API_GET_SEC_TOKEN,
                 success: data => {
                     console.log('-------data', data);
                     successCallback(data);
@@ -255,7 +255,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(fetchData({
                 body: params,
                 method: 'post',
-                api: API.MODIFY_PASSWROD,
+                api: API.API_CHANGE_PSD_WITH_OLD_PSD,
                 success: data => {
                     console.log('-------data', data);
                     callback(data);

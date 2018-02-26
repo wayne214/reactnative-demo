@@ -474,15 +474,6 @@ class Login extends BaseComponent {
                     alwaysBounceVertical={height < 667}
                     automaticallyAdjustContentInsets={false}
                     style={{width: width, height: height}}>
-                    {/*<View style={{alignItems: 'center'}}>*/}
-                        {/*<Image*/}
-                            {/*source={LoginHeader}*/}
-                            {/*resizeMode={'stretch'}*/}
-                            {/*style={{width: width, height: width * 272 / 375}}*/}
-                        {/*/>*/}
-
-                    {/*</View>*/}
-
                     <View style={styles.contentView}>
                         <View style={styles.cellContainer}>
                             <Text style={styles.textLeft}>账号</Text>
@@ -625,7 +616,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
-                api: API.GET_SECTOKEN,
+                api: API.API_GET_SEC_TOKEN,
                 success: data => {
                     successCallback(data);
                 },
@@ -636,7 +627,7 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'POST',
                 // showLoading: true,
-                api: API.LOGIN_WITH_PASSWORD,
+                api: API.API_LOGIN_WITH_PSD,
                 success: data => {
                     console.log('-login_data', data);
                     successCallback(data);

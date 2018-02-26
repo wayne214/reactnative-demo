@@ -280,17 +280,19 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 //获取登录密钥
-export const GET_SECTOKEN = 'app/uam/login/getSecToken';
+export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
 // 通过密码登录
-export const LOGIN_WITH_PASSWORD = 'app/uam/login/loginWithPassword';
+export const API_LOGIN_WITH_PSD = 'app/uam/login/loginWithPassword/v3.0';
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
 
 // 获取登录验证码接口
-export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
+export const API_GET_LOGIN_WITH_CODE = '/app/uam/message/getLoginIdentifyCode';
 // 通过验证码登录
-export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';
+export const API_LOGIN_WITH_CODE = '/app/uam/login/loginWithVerificationCode/v3.0';
 // 根据时间获取获取货源列表--司机
 export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
 // 修改密码
-export const MODIFY_PASSWROD = '/app/uam/login/modifyPassword';
+export const API_CHANGE_PSD_WITH_OLD_PSD = '/app/uam/login/modifyPassword';
+// APP退出登录
+export const API_USER_LOGOUT = 'app/user/logout/v3.0/';
