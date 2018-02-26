@@ -3,8 +3,10 @@ import {connect} from 'react-redux';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
+import * as RouteType from '../../constants/routeType'
 
 class mine extends Component {
     constructor(props) {
@@ -18,6 +20,24 @@ class mine extends Component {
     render() {
         return <View style={styles.container}>
             <Text>我的</Text>
+
+            <TouchableOpacity onPress={()=>{
+               Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                    if (value) {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_DRIVER_VERIFIED,
+                            params: {resultInfo: value}
+                        })
+                    } else {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_DRIVER_VERIFIED
+                        })
+                    }
+               });
+            }} >
+                <Text>司机认证</Text>
+            </TouchableOpacity>
+
         </View>
     }
 }

@@ -292,6 +292,28 @@ export const GET_LOGIN_IDENETIFY_CODE = '/app/uam/message/getLoginIdentifyCode';
 export const LOGIN_WITH_VCODE = '/app/uam/login/loginWithVerificationCode/v3.0';
 
 
+/************************************************** 司机APP 接口 *************************************************/
+import { XYT_HOST } from './setting';
+
+/************************ 认证部分 接口 ************************/
+
+/************  司机认证部分 接口 ************/
+
+// 身份证正面
+export const API_GET_IDCARD_INFO = `${XYT_HOST}app/photo/idCard/faceSide`;
+
+// 身份证反面
+export const API_GET_IDCARD_TRUN_INFO = `${XYT_HOST}app/photo/idCard/backSide`;
+
+// 驾驶证主页
+export const API_GET_DRIVER_INFO = `${XYT_HOST}app/photo/drivingLicense/homepage`;
+
+// 驾驶证副页
+export const API_GET_DRIVER_TRUN_INFO = `${XYT_HOST}app/photo/drivingLicense/vicePage`;
+
+// 司机认证确认提交接口
+export const API_AUTH_REALNAME_COMMIT = `${XYT_HOST}app/rmc/driver/addDriver`;
+
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = '/app/transport/queryDeleveryWithPageV4';
