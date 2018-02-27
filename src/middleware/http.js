@@ -61,8 +61,8 @@ export default store => next => action => {
         return Promise.reject(error)
     })
 
-    if (DEBUG) console.log('%c%s','color: red; font-size: 16px;', '---api: ' + HOST + api);
-    if (DEBUG) console.log('%c%s','color: red; font-size: 16px;', 'params: ' + body);
+    if (DEBUG) console.log('%c%s','color: red; font-size: 16px;', '---api: '+ HOST + api);
+    if (DEBUG) console.log('params: %c','color: red; font-size: 16px;', body);
 
     axios({
         url: api,
