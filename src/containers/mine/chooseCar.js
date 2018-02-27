@@ -105,27 +105,15 @@ class chooseCar extends Component {
         super(props);
         const carList = this.props.navigation.state.params.carList;
         const flag = this.props.navigation.state.params.flag;
-        const currentCar = this.props.navigation.state.params.currentCar;
-        let seletCarObj = {};
-        for (let i = 0; i < carList.length; i++) {
-            if (currentCar === carList[i].carNum) {
-                seletCarObj = carList[i];
-                break;
-            } else {
-                seletCarObj = carList[0];
-            }
-        }
-        this.select = seletCarObj;
         this.state = {
             dataSource: carList,
             plateNumber: '',
             flag: flag,
-            currentCar: currentCar,
             plateNumberObj: {},
         };
-        this.setUserCar = this.setUserCar.bind(this);
+        // this.setUserCar = this.setUserCar.bind(this);
         this.saveUserCarInfo = this.saveUserCarInfo.bind(this);
-        this.setUserCarSuccessCallBack = this.setUserCarSuccessCallBack.bind(this);
+        // this.setUserCarSuccessCallBack = this.setUserCarSuccessCallBack.bind(this);
         // this.clearHomePageCount = this.clearHomePageCount.bind(this);
     }
 
@@ -176,11 +164,19 @@ class chooseCar extends Component {
         this.props.navigation.dispatch(resetAction);
     }
     renderItem = (item) => {
-        console.log('item', item);
         return (
             <TouchableOpacity onPress={() => {
-
-                this.props.navigation.goBack();
+                console.log('选择了', item);
+                Storage.save('setCarSuccessFlag', '3');
+                this.saveUserCarInfo(item.item);
+                Storage.remove('carInfoResult');
+                if (this.state.flag){
+                    this.resetTo(0, 'Main');
+                } else {
+                    this.props.navigation.goBack();
+                    DeviceEventEmitter.emit('updateOrderList');
+                    DeviceEventEmitter.emit('resetGood');
+                }
             }}>
                 <View style={styles.itemContainer}>
                     <Image source={CarIcon} style={{width: 31, height: 31}}/>
@@ -188,55 +184,55 @@ class chooseCar extends Component {
                 </View>
             </TouchableOpacity>
         )
-    }
+    };
     // 选中车辆
-    onSelect(data) {
-        console.log('selectedCar= ', data);
-        this.setUserCar(data, this.setUserCarSuccessCallBack);
-    }
+    // onSelect(data) {
+    //     console.log('selectedCar= ', data);
+    //     this.setUserCar(data, this.setUserCarSuccessCallBack);
+    // }
 
     // 保存设置车辆
-    setUserCar(plateNumber) {
-        currentTime = new Date().getTime();
-        Storage.get(StorageKeys.USER_INFO).then((value) => {
-            console.log('va----',value);
-            if(value) {
-                HTTPRequest({
-                    url: API.API_SET_USER_CAR,
-                    params: {
-                        plateNumber: plateNumber,
-                        phoneNum: value.phone,
-                    },
-                    loading: ()=>{},
-                    success: (responseData)=>{
-
-                        this.setUserCarSuccessCallBack(responseData.result);
-                    },
-                    error: (errorInfo)=>{
-                        console.log('eerronfFinf',errorInfo);
-                    },
-                    finish:()=>{}
-                });
-            }
-        });
-    }
-    setUserCarSuccessCallBack(result) {
-        lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('绑定车辆', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '设置车辆页面');
-        const {userInfo} = this.props;
-        console.log('设置车辆成功了', this.state.plateNumber, userInfo.phone, this.state.plateNumberObj);
-        Storage.save('setCarSuccessFlag', '3');
-        this.saveUserCarInfo(this.state.plateNumberObj);
-        Storage.remove('carInfoResult');
-        if (this.state.flag){
-            this.resetTo(0, 'Main');
-        } else {
-            this.props.navigation.goBack();
-            DeviceEventEmitter.emit('updateOrderList');
-            DeviceEventEmitter.emit('resetGood');
-        }
-    }
+    // setUserCar(plateNumber) {
+    //     currentTime = new Date().getTime();
+    //     Storage.get(StorageKeys.USER_INFO).then((value) => {
+    //         console.log('va----',value);
+    //         if(value) {
+    //             HTTPRequest({
+    //                 url: API.API_SET_USER_CAR,
+    //                 params: {
+    //                     plateNumber: plateNumber,
+    //                     phoneNum: value.phone,
+    //                 },
+    //                 loading: ()=>{},
+    //                 success: (responseData)=>{
+    //
+    //                     this.setUserCarSuccessCallBack(responseData.result);
+    //                 },
+    //                 error: (errorInfo)=>{
+    //                     console.log('eerronfFinf',errorInfo);
+    //                 },
+    //                 finish:()=>{}
+    //             });
+    //         }
+    //     });
+    // }
+    // setUserCarSuccessCallBack(result) {
+    //     lastTime = new Date().getTime();
+    //     // ReadAndWriteFileUtil.appendFile('绑定车辆', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+    //     //     locationData.district, lastTime - currentTime, '设置车辆页面');
+    //     const {userInfo} = this.props;
+    //     console.log('设置车辆成功了', this.state.plateNumber, userInfo.phone, this.state.plateNumberObj);
+    //     Storage.save('setCarSuccessFlag', '3');
+    //     this.saveUserCarInfo(this.state.plateNumberObj);
+    //     Storage.remove('carInfoResult');
+    //     if (this.state.flag){
+    //         this.resetTo(0, 'Main');
+    //     } else {
+    //         this.props.navigation.goBack();
+    //         DeviceEventEmitter.emit('updateOrderList');
+    //         DeviceEventEmitter.emit('resetGood');
+    //     }
+    // }
     // 保存车牌号对象
     saveUserCarInfo(plateNumberObj) {
 
@@ -263,29 +259,6 @@ class chooseCar extends Component {
                         ItemSeparatorComponent={this.separatorComponent}
                     />
                 </View>
-                <View style={{flex: 1}} />
-                <View>
-                    {/*<CommonButton*/}
-                        {/*backgroundImg={StaticImage.BlueButtonSquare}*/}
-                        {/*containerStyle={{marginRight:0, marginLeft:0}}*/}
-                        {/*buttonStyle={{width: width}}*/}
-                        {/*onClick={() => {*/}
-                            {/*this.clearHomePageCount();*/}
-                            {/*console.log('this.select',this.select);*/}
-                            {/*if (JSON.stringify(this.select) == '{}') {*/}
-                                {/*Alert.alert('提示', '请选择车辆');*/}
-                                {/*return;*/}
-                            {/*}*/}
-                            {/*this.setState({*/}
-                                {/*plateNumber: JSON.stringify(this.select) == '{}' ? dataSource[0].carNum : this.select.carNum,*/}
-                                {/*plateNumberObj: JSON.stringify(this.select) == '{}' ? dataSource[0] : this.select,*/}
-                            {/*});*/}
-                            {/*this.onSelect(JSON.stringify(this.select) == '{}' ? dataSource[0].carNum : this.select.carNum);*/}
-                        {/*}}*/}
-                        {/*buttonText="确认"*/}
-                    {/*/>*/}
-                </View>
-
             </View>
         );
     }
