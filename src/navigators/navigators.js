@@ -95,7 +95,11 @@ import ModifyPwdScreen from '../containers/mine/modifyPassword';
 import AboutUsScreen from '../containers/mine/aboutUs';
 import DriverSettingScreen from '../containers/mine/setting';
 
+// 认证
 import DriverVerified from '../containers/driverVerified/driverVerified';
+import DriverVerifiedDetail from '../containers/driverVerified/verifiedState';
+import TakeCamera from '../containers/driverVerified/takeCamera';
+import TakeCameraEnd from '../containers/driverVerified/takeCameraEnd';
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
 
@@ -598,6 +602,22 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_DRIVER_SETTING]: {
         screen: DriverSettingScreen,
         navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_TAKE_CAMEAR]: {
+        screen: TakeCamera,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_TAKE_CAMEAR_END]: {
+        screen: TakeCameraEnd,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DRIVER_VERIFIED_DETAIL]: {
+        screen: DriverVerifiedDetail,
+        navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_CHOOSE_CAR]: {

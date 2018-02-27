@@ -308,6 +308,49 @@ class mine extends Component {
                                     }
                                 }}
                             />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'司机认证'}
+                                clickAction={() => {
+                                    if( 2 === 1 ){ // 没有认证 状态
+                                        Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }
+                                                });
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
+                                            }
+                                        })
+                                    }else {
+                                        // 认证中、认证通过、认证驳回 状态
+                                         this.props.navigation.dispatch({
+                                             type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
+                                             params:{
+                                                 qualifications: this.state.verifiedState,
+                                                 phone: 12356234,//global.phone
+                                                 }
+                                         });
+                                    }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'个人车主认证'}
+                                clickAction={() => {
+
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'企业车主认证'}
+                                clickAction={() => {
+
+                                }}
+                            />
                         </View> : <View>
                             <SettingCell
                                 leftIconFont="&#xe62a;"

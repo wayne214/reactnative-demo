@@ -298,8 +298,14 @@ export const API_GET_DRIVER_INFO = `${XYT_HOST}app/photo/drivingLicense/homepage
 // 驾驶证副页
 export const API_GET_DRIVER_TRUN_INFO = `${XYT_HOST}app/photo/drivingLicense/vicePage`;
 
+// 手持身份证
+export const API_GET_HAND_PIC_INFO = `${XYT_HOST}app/photo/idCard/handle`;
+
 // 司机认证确认提交接口
 export const API_AUTH_REALNAME_COMMIT = `${XYT_HOST}app/rmc/driver/addDriver`;
+
+// 司机认证详情接口
+export const API_AUTH_REALNAME_DETAIL = `${XYT_HOST}app/rmc/driver/queryDriverInfo/`;
 
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单

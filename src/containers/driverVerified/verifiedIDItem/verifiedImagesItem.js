@@ -10,7 +10,6 @@ import {
 
 
 const screenWidth = Dimensions.get('window').width;
-import {CachedImage} from "react-native-img-cache";
 
 const space = 10;
 
