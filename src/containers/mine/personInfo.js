@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     ImageBackground
 } from 'react-native';
-// import {CachedImage} from 'react-native-img-cache';
+import {CachedImage} from 'react-native-img-cache';
 import Toast from '@remobile/react-native-toast';
 import Button from 'apsl-react-native-button';
 import CommonCell from '../../containers/mine/cell/commonCell';
@@ -19,12 +19,12 @@ import * as API from '../../constants/api';
 import Storage from '../../utils/storage';
 import * as StaticColor from '../../constants/staticColor';
 import Loading from '../../utils/loading';
-import NoImage from '../../../assets/person/noiamgeShow.png';
+import NoImage from '../../../assets/img/mine/person/noiamgeShow.png';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 // import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import HTTPRequest from '../../utils/httpRequest';
 import StorageKeys from '../../constants/storageKeys';
-import StaticImage from '../../constants/staticImage';
+import PersonNoInfo from '../../../assets/img/mine/person/personInfo.png';
 
 
 const {width} = Dimensions.get('window');
@@ -263,7 +263,6 @@ class PersonInfo extends Component {
         }
     }
     render() {
-        const navigator = this.props.navigation;
         const person = this.state.personInfo !== null && this.state.personInfo !== '' ? this.state.personInfo : '';
 
         const showDrivingLicenceHomePage = person.drivingLicenseHomepageThumbnailAddress !== null && person.drivingLicenseHomepageThumbnailAddress !== '' ||
@@ -286,7 +285,7 @@ class PersonInfo extends Component {
                                 style={{
                                     marginTop: 130,
                                 }}
-                                source={StaticImage.PersonImage}/>
+                                source={PersonNoInfo}/>
                             <Text
                                 style={{
                                     marginTop: 30,

@@ -47,6 +47,7 @@
     "react-native-fs": "^2.5.1",
     "react-native-image-crop-picker": "^0.16.0",
     "react-native-image-picker": "^0.26.7",
+    "react-native-img-cache": "^1.5.3",
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-pdf": "^1.2.1",
     "react-native-photo-view": "^1.5.2",
