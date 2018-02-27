@@ -18,7 +18,7 @@ import {
     COLOR_LIGHT_GRAY_TEXT,
     LIGHT_BLACK_TEXT_COLOR,
     GRAY_TEXT_COLOR,
-} from '../../constants/staticColor';
+} from '../../constants/colors';
 
 const styles = StyleSheet.create({
     badgeIcon: {

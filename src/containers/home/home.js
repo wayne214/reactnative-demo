@@ -37,7 +37,7 @@ import {
     COLOR_VIEW_BACKGROUND,
     COLOR_LIGHT_GRAY_TEXT,
     REFRESH_COLOR,
-} from '../../constants/staticColor';
+} from '../../constants/colors';
 import locationIcon from '../../../assets/home/location.png';
 import bannerImage1 from '../../../assets/home/banner1.png';
 import bannerImage2 from '../../../assets/home/banner2.png';

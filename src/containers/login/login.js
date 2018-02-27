@@ -516,9 +516,9 @@ class Login extends BaseComponent {
                                 textStyle={{color: 'white', fontSize: 18}}
                                 onPress={() => {
                                     // dismissKeyboard();
-                                    this.loginSecretCode(this.getSecretCodeCallback);
+                                    // this.loginSecretCode(this.getSecretCodeCallback);
                                     if (Regex.test('mobile',phoneNumber)) {
-                                        this.loginSecretCode();
+                                        this.loginSecretCode(this.getSecretCodeCallback);
                                     } else {
                                         Toast.show('手机号码输入有误，请重新输入');
                                     }

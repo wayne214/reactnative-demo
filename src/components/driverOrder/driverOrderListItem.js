@@ -16,6 +16,9 @@ import emptyList from '../../../assets/img/emptyView/nodata.png';
 import OrdersItemCell from '../../components/driverOrder/ordersItemCell';
 import OrderTransportCell from '../../components/driverOrder/orderTransportCell';
 import * as StaticColor from '../../constants/colors';
+import Toast from '@remobile/react-native-toast';
+import * as RouteType from '../../constants/routeType';
+
 class driverOrderListItem extends Component {
     constructor (props) {
         super(props)
@@ -25,7 +28,8 @@ class driverOrderListItem extends Component {
     componentDidMount() {
 
     }
-    renderRow(dataRow){
+    renderRow(data){
+        const dataRow = data.item;
         const pushTime = dataRow.time ? dataRow.time.replace(/-/g,'/').substring(0, dataRow.time.length - 3) : '';
         const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, dataRow.arrivalTime.length - 5) : '';
         // 货品类型
@@ -54,7 +58,7 @@ class driverOrderListItem extends Component {
                 vol={dataRow.vol}
                 stateName={dataRow.stateName === '已接单' ? '待发运' : dataRow.stateName}
                 dispatchStatus={dataRow.dispatchStatus}
-                orderStatus={selectPage}
+                orderStatus={this.props.type}
                 goodKindsNames={goodTypesName} // 货品种类
                 waitBeSureOrderNum={dataRow.waitBeSureOrderNum}
                 beSureOrderNum={dataRow.beSureOrderNum}
@@ -64,14 +68,29 @@ class driverOrderListItem extends Component {
                 currentStatus={this.props.currentStatus}
                 carrierName={dataRow.carrierName}
                 carrierPlateNum={dataRow.carrierPlateNum}
+                bindGPS={() => {
+
+                }}
+                checkGPS={() =>{
+
+                }}
                 onSelect={() => {
                     if (dataRow.distributionPoint === 0) {
-                        {/*Toast.showShortCenter('暂无详情');*/}
+                        Toast.showShortCenter('暂无详情');
                         return;
                     }
                     if (this.props.type === 0) {
                         if (dataRow.stateName === '待发运' || dataRow.stateName === '已接单') {
                             // 待发运
+                            this.props.navigation.dispatch({
+                                type:RouteType.ROUTE_ORDER_SHIPPED_PAGE,
+                                params: {
+                                    transOrderList: dataRow.transOrderList,
+                                    scheduleCode: dataRow.scheduleCode,
+                                    carrierName: dataRow.carrierName,
+                                    carrierPlateNum: dataRow.carrierPlateNum,
+                                    isCompany: dataRow.isCompany                                }
+                            });
                             {/*this.props.navigation.navigate('EntryToBeShipped', {*/}
                                 {/*transOrderList: dataRow.transOrderList,*/}
                                 {/*scheduleCode: dataRow.scheduleCode,*/}
@@ -80,13 +99,21 @@ class driverOrderListItem extends Component {
                                 {/*isCompany: dataRow.isCompany,*/}
                                 {/*successCallBack: () => {*/}
                                     {/*// 刷新*/}
-                                    {/*setTimeout(() => {*/}
-                                        {/*this.onRefresh();*/}
-                                    {/*}, 500);*/}
+                                    {/*// setTimeout(() => {*/}
+                                    {/*//     this.onRefresh();*/}
+                                    {/*// }, 500);*/}
                                 {/*},*/}
                             {/*});*/}
                         } else {
                             // 待签收、待回单、已完成
+                            this.props.navigation.dispatch({
+                                type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
+                                params: {
+                                    transOrderList: dataRow.transOrderList,
+                                    carrierName: dataRow.carrierName,
+                                    carrierPlateNum: dataRow.carrierPlateNum,
+                                }
+                            });
                             {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
                                 {/*transOrderList: dataRow.transOrderList,*/}
                                 {/*carrierName: dataRow.carrierName,*/}
@@ -96,6 +123,15 @@ class driverOrderListItem extends Component {
 
                     } else if (this.props.type === 1) {
                         // 待发运，跳转到 待发运
+                        this.props.navigation.dispatch({
+                            type:RouteType.ROUTE_ORDER_SHIPPED_PAGE,
+                            params: {
+                                transOrderList: dataRow.transOrderList,
+                                scheduleCode: dataRow.scheduleCode,
+                                carrierName: dataRow.carrierName,
+                                carrierPlateNum: dataRow.carrierPlateNum,
+                                isCompany: dataRow.isCompany                                }
+                        });
                         {/*this.props.navigation.navigate('EntryToBeShipped', {*/}
                             {/*transOrderList: dataRow.transOrderList,*/}
                             {/*scheduleCode: dataRow.scheduleCode,*/}
@@ -112,16 +148,24 @@ class driverOrderListItem extends Component {
                                 {/*// this.setState({*/}
                                 {/*// isLoadallMore: true,*/}
                                 {/*// });*/}
-                                {/*delete shipListData[rowID];*/}
-                                {/*this.setState({*/}
-                                    {/*dataSourceShip: this.state.dataSourceShip.cloneWithRows(shipListData)*/}
-                                {/*});*/}
+                                {/*// delete shipListData[rowID];*/}
+                                {/*// this.setState({*/}
+                                {/*//     dataSourceShip: this.state.dataSourceShip.cloneWithRows(shipListData)*/}
+                                {/*// });*/}
                                 {/*//},500);*/}
                                 {/*// });*/}
                             {/*},*/}
                         {/*});*/}
                     } else {
                         // 其他的都跳转到  ORDER_ENTRY_TO_BE_SIGNIN
+                        this.props.navigation.dispatch({
+                            type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
+                            params: {
+                                transOrderList: dataRow.transOrderList,
+                                carrierName: dataRow.carrierName,
+                                carrierPlateNum: dataRow.carrierPlateNum,
+                            }
+                        });
                         {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
                             {/*transOrderList: dataRow.transOrderList,*/}
                             {/*carrierName: dataRow.carrierName,*/}
@@ -132,7 +176,8 @@ class driverOrderListItem extends Component {
             />
         );
     }
-    renderRowItem(dataRow) {
+    renderRowItem(data) {
+        const dataRow = data.item;
         if (this.props.currentStatus == 'driver') {
             if ( dataRow.transCodeNum !== 0) {
                 return (
@@ -236,6 +281,11 @@ class driverOrderListItem extends Component {
         }
         loadMoreAction(type)
     }
+    _renderSeparator() {
+        return (
+            <View style={styles.divideLine} />
+        );
+    }
 
     _listEmptyComponent(){
         return (
@@ -249,9 +299,9 @@ class driverOrderListItem extends Component {
         return index;
     }
     render() {
-        const {dataSource,type,currentStatus} = this.props;
+        const {dataSource, type, currentStatus} = this.props;
         return (
-            <View style={{flex: 1, backgroundColor: '#f0f2f5', paddingTop: 10}}>
+            <View style={{flex: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,}}>
                 <FlatList
                     style={{flex:1}}
                     onRefresh={()=>{
@@ -260,12 +310,13 @@ class driverOrderListItem extends Component {
                     }}
                     refreshing={dataSource.get('isRefreshing')}
                     data={ dataSource.get('list').toJS() || []}
-                    renderItem={type === 3 ? this.renderRowItem : this.renderRow}
+                    renderItem={type === 2 ? this.renderRowItem : this.renderRow}
                     keyExtractor={this._keyExtractor}
                     extraData={this.state}
                     onEndReachedThreshold={0.1}
                     enableEmptySections={true}
                     onEndReached={ this._toEnd.bind(this) }
+                    ItemSeparatorComponent={this._renderSeparator}
                     ListFooterComponent={this._renderFooter.bind(this)}
                     ListEmptyComponent={this._listEmptyComponent()}/>
             </View>
@@ -283,6 +334,10 @@ const styles = StyleSheet.create({
         color: StaticColor.LIGHT_GRAY_TEXT_COLOR,
         textAlign: 'center',
         marginTop: 14,
+    },
+    divideLine: {
+        height: 10,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
     },
 })
 
