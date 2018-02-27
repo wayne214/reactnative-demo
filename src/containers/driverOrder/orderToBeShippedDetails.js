@@ -227,7 +227,7 @@ export default class OrderDetails extends Component {
                         taskInfo ?
                             <ImageBackground source={TaskBackground} style={styles.imageBackground} resizeMode='stretch'>
                                 <View style={styles.constantStyle}>
-                                    <Text style={styles.constantIcon}>&#xe66d;</Text>
+                                    <Text style={styles.constantIcon}>&#xe68b;</Text>
                                     <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>
@@ -243,7 +243,7 @@ export default class OrderDetails extends Component {
                             </ImageBackground> :
                             <View>
                                 <View style={[styles.constantStyle, {marginLeft: 5}]}>
-                                    <Text style={styles.constantIcon}>&#xe66d;</Text>
+                                    <Text style={styles.constantIcon}>&#xe68b;</Text>
                                     <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>
@@ -258,14 +258,14 @@ export default class OrderDetails extends Component {
                         onSelectAddr={() => {
                             this.props.addressMapSelect(index, 'departure');
                         }}
-                        isShowContactAndPhone={true}
+                        isShowContactAndPhone={false}
                     />
                     <DetailsRedUserCell
                         deliveryInfo={deliveryInfo}
                         onSelectAddr={() => {
                             this.props.addressMapSelect(index, 'receive');
                         }}
-                        isShowContactAndPhone={true}
+                        isShowContactAndPhone={false}
                     />
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}}/>
                     <TitlesCell title="货品信息" showArrowIcon={true} onPress={(value) => { this.showGoodInfoList(value); }}/>

@@ -24,6 +24,7 @@ import StorageKey from '../../constants/storageKeys';
 import * as StaticColor from '../../constants/colors';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import {fetchData} from '../../action/app';
 
 let userID = '';
 let userName = '';
@@ -133,7 +134,7 @@ class entryToBeSignin extends Component {
         this.timeout && clearTimeout(this.timeout);
         this.listener.remove();
     }
-// 获取当前位置
+    // 获取当前位置
     getCurrentPosition() {
         Geolocation.getCurrentPosition().then(data => {
             console.log('position =',JSON.stringify(data));
@@ -208,10 +209,10 @@ class entryToBeSignin extends Component {
     // 获取数据成功回调
     getSignInSuccessCallBack() {
         lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '签收页面');
-        // DeviceEventEmitter.emit('changeToWaitSign');
-        // this.props.navigation.goBack();
+        ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '签收页面');
+        DeviceEventEmitter.emit('changeToWaitSign');
+        this.props.navigation.goBack();
     }
 
     // 获取数据失败回调
@@ -226,34 +227,16 @@ class entryToBeSignin extends Component {
 
     getOrderDetailInfo() {
         currentTime = new Date().getTime();
-        // 传递参数
-        // HTTPRequest({
-        //     url: API.API_NEW_GET_GOODS_SOURCE,
-        //     params: {
-        //         transCodeList: this.state.transOrderList,
-        //         plateNumber: this.props.plateNumber
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.sendOderSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.sendOderFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
+        this.props._getOrderDetail({
+            transCodeList: this.state.transOrderList,
+            plateNumber: '京LPL001'
+            // plateNumber: this.props.plateNumber
+        }, (responseData) => {
+            this.sendOderSuccessCallBack(responseData);
+        })
     }
     // 获取数据成功回调
     sendOderSuccessCallBack(result) {
-        console.log('全部====', result);
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('获取订单详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待签收订单详情页面');
@@ -581,6 +564,21 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        // 获取订单详情
+        _getOrderDetail: (params, callBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_GET_GOODS_SOURCE,
+                success: data => {
+                    console.log('get order details success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error)
+                }
+            }))
+        }
     };
 }
 
