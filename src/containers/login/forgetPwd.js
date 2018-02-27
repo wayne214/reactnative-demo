@@ -18,11 +18,9 @@ import {
 } from 'react-native';
 import Toast from '@remobile/react-native-toast';
 import {Geolocation} from 'react-native-baidu-map-xzx';
-
+import NavigatorBar from '../../components/common/navigatorbar';
 import CountDownButton from '../../components/home/timerButton';
 import Loading from '../../utils/loading';
-
-
 import {
     LIGHT_GRAY_TEXT_COLOR,
     WHITE_COLOR,
@@ -201,6 +199,16 @@ export default class forgetPWD extends Component {
         }
     }
 
+    static navigationOptions = ({navigation}) => {
+        const {state, setParams} = navigation
+        return {
+            tabBarLabel: '忘记密码',
+            header: <NavigatorBar
+                title='忘记密码'
+                hiddenBackIcon={false}
+                router={navigation}/>,
+        }
+    };
 
     render() {
         const navigator = this.props.navigation;

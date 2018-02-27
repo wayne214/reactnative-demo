@@ -11,6 +11,8 @@ import {
     setUserNameAction
 } from "../action/user";
 import {connect} from "react-redux";
+import * as RouteType from '../constants/routeType';
+import Toast from '@remobile/react-native-toast';
 
 class LoginCharacter {
 
@@ -203,7 +205,7 @@ class LoginCharacter {
             }
 
             props.navigation.dispatch({
-                type: 'Main',
+                type: RouteType.ROUTE_HOME_PAGE,
                 mode: 'reset',
                 params: {title: '', currentTab: 'route', insiteNotice: '123'}
             })

@@ -257,7 +257,7 @@ class Login extends BaseComponent {
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
             this.props.setCurrentCharacterAction('driver')
-            // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'driverHome' , insiteNotice:'123'} })
+            // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
 
             this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
 
@@ -564,7 +564,9 @@ class Login extends BaseComponent {
                     <Text
                         style={styles.screenEndViewText}
                         onPress={() => {
-                            this.props.navigation.navigate('RegisterStepOne');
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_REDISTER_STEP_ONE,
+                            })
                         }}
                     >
                         立即注册

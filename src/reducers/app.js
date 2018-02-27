@@ -59,7 +59,7 @@ const initState = Immutable.fromJS({
     driverTabs: [
         {
             title: '首页',
-            key: 'driverHome',
+            key: 'Home',
             badgeCount: 0,
             withStatusBar: true,
             renderIcon: require('../../assets/img/app/icon_route.png'),
