@@ -93,7 +93,11 @@ import ModifyPwdScreen from '../containers/mine/modifyPassword';
 import AboutUsScreen from '../containers/mine/aboutUs';
 import DriverSettingScreen from '../containers/mine/setting';
 
+// 认证
 import DriverVerified from '../containers/driverVerified/driverVerified';
+import DriverVerifiedDetail from '../containers/driverVerified/verifiedState';
+import TakeCamera from '../containers/driverVerified/takeCamera';
+import TakeCameraEnd from '../containers/driverVerified/takeCameraEnd';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -591,6 +595,24 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
         }
     },
+    [RouteType.ROUTE_TAKE_CAMEAR]: {
+        screen: TakeCamera,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_TAKE_CAMEAR_END]: {
+        screen: TakeCameraEnd,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DRIVER_VERIFIED_DETAIL]: {
+        screen: DriverVerifiedDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

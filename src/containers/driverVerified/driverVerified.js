@@ -43,6 +43,7 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import HTTPRequest from '../../utils/httpRequest';
 import StorageKey from '../../constants/storageKeys';
 import Validator from '../../utils/validator';
+import * as RouteType from '../../constants/routeType';
 
 /*
 import {
@@ -373,10 +374,12 @@ class Verified extends Component {
 
     /*选择相机*/
     selectedcamera() {
-        this.props.navigation.navigate('TakeCamearPage', {
-            cameraType: selectType,
-            verifiedType: 1,
-        });
+
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CAMEAR,
+            params: {
+                cameraType: selectType,
+                verifiedType: 1,}
+        })
 
     }
 
@@ -862,10 +865,10 @@ class Verified extends Component {
                 idNum: this.state.IDCard,
                 idValidUntil: date,
                 motorcycleType: this.state.motorcycleType,
-                phoneNum: userPhone,
-                userId: userID,
-                userName: this.state.IDName,
-                companyPhone: userPhone,
+                phoneNum: '12356234',//userPhone
+                userId: '12376543',//userID
+                userName: 'qwer',//this.state.IDName
+                companyPhone: '12356234',//userPhone
 
                 // 默认
                 idCardNameRecognition: this.state.idCardNameRecognition, //识别身份证姓名
@@ -1006,6 +1009,8 @@ class Verified extends Component {
             <View style={styles.container}>
                 <NavigatorBar
                     title='司机认证'
+                    router={this.props.navigation}
+                    hiddenBackIcon={false}
                     backViewClick={()=>{
                         let info = {
                             appLoading: false,

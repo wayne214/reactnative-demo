@@ -9,7 +9,6 @@ import {
 
 import Line from './verifiedLineItem';
 
-import {CachedImage} from "react-native-img-cache";
 
 const styles = StyleSheet.create({
     container:{
@@ -113,7 +112,7 @@ class verifiedDriverCardInfoItem extends Component{
                 <TouchableOpacity onPress={()=>{
                         this.imageClick();
                     }}>
-                    <CachedImage style={styles.imageStyle} source={firstImageObj}/>
+                    <Image style={styles.imageStyle} source={firstImageObj}/>
 
                     <Text style={styles.textStyle}>交强险</Text>
 
