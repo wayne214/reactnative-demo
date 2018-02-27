@@ -11,17 +11,18 @@ import {
     Platform,
     InteractionManager,
 } from 'react-native';
-import moment from 'moment';
-import NavigationBar from '../../common/navigationBar/navigationBar';
+// import moment from 'moment';
+import NavigationBar from '../../components/common/navigatorbar';
 import EntryTest from './goodsSouceDetails';
 import * as API from '../../constants/api';
-import Loading from '../../utils/loading';
+// import Loading from '../../utils/loading';
 import ChooseButtonCell from './component/chooseButtonCell';
 // import EmptyView from '../../common/emptyView/emptyView';
 import PreventDoubleClickUtil from '../../utils/prventMultiClickUtil';
 import Toast from '../../utils/toast';
+import {fetchData} from "../../action/app";
 
-import CountdownWithText from './component/countdownWithText';
+// import CountdownWithText from './component/countdownWithText';
 import HTTPRequest from '../../utils/httpRequest';
 
 
@@ -65,12 +66,12 @@ class entryGoodsDetail extends Component {
             scheduleStatus: params.scheduleStatus,
             loading: false, // 加载框
             isShowEmptyView: false,
-            allocationModel: params.allocationModel,
-            bidEndTime: params.bidEndTime !== null && params.bidEndTime !== '' ? params.bidEndTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-            bidStartTime: params.bidStartTime !== null && params.bidStartTime !== '' ? params.bidStartTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-            show: (Date.parse(new Date(params.bidStartTime && params.bidStartTime !== '' ? params.bidStartTime.replace(/-/g,"/") : new Date())) - Date.parse(new Date)) <= 0 ? false : true,
-            idBiddingModel: params.allocationModel && params.allocationModel !== '10' ,
-            refPrice: params.refPrice && params.refPrice !== '' ? params.refPrice : 0,
+            // allocationModel: params.allocationModel,
+            // bidEndTime: params.bidEndTime !== null && params.bidEndTime !== '' ? params.bidEndTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+            // bidStartTime: params.bidStartTime !== null && params.bidStartTime !== '' ? params.bidStartTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+            // show: (Date.parse(new Date(params.bidStartTime && params.bidStartTime !== '' ? params.bidStartTime.replace(/-/g,"/") : new Date())) - Date.parse(new Date)) <= 0 ? false : true,
+            // idBiddingModel: params.allocationModel && params.allocationModel !== '10' ,
+            // refPrice: params.refPrice && params.refPrice !== '' ? params.refPrice : 0,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -142,37 +143,41 @@ class entryGoodsDetail extends Component {
         currentTime = new Date().getTime();
         // 传递参数
         console.log('transOrderList', this.state.transOrderList);
-        HTTPRequest({
-            url: API.API_NEW_GET_GOODS_SOURCE,
-            params: {
-                transCodeList: this.state.transOrderList,
-            },
-            loading: ()=>{
-                this.setState({
-                    loading: true,
-                });
-            },
-            success: (responseData)=>{
-                console.log('success',responseData);
-                this.setState({
-                    loading: false,
-                }, ()=>{
-                    getOrderDetailInfoSuccessCallBack(responseData.result);
-                });
+        this.props.getOrderDetailInfo({
+            transCodeList: this.state.transOrderList,
+        }, getOrderDetailInfoSuccessCallBack, getOrderDetailInfoFailCallBack);
 
-            },
-            error: (errorInfo)=>{
-                this.setState({
-                    loading: false,
-                });
-                getOrderDetailInfoFailCallBack();
-            },
-            finish: ()=>{
-                this.setState({
-                    loading: false,
-                });
-            }
-        });
+        // HTTPRequest({
+        //     url: API.API_NEW_GET_GOODS_SOURCE,
+        //     params: {
+        //         transCodeList: this.state.transOrderList,
+        //     },
+        //     loading: ()=>{
+        //         this.setState({
+        //             loading: true,
+        //         });
+        //     },
+        //     success: (responseData)=>{
+        //         console.log('success',responseData);
+        //         this.setState({
+        //             loading: false,
+        //         }, ()=>{
+        //             getOrderDetailInfoSuccessCallBack(responseData.result);
+        //         });
+        //
+        //     },
+        //     error: (errorInfo)=>{
+        //         this.setState({
+        //             loading: false,
+        //         });
+        //         getOrderDetailInfoFailCallBack();
+        //     },
+        //     finish: ()=>{
+        //         this.setState({
+        //             loading: false,
+        //         });
+        //     }
+        // });
     }
 
     // 获取数据成功回调
@@ -235,93 +240,19 @@ class entryGoodsDetail extends Component {
      * */
     receiveGoodsAction(receiveGoodsSuccessCallBack, receiveGoodsFailCallBack) {
         currentTime = new Date().getTime();
-        console.log('this.props.ownerName', this.props.ownerName);
-        if(this.props.currentStatus == 'driver'){
-            // 传递参数
-            HTTPRequest({
-                url: API.API_NEW_DRIVER_RECEIVE_ORDER,
-                params: {
-                    userId: global.userId,
-                    userName: global.userName,
-                    plateNumber: this.props.plateNumber,
-                    dispatchCode: this.state.scheduleCode,
-                },
-                loading: ()=>{
-                    this.setState({
-                        loading: true,
-                    });
-                },
-                success: (responseData)=>{
-                    console.log('success',responseData);
-                    this.setState({
-                        loading: false,
-                    }, ()=>{
-                        receiveGoodsSuccessCallBack(responseData.result);
-                    });
-
-                },
-                error: (errorInfo)=>{
-                    this.setState({
-                        loading: false,
-                    }, () => {
-                        receiveGoodsFailCallBack();
-                    });
-                },
-                finish: ()=>{
-                    this.setState({
-                        loading: false,
-                    });
-                }
-            });
-        }else {
-            if(this.props.ownerName){
-                // 传递参数
-                HTTPRequest({
-                    url: API.API_NEW_CARRIER_RECEIVE_ORDER,
-                    params: {
-                        userId: '',
-                        userName: this.props.ownerName,
-                        carrierCode: this.props.carrierCode,
-                        dispatchNo: this.state.scheduleCode,
-                    },
-                    loading: ()=>{
-                        this.setState({
-                            loading: true,
-                        });
-                    },
-                    success: (responseData)=>{
-                        console.log('success',responseData);
-                        this.setState({
-                            loading: false,
-                        }, ()=>{
-                            receiveGoodsSuccessCallBack(responseData.result);
-                        });
-
-                    },
-                    error: (errorInfo)=>{
-                        this.setState({
-                            loading: false,
-                        }, () => {
-                            receiveGoodsFailCallBack();
-                        });
-                    },
-                    finish: ()=>{
-                        this.setState({
-                            loading: false,
-                        });
-                    }
-                });
-            }else {
-                Toast.show('接单失败!');
-            }
-        }
+        this.props.receiveGoods({
+            userId: global.userId,
+            userName: global.userName,
+            plateNumber: this.props.plateNumber,
+            dispatchCode: this.state.scheduleCode,
+        }, receiveGoodsSuccessCallBack, receiveGoodsFailCallBack);
     }
 
     // 获取数据成功回调
     receiveGoodsSuccessCallBack() {
         lastTime = new Date().getTime();
-        ReadAndWriteFileUtil.appendFile('接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-            locationData.district, lastTime - currentTime, '货源详情页面');
+        // ReadAndWriteFileUtil.appendFile('接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+        //     locationData.district, lastTime - currentTime, '货源详情页面');
         Toast.show('接单成功!');
         DeviceEventEmitter.emit('refreshHome');
         if (this.props.navigation.state.params.getOrderSuccess) {
@@ -345,54 +276,19 @@ class entryGoodsDetail extends Component {
      * */
     refusedGoodsAction(refusedGoodsSuccessCallBack, refusedGoodsFailCallBack) {
         currentTime = new Date().getTime();
-        // 传递参数
-        HTTPRequest({
-            url: this.props.currentStatus == 'driver' ? API.API_NEW_DRIVER_REFUSE_ORDER : API.API_NEW_CARRIER_REFUSE_ORDER,
-            params: this.props.currentStatus == 'driver' ? {
-                userId: global.userId,
-                userName: global.userName,
-                plateNumber: this.props.plateNumber,
-                dispatchCode: this.state.scheduleCode,
-            } : {
-                userId: global.userId,
-                userName: global.userName,
-                carrierCode: this.props.carrierCode,
-                dispatchNo: this.state.scheduleCode,
-            },
-            loading: ()=>{
-                this.setState({
-                    loading: true,
-                });
-            },
-            success: (responseData)=>{
-                console.log('success',responseData);
-                this.setState({
-                    loading: false,
-                }, ()=>{
-                    refusedGoodsSuccessCallBack(responseData.result);
-                });
-
-            },
-            error: (errorInfo)=>{
-                this.setState({
-                    loading: false,
-                }, () => {
-                    refusedGoodsFailCallBack();
-                });
-            },
-            finish: ()=>{
-                this.setState({
-                    loading: false,
-                });
-            }
-        });
+        this.props.refusedGoods({
+            userId: global.userId,
+            userName: global.userName,
+            plateNumber: this.props.plateNumber,
+            dispatchCode: this.state.scheduleCode,
+        },refusedGoodsSuccessCallBack, refusedGoodsFailCallBack);
     }
 
     // 获取数据成功回调
     refusedGoodsSuccessCallBack() {
         lastTime = new Date().getTime();
-        ReadAndWriteFileUtil.appendFile('拒单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-            locationData.district, lastTime - currentTime, '货源详情页面');
+        // ReadAndWriteFileUtil.appendFile('拒单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+        //     locationData.district, lastTime - currentTime, '货源详情页面');
         Toast.show('拒单成功!');
         DeviceEventEmitter.emit('refreshHome');
         DeviceEventEmitter.emit('resetGood');
@@ -432,9 +328,9 @@ class entryGoodsDetail extends Component {
             <View>
                 <NavigationBar
                     title={'订单详情'}
-                    navigator={navigator}
-                    leftButtonHidden={false}
-                    backIconClick={() => {
+                    router={navigator}
+                    hiddenBackIcon={false}
+                    backViewClick={() => {
                         navigator.goBack();
                         DeviceEventEmitter.emit('resetGood');
                     }}
@@ -481,7 +377,7 @@ class entryGoodsDetail extends Component {
             }}>
                 <NavigationBar
                     title={'订单详情'}
-                    navigator={navigator}
+                    router={navigator}
                     hiddenBackIcon={false}
                 />
                 <View style={{height: 20, marginTop: 10, width: screenWidth,}}>
@@ -603,8 +499,56 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         changeOrderTab: (orderTab) => {
-            dispatch(mainPressAction(orderTab));
+            // dispatch(mainPressAction(orderTab));
         },
+        receiveGoods: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                // showLoading: true,
+                api: API.API_NEW_DRIVER_RECEIVE_ORDER,
+                success: data => {
+                    console.log('-login_data', data);
+                    successCallback(data);
+                    // dispatch(loadUser(data));
+                },
+                fail: (data) => {
+                    failCallback();
+                }
+            }))
+        },
+        refusedGoods: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                // showLoading: true,
+                api: API.API_NEW_DRIVER_REFUSE_ORDER,
+                success: data => {
+                    console.log('-login_data', data);
+                    successCallback(data);
+                    // dispatch(loadUser(data));
+                },
+                fail: (data) => {
+                    failCallback();
+                }
+            }))
+        },
+        getOrderDetailInfo: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                // showLoading: true,
+                api: API.API_NEW_GET_GOODS_SOURCE,
+                success: data => {
+                    console.log('-login_data', data);
+                    successCallback(data);
+                    // dispatch(loadUser(data));
+                },
+                fail: (data) => {
+                    failCallback();
+                }
+            }))
+        }
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(entryGoodsDetail);

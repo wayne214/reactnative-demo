@@ -106,6 +106,7 @@ import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical'
 import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
+import PersonInfoScreen from '../containers/mine/personInfo';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -653,8 +654,11 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-
-
+    [RouteType.ROUTE_PERSON_INFO]: {
+        screen: PersonInfoScreen,
+        navigationOptions: {
+        }
+    },
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

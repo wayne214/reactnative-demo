@@ -271,21 +271,21 @@ class driverGoods extends Component {
                 goodsCount={dataRow.goodsQuantity}
                 temperature={dataRow.temperature && dataRow.temperature != '0-0' ? `${dataRow.temperature}℃` : ''}
                 onSelect={() => {
-                    // this.props.navigation.navigate('GoodsDetailPage',{
-                    //     transOrderList: dataRow.transOrderList, // 运单号
-                    //     scheduleCode: dataRow.dispatchCode,
-                    //     scheduleStatus: this.state.goodStatus,
-                    //     allocationModel: dataRow.allocationModel,
-                    //     bidEndTime: dataRow.bidEndTime,
-                    //     bidStartTime: dataRow.bidBeginTime,
-                    //     refPrice: dataRow.refPrice,
-                    //     getOrderSuccess: () => {
-                    //         // 刷新
-                    //         InteractionManager.runAfterInteractions(() => {
-                    //             this.onRefresh();
-                    //         });
-                    //     },
-                    // })
+                    this.props.navigation.navigate('GoodsDetailPage',{
+                        transOrderList: dataRow.transOrderList, // 运单号
+                        scheduleCode: dataRow.dispatchCode,
+                        scheduleStatus: this.state.goodStatus,
+                        allocationModel: dataRow.allocationModel,
+                        bidEndTime: dataRow.bidEndTime,
+                        bidStartTime: dataRow.bidBeginTime,
+                        refPrice: dataRow.refPrice,
+                        getOrderSuccess: () => {
+                            // 刷新
+                            InteractionManager.runAfterInteractions(() => {
+                                this.onRefresh();
+                            });
+                        },
+                    })
                 }}
             />
         );

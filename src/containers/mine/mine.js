@@ -205,6 +205,9 @@ class mine extends Component {
                                     //         Alert.alert('提示', '实名认证被驳回');
                                     //     }
                                     // }
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_INFO, params: {
+                                        phone: '15801461058',
+                                    } })
                                 }}
                             />
                             <SettingCell

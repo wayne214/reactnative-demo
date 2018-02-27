@@ -331,8 +331,6 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `/app/transport/queryDelReceiptWit
 // 运输中
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `/app/transport/queryTransportList`;
 
-// 根据时间获取获取货源列表--司机
-export const API_NEW_GET_SOURCE_BY_DATE = '/app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
@@ -356,3 +354,18 @@ export const API_CHANGE_ACCEPT_MESSAGE = 'app/uam/jpush/setPushStatus';
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
+/********************************司机调度中心 API*************************************/
+// 取消接单
+export const API_NEW_DRIVER_CANCEL_ORDER = 'app/dpc/driverAppCancelOrder';
+// 接单--司机
+export const API_NEW_DRIVER_RECEIVE_ORDER = 'app/dpc/driverAppReceiveOrder';
+// 拒单--司机
+export const API_NEW_DRIVER_REFUSE_ORDER = 'app/dpc/driverAppRefuseOrder';
+// 根据时间获取获取货源列表--司机
+export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
+/** ****************************司机运输中心接口**********************/
+// 获取货源详情
+export const API_NEW_GET_GOODS_SOURCE = 'app/transport/goodsSource'; // 4.0版本
+/******************************司机APP资源中心接口**********************/
+// 实名认证详情接口
+export const API_AUTH_REALNAME_DETAIL = 'app/rmc/driver/queryDriverInfo/';
