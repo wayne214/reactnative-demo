@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textShadowColor: 'rgba(0, 0, 0, 0.3)',
         textShadowOffset: {
-            width: 0, height: 0.5
+            width: 0,
+            height: 0.5
         },
         textShadowRadius: 0
     },
@@ -70,6 +71,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: StaticColor.WHITE_COLOR,
         alignItems: 'center'
+    },
+    rightButton: {
+        fontSize: 16,
+        color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
     }
 
 });
@@ -513,12 +518,12 @@ class entryToBeSignin extends Component {
             <View style={styles.container}>
                 <NavigationBar
                     title={'订单详情'}
-                    navigator={navigator}
-                    leftButtonHidden={false}
-                    rightButtonConfig={this.state.isShowRightButton ? {
-                        type: 'string',
-                        title: '回单照片',
-                        onClick: this.receiptPhoto,
+                    router={navigator}
+                    hiddenBackIcon={false}
+                    optTitle={ this.state.isShowRightButton ? '回单照片' : null}
+                    optTitleStyle={styles.rightButton}
+                    firstLevelClick={this.state.isShowRightButton ? () => {
+                        this.receiptPhoto
                     } : {}}
                 />
                 {/*{*/}

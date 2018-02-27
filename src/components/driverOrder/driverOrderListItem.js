@@ -191,6 +191,12 @@ class driverOrderListItem extends Component {
                         isBatchSign={dataRow.transports.length > 1}
                         orderSignNum={dataRow.orderSignNum}
                         onSelect={() => {
+                            this.props.navigation.dispatch({
+                                type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
+                                params: {
+                                    transOrderList: dataRow.transOrderList,
+                                }
+                            });
                             {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
                                 {/*transOrderList: this.transportsList(dataRow),*/}
                             {/*})*/}

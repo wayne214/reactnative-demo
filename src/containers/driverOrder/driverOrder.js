@@ -231,15 +231,15 @@ class driverOrder extends Component {
                     style={{flex: 1, backgroundColor: '#e8e8e8'}}
                     // ref="ScrollableTabView"
                     // scrollWithoutAnimation={false}
+                    initialPage={0}
                     tabBarUnderlineStyle={styles.tabBarUnderLine}
+                    tabBarActiveTextColor={StaticColor.BLUE_CONTACT_COLOR}
+                    tabBarInactiveTextColor={StaticColor.LIGHT_BLACK_TEXT_COLOR}
+                    tabBarTextStyle={{fontSize: 14}}
+                    tabBarBackgroundColor={StaticColor.WHITE_COLOR}
                     // locked={true}
                     renderTabBar={() =>
                         <ScrollableTabBar
-                            activeTextColor={StaticColor.BLUE_CONTACT_COLOR}
-                            inactiveTextColor={StaticColor.LIGHT_BLACK_TEXT_COLOR}
-                            underlineHeight={0}
-                            textStyle={{fontSize: 14}}
-                            backgroundColor={StaticColor.WHITE_COLOR}
                             tabStyle={styles.tab}
                         />
                     }
