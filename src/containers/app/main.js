@@ -184,7 +184,8 @@ class MainContainer extends BaseComponent {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
         console.log("定位信息",global.locationData);
-      TimeToDoSomething.uploadDataFromLocalMsg();
+      //todo 上传日志开关
+      // TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
       // console.log('-------fail:', fail)
     }, {

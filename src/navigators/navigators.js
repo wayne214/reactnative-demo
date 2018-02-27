@@ -85,6 +85,7 @@ import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
+import LoginForgetPWD from '../containers/login/forgetPwd';
 
 // 账号密码登录页
 import LoginWithPwdScreen from '../containers/login/login';
@@ -588,6 +589,11 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_DRIVER_SETTING]: {
         screen: DriverSettingScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_FORGET_PASSWORD]: {
+        screen: LoginForgetPWD,
         navigationOptions: {
         }
     },
