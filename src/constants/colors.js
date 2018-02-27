@@ -78,7 +78,7 @@ export const ORANGE_TYPE_COLOR = '#FFEDDD';
 
 export const ORANGE_TYPE_TEXT_COLOR = '#FF8E56';
 
-export const BLUE_BACKGROUND_COLOR = '#008EFF';
+export const BLUE_BACKGROUND_COLOR = '#0092FF';
 
 export const BLUE_TAB_BAR_COLOR = '#008AFF';
 

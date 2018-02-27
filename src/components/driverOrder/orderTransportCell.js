@@ -19,7 +19,7 @@ import OrderStateNumView from './orderStateNumView';
 import receiveBottomArrow from '../../../assets/img/driverOrder/receive_bottom_arrow.png';
 import upArrow from '../../../assets/img/driverOrder/upArrow.png';
 import Contact from '../../../assets/img/driverOrder/contact.png';
-import locationRedIcon from '../../../assets/img/driverHome/locationRed.png';
+import locationRedIcon from '../../../assets/home/locationRed.png';
 
 const {width} = Dimensions.get('window');
 
@@ -344,7 +344,7 @@ class OrdersItemCell extends Component {
                     <View>
                         <View style={styles.titleView}>
                             <View style={styles.flexDirection}>
-                                <Text style={styles.titleIcon}>&#xe66d;</Text>
+                                <Text style={styles.titleIcon}>&#xe68b;</Text>
                                 <Text style={styles.titleText}>{receiveContact}</Text>
                             </View>
                             <View style={styles.orderNumView}>

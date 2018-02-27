@@ -131,8 +131,18 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 export const ROUTE_DRIVER_HOME_PAGE = 'ROUTE_DRIVER_HOME_PAGE';
 // 司机货源
 export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+
+/************************** 司机订单 ******************************/
+
 // 司机订单
 export const ROUTE_DRIVER_ORDER_PAGE = 'ROUTE_DRIVER_ORDER_PAGE';
+
+export const ROUTE_ORDER_SHIPPED_PAGE = 'ROUTE_ORDER_SHIPPED_PAGE';
+
+export const ROUTE_ORDER_SIGN_IN_PAGE = 'ROUTE_ORDER_SIGN_IN_PAGE';
+
+/************************** 司机订单end ******************************/
+
 // 我的页面
 export const ROUTE_MINE_PAGE = 'ROUTE_MINE_PAGE';
 // 账号密码登录页
