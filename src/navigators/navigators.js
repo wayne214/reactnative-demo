@@ -100,6 +100,10 @@ import DriverVerified from '../containers/driverVerified/driverVerified';
 import DriverVerifiedDetail from '../containers/driverVerified/verifiedState';
 import TakeCamera from '../containers/driverVerified/takeCamera';
 import TakeCameraEnd from '../containers/driverVerified/takeCameraEnd';
+import PersonCarOwnerAuth from '../containers/driverVerified/personCarOwnerAuth';
+import CompanyCarOwnerAuth from '../containers/driverVerified/companyCarOwnerAuth';
+import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical';
+import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
 
@@ -625,6 +629,32 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
         }
     },
+    [RouteType.ROUTE_PERSON_CAR_OWNER_AUTH]: {
+        screen: PersonCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH]: {
+        screen: CompanyCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL]: {
+        screen: TakeCameraVertical,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL_END]: {
+        screen: TakeCameraVerticalEnd,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

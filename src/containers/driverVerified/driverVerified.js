@@ -45,13 +45,13 @@ import StorageKey from '../../constants/storageKeys';
 import Validator from '../../utils/validator';
 import * as RouteType from '../../constants/routeType';
 
-/*
+
 import {
     setDriverCharacterAction,
     setCurrentCharacterAction,
     setUserNameAction
-} from '../../../action/user';
-*/
+} from '../../action/user';
+
 
 import idCardLeftImage from './images/IdCardModel.png';
 const idCardRightImage = require('./images/IdCardAdd.png');
@@ -1172,13 +1172,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         reloadUserName:(data)=>{
-            //dispatch(setUserNameAction(data));
+            dispatch(setUserNameAction(data));
         },
         setDriverCharacterAction: (result) => {
-            //dispatch(setDriverCharacterAction(result));
+            dispatch(setDriverCharacterAction(result));
         },
         setCurrentCharacterAction: (result) => {
-            //dispatch(setCurrentCharacterAction(result));
+            dispatch(setCurrentCharacterAction(result));
         },
     };
 }

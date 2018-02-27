@@ -341,14 +341,36 @@ class mine extends Component {
                                 leftIconImage={aboutUsIcon}
                                 content={'个人车主认证'}
                                 clickAction={() => {
-
+                                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                                            }
+                                        });
                                 }}
                             />
                             <SettingCell
                                 leftIconImage={aboutUsIcon}
                                 content={'企业车主认证'}
                                 clickAction={() => {
-
+                                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                                            }
+                                        });
                                 }}
                             />
                         </View> : <View>
