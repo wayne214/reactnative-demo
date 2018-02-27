@@ -289,8 +289,8 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#333',
-		fontSize: 16,
-		fontWeight: 'bold'
+		fontSize: 18,
+		// fontWeight: 'bold'
 	},
 	backIconView: {
 		flex: 1,

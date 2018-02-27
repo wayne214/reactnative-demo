@@ -132,20 +132,15 @@ const styles = StyleSheet.create({
         backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
     },
     batchSignView: {
-        borderRadius: 15,
-        borderColor: StaticColor.GRAY_TEXT_COLOR,
-        borderWidth: 0.5,
-        paddingTop: 7,
-        paddingBottom: 7,
-        paddingLeft: 14,
-        paddingRight: 14,
-        height: 30,
+        // borderRadius: 15,
+        // borderColor: StaticColor.GRAY_TEXT_COLOR,
+        // borderWidth: 0.5,,
     },
     batchSignContainer: {
-        paddingTop: 7,
-        paddingBottom: 7,
-        paddingRight: 10,
-        alignItems: 'flex-end',
+        marginLeft: 15,
+        marginRight: 15,
+        marginTop: 10,
+        marginBottom: 10,
     },
     arrowStyle:{
         height: 45,
@@ -158,9 +153,17 @@ const styles = StyleSheet.create({
     orderTimeStyle: {
         marginLeft: 15,
         marginTop: 10,
-        color: '#999999',
+        color: StaticColor.GRAY_TEXT_COLOR,
         fontSize: 12
     },
+    buttonText: {
+        fontSize: 17,
+        color: StaticColor.WHITE_COLOR,
+        backgroundColor: StaticColor.BLUE_BACKGROUND_COLOR,
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlign: 'center'
+    }
 });
 
 class OrdersItemCell extends Component {
@@ -193,9 +196,6 @@ class OrdersItemCell extends Component {
     }
 
     renderItem(item, i) {
-        console.log('item.customerOrderCode',item.customerOrderCode);
-        console.log('item.transCode',item.transCode);
-        console.log('transCodeArray',this.state.transCodeArray, i);
         return (
             <View key={i} style={{marginTop: 13}}>
                 <View style={styles.orderDetailCell}>
@@ -232,15 +232,9 @@ class OrdersItemCell extends Component {
         let transport1;
         if(ordersNum > 1){
             transport1 = transCodeList[1];
-            console.log('transport1',transport1);
-            console.log('transport1.customerOrderCode',transport1.customerOrderCode);
-            console.log('transport1.transCode',transport1.transCode);
         }
-        console.log('transport',transport);
-        console.log('transport.customerOrderCode',transport.customerOrderCode);
-        console.log('transport.transCode',transport.transCode);
         const batchSignView = <View>
-                <View style={styles.separateLine}/>
+                <View style={{height: 0.5, backgroundColor: StaticColor.DEVIDE_LINE_COLOR}}/>
                 <View style={styles.batchSignContainer}>
                     <TouchableOpacity
                         onPress={() => {
@@ -260,7 +254,7 @@ class OrdersItemCell extends Component {
                         }}
                     >
                         <View style={styles.batchSignView}>
-                            <Text style={styles.textSizeNum}>批量签收</Text>
+                            <Text style={styles.buttonText}>批量签收</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
