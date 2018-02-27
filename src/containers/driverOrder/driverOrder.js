@@ -6,7 +6,7 @@ import {
     StyleSheet,
     FlatList,
 } from 'react-native';
-// import {Geolocation} from 'react-native-baidu-map-xzx';
+import {Geolocation} from 'react-native-baidu-map-xzx';
 import NavigationBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import * as StaticColor from '../../constants/colors';
@@ -55,14 +55,14 @@ class driverOrder extends Component {
     }
 
     // 获取当前位置
-    // getCurrentPosition() {
-    //     Geolocation.getCurrentPosition().then(data => {
-    //         console.log('position =', JSON.stringify(data));
-    //         locationData = data;
-    //     }).catch(e => {
-    //         console.log(e, 'error');
-    //     });
-    // }
+    getCurrentPosition() {
+        Geolocation.getCurrentPosition().then(data => {
+            console.log('position =', JSON.stringify(data));
+            locationData = data;
+        }).catch(e => {
+            console.log(e, 'error');
+        });
+    }
 
     _refreshList(tabIndex = this.state.tabIndex) {
         console.log('do something to refresh list ', tabIndex);
@@ -70,58 +70,69 @@ class driverOrder extends Component {
             case 0:
                 console.log('订单全部界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
-                    if (global.plateNumber) {
+                    // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: 1,
                             pageSize: 10,
-                            phone: this.state.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.state.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'AAA'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
-                    }
+                    // }
                 }
                 break;
             case 1:
                 console.log('订单待发运界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
-                    if(global.plateNumber) {
+                    // if(global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: 1,
                             pageSize: 10,
-                            phone: this.state.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.state.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'BBB'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);                    }
+                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                    // }
                 }
                 break;
             case 2:
                 console.log('订单待签收界面', tabIndex);
-                if(this.state.currentStatus == 'driver') {
-                    if(global.plateNumber){
+                if(this.props.currentStatus == 'driver') {
+                    // if(global.plateNumber){
                         this.props._requestDriverOrderList({
+                            carrierCode: '',
                             pageNum: 1,
                             pageSize: 10,
-                            phoneNum: global.phone,
-                            plateNumber: this.props.plateNumber,
+                            // phoneNum: global.phone,
+                            // plateNumber: this.props.plateNumber,
+                            phoneNum: '15801461058',
+                            plateNumber: '京LPL001',
+                            queryType: ''
                         }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
-                    }
+                    // }
                 }
                 break;
             case 3:
                 console.log('订单待回单界面', tabIndex);
-                if(this.state.currentStatus == 'driver') {
-                    if (global.plateNumber) {
+                if(this.props.currentStatus == 'driver') {
+                    // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: 1,
                             pageSize: 10,
-                            phone: this.props.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.props.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'DDD'
                         }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
-                    }
+                    // }
                 }
                 break;
         }
@@ -135,58 +146,67 @@ class driverOrder extends Component {
             case 0:
                 console.log('订单全部界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
-                    if (global.plateNumber) {
+                    // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: target.get('pageNum') + 1,
                             pageSize: 10,
-                            phone: this.state.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.state.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'AAA'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
-                    }
+                    // }
                 }
                 break;
             case 1:
                 console.log('订单待发运界面', tabIndex);
                 if (this.props.currentStatus == 'driver') {
-                    if(global.plateNumber) {
+                    // if(global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: target.get('pageNum') + 1,
                             pageSize: 10,
-                            phone: this.state.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.state.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.state.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'BBB'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);                    }
+                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                    // }
                 }
                 break;
             case 2:
                 console.log('订单待签收界面', tabIndex);
-                if(this.state.currentStatus == 'driver') {
-                    if(global.plateNumber){
-                        this._requestDriverOrderList({
+                if(this.props.currentStatus == 'driver') {
+                    // if(global.plateNumber){
+                        this.props._requestDriverOrderList({
                             pageNum: target.get('pageNum') + 1,
                             pageSize: 10,
-                            phoneNum: global.phone,
-                            plateNumber: this.props.plateNumber,
+                            // phoneNum: global.phone,
+                            // plateNumber: this.props.plateNumber,
+                            phoneNum: '15801461058',
+                            plateNumber: '京LPL001',
                         }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
-                    }
+                    // }
                 }
                 break;
             case 3:
                 console.log('订单待回单界面', tabIndex);
-                if(this.state.currentStatus == 'driver') {
-                    if (global.plateNumber) {
+                if(this.props.currentStatus == 'driver') {
+                    // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             carrierCode: '',
                             page: target.get('pageNum') + 1,
                             pageSize: 10,
-                            phone: this.props.currentStatus == 'driver' ? global.phone : '',
-                            plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            // phone: this.props.currentStatus == 'driver' ? global.phone : '',
+                            // plateNumber: this.props.currentStatus == 'driver' ? this.props.plateNumber : '',
+                            phone: '15801461058',
+                            plateNumber: '京LPL001',
                             queryType: 'DDD'
                         }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
-                    }
+                    // }
                 }
                 break;
         }
@@ -211,15 +231,15 @@ class driverOrder extends Component {
                     style={{flex: 1, backgroundColor: '#e8e8e8'}}
                     // ref="ScrollableTabView"
                     // scrollWithoutAnimation={false}
+                    initialPage={0}
                     tabBarUnderlineStyle={styles.tabBarUnderLine}
+                    tabBarActiveTextColor={StaticColor.BLUE_CONTACT_COLOR}
+                    tabBarInactiveTextColor={StaticColor.LIGHT_BLACK_TEXT_COLOR}
+                    tabBarTextStyle={{fontSize: 14}}
+                    tabBarBackgroundColor={StaticColor.WHITE_COLOR}
                     // locked={true}
                     renderTabBar={() =>
                         <ScrollableTabBar
-                            activeTextColor={StaticColor.BLUE_CONTACT_COLOR}
-                            inactiveTextColor={StaticColor.LIGHT_BLACK_TEXT_COLOR}
-                            underlineHeight={0}
-                            textStyle={{fontSize: 14}}
-                            backgroundColor={StaticColor.WHITE_COLOR}
                             tabStyle={styles.tab}
                         />
                     }

@@ -83,6 +83,8 @@ import HomeScreen from '../containers/home/home';
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 // 司机订单
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
+import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
+import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -95,7 +97,17 @@ import ModifyPwdScreen from '../containers/mine/modifyPassword';
 import AboutUsScreen from '../containers/mine/aboutUs';
 import DriverSettingScreen from '../containers/mine/setting';
 
+// 认证
 import DriverVerified from '../containers/driverVerified/driverVerified';
+import DriverVerifiedDetail from '../containers/driverVerified/verifiedState';
+import TakeCamera from '../containers/driverVerified/takeCamera';
+import TakeCameraEnd from '../containers/driverVerified/takeCameraEnd';
+import PersonCarOwnerAuth from '../containers/driverVerified/personCarOwnerAuth';
+import CompanyCarOwnerAuth from '../containers/driverVerified/companyCarOwnerAuth';
+import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical';
+import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
+// 选择车辆
+import ChooseCarScreen from '../containers/mine/chooseCar';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -540,14 +552,23 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {
         screen: DriverGoodSourceScreen,
         navigationOptions: {
-            // headerTitle: '申请协调',
-            // headerStyle: {backgroundColor: 'white'},
-            // headerBackTitle: null,
-            // headerTintColor: 'black'
+            header: null
         }
     },
     [RouteType.ROUTE_DRIVER_ORDER_PAGE]: {
         screen: DriverOrderScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ORDER_SHIPPED_PAGE]: {
+        screen: EntryToBeShippedScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ORDER_SIGN_IN_PAGE]: {
+        screen: EntryToBeSignInScreen,
         navigationOptions: {
             header: null
         }
@@ -603,6 +624,53 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
         }
     },
+    [RouteType.ROUTE_TAKE_CAMEAR]: {
+        screen: TakeCamera,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_TAKE_CAMEAR_END]: {
+        screen: TakeCameraEnd,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DRIVER_VERIFIED_DETAIL]: {
+        screen: DriverVerifiedDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CHOOSE_CAR]: {
+        screen: ChooseCarScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_PERSON_CAR_OWNER_AUTH]: {
+        screen: PersonCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH]: {
+        screen: CompanyCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL]: {
+        screen: TakeCameraVertical,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL_END]: {
+        screen: TakeCameraVerticalEnd,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

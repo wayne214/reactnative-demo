@@ -131,8 +131,18 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
 // 司机货源
 export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+
+/************************** 司机订单 ******************************/
+
 // 司机订单
 export const ROUTE_DRIVER_ORDER_PAGE = 'ROUTE_DRIVER_ORDER_PAGE';
+
+export const ROUTE_ORDER_SHIPPED_PAGE = 'ROUTE_ORDER_SHIPPED_PAGE';
+
+export const ROUTE_ORDER_SIGN_IN_PAGE = 'ROUTE_ORDER_SIGN_IN_PAGE';
+
+/************************** 司机订单end ******************************/
+
 // 我的页面
 export const ROUTE_MINE_PAGE = 'ROUTE_MINE_PAGE';
 // 账号密码登录页
@@ -141,6 +151,21 @@ export const ROUTE_LOGIN_WITH_PWD_PAGE = 'ROUTE_LOGIN_WITH_PWD_PAGE';
 export const ROUTE_LOGIN_WITH_SMS_PAGE = 'ROUTE_LOGIN_WITH_SMS_PAGE';
 //司机认证
 export const ROUTE_DRIVER_VERIFIED = 'ROUTE_DRIVER_VERIFIED';
+//个人车主认证
+export const ROUTE_PERSON_CAR_OWNER_AUTH = 'ROUTE_PERSON_CAR_OWNER_AUTH';
+//企业车主认证
+export const ROUTE_COMPANY_CAR_OWNER_AUTH = 'ROUTE_COMPANY_CAR_OWNER_AUTH';
+// 认证拍照 竖
+export const ROUTE_TAKE_CEMARA_VERTICAL = 'ROUTE_TAKE_CEMARA_VERTICAL';
+// 认证拍照 竖 结果
+export const ROUTE_TAKE_CEMARA_VERTICAL_END = 'ROUTE_TAKE_CEMARA_VERTICAL_END';
+//司机认证详情
+export const ROUTE_DRIVER_VERIFIED_DETAIL = 'ROUTE_DRIVER_VERIFIED_DETAIL';
+// 认证拍照 横
+export const ROUTE_TAKE_CAMEAR = 'ROUTE_TAKE_CAMEAR';
+// 认证拍照 横 结果
+export const ROUTE_TAKE_CAMEAR_END = 'ROUTE_TAKE_CAMEAR_END';
+
 // 修改密码
 export const ROUTE_MODIFY_PWD = 'ROUTE_MODIFY_PWD';
 // 设置
@@ -149,3 +174,5 @@ export const ROUTE_DRIVER_SETTING = 'ROUTE_DRIVER_SETTING';
 export const ROUTE_FORGET_PASSWORD = 'ROUTE_FORGET_PASSWORD';
 // 注册第一步
 export const ROUTE_REDISTER_STEP_ONE = 'ROUTE_REDISTER_STEP_ONE';
+// 选择车辆
+export const ROUTE_CHOOSE_CAR = 'ROUTE_CHOOSE_CAR';

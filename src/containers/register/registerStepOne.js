@@ -22,7 +22,14 @@ import CountDownButton from '../../components/home/timerButton';
 import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 
 import BlueButtonArc from '../../../assets/button/blueButtonArc.png';
-import * as StaticColor from '../../constants/staticColor';
+import {
+    COLOR_VIEW_BACKGROUND,
+    WHITE_COLOR,
+    BLACK_COLOR,
+    DEVIDE_LINE_COLOR,
+    GRAY_TEXT_COLOR,
+    BLUE_CONTACT_COLOR,
+} from '../../constants/colors';
 import * as API from '../../constants/api';
 import Validator from '../../utils/validator';
 
@@ -36,11 +43,11 @@ const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+        backgroundColor: COLOR_VIEW_BACKGROUND,
     },
     registeredTitle: {
         fontSize: 20,
-        color: StaticColor.WHITE_COLOR,
+        color: WHITE_COLOR,
         backgroundColor: 'transparent',
         fontWeight: 'bold',
         marginTop: 18
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     verticalLine: {
         height: 45,
         width: 1,
-        backgroundColor: StaticColor.DEVIDE_LINE_COLOR
+        backgroundColor: DEVIDE_LINE_COLOR
     },
     registered: {
         width:85,
@@ -76,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 45,
         fontSize: 16,
-        color: StaticColor.BLACK_COLOR,
+        color: BLACK_COLOR,
         alignItems: 'center',
         marginLeft: 10,
     },
@@ -102,7 +109,7 @@ const styles = StyleSheet.create({
     loginButtonText: {
         fontWeight: 'bold',
         fontSize: 18,
-        color: StaticColor.COLOR_VIEW_BACKGROUND,
+        color: COLOR_VIEW_BACKGROUND,
     },
     screenEndView: {
         flexDirection: 'row',
@@ -115,17 +122,17 @@ const styles = StyleSheet.create({
     },
     screenEndViewTextLeft: {
         fontSize: 15,
-        color: StaticColor.GRAY_TEXT_COLOR,
+        color: GRAY_TEXT_COLOR,
     },
     screenEndViewText: {
         fontSize: 15,
-        color: StaticColor.BLUE_CONTACT_COLOR,
+        color: BLUE_CONTACT_COLOR,
     },
     separateLine: {
         height: 1,
         width,
         marginLeft: 15,
-        backgroundColor: StaticColor.DEVIDE_LINE_COLOR,
+        backgroundColor: DEVIDE_LINE_COLOR,
     },
 });
 
@@ -235,7 +242,7 @@ export default class RegisterStepOne extends Component {
                             fontSize: 21,
                             color: '#333333',
                         }}>手机注册</Text>
-                    <View style={{backgroundColor: StaticColor.WHITE_COLOR, marginTop: 40}}>
+                    <View style={{backgroundColor: WHITE_COLOR, marginTop: 40}}>
                         <View style={{
                             width,
                             height: 45,

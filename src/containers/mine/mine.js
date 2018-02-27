@@ -106,7 +106,14 @@ class mine extends Component {
                 <View style={styles.titleContainer}>
                     {
                         this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
-                            <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
+                            <TouchableOpacity onPress={()=> {
+                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CHOOSE_CAR, params: {
+                                    carList: [],
+                                    flag: false
+                                } })
+                            }}>
+                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
+                            </TouchableOpacity>
                             <Text style={{fontFamily: 'iconfont', fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>&#xe640;</Text>
                         </View> : null
                     }
@@ -299,6 +306,71 @@ class mine extends Component {
                                     if (ClickUtil.onMultiClick()) {
                                         this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
                                     }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'司机认证'}
+                                clickAction={() => {
+                                    if( 2 === 1 ){ // 没有认证 状态
+                                        Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }
+                                                });
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
+                                            }
+                                        })
+                                    }else {
+                                        // 认证中、认证通过、认证驳回 状态
+                                         this.props.navigation.dispatch({
+                                             type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
+                                             params:{
+                                                 qualifications: this.state.verifiedState,
+                                                 phone: 12356234,//global.phone
+                                                 }
+                                         });
+                                    }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'个人车主认证'}
+                                clickAction={() => {
+                                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                                            }
+                                        });
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'企业车主认证'}
+                                clickAction={() => {
+                                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                                            }
+                                        });
                                 }}
                             />
                         </View> : <View>

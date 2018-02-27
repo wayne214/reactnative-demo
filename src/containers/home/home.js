@@ -47,7 +47,8 @@ import {
     COLOR_VIEW_BACKGROUND,
     COLOR_LIGHT_GRAY_TEXT,
     REFRESH_COLOR,
-} from '../../constants/staticColor';
+} from '../../constants/colors';
+
 const images = [
     bannerImage1,
     bannerImage2,

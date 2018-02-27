@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     rightContainer: {
         paddingTop: 20,
         flex: 1,
-        marginLeft: 20
+        marginLeft: 20,
+        marginRight: 20,
     },
     itemFlag: {
         position: 'absolute',
@@ -115,8 +116,9 @@ const styles = StyleSheet.create({
     },
     stateView: {
         flex: 1,
-        marginRight: 10,
-        marginTop: 3,
+        marginRight: 15,
+        marginTop: 10,
+        marginBottom: 10,
     },
     orderNumView: {
         flexDirection: 'row',
@@ -154,6 +156,22 @@ const styles = StyleSheet.create({
     carrierIcon: {
         marginLeft: 6,
         alignSelf: 'center'
+    },
+    buttonText: {
+        color: StaticColor.WHITE_COLOR,
+        fontSize: 15,
+        backgroundColor: StaticColor.BLUE_BACKGROUND_COLOR,
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlign:'center',
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    buttonView: {
+        alignItems: 'flex-end',
+        marginRight: 15,
+        marginTop: 8,
+        marginBottom: 8,
     }
 });
 
@@ -190,6 +208,8 @@ class OrdersItemCell extends Component {
             currentStatus,
             carrierPlateNum,
             carrierName,
+            bindGPS,
+            checkGPS,
         } = this.props;
         const goodIcon = goodKindsNames && goodKindsNames.length === 1 ? goodKindsNames[0] : '其他';
         const statusView = <Text style={styles.stateText}>{stateName}</Text>;
@@ -206,18 +226,39 @@ class OrdersItemCell extends Component {
                 unit={'单'}
             />
         </View>;
-        const signNumView = <View style={styles.orderNumView}>
-            <OrderStateNumView
-                fontText={'已签'}
-                num={waitBeSureOrderNum}
-                unit={'单'}
-            />
+        const bindGPSView = 1 === 1 ? <View>
+            <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
+            <View style={styles.buttonView}>
+                <TouchableOpacity
+                    onPress={() => {
+                        bindGPS();
+                    }}>
+                    <Text style={styles.buttonText}>绑定GPS设备</Text>
+                </TouchableOpacity>
+            </View>
+        </View> : <View>
+            <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
+            <View style={styles.buttonView}>
+                <TouchableOpacity
+                    onPress={() => {
+                        checkGPS();
+                    }}>
+                    <Text style={styles.buttonText}>查看GPS设备</Text>
+                </TouchableOpacity>
+            </View>
         </View>;
-        const carrierView = <View style={styles.carrierView}>
-            <Image style={styles.carrierIcon} source={carrierIcon}/>
-            <Text style={styles.carrierText}>承运者：{carrierName}</Text>
-            <Text style={styles.carrierText}>{carrierPlateNum}</Text>
-        </View>;
+        // const signNumView = <View style={styles.orderNumView}>
+        //     <OrderStateNumView
+        //         fontText={'已签'}
+        //         num={waitBeSureOrderNum}
+        //         unit={'单'}
+        //     />
+        // </View>;
+        // const carrierView = <View style={styles.carrierView}>
+        //     <Image style={styles.carrierIcon} source={carrierIcon}/>
+        //     <Text style={styles.carrierText}>承运者：{carrierName}</Text>
+        //     <Text style={styles.carrierText}>{carrierPlateNum}</Text>
+        // </View>;
         return (
             <View style={styles.container}>
                 <TouchableOpacity
@@ -227,6 +268,17 @@ class OrdersItemCell extends Component {
                     underlayColor={StaticColor.COLOR_SEPARATE_LINE}
                 >
                     <View>
+                        {
+                            this.state.showStatus == 1 ? null :
+                                <View>
+                                    <View style={styles.stateView}>
+                                        {this.state.showStatus === 0 ? statusView : null}
+                                        {/*{this.state.showStatus === 2 ? signNumView : null}*/}
+                                        {this.state.showStatus === 3 ? orderNumView : null}
+                                    </View>
+                                    <View style={styles.separateLine} />
+                                </View>
+                        }
                         <View style={styles.title}>
                             <View style={styles.goodKindStyle}>
                                 {
@@ -242,11 +294,6 @@ class OrdersItemCell extends Component {
                                         >
                                             {scheduleRoutes ? scheduleRoutes : ''}
                                         </Text>
-                                    </View>
-                                    <View style={styles.stateView}>
-                                        {this.state.showStatus === 0 ? statusView : null}
-                                        {this.state.showStatus === 2 ? signNumView : null}
-                                        {this.state.showStatus === 3 ? orderNumView : null}
                                     </View>
                                 </View>
                                 <Text style={[styles.arriveTimeStyle, {marginTop: 8}]}>到仓时间: {arrivalTime}</Text>
@@ -280,9 +327,9 @@ class OrdersItemCell extends Component {
                                             /> : null
                                     }
                                 </View>
-                                {
-                                    currentStatus == 'driver' ? null : carrierView
-                                }
+                                {/*{*/}
+                                    {/*/!*currentStatus == 'driver' ? null : carrierView*!/*/}
+                                {/*}*/}
                                 <View style={styles.goodsTotal}>
                                     <View style={styles.flexDirection}>
                                         <Text style={[styles.arriveAndGoodsText]}>{weight}</Text>
@@ -301,6 +348,9 @@ class OrdersItemCell extends Component {
                             <Text style={styles.transCodeText}>调度单号：{scheduleCode}</Text>
                             <Text style={styles.timeText}>调度时间：{time}</Text>
                         </View>
+                        {
+                            this.state.showStatus === 1 ? bindGPSView : null
+                        }
                     </View>
                 </TouchableOpacity>
             </View>
