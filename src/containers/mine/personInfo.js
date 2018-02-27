@@ -17,7 +17,7 @@ import CommonCell from '../../containers/mine/cell/commonCell';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as API from '../../constants/api';
 import Storage from '../../utils/storage';
-import * as StaticColor from '../../constants/staticColor';
+import * as StaticColor from '../../constants/colors';
 import Loading from '../../utils/loading';
 import NoImage from '../../../assets/img/mine/person/noiamgeShow.png';
 import {Geolocation} from 'react-native-baidu-map-xzx';

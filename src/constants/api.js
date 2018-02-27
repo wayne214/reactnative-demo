@@ -367,5 +367,3 @@ export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; //
 // 获取货源详情
 export const API_NEW_GET_GOODS_SOURCE = 'app/transport/goodsSource'; // 4.0版本
 /******************************司机APP资源中心接口**********************/
-// 实名认证详情接口
-export const API_AUTH_REALNAME_DETAIL = 'app/rmc/driver/queryDriverInfo/';
