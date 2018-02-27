@@ -6,7 +6,17 @@ import HomeCell from '../../components/home/homeCell';
 import {fetchData} from '../../action/app';
 import {saveWeather} from '../../action/home';
 import {API_GET_WEATHER} from '../../constants/api';
-
+import locationIcon from '../../../assets/home/location.png';
+import bannerImage1 from '../../../assets/home/banner1.png';
+import bannerImage2 from '../../../assets/home/banner2.png';
+import signIcon from '../../../assets/home/sign_icon.png';
+import receiptIcon from '../../../assets/home/receipt_icon.png';
+import dispatchIcon from '../../../assets/home/despatch_icon.png';
+import receiveIcon from '../../../assets/home/receive_icon.png';
+import roadIcon from '../../../assets/home/road_abnormality.png';
+import WeatherCell from '../../components/home/weatherCell';
+import {width,height} from '../../constants/dimen';
+import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
 import NavigatorBar from '../../components/common/navigatorbar';
 import {
     View,
@@ -38,18 +48,7 @@ import {
     COLOR_LIGHT_GRAY_TEXT,
     REFRESH_COLOR,
 } from '../../constants/colors';
-import locationIcon from '../../../assets/home/location.png';
-import bannerImage1 from '../../../assets/home/banner1.png';
-import bannerImage2 from '../../../assets/home/banner2.png';
-import signIcon from '../../../assets/home/sign_icon.png';
-import receiptIcon from '../../../assets/home/receipt_icon.png';
-import dispatchIcon from '../../../assets/home/despatch_icon.png';
-import receiveIcon from '../../../assets/home/receive_icon.png';
-import roadIcon from '../../../assets/home/road_abnormality.png';
-import WeatherCell from '../../components/home/weatherCell';
 
-
-import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
 const images = [
     bannerImage1,
     bannerImage2,
@@ -59,18 +58,25 @@ function wp(percentage) {
     const value = (percentage * width) / 100;
     return Math.round(value);
 }
-import {width,height} from '../../constants/dimen';
 
 const slideWidth = wp(75);
 const itemHorizontalMargin = 28;
 const itemWidth = slideWidth + itemHorizontalMargin * 2;
 const itemHeight = 125 * itemWidth / 335;
 
-class driverHome extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
     }
-
+    // static navigationOptions = ({navigation}) => {
+    //     const {state, setParams} = navigation
+    //     return {
+    //         header: <NavigatorBar
+    //             title='首页'
+    //             hiddenBackIcon={true}
+    //             router={navigation}/>,
+    //     }
+    // };
     componentWillReceiveProps(nextProps) {
         if (this.props.location !== nextProps.location) {
             this.props.getWeather({city:nextProps.location});
@@ -106,7 +112,6 @@ class driverHome extends Component {
             />
         );
     }
-
 
     render() {
         const limitView = true ?
@@ -534,5 +539,5 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(driverHome);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

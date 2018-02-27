@@ -307,6 +307,22 @@ export const API_AUTH_REALNAME_COMMIT = `${XYT_HOST}app/rmc/driver/addDriver`;
 // 司机认证详情接口
 export const API_AUTH_REALNAME_DETAIL = `${XYT_HOST}app/rmc/driver/queryDriverInfo/`;
 
+
+/************  个人车主认证部分 接口 ************/
+
+// 行驶证主页
+export const API_GET_TRAVEL_INFO = `${XYT_HOST}app/photo/vehicleLicense/homepage`;
+
+// 行驶证副页
+export const API_GET_TRAVEL_TRUN_INFO = `${XYT_HOST}app/photo/vehicleLicense/vicePage`;
+
+// 个人、企业车主认证
+export const API_COMPANY_CERTIFICATION = `${XYT_HOST}app/rmc/company/appInsertCertificationInfo`;
+
+// 上传营业执照
+export const API_GET_BUSINESS_LICENSE = `${XYT_HOST}app/photo/businessLicense`;
+
+
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';

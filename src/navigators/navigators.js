@@ -87,6 +87,8 @@ import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
 import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
+import LoginForgetPWD from '../containers/login/forgetPwd';
+import RegisterStepOne from '../containers/register/registerStepOne';
 
 // 账号密码登录页
 import LoginWithPwdScreen from '../containers/login/login';
@@ -100,6 +102,10 @@ import DriverVerified from '../containers/driverVerified/driverVerified';
 import DriverVerifiedDetail from '../containers/driverVerified/verifiedState';
 import TakeCamera from '../containers/driverVerified/takeCamera';
 import TakeCameraEnd from '../containers/driverVerified/takeCameraEnd';
+import PersonCarOwnerAuth from '../containers/driverVerified/personCarOwnerAuth';
+import CompanyCarOwnerAuth from '../containers/driverVerified/companyCarOwnerAuth';
+import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical';
+import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
 
@@ -533,10 +539,14 @@ export const AppNavigator = StackNavigator({
             headerTintColor: 'black'
         }
     },
-    [RouteType.ROUTE_DRIVER_HOME_PAGE]: {
+    [RouteType.ROUTE_HOME_PAGE]: {
         screen: HomeScreen,
         navigationOptions: {
-            header: null
+            // header: null,
+            // title: '首页',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
         }
     },
     [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {
@@ -604,6 +614,16 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
         }
     },
+    [RouteType.ROUTE_FORGET_PASSWORD]: {
+        screen: LoginForgetPWD,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_REDISTER_STEP_ONE]: {
+        screen: RegisterStepOne,
+        navigationOptions: {
+        }
+    },
     [RouteType.ROUTE_TAKE_CAMEAR]: {
         screen: TakeCamera,
         navigationOptions: {
@@ -625,6 +645,32 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
         }
     },
+    [RouteType.ROUTE_PERSON_CAR_OWNER_AUTH]: {
+        screen: PersonCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH]: {
+        screen: CompanyCarOwnerAuth,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL]: {
+        screen: TakeCameraVertical,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_CEMARA_VERTICAL_END]: {
+        screen: TakeCameraVerticalEnd,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

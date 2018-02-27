@@ -74,7 +74,7 @@ class Tabar extends Component {
 			// 	return React.cloneElement(<OrderContainer />, this.props);
 			// case 'carriage':
 			// 	return React.cloneElement(<EntrustOrderContainer />, this.props);
-			case 'driverHome':
+			case 'Home':
 				return React.cloneElement(<DriverHome />, this.props);
 			case 'driverGoods':
 				return React.cloneElement(<DriverGoodSource />, this.props);
@@ -105,7 +105,7 @@ class Tabar extends Component {
 			Animated.timing(this.state.carriageAnimatedValue,
 				{ toValue: 1 }
 			).start(() => this.state.carriageAnimatedValue.setValue(0));
-		} else if (tab === 'driverHome') {
+		} else if (tab === 'Home') {
         Animated.timing(this.state.driverHomeAnimatedValue,
             { toValue: 1 }
         ).start(() => this.state.driverHomeAnimatedValue.setValue(0));
@@ -137,7 +137,7 @@ class Tabar extends Component {
 					selected={ currentTab === item.get('key') }
 					renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
 					renderSelectedIcon={() => {
-                    if (item.get('key') === 'driverHome') {
+                    if (item.get('key') === 'Home') {
                         return (
 							<Animated.Image
 								style={ [styles.tabIcon, {
