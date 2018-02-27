@@ -94,6 +94,8 @@ import AboutUsScreen from '../containers/mine/aboutUs';
 import DriverSettingScreen from '../containers/mine/setting';
 
 import DriverVerified from '../containers/driverVerified/driverVerified';
+// 选择车辆
+import ChooseCarScreen from '../containers/mine/chooseCar';
 
 export const AppNavigator = StackNavigator({
   Splash: {
@@ -587,6 +589,11 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_DRIVER_SETTING]: {
         screen: DriverSettingScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_CHOOSE_CAR]: {
+        screen: ChooseCarScreen,
         navigationOptions: {
         }
     },
