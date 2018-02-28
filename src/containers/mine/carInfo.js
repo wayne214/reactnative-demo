@@ -30,9 +30,9 @@ import StorageKeys from '../../constants/storageKeys';
 import CarImage from '../../../assets/img/mine/car/carInfo.png';
 import {fetchData} from "../../action/app";
 
-const headerImageFail = require('../driverVerified/verified/images/carInfoFail.png');
-const headerImageSuccess = require('../driverVerified/verified/images/carInfoHeader.png');
-const headerImageLoading = require('../driverVerified/verified/images/carInfoIng.png');
+const headerImageFail = require('../driverVerified/images/carInfoFail.png');
+const headerImageSuccess = require('../driverVerified/images/carInfoHeader.png');
+const headerImageLoading = require('../driverVerified/images/carInfoIng.png');
 
 let imgListTemp = [];
 let imgList = [];
@@ -178,6 +178,14 @@ class CarInfo extends Component {
         this.getCarInfoSuccessCallBack = this.getCarInfoSuccessCallBack.bind(this);
         this.getCarInfoFailCallBack = this.getCarInfoFailCallBack.bind(this);
     }
+
+    static navigationOptions = ({navigation}) => {
+        const {state, setParams} = navigation
+        return {
+            tabBarLabel: '个人信息',
+            header: <NavigationBar title='个人信息' hiddenBackIcon={false} router={navigation}/>,
+        }
+    };
 
     componentDidMount() {
 
@@ -345,21 +353,21 @@ class CarInfo extends Component {
 
         return (
             <View style={styles.allContainer}>
-                <NavigationBar
-                    title={'车辆详情'}
-                    navigator={navigator}
-                    leftButtonHidden={false}
-                    rightButtonConfig={{
-                        type: 'string',
-                        title: '添加车辆',
-                        disable:'false',
-                        rightTitleStyle: {
-                        },
-                        onClick: () => {
-                            this.props.navigation.navigate('AddCarDriver');
-                        },
-                    }}
-                />
+                {/*<NavigationBar*/}
+                    {/*title={'车辆详情'}*/}
+                    {/*router={navigator}*/}
+                    {/*hiddenBackIcon={false}*/}
+                    {/*rightButtonConfig={{*/}
+                        {/*type: 'string',*/}
+                        {/*title: '添加车辆',*/}
+                        {/*disable:'false',*/}
+                        {/*rightTitleStyle: {*/}
+                        {/*},*/}
+                        {/*onClick: () => {*/}
+                            {/*this.props.navigation.navigate('AddCarDriver');*/}
+                        {/*},*/}
+                    {/*}}*/}
+                {/*/>*/}
                 {
                     aCar === '' ?
                         <View style={{
