@@ -332,6 +332,10 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWith
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
+// 注册获取短信验证码
+export const API_UAM_REGISTER_IDENTIFY_CODE = `app/uam/register/identifyCode`;
+// 用户注册接口
+export const API_UAM_REGISTER = `app/uam/register`;
 
 /********************************司机用户中心API*************************************/
 //获取登录密钥

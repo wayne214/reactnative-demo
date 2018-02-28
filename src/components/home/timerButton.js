@@ -62,7 +62,7 @@ export default class TimerButton extends React.Component {
                     selfEnable: true,
                 });
             } else {
-                console.log('---- timer ', timer);
+                // console.log('---- timer ', timer);
                 this.setState({
                     timerCount: timer,
                     timerTitle: `(${timer}s)`,
@@ -85,7 +85,7 @@ export default class TimerButton extends React.Component {
             >
                 <View style={[{width: 100, height: 44, justifyContent: 'center', alignItems: 'center'}, style]}>
                     <Text
-                        style={[{fontSize: 16}, textStyle, {color: ((!counting && enable && selfEnable) ? textStyle.color : disableColor || 'gray')}]}
+                        style={[{fontSize: 14}, textStyle, {color: ((!counting && enable && selfEnable) ? textStyle.color : disableColor || 'white')}]}
                     >{timerTitle}</Text>
                 </View>
             </TouchableOpacity>
