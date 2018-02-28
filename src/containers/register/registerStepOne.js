@@ -20,6 +20,7 @@ import Loading from '../../utils/loading';
 import NavigatorBar from '../../components/common/navigatorbar';
 import CountDownButton from '../../components/home/timerButton';
 import PermissionsAndroid from '../../utils/permissionManagerAndroid';
+import CheckBox from '../../utils/checkBox/checkbox';
 
 import BlueButtonArc from '../../../assets/button/blueButtonArc.png';
 import {
@@ -32,6 +33,16 @@ import {
 } from '../../constants/colors';
 import * as API from '../../constants/api';
 import Validator from '../../utils/validator';
+import {
+    loginSuccessAction, setCompanyCodeAction, setCurrentCharacterAction, setDriverCharacterAction,
+    setOwnerCharacterAction,
+    setOwnerNameAction,
+    setUserNameAction
+} from "../../action/user";
+import {fetchData, loadUser} from "../../action/app";
+import {registeredIdentityCodeAction} from "../../action/register";
+import {connect} from "react-redux";
+import * as RouteType from "../../constants/routeType";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -67,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: DEVIDE_LINE_COLOR
     },
     registered: {
-        width:85,
+        width: 85,
         fontSize: 15,
         color: '#666666',
         alignItems: 'center',
@@ -75,14 +86,15 @@ const styles = StyleSheet.create({
     },
     registeredTextInput: {
         fontSize: 15,
-        color: '#CCCCCC',
+        color: BLACK_COLOR,
         alignItems: 'center',
         marginLeft: 10,
+        width:width-100
     },
     registeredCodeTextInput: {
         flex: 1,
         height: 45,
-        fontSize: 16,
+        fontSize: 15,
         color: BLACK_COLOR,
         alignItems: 'center',
         marginLeft: 10,
@@ -136,19 +148,21 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class RegisterStepOne extends Component {
+class RegisterStepOne extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             phoneNum: '',
-            againPWD:'',
+            againPWD: '',
             messageCode: '',
             loading: false,
+            checkBox:false,
         };
 
         this.registerAccount = this.registerAccount.bind(this);
         this.registeredIdentityCode = this.registeredIdentityCode.bind(this);
+        this.registerAccountSucCallBack = this.registerAccountSucCallBack.bind(this);
     }
 
     componentDidMount() {
@@ -173,43 +187,33 @@ export default class RegisterStepOne extends Component {
         });
     }
 
-    /*注册*/
-    registerAccount() {
-
-        this.props.navigation.navigate('RegisterStepTwo', {
-            phoneNum: this.state.phoneNum,
-            messageCode: this.state.messageCode,
-        });
-
-    }
-
-
     /*获取注册验证码*/
     registeredIdentityCode(shouldStartCountting) {
+        //todo uuid
+        this.props.registeredIdentityCodeAction({
+            deviceId: '2222222',
+            phoneNum: this.state.phoneNum,
+        }, shouldStartCountting);
+    }
 
-        HTTPRequest({
-            url: API.API_REGISTER_IDENTIFY_CODE,
-            params: {
-                deviceId: global.UDID,
-                phoneNum: this.state.phoneNum,
-            },
-            loading: () => {
+    /*注册*/
+    registerAccount(phoneNum,messageCode,againPWD) {
+        if (this.state.checkBox){
+            this.props.registeredAction({
+                confirmPassword: againPWD,
+                identifyCode: messageCode,
+                password: againPWD,
+                phoneNum: phoneNum
+            },this.registerAccountSucCallBack)
+        } else {
+            Toast.show("接受服务协议~~~~~");
+        }
+    }
 
-            },
-            success: (responseData) => {
-                /*开启倒计时*/
-                shouldStartCountting(true);
-                Toast.showShortCenter('验证码已发送');
-
-            },
-            error: (errorInfo) => {
-                /*关闭倒计时*/
-                shouldStartCountting(false);
-
-            },
-            finish: () => {
-
-            }
+    registerAccountSucCallBack(){
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
+            mode: 'reset',
         })
     }
 
@@ -225,14 +229,11 @@ export default class RegisterStepOne extends Component {
 
     render() {
         const navigator = this.props.navigation;
-        const {phoneNum, messageCode,againPWD} = this.state;
+        const {phoneNum, messageCode, againPWD} = this.state;
         return (
-            <View style={styles.container}>
-                {/*<NavigationBar*/}
-                {/*title={'注册'}*/}
-                {/*navigator={navigator}*/}
-                {/*leftButtonHidden={false}*/}
-                {/*/>*/}
+            <View style={{flex: 1,
+                backgroundColor: '#FFFFFF',}}>
+
                 <View style={{width: width, height: height}}>
 
                     <Text
@@ -285,8 +286,8 @@ export default class RegisterStepOne extends Component {
                             />
                             <CountDownButton
                                 enable={phoneNum.length}
-                                style={{width: 110, marginRight: 10}}
-                                textStyle={{color: '#0078ff'}}
+                                style={{width: 92, height: 34, marginRight: 10, backgroundColor: '#0092FF'}}
+                                textStyle={{color: '#ffffff'}}
                                 timerCount={60}
                                 onClick={(shouldStartCountting) => {
                                     if (Validator.isPhoneNumber(phoneNum)) {
@@ -298,6 +299,8 @@ export default class RegisterStepOne extends Component {
                                 }}
                             />
                         </View>
+
+                        <View style={styles.separateLine}/>
 
                         <View style={{
                             width,
@@ -326,14 +329,19 @@ export default class RegisterStepOne extends Component {
                             style={styles.loginButton}
                             textStyle={styles.loginButtonText}
                             onPress={() => {
-                                this.registerAccount();
+                                this.registerAccount(phoneNum,messageCode,againPWD);
                             }}
                         >
                             立即注册
                         </Button>
                     </Image>
                     <View style={styles.screenEndView}>
-                        <View style={{height: 20, justifyContent: 'center', alignItems: 'center'}}>
+                        <CheckBox isChecked={this.state.checkBox} checkedFun={()=>{
+                            this.setState({
+                                checkBox:!this.state.checkBox
+                            })
+                        }}/>
+                        <View style={{height: 20, justifyContent: 'center', alignItems: 'center', marginLeft:5}}>
                             <Text style={styles.screenEndViewTextLeft}>已阅读并同意</Text>
                         </View>
                         <View style={{height: 21, justifyContent: 'center', alignItems: 'center'}}>
@@ -355,3 +363,44 @@ export default class RegisterStepOne extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch,
+        registeredIdentityCodeAction: (params, shouldStartCountting) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_UAM_REGISTER_IDENTIFY_CODE,
+                success: data => {
+                    shouldStartCountting(true);
+                    Toast.showShortCenter('验证码已发送');
+                    dispatch(registeredIdentityCodeAction(data));
+                },
+                fail: data => {
+                    shouldStartCountting(false);
+                }
+            }))
+        },
+        registeredAction: (params,registerAccountSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_UAM_REGISTER,
+                success: data => {
+                    registerAccountSucCallBack()
+                    Toast.showShortCenter('注册成功');
+                },
+                fail: data => {
+
+                }
+            }))
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterStepOne);

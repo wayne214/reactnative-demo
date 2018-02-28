@@ -184,3 +184,7 @@ export const ROUTE_REDISTER_STEP_ONE = 'ROUTE_REDISTER_STEP_ONE';
 export const ROUTE_CHOOSE_CAR = 'ROUTE_CHOOSE_CAR';
 // 个人信息
 export const ROUTE_PERSON_INFO = 'ROUTE_PERSON_INFO';
+// 车辆信息
+export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
+// 车辆被禁用页面
+export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';

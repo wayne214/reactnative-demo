@@ -332,6 +332,10 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWith
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
+// 注册获取短信验证码
+export const API_UAM_REGISTER_IDENTIFY_CODE = `app/uam/register/identifyCode`;
+// 用户注册接口
+export const API_UAM_REGISTER = `app/uam/register`;
 
 // 绑定GPS设备接口
 export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
@@ -373,3 +377,9 @@ export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; //
 /** ****************************司机运输中心接口**********************/
 // 获取货源详情
 /******************************司机APP资源中心接口**********************/
+// 实名认证状态查询接口
+export const API_AUTH_REALNAME_STATUS = 'app/rmc/auth/realName/status/';
+// 资质认证详情接口
+export const API_AUTH_QUALIFICATIONS_DETAIL = 'app/rmc/auth/qualifications/info';
+// 资质认证状态查询接口
+export const API_AUTH_QUALIFICATIONS_STATUS = 'app/rmc/auth/qualifications/status';

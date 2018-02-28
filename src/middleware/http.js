@@ -71,7 +71,7 @@ export default store => next => action => {
         timeout: HTTP_TIMEOUT,
         responseType: 'json'
     }).then(data => {
-        if (DEBUG) console.log('%c response: ', 'color: red', data);
+        if (DEBUG) console.log('%c response: ', 'color: red', data.data);
         // if (data.headers.get('newtoken')) {
         //     console.log('response.header.newtoken');
         //     global.token = data.headers.get('newtoken');
