@@ -333,6 +333,11 @@ export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportLis
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
 
+// 绑定GPS设备接口
+export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
+// 获取gps设备信息
+export const API_GET_GPS_DETAILS = `app/rmc/rmcCar/queryGpsInfoByCarNum`;
+
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
