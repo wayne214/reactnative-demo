@@ -205,7 +205,7 @@ class LoginCharacter {
             }
 
             props.navigation.dispatch({
-                type: RouteType.ROUTE_HOME_PAGE,
+                type: 'Main',
                 mode: 'reset',
                 params: {title: '', currentTab: 'route', insiteNotice: '123'}
             })
