@@ -337,9 +337,6 @@ export const API_LENGTH_AND_WEIGHT_COMMIT = `${XYT_HOST}app/rmc/rmcCar/queryVehi
 // 车主增加车辆接口
 export const API_AUTH_QUALIFICATIONS_COMMIT = `${XYT_HOST}app/rmc/rmcCar/createCertificationQualification`;
 
-// 车主增加车辆详情接口
-export const API_AUTH_QUALIFICATIONS_DETAIL = `${XYT_HOST}app/rmc/auth/qualifications/info`;
-
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';

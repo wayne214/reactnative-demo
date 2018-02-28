@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     ImageBackground
 } from 'react-native';
-import {CachedImage} from 'react-native-img-cache';
 import Toast from '@remobile/react-native-toast';
 import Button from 'apsl-react-native-button';
 import CommonCell from '../../containers/mine/cell/commonCell';
@@ -319,7 +318,7 @@ class PersonInfo extends Component {
                                             >
                                                 {
                                                     showDrivingLicenceHomePage ?
-                                                        <CachedImage style={styles.imageStyle} source={{uri: person.drivingLicenseHomepageThumbnailAddress ? person.drivingLicenseHomepageThumbnailAddress : person.drivingLicenceHomePage}}/> :
+                                                        <Image style={styles.imageStyle} source={{uri: person.drivingLicenseHomepageThumbnailAddress ? person.drivingLicenseHomepageThumbnailAddress : person.drivingLicenceHomePage}}/> :
                                                         <Image style={styles.imageStyle} source={NoImage}/>
                                                 }
                                             </TouchableOpacity>
@@ -332,7 +331,7 @@ class PersonInfo extends Component {
                                             >
                                                 {
                                                     showDrivingLicenceSubPage ?
-                                                        <CachedImage style={styles.imageStyle} source={{uri: person.drivingLicenseVicePageThumbnailAddress ? person.drivingLicenseVicePageThumbnailAddress : person.drivingLicenceSubPage}}/> :
+                                                        <Image style={styles.imageStyle} source={{uri: person.drivingLicenseVicePageThumbnailAddress ? person.drivingLicenseVicePageThumbnailAddress : person.drivingLicenceSubPage}}/> :
                                                         <Image style={styles.imageStyle} source={NoImage}/>
                                                 }
                                             </TouchableOpacity>
@@ -353,7 +352,7 @@ class PersonInfo extends Component {
                                             >
                                                 {
                                                     showPositiveCard ?
-                                                        <CachedImage style={styles.imageStyle} source={{uri: person.idFaceSideThumbnailAddress ? person.idFaceSideThumbnailAddress : person.positiveCard}}/> :
+                                                        <Image style={styles.imageStyle} source={{uri: person.idFaceSideThumbnailAddress ? person.idFaceSideThumbnailAddress : person.positiveCard}}/> :
                                                         <Image style={styles.imageStyle} source={NoImage}/>
                                                 }
                                             </TouchableOpacity>
@@ -366,7 +365,7 @@ class PersonInfo extends Component {
                                             >
                                                 {
                                                     showOppositeCard ?
-                                                        <CachedImage style={styles.imageStyle} source={{uri: person.idBackSideThumbnailAddress ? person.idBackSideThumbnailAddress : person.oppositeCard}}/> :
+                                                        <Image style={styles.imageStyle} source={{uri: person.idBackSideThumbnailAddress ? person.idBackSideThumbnailAddress : person.oppositeCard}}/> :
                                                         <Image style={styles.imageStyle} source={NoImage}/>
                                                 }
                                             </TouchableOpacity>

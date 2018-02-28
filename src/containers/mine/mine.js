@@ -499,7 +499,6 @@ class mine extends Component {
                                 leftIconImage={aboutUsIcon}
                                 content={'车主增加司机'}
                                 clickAction={() => {
-                                    if (2 === 1){
                                         Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
@@ -512,10 +511,7 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
                                             }
                                         });
-                                    }else {
-                                        // 详情
 
-                                    }
                                 }}
                             />
                             <SettingCell

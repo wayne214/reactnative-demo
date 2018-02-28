@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 
 import {
     View,
@@ -23,6 +24,7 @@ import Toast from '@remobile/react-native-toast';
 import StorageKey from '../../constants/storageKeys';
 import HTTPRequest from '../../utils/httpRequest';
 const BlueButtonArc = require('../../../assets/img/button/blueButtonArc.png');
+import {fetchData} from "../../action/app";
 
 import Button from 'apsl-react-native-button';
 
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
 
 });
 
-export default class certificationState extends Component{
+class certificationState extends Component{
     constructor(props) {
         super(props);
 
@@ -94,6 +96,9 @@ export default class certificationState extends Component{
         this.getVerifiedDetail = this.getVerifiedDetail.bind(this);
         this.reloadVerified = this.reloadVerified.bind(this);
         this.showBigImage = this.showBigImage.bind(this);
+
+        this.getDetailSuccessCallBack = this.getDetailSuccessCallBack.bind(this);
+        this.getDetailFailCallBack = this.getDetailFailCallBack.bind(this);
     }
 
 
@@ -111,42 +116,35 @@ export default class certificationState extends Component{
         }
 
     }
+    getDetailSuccessCallBack(){
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('获取司机增加车辆详情详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '司机增加车辆详情详情页面');
+        this.setState({
+            resultInfo: responseData.result,
+            qualifications: responseData.result.certificationStatus,
+        });
 
+
+        DeviceEventEmitter.emit('certificationSuccess');
+        this.setState({
+            appLoading: false,
+        });
+    }
+    getDetailFailCallBack(){
+        Toast.showShortCenter('获取详情失败');
+        this.setState({
+            appLoading: false,
+        });
+    }
     /*资质详情认证*/
     getVerifiedDetail(phoneNum, plateNumber, verifiedSuccessCallBack, verifiedFailCallBack) {
         currentTime = new Date().getTime();
-        HTTPRequest({
-            url: API.API_AUTH_QUALIFICATIONS_DETAIL,
-            params: {
-                phoneNum: phoneNum,
-                plateNumber: plateNumber,
-            },
-            loading: () => {
-                this.setState({
-                    appLoading: true,
-                });
-            },
-            success: (responseData) => {
-                lastTime = new Date().getTime();
-                ReadAndWriteFileUtil.appendFile('获取司机增加车辆详情详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                    locationData.district, lastTime - currentTime, '司机增加车辆详情详情页面');
-                this.setState({
-                    resultInfo: responseData.result,
-                    qualifications: responseData.result.certificationStatus,
-                });
 
-
-                DeviceEventEmitter.emit('certificationSuccess');
-            },
-            error: (errorInfo) => {
-                Toast.showShortCenter('获取详情失败');
-            },
-            finish: () => {
-                this.setState({
-                    appLoading: false,
-                });
-            }
-        });
+        this.getCarInfo({
+            phoneNum: phoneNum,
+            plateNumber: plateNumber,
+        }, verifiedSuccessCallBack, verifiedFailCallBack);
 
     }
 
@@ -301,4 +299,30 @@ export default class certificationState extends Component{
         )
     }
 }
+function mapStateToProps(state) {
+    return {
+
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCarInfo: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_QUALIFICATIONS_DETAIL,
+                success: data => {
+                    successCallback(data);
+                },
+                fail: ()=> {
+                    failCallback();
+                }
+            }))
+        }
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(certificationState);
 

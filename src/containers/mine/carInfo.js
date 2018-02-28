@@ -13,7 +13,6 @@ import {
     TouchableOpacity,
     ImageBackground,
 } from 'react-native';
-import {CachedImage} from 'react-native-img-cache';
 import Toast from '@remobile/react-native-toast';
 import CommonCell from '../../containers/mine/cell/commonCell';
 import NavigationBar from '../../components/common/navigatorbar';
@@ -443,7 +442,7 @@ class CarInfo extends Component {
                                             >
                                                 {
                                                     showDrivingLicensePic ?
-                                                        <CachedImage style={styles.driveNumImageStyle}
+                                                        <Image style={styles.driveNumImageStyle}
                                                                      source={{uri: aCar.drivingLicenseThumbnail ? aCar.drivingLicenseThumbnail : aCar.drivingLicensePic}}/> :
                                                         <Image style={styles.driveNumImageStyle} source={NoImage}/>
                                                 }
@@ -458,7 +457,7 @@ class CarInfo extends Component {
                                             >
                                                 {
                                                     showDrivingLicenseSecondaryPic ?
-                                                        <CachedImage style={styles.driveNumImageStyle}
+                                                        <Image style={styles.driveNumImageStyle}
                                                                      source={{uri: aCar.drivingLicenseSecondaryThumbnail ? aCar.drivingLicenseSecondaryThumbnail : aCar.drivingLicenseSecondaryPic}}/> :
                                                         <Image style={styles.driveNumImageStyle} source={NoImage}/>
                                                 }
@@ -473,7 +472,7 @@ class CarInfo extends Component {
                                             >
                                                 {
                                                     showCarHeadPic ?
-                                                        <CachedImage style={styles.driveNumImageStyle}
+                                                        <Image style={styles.driveNumImageStyle}
                                                                      source={{uri: aCar.carHeadThumbnail ? aCar.carHeadThumbnail : aCar.carHeadPic}}/> :
                                                         <Image style={styles.driveNumImageStyle} source={NoImage}/>
                                                 }
@@ -493,7 +492,7 @@ class CarInfo extends Component {
                                     >
                                         {
                                             showInsurancePic ?
-                                                <CachedImage
+                                                <Image
                                                     style={styles.imgStyle}
                                                     resizeMode="cover"
                                                     source={{uri: aCar.insuranceThumbnail ? aCar.insuranceThumbnail : aCar.insurancePic}}
