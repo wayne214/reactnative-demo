@@ -131,6 +131,7 @@ class mine extends Component {
 
     }
     certificationCallback(result) {
+        console.log('certification', result);
         this.setState({
             certificationState: result,
         });
@@ -187,44 +188,6 @@ class mine extends Component {
                 this.props.verifiedState({
                     phoneNum: '15112345678',
                 },callback);
-
-                //
-                // HTTPRequest({
-                //     url: API.API_AUTH_REALNAME_STATUS + this.props.userInfo.phone,
-                //     params: {
-                //         phoneNum: this.props.userInfo.phone,
-                //     },
-                //     loading: () => {
-                //
-                //     },
-                //     success: (responseData) => {
-                //
-                //         lastTime = new Date().getTime();
-                //         // ReadAndWriteFileUtil.appendFile('实名认证状态查询', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                //         //     locationData.district, lastTime - currentTime, '我的页面');
-                //         let result = responseData.result;
-                //         this.setState({
-                //             verifiedState: result,
-                //         });
-                //         // global.verifiedState = responseData.result;
-                //         // 首页状态
-                //
-                //         if (result == '1201') {
-                //             this.props.setDriverCharacterAction('1');
-                //         } else if (result == '1202') {
-                //             this.props.setDriverCharacterAction('2');
-                //         } else if (result == '1203') {
-                //             this.props.setDriverCharacterAction('3');
-                //         }
-                //
-                //
-                //     },
-                //     error: (errorInfo) => {
-                //
-                //     },
-                //     finish: () => {
-                //     }
-                // });
             }
         }
     }
