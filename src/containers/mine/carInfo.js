@@ -158,6 +158,10 @@ const styles = StyleSheet.create({
         bottom: 10,
         backgroundColor: 'transparent'
     },
+    rightButtonStyle: {
+        fontSize: 16,
+        color: StaticColor.BLUE_BACKGROUND_COLOR
+    }
 });
 
 class CarInfo extends Component {
@@ -183,7 +187,15 @@ class CarInfo extends Component {
         const {state, setParams} = navigation
         return {
             tabBarLabel: '个人信息',
-            header: <NavigationBar title='个人信息' hiddenBackIcon={false} router={navigation}/>,
+            header: <NavigationBar
+                title='个人信息'
+                hiddenBackIcon={false}
+                router={navigation}
+                optTitle='添加车辆'
+                optTitleStyle={styles.rightButtonStyle}
+                firstLevelClick={() => {
+                    console.log('添加车辆');
+                }}/>,
         }
     };
 

@@ -372,3 +372,5 @@ export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; //
 export const API_AUTH_REALNAME_STATUS = 'app/rmc/auth/realName/status/';
 // 资质认证详情接口
 export const API_AUTH_QUALIFICATIONS_DETAIL = 'app/rmc/auth/qualifications/info';
+// 资质认证状态查询接口
+export const API_AUTH_QUALIFICATIONS_STATUS = 'app/rmc/auth/qualifications/status';

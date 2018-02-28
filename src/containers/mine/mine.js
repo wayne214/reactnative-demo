@@ -117,12 +117,47 @@ class mine extends Component {
             modalVisible: false,
         };
         this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
+        this.certificationCallback = this.certificationCallback.bind(this);
     }
 
     componentDidMount() {
-        this.verifiedState(this.getVerfiedStateSucCallback);
-    }
 
+        if (this.props.currentStatus == 'driver') {
+            /*实名认证状态请求*/
+            this.verifiedState(this.getVerfiedStateSucCallback);
+            /*资质认证状态请求*/
+            this.certificationState(this.certificationCallback);
+        }
+
+    }
+    certificationCallback(result) {
+        this.setState({
+            certificationState: result,
+        });
+        if (result === '1202') {
+            /*资质认证成功，绑定当前车牌号*/
+            DeviceEventEmitter.emit('bindUserCar', this.props.plateNumber);
+        }
+        global.certificationState = result;
+    }
+    /*资质认证状态请求*/
+    certificationState(callback) {
+
+        if (this.props.userInfo.phone) {
+
+            let obj = {};
+            if (this.props.plateNumber) {
+                obj = {
+                    phoneNum: this.props.userInfo.phone,
+                    plateNumber: this.props.plateNumber,
+                }
+            } else {
+                obj = {phoneNum: this.props.userInfo.phone};
+            }
+
+            this.props.getCertificationState(obj, callback);
+        }
+    }
     getVerfiedStateSucCallback(result) {
         console.log('verfiedcall', result);
 
@@ -558,7 +593,7 @@ function mapStateToProps(state) {
         driverStatus: state.user.get('driverStatus'),
         currentStatus: state.user.get('currentStatus'),
         ownerStatus: state.user.get('ownerStatus'),
-        // jpushIcon: state.jpush.get('jpushIcon'),
+        jpushIcon: state.jpush.get('jpushIcon'),
     };
 }
 
@@ -569,6 +604,16 @@ function mapDispatchToProps(dispatch) {
                 body: '',
                 method: 'POST',
                 api: API.API_AUTH_REALNAME_STATUS + params.phoneNum,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        getCertificationState: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_QUALIFICATIONS_STATUS,
                 success: data => {
                     successCallback(data);
                 },
