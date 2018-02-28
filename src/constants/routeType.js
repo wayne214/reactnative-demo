@@ -206,3 +206,9 @@ export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
 export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';
 // 设备绑定
 export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
+// 绑定车辆
+export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
+// 司机管理
+export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
+// 添加司机
+export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
