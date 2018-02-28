@@ -206,7 +206,7 @@ class RegisterStepOne extends Component {
                 phoneNum: phoneNum
             },this.registerAccountSucCallBack)
         } else {
-            Toast.show("接受服务协议~~~~~");
+            Toast.show("请阅读并同意《冷链马甲服务协议》");
         }
     }
 

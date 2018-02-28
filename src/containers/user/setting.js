@@ -7,7 +7,8 @@ import {
 	Linking,
 	Platform,
 	NativeModules,
-	TouchableOpacity
+	TouchableOpacity,
+    Switch
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -21,7 +22,7 @@ import JPushModule from 'jpush-react-native';
 import Toast from '../../utils/toast';
 import {DEBUG} from '../../constants/setting';
 import Storage from '../../utils/storage';
-import { Switch } from 'react-native-switch';
+// import { Switch } from 'react-native-switch';
 import BaseComponent from '../../components/common/baseComponent'
 // import Link from '../../utils/linking'
 import AppJSON from '../../../app.json'
@@ -126,38 +127,80 @@ class SettingContainer extends BaseComponent {
 								<Text style={ styles.leftText }>电签设置</Text>
 							</View>
 							<View style={ styles.rightAnd }>
-								<Text style={ styles.iconFont }>&#xe60d;</Text>
+								<Text style={ styles.iconFont }>&#xe63d;</Text>
 							</View>
 
 						</TouchableOpacity>
 				}
+				<TouchableOpacity
+					style={ styles.cellContainer }
+					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DEVICES_BIND, params: {title: '设备绑定', type: 3}}) }>
+					<View style={ styles.leftAnd }>
+						<Text style={ styles.leftText }>设备绑定</Text>
+					</View>
+					<View style={ styles.rightAnd }>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
+					</View>
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					style={ styles.cellContainer }
+					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '发票说明', type: 3}}) }>
+					<View style={ styles.leftAnd }>
+						<Text style={ styles.leftText }>电子签章设置</Text>
+					</View>
+					<View style={ styles.rightAnd }>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
+					</View>
+				</TouchableOpacity>
+
 
 				<View style={ styles.cellContainer }>
 					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>消息推送</Text>
+						<Text style={ styles.leftText }>消息通知</Text>
 					</View>
 					<View style={ [styles.rightAnd, { marginRight: 15 }] }>
 					  <Switch
 					    value={ this.state.isOpen }
 					    onValueChange={ this._onValueChange  }
 					    style={ styles.switch }
-					    activeText={ 'On' }
-					    inActiveText={ 'Off' }
-					    backgroundActive={'#09bb07'}
-					    backgroundInactive={'gray'}
-					    circleActiveColor={'white'}
-					    circleInActiveColor={'white'}/>
+							onTintColor={'#0092FF'}
+					    />
+					</View>
+				</View>
+				<View style={ styles.cellContainer }>
+					<View style={ styles.leftAnd }>
+						<Text style={ styles.leftText }>语音播报</Text>
+					</View>
+					<View style={ [styles.rightAnd, { marginRight: 15 }] }>
+						<Switch
+							value={ this.state.isOpen }
+							onValueChange={ this._onValueChange  }
+							style={ styles.switch }
+							onTintColor={'#0092FF'}
+						/>
 					</View>
 				</View>
 
+				{/*<TouchableOpacity*/}
+					{/*style={ styles.cellContainer }*/}
+					{/*onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '发票说明', type: 3}}) }>*/}
+					{/*<View style={ styles.leftAnd }>*/}
+						{/*<Text style={ styles.leftText }>发票说明</Text>*/}
+					{/*</View>*/}
+					{/*<View style={ styles.rightAnd }>*/}
+						{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+					{/*</View>*/}
+				{/*</TouchableOpacity>*/}
+
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '发票说明', type: 3}}) }>
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '用户服务协议', type: 1}}) }>
 					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>发票说明</Text>
+						<Text style={ styles.leftText }>服务协议</Text>
 					</View>
 					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe60d;</Text>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
 					</View>
 				</TouchableOpacity>
 
@@ -168,26 +211,38 @@ class SettingContainer extends BaseComponent {
 						<Text style={ styles.leftText }>关于我们</Text>
 					</View>
 					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe60d;</Text>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
 					</View>
 				</TouchableOpacity>
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '注册协议', type: 1}}) }>
+					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title:'反馈问题'}}) }>
 					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>注册协议</Text>
+						<Text style={ styles.leftText }>帮助</Text>
 					</View>
 					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe60d;</Text>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
+					</View>
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					style={ styles.cellContainer }
+					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_CUSTOME_SERVICE, params:{title: '我的客服'}}) }>
+					<View style={ styles.leftAnd }>
+						<Text style={ styles.leftText }>客服</Text>
+					</View>
+					<View style={ styles.rightAnd }>
+						<Text style={ styles.iconFont }>&#xe63d;</Text>
 					</View>
 				</TouchableOpacity>
 
 				<View style={ styles.cellContainer }>
 					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>当前版本号</Text>
+						<Text style={ styles.leftText }>软件更新</Text>
 					</View>
 					<View style={ styles.rightAndBtn }>
+						<Text style={ styles.leftText }>当前版本号：</Text>
 						<Text style={ [styles.leftText, { marginRight: 20 }] }>{ 'V' + NativeModules.NativeModule.VERSION + (IS_IOS ? (AppJSON.build_ios > 0 ? ('-' + AppJSON.build_ios) : '') : (AppJSON.build_and > 0 ? ('-' + AppJSON.build_and) : ''))}</Text>
 
 					</View>

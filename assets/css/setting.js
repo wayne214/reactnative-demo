@@ -41,12 +41,12 @@ export default StyleSheet.create({
 	},
 	loginBtn: {
 		marginTop: 15,
-		marginRight: 40,
-		marginLeft: 40,
+		marginRight: 20,
+		marginLeft: 20,
 		height: 45,
 	},
 	btn: {
-		width: width - 80,
+		width: width - 40,
 		height: 44,
 		borderRadius: 2,
 		borderColor: 'white',

@@ -92,6 +92,7 @@ import UploadODOScreen from '../containers/driverOrder/uploadODO';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
+import LoginForgetPWDTwo from '../containers/login/forgetPwdStepTwo';
 import RegisterStepOne from '../containers/register/registerStepOne';
 
 // 账号密码登录页
@@ -123,6 +124,11 @@ import ChooseCarScreen from '../containers/mine/chooseCar';
 import PersonInfoScreen from '../containers/mine/personInfo';
 import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
+import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
+import DevicesBingScreen from '../containers/mine/devicesBind';
+import DriverManageScreen from '../containers/mine/owner/driverManagement/driverManagement';
+import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
+import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -656,6 +662,13 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_FORGET_PASSWORD]: {
         screen: LoginForgetPWD,
         navigationOptions: {
+            // title:'忘记密码'
+        }
+    },
+    [RouteType.ROUTE_FORGET_PASSWORD_TWO]: {
+        screen: LoginForgetPWDTwo,
+        navigationOptions: {
+            // title:'忘记密码2'
         }
     },
     [RouteType.ROUTE_REDISTER_STEP_ONE]: {
@@ -763,6 +776,30 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
         screen: CarDisableScreen,
         navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DEVICES_BIND]: {
+        screen: DevicesBingScreen,
+        navigationOptions: {
+            gesturesEnabled: false
+        }
+    },
+    [RouteType.ROUTE_BIND_CAR]: {
+        screen: BindCarScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DRIVER_MANAGEMENT]: {
+        screen: DriverManageScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_DRIVER2]: {
+        screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
         }
     },
 }, {
