@@ -111,6 +111,7 @@ import ChooseCarScreen from '../containers/mine/chooseCar';
 import PersonInfoScreen from '../containers/mine/personInfo';
 import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
+import DevicesBingScreen from '../containers/mine/devicesBind';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -685,6 +686,12 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
         screen: CarDisableScreen,
         navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DEVICES_BIND]: {
+        screen: DevicesBingScreen,
+        navigationOptions: {
+            gesturesEnabled: false
         }
     },
 }, {

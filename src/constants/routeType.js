@@ -182,3 +182,5 @@ export const ROUTE_PERSON_INFO = 'ROUTE_PERSON_INFO';
 export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
 // 车辆被禁用页面
 export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';
+// 设备绑定
+export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
