@@ -80,7 +80,7 @@ class RouteContainer extends BaseComponent {
   	let number = [];
   	let perM;
 
-  	if(rowData.carLength){
+  	if(rowData && rowData.carLength){
 	  	number =(rowData.carLength+'').split(",");
 	  	const carLengths = (number.map( (item,index) => {
 	  		perM = HelperUtil.getCarLength(parseInt(number[index]));
@@ -200,7 +200,7 @@ const mapDispatchToProps = dispatch => {
 			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
-				method: 'GET',
+				method: 'POST',
 				api: ROUTE_LIST,
 				success: (data) => {
 					dispatch(dispatchRouteList({ data, pageNo: body.pageNo }));
