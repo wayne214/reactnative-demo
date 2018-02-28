@@ -123,6 +123,9 @@ import PersonInfoScreen from '../containers/mine/personInfo';
 import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
 import DevicesBingScreen from '../containers/mine/devicesBind';
+import DriverManageScreen from '../containers/mine/owner/driverManagement/driverManagement';
+import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
+import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -763,6 +766,24 @@ export const AppNavigator = StackNavigator({
         screen: DevicesBingScreen,
         navigationOptions: {
             gesturesEnabled: false
+        }
+    },
+    [RouteType.ROUTE_BIND_CAR]: {
+        screen: BindCarScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DRIVER_MANAGEMENT]: {
+        screen: DriverManageScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_DRIVER2]: {
+        screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
         }
     },
 }, {

@@ -397,3 +397,15 @@ export const API_AUTH_REALNAME_STATUS = 'app/rmc/auth/realName/status/';
 export const API_AUTH_QUALIFICATIONS_DETAIL = 'app/rmc/auth/qualifications/info';
 // 资质认证状态查询接口
 export const API_AUTH_QUALIFICATIONS_STATUS = 'app/rmc/auth/qualifications/status';
+//根据司机手机号 查询伙伴下所有车辆列表
+export const API_QUERY_CAR_LIST_BY_PHONE_NUM = 'app/rmc/driver/queryDriversByPhoneNum/';
+// 司机管理-解绑绑定司机
+export const API_DEL_DRIVER_COMPANION_RELATION = 'app/rmc/driver/delDriverCompanionRelation';
+//通过手机号或司机名称
+export const API_QUERY_DRIVERS_ALL = 'app/rmc/driver/queryDriversAll';
+//通过手机号或司机名称
+export const API_COMPANION_RELATION = 'app/rmc/driver/addDriverCompanionRelation';
+//根据手机号查询
+export const API_QUERY_CAR_INFO_BY_PHONE_NUM = 'app/rmc/rmcCar/queryCarInfoByCarNumForCompanion';
+// 司机管理-绑定车辆
+export const API_RMC_DRIVER_BINDING_CAR = 'app/rmc/driver/bindingCar';
