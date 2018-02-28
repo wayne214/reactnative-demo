@@ -29,10 +29,29 @@ import VertifyInfoIcon from '../../../assets/img/mine/vertifyInfo.png';
 import ModifyPwdIcon from '../../../assets/img/mine/modifyPwd.png';
 import SettingIcon from '../../../assets/img/mine/setting.png';
 import aboutUsIcon from '../../../assets/img/mine/aboutUsIcon.png';
+import {fetchData} from "../../action/app";
+import * as API from '../../constants/api';
 
-
-
+let currentTime = 0;
+let lastTime = 0;
+let locationData = '';
+const selectedArr = ["拍照", "从手机相册选择"];
+const options = {
+    title: '选择照片',
+    cancelButtonTitle: '取消',
+    takePhotoButtonTitle: '拍照',
+    chooseFromLibraryButtonTitle: '相册',
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    },
+    quality: 1.0,
+    maxWidth: 500,
+    maxHeight: 500,
+};
 const {height, width} = Dimensions.get('window');
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -83,6 +102,9 @@ const styles = StyleSheet.create({
         right: 0,
     }
 });
+
+
+
 class mine extends Component {
     constructor(props) {
         super(props);
@@ -94,12 +116,83 @@ class mine extends Component {
             verifiedState: '1200', // 实名认证
             modalVisible: false,
         };
+        this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
     }
 
     componentDidMount() {
-
+        this.verifiedState(this.getVerfiedStateSucCallback);
     }
 
+    getVerfiedStateSucCallback(result) {
+        console.log('verfiedcall', result);
+
+        lastTime = new Date().getTime();
+        // ReadAndWriteFileUtil.appendFile('实名认证状态查询', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+        //     locationData.district, lastTime - currentTime, '我的页面');
+        this.setState({
+            verifiedState: result,
+        });
+        // global.verifiedState = responseData.result;
+        // 首页状态
+
+        if (result == '1201') {
+            this.props.setDriverCharacterAction('1');
+        } else if (result == '1202') {
+            this.props.setDriverCharacterAction('2');
+        } else if (result == '1203') {
+            this.props.setDriverCharacterAction('3');
+        }
+    }
+    /*实名认证状态请求*/
+    verifiedState(callback) {
+        currentTime = new Date().getTime();
+
+        if (this.props.userInfo) {
+            if (this.props.userInfo.phone) {
+                this.props.verifiedState({
+                    phoneNum: '15112345678',
+                },callback);
+
+                //
+                // HTTPRequest({
+                //     url: API.API_AUTH_REALNAME_STATUS + this.props.userInfo.phone,
+                //     params: {
+                //         phoneNum: this.props.userInfo.phone,
+                //     },
+                //     loading: () => {
+                //
+                //     },
+                //     success: (responseData) => {
+                //
+                //         lastTime = new Date().getTime();
+                //         // ReadAndWriteFileUtil.appendFile('实名认证状态查询', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                //         //     locationData.district, lastTime - currentTime, '我的页面');
+                //         let result = responseData.result;
+                //         this.setState({
+                //             verifiedState: result,
+                //         });
+                //         // global.verifiedState = responseData.result;
+                //         // 首页状态
+                //
+                //         if (result == '1201') {
+                //             this.props.setDriverCharacterAction('1');
+                //         } else if (result == '1202') {
+                //             this.props.setDriverCharacterAction('2');
+                //         } else if (result == '1203') {
+                //             this.props.setDriverCharacterAction('3');
+                //         }
+                //
+                //
+                //     },
+                //     error: (errorInfo) => {
+                //
+                //     },
+                //     finish: () => {
+                //     }
+                // });
+            }
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -191,23 +284,24 @@ class mine extends Component {
                                 showBottomLine={true}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
-                                    // if (ClickUtil.onMultiClick()) {
-                                    //     if (this.state.verifiedState == '1202' || this.state.verifiedState == '1200') {
-                                    //         navigator.navigate('PersonInfo', {
-                                    //             phone: global.phone,
-                                    //         });
-                                    //
-                                    //     }
-                                    //     if (this.state.verifiedState == '1201') {
-                                    //         Alert.alert('提示', '实名认证中');
-                                    //     }
-                                    //     if (this.state.verifiedState == '1203') {
-                                    //         Alert.alert('提示', '实名认证被驳回');
-                                    //     }
-                                    // }
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_INFO, params: {
-                                        phone: '15801461058',
-                                    } })
+                                    if (ClickUtil.onMultiClick()) {
+                                        if (this.state.verifiedState == '1200') {
+                                            navigator.navigate('PersonInfo', {
+                                                phone: global.phone,
+                                            });
+                                        }
+                                        if (this.state.verifiedState == '1202') {
+                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
+                                                phone: '15801461058',
+                                            } })
+                                        }
+                                        if (this.state.verifiedState == '1201') {
+                                            Alert.alert('提示', '实名认证中');
+                                        }
+                                        if (this.state.verifiedState == '1203') {
+                                            Alert.alert('提示', '实名认证被驳回');
+                                        }
+                                    }
                                 }}
                             />
                             <SettingCell
@@ -253,26 +347,30 @@ class mine extends Component {
                                         showCertificatesOverdue={true}
                                         showBottomLine={false}
                                         clickAction={() => {
-                                            // if (this.state.verifiedState == '1200') {
-                                            //     // 未认证
-                                            //     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
-                                            //
-                                            //         if (value) {
-                                            //             this.props.navigation.navigate('VerifiedPage', {
-                                            //                 resultInfo: value,
-                                            //             });
-                                            //         } else {
-                                            //             this.props.navigation.navigate('VerifiedPage');
-                                            //         }
-                                            //     });
-                                            // } else {
-                                            //     // 认证中，认证驳回，认证通过
-                                            //
-                                            //     this.props.navigation.navigate('VerifiedStatePage', {
-                                            //         qualifications: this.state.verifiedState,
-                                            //         phone: global.phone,
-                                            //     });
-                                            // }
+                                            if (this.state.verifiedState == '1200') {
+                                                // 未认证
+                                                Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                                    if (value) {
+                                                        this.props.navigation.dispatch({
+                                                            type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                            params: {
+                                                                resultInfo: value,
+                                                            }
+                                                        });
+                                                    } else {
+                                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
+                                                    }
+                                                })
+                                            } else {
+                                                // 认证中，认证驳回，认证通过
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
+                                                    params:{
+                                                        qualifications: this.state.verifiedState,
+                                                        phone: 12356234,//global.phone
+                                                    }
+                                                });
+                                            }
                                         }}
                                     /> : null
                             }
@@ -454,7 +552,18 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        verifiedState: (params, successCallback) => {
+            dispatch(fetchData({
+                body: '',
+                method: 'POST',
+                api: API.API_AUTH_REALNAME_STATUS + params.phoneNum,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(mine);

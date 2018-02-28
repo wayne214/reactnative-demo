@@ -127,37 +127,46 @@ class PersonInfo extends Component {
         const {verifiedState} = this.props;
         imgListTemp = [];
         imgList = [];
-
-       Storage.get(StorageKeys.personInfoResult).then((value) => {
-            if (value) {
-                if (value.drivingLicenceHomePage && value.drivingLicenceHomePage !== '') {
-                    imgListTemp.push(value.drivingLicenceHomePage);
-                }
-                if (value.drivingLicenceSubPage && value.drivingLicenceSubPage !== '') {
-                    imgListTemp.push(value.drivingLicenceSubPage);
-                }
-                if (value.positiveCard && value.positiveCard !== '') {
-                    imgListTemp.push(value.positiveCard);
-                }
-                if (value.oppositeCard && value.oppositeCard !== '') {
-                    imgListTemp.push(value.oppositeCard);
-                }
-                this.setState({
-                    personInfo: value,
-                });
-            } else {
-                if (verifiedState === 1200) {
-                    this.setState({
-                        personInfo: null,
-                    });
-                } else {
-                    this.setState({
-                        personInfo: null,
-                    });
-                    this.fetchData(this.getPersonInfoSuccessCallback, this.getPersonInfoFailCallback);
-                }
-            }
-        })
+        if (verifiedState === 1200) {
+            this.setState({
+                personInfo: null,
+            });
+        } else {
+            this.setState({
+                personInfo: null,
+            });
+            this.fetchData(this.getPersonInfoSuccessCallback, this.getPersonInfoFailCallback);
+        }
+       // Storage.get(StorageKeys.personInfoResult).then((value) => {
+       //      if (value) {
+       //          if (value.drivingLicenceHomePage && value.drivingLicenceHomePage !== '') {
+       //              imgListTemp.push(value.drivingLicenceHomePage);
+       //          }
+       //          if (value.drivingLicenceSubPage && value.drivingLicenceSubPage !== '') {
+       //              imgListTemp.push(value.drivingLicenceSubPage);
+       //          }
+       //          if (value.positiveCard && value.positiveCard !== '') {
+       //              imgListTemp.push(value.positiveCard);
+       //          }
+       //          if (value.oppositeCard && value.oppositeCard !== '') {
+       //              imgListTemp.push(value.oppositeCard);
+       //          }
+       //          this.setState({
+       //              personInfo: value,
+       //          });
+       //      } else {
+       //          if (verifiedState === 1200) {
+       //              this.setState({
+       //                  personInfo: null,
+       //              });
+       //          } else {
+       //              this.setState({
+       //                  personInfo: null,
+       //              });
+       //              this.fetchData(this.getPersonInfoSuccessCallback, this.getPersonInfoFailCallback);
+       //          }
+       //      }
+       //  })
     }
 
     getCurrentPosition() {

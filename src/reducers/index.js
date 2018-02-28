@@ -18,6 +18,7 @@ import bankCard from './bankCard';
 import user from './user';
 import home from './home';
 import driverOrder from './driverOrder';
+import jpush from './jpush';
 
 const initialAuthState = {isLoggedIn: false};
 
@@ -39,7 +40,8 @@ const AppReducer = combineReducers({
     bankCard,
     user,
     home,
-	driverOrder,
+	  driverOrder,
+    jpush
 });
 
 export default AppReducer
