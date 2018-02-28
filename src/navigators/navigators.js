@@ -87,6 +87,8 @@ import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
 import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
+import LoginForgetPWD from '../containers/login/forgetPwd';
+import RegisterStepOne from '../containers/register/registerStepOne';
 
 // 账号密码登录页
 import LoginWithPwdScreen from '../containers/login/login';
@@ -114,6 +116,9 @@ import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDri
 
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
+import PersonInfoScreen from '../containers/mine/personInfo';
+import CarInfoScreen from '../containers/mine/carInfo';
+import CarDisableScreen from '../containers/mine/carDisablePage';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -545,10 +550,14 @@ export const AppNavigator = StackNavigator({
             headerTintColor: 'black'
         }
     },
-    [RouteType.ROUTE_DRIVER_HOME_PAGE]: {
+    [RouteType.ROUTE_HOME_PAGE]: {
         screen: HomeScreen,
         navigationOptions: {
-            header: null
+            // header: null,
+            // title: '首页',
+            // headerStyle: {backgroundColor: 'white'},
+            // headerBackTitle: null,
+            // headerTintColor: 'black'
         }
     },
     [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {
@@ -613,6 +622,16 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_DRIVER_SETTING]: {
         screen: DriverSettingScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_FORGET_PASSWORD]: {
+        screen: LoginForgetPWD,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_REDISTER_STEP_ONE]: {
+        screen: RegisterStepOne,
         navigationOptions: {
         }
     },
@@ -703,7 +722,21 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-
+        [RouteType.ROUTE_PERSON_INFO]: {
+        screen: PersonInfoScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_CAR_INFO]: {
+        screen: CarInfoScreen,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
+        screen: CarDisableScreen,
+        navigationOptions: {
+        }
+    },
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

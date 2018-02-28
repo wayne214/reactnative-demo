@@ -184,7 +184,8 @@ class MainContainer extends BaseComponent {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
         console.log("定位信息",global.locationData);
-      TimeToDoSomething.uploadDataFromLocalMsg();
+      //todo 上传日志开关
+      // TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
       // console.log('-------fail:', fail)
     }, {
@@ -352,7 +353,7 @@ class MainContainer extends BaseComponent {
         toValue: 1
       }
     ).start(() => this.state.rotateValue.setValue(0));
-    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'driverHome' : 'route'));
+    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'route'));
   }
 
   render() {

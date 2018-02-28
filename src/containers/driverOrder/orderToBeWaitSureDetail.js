@@ -174,7 +174,7 @@ class orderToBeWaitSureDetail extends Component {
                             taskInfo ?
                                 <ImageBackground source={TaskBackground} style={styles.imageBackground} resizeMode='stretch'>
                                     <View style={styles.constantStyle}>
-                                        <Text style={styles.constantIcon}>&#xe66d;</Text>
+                                        <Text style={styles.constantIcon}>&#xe68b;</Text>
                                         <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
                                             {deliveryInfo.receiveContact}
                                         </Text>
@@ -190,7 +190,7 @@ class orderToBeWaitSureDetail extends Component {
                                 </ImageBackground> :
                                 <View>
                                     <View style={[styles.constantStyle, {marginLeft: 5}]}>
-                                        <Text style={styles.constantIcon}>&#xe66d;</Text>
+                                        <Text style={styles.constantIcon}>&#xe68b;</Text>
                                         <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10}}>
                                             {deliveryInfo.receiveContact}
                                         </Text>

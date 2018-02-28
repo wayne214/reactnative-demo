@@ -26,6 +26,7 @@ import * as StaticColor from '../../constants/colors';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
+import {fetchData} from '../../action/app';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: StaticColor.WHITE_COLOR,
         alignItems: 'center'
+    },
+    rightButton: {
+        fontSize: 16,
+        color: StaticColor.BLUE_BACKGROUND_COLOR,
     }
 
 });
@@ -78,7 +83,7 @@ class entryToBeShipped extends Component {
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
 
-        // this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
+        this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
         this.getOrderDetailInfoFailCallBack = this.getOrderDetailInfoFailCallBack.bind(this);
         this.getOrderDetailInfoSuccessCallBack = this.getOrderDetailInfoSuccessCallBack.bind(this);
 
@@ -148,98 +153,80 @@ class entryToBeShipped extends Component {
      * 获取列表详情调用接口
      *
      */
-    // getOrderDetailInfo() {
-    //     currentTime = new Date().getTime();
-    //     // 传递参数
-    //     HTTPRequest({
-    //         url: API.API_NEW_GET_GOODS_SOURCE,
-    //         params: {
-    //             transCodeList: this.state.transOrderList,
-    //             plateNumber: this.props.plateNumber
-    //         },
-    //         loading: ()=>{
-    //             this.setState({
-    //                 loading: true,
-    //             });
-    //         },
-    //         success: (responseData)=>{
-    //             console.log('==responseData',responseData);
-    //             this.getOrderDetailInfoSuccessCallBack(responseData.result);
-    //         },
-    //         error: (errorInfo)=>{
-    //             this.getOrderDetailInfoFailCallBack();
-    //         },
-    //         finish:()=>{
-    //             this.setState({
-    //                 loading: false,
-    //             });
-    //         }
-    //     });
-    // }
+    getOrderDetailInfo() {
+        currentTime = new Date().getTime();
+        this.props._getOrderDetail({
+            transCodeList: this.state.transOrderList,
+            plateNumber: '京LPL001'
+            // plateNumber: this.props.plateNumber
+        }, (responseData) => {
+            this.getOrderDetailInfoSuccessCallBack(responseData);
+        })
+    }
 
     // 获取数据成功回调
     getOrderDetailInfoSuccessCallBack(result) {
-        // lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('获取订单详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '待发运订单详情页面');
-        // const array = [];
-        // transOrderInfo = Array();
-        // for (let i = 0; i < result.length; i++) {
-        //     let obj = result[i];
-        //     let goodsInfo = [];
-        //     for (let i = 0; i < obj.goodsInfo.length; i++) {
-        //         let object = obj.goodsInfo[i];
-        //         let oo = {
-        //             arNums: object.arNums,
-        //             goodsId: object.goodsId,
-        //             goodsName: object.goodsName,
-        //             goodsSpce: object.goodsSpce,
-        //             goodsUnit: object.goodsUnit,
-        //             refuseNum: object.refuseNum,
-        //             refuseReason: object.refuseReason,
-        //             shipmentNum: object.shipmentNum,
-        //             signNum: object.signNum,
-        //             weight: object.weight,
-        //             paasLineNo: object.paasLineNo
-        //         };
-        //         if (oo.shipmentNum === '0' || !oo.shipmentNum || oo.shipmentNum === 0) {
-        //             oo.shipmentNum = oo.arNums;
-        //         }
-        //         if (!oo.arNums || oo.arNums === '0' || oo.arNums === '') {
-        //             oo.shipmentNum = oo.weight;
-        //         }
-        //         goodsInfo.push(oo);
-        //     }
-        //     obj.goodsInfo = goodsInfo;
-        //     array.push(obj);
-        //     // 默认发运数据
-        //     const goodsInfoList = [];
-        //     for (let j = 0; j < obj.goodsInfo.length; j++) {
-        //         const goods = obj.goodsInfo[j];
-        //         goodsInfoList.push({
-        //             goodsId: goods.goodsId,
-        //             shipmentNums: goods.arNums === '' || goods.arNums === '0' ? goods.weight : goods.arNums,
-        //             refuseDetail: [
-        //                 {
-        //                     detailNum: goods.refuseNum,
-        //                     refuseType: '',
-        //                 },
-        //             ],
-        //             refuseNum: goods.refuseNum,
-        //             signNum: goods.signNum,
-        //             paasLineNo: goods.paasLineNo,
-        //         });
-        //     }
-        //     transOrderInfo.push({
-        //         transCode: obj.transCode,
-        //         goodsInfo: goodsInfoList,
-        //     });
-        // }
-        // console.log(JSON.stringify(transOrderInfo));
-        // this.setState({
-        //     datas: array,
-        //     isShowEmptyView: false,
-        // });
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('获取订单详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '待发运订单详情页面');
+        const array = [];
+        transOrderInfo = Array();
+        for (let i = 0; i < result.length; i++) {
+            let obj = result[i];
+            let goodsInfo = [];
+            for (let i = 0; i < obj.goodsInfo.length; i++) {
+                let object = obj.goodsInfo[i];
+                let oo = {
+                    arNums: object.arNums,
+                    goodsId: object.goodsId,
+                    goodsName: object.goodsName,
+                    goodsSpce: object.goodsSpce,
+                    goodsUnit: object.goodsUnit,
+                    refuseNum: object.refuseNum,
+                    refuseReason: object.refuseReason,
+                    shipmentNum: object.shipmentNum,
+                    signNum: object.signNum,
+                    weight: object.weight,
+                    paasLineNo: object.paasLineNo
+                };
+                if (oo.shipmentNum === '0' || !oo.shipmentNum || oo.shipmentNum === 0) {
+                    oo.shipmentNum = oo.arNums;
+                }
+                if (!oo.arNums || oo.arNums === '0' || oo.arNums === '') {
+                    oo.shipmentNum = oo.weight;
+                }
+                goodsInfo.push(oo);
+            }
+            obj.goodsInfo = goodsInfo;
+            array.push(obj);
+            // 默认发运数据
+            const goodsInfoList = [];
+            for (let j = 0; j < obj.goodsInfo.length; j++) {
+                const goods = obj.goodsInfo[j];
+                goodsInfoList.push({
+                    goodsId: goods.goodsId,
+                    shipmentNums: goods.arNums === '' || goods.arNums === '0' ? goods.weight : goods.arNums,
+                    refuseDetail: [
+                        {
+                            detailNum: goods.refuseNum,
+                            refuseType: '',
+                        },
+                    ],
+                    refuseNum: goods.refuseNum,
+                    signNum: goods.signNum,
+                    paasLineNo: goods.paasLineNo,
+                });
+            }
+            transOrderInfo.push({
+                transCode: obj.transCode,
+                goodsInfo: goodsInfoList,
+            });
+        }
+        console.log(JSON.stringify(transOrderInfo));
+        this.setState({
+            datas: array,
+            isShowEmptyView: false,
+        });
     }
 
     // 获取数据失败回调
@@ -452,8 +439,8 @@ class entryToBeShipped extends Component {
             <View>
                 <NavigatorBar
                     title={'订单详情'}
-                    navigator={navigator}
-                    leftButtonHidden={false}
+                    router={navigator}
+                    hiddenBackIcon={false}
                 />
                 <EmptyView/>
             </View>
@@ -541,13 +528,13 @@ class entryToBeShipped extends Component {
             <View style={styles.container}>
                 <NavigatorBar
                     title={'订单详情'}
-                    navigator={navigator}
+                    router={navigator}
                     hiddenBackIcon={false}
-                    rightButtonConfig={
-                        this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? {} : {
-                        type: 'string',
-                        title: '取消接单',
-                        onClick: this.cancelOrder,
+                    optTitle={ this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
+                    optTitleStyle={styles.rightButton}
+                    firstLevelClick={this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? {} :
+                        () => {
+                        this.cancelOrder
                     }}
                 />
                 {/*{*/}
@@ -601,6 +588,21 @@ function mapDispatchToProps(dispatch) {
         // resetCityListAction: (data) => {
         //     dispatch(isReSetCity(data));
         // },
+        // 获取订单详情
+        _getOrderDetail: (params, callBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_GET_GOODS_SOURCE,
+                success: data => {
+                    console.log('get order details success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error)
+                }
+            }))
+        }
     };
 }
 

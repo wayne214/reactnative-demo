@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: width,
         height: 45,
-        backgroundColor: 'transparent',
+        backgroundColor: StaticColor.BLUE_BACKGROUND_COLOR,
         alignSelf: 'center',
     },
     tip:{

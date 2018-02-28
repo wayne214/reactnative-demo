@@ -21,9 +21,11 @@ import * as RouteType from '../../constants/routeType';
 
 class driverOrderListItem extends Component {
     constructor (props) {
-        super(props)
+        super(props);
         this.renderRow = this.renderRow.bind(this);
         this.renderRowItem = this.renderRowItem.bind(this);
+        this.transportsList = this.transportsList.bind(this);
+
     }
     componentDidMount() {
 
@@ -178,91 +180,47 @@ class driverOrderListItem extends Component {
     }
     renderRowItem(data) {
         const dataRow = data.item;
-        if (this.props.currentStatus == 'driver') {
-            if ( dataRow.transCodeNum !== 0) {
-                return (
-                    <OrderTransportCell
-                        receiveContact={dataRow.receiveContact ? dataRow.receiveContact : ''}
-                        transCodeList={dataRow.transports}
-                        ordersNum={dataRow.transCodeNum}
-                        receiveAddress={dataRow.receiveAddress}
-                        receiveContactName={dataRow.receiveContactName ? dataRow.receiveContactName : ''}
-                        phoneNum={dataRow.phoneNum}
-                        isBatchSign={dataRow.transports.length > 1}
-                        orderSignNum={dataRow.orderSignNum}
-                        onSelect={() => {
-                            this.props.navigation.dispatch({
-                                type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
-                                params: {
-                                    transOrderList: dataRow.transOrderList,
-                                }
-                            });
-                            {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
-                                {/*transOrderList: this.transportsList(dataRow),*/}
-                            {/*})*/}
-                        }}
-                        onButton={() => {
-                            {/*this.transportBatchSign(dataRow);*/}
-                        }}
-                    />
-                );
-            }else {
-                return null;
-            }
-        }else {
-            const pushTime = dataRow.time ? dataRow.time.replace(/-/g,'/').substring(0, dataRow.time.length - 3) : '';
-            const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, dataRow.arrivalTime.length - 5) : '';
-            // 货品类型
-            const orderDetaiTypeList = dataRow.ofcOrderDetailTypeDtoList;
-            let goodTepesTemp = [];
-            let goodTypesName = [];
-            if(orderDetaiTypeList && orderDetaiTypeList.length > 0) {
-                let good = '';
-                for (let i = 0; i < orderDetaiTypeList.length; i++) {
-                    good = orderDetaiTypeList[i];
-                    goodTepesTemp = goodTepesTemp.concat(good.goodsTypes);
-                }
-                // 去重
-                goodTypesName = UniqueUtil.unique(goodTepesTemp);
-            } else {
-                goodTypesName.push('其他');
-            }
+        if ( dataRow.transCodeNum !== 0) {
             return (
-                <OrdersItemCell
-                    time={pushTime}
-                    scheduleCode={dataRow.scheduleCode}
-                    scheduleRoutes={dataRow.scheduleRoutes}
-                    distributionPoint={dataRow.distributionPoint}
-                    arrivalTime={arrivalTime}
-                    weight={dataRow.weight}
-                    vol={dataRow.vol}
-                    stateName={dataRow.stateName}
-                    dispatchStatus={dataRow.dispatchStatus}
-                    orderStatus={selectPage}
-                    goodKindsNames={goodTypesName} // 货品种类
-                    waitBeSureOrderNum={dataRow.orderSignNum}
-                    beSureOrderNum={dataRow.beSureOrderNum}
-                    transCodeNum={dataRow.transCodeNum}
-                    goodsCount={dataRow.num}
-                    temperature={dataRow.temperature && dataRow.temperature != '0-0' ? `${dataRow.temperature}℃` : ''}
-                    carrierName={dataRow.carrierName}
-                    carrierPlateNum={dataRow.carrierPlateNum}
+                <OrderTransportCell
+                    receiveContact={dataRow.receiveContact ? dataRow.receiveContact : ''}
+                    transCodeList={dataRow.transports}
+                    ordersNum={dataRow.transCodeNum}
+                    receiveAddress={dataRow.receiveAddress}
+                    receiveContactName={dataRow.receiveContactName ? dataRow.receiveContactName : ''}
+                    phoneNum={dataRow.phoneNum}
+                    isBatchSign={dataRow.transports.length > 1}
+                    orderSignNum={dataRow.orderSignNum}
                     onSelect={() => {
-                        if (dataRow.distributionPoint === 0) {
-                            {/*Toast.showShortCenter('暂无详情');*/}
-                            return;
-                        }
-                        // 其他的都跳转到  ORDER_ENTRY_TO_BE_SIGNIN
+                        this.props.navigation.dispatch({
+                            type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
+                            params: {
+                                transOrderList: this.transportsList(dataRow),
+                            }
+                        });
                         {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
-                            {/*transOrderList: dataRow.transOrderList,*/}
-                            {/*carrierName: dataRow.carrierName,*/}
-                            {/*carrierPlateNum: dataRow.carrierPlateNum,*/}
-                        {/*});*/}
+                            {/*transOrderList: this.transportsList(dataRow),*/}
+                        {/*})*/}
+                    }}
+                    onButton={() => {
+                        {/*this.transportBatchSign(dataRow);*/}
                     }}
                 />
             );
+        }else {
+            return null;
         }
     }
+
+    // 运单号集合
+    transportsList(dataRow) {
+        let list = [];
+        for (let i = 0; i < dataRow.transports.length; i++) {
+            list.push(dataRow.transports[i].transCode);
+        }
+        return list;
+    }
+
     _renderFooter(){
         const { dataSource } = this.props;
         if (dataSource.get('list').size > 1) {
