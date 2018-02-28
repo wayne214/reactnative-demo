@@ -332,10 +332,7 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWith
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
-// 注册获取短信验证码
-export const API_UAM_REGISTER_IDENTIFY_CODE = `app/uam/register/identifyCode`;
-// 用户注册接口
-export const API_UAM_REGISTER = `app/uam/register`;
+
 
 /********************************司机用户中心API*************************************/
 //获取登录密钥
@@ -357,6 +354,17 @@ export const API_USER_LOGOUT = 'app/user/logout/v3.0/';
 export const API_NEW_GET_PUSHSTATUS_WITH_DRIVERID = 'app/uam/jpush/getPushStatusByUserId/';
 // 更改状态
 export const API_CHANGE_ACCEPT_MESSAGE = 'app/uam/jpush/setPushStatus';
+// 注册获取短信验证码
+export const API_UAM_REGISTER_IDENTIFY_CODE = `app/uam/register/identifyCode`;
+// 用户注册接口
+export const API_UAM_REGISTER = `app/uam/register`;
+// 校验忘记密码的验证码是否正确
+export const API_CHECK_IDENTIFY_CODE = `app/uam/message/checkForgetIdentifyCode`;
+// 获取忘记密码验证码接口
+export const API_GET_FORGET_PSD_CODE = `app/uam/message/getForgetIdentifyCode`;
+// 根据验证码修改密码
+export const API_NEW_CHANGE_PSD_WITH_CODE = `app/uam/login/forgetPassword`;
+
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';

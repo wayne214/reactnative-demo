@@ -33,6 +33,9 @@ const {width, height} = Dimensions.get('window');
 import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 import Forgetdel from '../../../assets/login/forgetdel.png';
 import BlueButtonArc from '../../../assets/button/blueButtonArc.png';
+import {registeredIdentityCodeAction} from "../../action/register";
+import {fetchData} from "../../action/app";
+import * as RouteType from "../../constants/routeType";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class forgetPWD extends Component {
+class forgetPWD extends Component {
 
     constructor(props) {
         super(props);
@@ -87,6 +90,7 @@ export default class forgetPWD extends Component {
         this.canclePhonePWD = this.canclePhonePWD.bind(this);
         this.nextStep = this.nextStep.bind(this);
         this.checkCode = this.checkCode.bind(this);
+        this.checkCodeSucCallBack = this.checkCodeSucCallBack.bind(this);
     }
 
     componentDidMount() {
@@ -112,31 +116,11 @@ export default class forgetPWD extends Component {
 
     /*获取验证码*/
     getForgetVCode(shouldStartCountting) {
-
-        HTTPRequest({
-            url: API.API_GET_FORGET_PSD_CODE,
-            params: {
-                deviceId: global.UDID,
-                phoneNum: this.state.phoneNo,
-            },
-            loading: ()=>{
-
-            },
-            success: (responseData)=>{
-                /*开启倒计时*/
-                shouldStartCountting(true);
-                Toast.showShortCenter('验证码已发送');
-
-            },
-            error: (errorInfo)=>{
-                /*关闭倒计时*/
-                shouldStartCountting(false);
-
-            },
-            finish: ()=>{
-
-            }
-        })
+        //todo uuid
+        this.props.getForgetVCodeAction({
+            deviceId: '222222',
+            phoneNum: this.state.phoneNo,
+        },shouldStartCountting)
     }
 
     canclePhoneNO() {
@@ -152,48 +136,32 @@ export default class forgetPWD extends Component {
     }
 
     /*检验验证码是否正确*/
-    checkCode(){
-        currentTime = new Date().getTime();
+    checkCode(checkCodeSucCallBack){
+        this.props.checkCodeAction({
+            identifyCode: this.state.pwdCode,
+            phoneNum: this.state.phoneNo,
+        },checkCodeSucCallBack)
+    }
 
-        HTTPRequest({
-            url: API.API_CHECK_IDENTIFY_CODE,
-            params: {
-                identifyCode: this.state.pwdCode,
-                phoneNum: this.state.phoneNo,
-            },
-            loading: ()=>{
-                this.setState({
-                    loading: true,
-                });
-            },
-            success: (responseData)=>{
-                lastTime = new Date().getTime();
-                // ReadAndWriteFileUtil.appendFile('校验忘记密码的验证码是否正确',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                //     locationData.district, lastTime - currentTime, '忘记密码');
-                if (responseData.result) {
-                    this.props.navigation.navigate('ChangeCodePwd', {
-                        identifyCode: this.state.pwdCode,
-                        phoneNum: this.state.phoneNo,
-                    });
-                } else {
-                    Toast.showShortCenter('输入的验证码不正确');
-                }
-            },
-            error: (errorInfo)=>{
-
-            },
-            finish: ()=>{
-                this.setState({
-                    loading: false,
-                });
-            }
-        })
+    checkCodeSucCallBack(data){
+        if (data) {
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_FORGET_PASSWORD_TWO,
+                params: { identifyCode: this.state.pwdCode, phoneNum: this.state.phoneNo,}
+            })
+            // this.props.navigation.navigate('ChangeCodePwd', {
+            //     identifyCode: this.state.pwdCode,
+            //     phoneNum: this.state.phoneNo,
+            // });
+        } else {
+            Toast.showShortCenter('输入的验证码不正确');
+        }
     }
 
     // 下一步按钮
     nextStep() {
         if (this.state.phoneNo !== '' && this.state.pwdCode !== '') {
-            this.checkCode();
+            this.checkCode(this.checkCodeSucCallBack);
         } else {
             Toast.showShortCenter('账号或密码不能为空');
         }
@@ -358,3 +326,41 @@ export default class forgetPWD extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch,
+        getForgetVCodeAction: (params,shouldStartCountting) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_GET_FORGET_PSD_CODE,
+                success: data => {
+                    shouldStartCountting(true);
+                    Toast.showShortCenter('验证码已发送');
+                },
+                fail: data => {
+                    shouldStartCountting(false);
+                }
+            }))
+        },
+        checkCodeAction: (params,checkCodeSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_CHECK_IDENTIFY_CODE,
+                success: data => {
+                    checkCodeSucCallBack(data);
+                },
+                fail: data => {
+
+                }
+            }))
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(forgetPWD);

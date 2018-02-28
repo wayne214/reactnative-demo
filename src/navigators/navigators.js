@@ -88,6 +88,7 @@ import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
+import LoginForgetPWDTwo from '../containers/login/forgetPwdStepTwo';
 import RegisterStepOne from '../containers/register/registerStepOne';
 
 // 账号密码登录页
@@ -111,6 +112,7 @@ import ChooseCarScreen from '../containers/mine/chooseCar';
 import PersonInfoScreen from '../containers/mine/personInfo';
 import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
+import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -620,6 +622,13 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_FORGET_PASSWORD]: {
         screen: LoginForgetPWD,
         navigationOptions: {
+            // title:'忘记密码'
+        }
+    },
+    [RouteType.ROUTE_FORGET_PASSWORD_TWO]: {
+        screen: LoginForgetPWDTwo,
+        navigationOptions: {
+            // title:'忘记密码2'
         }
     },
     [RouteType.ROUTE_REDISTER_STEP_ONE]: {
