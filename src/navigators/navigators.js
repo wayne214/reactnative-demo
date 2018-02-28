@@ -104,6 +104,14 @@ import PersonCarOwnerAuth from '../containers/driverVerified/personCarOwnerAuth'
 import CompanyCarOwnerAuth from '../containers/driverVerified/companyCarOwnerAuth';
 import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical';
 import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
+import EnterpriseownerVerifiedState from '../containers/driverVerified/ownerVerified/enterpriseownerVerifiedState';
+import PersonownerVerified from '../containers/driverVerified/ownerVerified/personownerVerifiedState';
+import ShowBigImagePage from '../containers/driverVerified/verifiedShowBigImage';
+import CarOwnerAddCar from '../containers/driverVerified/carOwnerAddCar';
+import CarOwnerAddCarDetail from '../containers/driverVerified/carOwnerAddCarDetail';
+import CarOwnerAddDriver from '../containers/driverVerified/carOwnerAddDriver';
+import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDriverDetail';
+
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
 
@@ -653,7 +661,48 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-
+    [RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL]: {
+        screen: EnterpriseownerVerifiedState,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_PERSON_OWNER_VERIFIED]: {
+        screen: PersonownerVerified,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SHOW_BIG_IMAGE]: {
+        screen: ShowBigImagePage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR]: {
+        screen: CarOwnerAddCar,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL]: {
+        screen: CarOwnerAddCarDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_DRIVER]: {
+        screen: CarOwnerAddDriver,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL]: {
+        screen: CarOwnerAddDriverDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
 
 }, {
     headerMode: 'screen',

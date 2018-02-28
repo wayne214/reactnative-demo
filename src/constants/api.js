@@ -322,6 +322,23 @@ export const API_COMPANY_CERTIFICATION = `${XYT_HOST}app/rmc/company/appInsertCe
 // 上传营业执照
 export const API_GET_BUSINESS_LICENSE = `${XYT_HOST}app/photo/businessLicense`;
 
+// 根据手机号查询伙伴信息
+export const API_QUERY_COMPANY_INFO = `${XYT_HOST}app/rmc/company/queryCompanyInfoByBusTel`;
+
+// 交强险
+export const API_GET_SEND_QIANGXIAN_INFO = `${XYT_HOST}app/photo/insurance`;
+
+// 车头照
+export const API_GET_CAR_HEADER_INFO = `${XYT_HOST}app/photo/vehicle`;
+
+// 车长载重接口
+export const API_LENGTH_AND_WEIGHT_COMMIT = `${XYT_HOST}app/rmc/rmcCar/queryVehicleLengthAndWeight`;
+
+// 车主增加车辆接口
+export const API_AUTH_QUALIFICATIONS_COMMIT = `${XYT_HOST}app/rmc/rmcCar/createCertificationQualification`;
+
+// 车主增加车辆详情接口
+export const API_AUTH_QUALIFICATIONS_DETAIL = `${XYT_HOST}app/rmc/auth/qualifications/info`;
 
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单

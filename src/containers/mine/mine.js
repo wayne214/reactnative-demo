@@ -334,6 +334,7 @@ class mine extends Component {
                                                  phone: 12356234,//global.phone
                                                  }
                                          });
+
                                     }
                                 }}
                             />
@@ -341,7 +342,8 @@ class mine extends Component {
                                 leftIconImage={aboutUsIcon}
                                 content={'个人车主认证'}
                                 clickAction={() => {
-                                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                                    if (2 === 1){
+                                        Storage.get(StorageKey.personownerInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
                                                     type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
@@ -353,13 +355,19 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
                                             }
                                         });
+                                    }else {
+                                        // 认证详情
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
+
+                                    }
                                 }}
                             />
                             <SettingCell
                                 leftIconImage={aboutUsIcon}
                                 content={'企业车主认证'}
                                 clickAction={() => {
-                                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                                    if (2 === 1){
+                                        Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
                                                     type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
@@ -371,6 +379,52 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
                                             }
                                         });
+                                    }else {
+                                        // 认证详情
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
+                                    }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'车主增加司机'}
+                                clickAction={() => {
+                                    if (2 === 1){
+                                        Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
+                                            }
+                                        });
+                                    }else {
+                                        // 详情
+
+                                    }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'车主增加车辆'}
+                                clickAction={() => {
+                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
+                                            }
+                                        });
+
                                 }}
                             />
                         </View> : <View>
