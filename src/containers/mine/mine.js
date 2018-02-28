@@ -273,7 +273,7 @@ class mine extends Component {
                 <View style={styles.separateView}/>
                 <ScrollView>
                 {
-                    this.props.currentStatus == 'driver' ?
+                    this.props.currentStatus == 'driver1' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
@@ -571,7 +571,7 @@ class mine extends Component {
                                 content={'常用线路设置'}
                                 showBottomLine={true}
                                 clickAction={() => {
-
+                                    this.props.navigation.dispatch({type:RouteType.ROUTE_MY_ROUTE, params: {title: '我的路线'}})
                                 }}
                             />
                             <View style={styles.separateView}/>
@@ -581,10 +581,7 @@ class mine extends Component {
                                 content={'服务与设置'}
                                 showBottomLine={false}
                                 clickAction={() => {
-                                    // ClickUtil.resetLastTime();
-                                    // if (ClickUtil.onMultiClick()) {
-                                    //     navigator.navigate('ChangePwd');
-                                    // }
+                                    this.props.navigation.dispatch({type:RouteType.ROUTE_SETTING, params:{title: '设置'}})
                                 }}
                             />
                         </View>
