@@ -667,7 +667,7 @@ class companyCarOwnerAuth extends Component {
                 Toast.showShortCenter('企业车主认证提交成功');
 
                 this.props.setOwnerCharacterAction('21');
-                this.props.navigation.navigate('Main',{CarOwnerState: true});
+                this.props.navigation.goBack();
 
                 this.props.navigation.navigate('Main');
                 this.props.setOwnerNameAction(this.state.companyName);
@@ -766,7 +766,7 @@ class companyCarOwnerAuth extends Component {
         return (
             <View style={styles.container}>
                 <NavigatorBar
-                    title='个人车主认证'
+                    title='企业车主认证'
                     router={this.props.navigation}
                     hiddenBackIcon={false}
                     backViewClick={()=>{

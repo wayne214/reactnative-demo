@@ -71,10 +71,14 @@ class driverOrderListItem extends Component {
                 carrierName={dataRow.carrierName}
                 carrierPlateNum={dataRow.carrierPlateNum}
                 bindGPS={() => {
-
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_SCAN_GPS_PAGE,
+                    })
                 }}
                 checkGPS={() =>{
-
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_GPS_DETAIL_PAGE,
+                    })
                 }}
                 onSelect={() => {
                     if (dataRow.distributionPoint === 0) {

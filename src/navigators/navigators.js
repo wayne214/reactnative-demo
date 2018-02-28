@@ -85,6 +85,9 @@ import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
 import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
 import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
+import ScanGPSScreen from '../containers/driverOrder/scanGPS';
+import BindGPSScreen from '../containers/driverOrder/bindGPS';
+import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -107,12 +110,21 @@ import PersonCarOwnerAuth from '../containers/driverVerified/personCarOwnerAuth'
 import CompanyCarOwnerAuth from '../containers/driverVerified/companyCarOwnerAuth';
 import TakeCameraVertical from '../containers/driverVerified/takeCameraVertical';
 import TakeCameraVerticalEnd from '../containers/driverVerified/takeCameraVerticalEnd';
+import EnterpriseownerVerifiedState from '../containers/driverVerified/ownerVerified/enterpriseownerVerifiedState';
+import PersonownerVerified from '../containers/driverVerified/ownerVerified/personownerVerifiedState';
+import ShowBigImagePage from '../containers/driverVerified/verifiedShowBigImage';
+import CarOwnerAddCar from '../containers/driverVerified/carOwnerAddCar';
+import CarOwnerAddCarDetail from '../containers/driverVerified/carOwnerAddCarDetail';
+import CarOwnerAddDriver from '../containers/driverVerified/carOwnerAddDriver';
+import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDriverDetail';
+
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
 import PersonInfoScreen from '../containers/mine/personInfo';
 import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
 import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
+import DevicesBingScreen from '../containers/mine/devicesBind';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -578,6 +590,24 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_SCAN_GPS_PAGE]: {
+        screen: ScanGPSScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_GPS_DETAIL_PAGE]: {
+        screen: GPSDetailScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BIND_GPS_PAGE]: {
+        screen: BindGPSScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {
@@ -681,7 +711,49 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-    [RouteType.ROUTE_PERSON_INFO]: {
+    [RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL]: {
+        screen: EnterpriseownerVerifiedState,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_PERSON_OWNER_VERIFIED]: {
+        screen: PersonownerVerified,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SHOW_BIG_IMAGE]: {
+        screen: ShowBigImagePage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR]: {
+        screen: CarOwnerAddCar,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL]: {
+        screen: CarOwnerAddCarDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_DRIVER]: {
+        screen: CarOwnerAddDriver,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL]: {
+        screen: CarOwnerAddDriverDetail,
+        navigationOptions: {
+            header: null
+        }
+    },
+        [RouteType.ROUTE_PERSON_INFO]: {
         screen: PersonInfoScreen,
         navigationOptions: {
         }
@@ -694,6 +766,12 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
         screen: CarDisableScreen,
         navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_DEVICES_BIND]: {
+        screen: DevicesBingScreen,
+        navigationOptions: {
+            gesturesEnabled: false
         }
     },
 }, {

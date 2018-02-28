@@ -273,7 +273,7 @@ class mine extends Component {
                 <View style={styles.separateView}/>
                 <ScrollView>
                 {
-                    this.props.currentStatus == 'driver' ?
+                    this.props.currentStatus == 'driver1' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
@@ -444,6 +444,7 @@ class mine extends Component {
                                                  phone: 12356234,//global.phone
                                                  }
                                          });
+
                                     }
                                 }}
                             />
@@ -451,7 +452,8 @@ class mine extends Component {
                                 leftIconImage={aboutUsIcon}
                                 content={'个人车主认证'}
                                 clickAction={() => {
-                                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                                    if (2 === 1){
+                                        Storage.get(StorageKey.personownerInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
                                                     type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
@@ -463,13 +465,19 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
                                             }
                                         });
+                                    }else {
+                                        // 认证详情
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
+
+                                    }
                                 }}
                             />
                             <SettingCell
                                 leftIconImage={aboutUsIcon}
                                 content={'企业车主认证'}
                                 clickAction={() => {
-                                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                                    if (2 === 1){
+                                        Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
                                                     type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
@@ -481,6 +489,48 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
                                             }
                                         });
+                                    }else {
+                                        // 认证详情
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
+                                    }
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'车主增加司机'}
+                                clickAction={() => {
+                                        Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
+                                            }
+                                        });
+
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'车主增加车辆'}
+                                clickAction={() => {
+                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
+                                            }
+                                        });
+
                                 }}
                             />
                         </View> : <View>
@@ -521,7 +571,7 @@ class mine extends Component {
                                 content={'常用线路设置'}
                                 showBottomLine={true}
                                 clickAction={() => {
-
+                                    this.props.navigation.dispatch({type:RouteType.ROUTE_MY_ROUTE, params: {title: '我的路线'}})
                                 }}
                             />
                             <View style={styles.separateView}/>
@@ -531,10 +581,7 @@ class mine extends Component {
                                 content={'服务与设置'}
                                 showBottomLine={false}
                                 clickAction={() => {
-                                    // ClickUtil.resetLastTime();
-                                    // if (ClickUtil.onMultiClick()) {
-                                    //     navigator.navigate('ChangePwd');
-                                    // }
+                                    this.props.navigation.dispatch({type:RouteType.ROUTE_SETTING, params:{title: '设置'}})
                                 }}
                             />
                         </View>

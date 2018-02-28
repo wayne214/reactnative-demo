@@ -677,7 +677,7 @@ class personCarOwnerAuth extends Component {
                 Storage.remove(StorageKey.personownerInfoResult);
                 Toast.showShortCenter('个人车主认证提交成功');
 
-                this.props.navigation.navigate('Main',{CarOwnerState: true});
+                this.props.navigation.goBack();
 
                 this.props.setOwnerCharacterAction('11');
                 this.props.setOwnerNameAction(this.state.IDName);

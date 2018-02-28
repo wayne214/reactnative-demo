@@ -22,15 +22,16 @@ import Storage from '../../utils/storage';
 import Toast from '@remobile/react-native-toast';
 import LoadingView from '../../utils/loading';
 import {Geolocation} from 'react-native-baidu-map-xzx';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import HTTPRequest from '../../utils/httpRequest';
 import StorageKey from '../../constants/storageKeys';
+const BlueButtonArc = require('../../../assets/img/button/blueButtonArc.png');
 import Button from 'apsl-react-native-button';
-import * as RouteType from '../../constants/routeType';
 
 const headerImageFail = require('./images/verifiedFail.png');
 const headerImageSuccess = require('./images/verifiedSuccess.png');
 const headerImageLoading = require('./images/verifieding.png');
-const BlueButtonArc = require('../../../assets/img/button/blueButtonArc.png');
+
 
 let currentTime = 0;
 let lastTime = 0;
@@ -79,15 +80,14 @@ const styles = StyleSheet.create({
 
 });
 
-class verifiedState extends Component{
+class carOwnerAddDriverDetail extends Component{
     constructor(props) {
         super(props);
 
         this.state={
             resultInfo: {},
             appLoading: false,
-            qualifications: this.props.navigation.state.params.qualifications || '1200',
-            phone: this.props.navigation.state.params.phone,
+            qualifications: this.props.navigation.state.params.qualifications,
         };
 
         this.getRealNameDetail = this.getRealNameDetail.bind(this);
@@ -97,34 +97,21 @@ class verifiedState extends Component{
 
     }
 
+
+
     componentDidMount() {
 
         this.getCurrentPosition();
 
-        /*
         if (this.state.qualifications == '1203') {
 
-            this.getRealNameDetail(this.state.phone);
+            this.getRealNameDetail(global.phone);
 
         } else {
-            Storage.get(StorageKey.personInfoResult).then((value) => {
 
-                if (value) {
-                    this.setState({
-                        resultInfo: value,
-                    });
-                } else {
-
-                    console.log('this.state.phone:', this.state.phone);
-                    this.getRealNameDetail(this.state.phone);
-
-                }
-            });
-
+            // 先判断是否有存储的值
+            this.getRealNameDetail(global.phone);
         }
-        */
-        this.getRealNameDetail(this.state.phone);
-
     }
 
     // 获取当前位置
@@ -152,7 +139,8 @@ class verifiedState extends Component{
             },
             success: (responseData) => {
                 lastTime = new Date().getTime();
-
+                ReadAndWriteFileUtil.appendFile('获取司机认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                    locationData.district, lastTime - currentTime, '司机认证详情页面');
                 if(responseData.result){
                     this.setState({
                         resultInfo: responseData.result,
@@ -160,7 +148,7 @@ class verifiedState extends Component{
                     });
 
                     if (responseData.result.certificationStatus == '1202'){
-                        Storage.save(StorageKey.personInfoResult, responseData.result);
+                        // 是否需要保存值
                     }
                     DeviceEventEmitter.emit('verifiedSuccess');
 
@@ -182,24 +170,10 @@ class verifiedState extends Component{
 
     /*重新认证*/
     reloadVerified(){
-        Storage.remove(StorageKey.personInfoResult);
+        // 移除保存的值
+        //Storage.remove(StorageKey.personInfoResult);
 
-        if (this.state.resultInfo.driverPhone !== global.phone){
-            this.props.navigation.navigate('CarOwnerAddDriver', {
-                resultInfo: this.state.resultInfo,
-            });
-        }else {
-            this.props.navigation.dispatch({
-                type: RouteType.ROUTE_DRIVER_VERIFIED,
-                params: {
-                    resultInfo: this.state.resultInfo,
-                }
-            });
-        }
-
-        /*
-        Storage.get(StorageKey.changePersonInfoResult).then((value) => {
-
+        Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
             if (value){
                 this.props.navigation.navigate('VerifiedPage', {
                     resultInfo: value,
@@ -210,11 +184,11 @@ class verifiedState extends Component{
                 });
             }
         });
-        */
     }
 
     /*显示原图*/
     showBigImage(imageUrls, selectIndex){
+
         this.props.navigation.dispatch({
             type: RouteType.ROUTE_SHOW_BIG_IMAGE,
             params: {
@@ -222,10 +196,11 @@ class verifiedState extends Component{
                 selectIndex: selectIndex,
             }
         });
-
     }
 
     render() {
+        const navigator = this.props.navigation;
+
         // 1201  认证中   1202 认证通过  1203 认证驳回
 
         let headView = this.state.qualifications == '1201' ?
@@ -274,10 +249,10 @@ class verifiedState extends Component{
         return (
             <View style={styles.container}>
                 <NavigatorBar
-                    title='司机认证'
+                    title='司机详情'
                     router={this.props.navigation}
-                    hiddenBackIcon={false}
-                />
+                    hiddenBackIcon={false} />
+
                 <ScrollView
                     bounces={false}>
 
@@ -287,23 +262,23 @@ class verifiedState extends Component{
 
                     <RealNameItem resultInfo={this.state.resultInfo}
                                   imageClick={(index)=>{
-                                      
+
                                       if (index === 0){
-                                          if (this.state.resultInfo.positiveCard){                   
+                                          if (this.state.resultInfo.positiveCard){
                                               this.showBigImage([this.state.resultInfo.positiveCard], 0);
-                                          }else 
+                                          }else
                                               Toast.showShortCenter('暂无图片');
                                       }
                                       if (index === 1){
-                                          if (this.state.resultInfo.oppositeCard){                   
+                                          if (this.state.resultInfo.oppositeCard){
                                               this.showBigImage([this.state.resultInfo.oppositeCard], 0);
-                                          }else 
+                                          }else
                                               Toast.showShortCenter('暂无图片');
                                       }
                                       if (index === 2){
-                                          if (this.state.resultInfo.handleIdNormalPhotoAddress){                   
+                                          if (this.state.resultInfo.handleIdNormalPhotoAddress){
                                               this.showBigImage([this.state.resultInfo.handleIdNormalPhotoAddress], 0);
-                                          }else 
+                                          }else
                                               Toast.showShortCenter('暂无图片');
                                       }
 
@@ -312,20 +287,20 @@ class verifiedState extends Component{
                     <VerifiedGrayTitleItem title="驾驶证"/>
                     <DriverItem resultInfo={this.state.resultInfo}
                                 imageClick={(index)=>{
-                                    
+
                                     if (index === 0){
-                                        if (this.state.resultInfo.drivingLicenceHomePage){                   
+                                        if (this.state.resultInfo.drivingLicenceHomePage){
                                             this.showBigImage([this.state.resultInfo.drivingLicenceHomePage], 0);
-                                        }else 
+                                        }else
                                             Toast.showShortCenter('暂无图片');
                                     }
                                     if (index === 1){
-                                        if (this.state.resultInfo.drivingLicenceSubPage){                   
+                                        if (this.state.resultInfo.drivingLicenceSubPage){
                                             this.showBigImage([this.state.resultInfo.drivingLicenceSubPage], 0);
-                                        }else 
+                                        }else
                                             Toast.showShortCenter('暂无图片');
                                     }
-                                                                    
+
 
                                   }}/>
 
@@ -353,4 +328,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(verifiedState);
+export default connect(mapStateToProps, mapDispatchToProps)(carOwnerAddDriverDetail);
