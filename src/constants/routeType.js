@@ -141,6 +141,12 @@ export const ROUTE_ORDER_SHIPPED_PAGE = 'ROUTE_ORDER_SHIPPED_PAGE';
 
 export const ROUTE_ORDER_SIGN_IN_PAGE = 'ROUTE_ORDER_SIGN_IN_PAGE';
 
+export const ROUTE_SCAN_GPS_PAGE = 'ROUTE_SCAN_GPS_PAGE';
+
+export const ROUTE_GPS_DETAIL_PAGE = 'ROUTE_GPS_DETAIL_PAGE';
+
+export const ROUTE_BIND_GPS_PAGE = 'ROUTE_BIND_GPS_PAGE';
+
 /************************** 司机订单end ******************************/
 
 // 我的页面

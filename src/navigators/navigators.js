@@ -85,6 +85,9 @@ import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
 import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
 import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
+import ScanGPSScreen from '../containers/driverOrder/scanGPS';
+import BindGPSScreen from '../containers/driverOrder/bindGPS';
+import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -580,6 +583,24 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_ORDER_SIGN_IN_PAGE]: {
         screen: EntryToBeSignInScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SCAN_GPS_PAGE]: {
+        screen: ScanGPSScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_GPS_DETAIL_PAGE]: {
+        screen: GPSDetailScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BIND_GPS_PAGE]: {
+        screen: BindGPSScreen,
         navigationOptions: {
             header: null
         }

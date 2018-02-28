@@ -351,6 +351,11 @@ export const API_UAM_REGISTER_IDENTIFY_CODE = `app/uam/register/identifyCode`;
 // 用户注册接口
 export const API_UAM_REGISTER = `app/uam/register`;
 
+// 绑定GPS设备接口
+export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
+// 获取gps设备信息
+export const API_GET_GPS_DETAILS = `app/rmc/rmcCar/queryGpsInfoByCarNum`;
+
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
