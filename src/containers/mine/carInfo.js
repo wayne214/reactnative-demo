@@ -18,7 +18,7 @@ import Toast from '@remobile/react-native-toast';
 import CommonCell from '../../containers/mine/cell/commonCell';
 import NavigationBar from '../../components/common/navigatorbar';
 import * as API from '../../constants/api';
-import HTTPRequest from '../../utils/httpRequest';
+// import HTTPRequest from '../../utils/httpRequest';
 import Storage from '../../utils/storage';
 import * as StaticColor from '../../constants/colors';
 import Button from 'apsl-react-native-button';
@@ -28,6 +28,7 @@ import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import Loading from '../../utils/loading';
 import StorageKeys from '../../constants/storageKeys';
 import CarImage from '../../../assets/img/mine/car/carInfo.png';
+import {fetchData} from "../../action/app";
 
 const headerImageFail = require('../driverVerified/verified/images/carInfoFail.png');
 const headerImageSuccess = require('../driverVerified/verified/images/carInfoHeader.png');
@@ -281,37 +282,10 @@ class CarInfo extends Component {
         currentTime = new Date().getTime();
         const plateNumber = this.props.userPlateNumber;
         if (plateNumber) {
-            HTTPRequest({
-                url: API.API_AUTH_QUALIFICATIONS_DETAIL,
-                params: {
-                    phoneNum: userInfo.phone,
-                    plateNumber: plateNumber,
-                },
-                loading: () => {
-                    this.setState({
-                        loading: true,
-                    });
-                },
-                success: (response) => {
-                    this.setState({
-                        loading: false,
-                    }, () => {
-                        getCarInfoSuccessCallBack(response.result);
-                    });
-                },
-                error: (err) => {
-                    this.setState({
-                        loading: false,
-                    }, () => {
-                        getCarInfoFailCallBack();
-                    });
-                },
-                finish: () => {
-                    this.setState({
-                        loading: false,
-                    });
-                },
-            })
+            this.props.getCarInfo({
+                phoneNum: userInfo.phone,
+                plateNumber: plateNumber,
+            }, getCarInfoSuccessCallBack, getCarInfoFailCallBack);
         } else {
             this.setState({
                 aCar: '',
@@ -406,7 +380,7 @@ class CarInfo extends Component {
                             >
                                 您的车辆信息为空，请先去资质认证吧~
                             </Text>
-                            <View {styles.buttonGround}>
+                            <View style={styles.buttonGround}>
                                 <Button
                                     style={styles.Button}
                                     textStyle={styles.ButtonText}
@@ -529,7 +503,19 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        getCarInfo: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_QUALIFICATIONS_DETAIL,
+                success: data => {
+                    successCallback(data);
+                },
+                fail: ()=> {
+                    failCallback();
+                }
+            }))
+        }
 
     };
 }

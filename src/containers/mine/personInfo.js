@@ -25,6 +25,7 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import HTTPRequest from '../../utils/httpRequest';
 import StorageKeys from '../../constants/storageKeys';
 import PersonNoInfo from '../../../assets/img/mine/person/personInfo.png';
+import {fetchData} from "../../action/app";
 
 
 const {width} = Dimensions.get('window');
@@ -217,41 +218,11 @@ class PersonInfo extends Component {
         }
     }
     fetchData(getPersonInfoSuccessCallback,getPersonInfoFailCallback) {
-
             if (global.phone) {
                 currentTime = new Date().getTime();
-
-                HTTPRequest({
-                    url: API.API_AUTH_REALNAME_DETAIL + this.state.phone ,
-                    params: {
-                        phoneNum: this.state.phone,
-                    },
-                    loading: () => {
-                        this.setState({
-                            loading: true,
-                        });
-                    },
-                    success: (response) => {
-                        this.setState({
-                            loading: false,
-                        }, () => {
-                            getPersonInfoSuccessCallback(response.result);
-                        });
-                    },
-                    error: (err) => {
-                        this.setState({
-                            loading: false,
-                        }, () => {
-                            getPersonInfoFailCallback();
-                        });
-                    },
-                    finish: () => {
-                        this.setState({
-                            loading: false,
-                        });
-                    },
-
-                })
+                this.props.getPersonInfo({
+                    phoneNum: this.state.phone,
+                }, getPersonInfoSuccessCallback, getPersonInfoFailCallback);
             }
 
     }
@@ -422,6 +393,19 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        getPersonInfo: (params, successCallback, failCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_REALNAME_DETAIL + params.phoneNum,
+                success: data => {
+                    successCallback(data);
+                },
+                fail: ()=> {
+                    failCallback();
+                }
+            }))
+        }
     };
 }
 
