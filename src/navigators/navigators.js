@@ -132,6 +132,7 @@ import DriverManageScreen from '../containers/mine/owner/driverManagement/driver
 import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
 import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
 import CharacterOwner from '../containers/login/character/characterOwner';
+import CharacterList from '../containers/login/character/characterList';
 
 // 货源详情
 import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
@@ -854,6 +855,12 @@ export const AppNavigator = StackNavigator({
         screen: AddDriverScreen2,
         navigationOptions: {
             header: null
+        }
+    },
+    [RouteType.ROUTE_CHARACTER_LIST]: {
+        screen: CharacterList,
+        navigationOptions: {
+
         }
     },
 }, {

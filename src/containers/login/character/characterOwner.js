@@ -58,18 +58,6 @@ class CharacterOwner extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flex:1,backgroundColor: '#f5f5f5'}}>
-                    {/*<NavigatorBar*/}
-                        {/*title={'选择身份'}*/}
-                        {/*navigator={navigator}*/}
-                        {/*leftButtonHidden={true}*/}
-                        {/*rightButtonConfig={{*/}
-                            {/*type: 'string',*/}
-                            {/*title: '退出',*/}
-                            {/*onClick: () => {*/}
-                                {/*this.props.navigation.goBack();*/}
-                            {/*},*/}
-                        {/*}}*/}
-                    {/*/>*/}
 
                     <CharacterCell
                         textAbout={'个人车主'}

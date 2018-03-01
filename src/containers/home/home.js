@@ -534,6 +534,7 @@ class Home extends Component {
                         activeOpacity={1}
                         onPress={() => {
 
+
                         }}
                     >
                         <View>

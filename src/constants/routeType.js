@@ -219,6 +219,7 @@ export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
 export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
 // 选择owner角色
 export const ROUTE_CHARACTER_OWNER = 'ROUTE_CHARACTER_OWNER';
+export const ROUTE_CHARACTER_LIST = 'ROUTE_CHARACTER_LIST';
 
 /************************** 司机货源 ******************************/
 // 司机货源
