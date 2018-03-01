@@ -48,7 +48,7 @@ class TotalsItemCell extends Component {
     }
 
     render() {
-        const {totalTons, totalSquare} = this.props;
+        const {totalTons, totalSquare, totalCount} = this.props;
         return (
             <View style={styles.container}>
                 <Text style={styles.normalStyle}>总计:</Text>
@@ -58,6 +58,9 @@ class TotalsItemCell extends Component {
                     </Text>
                     <Text style={[styles.redStyle, {marginLeft: 10}]}>
                         {totalSquare}方
+                    </Text>
+                    <Text style={[styles.redStyle, {marginLeft: 10}]}>
+                        {totalCount ? totalCount : ''}
                     </Text>
                 </View>
             </View>

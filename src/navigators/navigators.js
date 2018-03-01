@@ -135,6 +135,11 @@ import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDrive
 // 货源详情
 import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
 
+// 车辆管理
+import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
+import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
+import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -821,6 +826,24 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_DRIVER_GOOD_DETAIL_PAGE]: {
         screen: EntryGoodsDetailScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_MANAGEMENT]: {
+        screen: CarManagementScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BIND_DRIVER]: {
+        screen: BindDriverScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_CAR2]: {
+        screen: AddDriverScreen2,
         navigationOptions: {
             header: null
         }

@@ -127,7 +127,7 @@ export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
 export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 
 // 货源列表
-export const GOODS_SOURCE_LIST = '/resourceApp/getResourceList';
+export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
 export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
@@ -418,3 +418,13 @@ export const API_COMPANION_RELATION = 'app/rmc/driver/addDriverCompanionRelation
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM = 'app/rmc/rmcCar/queryCarInfoByCarNumForCompanion';
 // 司机管理-绑定车辆
 export const API_RMC_DRIVER_BINDING_CAR = 'app/rmc/driver/bindingCar';
+//根据伙伴手机号 查询伙伴下所有车辆列表
+export const API_QUERY_CAR_LIST_BY_COMPANIONINFO = 'app/rmc/rmcCar/queryCarListByCompanionInfo';
+//车辆管理--绑定车辆与伙伴的关系&解除绑定车辆与伙伴的关系
+export const API_BIND_RELIEVE_CAR_COMPANION = 'app/rmc/rmcCar/bindRelieveCarCompanionRelation';
+// 车辆管理-绑定司机
+export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelation';
+// 车辆管理--根据手机号查询司机
+export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
+//根据车牌号搜索车辆信息返回
+export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';

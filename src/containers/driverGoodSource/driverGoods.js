@@ -20,7 +20,8 @@ import * as ConstValue from '../../constants/constValue';
 import * as API from '../../constants/api';
 import CommonListItem from './component/commonListItem';
 import * as RouteType from '../../constants/routeType';
-
+import UniqueUtil from '../../utils/unique';
+import EmptyView from './component/emptyView';
 let pageNO = 1; // 第一页
 const pageSize = 10; // 每页显示的数量
 let list = [];
@@ -121,7 +122,7 @@ class driverGoods extends Component {
             return;
         }
         pageNO = parseInt(startRow / pageSize, 10) + 1;
-        // this.getDataAndCallBack(this.state.goodStatus, this.state.date, pageNO);
+        this.getDataAndCallBack(this.state.goodStatus, this.state.date, pageNO);
     }
     // 到达底部的时候会自动触发此方法
     toEnd() {
@@ -289,22 +290,6 @@ class driverGoods extends Component {
                             });
                         },
                     }});
-
-                    // this.props.navigation.navigate('GoodsDetailPage',{
-                    //     transOrderList: dataRow.transOrderList, // 运单号
-                    //     scheduleCode: dataRow.dispatchCode,
-                    //     scheduleStatus: this.state.goodStatus,
-                    //     allocationModel: dataRow.allocationModel,
-                    //     bidEndTime: dataRow.bidEndTime,
-                    //     bidStartTime: dataRow.bidBeginTime,
-                    //     refPrice: dataRow.refPrice,
-                    //     getOrderSuccess: () => {
-                    //         // 刷新
-                    //         InteractionManager.runAfterInteractions(() => {
-                    //             this.onRefresh();
-                    //         });
-                    //     },
-                    // })
                 }}
             />
         );
@@ -361,7 +346,7 @@ class driverGoods extends Component {
                                     />
                                 }
                             />
-                            : <View style={{flex: 1}}></View>
+                            : <View style={{flex: 1}}><EmptyView /></View>
                     }
                 </DropdownMenu>
             </View>

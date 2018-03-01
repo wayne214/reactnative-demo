@@ -4,7 +4,7 @@ import ReadAndWriteFileUtil from '../logUtil/readAndWriteFileUtil.js'
 
 const initState = Immutable.fromJS({
     showAD: true,
-    currentTab: 'route',
+    currentTab: 'goods',
     loading: false,
     index: 1,
     upgrade: {
@@ -16,7 +16,17 @@ const initState = Immutable.fromJS({
     },
     tabs: [
         {
-            title: '我的行程',
+
+            title: '货源',
+            key: 'goods',
+            badgeCount: 0,
+            withStatusBar: false,
+            renderIcon: require('../../assets/img/app/icon_goods_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
+
+        },
+        {
+            title: '行程',
             key: 'route',
             badgeCount: 0,
             withStatusBar: true,
@@ -24,15 +34,7 @@ const initState = Immutable.fromJS({
             renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
         },
         {
-            title: '线路货源',
-            key: 'goods',
-            badgeCount: 0,
-            withStatusBar: false,
-            renderIcon: require('../../assets/img/app/icon_goods_normal.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
-        },
-        {
-            title: '我的承运',
+            title: '承运',
             key: 'carriage',
             badgeCount: 0,
             withStatusBar: false,
@@ -40,7 +42,7 @@ const initState = Immutable.fromJS({
             renderSelectedIcon: require('../../assets/img/app/icon_cy_press.png')
         },
         {
-            title: '我的订单',
+            title: '订单',
             key: 'order',
             badgeCount: 0,
             withStatusBar: false,
