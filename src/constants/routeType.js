@@ -206,3 +206,7 @@ export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
 export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';
 // 设备绑定
 export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
+// 初次绑定设备
+export const ROUTE_CHECK_PHONE = 'ROUTE_CHECK_PHONE';
+// 初次绑定设备第二步
+export const ROUTE_CHECK_PHONE_STEP_TWO = 'ROUTE_CHECK_PHONE_STEP_TWO';

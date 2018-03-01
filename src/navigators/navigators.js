@@ -125,6 +125,8 @@ import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
 import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
 import DevicesBingScreen from '../containers/mine/devicesBind';
+import CheckPhone from '../containers/login/checkPhone';
+import CheckPhoneTwo from '../containers/login/checkPhoneStepTwo';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -772,6 +774,18 @@ export const AppNavigator = StackNavigator({
         screen: DevicesBingScreen,
         navigationOptions: {
             gesturesEnabled: false
+        }
+    },
+    [RouteType.ROUTE_CHECK_PHONE]: {
+        screen: CheckPhone,
+        navigationOptions: {
+            // title:'绑定设备'
+        }
+    },
+    [RouteType.ROUTE_CHECK_PHONE_STEP_TWO]: {
+        screen: CheckPhoneTwo,
+        navigationOptions: {
+            // title:'绑定设备'
         }
     },
 }, {

@@ -360,7 +360,8 @@ export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
 export const API_LOGIN_WITH_PSD = 'app/uam/login/loginWithPassword/v3.0';
 // 获取登录验证码接口
 export const API_GET_LOGIN_WITH_CODE = '/app/uam/message/getLoginIdentifyCode';
-
+//登陆后绑定设备信息接口
+export const API_BIND_DEVICE = `app/uam/login/bindDevice`;
 // 天气接口
 export const API_GET_WEATHER = `/app/weather/`;
 

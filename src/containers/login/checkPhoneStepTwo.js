@@ -12,15 +12,18 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    Dimensions,
-    Platform,
-    Alert
+    Dimensions
 } from 'react-native';
+import {NavigationActions} from 'react-navigation';
 import Toast from '@remobile/react-native-toast';
 import {Geolocation} from 'react-native-baidu-map-xzx';
-import NavigatorBar from '../../components/common/navigatorbar';
+import JPushModule from 'jpush-react-native';
+
 import CountDownButton from '../../components/home/timerButton';
 import Loading from '../../utils/loading';
+import HTTPRequest from '../../utils/httpRequest';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 import {
     LIGHT_GRAY_TEXT_COLOR,
     WHITE_COLOR,
@@ -29,20 +32,30 @@ import {
 import * as API from '../../constants/api';
 
 import Validator from '../../utils/validator';
-const {width, height} = Dimensions.get('window');
-import PermissionsAndroid from '../../utils/permissionManagerAndroid';
-import Forgetdel from '../../../assets/login/forgetdel.png';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import clearIcon from '../../../assets/login/forgetdel.png';
 import BlueButtonArc from '../../../assets/button/blueButtonArc.png';
-import {registeredIdentityCodeAction} from "../../action/register";
+
+const {width, height} = Dimensions.get('window');
+import {
+    loginSuccessAction,
+    setUserNameAction,
+    setDriverCharacterAction,
+    setOwnerCharacterAction,
+    setCurrentCharacterAction,
+    setOwnerNameAction,
+    setCompanyCodeAction,
+} from '../../action/user';
 import {fetchData} from "../../action/app";
 import * as RouteType from "../../constants/routeType";
+import LoginCharacter from "../../utils/loginCharacter";
 
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         backgroundColor: COLOR_VIEW_BACKGROUND,
     },
@@ -58,6 +71,12 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
     },
+    textStyle: {
+        paddingLeft: 15,
+        height: 44,
+        fontSize: 16,
+        color: '#666666',
+    },
     textInputStyle: {
         paddingLeft: 15,
         height: 44,
@@ -72,121 +91,120 @@ const styles = StyleSheet.create({
     },
 });
 
-class forgetPWD extends Component {
+class CheckPhoneStepTwo extends Component {
 
     constructor(props) {
         super(props);
         const params = this.props.navigation.state.params;
 
         this.state = {
-            phoneNo: params.loginPhone,
             pwdCode: '',
             buttonForget: '获取验证码',
             loading: false,
 
         };
-        this.getForgetVCode = this.getForgetVCode.bind(this);
-        this.canclePhoneNO = this.canclePhoneNO.bind(this);
-        this.canclePhonePWD = this.canclePhonePWD.bind(this);
         this.nextStep = this.nextStep.bind(this);
-        this.checkCode = this.checkCode.bind(this);
-        this.checkCodeSucCallBack = this.checkCodeSucCallBack.bind(this);
+        this.bindDevice = this.bindDevice.bind(this);
+        this.requestVCodeForLogin = this.requestVCodeForLogin.bind(this);
+        this.phoneNo = params.loginPhone;
+        this.loginResponseData = params.responseData;
+        this.clearPhoneCode = this.clearPhoneCode.bind(this);
+        this.bindDeviceSucCallBack = this.bindDeviceSucCallBack.bind(this);
     }
 
     componentDidMount() {
-        if(Platform.OS === 'ios'){
-            // this.getCurrentPosition();
-        }else {
-            PermissionsAndroid.locationPermission().then((data) => {
-                this.getCurrentPosition();
-            }, (err) => {
-                Alert.alert('提示','请到设置-应用-授权管理设置定位权限');
-            });
-        }
+        this.getCurrentPosition();
+        console.log('lqq-countDownButton--', this.refs.countDownButton);
+        this.refs.countDownButton && this.refs.countDownButton.shouldStartCountting(true);
     }
+
     // 获取当前位置
     getCurrentPosition() {
         Geolocation.getCurrentPosition().then(data => {
-            console.log('position =',JSON.stringify(data));
+            console.log('position =', JSON.stringify(data));
             locationData = data;
-        }).catch(e =>{
+        }).catch(e => {
             console.log(e, 'error');
         });
     }
 
-    /*获取验证码*/
-    getForgetVCode(shouldStartCountting) {
-        //todo uuid
-        this.props.getForgetVCodeAction({
-            deviceId: '2333-1',
-            phoneNum: this.state.phoneNo,
-        },shouldStartCountting)
-    }
-
-    canclePhoneNO() {
-        this.setState({
-            phoneNo: '',
-        });
-    }
-
-    canclePhonePWD() {
-        this.setState({
-            pwdCode: '',
-        });
-    }
-
-    /*检验验证码是否正确*/
-    checkCode(checkCodeSucCallBack){
-        this.props.checkCodeAction({
+    //todo uuid platform
+    /*绑定设备*/
+    bindDevice(bindDeviceSucCallBack) {
+        this.props.bindDeviceAction({
             identifyCode: this.state.pwdCode,
-            phoneNum: this.state.phoneNo,
-        },checkCodeSucCallBack)
+            phoneNum: this.phoneNo,
+            deviceId: '2333-1',
+            platform: '1',
+            loginSite: 1
+        }, bindDeviceSucCallBack)
     }
 
-    checkCodeSucCallBack(data){
-        if (data) {
-            this.props.navigation.dispatch({
-                type: RouteType.ROUTE_FORGET_PASSWORD_TWO,
-                params: { identifyCode: this.state.pwdCode, phoneNum: this.state.phoneNo,}
-            })
-            // this.props.navigation.navigate('ChangeCodePwd', {
-            //     identifyCode: this.state.pwdCode,
-            //     phoneNum: this.state.phoneNo,
-            // });
-        } else {
-            Toast.showShortCenter('输入的验证码不正确');
+    bindDeviceSucCallBack(result) {
+
+        if (result) {
+            const loginUserId = this.loginResponseData.result.userId;
+            Storage.save(StorageKey.USER_ID, loginUserId);
+            Storage.save(StorageKey.USER_INFO, this.loginResponseData.result);
+            Storage.save(StorageKey.CarSuccessFlag, '1'); // 设置车辆的Flag
+
+            // 发送Action,全局赋值用户信息
+            this.props.sendLoginSuccessAction(this.loginResponseData.result);
+
+
+            this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
+
+
+            if (this.loginResponseData.result.phone) {
+                // JPushModule.setAlias(this.loginResponseData.result.phone, () => {
+                // }, () => {
+                // })
+            } else {
+                Toast.showShortCenter('输入的验证码不正确');
+            }
         }
     }
+
+    quaryAccountRoleCallback(result) {
+        console.log("------账号角色信息two",result);
+        LoginCharacter.setCharacter(this.props,result);
+    }
+
 
     // 下一步按钮
     nextStep() {
-        if (this.state.phoneNo !== '' && this.state.pwdCode !== '') {
-            this.checkCode(this.checkCodeSucCallBack);
+        if (this.phoneNo && this.state.pwdCode) {
+            this.bindDevice(this.bindDeviceSucCallBack);
         } else {
-            Toast.showShortCenter('账号或密码不能为空');
+            Toast.showShortCenter('账号或验证码不能为空');
         }
     }
 
-    static navigationOptions = ({navigation}) => {
-        const {state, setParams} = navigation
-        return {
-            tabBarLabel: '忘记密码',
-            header: <NavigatorBar
-                title='忘记密码'
-                hiddenBackIcon={false}
-                router={navigation}/>,
+    // todo uuid
+    requestVCodeForLogin(shouldStartCountting) {
+        this.props.requestVCodeForLoginAction({
+            deviceId: '2333' + '-1',
+            phoneNum: this.phoneNo,
+        }, shouldStartCountting)
+    }
+
+
+    clearPhoneCode() {
+        if (this.state.pwdCode.length > 0) {
+            this.setState({
+                pwdCode: '',
+            });
         }
-    };
+    }
 
     render() {
         const navigator = this.props.navigation;
-        const {phoneNo} = this.state;
         return (
             <View style={styles.container}>
                 {/*<NavigationBar*/}
-                    {/*title={'忘记密码'}*/}
-                    {/*navigator={navigator}*/}
-                    {/*hiddenBackIcon={false}*/}
+                {/*title={'手机号码验证'}*/}
+                {/*navigator={navigator}*/}
+                {/*hiddenBackIcon={false}*/}
                 {/*/>*/}
 
                 <View
@@ -195,40 +213,14 @@ class forgetPWD extends Component {
                         marginTop: 10,
                     }}
                 >
-                    { false &&<View style={styles.iconStyle}>
-                        <Text style={styles.iconfont}> &#xe62a;</Text>
-                    </View>
-                    }
+
 
                     <View style={{flex: 1}}>
-                        <TextInput
-                            style={styles.textInputStyle}
-                            underlineColorAndroid="transparent"
-                            placeholderTextColor="#CCCCCC"
-                            placeholder="请输入手机号码"
-                            value={this.state.phoneNo}
-                            onChangeText={(phoneNo) => {
-                                this.setState({phoneNo});
-                            }}
-                        />
+                        <Text
+                            style={styles.textStyle}
+                        >短信验证码已发送至({Validator.newPhone(this.phoneNo)})，请填写验证码</Text>
                     </View>
-                    {
-                        (() => {
-                            if (this.state.phoneNo.length > 0) {
-                                return (
-                                    <TouchableOpacity onPress={() => this.canclePhoneNO()}>
 
-                                        <View style={styles.iconStyle}>
-                                            <Image source={Forgetdel} />
-                                        </View>
-                                    </TouchableOpacity>
-                                );
-                            }
-                        })()
-                    }
-                </View>
-                <View style={{backgroundColor: 'white',height: 1, width: width,alignItems: 'center', justifyContent: 'center'}}>
-                    <View style={{width: width-30,height: 1, backgroundColor: '#e8e8e8'}}/>
                 </View>
                 <View
                     style={{
@@ -236,7 +228,7 @@ class forgetPWD extends Component {
 
                     }}
                 >
-                    { false && <View style={styles.iconStyle}>
+                    {false && <View style={styles.iconStyle}>
                         <Text style={styles.iconfont}> &#xe634;</Text>
 
                     </View>
@@ -261,24 +253,27 @@ class forgetPWD extends Component {
                         (() => {
                             if (this.state.pwdCode.length > 0) {
                                 return (
-                                    <TouchableOpacity onPress={() => this.canclePhonePWD()}>
+                                    <TouchableOpacity onPress={() => {
+                                        this.clearPhoneCode()
+                                    }}>
                                         <View style={styles.iconStyle}>
-                                            <Image source={Forgetdel} />
+                                            <Image source={clearIcon}/>
                                         </View>
                                     </TouchableOpacity>
                                 );
                             }
                         })()
                     }
-                    { false && <View style={{width: 1, backgroundColor: COLOR_VIEW_BACKGROUND}}/>}
+                    {false && <View style={{width: 1, backgroundColor: COLOR_VIEW_BACKGROUND}}/>}
                     <CountDownButton
-                        enable={phoneNo.length}
+                        ref='countDownButton'
+                        enable={this.phoneNo.length}
                         style={{width: 100, backgroundColor: WHITE_COLOR, paddingRight: 15}}
                         textStyle={{color: '#0078ff'}}
                         timerCount={60}
                         onClick={(shouldStartCountting) => {
-                            if (Validator.isPhoneNumber(phoneNo)) {
-                                this.getForgetVCode(shouldStartCountting);
+                            if (Validator.isPhoneNumber(this.phoneNo)) {
+                                this.requestVCodeForLogin(shouldStartCountting);
                             } else {
                                 Toast.showShortCenter('手机号码输入有误，请重新输入');
                                 shouldStartCountting(false);
@@ -298,7 +293,7 @@ class forgetPWD extends Component {
                             height: 44,
                             resizeMode: 'stretch',
                             alignItems: 'center',
-                            justifyContent:'center'
+                            justifyContent: 'center'
                         }}
                         source={BlueButtonArc}
                     >
@@ -311,14 +306,14 @@ class forgetPWD extends Component {
                                 backgroundColor: '#00000000'
                             }}
                         >
-                            下一步
+                            提交
                         </Text>
 
                     </Image>
                 </TouchableOpacity>
 
                 {
-                    this.state.loading ? <Loading /> : null
+                    this.state.loading ? <Loading/> : null
                 }
             </View>
 
@@ -326,41 +321,51 @@ class forgetPWD extends Component {
         );
     }
 }
+
 function mapStateToProps(state) {
     return {};
+
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         dispatch,
-        getForgetVCodeAction: (params,shouldStartCountting) => {
+        bindDeviceAction: (params, bindDeviceSucCallBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
-                api: API.API_GET_FORGET_PSD_CODE,
+                api: API.API_BIND_DEVICE,
+                success: data => {
+                    bindDeviceSucCallBack(data);
+                },
+            }))
+        },
+        requestVCodeForLoginAction: (params, shouldStartCountting) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_GET_LOGIN_WITH_CODE,
                 success: data => {
                     shouldStartCountting(true);
                     Toast.showShortCenter('验证码已发送');
                 },
                 fail: data => {
-                    shouldStartCountting(false);
+                    shouldStartCountting(true);
+
                 }
             }))
         },
-        checkCodeAction: (params,checkCodeSucCallBack) => {
+        quaryAccountRole: (params, successCallback) => {
             dispatch(fetchData({
-                body: params,
+                body: '',
                 method: 'POST',
-                api: API.API_CHECK_IDENTIFY_CODE,
+                api: API.API_INQUIRE_ACCOUNT_ROLE + params,
                 success: data => {
-                    checkCodeSucCallBack(data);
+                    successCallback(data);
                 },
-                fail: data => {
-
-                }
             }))
         }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(forgetPWD);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckPhoneStepTwo);

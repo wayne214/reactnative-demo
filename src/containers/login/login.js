@@ -263,6 +263,14 @@ class Login extends BaseComponent {
 
         } else {
             // 跳转到绑定设备页面
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_CHECK_PHONE,
+                params: {
+                    loginPhone: result.phone,
+                    responseData: result,
+                    sourcePage: -1,
+                }
+            })
         }
     }
 
