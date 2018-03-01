@@ -63,13 +63,12 @@ class DetailsOrdersCell extends Component {
             : null;
         const timeView = arrivalTime !== '' ? <TaskInfoCell itemName="要求到达时间:  " content={arrivalTime} />
             : null;
-        const payView = carrFeePayer === '收货方' ? <TaskInfoCell itemName="是否需要代收款项" content='需要' />
-            : <TaskInfoCell itemName="是否需要代收款项" content='不需要' />;
+        const payView = carrFeePayer === '收货方' ? <TaskInfoCell itemName="是否需要代收款项: " content='需要' />
+            : <TaskInfoCell itemName="是否需要代收款项: " content='不需要' />;
         const payWayView = carrFeePayer === '收货方' ? <TaskInfoCell itemName="支付方式" content={paymentWay} />
             : null;
         const huiWayView = ifReceipt === '是' ? <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TaskInfoCell itemName="是否签单返回：" content={ifReceipt} />
-                <TaskInfoCell itemName="回单方式：" content={receiptStyle} />
+                <TaskInfoCell itemName="是否签单返回：" content={receiptStyle} />
             </View> : <View>
                 <TaskInfoCell itemName="是否签单返回: " content={ifReceipt} />
             </View>;
