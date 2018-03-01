@@ -219,3 +219,10 @@ export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
 export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
 // 司机货源详情
 export const ROUTE_DRIVER_GOOD_DETAIL_PAGE = 'ROUTE_DRIVER_GOOD_DETAIL_PAGE';
+
+/************************** 车辆管理 ******************************/
+export const ROUTE_CAR_MANAGEMENT = 'ROUTE_CAR_MANAGEMENT';
+// 绑定司机
+export const ROUTE_BIND_DRIVER = 'ROUTE_BIND_DRIVER';
+// 添加车辆
+export const ROUTE_ADD_CAR2 = 'ROUTE_ADD_CAR2';
