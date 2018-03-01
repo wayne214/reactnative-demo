@@ -167,7 +167,7 @@ export default class GoodsSourceDetails extends Component {
                         }) : null
                     }
                     <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
-                    <TotalsItemCell totalTons={weight} totalSquare={vol}/>
+                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={'1'}/>
                     <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
                     <DetailsCell
                         transportNO_={transCode}

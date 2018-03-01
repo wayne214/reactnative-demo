@@ -87,6 +87,7 @@ class DetailsOrdersCell extends Component {
                     {/*{payView}*/}
                     {/*{payWayView}*/}
                     {huiWayView}
+                    {payView}
                     <View style={[styles.separateLineStyle, {marginBottom: 10}]} />
                     {timeView}
                 </View>
