@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 
 import DetailsCell from '../../components/common/source/detailsCell';
-// import DetailsUserCell from '../../components/common/source/detailsUserCell';
-// import DetailsRedUserCell from '../../components/common/source/detailsRedUserCell';
+import DetailsUserCell from '../../components/common/source/detailsUserCell';
+import DetailsRedUserCell from '../../components/common/source/detailsRedUserCell';
 import DetailsOrdersCell from '../../components/common/source/detailsOrdersCell';
 import TitlesCell from '../../components/common/source/titlesCell';
 import TotalsItemCell from '../../components/common/source/totalsItemCell';
@@ -135,18 +135,18 @@ export default class GoodsSourceDetails extends Component {
                         }
                     <TitlesCell title="配送信息" />
                     <View style={{height: 1, backgroundColor: '#F5F5F5', marginLeft: 10}}/>
-                    {/*<DetailsUserCell*/}
-                        {/*deliveryInfo={deliveryInfo}*/}
-                        {/*onSelectAddr={() => {*/}
-                            {/*this.props.addressMapSelect(index, 'departure');*/}
-                        {/*}}*/}
-                    {/*/>*/}
-                    {/*<DetailsRedUserCell*/}
-                        {/*deliveryInfo={deliveryInfo}*/}
-                        {/*onSelectAddr={() => {*/}
-                            {/*this.props.addressMapSelect(index, 'receive');*/}
-                        {/*}}*/}
-                    {/*/>*/}
+                    <DetailsUserCell
+                        deliveryInfo={deliveryInfo}
+                        onSelectAddr={() => {
+                            this.props.addressMapSelect(index, 'departure');
+                        }}
+                    />
+                    <DetailsRedUserCell
+                        deliveryInfo={deliveryInfo}
+                        onSelectAddr={() => {
+                            this.props.addressMapSelect(index, 'receive');
+                        }}
+                    />
                     <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
                     <TitlesCell
                         title="货品信息"
