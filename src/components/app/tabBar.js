@@ -66,14 +66,14 @@ class Tabar extends Component {
 	 */
 	_renderContainer(key) {
 		switch(key) {
-			// case 'goods':
-			// 	return React.cloneElement(<GoodsListContainer />, this.props);
-			// case 'route':
-			// 	return React.cloneElement(<TravelContainer />, this.props);
-			// case 'order':
-			// 	return React.cloneElement(<OrderContainer />, this.props);
-			// case 'carriage':
-			// 	return React.cloneElement(<EntrustOrderContainer />, this.props);
+			case 'goods':
+				return React.cloneElement(<GoodsListContainer />, this.props);
+			case 'route':
+				return React.cloneElement(<TravelContainer />, this.props);
+			case 'order':
+				return React.cloneElement(<OrderContainer />, this.props);
+			case 'carriage':
+				return React.cloneElement(<EntrustOrderContainer />, this.props);
 			case 'Home':
 				return React.cloneElement(<DriverHome />, this.props);
 			case 'driverGoods':
@@ -208,7 +208,7 @@ class Tabar extends Component {
 					selected={ currentTab === item.get('key') }
 					renderIcon={() => <Image style={ styles.tabIcon } source={ item.get('renderIcon') }/> }
 					renderSelectedIcon={() => {
-                    if (item.get('key') === 'order') {
+                    if (item.get('key') === 'goods') {
                         return (
 							<Animated.Image
 								style={ [styles.tabIcon, {
@@ -221,7 +221,7 @@ class Tabar extends Component {
                             }] }
 								source={ item.get('renderSelectedIcon') }/>
                         );
-                    } else if (item.get('key') === 'goods') {
+                    } else if (item.get('key') === 'order') {
                         return (
 							<Animated.Image
 								style={ [styles.tabIcon, {

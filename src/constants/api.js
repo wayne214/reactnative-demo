@@ -127,7 +127,7 @@ export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
 export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 
 // 货源列表
-export const GOODS_SOURCE_LIST = '/resourceApp/getResourceList';
+export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
 export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
