@@ -136,6 +136,11 @@ import CharacterOwner from '../containers/login/character/characterOwner';
 // 货源详情
 import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
 
+// 车辆管理
+import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
+import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
+import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -831,6 +836,24 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
             // header: null,
             // title:'选择owner角色'
+        }
+    },
+    [RouteType.ROUTE_CAR_MANAGEMENT]: {
+        screen: CarManagementScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BIND_DRIVER]: {
+        screen: BindDriverScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_CAR2]: {
+        screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
         }
     },
 }, {

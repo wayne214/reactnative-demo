@@ -14,7 +14,7 @@ import * as StaticColor from '../../../constants/colors';
 const styles = StyleSheet.create({
     container: {
         backgroundColor: StaticColor.WHITE_COLOR,
-        paddingLeft: 20,
+        paddingLeft: 10,
         flexDirection: 'row',
         paddingBottom: 15,
         paddingTop: 15,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     redStyle: {
         fontSize: 16,
         color: StaticColor.RED_GOODS_TOTAL_TEXT_COLOR,
-        marginRight:20,
+        marginRight: 5
     },
 });
 
@@ -48,7 +48,7 @@ class TotalsItemCell extends Component {
     }
 
     render() {
-        const {totalTons, totalSquare} = this.props;
+        const {totalTons, totalSquare, totalCount} = this.props;
         return (
             <View style={styles.container}>
                 <Text style={styles.normalStyle}>总计:</Text>
@@ -58,6 +58,9 @@ class TotalsItemCell extends Component {
                     </Text>
                     <Text style={[styles.redStyle, {marginLeft: 10}]}>
                         {totalSquare}方
+                    </Text>
+                    <Text style={[styles.redStyle, {marginLeft: 10}]}>
+                        {totalCount ? totalCount : ''}
                     </Text>
                 </View>
             </View>
