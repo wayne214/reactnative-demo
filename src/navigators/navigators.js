@@ -129,6 +129,9 @@ import DriverManageScreen from '../containers/mine/owner/driverManagement/driver
 import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
 import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
 
+// 货源详情
+import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -791,6 +794,12 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_ADD_DRIVER2]: {
         screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DRIVER_GOOD_DETAIL_PAGE]: {
+        screen: EntryGoodsDetailScreen,
         navigationOptions: {
             header: null
         }

@@ -129,8 +129,7 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 
 // 司机首页
 export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
-// 司机货源
-export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+
 
 /************************** 司机订单 ******************************/
 
@@ -212,3 +211,9 @@ export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
 export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
 // 添加司机
 export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
+
+/************************** 司机货源 ******************************/
+// 司机货源
+export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+// 司机货源详情
+export const ROUTE_DRIVER_GOOD_DETAIL_PAGE = 'ROUTE_DRIVER_GOOD_DETAIL_PAGE';
