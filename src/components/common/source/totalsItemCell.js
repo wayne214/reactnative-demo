@@ -14,7 +14,7 @@ import * as StaticColor from '../../../constants/colors';
 const styles = StyleSheet.create({
     container: {
         backgroundColor: StaticColor.WHITE_COLOR,
-        paddingLeft: 20,
+        paddingLeft: 10,
         flexDirection: 'row',
         paddingBottom: 15,
         paddingTop: 15,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     redStyle: {
         fontSize: 16,
         color: StaticColor.RED_GOODS_TOTAL_TEXT_COLOR,
-        marginRight:20,
+        marginRight: 5
     },
 });
 
