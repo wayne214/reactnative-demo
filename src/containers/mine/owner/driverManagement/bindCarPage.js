@@ -261,7 +261,7 @@ class BindCarPage extends Component {
                                 fontFamily: 'iconfont',
                                 fontSize: 16,
                                 color: '#999999'
-                            }}>&#xe662;
+                            }}>&#xe69f;
                         </Text>
                     </TouchableOpacity>
                     <View style={{
