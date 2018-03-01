@@ -324,6 +324,8 @@ export const API_GET_BUSINESS_LICENSE = `${XYT_HOST}app/photo/businessLicense`;
 
 // 根据手机号查询伙伴信息
 export const API_QUERY_COMPANY_INFO = `${XYT_HOST}app/rmc/company/queryCompanyInfoByBusTel`;
+// 根据手机号查询司机信息
+export const API_DRIVER_QUERY_DRIVER_INFO = `${XYT_HOST}app/rmc/driver/queryDriverInfo/`;
 
 // 交强险
 export const API_GET_SEND_QIANGXIAN_INFO = `${XYT_HOST}app/photo/insurance`;

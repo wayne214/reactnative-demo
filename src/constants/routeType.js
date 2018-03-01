@@ -217,6 +217,8 @@ export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
 export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
 // 添加司机
 export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
+// 选择owner角色
+export const ROUTE_CHARACTER_OWNER = 'ROUTE_CHARACTER_OWNER';
 
 /************************** 司机货源 ******************************/
 // 司机货源

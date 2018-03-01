@@ -131,6 +131,7 @@ import CheckPhoneTwo from '../containers/login/checkPhoneStepTwo';
 import DriverManageScreen from '../containers/mine/owner/driverManagement/driverManagement';
 import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
 import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
+import CharacterOwner from '../containers/login/character/characterOwner';
 
 // 货源详情
 import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
@@ -823,6 +824,13 @@ export const AppNavigator = StackNavigator({
         screen: EntryGoodsDetailScreen,
         navigationOptions: {
             header: null
+        }
+    },
+    [RouteType.ROUTE_CHARACTER_OWNER]: {
+        screen: CharacterOwner,
+        navigationOptions: {
+            // header: null,
+            // title:'选择owner角色'
         }
     },
 }, {
