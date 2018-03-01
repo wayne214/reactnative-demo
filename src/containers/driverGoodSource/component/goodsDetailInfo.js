@@ -15,7 +15,7 @@ import {
 } from '../../../constants/colors';
 
 // import Validator from '../../utils/validator';
-import GoodInfoCell from '../component/goodInfoCell';
+import GoodInfoCell from '../../../components/common/source/goodInfoCell';
 
 const style = StyleSheet.create({
     // 名称style

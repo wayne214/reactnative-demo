@@ -36,12 +36,16 @@ const initState = Immutable.fromJS({
         isLoadingMore: false,
         isRefreshing: false
     },
+    imageList: Immutable.List(),
+    maxNum: 9, // 照片最大张数
 })
 
 export default (state = initState, action) => {
     let newState = state;
     const payload = action.payload
     let newArray = [];
+    let imageList;
+    let maxNum;
     switch (action.type) {
         case ActionTypes.ACTION_GET_DRIVER_ORDER_LIST:
             /* 这里获取司机订单列表数据，根据订单类状态，放入对应的数组中   先对数据组装、格式化 */
@@ -93,6 +97,36 @@ export default (state = initState, action) => {
                     newState = newState.setIn(['receiptListData', 'isRefreshing'], true);
                     break;
             }
+            return newState;
+        case ActionTypes.ADD_IMAGE:
+            imageList = newState.get('imageList');
+            maxNum = newState.get('maxNum');
+            action.payload.map(i =>{
+                imageList = imageList.push(i);
+                maxNum -= 1;
+            });
+            newState = newState.set('imageList', imageList);
+            newState = newState.set('maxNum', maxNum);
+            console.log('maxNum=', maxNum);
+            return newState;
+
+        case ActionTypes.DELETE_IMAGE:
+            imageList = newState.get('imageList');
+            maxNum = newState.get('maxNum');
+            imageList = imageList.delete(action.payload);
+            maxNum += 1;
+            newState = newState.set('imageList', imageList);
+            newState = newState.set('maxNum', maxNum);
+            console.log('maxNum=', maxNum);
+            return newState;
+
+        case ActionTypes.UPDATE_IMAGES:
+            imageList = newState.get('imageList');
+            maxNum = newState.get('maxNum');
+            imageList = imageList.clear();
+            maxNum = 9;
+            newState = newState.set('imageList', imageList);
+            newState = newState.set('maxNum', maxNum);
             return newState;
         default:
             return newState

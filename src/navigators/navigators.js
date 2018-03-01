@@ -88,6 +88,7 @@ import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 import ScanGPSScreen from '../containers/driverOrder/scanGPS';
 import BindGPSScreen from '../containers/driverOrder/bindGPS';
 import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
+import UploadODOScreen from '../containers/driverOrder/uploadODO';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -127,6 +128,12 @@ import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
 import DevicesBingScreen from '../containers/mine/devicesBind';
 import CheckPhone from '../containers/login/checkPhone';
 import CheckPhoneTwo from '../containers/login/checkPhoneStepTwo';
+import DriverManageScreen from '../containers/mine/owner/driverManagement/driverManagement';
+import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
+import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
+
+// 货源详情
+import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -610,6 +617,12 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_UPLOAD_ODO_PAGE]: {
+        screen: UploadODOScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {
@@ -786,6 +799,30 @@ export const AppNavigator = StackNavigator({
         screen: CheckPhoneTwo,
         navigationOptions: {
             // title:'绑定设备'
+        }
+    },
+    [RouteType.ROUTE_BIND_CAR]: {
+        screen: BindCarScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DRIVER_MANAGEMENT]: {
+        screen: DriverManageScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_DRIVER2]: {
+        screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DRIVER_GOOD_DETAIL_PAGE]: {
+        screen: EntryGoodsDetailScreen,
+        navigationOptions: {
+            header: null
         }
     },
 }, {

@@ -27,9 +27,9 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
+import * as RouteType from '../../constants/routeType';
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
@@ -237,12 +237,8 @@ class entryToBeShipped extends Component {
         });
     }
 
-    /*
-     * 点击发运调用接口
-     * */
-
+    // 点击发运调用接口
     sendOrder() {
-
         currentTime = new Date().getTime();
         const goodInfo = transOrderInfo[0].goodsInfo;
 
@@ -516,14 +512,21 @@ class entryToBeShipped extends Component {
         //             }
         //         }}
         //     />;
-        const bottomView = <BottomButton
+        const bottomView = 1 === 2 ? <BottomButton
                 onClick={() => {
                     if (prventDoubleClickUtil.onMultiClick()) {
                         this.sendOrder();
                     }
                 }}
                 text="发运"
-            /> ;
+            /> : <BottomButton
+            onClick={() => {
+                if (prventDoubleClickUtil.onMultiClick()) {
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_UPLOAD_ODO_PAGE})
+                }
+            }}
+            text="上传出库单"
+        />;
         return (
             <View style={styles.container}>
                 <NavigatorBar

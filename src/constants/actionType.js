@@ -253,10 +253,6 @@ export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING'
 
 /******************************司机角色Action*******************************/
 
-export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
-
-export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';
-
 export const ACTION_SET_MESSAGE_LIST_ICON = 'ACTION_SET_MESSAGE_LIST_ICON';
 
 export const ACTION_SET_VERIFIED_STATE = 'ACTION_SET_VERIFIED_STATE'; // 实名
@@ -268,3 +264,16 @@ export const ACTION_SET_CAR_NUM = 'ACTION_SET_CAR_NUM'; // 我的界面车牌号
 /******************************司机注册Action*******************************/
 
 export const ACTION_REGISTERED_IDENTITY_CODE = 'ACTION_REGISTERED_IDENTITY_CODE';
+
+
+/*******************************司机订单Action*******************************/
+
+export const ADD_IMAGE = 'ADD_IMAGE'; // 添加图片
+
+export const DELETE_IMAGE = 'DELETE_IMAGE'; // 删除图片
+
+export const UPDATE_IMAGES = 'UPDATE_IMAGES'; // 清空图片
+
+export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
+
+export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';

@@ -18,6 +18,8 @@ import radioButton from '../../../assets/img/good/radiobuttonIcon.png';
 import * as StaticColor from '../../constants/colors';
 import * as ConstValue from '../../constants/constValue';
 import * as API from '../../constants/api';
+import CommonListItem from './component/commonListItem';
+import * as RouteType from '../../constants/routeType';
 
 let pageNO = 1; // 第一页
 const pageSize = 10; // 每页显示的数量
@@ -271,7 +273,8 @@ class driverGoods extends Component {
                 goodsCount={dataRow.goodsQuantity}
                 temperature={dataRow.temperature && dataRow.temperature != '0-0' ? `${dataRow.temperature}℃` : ''}
                 onSelect={() => {
-                    this.props.navigation.navigate('GoodsDetailPage',{
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_GOOD_DETAIL_PAGE,
+                    params: {
                         transOrderList: dataRow.transOrderList, // 运单号
                         scheduleCode: dataRow.dispatchCode,
                         scheduleStatus: this.state.goodStatus,
@@ -285,7 +288,23 @@ class driverGoods extends Component {
                                 this.onRefresh();
                             });
                         },
-                    })
+                    }});
+
+                    // this.props.navigation.navigate('GoodsDetailPage',{
+                    //     transOrderList: dataRow.transOrderList, // 运单号
+                    //     scheduleCode: dataRow.dispatchCode,
+                    //     scheduleStatus: this.state.goodStatus,
+                    //     allocationModel: dataRow.allocationModel,
+                    //     bidEndTime: dataRow.bidEndTime,
+                    //     bidStartTime: dataRow.bidBeginTime,
+                    //     refPrice: dataRow.refPrice,
+                    //     getOrderSuccess: () => {
+                    //         // 刷新
+                    //         InteractionManager.runAfterInteractions(() => {
+                    //             this.onRefresh();
+                    //         });
+                    //     },
+                    // })
                 }}
             />
         );

@@ -539,6 +539,7 @@ class mine extends Component {
                                 content={'司机管理'}
                                 showBottomLine={true}
                                 clickAction={() => {
+                                    this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_MANAGEMENT})
                                     // if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') {
                                     //     navigator.navigate('DriverManagement');
                                     // }

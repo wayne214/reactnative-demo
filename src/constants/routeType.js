@@ -129,23 +129,24 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 
 // 司机首页
 export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
-// 司机货源
-export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+
 
 /************************** 司机订单 ******************************/
 
 // 司机订单
 export const ROUTE_DRIVER_ORDER_PAGE = 'ROUTE_DRIVER_ORDER_PAGE';
-
+// 待发运
 export const ROUTE_ORDER_SHIPPED_PAGE = 'ROUTE_ORDER_SHIPPED_PAGE';
-
+// 待签收、待回单、已完成
 export const ROUTE_ORDER_SIGN_IN_PAGE = 'ROUTE_ORDER_SIGN_IN_PAGE';
-
+// 扫描gps设备
 export const ROUTE_SCAN_GPS_PAGE = 'ROUTE_SCAN_GPS_PAGE';
-
+// gps详情
 export const ROUTE_GPS_DETAIL_PAGE = 'ROUTE_GPS_DETAIL_PAGE';
-
+// 绑定gps界面
 export const ROUTE_BIND_GPS_PAGE = 'ROUTE_BIND_GPS_PAGE';
+// 上传出库单
+export const ROUTE_UPLOAD_ODO_PAGE = 'ROUTE_UPLOAD_ODO_PAGE';
 
 /************************** 司机订单end ******************************/
 
@@ -210,3 +211,15 @@ export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
 export const ROUTE_CHECK_PHONE = 'ROUTE_CHECK_PHONE';
 // 初次绑定设备第二步
 export const ROUTE_CHECK_PHONE_STEP_TWO = 'ROUTE_CHECK_PHONE_STEP_TWO';
+// 绑定车辆
+export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
+// 司机管理
+export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
+// 添加司机
+export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
+
+/************************** 司机货源 ******************************/
+// 司机货源
+export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+// 司机货源详情
+export const ROUTE_DRIVER_GOOD_DETAIL_PAGE = 'ROUTE_DRIVER_GOOD_DETAIL_PAGE';

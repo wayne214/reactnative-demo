@@ -8,10 +8,38 @@ export const receiveDriverOrderList = payload => {
         type: ActionTypes.ACTION_GET_DRIVER_ORDER_LIST,
         payload
     }
-}
+};
 export const refreshDriverOrderList = payload => {
     return {
         type: ActionTypes.ACTION_REFRESH_DRIVER_ORDER_LIST,
         payload
     }
+};
+
+// 上传回单-添加照片
+export const addImage = (params) => {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.ADD_IMAGE,
+            payload: params,
+        });
+    };
+};
+// 上传回单-清空照片
+export function updateImages(params) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.UPDATE_IMAGES,
+            payload: params,
+        });
+    };
+}
+// 上传回单-删除照片
+export function deleteImage(params) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.DELETE_IMAGE,
+            payload: params,
+        });
+    };
 }

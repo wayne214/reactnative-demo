@@ -17,13 +17,12 @@ import EntryTest from './goodsSouceDetails';
 import * as API from '../../constants/api';
 // import Loading from '../../utils/loading';
 import ChooseButtonCell from './component/chooseButtonCell';
-// import EmptyView from '../../common/emptyView/emptyView';
+import EmptyView from './component/emptyView';
 import PreventDoubleClickUtil from '../../utils/prventMultiClickUtil';
 import Toast from '../../utils/toast';
 import {fetchData} from "../../action/app";
 
 // import CountdownWithText from './component/countdownWithText';
-import HTTPRequest from '../../utils/httpRequest';
 
 
 // import {
@@ -146,38 +145,6 @@ class entryGoodsDetail extends Component {
         this.props.getOrderDetailInfo({
             transCodeList: this.state.transOrderList,
         }, getOrderDetailInfoSuccessCallBack, getOrderDetailInfoFailCallBack);
-
-        // HTTPRequest({
-        //     url: API.API_NEW_GET_GOODS_SOURCE,
-        //     params: {
-        //         transCodeList: this.state.transOrderList,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         console.log('success',responseData);
-        //         this.setState({
-        //             loading: false,
-        //         }, ()=>{
-        //             getOrderDetailInfoSuccessCallBack(responseData.result);
-        //         });
-        //
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //         getOrderDetailInfoFailCallBack();
-        //     },
-        //     finish: ()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
     }
 
     // 获取数据成功回调
