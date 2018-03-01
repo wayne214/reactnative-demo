@@ -88,6 +88,7 @@ import EntryToBeSignInScreen from '../containers/driverOrder/entryToBeSignin';
 import ScanGPSScreen from '../containers/driverOrder/scanGPS';
 import BindGPSScreen from '../containers/driverOrder/bindGPS';
 import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
+import UploadODOScreen from '../containers/driverOrder/uploadODO';
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -610,6 +611,12 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_BIND_GPS_PAGE]: {
         screen: BindGPSScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_UPLOAD_ODO_PAGE]: {
+        screen: UploadODOScreen,
         navigationOptions: {
             header: null
         }
