@@ -2,6 +2,7 @@ import Storage from './storage';
 import StorageKey from '../constants/storageKeys';
 import JPushModule from 'jpush-react-native';
 import Toast from '@remobile/react-native-toast';
+import {HOST} from '../constants/setting'
 
 const headers = {
     "Accept": "application/json",
@@ -59,6 +60,7 @@ const _fetch = (fetch_promise, timeout = 30000) => {
     });
 * */
 const postRequest = (
+
     {
         url: url,
         params: params,
@@ -91,7 +93,7 @@ const postRequest = (
         "color: green; font-size: 18px;",
         jsonBody,url,'的请求参数');
 
-    const myFetch = fetch(url, {
+    const myFetch = fetch(HOST + url, {
         method: 'post',
         headers,
         body: jsonBody,

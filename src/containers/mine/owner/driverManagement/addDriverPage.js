@@ -30,6 +30,7 @@ import StorageKey from '../../../../constants/storageKeys';
 import Loading from '../../../../utils/loading';
 import {fetchData} from "../../../../action/app";
 const {height, width} = Dimensions.get('window');
+import * as RouteType from '../../../../constants/routeType';
 
 const styles = StyleSheet.create({
     icon: {
@@ -251,7 +252,7 @@ class AddDriverPage extends Component {
                                 fontFamily: 'iconfont',
                                 fontSize: 16,
                                 color: '#999999'
-                            }}>&#xe662;
+                            }}>&#xe69f;
                         </Text>
                     </TouchableOpacity>
                     <View style={{
@@ -268,7 +269,7 @@ class AddDriverPage extends Component {
                                 fontFamily: 'iconfont',
                                 fontSize: 16,
                                 color: '#999999'
-                            }}>&#xe619;
+                            }}>&#xe618;
                         </Text>
                         <TextInput
                             style={styles.textInputStyle}
@@ -301,7 +302,7 @@ class AddDriverPage extends Component {
                                     fontSize: 16,
                                     marginRight: 10,
                                     color: '#CCCCCC'
-                                }}>&#xe66a;
+                                }}>&#xe664;
                             </Text>
                         </TouchableOpacity>
 
@@ -352,13 +353,17 @@ class AddDriverPage extends Component {
                                     }}
                                     textStyle={{color: 'white', fontSize: 18}}
                                     onPress={() => {
+
                                         Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
-                                            if (value){
-                                                navigator.navigate('CarOwnerAddDriver', {
-                                                    resultInfo: value,
-                                                });
-                                            }else {
-                                                navigator.navigate('CarOwnerAddDriver');
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
                                             }
                                         });
                                     }}
