@@ -342,7 +342,7 @@ export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificatio
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';
 // 订单列表（待回单）
-export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWithPageV4`;
+export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV4';
 // 运输中
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
@@ -361,6 +361,12 @@ export const API_AC_QRCODE_PAYMENT = `app/ac/qrCodePayment/`;
 export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
 // 获取支付状态
 export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
+// 签收接口
+export const API_NEW_SIGN = 'app/transport/sign';
+// 回单接口
+export const API_NEW_UPLOAD_RECEIPT = `${XYT_HOST}app/transport/returnTransportOrder/v2.1`;
+// 回单照片展示接口
+export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';

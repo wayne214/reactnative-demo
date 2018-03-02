@@ -94,6 +94,10 @@ import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
 import UploadODOScreen from '../containers/driverOrder/uploadODO';
 import PayTypesScreen from '../containers/driverOrder/payTypes';
 import WeChatPaymentScreen from '../containers/driverOrder/weChatPayment';
+import SignInScreen from '../containers/driverOrder/signPage';
+import SignSuccessScreen from '../containers/driverOrder/signSuccess';
+import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
+// import ReceiptPhotoScreen from '../containers/driverOrder/receiptPhoto';
 
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
@@ -646,6 +650,30 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_SIGN_IN_PAGE]: {
+        screen: SignInScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SIGN_SUCCESS_PAGE]: {
+        screen: SignSuccessScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_UPLOAD_RECEIPT_PAGE]: {
+        screen: UploadReceiptScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    // [RouteType.ROUTE_RECEIPT_PHOTO_PAGE]: {
+    //     screen: ReceiptPhotoScreen,
+    //     navigationOptions: {
+    //         header: null
+    //     }
+    // },
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {

@@ -17,7 +17,6 @@ import EntryToBeSure from './orderToBeSureDetail';
 import EntryToBeWaitSure from './orderToBeWaitSureDetail';
 import * as API from '../../constants/api';
 import * as RouteType from '../../constants/routeType';
-import Loading from '../../utils/loading';
 import Storage from '../../utils/storage';
 import Toast from '@remobile/react-native-toast';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -92,7 +91,6 @@ class entryToBeSignin extends Component {
             transOrderList: params.transOrderList,
             isShowRightButton: false,
             showImages: [],
-            loading: false,
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
         };
@@ -106,7 +104,6 @@ class entryToBeSignin extends Component {
 
         this.getOrderPictureList = this.getOrderPictureList.bind(this);
         this.getOrderPictureSuccessCallBack = this.getOrderPictureSuccessCallBack.bind(this);
-        this.getOrderPictureFailCallBack = this.getOrderPictureFailCallBack.bind(this);
 
     }
 
@@ -177,34 +174,19 @@ class entryToBeSignin extends Component {
 
     getSignIn(orderID){
         currentTime = new Date().getTime();
-        // HTTPRequest({
-        //     url: API.API_NEW_SIGN,
-        //     params: {
-        //         userId: userID,
-        //         userName,
-        //         transCode: orderID,
-        //         goodsInfo: null,
-        //         lan: locationData.latitude ? locationData.latitude : '',
-        //         lon: locationData.longitude ? locationData.longitude : '',
-        //         realTimeAddress: locationData.address ? locationData.address : ''
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.getSignInSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.getSignInFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
+        this.props._signIn({
+            userId: userID,
+            userName,
+            transCode: orderID,
+            goodsInfo: null,
+            lan: locationData.latitude ? locationData.latitude : '',
+            lon: locationData.longitude ? locationData.longitude : '',
+            realTimeAddress: locationData.address ? locationData.address : ''
+        }, (responseData) => {
+            this.getSignInSuccessCallBack(responseData.result);
+        }, () => {
+            this.getSignInFailCallBack();
+        })
     }
 
     // 获取数据成功回调
@@ -212,7 +194,7 @@ class entryToBeSignin extends Component {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '签收页面');
-        DeviceEventEmitter.emit('changeToWaitSign');
+        // DeviceEventEmitter.emit('changeToWaitSign');
         this.props.navigation.goBack();
     }
 
@@ -277,26 +259,7 @@ class entryToBeSignin extends Component {
     }
     // 回单照片
     receiptPhoto(){
-
         this.getOrderPictureList();
-
-        /*
-        this.props.router.redirect(RouteType.RECEIPT_PHOTO_PAGE,{
-            transOrder: this.state.datas[this.state.current-1].transCode,
-        });
-        console.log('transCode========',this.state.datas[this.state.current-1].transCode);
-
-        if (this.state.result) {
-            this.props.router.redirect(
-                RouteType.IMAGE_SHOW_PAGE,
-                {
-                    image: this.state.result,
-                    num: parseInt(index),
-                },
-            );
-        }
-        */
-
     }
 
     getOrderPictureList() {
@@ -306,29 +269,13 @@ class entryToBeSignin extends Component {
             transCode = transCode.split('-')[0];
         }
         console.log('transCode==',transCode);
-        // HTTPRequest({
-        //     url: API.API_ORDER_PICTURE_SHOW,
-        //     params: {
-        //         refNo: transCode,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.getOrderPictureSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.getOrderPictureFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
+        this.props._getOrderPictureInfo({
+            refNo: transCode,
+        }, (result) => {
+            this.getOrderPictureSuccessCallBack(result);
+        })
     }
+
     getOrderPictureSuccessCallBack(result) {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('获取回单照片',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
@@ -342,25 +289,10 @@ class entryToBeSignin extends Component {
                         return {url: i ? i : ''};
                     }),
                 });
-
-                /*
-                this.props.router.redirect(
-                    RouteType.IMAGE_SHOW_PAGE,
-                    {
-                        image: result.urlList.map(i => {
-                            console.log('received image', i);
-                            return {url: i ? i : ''};
-                        }),
-                        num: 0,
-                    },
-                );
-                */
-
-            }else
+            }else{
                 Toast.showShortCenter('暂无回单照片');
+            }
         }
-    }
-    getOrderPictureFailCallBack() {
     }
 
 
@@ -466,19 +398,15 @@ class entryToBeSignin extends Component {
                         }}
                         signIn={() => {
                             if(item.taskInfo) {
-                                if(item.payState === '0' && item.settleMethod === '20' && item.settleType === '10' && item.amount !== '0.00') {
-                                    Alert.alert('请先完成收款，才可以签收');
-                                }else {
-                                    // 跳转到具体的签收页面
-                                    {/*this.props.navigation.dispatch({*/}
-                                        {/*type: RouteType.*/}
-                                    {/*}*/}
-                                        {/*{*/}
-                                        {/*transCode: item.transCode,*/}
-                                        {/*goodsInfoList: item.goodsInfo,*/}
-                                        {/*taskInfo: item.taskInfo,*/}
-                                    {/*});*/}
-                                }
+                                // 跳转到具体的签收页面
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_SIGN_IN_PAGE,
+                                    params: {
+                                        transCode: item.transCode,
+                                        goodsInfoList: item.goodsInfo,
+                                        taskInfo: item.taskInfo,
+                                    }
+                                })
                             }else {
                                 this.getSignIn(item.transCode);
                             }
@@ -498,11 +426,6 @@ class entryToBeSignin extends Component {
             }
             return null;
         });
-        // const carrierView = <View style={styles.carrierView}>
-        //     <View style={{backgroundColor: StaticColor.BLUE_TAB_BAR_COLOR, width: 3, height: 16,}}/>
-        //     <Text style={styles.text}>承运者：{this.state.carrierName}</Text>
-        //     <Text style={styles.text}>{this.state.carrierPlateNum}</Text>
-        // </View>;
 
         return (
             <View style={styles.container}>
@@ -513,12 +436,9 @@ class entryToBeSignin extends Component {
                     optTitle={ this.state.isShowRightButton ? '回单照片' : null}
                     optTitleStyle={styles.rightButton}
                     firstLevelClick={this.state.isShowRightButton ? () => {
-                        this.receiptPhoto
+                        this.receiptPhoto();
                     } : {}}
                 />
-                {/*{*/}
-                    {/*this.props.currentStatus == 'driver' ? null : carrierView*/}
-                {/*}*/}
                 <Text style={{textAlign: 'center', marginTop: 10, height: 20, fontSize: 16, color:'#666'}}>
                     {this.state.current}/{this.state.datas.length}
                 </Text>
@@ -535,8 +455,6 @@ class entryToBeSignin extends Component {
                 >
                     {subOrderPage}
                 </ScrollView>
-                {this.state.loading ? <Loading /> : null}
-
                 {
                     this.state.showImages && this.state.showImages.length !==0 ?
                         <ImageViewer
@@ -583,6 +501,35 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('???', error)
+                }
+            }))
+        },
+        _signIn: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_SIGN,
+                success: data => {
+                    console.log('sign in success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack()
+                }
+            }))
+        },
+        _getOrderPictureInfo: (params, callBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_ORDER_PICTURE_SHOW,
+                success: data => {
+                    console.log('get receipt img success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
                 }
             }))
         }

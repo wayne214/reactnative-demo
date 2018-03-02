@@ -151,6 +151,14 @@ export const ROUTE_UPLOAD_ODO_PAGE = 'ROUTE_UPLOAD_ODO_PAGE';
 export const ROUTE_WECHAT_PAYMENT_PAGE = 'ROUTE_WECHAT_PAYMENT_PAGE';
 // 收款
 export const ROUTE_MAKE_COLLECTIONS_PAGE = 'ROUTE_MAKE_COLLECTIONS_PAGE';
+// 签收
+export const ROUTE_SIGN_IN_PAGE = 'ROUTE_SIGN_IN_PAGE';
+// 签收成功
+export const ROUTE_SIGN_SUCCESS_PAGE = 'ROUTE_SIGN_SUCCESS_PAGE';
+// 回单
+export const ROUTE_UPLOAD_RECEIPT_PAGE = 'ROUTE_UPLOAD_RECEIPT_PAGE';
+// 回单照片
+export const ROUTE_RECEIPT_PHOTO_PAGE = 'ROUTE_RECEIPT_PHOTO_PAGE';
 
 /************************** 司机订单end ******************************/
 
