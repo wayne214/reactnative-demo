@@ -961,13 +961,15 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_ESIGN_HORIZONTAL_TEXT]: {
         screen: SetHorizontalTextScreen,
         navigationOptions: {
-            // title: '横向文'
+            // title: '横向文',
+            header: null
         }
     },
     [RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT]: {
         screen: SetLastQuarterTextScreen,
         navigationOptions: {
             // title: '下弦文'
+            header: null
         }
     },
 }, {

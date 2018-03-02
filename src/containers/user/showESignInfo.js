@@ -215,41 +215,71 @@ class ShowESignInfoContainer extends BaseComponent {
 								</View>
 							</TouchableOpacity>
 
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_HORIZONTAL_TEXT})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+											<Text style={styles.cellText}>{'横向文'}</Text>
+									</View>
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
+												{this.props.sealHtext == '' ? '请设置横向文' : this.props.sealHtext}
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
+									</View>
+									{/*<View style={styles.cellRight}>*/}
+										{/*<TextInput*/}
+											{/*textAlign='right'*/}
+											{/*returnKeyType='done'*/}
+											{/*placeholder='请输入横向文'*/}
+											{/*placeholderTextColor='#ccc'*/}
+											{/*defaultValue={ eSignInfo && eSignInfo.get('sealHtext')}*/}
+											{/*style={ styles.textInput }*/}
+											{/*underlineColorAndroid={ 'transparent' }*/}
+											{/*value = { this.state.landscapeText }*/}
+											{/*onChangeText={ text => this.setState({ landscapeText: text }) }/>*/}
+										{/*</View>*/}
+								</View>
+							</TouchableOpacity>
 
-							<View style={styles.CellContainer}>
-								<View style={styles.cellLeft}>
-										<Text style={styles.cellText}>{'横向文'}</Text>
-								</View>
-								<View style={styles.cellRight}>
-									<TextInput
-										textAlign='right'
-										returnKeyType='done'
-										placeholder='请输入横向文'
-										placeholderTextColor='#ccc'
-										defaultValue={ eSignInfo && eSignInfo.get('sealHtext')}
-										style={ styles.textInput }
-										underlineColorAndroid={ 'transparent' }
-										value = { this.state.landscapeText }
-										onChangeText={ text => this.setState({ landscapeText: text }) }/>
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+											<Text style={styles.cellText}>{'下弦文'}</Text>
 									</View>
-							</View>
-							<View style={styles.CellContainer}>
-								<View style={styles.cellLeft}>
-										<Text style={styles.cellText}>{'下弦文'}</Text>
-								</View>
-								<View style={styles.cellRight}>
-									<TextInput
-										textAlign='right'
-										placeholder='请输入下弦文'
-										returnKeyType='done'
-										placeholderTextColor='#ccc'
-										defaultValue={ eSignInfo && eSignInfo.get('sealQtext')}
-										style={ styles.textInput }
-										underlineColorAndroid={ 'transparent' }
-										value = { this.state.lastQuarterText }
-										onChangeText={ text => this.setState({ lastQuarterText: text }) }/>
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
+												{this.props.sealQtext == '' ? '请设置下弦文' : this.props.sealQtext}
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
-							</View>
+									{/*<View style={styles.cellRight}>*/}
+										{/*<TextInput*/}
+											{/*textAlign='right'*/}
+											{/*placeholder='请输入下弦文'*/}
+											{/*returnKeyType='done'*/}
+											{/*placeholderTextColor='#ccc'*/}
+											{/*defaultValue={ eSignInfo && eSignInfo.get('sealQtext')}*/}
+											{/*style={ styles.textInput }*/}
+											{/*underlineColorAndroid={ 'transparent' }*/}
+											{/*value = { this.state.lastQuarterText }*/}
+											{/*onChangeText={ text => this.setState({ lastQuarterText: text }) }/>*/}
+										{/*</View>*/}
+								</View>
+							</TouchableOpacity>
 							<TouchableOpacity
 								activeOpacity={ 1 }
 								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
@@ -288,6 +318,8 @@ const mapStateToProps = state => {
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
     sealColor: eSign.get('sealColor'),
+    sealHtext: eSign.get('sealHtext'),
+    sealQtext: eSign.get('sealQtext'),
 	}
 }
 

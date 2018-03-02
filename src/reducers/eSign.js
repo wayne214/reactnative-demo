@@ -10,7 +10,9 @@ const initState = Immutable.fromJS({
 	isRefresh: false,
 	isCricleTemplate: true,
 	sealColor: '',
-	selectTemplate: 1
+	selectTemplate: 1,
+  sealHtext: '',
+  sealQtext: '',
 });
 
 export default (state = initState, action) => {
@@ -45,6 +47,12 @@ export default (state = initState, action) => {
 			console.log('lqq--ACTION_REFRESH_ESIGN_COLOR_INFO-sealColor-->',action.payload.sealColor);
 			newState = newState.set('sealColor', action.payload.sealColor);
 			return newState;
+		case ActionTypes.ACTION_SET_HORIZONTAL_TEXT:
+				newState = newState.set('sealHtext', action.payload);
+				return newState;
+		case ActionTypes.ACTION_SET_LAST_QUARTER_TEXT:
+				newState = newState.set('sealQtext', action.payload);
+				return newState;
 		default:
 			return state;
 	}

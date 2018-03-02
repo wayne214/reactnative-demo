@@ -277,3 +277,7 @@ export const UPDATE_IMAGES = 'UPDATE_IMAGES'; // 清空图片
 export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
 
 export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';
+
+/*******************************承运方电子签章Action*******************************/
+export const ACTION_SET_HORIZONTAL_TEXT = 'ACTION_SET_HORIZONTAL_TEXT'; // 设置横向文
+export const ACTION_SET_LAST_QUARTER_TEXT = 'ACTION_SET_LAST_QUARTER_TEXT'; // 设置下弦文
