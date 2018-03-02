@@ -26,8 +26,9 @@ import CheckBox from '../../components/common/checkbox';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
 import HelperUtil from '../../utils/helper';
-import ESignOne from '../../../assets/img/user/eSignTemplateOne.png';
-import ESignTwo from '../../../assets/img/user/eSignTemplateTwo.png';
+import * as RouteType from '../../constants/routeType';
+
+
 let startTime = 0
 class ShowESignInfoContainer extends BaseComponent {
 
@@ -170,7 +171,10 @@ class ShowESignInfoContainer extends BaseComponent {
 							{/*</View>*/}
 							<TouchableOpacity
 								activeOpacity={ 1 }
-								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
+								onPress={ () =>
+										// this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_INDIVIDUAL, params: {title: '印章模板(个体)', type: 3}})
+								}>
 
 								<View style={styles.CellContainer}>
 									<View style={styles.cellLeft}>
@@ -191,7 +195,11 @@ class ShowESignInfoContainer extends BaseComponent {
 
 							<TouchableOpacity
 								activeOpacity={ 1 }
-								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
+								onPress={ () =>
+										// this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_COLOR, params: {title: '印章颜色', type: 3}})
+
+                }>
 
 							<View style={styles.CellContainer}>
 								<View style={styles.cellLeft}>

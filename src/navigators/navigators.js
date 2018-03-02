@@ -142,7 +142,10 @@ import CarManagementScreen from '../containers/mine/owner/carManagement/carManag
 import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
 import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
 // 承运方电子签章-个体
-import showESignInfoIndividual from '../containers/user/showESignInfoIndividual';
+import ShowESignInfoIndividual from '../containers/user/showESignInfoIndividual';
+import ESignTemplateCompany from '../containers/user/eSignTemplateCompany';
+import ESignTemplateIndividual from '../containers/user/eSignTemplateIndividual';
+import ESignTemplateColor from '../containers/user/eSignTemplateColor';
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -862,6 +865,26 @@ export const AppNavigator = StackNavigator({
         screen: CharacterList,
         navigationOptions: {
 
+        }
+    },
+    [RouteType.ROUTE_ESIGN_INDIVIDUAL]: {
+        screen: ShowESignInfoIndividual,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_INDIVIDUAL]: {
+        screen: ESignTemplateIndividual,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_COMPANY]: {
+        screen: ESignTemplateCompany,
+        navigationOptions: {
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_COLOR]: {
+        screen: ESignTemplateColor,
+        navigationOptions: {
         }
     },
 }, {

@@ -1,5 +1,5 @@
 /**
- * 电子签章模板--公司
+ * 电子签章模板--颜色
  * */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ import SimplePicker from '../../components/common/picker';
 import { ESIGN_COLOR_TYPE } from '../../constants/json';
 import { fetchData,appendLogToFile } from '../../action/app';
 import { GET_ESIGN_INFO,EDIT_ESIGN_INFO } from '../../constants/api';
-import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo } from '../../action/eSign';
+import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo, dispatchRefreshESignColorInfo } from '../../action/eSign';
 import CheckBox from '../../components/common/checkbox';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
@@ -84,21 +84,29 @@ class ShowESignInfoContainer extends BaseComponent {
 	_checkedInDatas(index){
 		switch(index){
 			case 1:
-			this.setState({
-				sealTemplate: 'STAR',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
+		// 	this.setState({
+		// 		sealTemplate: 'STAR',
+		// 	});
+          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '红色'}));
 
-			break;
+          break;
 			case 2:
-			this.setState({
-				sealTemplate: 'OVAL',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
-
+		// 	this.setState({
+		// 		sealTemplate: 'OVAL',
+		// 	});
+          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '蓝色'}));
 			break;
+
+			case 3:
+					// 	this.setState({
+					// 		sealTemplate: 'OVAL',
+					// 	});
+					this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '黑色'}));
+					break;
 		}
+      this.props.dispatch(dispatchRefreshESignTemplateInfo({selectTemplate: index}));
 	}
+
 
 	render(){
 		const { router,eSignInfo } = this.props;
@@ -111,27 +119,36 @@ class ShowESignInfoContainer extends BaseComponent {
 							<View style={styles.landscapeLineView}>
 								<View style={styles.titleContainer}>
 									<Text style={{color: '#FF8500', fontFamily: 'iconfont', fontSize: 15, marginRight: 5}}>&#xe642;</Text>
-									<Text style={styles.colorText}>说明：请选择您的印章样式，系统默认印章样式1</Text>
+									<Text style={styles.colorText}>说明：请选择您的签章颜色，系统默认“红色”</Text>
 								</View>
-								<View style={styles.landscapeView}>
-									<View style={styles.landscapeHalfView}>
-										<Image source={ESignTwo}
-													 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>
+								<View>
+
+									<View style={styles.colorContainer}>
+										<Text style={styles.colorText}>红色</Text>
 										<CheckBox
 										contentStyle={{ width: 20 }}
-										isChecked={ this.props.isCricleTemplate }
+										isChecked={ this.props.selectTemplate === 1 }
 										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
 									</View>
 
 									<View style={styles.separateLine}/>
 
-									<View style={styles.landscapeHalfView}>
-										<Image source={ESignOne}
-													 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
+									<View style={styles.colorContainer}>
+										<Text style={styles.colorText}>蓝色</Text>
 										<CheckBox
 										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
+										isChecked={ this.props.selectTemplate === 2  }
 										checkedFun={ this._checkedInDatas.bind(this, 2) }/>
+									</View>
+
+									<View style={styles.separateLine}/>
+
+									<View style={styles.colorContainer}>
+										<Text style={styles.colorText}>黑色</Text>
+										<CheckBox
+											contentStyle={{ width: 20 }}
+											isChecked={ this.props.selectTemplate === 3  }
+											checkedFun={ this._checkedInDatas.bind(this, 3) }/>
 									</View>
 								</View>
 							</View>
@@ -154,6 +171,7 @@ const mapStateToProps = state => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    selectTemplate: eSign.get('selectTemplate'),
 	}
 }
 

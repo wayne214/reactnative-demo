@@ -49,7 +49,6 @@ class ShowESignInfoContainer extends BaseComponent {
 			isLoad: false,
 		};
 		// this.title = props.router.getCurrentRouteTitle();
-		this._onPickerSelect = this._onPickerSelect.bind(this);
 	}
 
 	static navigationOptions = ({ navigation }) => {
@@ -104,14 +103,9 @@ class ShowESignInfoContainer extends BaseComponent {
 
 			break;
 		}
-	}
 
-	_onPickerSelect(data) {
-		if (data.type === 'esign_color_type') {
-			this.setState({ colorMap: data,visible: false });
-		}
+      this.props.dispatch(dispatchRefreshESignTemplateInfo({selectTemplate: index}));
 	}
-
 
 	render(){
 		const { router,eSignInfo } = this.props;
@@ -122,17 +116,20 @@ class ShowESignInfoContainer extends BaseComponent {
 					<ScrollView keyboardShouldPersistTaps='handled' style={styles.mainTextContent}>
 						<View style={styles.mainTextView}>
 							<View style={styles.landscapeLineView}>
-								<View style={{height: 44, backgroundColor: '#FFFAF4', justifyContent: 'center'}}>
-									<Text style={{color: '#666666', fontSize: 14}}>说明：请选择您的印章样式，系统默认印章样式1</Text>
+								<View style={styles.titleContainer}>
+									<Text style={{color: '#FF8500', fontFamily: 'iconfont', fontSize: 15, marginRight: 5}}>&#xe642;</Text>
+									<Text style={styles.colorText}>说明：请选择您的印章样式，系统默认印章样式1</Text>
 								</View>
 								<View style={styles.landscapeHalfView}>
 									<Image source={personTemplateThree}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
 									<CheckBox
 										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
+										isChecked={ this.props.isCricleTemplate  }
 										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
 								</View>
+
+								<View style={styles.separateLine}/>
 
 								<View style={styles.landscapeHalfView}>
 									<Image source={personTemplateFour}
@@ -143,6 +140,8 @@ class ShowESignInfoContainer extends BaseComponent {
 										checkedFun={ this._checkedInDatas.bind(this, 2) }/>
 								</View>
 
+								<View style={styles.separateLine}/>
+
 								<View style={styles.landscapeHalfView}>
 									<Image source={personTemplateTwo}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
@@ -151,6 +150,8 @@ class ShowESignInfoContainer extends BaseComponent {
 										isChecked={ !this.props.isCricleTemplate  }
 										checkedFun={ this._checkedInDatas.bind(this, 3) }/>
 								</View>
+
+								<View style={styles.separateLine}/>
 
 									<View style={styles.landscapeHalfView}>
 										<Image source={personTemplateFive}
@@ -161,6 +162,8 @@ class ShowESignInfoContainer extends BaseComponent {
 											checkedFun={ this._checkedInDatas.bind(this, 4) }/>
 									</View>
 
+								<View style={styles.separateLine}/>
+
 								<View style={styles.landscapeHalfView}>
 									<Image source={personTemplateSix}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
@@ -169,6 +172,8 @@ class ShowESignInfoContainer extends BaseComponent {
 										isChecked={ !this.props.isCricleTemplate  }
 										checkedFun={ this._checkedInDatas.bind(this, 5) }/>
 								</View>
+
+								<View style={styles.separateLine}/>
 
 								<View style={styles.landscapeView}>
 									<View style={styles.landscapeHalfView}>
@@ -184,11 +189,6 @@ class ShowESignInfoContainer extends BaseComponent {
 							</View>
 						</View>
 					</ScrollView>
-					<SimplePicker
-					data={ this.state.data }
-					visible={ this.state.visible }
-					modalPress={ () => this.setState({ visible: false }) }
-					onPickerSelect={ data => this._onPickerSelect(data) } />
 					{ this.props.loading ? this._renderLoadingView() : null }
 					{ this._renderUpgrade(this.props) }
 			</View>
