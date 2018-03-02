@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     DeviceEventEmitter,
     Image,
-    Dimensions
+    Dimensions,
+    ImageBackground
 } from 'react-native';
 
 import Storage from '../../utils/storage';
@@ -29,6 +30,15 @@ import VertifyInfoIcon from '../../../assets/img/mine/vertifyInfo.png';
 import ModifyPwdIcon from '../../../assets/img/mine/modifyPwd.png';
 import SettingIcon from '../../../assets/img/mine/setting.png';
 import aboutUsIcon from '../../../assets/img/mine/aboutUsIcon.png';
+// 承运方
+import driverManagerIcon from '../../../assets/img/mine/driverManagerIcon.png';
+import carManagerIcon from '../../../assets/img/mine/carManagerIcon.png';
+import commonLineIcon from '../../../assets/img/mine/commonLineIcon.png';
+import carrierSettingIcon from '../../../assets/img/mine/carrierSettingIcon.png';
+
+import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
+
+
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
 
@@ -194,6 +204,7 @@ class mine extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}} >
                 <View style={styles.titleContainer}>
                     {
                         this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
@@ -270,6 +281,7 @@ class mine extends Component {
                     }
 
                 </View>
+                </ImageBackground>
                 <View style={styles.separateView}/>
                 <ScrollView>
                 {
@@ -535,7 +547,7 @@ class mine extends Component {
                             />
                         </View> : <View>
                             <SettingCell
-                                leftIconFont="&#xe62a;"
+                                leftIconImage={driverManagerIcon}
                                 content={'司机管理'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -552,7 +564,7 @@ class mine extends Component {
                                 }}
                             />
                             <SettingCell
-                                leftIconFont="&#xe62b;"
+                                leftIconImage={carManagerIcon}
                                 content={'车辆管理'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -570,7 +582,7 @@ class mine extends Component {
                                 }}
                             />
                             <SettingCell
-                                leftIconFont="&#xe62b;"
+                                leftIconImage={commonLineIcon}
                                 content={'常用线路设置'}
                                 showBottomLine={true}
                                 clickAction={() => {
@@ -579,8 +591,7 @@ class mine extends Component {
                             />
                             <View style={styles.separateView}/>
                             <SettingCell
-                                leftIconFont="&#xe62e;"
-                                iconFontColor={{color: StaticColor.RED_CHANGE_PWD_ICON_COLOR}}
+                                leftIconImage={carrierSettingIcon}
                                 content={'服务与设置'}
                                 showBottomLine={false}
                                 clickAction={() => {

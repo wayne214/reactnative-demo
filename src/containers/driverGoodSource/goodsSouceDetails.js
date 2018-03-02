@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         ...Platform.select({
             ios: {
-                height: 130,
+                height: 160,
             },
             android: {
-                height: 140,
+                height: 150,
             }
         }),
         width: screenWidth - 20
@@ -109,7 +109,7 @@ export default class GoodsSourceDetails extends Component {
                         taskInfo ?
                             <ImageBackground source={TaskBackground} style={styles.imageBackground} resizeMode='stretch'>
                                 <View style={styles.constantStyle}>
-                                    <Text style={styles.constantIcon}>&#xe66d;</Text>
+                                    <Text style={styles.constantIcon}>&#xe68b;</Text>
                                     <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>

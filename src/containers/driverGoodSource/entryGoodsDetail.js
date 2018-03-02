@@ -143,7 +143,8 @@ class entryGoodsDetail extends Component {
         // 传递参数
         console.log('transOrderList', this.state.transOrderList);
         this.props.getOrderDetailInfo({
-            transCodeList: this.state.transOrderList,
+            plateNumber: '京LPL001',
+            transCodeList: ["cpysd171124007", "cpysd171124006"], // this.state.transOrderList
         }, getOrderDetailInfoSuccessCallBack, getOrderDetailInfoFailCallBack);
     }
 
