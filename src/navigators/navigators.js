@@ -97,7 +97,7 @@ import WeChatPaymentScreen from '../containers/driverOrder/weChatPayment';
 import SignInScreen from '../containers/driverOrder/signPage';
 import SignSuccessScreen from '../containers/driverOrder/signSuccess';
 import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
-// import ReceiptPhotoScreen from '../containers/driverOrder/receiptPhoto';
+import BaiduMapScreen from '../containers/map/baiduMap';
 
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
@@ -668,12 +668,12 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
-    // [RouteType.ROUTE_RECEIPT_PHOTO_PAGE]: {
-    //     screen: ReceiptPhotoScreen,
-    //     navigationOptions: {
-    //         header: null
-    //     }
-    // },
+    [RouteType.ROUTE_BAIDU_MAP_PAGE]: {
+        screen: BaiduMapScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_MINE_PAGE]: {
         screen: MineScreen,
         navigationOptions: {

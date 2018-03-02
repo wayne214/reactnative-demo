@@ -92,7 +92,6 @@ class entryToBeShipped extends Component {
         this.sendOderFailCallBack = this.sendOderFailCallBack.bind(this);
         this.sendOderSuccessCallBack = this.sendOderSuccessCallBack.bind(this);
 
-        this.cancelOrderAction = this.cancelOrderAction.bind(this);
         this.cancelOderSuccessCallBack = this.cancelOderSuccessCallBack.bind(this);
         this.cancelOderFailCallBack = this.cancelOderFailCallBack.bind(this);
 
@@ -252,46 +251,27 @@ class entryToBeShipped extends Component {
                 return;
             }
         }
-
         // 传递参数
-        console.log('transOrderInfo: ' + JSON.stringify(transOrderInfo));
-
-        // HTTPRequest({
-        //     url: API.API_NEW_DESPATCH,
-        //     params: {
-        //         userId: userID,
-        //         userName,
-        //         scheduleCode: this.state.scheduleCode,
-        //         transOrderInfo,
-        //         plateNum: global.plateNumber,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.sendOderSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.sendOderFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
-
+        this.props._sendOrderAction({
+            userId: userID,
+            userName,
+            scheduleCode: this.state.scheduleCode,
+            transOrderInfo,
+            plateNum: global.plateNumber,
+        },(result) => {
+            this.sendOderSuccessCallBack(result);
+        }, () => {
+            this.sendOderFailCallBack();
+        })
     }
 
     // 获取数据成功回调
     sendOderSuccessCallBack() {
-        // lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '待发运订单详情页面');
-        // Toast.showShortCenter('发运成功!');
-        //
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '待发运订单详情页面');
+        Toast.showShortCenter('发运成功!');
+
         // if (this.props.navigation.state.params.successCallBack) {
         //     this.props.navigation.state.params.successCallBack();
         // }
@@ -303,60 +283,21 @@ class entryToBeShipped extends Component {
 
     // 获取数据失败回调
     sendOderFailCallBack() {
-        // Toast.showShortCenter('发运失败!');
-    }
-
-
-    /*
-     * 点击取消调用接口
-     * */
-    cancelOrderAction() {
-        currentTime = new Date().getTime();
-        // 传递参数
-        // HTTPRequest({
-        //     url: this.props.currentStatus == 'driver' ? API.API_NEW_DRIVER_CANCEL_ORDER : API.API_NEW_CARRIER_REFUSE_ORDER,
-        //     params: this.props.currentStatus == 'driver' ? {
-        //         userId: userID,
-        //         userName,
-        //         plateNumber,
-        //         dispatchCode: this.state.scheduleCode,
-        //     } : {
-        //         userId: global.userId,
-        //         userName: global.userName,
-        //         carrierCode: this.props.carrierCode,
-        //         dispatchNo: this.state.scheduleCode,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.cancelOderSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.cancelOderFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
+        Toast.showShortCenter('发运失败!');
     }
 
     // 获取数据成功回调
     cancelOderSuccessCallBack() {
-        // lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '待发运订单详情页面');
-        // Toast.showShortCenter('取消成功!');
-        //
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '待发运订单详情页面');
+        Toast.showShortCenter('取消成功!');
+
         // if (this.props.navigation.state.params.successCallBack) {
         //     this.props.navigation.state.params.successCallBack();
         // }
-        // // 返回top
-        // // 取消接单后，刷新货源列表
+        // 返回top
+        // 取消接单后，刷新货源列表
         // DeviceEventEmitter.emit('resetGood');
         // this.props.navigation.goBack();
     }
@@ -385,15 +326,14 @@ class entryToBeShipped extends Component {
             // 收货方
             typeString = 'receiver';
         }
-
-        this.props.navigation.navigate(
-            'BaiduMap',
-            {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_BAIDU_MAP_PAGE,
+            params: {
                 sendAddr: item.deliveryInfo.departureAddress,
                 receiveAddr: item.deliveryInfo.receiveAddress,
                 clickFlag: typeString,
             },
-        );
+        });
     }
 
     // 安排车辆
@@ -418,7 +358,17 @@ class entryToBeShipped extends Component {
                     text: '确认',
                     onPress: () => {
                         if (prventDoubleClickUtil.onMultiClick()) {
-                            this.cancelOrderAction();
+                            currentTime = new Date().getTime();
+                            this.props._cancelOrderAction({
+                                userId: userID,
+                                userName,
+                                plateNumber,
+                                dispatchCode: this.state.scheduleCode,
+                            }, (result) => {
+                                this.cancelOderSuccessCallBack(result);
+                            }, () => {
+                                this.cancelOderFailCallBack();
+                            });
                         }
                     },
                 },
@@ -499,16 +449,13 @@ class entryToBeShipped extends Component {
                     title={'订单详情'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    optTitle={ this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
+                    optTitle={this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
                     optTitleStyle={styles.rightButton}
-                    firstLevelClick={this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? {} :
+                    firstLevelClick={this.state.isCompany && this.state.isCompany == '1' ? {} :
                         () => {
-                        this.cancelOrder
+                        this.cancelOrder();
                     }}
                 />
-                {/*{*/}
-                    {/*this.props.currentStatus == 'driver' ? null : carrierView*/}
-                {/*}*/}
                 <Text style={{textAlign: 'center', marginTop: 10, height: 20, fontSize: 16, color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}>
                     {this.state.current}/{this.state.datas.length}
                 </Text>
@@ -564,6 +511,36 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_NEW_GET_GOODS_SOURCE,
                 success: data => {
                     console.log('get order details success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack()
+                }
+            }))
+        },
+        _cancelOrderAction: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_DRIVER_CANCEL_ORDER,
+                success: data => {
+                    console.log('cancel order success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack()
+                }
+            }))
+        },
+        _sendOrderAction: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_DESPATCH,
+                success: data => {
+                    console.log('send order success ',data);
                     callBack && callBack(data)
                 },
                 fail: error => {

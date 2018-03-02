@@ -367,6 +367,9 @@ export const API_NEW_SIGN = 'app/transport/sign';
 export const API_NEW_UPLOAD_RECEIPT = `${XYT_HOST}app/transport/returnTransportOrder/v2.1`;
 // 回单照片展示接口
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
+// 发运接口
+export const API_NEW_DESPATCH = `app/transport/despatch`;
+
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';

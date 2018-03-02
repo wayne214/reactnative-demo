@@ -157,8 +157,8 @@ export const ROUTE_SIGN_IN_PAGE = 'ROUTE_SIGN_IN_PAGE';
 export const ROUTE_SIGN_SUCCESS_PAGE = 'ROUTE_SIGN_SUCCESS_PAGE';
 // 回单
 export const ROUTE_UPLOAD_RECEIPT_PAGE = 'ROUTE_UPLOAD_RECEIPT_PAGE';
-// 回单照片
-export const ROUTE_RECEIPT_PHOTO_PAGE = 'ROUTE_RECEIPT_PHOTO_PAGE';
+// 百度地图
+export const ROUTE_BAIDU_MAP_PAGE = 'ROUTE_BAIDU_MAP_PAGE';
 
 /************************** 司机订单end ******************************/
 

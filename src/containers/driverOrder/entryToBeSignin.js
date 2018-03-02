@@ -203,11 +203,7 @@ class entryToBeSignin extends Component {
         Toast.showShortCenter('签收失败!');
     }
 
-    /*
-     * 获取列表详情调用接口
-     *
-     */
-
+    // 获取列表详情调用接口
     getOrderDetailInfo() {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
@@ -248,14 +244,14 @@ class entryToBeSignin extends Component {
             typeString = 'receiver';
         }
 
-        this.props.navigation.navigate(
-            'BaiduMap',
-            {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_BAIDU_MAP_PAGE,
+            params: {
                 sendAddr: item.deliveryInfo.departureAddress,
                 receiveAddr: item.deliveryInfo.receiveAddress,
                 clickFlag: typeString,
             },
-        );
+        });
     }
     // 回单照片
     receiptPhoto(){
