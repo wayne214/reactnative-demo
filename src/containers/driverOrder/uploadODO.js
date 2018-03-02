@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
+import * as RouteType from '../../constants/routeType';
 import PermissionsManager from '../../utils/permissionManager';
 import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 import DialogSelected from '../../components/common/alertSelected';
@@ -130,18 +131,8 @@ class uploadODO extends Component {
 
     // 打开相机
     takePhoto(){
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-            cropping: false,
-            compressImageMaxWidth: 500,
-            compressImageMaxHeight: 500,
-        }).then(image => {
-            console.log(image);
-            this.setState({
-                data: [{uri: image.path, width: image.width, height: image.height, mime: image.mime, id: new Date().getTime()}],
-            });
-            this.props.dispatch(addImage(this.state.data));
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_TAKE_PHOTO_PAGE
         });
     }
 
@@ -166,13 +157,13 @@ class uploadODO extends Component {
 
     clickImage(index) {
         const {imageList} = this.props;
-        // this.props.navigation.navigate(
-        //     'ReceiptPhotoShow',
-        //     {
-        //         image: imageList.toArray(),
-        //         num: index,
-        //     },
-        // );
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_PHOTO_SHOW_PAGE,
+            params: {
+                image: imageList.toArray(),
+                num: index,
+            }
+        });
     }
     render() {
         const {imageList} = this.props;

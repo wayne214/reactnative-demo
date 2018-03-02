@@ -159,6 +159,12 @@ export const ROUTE_SIGN_SUCCESS_PAGE = 'ROUTE_SIGN_SUCCESS_PAGE';
 export const ROUTE_UPLOAD_RECEIPT_PAGE = 'ROUTE_UPLOAD_RECEIPT_PAGE';
 // 百度地图
 export const ROUTE_BAIDU_MAP_PAGE = 'ROUTE_BAIDU_MAP_PAGE';
+// 拍照
+export const ROUTE_TAKE_PHOTO_PAGE = 'ROUTE_TAKE_PHOTO_PAGE';
+// 拍照完成
+export const ROUTE_TAKE_PHOTO_FINISHED_PAGE = 'ROUTE_TAKE_PHOTO_FINISHED_PAGE';
+// 照片预览及删除
+export const ROUTE_PHOTO_SHOW_PAGE = 'ROUTE_PHOTO_SHOW_PAGE';
 
 /************************** 司机订单end ******************************/
 

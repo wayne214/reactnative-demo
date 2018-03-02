@@ -28,6 +28,7 @@ import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
 import StorageKey from '../../constants/storageKeys';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import * as RouteType from '../../constants/routeType';
 
 import {
     addImage,
@@ -220,18 +221,8 @@ class UploadReceipt extends Component {
 
     // 打开相机
     takePhoto(){
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-            cropping: false,
-            compressImageMaxWidth: 500,
-            compressImageMaxHeight: 500,
-        }).then(image => {
-            console.log(image);
-            this.setState({
-                data: [{uri: image.path, width: image.width, height: image.height, mime: image.mime, id: new Date().getTime()}],
-            });
-            this.props.dispatch(addImage(this.state.data));
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_TAKE_PHOTO_PAGE
         });
     }
 
@@ -256,13 +247,13 @@ class UploadReceipt extends Component {
 
     clickImage(index) {
         const {imageList} = this.props;
-        this.props.navigation.navigate(
-            'ReceiptPhotoShow',
-            {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_PHOTO_SHOW_PAGE,
+            params: {
                 image: imageList.toArray(),
                 num: index,
-            },
-        );
+            }
+        });
     }
 
     uploadImage(url, data){

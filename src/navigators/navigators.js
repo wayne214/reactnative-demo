@@ -78,6 +78,8 @@ import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
 // 首页
 import HomeScreen from '../containers/home/home';
+import TakePhotoScreen from '../containers/home/takePhoto';
+import TakePhotoFinishedScreen from '../containers/home/takePhotoFinished';
 
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
@@ -98,6 +100,7 @@ import SignInScreen from '../containers/driverOrder/signPage';
 import SignSuccessScreen from '../containers/driverOrder/signSuccess';
 import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
 import BaiduMapScreen from '../containers/map/baiduMap';
+import PhotoShowScreen from '../containers/driverOrder/imageViewer';
 
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
@@ -638,6 +641,12 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_PHOTO_SHOW_PAGE]: {
+        screen: PhotoShowScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_WECHAT_PAYMENT_PAGE]: {
         screen: WeChatPaymentScreen,
         navigationOptions: {
@@ -670,6 +679,18 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_BAIDU_MAP_PAGE]: {
         screen: BaiduMapScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_PHOTO_PAGE]: {
+        screen: TakePhotoScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_PHOTO_FINISHED_PAGE]: {
+        screen: TakePhotoFinishedScreen,
         navigationOptions: {
             header: null
         }
