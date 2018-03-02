@@ -97,12 +97,6 @@ class ShowESignInfoContainer extends BaseComponent {
 		// if(!this.state.landscapeText ) return Toast.show('请输入横向文');
 		// if(!this.state.lastQuarterText ) return Toast.show('请输入下弦文');
 		if(!this.state.colorMap.key ) return Toast.show('请选择印章颜色');
-		if(this.state.landscapeText && !Regex.test('eSginText', this.state.landscapeText)){
-			return Toast.show('请输入正确的横向文格式')
-		}
-		if(this.state.lastQuarterText && !Regex.test('eSginText', this.state.lastQuarterText)){
-			return Toast.show('请输入正确的下弦文格式')
-		}
 
 		this.props.editESignInfo({
 			esignId: this.state.esignId,
@@ -149,31 +143,52 @@ class ShowESignInfoContainer extends BaseComponent {
 			<View style={ styles.container }>
 					<ScrollView keyboardShouldPersistTaps='handled' style={styles.mainTextContent}>
 						<View style={styles.mainTextView}>
-							<View style={styles.landscapeLineView}>
-								<View style={[styles.cellLeft,{marginTop:10}]}>
-									<Text style={styles.cellText}>{'印章模板'}</Text>
-								</View>
-								<View style={styles.landscapeView}>
-									<View style={styles.landscapeHalfView}>
-										<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ this.props.isCricleTemplate }
-										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
-										<Image source={ESignTwo}
-										resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>
-									</View>
-									<View style={styles.landscapeHalfView}>
-										<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
-										checkedFun={ this._checkedInDatas.bind(this, 2) }/>
-										<Image source={ESignOne}
-										resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
-									</View>
+							{/*<View style={styles.landscapeLineView}>*/}
+								{/*<View style={[styles.cellLeft,{marginTop:10}]}>*/}
+									{/*<Text style={styles.cellText}>{'印章模板'}</Text>*/}
+								{/*</View>*/}
+								{/*<View style={styles.landscapeView}>*/}
+									{/*<View style={styles.landscapeHalfView}>*/}
+										{/*<CheckBox*/}
+										{/*contentStyle={{ width: 20 }}*/}
+										{/*isChecked={ this.props.isCricleTemplate }*/}
+										{/*checkedFun={ this._checkedInDatas.bind(this, 1) }/>*/}
+										{/*<Image source={ESignTwo}*/}
+										{/*resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>*/}
+									{/*</View>*/}
+									{/*<View style={styles.landscapeHalfView}>*/}
+										{/*<CheckBox*/}
+										{/*contentStyle={{ width: 20 }}*/}
+										{/*isChecked={ !this.props.isCricleTemplate  }*/}
+										{/*checkedFun={ this._checkedInDatas.bind(this, 2) }/>*/}
+										{/*<Image source={ESignOne}*/}
+										{/*resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />*/}
+									{/*</View>*/}
 
 
+								{/*</View>*/}
+							{/*</View>*/}
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
+
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+										<Text style={styles.cellText}>{'印章模板'}</Text>
+									</View>
+
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+                        { this.state.colorMap.value ||
+
+												HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章模板' }
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
+									</View>
 								</View>
-							</View>
+							</TouchableOpacity>
+
 							<TouchableOpacity
 								activeOpacity={ 1 }
 								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
@@ -188,7 +203,7 @@ class ShowESignInfoContainer extends BaseComponent {
 										style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
 										{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }
 									</Text>
-									<Text style={ styles.arrowRight }>&#xe60d;</Text>
+									<Text style={ styles.arrowRight }>&#xe63d;</Text>
 								</View>
 							</View>
 							</TouchableOpacity>
