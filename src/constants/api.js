@@ -127,7 +127,7 @@ export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
 export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 
 // 货源列表
-export const GOODS_SOURCE_LIST = '/resourceApp/getResourceList';
+export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
 export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
@@ -323,6 +323,8 @@ export const API_GET_BUSINESS_LICENSE = `app/photo/businessLicense`;
 
 // 根据手机号查询伙伴信息
 export const API_QUERY_COMPANY_INFO = `app/rmc/company/queryCompanyInfoByBusTel`;
+// 根据手机号查询司机信息
+export const API_DRIVER_QUERY_DRIVER_INFO = `app/rmc/driver/queryDriverInfo/`;
 
 // 交强险
 export const API_GET_SEND_QIANGXIAN_INFO = `app/photo/insurance`;
@@ -359,7 +361,8 @@ export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
 export const API_LOGIN_WITH_PSD = 'app/uam/login/loginWithPassword/v3.0';
 // 获取登录验证码接口
 export const API_GET_LOGIN_WITH_CODE = '/app/uam/message/getLoginIdentifyCode';
-
+//登陆后绑定设备信息接口
+export const API_BIND_DEVICE = `app/uam/login/bindDevice`;
 // 天气接口
 export const API_GET_WEATHER = `/app/weather/`;
 
@@ -416,3 +419,13 @@ export const API_COMPANION_RELATION = 'app/rmc/driver/addDriverCompanionRelation
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM = 'app/rmc/rmcCar/queryCarInfoByCarNumForCompanion';
 // 司机管理-绑定车辆
 export const API_RMC_DRIVER_BINDING_CAR = 'app/rmc/driver/bindingCar';
+//根据伙伴手机号 查询伙伴下所有车辆列表
+export const API_QUERY_CAR_LIST_BY_COMPANIONINFO = 'app/rmc/rmcCar/queryCarListByCompanionInfo';
+//车辆管理--绑定车辆与伙伴的关系&解除绑定车辆与伙伴的关系
+export const API_BIND_RELIEVE_CAR_COMPANION = 'app/rmc/rmcCar/bindRelieveCarCompanionRelation';
+// 车辆管理-绑定司机
+export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelation';
+// 车辆管理--根据手机号查询司机
+export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
+//根据车牌号搜索车辆信息返回
+export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';

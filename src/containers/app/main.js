@@ -353,7 +353,7 @@ class MainContainer extends BaseComponent {
         toValue: 1
       }
     ).start(() => this.state.rotateValue.setValue(0));
-    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'route'));
+    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'goods'));
   }
 
   render() {

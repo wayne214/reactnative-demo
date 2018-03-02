@@ -207,15 +207,30 @@ export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
 export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';
 // 设备绑定
 export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
+// 初次绑定设备
+export const ROUTE_CHECK_PHONE = 'ROUTE_CHECK_PHONE';
+// 初次绑定设备第二步
+export const ROUTE_CHECK_PHONE_STEP_TWO = 'ROUTE_CHECK_PHONE_STEP_TWO';
 // 绑定车辆
 export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
 // 司机管理
 export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
 // 添加司机
 export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
+// 选择owner角色
+export const ROUTE_CHARACTER_OWNER = 'ROUTE_CHARACTER_OWNER';
+export const ROUTE_CHARACTER_LIST = 'ROUTE_CHARACTER_LIST';
 
 /************************** 司机货源 ******************************/
 // 司机货源
 export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
 // 司机货源详情
 export const ROUTE_DRIVER_GOOD_DETAIL_PAGE = 'ROUTE_DRIVER_GOOD_DETAIL_PAGE';
+
+/************************** 车辆管理 ******************************/
+export const ROUTE_CAR_MANAGEMENT = 'ROUTE_CAR_MANAGEMENT';
+// 绑定司机
+export const ROUTE_BIND_DRIVER = 'ROUTE_BIND_DRIVER';
+// 添加车辆
+export const ROUTE_ADD_CAR2 = 'ROUTE_ADD_CAR2';
+

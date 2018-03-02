@@ -20,6 +20,9 @@ class LoginCharacter {
         console.log("------账号角色信息:", result);
         if (result) {
             if (result.length == 0) {
+                props.navigation.dispatch({
+                    type: RouteType.ROUTE_CHARACTER_LIST,
+                })
                 return;
             }
 

@@ -126,12 +126,21 @@ import CarInfoScreen from '../containers/mine/carInfo';
 import CarDisableScreen from '../containers/mine/carDisablePage';
 import ForgetPwdStepTwo from "../containers/login/forgetPwdStepTwo";
 import DevicesBingScreen from '../containers/mine/devicesBind';
+import CheckPhone from '../containers/login/checkPhone';
+import CheckPhoneTwo from '../containers/login/checkPhoneStepTwo';
 import DriverManageScreen from '../containers/mine/owner/driverManagement/driverManagement';
 import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage';
 import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
+import CharacterOwner from '../containers/login/character/characterOwner';
+import CharacterList from '../containers/login/character/characterList';
 
 // 货源详情
 import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
+
+// 车辆管理
+import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
+import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
+import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -787,6 +796,18 @@ export const AppNavigator = StackNavigator({
             gesturesEnabled: false
         }
     },
+    [RouteType.ROUTE_CHECK_PHONE]: {
+        screen: CheckPhone,
+        navigationOptions: {
+            // title:'绑定设备'
+        }
+    },
+    [RouteType.ROUTE_CHECK_PHONE_STEP_TWO]: {
+        screen: CheckPhoneTwo,
+        navigationOptions: {
+            // title:'绑定设备'
+        }
+    },
     [RouteType.ROUTE_BIND_CAR]: {
         screen: BindCarScreen,
         navigationOptions: {
@@ -809,6 +830,37 @@ export const AppNavigator = StackNavigator({
         screen: EntryGoodsDetailScreen,
         navigationOptions: {
             header: null
+        }
+    },
+    [RouteType.ROUTE_CHARACTER_OWNER]: {
+        screen: CharacterOwner,
+        navigationOptions: {
+            // header: null,
+            // title:'选择owner角色'
+        }
+    },
+    [RouteType.ROUTE_CAR_MANAGEMENT]: {
+        screen: CarManagementScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BIND_DRIVER]: {
+        screen: BindDriverScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ADD_CAR2]: {
+        screen: AddDriverScreen2,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CHARACTER_LIST]: {
+        screen: CharacterList,
+        navigationOptions: {
+
         }
     },
 }, {

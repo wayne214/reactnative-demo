@@ -191,7 +191,7 @@ class RegisterStepOne extends Component {
     registeredIdentityCode(shouldStartCountting) {
         //todo uuid
         this.props.registeredIdentityCodeAction({
-            deviceId: '2222222',
+            deviceId: '2333-1',
             phoneNum: this.state.phoneNum,
         }, shouldStartCountting);
     }

@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         ...Platform.select({
             ios: {
-                height: 130,
+                height: 156,
             },
             android: {
-                height: 140,
+                height: 166,
             }
         }),
         width: screenWidth - 20
@@ -135,7 +135,21 @@ class orderToBeSureDetail extends Component {
                 >
                     {
                         taskInfo ?
-                            <ImageBackground source={TaskBackground} style={styles.imageBackground} resizeMode='stretch'>
+                            <ImageBackground
+                                source={TaskBackground}
+                                style={[
+                                    styles.imageBackground,
+                                    taskInfo.committedArrivalTime ? {} : {
+                                        ...Platform.select({
+                                            ios: {
+                                                height: 128,
+                                            },
+                                            android: {
+                                                height: 138,
+                                            }
+                                        }),
+                                    }
+                                ]}                                resizeMode='stretch'>
                                 <View style={styles.constantStyle}>
                                     <Text style={styles.constantIcon}>&#xe68b;</Text>
                                     <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>

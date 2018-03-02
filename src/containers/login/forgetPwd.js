@@ -118,7 +118,7 @@ class forgetPWD extends Component {
     getForgetVCode(shouldStartCountting) {
         //todo uuid
         this.props.getForgetVCodeAction({
-            deviceId: '222222',
+            deviceId: '2333-1',
             phoneNum: this.state.phoneNo,
         },shouldStartCountting)
     }

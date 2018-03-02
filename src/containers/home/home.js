@@ -15,9 +15,17 @@ import dispatchIcon from '../../../assets/home/despatch_icon.png';
 import receiveIcon from '../../../assets/home/receive_icon.png';
 import roadIcon from '../../../assets/home/road_abnormality.png';
 import WeatherCell from '../../components/home/weatherCell';
-import {width,height} from '../../constants/dimen';
-import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
+import {width, height} from '../../constants/dimen';
+import {changeTab, showFloatDialog, logout, appendLogToFile} from '../../action/app';
 import NavigatorBar from '../../components/common/navigatorbar';
+import DriverUp from '../../../assets/img/character/driverUp.png';
+import DriverDown from '../../../assets/img/character/driverDown.png';
+import OwnerUp from '../../../assets/img/character/ownerUp.png';
+import OwnerDown from '../../../assets/img/character/ownerDown.png';
+import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
+import MessageMine from '../../../assets/img/oldMine/message.png';
+import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
+import Toast from '../../utils/toast';
 import {
     View,
     Text,
@@ -48,6 +56,7 @@ import {
     COLOR_LIGHT_GRAY_TEXT,
     REFRESH_COLOR,
 } from '../../constants/colors';
+import * as RouteType from "../../constants/routeType";
 
 const images = [
     bannerImage1,
@@ -67,7 +76,30 @@ const itemHeight = 125 * itemWidth / 335;
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            acceptMessge: '',
+            plateNumber: '',
+            setUserCar: false,
+            weather: '天气',
+            temperatureLow: '--',
+            temperatureHigh: '--',
+            weatherNum: '',
+            limitNumber: '',
+            plateNumberObj: {},
+            modalVisible: false,
+            character: '司机',
+            bubbleSwitch: false,
+            show: false,
+            // CarOwnerState: params ? params.CarOwnerState : ''
+        };
+
+        this.searchDriverState = this.searchDriverState.bind(this);
+        this.searchDriverStateSucCallBack = this.searchDriverStateSucCallBack.bind(this);
+        this.ownerVerifiedHome = this.ownerVerifiedHome.bind(this);
+        this.ownerVerifiedHomeSucCallBack = this.ownerVerifiedHomeSucCallBack.bind(this);
+        this.ownerVerifiedHomeFailCallBack = this.ownerVerifiedHomeFailCallBack.bind(this);
     }
+
     // static navigationOptions = ({navigation}) => {
     //     const {state, setParams} = navigation
     //     return {
@@ -79,12 +111,190 @@ class Home extends Component {
     // };
     componentWillReceiveProps(nextProps) {
         if (this.props.location !== nextProps.location) {
-            this.props.getWeather({city:nextProps.location});
+            this.props.getWeather({city: nextProps.location});
         }
     }
 
     componentDidMount() {
 
+    }
+
+    ownerVerifiedHome(ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) {
+
+        if (this.props.userInfo) {
+            if (this.props.userInfo.phone) {
+                this.props.ownerVerifiedHomeAction({
+                    busTel: global.phone,
+                },ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack)
+            }
+        }
+    }
+
+    ownerVerifiedHomeSucCallBack(result){
+        debugger
+        console.log('ownerVerifiedState==', result.toString());
+        // let result = result;
+        this.setState({
+            verifiedState: result && result.certificationStatus,
+        });
+        // 首页状态
+        if (result.companyNature == '个人') {
+            if (result.status == '10') {
+                Toast.show('个人车主身份被禁用');
+                return
+            } else {
+                // 确认个人车主
+                if (result.certificationStatus == '1201') {
+                    this.props.setOwnerCharacterAction('11');
+                    this.props.setCurrentCharacterAction('personalOwner');
+                    this.setState({
+                        bubbleSwitch: false,
+                        show: false,
+                    })
+                } else {
+                    if (result.certificationStatus == '1202') {
+                        this.props.setCompanyCodeAction(result.companyCode);
+                        this.props.setOwnerCharacterAction('12');
+                        this.props.setCurrentCharacterAction('personalOwner');
+                        this.setState({
+                            bubbleSwitch: false,
+                            show: false,
+                        })
+                    } else {
+                        this.props.setOwnerCharacterAction('13');
+                        this.props.navigation.navigate('PersonownerVerifiedStatePage');
+                        this.setState({
+                            show: false,
+                        })
+                    }
+                }
+            }
+
+        } else {
+            if (result.companyNature == '企业') {
+                if (result.status == '10') {
+                    Toast.show('企业车主身份被禁用');
+                    return
+                } else {
+                    // 确认企业车主
+                    if (result.certificationStatus == '1201') {
+                        this.props.setOwnerCharacterAction('21');
+                        this.props.setCurrentCharacterAction('businessOwner');
+                        this.setState({
+                            bubbleSwitch: false,
+                            show: false,
+                        })
+                    } else {
+                        if (result.certificationStatus == '1202') {
+                            this.props.setCompanyCodeAction(result.companyCode);
+                            this.props.setOwnerCharacterAction('22');
+                            this.props.setCurrentCharacterAction('businessOwner');
+                            this.setState({
+                                bubbleSwitch: false,
+                                show: false,
+                            })
+                        } else {
+                            this.props.setOwnerCharacterAction('23');
+                            this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
+                            this.setState({
+                                show: false,
+                            })
+                        }
+                    }
+                }
+            } else {
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_CHARACTER_OWNER,
+                })
+                this.setState({
+                    show: false,
+                })
+            }
+        }
+    }
+
+    ownerVerifiedHomeFailCallBack(result){
+        if (result.message == '没有车主角色') {
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_CHARACTER_OWNER,
+            })
+            this.setState({
+                show: false,
+            })
+        }
+    }
+
+    searchDriverState(searchDriverStateSucCallBack) {
+        this.props.searchDriverStateAction({},searchDriverStateSucCallBack)
+    }
+
+    searchDriverStateSucCallBack(result){
+        if (result) {
+            if (result.status == '10') {
+                this.props.setDriverCharacterAction('4');
+                this.setState({
+                    bubbleSwitch: false,
+                    show: false,
+                })
+                Toast.show('司机身份已经被禁用，如需帮助请联系客服');
+                return
+            } else {
+                if (result.certificationStatus == '1201') {
+                    this.props.setDriverCharacterAction('1');
+                }
+                if (result.certificationStatus == '1202') {
+                    this.props.setDriverCharacterAction('2');
+                }
+                if (result.certificationStatus == '1203') {
+                    this.props.setDriverCharacterAction('3');
+                }
+                if (result.certificationStatus == '1203') {
+                    Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                        if (value) {
+                            this.props.navigation.navigate('VerifiedPage', {
+                                resultInfo: value,
+                                commitSuccess: () => {
+                                    this.setState({
+                                        bubbleSwitch: false,
+                                        show: false,
+                                    })
+                                }
+                            });
+                        } else {
+                            this.props.navigation.navigate('VerifiedPage', {
+                                commitSuccess: () => {
+                                    this.setState({
+                                        bubbleSwitch: false,
+                                        show: false,
+                                    })
+                                }
+                            });
+                        }
+                    });
+
+                    this.setState({
+                        show: false,
+                    })
+
+                } else {
+                    this.props.setCurrentCharacterAction('driver');
+
+                    this.setState({
+                        bubbleSwitch: false,
+                        show: false,
+                    })
+                }
+            }
+        } else {
+            this.props.navigation.navigate('VerifiedPage', {
+                commitSuccess: () => {
+                    this.setState({
+                        bubbleSwitch: false,
+                        show: false,
+                    })
+                }
+            });
+        }
     }
 
     getCurrentWeekday(day) {
@@ -112,6 +322,7 @@ class Home extends Component {
             />
         );
     }
+
 
     render() {
         const limitView = true ?
@@ -210,7 +421,7 @@ class Home extends Component {
                 renderImage={() => <Image source={roadIcon}/>}
                 clickAction={() => {
                     console.log('dianjile ma')
-                    this.props.getWeather({city:'北京'});
+                    this.props.getWeather({city: '北京'});
                     // if (this.props.driverStatus == 2) {
                     //     this.props.navigation.navigate('UploadAbnormal');
                     // } else {
@@ -261,6 +472,88 @@ class Home extends Component {
 
         return <View style={styles.containerView}>
 
+            <View style={{
+                height: 64,
+                ...Platform.select({
+                    ios: {
+                        paddingTop: 15,
+                    },
+                    android: {
+                        paddingTop: 0,
+                    },
+                }),
+                flexDirection: 'row',
+                alignItems: 'center',
+
+            }}>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                }}>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {
+                            this.setState({
+                                bubbleSwitch: !this.state.bubbleSwitch,
+                                show: !this.state.show,
+                            })
+                        }}
+                    >
+                        <View>
+                            <Image
+                                style={{
+                                    marginLeft: 10,
+                                    marginTop: 10,
+                                }}
+                                source={
+                                    this.props.currentStatus == 'driver' ?
+                                        this.state.bubbleSwitch ? DriverUp : DriverDown
+                                        : this.state.bubbleSwitch ? OwnerUp : OwnerDown
+                                }
+                            />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={{
+                    flex: 2,
+                    justifyContent: 'center'
+                }}>
+                    <Text style={{
+                        textAlign: 'center',
+                        color: LIGHT_BLACK_TEXT_COLOR,
+                        fontSize: 18,
+                        marginTop: 10,
+                    }}>首页</Text>
+                </View>
+                <View style={{
+                    flex: 1,
+                    alignItems: 'flex-end',
+                    justifyContent: 'center'
+                }}>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {
+
+
+                        }}
+                    >
+                        <View>
+                            <Image
+                                style={{
+                                    marginRight: 10,
+                                    marginTop: 10,
+                                }}
+                                source={
+                                    this.props.jpushIcon === true ? MessageNewMine : MessageMine
+                                }
+                            />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={{backgroundColor:'#FFFAF4',height:35,width,justifyContent:'center', alignItems:'center'}}>
+                <Text style={{color:'#F77F4F',fontSize:15}}>您的当前状态：认证中</Text>
+            </View>
             <ScrollView>
                 <View style={styles.locationStyle}>
                     <Image source={locationIcon}/>
@@ -333,9 +626,19 @@ class Home extends Component {
                 </View>
                 {this.props.currentStatus == 'driver' ? driverView : carrierView}
             </ScrollView>
+            {this.state.show ?
+                <CharacterChooseCell
+                    carClick={() => {
+                        this.ownerVerifiedHome(this.ownerVerifiedHomeSucCallBack,this.ownerVerifiedHomeFailCallBack);
+                    }}
+                    driverClick={() => {
+                        this.searchDriverState(this.searchDriverStateSucCallBack);
+                    }}
+                /> : null}
         </View>
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -511,31 +814,69 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        location: state.home.get('locationData'),
+        userInfo: state.user.get('userInfo'),
+        homePageState: state.app.get('getHomePageCount'),
+        carrierHomePageState: state.app.get('getCarrierHomePageCount'),
+        jpushIcon: state.jpush.get('jpushIcon'),
+        location: state.app.get('locationData'),
+        plateNumber: state.user.get('plateNumber'),
+        plateNumberObj: state.user.get('plateNumberObj'),
+        routes: state.nav.routes,
+        userCarList: state.user.get('userCarList'),
+        speechSwitchStatus: state.app.get('speechSwitchStatus'),
+        versionUrl: state.app.get('versionUrl'),
+        driverStatus: state.user.get('driverStatus'),
+        ownerStatus: state.user.get('ownerStatus'),
+        currentStatus: state.user.get('currentStatus'),
+        carrierCode: state.user.get('companyCode'),
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         dispatch,
-        getWeather:(city) => {
-            dispatch(fetchData({
-                body:{},
-                method: 'POST',
-                api: API_GET_WEATHER+ '?city=' + city.city,
-                success: (data) => {
-                    console.log('city=',data);
-                    dispatch(saveWeather({ data}));
-                },
-                fail: (data) => {
-                    console.log('city=',data);
-                }
-            }));
-        },
-
         setCurrentCharacterAction: (result) => {
             dispatch(setCurrentCharacterAction(result));
         },
+        getWeather: (city) => {
+            dispatch(fetchData({
+                body: {},
+                method: 'POST',
+                api: API_GET_WEATHER + '?city=' + city.city,
+                success: (data) => {
+                    console.log('city=', data);
+                    dispatch(saveWeather({data}));
+                },
+                fail: (data) => {
+                    console.log('city=', data);
+                }
+            }));
+        },
+        ownerVerifiedHomeAction:(params,ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_COMPANY_INFO,
+                success: (data) => {
+                    ownerVerifiedHomeSucCallBack(data);
+                },
+                fail:(data) => {
+                    ownerVerifiedHomeFailCallBack(data);
+                }
+            }))
+        },
+        searchDriverStateAction:(params,searchDriverStateSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_DRIVER_QUERY_DRIVER_INFO + global.phone,
+                success: (data) => {
+                    searchDriverStateSucCallBack(data);
+                },
+            }))
+        },
+
+
     };
 }
 
