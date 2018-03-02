@@ -28,7 +28,7 @@ import HelperUtil from '../../utils/helper';
 import ESignOne from '../../../assets/img/user/eSignTemplateOne.png';
 import ESignTwo from '../../../assets/img/user/eSignTemplateTwo.png';
 let startTime = 0
-class ShowESignInfoContainer extends BaseComponent {
+class eSignTemplateCompany extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -164,4 +164,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowESignInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(eSignTemplateCompany);

@@ -33,7 +33,7 @@ import personTemplateFive from '../../../assets/img/user/personTemplateFive.png'
 import personTemplateSix from '../../../assets/img/user/personTemplateSix.png';
 
 let startTime = 0
-class ShowESignInfoContainer extends BaseComponent {
+class eSignTemplateIndividual extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -216,4 +216,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowESignInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(eSignTemplateIndividual);

@@ -16,19 +16,12 @@ import {
 import styles from '../../../assets/css/eSign';
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
-import SimplePicker from '../../components/common/picker';
 import { ESIGN_COLOR_TYPE } from '../../constants/json';
-import { fetchData,appendLogToFile } from '../../action/app';
-import { GET_ESIGN_INFO,EDIT_ESIGN_INFO } from '../../constants/api';
 import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo, dispatchRefreshESignColorInfo } from '../../action/eSign';
 import CheckBox from '../../components/common/checkbox';
-import Toast from '../../utils/toast';
-import Regex from '../../utils/regex';
 import HelperUtil from '../../utils/helper';
-import ESignOne from '../../../assets/img/user/eSignTemplateOne.png';
-import ESignTwo from '../../../assets/img/user/eSignTemplateTwo.png';
 let startTime = 0
-class ShowESignInfoContainer extends BaseComponent {
+class eSignTemplateColor extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -182,4 +175,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowESignInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(eSignTemplateColor);

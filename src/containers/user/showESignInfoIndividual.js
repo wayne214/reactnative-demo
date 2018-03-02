@@ -30,7 +30,7 @@ import * as RouteType from '../../constants/routeType';
 
 
 let startTime = 0
-class ShowESignInfoContainer extends BaseComponent {
+class showESignInfoIndividual extends BaseComponent {
 
 	constructor(props) {
 		super(props);
@@ -292,4 +292,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowESignInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(showESignInfoIndividual);

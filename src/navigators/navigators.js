@@ -146,6 +146,9 @@ import ShowESignInfoIndividual from '../containers/user/showESignInfoIndividual'
 import ESignTemplateCompany from '../containers/user/eSignTemplateCompany';
 import ESignTemplateIndividual from '../containers/user/eSignTemplateIndividual';
 import ESignTemplateColor from '../containers/user/eSignTemplateColor';
+import SetHorizontalTextScreen from '../containers/user/setHorizontalText';
+import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -870,21 +873,37 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_ESIGN_INDIVIDUAL]: {
         screen: ShowESignInfoIndividual,
         navigationOptions: {
+            // title:'设置电子签章个体'
         }
     },
     [RouteType.ROUTE_ESIGN_TEMPLATE_INDIVIDUAL]: {
         screen: ESignTemplateIndividual,
         navigationOptions: {
+            // title:'电子签章个体模板'
         }
     },
     [RouteType.ROUTE_ESIGN_TEMPLATE_COMPANY]: {
         screen: ESignTemplateCompany,
         navigationOptions: {
+            // title:'电子签章公司模板'
         }
     },
     [RouteType.ROUTE_ESIGN_TEMPLATE_COLOR]: {
         screen: ESignTemplateColor,
         navigationOptions: {
+            // title:'模板颜色'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_HORIZONTAL_TEXT]: {
+        screen: SetHorizontalTextScreen,
+        navigationOptions: {
+            // title: '横向文'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT]: {
+        screen: SetLastQuarterTextScreen,
+        navigationOptions: {
+            // title: '下弦文'
         }
     },
 }, {
