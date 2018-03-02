@@ -33,7 +33,7 @@ export default class CheckBox extends React.Component {
 									fontSize: 20,
 									color: '#17a9df',
 				  				fontFamily: 'iconfont' }, style]}>
-				  				&#xe635;
+									&#xe648;
 				  			</Text>
 							);
 						} else {
@@ -42,7 +42,7 @@ export default class CheckBox extends React.Component {
 									fontSize: 20,
 									color: '#999999',
 				  				fontFamily: 'iconfont' }, style]}>
-				  				&#xe622;
+									&#xe647;
 				  			</Text>
 							);
 						}

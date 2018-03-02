@@ -193,7 +193,7 @@ class CarInfo extends Component {
                 optTitle='添加车辆'
                 optTitleStyle={styles.rightButtonStyle}
                 firstLevelClick={() => {
-                    console.log('添加车辆');
+                    this.props.navigation.navigate('AddCarDriver');
                 }}/>,
         }
     };

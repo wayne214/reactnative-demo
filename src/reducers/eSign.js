@@ -10,6 +10,7 @@ const initState = Immutable.fromJS({
 	isRefresh: false,
 	isCricleTemplate: true,
 	sealColor: '',
+	selectTemplate: 1
 });
 
 export default (state = initState, action) => {
@@ -38,6 +39,7 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_REFRESH_ESIGN_TEMPLATE_INFO:
 			console.log('lqq--ACTION_REFRESH_ESIGN_TEMPLATE_INFO-isCricleTemplate-->',action.payload.template);
 			newState = newState.set('isCricleTemplate', action.payload.template);
+        newState = newState.set('selectTemplate',action.payload.selectTemplate);
 			return newState;
 		case ActionTypes.ACTION_REFRESH_ESIGN_COLOR_INFO:
 			console.log('lqq--ACTION_REFRESH_ESIGN_COLOR_INFO-sealColor-->',action.payload.sealColor);

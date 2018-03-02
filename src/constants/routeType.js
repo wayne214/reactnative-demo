@@ -252,3 +252,16 @@ export const ROUTE_BIND_DRIVER = 'ROUTE_BIND_DRIVER';
 // 添加车辆
 export const ROUTE_ADD_CAR2 = 'ROUTE_ADD_CAR2';
 
+/************************** 电子签章 ******************************/
+// 签章模板-个体
+export const ROUTE_ESIGN_TEMPLATE_INDIVIDUAL = 'ROUTE_ESIGN_TEMPLATE_INDIVIDUAL';
+// 签章模板-公司
+export const ROUTE_ESIGN_TEMPLATE_COMPANY = 'ROUTE_ESIGN_TEMPLATE_COMPANY';
+// 电子签章-个体
+export const ROUTE_ESIGN_INDIVIDUAL = 'ROUTE_ESIGN_INDIVIDUAL';
+// 签章模板颜色
+export const ROUTE_ESIGN_TEMPLATE_COLOR = 'ROUTE_ESIGN_TEMPLATE_COLOR';
+// 横向文
+export const ROUTE_ESIGN_HORIZONTAL_TEXT = 'ROUTE_ESIGN_HORIZONTAL_TEXT';
+// 下弦文
+export const ROUTE_ESIGN_LAST_QUARTER_TEXT = 'ROUTE_ESIGN_LAST_QUARTER_TEXT';

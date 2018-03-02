@@ -286,7 +286,7 @@ class mine extends Component {
                 <ScrollView>
                 {
                     //this.props.currentStatus == 'driver1' ?
-                    'driver1' == 'driver1' ?
+                    'driver1' == 'driver' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
