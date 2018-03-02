@@ -406,7 +406,7 @@ class CarManagement extends Component {
                                 fontFamily: 'iconfont',
                                 fontSize: 16,
                                 color: '#999999'
-                            }}>&#xe619;
+                            }}>&#xe618;
                         </Text>
                         <TextInput
                             style={styles.textInputStyle}
@@ -439,7 +439,7 @@ class CarManagement extends Component {
                                     fontSize: 16,
                                     marginRight: 10,
                                     color: '#CCCCCC'
-                                }}>&#xe66a;
+                                }}>&#xe664;
                             </Text>
                         </TouchableOpacity>
 
