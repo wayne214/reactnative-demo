@@ -280,62 +280,61 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 /************************************************** 司机APP 接口 *************************************************/
-import { XYT_HOST } from './setting';
 
 /************************ 认证部分 接口 ************************/
 
 /************  司机认证部分 接口 ************/
 
 // 身份证正面
-export const API_GET_IDCARD_INFO = `${XYT_HOST}app/photo/idCard/faceSide`;
+export const API_GET_IDCARD_INFO = `app/photo/idCard/faceSide`;
 
 // 身份证反面
-export const API_GET_IDCARD_TRUN_INFO = `${XYT_HOST}app/photo/idCard/backSide`;
+export const API_GET_IDCARD_TRUN_INFO = `app/photo/idCard/backSide`;
 
 // 驾驶证主页
-export const API_GET_DRIVER_INFO = `${XYT_HOST}app/photo/drivingLicense/homepage`;
+export const API_GET_DRIVER_INFO = `app/photo/drivingLicense/homepage`;
 
 // 驾驶证副页
-export const API_GET_DRIVER_TRUN_INFO = `${XYT_HOST}app/photo/drivingLicense/vicePage`;
+export const API_GET_DRIVER_TRUN_INFO = `app/photo/drivingLicense/vicePage`;
 
 // 手持身份证
-export const API_GET_HAND_PIC_INFO = `${XYT_HOST}app/photo/idCard/handle`;
+export const API_GET_HAND_PIC_INFO = `app/photo/idCard/handle`;
 
 // 司机认证确认提交接口
-export const API_AUTH_REALNAME_COMMIT = `${XYT_HOST}app/rmc/driver/addDriver`;
+export const API_AUTH_REALNAME_COMMIT = `app/rmc/driver/addDriver`;
 
 // 司机认证详情接口
-export const API_AUTH_REALNAME_DETAIL = `${XYT_HOST}app/rmc/driver/queryDriverInfo/`;
+export const API_AUTH_REALNAME_DETAIL = `app/rmc/driver/queryDriverInfo/`;
 
 
 /************  个人车主认证部分 接口 ************/
 
 // 行驶证主页
-export const API_GET_TRAVEL_INFO = `${XYT_HOST}app/photo/vehicleLicense/homepage`;
+export const API_GET_TRAVEL_INFO = `app/photo/vehicleLicense/homepage`;
 
 // 行驶证副页
-export const API_GET_TRAVEL_TRUN_INFO = `${XYT_HOST}app/photo/vehicleLicense/vicePage`;
+export const API_GET_TRAVEL_TRUN_INFO = `app/photo/vehicleLicense/vicePage`;
 
 // 个人、企业车主认证
-export const API_COMPANY_CERTIFICATION = `${XYT_HOST}app/rmc/company/appInsertCertificationInfo`;
+export const API_COMPANY_CERTIFICATION = `app/rmc/company/appInsertCertificationInfo`;
 
 // 上传营业执照
-export const API_GET_BUSINESS_LICENSE = `${XYT_HOST}app/photo/businessLicense`;
+export const API_GET_BUSINESS_LICENSE = `app/photo/businessLicense`;
 
 // 根据手机号查询伙伴信息
-export const API_QUERY_COMPANY_INFO = `${XYT_HOST}app/rmc/company/queryCompanyInfoByBusTel`;
+export const API_QUERY_COMPANY_INFO = `app/rmc/company/queryCompanyInfoByBusTel`;
 
 // 交强险
-export const API_GET_SEND_QIANGXIAN_INFO = `${XYT_HOST}app/photo/insurance`;
+export const API_GET_SEND_QIANGXIAN_INFO = `app/photo/insurance`;
 
 // 车头照
-export const API_GET_CAR_HEADER_INFO = `${XYT_HOST}app/photo/vehicle`;
+export const API_GET_CAR_HEADER_INFO = `app/photo/vehicle`;
 
 // 车长载重接口
-export const API_LENGTH_AND_WEIGHT_COMMIT = `${XYT_HOST}app/rmc/rmcCar/queryVehicleLengthAndWeight`;
+export const API_LENGTH_AND_WEIGHT_COMMIT = `app/rmc/rmcCar/queryVehicleLengthAndWeight`;
 
 // 车主增加车辆接口
-export const API_AUTH_QUALIFICATIONS_COMMIT = `${XYT_HOST}app/rmc/rmcCar/createCertificationQualification`;
+export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificationQualification`;
 
 /********************************司机订单API*************************************/
 // 订单列表（全部，待发运）分页查询调度单
