@@ -141,7 +141,8 @@ import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDet
 import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
 import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
 import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
-
+// 承运方电子签章-个体
+import showESignInfoIndividual from '../containers/user/showESignInfoIndividual';
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -852,7 +853,7 @@ export const AppNavigator = StackNavigator({
         }
     },
     [RouteType.ROUTE_ADD_CAR2]: {
-        screen: AddDriverScreen2,
+        screen: AddCarPageScreen,
         navigationOptions: {
             header: null
         }
