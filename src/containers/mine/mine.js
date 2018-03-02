@@ -285,7 +285,8 @@ class mine extends Component {
                 <View style={styles.separateView}/>
                 <ScrollView>
                 {
-                    this.props.currentStatus == 'driver1' ?
+                    //this.props.currentStatus == 'driver1' ?
+                    'driver1' == 'driver1' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
@@ -434,7 +435,7 @@ class mine extends Component {
                                 leftIconImage={aboutUsIcon}
                                 content={'司机认证'}
                                 clickAction={() => {
-                                    if( 2 === 1 ){ // 没有认证 状态
+                                    if( 1 === 1 ){ // 没有认证 状态
                                         Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({

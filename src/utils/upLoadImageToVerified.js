@@ -1,6 +1,7 @@
 /**
  * Created by mymac on 2017/7/3.
  */
+import {HOST} from '../constants/setting'
 
 const headers = {
     "Content-Type": "multipart/form-data",
@@ -37,7 +38,7 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
     console.log(`%c request url ${url}`, 'color:green');
     console.log(`%c Request params ${JSON.stringify(data)}`, 'color:green');
 
-    const myFetch = fetch(url, {
+    const myFetch = fetch(HOST + url, {
         method: 'POST',
         headers,
         body: data,

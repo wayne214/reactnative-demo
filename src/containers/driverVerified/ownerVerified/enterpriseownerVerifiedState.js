@@ -32,6 +32,7 @@ const BlueButtonArc = require('../../../../assets/img/verified/blueButtonArc.png
 import Button from 'apsl-react-native-button';
 import Line from '../verifiedIDItem/verifiedLineItem';
 import * as RouteType from '../../../constants/routeType';
+import {fetchData} from '../../../action/app';
 
 const headerImageFail = require('./../images/verifiedFail.png');
 const headerImageSuccess = require('./../images/verifiedSuccess.png');
@@ -98,6 +99,10 @@ class enterpriseownerVerifiedState extends Component {
         this.getRealNameDetail = this.getRealNameDetail.bind(this);
         this.reloadVerified = this.reloadVerified.bind(this);
         this.showBigImage = this.showBigImage.bind(this);
+
+        this.getDetailSuccess = this.getDetailSuccess.bind(this);
+        this.getDetailFail = this.getDetailFail.bind(this);
+
     }
 
     componentDidMount() {
@@ -138,92 +143,87 @@ class enterpriseownerVerifiedState extends Component {
         });
     }
 
-    /*企业车主实名认证*/
+    getDetailSuccess(responseData){
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('企业车主认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '企业车主认证详情页面');
+        if (responseData.result) {
+            this.setState({
+                resultInfo: responseData.result,
+                qualifications: responseData.result.certificationStatus,
+            });
+
+            let obj = {
+
+                IDName: responseData.result.rmcAnalysisAndContrast.manualLegalIdCardName,
+                IDCard: responseData.result.rmcAnalysisAndContrast.manualLegalIdCard,
+                IDDate: responseData.result.rmcAnalysisAndContrast.manualLegalIdCardValidity,
+
+                idCardImage: responseData.result.rmcPicAddress.legalPersonPositiveCardThumbnailAddress,
+                idCardTrunImage: responseData.result.rmcPicAddress.legalPersonOppositeCardThumbnailAddress,
+
+                legalPersonPositiveCard: responseData.result.legalPersonPositiveCard, // 身份证正面原图
+                legalPersonPositiveCardThumbnail: responseData.result.legalPersonPositiveCardThumbnail, // 身份证正面缩略图
+
+                legalPersonOppositeCard: responseData.result.legalPersonOppositeCard, // 身份证反面原图
+                legalPersonOppositeCardThumbnail: responseData.result.legalPersonOppositeCardThumbnail, // 身份证反面缩略图
+
+
+                companyName: responseData.result.rmcAnalysisAndContrast.manualComName,
+                companyOwnerName: responseData.result.rmcAnalysisAndContrast.manualPerson,
+                companyAddress: responseData.result.rmcAnalysisAndContrast.manualComAddress,
+                companyCode: responseData.result.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode,
+
+                businessTrunRightImage: responseData.result.rmcPicAddress.businessLicenceThumbnailAddress,
+                businessLicence: responseData.result.businessLicence, // 营业执照原图
+                businessCardPhotoThumb: responseData.result.businessLicenceThumbnail, // 营业执照缩略图
+                businessLicenseValidUntil: responseData.result.rmcAnalysisAndContrast.manualBusinessValidity, // 营业执照有效期
+
+                isChooseCompanyImage: false,
+                isChooseBusinessLicenseValidImage: false,
+                isChooseBusinessLicenseValidTrunImage: false,
+
+                // 默认
+                leadPersonName: responseData.result.person, // 法人姓名
+                leadPersonCardCode: responseData.result.legalIdCard, // 法人身份证号
+                leadPersonCardCodeTime: responseData.result.legalIdCardValidity, //法 人身份证有效期至
+                comName: responseData.result.comName, // 解析的公司名称
+                person: responseData.result.legalIdCardName, // 解析的法人名称
+                comAddress: responseData.result.comAddress, // 解析的公司地址
+                unifiedSocialCreditCode: responseData.result.unifiedSocialCreditCode, // 解析的统一社会信用代码
+                businessValidity: responseData.result.businessValidity, // 营业执照有效期
+
+                isShowCardInfo: true,
+                isShowCompanyInfo: true
+            };
+
+            //if (responseData.result.certificationStatus == '1202'){
+            Storage.save(StorageKey.enterpriseownerInfoResult, obj);
+            //}
+            DeviceEventEmitter.emit('verifiedSuccess');
+
+        }
+        this.setState({
+            appLoading: false,
+        });
+    }
+    getDetailFail(){
+        Toast.showShortCenter('获取详情失败');
+        this.setState({
+            appLoading: false,
+        });
+    }
     getRealNameDetail(userPhone) {
         currentTime = new Date().getTime();
-        // TODO 获取企业车主认证信息
-        HTTPRequest({
-            url: API.API_QUERY_COMPANY_INFO,
-            params: {
-                busTel: userPhone,
-                companyNature: '企业'
-            },
-            loading: () => {
-                this.setState({
-                    appLoading: true,
-                });
-            },
-            success: (responseData) => {
-                lastTime = new Date().getTime();
-                ReadAndWriteFileUtil.appendFile('企业车主认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                    locationData.district, lastTime - currentTime, '企业车主认证详情页面');
-                if (responseData.result) {
-                    this.setState({
-                        resultInfo: responseData.result,
-                        qualifications: responseData.result.certificationStatus,
-                    });
 
-                    let obj = {
-
-                        IDName: responseData.result.rmcAnalysisAndContrast.manualLegalIdCardName,
-                        IDCard: responseData.result.rmcAnalysisAndContrast.manualLegalIdCard,
-                        IDDate: responseData.result.rmcAnalysisAndContrast.manualLegalIdCardValidity,
-
-                        idCardImage: responseData.result.rmcPicAddress.legalPersonPositiveCardThumbnailAddress,
-                        idCardTrunImage: responseData.result.rmcPicAddress.legalPersonOppositeCardThumbnailAddress,
-
-                        legalPersonPositiveCard: responseData.result.legalPersonPositiveCard, // 身份证正面原图
-                        legalPersonPositiveCardThumbnail: responseData.result.legalPersonPositiveCardThumbnail, // 身份证正面缩略图
-
-                        legalPersonOppositeCard: responseData.result.legalPersonOppositeCard, // 身份证反面原图
-                        legalPersonOppositeCardThumbnail: responseData.result.legalPersonOppositeCardThumbnail, // 身份证反面缩略图
-
-
-                        companyName: responseData.result.rmcAnalysisAndContrast.manualComName,
-                        companyOwnerName: responseData.result.rmcAnalysisAndContrast.manualPerson,
-                        companyAddress: responseData.result.rmcAnalysisAndContrast.manualComAddress,
-                        companyCode: responseData.result.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode,
-
-                        businessTrunRightImage: responseData.result.rmcPicAddress.businessLicenceThumbnailAddress,
-                        businessLicence: responseData.result.businessLicence, // 营业执照原图
-                        businessCardPhotoThumb: responseData.result.businessLicenceThumbnail, // 营业执照缩略图
-                        businessLicenseValidUntil: responseData.result.rmcAnalysisAndContrast.manualBusinessValidity, // 营业执照有效期
-
-                        isChooseCompanyImage: false,
-                        isChooseBusinessLicenseValidImage: false,
-                        isChooseBusinessLicenseValidTrunImage: false,
-
-                        // 默认
-                        leadPersonName: responseData.result.person, // 法人姓名
-                        leadPersonCardCode: responseData.result.legalIdCard, // 法人身份证号
-                        leadPersonCardCodeTime: responseData.result.legalIdCardValidity, //法 人身份证有效期至
-                        comName: responseData.result.comName, // 解析的公司名称
-                        person: responseData.result.legalIdCardName, // 解析的法人名称
-                        comAddress: responseData.result.comAddress, // 解析的公司地址
-                        unifiedSocialCreditCode: responseData.result.unifiedSocialCreditCode, // 解析的统一社会信用代码
-                        businessValidity: responseData.result.businessValidity, // 营业执照有效期
-
-                        isShowCardInfo: true,
-                        isShowCompanyInfo: true
-                    };
-
-                    //if (responseData.result.certificationStatus == '1202'){
-                    Storage.save(StorageKey.enterpriseownerInfoResult, obj);
-                    //}
-                    DeviceEventEmitter.emit('verifiedSuccess');
-
-                }
-            },
-            error: (errorInfo) => {
-                Toast.showShortCenter('获取详情失败');
-            },
-            finish: () => {
-                this.setState({
-                    appLoading: false,
-                });
-            }
+        this.setState({
+            appLoading: true,
         });
 
+        this.props.ownerVerifiedHomeAction({
+            busTel: global.phone,
+            companyNature: '企业'
+        },this.getDetailSuccess,this.getDetailFail);
 
     }
 
@@ -396,7 +396,21 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        ownerVerifiedHomeAction:(params,ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_COMPANY_INFO,
+                success: (data) => {
+                    ownerVerifiedHomeSucCallBack(data);
+                },
+                fail:(data) => {
+                    ownerVerifiedHomeFailCallBack(data);
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(enterpriseownerVerifiedState);
