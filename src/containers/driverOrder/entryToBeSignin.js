@@ -16,6 +16,7 @@ import EntryToBeSignIn from './orderToBeSignInDetail';
 import EntryToBeSure from './orderToBeSureDetail';
 import EntryToBeWaitSure from './orderToBeWaitSureDetail';
 import * as API from '../../constants/api';
+import * as RouteType from '../../constants/routeType';
 import Loading from '../../utils/loading';
 import Storage from '../../utils/storage';
 import Toast from '@remobile/react-native-toast';
@@ -469,7 +470,10 @@ class entryToBeSignin extends Component {
                                     Alert.alert('请先完成收款，才可以签收');
                                 }else {
                                     // 跳转到具体的签收页面
-                                    {/*this.props.navigation.navigate('SignPage', {*/}
+                                    {/*this.props.navigation.dispatch({*/}
+                                        {/*type: RouteType.*/}
+                                    {/*}*/}
+                                        {/*{*/}
                                         {/*transCode: item.transCode,*/}
                                         {/*goodsInfoList: item.goodsInfo,*/}
                                         {/*taskInfo: item.taskInfo,*/}
@@ -480,11 +484,14 @@ class entryToBeSignin extends Component {
                             }
                         }}
                         payment={() => {
-                            {/*this.props.navigation.navigate('PayTypesPage', {*/}
-                                {/*orderCode: item.orderCode,*/}
-                                {/*deliveryInfo: item.deliveryInfo,*/}
-                                {/*customCode: item.customerOrderCode,*/}
-                            {/*});*/}
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_MAKE_COLLECTIONS_PAGE,
+                                params: {
+                                    orderCode: item.orderCode,
+                                    deliveryInfo: item.deliveryInfo,
+                                    customCode: item.customerOrderCode,
+                                }
+                            })
                         }}
                     />
                 );

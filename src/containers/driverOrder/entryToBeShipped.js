@@ -28,6 +28,7 @@ import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
 import * as RouteType from '../../constants/routeType';
+import EmptyView from '../../components/common/emptyView';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -161,6 +162,8 @@ class entryToBeShipped extends Component {
             // plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
+        }, () => {
+            this.getOrderDetailInfoFailCallBack();
         })
     }
 
@@ -231,7 +234,7 @@ class entryToBeShipped extends Component {
 
     // 获取数据失败回调
     getOrderDetailInfoFailCallBack() {
-        // Toast.showShortCenter('获取订单详情失败!');
+        Toast.showShortCenter('获取订单详情失败!');
         this.setState({
             isShowEmptyView: true,
         });
@@ -438,7 +441,7 @@ class entryToBeShipped extends Component {
                     router={navigator}
                     hiddenBackIcon={false}
                 />
-                <EmptyView/>
+                <EmptyView content="获取订单详情失败"/>
             </View>
         );
     }
@@ -475,43 +478,6 @@ class entryToBeShipped extends Component {
                 />
             );
         });
-        // const carrierView = <View style={styles.carrierView}>
-        //     <View style={{backgroundColor: StaticColor.BLUE_TAB_BAR_COLOR, width: 3, height: 16,}}/>
-        //     <Text style={styles.text}>承运者：{this.state.carrierName}</Text>
-        //     <Text style={styles.text}>{this.state.carrierPlateNum}</Text>
-        // </View>;
-        // const carrierBottomView = <BottomButton
-        //     onClick={() => {
-        //         if (prventDoubleClickUtil.onMultiClick()) {
-        //             this.arrangeCar();
-        //         }
-        //     }}
-        //     text="安排车辆"
-        // /> ;
-        // const bottomView = isBindGPS && bindGPSType ?
-        //     <ChooseButton
-        //         leftContent={'查看GPS设备'}
-        //         rightContent={'发运'}
-        //         leftClick={() => {
-        //             this.props.navigation.navigate('GPSDetails');
-        //         }}
-        //         rightClick={() => {
-        //             if (prventDoubleClickUtil.onMultiClick()) {
-        //                 this.sendOrder();
-        //             }
-        //         }}
-        //     /> : <ChooseButton
-        //         leftContent={'绑定GPS设备'}
-        //         rightContent={'发运'}
-        //         leftClick={() => {
-        //             this.props.navigation.navigate('ScanGPS');
-        //         }}
-        //         rightClick={() => {
-        //             if (prventDoubleClickUtil.onMultiClick()) {
-        //                 this.sendOrder();
-        //             }
-        //         }}
-        //     />;
         const bottomView = 1 === 2 ? <BottomButton
                 onClick={() => {
                     if (prventDoubleClickUtil.onMultiClick()) {
@@ -567,8 +533,7 @@ class entryToBeShipped extends Component {
         return (
             <View style={styles.container}>
                 {
-                    //this.state.isShowEmptyView ? this.emptyView(navigator) : this.contentView(navigator)
-                    this.contentView(navigator)
+                    this.state.isShowEmptyView ? this.emptyView(navigator) : this.contentView(navigator)
                 }
 
             </View>
@@ -592,7 +557,7 @@ function mapDispatchToProps(dispatch) {
         //     dispatch(isReSetCity(data));
         // },
         // 获取订单详情
-        _getOrderDetail: (params, callBack) => {
+        _getOrderDetail: (params, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -602,7 +567,8 @@ function mapDispatchToProps(dispatch) {
                     callBack && callBack(data)
                 },
                 fail: error => {
-                    console.log('???', error)
+                    console.log('???', error);
+                    failCallBack && failCallBack()
                 }
             }))
         }

@@ -147,6 +147,10 @@ export const ROUTE_GPS_DETAIL_PAGE = 'ROUTE_GPS_DETAIL_PAGE';
 export const ROUTE_BIND_GPS_PAGE = 'ROUTE_BIND_GPS_PAGE';
 // 上传出库单
 export const ROUTE_UPLOAD_ODO_PAGE = 'ROUTE_UPLOAD_ODO_PAGE';
+// 微信支付
+export const ROUTE_WECHAT_PAYMENT_PAGE = 'ROUTE_WECHAT_PAYMENT_PAGE';
+// 收款
+export const ROUTE_MAKE_COLLECTIONS_PAGE = 'ROUTE_MAKE_COLLECTIONS_PAGE';
 
 /************************** 司机订单end ******************************/
 

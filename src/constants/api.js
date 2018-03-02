@@ -280,7 +280,7 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 /************************************************** 司机APP 接口 *************************************************/
-import { XYT_HOST } from './setting';
+import { XYT_HOST, WEB_SOCKET} from './setting';
 
 /************************ 认证部分 接口 ************************/
 
@@ -348,13 +348,20 @@ export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWith
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
-
-
 // 绑定GPS设备接口
 export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
 // 获取gps设备信息
 export const API_GET_GPS_DETAILS = `app/rmc/rmcCar/queryGpsInfoByCarNum`;
-
+// 确认支付--现金
+export const API_AC_COMFIRM_PAYMENT = `app/ac/confirmPayment`;
+// 获取微信二维码
+export const API_AC_GET_WECHAT_QRCODE = `app/ac/getWeChatQrCode`;
+// 二维码支付
+export const API_AC_QRCODE_PAYMENT = `app/ac/qrCodePayment/`;
+// 根据单号获取结算金额
+export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
+// 获取支付状态
+export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
@@ -430,3 +437,6 @@ export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelatio
 export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
 //根据车牌号搜索车辆信息返回
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
+
+//WebSocket
+export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;

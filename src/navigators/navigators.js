@@ -76,11 +76,14 @@ import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
-
 // 首页
 import HomeScreen from '../containers/home/home';
+
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
+import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
+
+
 // 司机订单
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
 import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
@@ -89,6 +92,9 @@ import ScanGPSScreen from '../containers/driverOrder/scanGPS';
 import BindGPSScreen from '../containers/driverOrder/bindGPS';
 import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
 import UploadODOScreen from '../containers/driverOrder/uploadODO';
+import PayTypesScreen from '../containers/driverOrder/payTypes';
+import WeChatPaymentScreen from '../containers/driverOrder/weChatPayment';
+
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -133,9 +139,6 @@ import BindCarScreen from '../containers/mine/owner/driverManagement/bindCarPage
 import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDriverPage';
 import CharacterOwner from '../containers/login/character/characterOwner';
 import CharacterList from '../containers/login/character/characterList';
-
-// 货源详情
-import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
 
 // 车辆管理
 import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
@@ -626,6 +629,18 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_UPLOAD_ODO_PAGE]: {
         screen: UploadODOScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_WECHAT_PAYMENT_PAGE]: {
+        screen: WeChatPaymentScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MAKE_COLLECTIONS_PAGE]: {
+        screen: PayTypesScreen,
         navigationOptions: {
             header: null
         }
