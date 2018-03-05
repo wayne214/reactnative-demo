@@ -569,7 +569,7 @@ class Home extends Component {
                             this.getCurrentPosition(0);
                         }}
                     >
-                        <Text style={styles.icon}>&#xe66b;</Text>
+                        <Text style={styles.icon}>&#xe695;</Text>
                     </TouchableOpacity>
                 </View>
                 <View>

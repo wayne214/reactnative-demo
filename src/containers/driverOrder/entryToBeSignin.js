@@ -312,6 +312,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
+                        num={'12'}
                         signer={item.signer}
                         signTime={item.signTime}
                         scheduleTime={item.scheduleTime}
@@ -344,6 +345,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
+                        num={'12'}
                         signer={item.signer}
                         signTime={item.signTime}
                         scheduleTime={item.scheduleTime}
@@ -378,6 +380,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
+                        num={'12'}
                         settlementMode={item.settleType} // 结算方式：10 按单结费 20 按车结费
                         settleMethod={item.settleMethod} // 结费方式；10 现金 20 到付 30 回付 40 月付
                         scheduleTime={item.scheduleTime}

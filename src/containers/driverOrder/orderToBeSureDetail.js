@@ -103,7 +103,8 @@ class orderToBeSureDetail extends Component {
             dispatchTimeAgain,
             scheduleTimeAgain,
             customerOrderCode,
-            isEndDistribution
+            isEndDistribution,
+            num
         } = this.props;
         return (
             <View
@@ -208,7 +209,7 @@ class orderToBeSureDetail extends Component {
                         }) : null
                     }
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
-                    <TotalsItemCell totalTons={weight} totalSquare={vol} />
+                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={num}/>
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
                     <DetailsCell
                         transportNO_={transCode}

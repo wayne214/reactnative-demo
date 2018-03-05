@@ -124,7 +124,7 @@ export default class HomeCell extends Component{
                                     >{badgeText}</Text></View>
                                 : <View style={styles.badgeNull}/>
                         }
-                        <Text style={styles.rightIcon}>&#xe665;</Text>
+                        <Text style={styles.rightIcon}>&#xe63d;</Text>
                     </View>
                 </View>
             </TouchableOpacity>

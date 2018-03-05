@@ -184,7 +184,8 @@ export default class OrderDetails extends Component {
             customerOrderCode,
             isEndDistribution,
             scheduleTimeAgain,
-            currentStatus
+            currentStatus,
+            num
         } = this.props;
 
         if(currentStatus != 'driver') {
@@ -309,7 +310,7 @@ export default class OrderDetails extends Component {
                         }) : null
                     }
                     <View style={styles.divideLine}/>
-                    <TotalsItemCell totalTons={weight} totalSquare={vol}/>
+                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={num}/>
                     <View style={styles.divideLine}/>
                     <DetailsCell
                         transportNO_={transCode}
