@@ -124,7 +124,7 @@ class entryToBeSignin extends Component {
         });
         // // 返回上一级
         // this.listener1 = DeviceEventEmitter.addListener('changeStateReceipt', () => {
-        //     this.props.navigator.pop();
+            // this.props.navigation.dispatch({type: 'pop'});
         // });
     }
 

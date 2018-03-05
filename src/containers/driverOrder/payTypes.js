@@ -204,7 +204,7 @@ class payTypes extends Component {
                 locationData.district, lastTime - currentTime, '付款方式选择页面');
             Toast.showShortCenter('收款成功');
             // DeviceEventEmitter.emit('refreshDetails');
-            this.props.navigation.goBack();
+            this.props.navigation.dispatch({ type: 'pop' })
         })
     }
     submit() {

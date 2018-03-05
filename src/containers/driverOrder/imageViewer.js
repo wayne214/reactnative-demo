@@ -127,7 +127,7 @@ class ImageViewer extends Component {
             dispatch(deleteImage(this.state.imageIndex - 1));
 
             this.timer = setTimeout(() => {
-                navigator.goBack();
+                this.props.navigation.dispatch({ type: 'pop' })
             }, 2000);
             return;
         }

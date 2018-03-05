@@ -92,12 +92,13 @@ class signSuccess extends Component {
                   <NavigationBar
                       title={'签收'}
                       router={navigator}
-                      // backIconClick={() => {
-                      //     let routes = this.props.routes;
-                      //     let rootKey = routes[1].key;
-                      //     navigator.goBack(rootKey);
-                      //     DeviceEventEmitter.emit('changeToWaitSign');
-                      // }}
+                      backViewClick={() => {
+                          navigator.dispatch({
+                              type: 'pop',
+                              key: 'Main'
+                          })
+                          //     DeviceEventEmitter.emit('changeToWaitSign');
+                      }}
                   />
                   <View style={{flex:1}}>
                       <EmptyView

@@ -37,7 +37,7 @@ class takePhotoFinished extends Component {
     }
     // 返回
     close() {
-        this.props.navigation.goBack();
+        this.props.navigation.dispatch({ type: 'pop' })
     }
     // 完成
     next() {
