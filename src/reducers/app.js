@@ -42,7 +42,7 @@ const initState = Immutable.fromJS({
             renderSelectedIcon: require('../../assets/img/app/icon_cy_press.png')
         },
         {
-            title: '订单',
+            title: '运单',
             key: 'order',
             badgeCount: 0,
             withStatusBar: false,
