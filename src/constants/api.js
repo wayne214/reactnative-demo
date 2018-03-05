@@ -280,7 +280,7 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 /************************************************** 司机APP 接口 *************************************************/
-
+import { XYT_HOST, WEB_SOCKET} from './setting';
 /************************ 认证部分 接口 ************************/
 
 /************  司机认证部分 接口 ************/
@@ -342,17 +342,38 @@ export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificatio
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';
 // 订单列表（待回单）
-export const API_NEW_GET_RECEIVE_ORDER_LIST = `app/transport/queryDelReceiptWithPageV4`;
+export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV4';
 // 运输中
 export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
-
-
 // 绑定GPS设备接口
 export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
 // 获取gps设备信息
 export const API_GET_GPS_DETAILS = `app/rmc/rmcCar/queryGpsInfoByCarNum`;
+// 确认支付--现金
+export const API_AC_COMFIRM_PAYMENT = `app/ac/confirmPayment`;
+// 获取微信二维码
+export const API_AC_GET_WECHAT_QRCODE = `app/ac/getWeChatQrCode`;
+// 二维码支付
+export const API_AC_QRCODE_PAYMENT = `app/ac/qrCodePayment/`;
+// 根据单号获取结算金额
+export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
+// 获取支付状态
+export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
+// 签收接口
+export const API_NEW_SIGN = 'app/transport/sign';
+// 回单接口
+export const API_NEW_UPLOAD_RECEIPT = `${XYT_HOST}app/transport/returnTransportOrder/v2.1`;
+// 回单照片展示接口
+export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
+// 发运接口
+export const API_NEW_DESPATCH = `app/transport/despatch`;
+
+// 上传道路异常查询调度单
+export const API_NEW_UPLOAD_DISPATCH_ORDER = `app/transport/finExceprionInfoByPlateNum`;
+// 上传道路异常保存异常信息
+export const API_NEW_UPLOAD_SAVE_EXCEPTIONINFO= `app/transport/saveExceptionInfo/`;
 
 /********************************司机用户中心API*************************************/
 //获取登录密钥
@@ -386,6 +407,17 @@ export const API_GET_FORGET_PSD_CODE = `app/uam/message/getForgetIdentifyCode`;
 // 根据验证码修改密码
 export const API_NEW_CHANGE_PSD_WITH_CODE = `app/uam/login/forgetPassword`;
 
+// 查询头像接口
+export const API_QUERY_USER_AVATAR = `app/uam/queryUserAvatar`;
+// 更换头像接口
+// export const API_CHANGE_USER_AVATAR = `${HOST}app/uam/changeUserAvatar`;
+export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
+
+// 道路异常-上传图片附件
+export const API_UPLOAD_FILE = `app/uam/uploadFile`;
+// 道路异常-上传视频附件
+export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
+
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
@@ -398,6 +430,11 @@ export const API_NEW_DRIVER_RECEIVE_ORDER = 'app/dpc/driverAppReceiveOrder';
 export const API_NEW_DRIVER_REFUSE_ORDER = 'app/dpc/driverAppRefuseOrder';
 // 根据时间获取获取货源列表--司机
 export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
+// 首页-状态数量统计
+export const API_INDEX_STATUS_NUM = `app/dpc/queryIndexStatusNum`;
+// 车主首页-状态数量统计
+export const API_CARRIER_INDEX_STATUS_NUM = `app/dpc/queryCarrierDispatchCount`;
+
 /** ****************************司机运输中心接口**********************/
 // 获取货源详情
 /******************************司机APP资源中心接口**********************/
@@ -429,3 +466,16 @@ export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelatio
 export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
 //根据车牌号搜索车辆信息返回
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
+
+//WebSocket
+export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;
+/** *****************************************************限行接口******************************************************/
+// 限号接口
+export const API_VEHICLE_LIMIT = `app/vehicleLimit/`;
+
+// 查询绑定的车辆信息
+export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarByPhone/v2.1.0`;
+// 用户绑定车辆
+export const API_SET_USER_CAR = `app/uam/addUserCar`;
+//司机对应企业性质
+export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;

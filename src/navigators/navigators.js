@@ -76,11 +76,17 @@ import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
-
 // 首页
 import HomeScreen from '../containers/home/home';
+import TakePhotoScreen from '../containers/home/takePhoto';
+import TakePhotoFinishedScreen from '../containers/home/takePhotoFinished';
+import UploadAbnormalScreen from '../containers/home/uploadAbnormal';
+
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
+import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
+
+
 // 司机订单
 import DriverOrderScreen from '../containers/driverOrder/driverOrder';
 import EntryToBeShippedScreen from '../containers/driverOrder/entryToBeShipped';
@@ -89,6 +95,14 @@ import ScanGPSScreen from '../containers/driverOrder/scanGPS';
 import BindGPSScreen from '../containers/driverOrder/bindGPS';
 import GPSDetailScreen from '../containers/driverOrder/gpsDetails';
 import UploadODOScreen from '../containers/driverOrder/uploadODO';
+import PayTypesScreen from '../containers/driverOrder/payTypes';
+import WeChatPaymentScreen from '../containers/driverOrder/weChatPayment';
+import SignInScreen from '../containers/driverOrder/signPage';
+import SignSuccessScreen from '../containers/driverOrder/signSuccess';
+import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
+import BaiduMapScreen from '../containers/map/baiduMap';
+import PhotoShowScreen from '../containers/driverOrder/imageViewer';
+
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
 import LoginForgetPWD from '../containers/login/forgetPwd';
@@ -138,13 +152,17 @@ import AddDriverScreen2 from '../containers/mine/owner/driverManagement/addDrive
 import CharacterOwner from '../containers/login/character/characterOwner';
 import CharacterList from '../containers/login/character/characterList';
 
-// 货源详情
-import EntryGoodsDetailScreen from '../containers/driverGoodSource/entryGoodsDetail';
-
 // 车辆管理
 import CarManagementScreen from '../containers/mine/owner/carManagement/carManagement';
 import BindDriverScreen from '../containers/mine/owner/carManagement/bindDriverPage';
 import AddCarPageScreen from '../containers/mine/owner/carManagement/addCarPage';
+// 承运方电子签章-个体
+import ShowESignInfoIndividual from '../containers/user/showESignInfoIndividual';
+import ESignTemplateCompany from '../containers/user/eSignTemplateCompany';
+import ESignTemplateIndividual from '../containers/user/eSignTemplateIndividual';
+import ESignTemplateColor from '../containers/user/eSignTemplateColor';
+import SetHorizontalTextScreen from '../containers/user/setHorizontalText';
+import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -586,6 +604,12 @@ export const AppNavigator = StackNavigator({
             // headerTintColor: 'black'
         }
     },
+    [RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE]: {
+        screen: UploadAbnormalScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {
         screen: DriverGoodSourceScreen,
         navigationOptions: {
@@ -630,6 +654,60 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_UPLOAD_ODO_PAGE]: {
         screen: UploadODOScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_PHOTO_SHOW_PAGE]: {
+        screen: PhotoShowScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_WECHAT_PAYMENT_PAGE]: {
+        screen: WeChatPaymentScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MAKE_COLLECTIONS_PAGE]: {
+        screen: PayTypesScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SIGN_IN_PAGE]: {
+        screen: SignInScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SIGN_SUCCESS_PAGE]: {
+        screen: SignSuccessScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_UPLOAD_RECEIPT_PAGE]: {
+        screen: UploadReceiptScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BAIDU_MAP_PAGE]: {
+        screen: BaiduMapScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_PHOTO_PAGE]: {
+        screen: TakePhotoScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_TAKE_PHOTO_FINISHED_PAGE]: {
+        screen: TakePhotoFinishedScreen,
         navigationOptions: {
             header: null
         }
@@ -856,7 +934,7 @@ export const AppNavigator = StackNavigator({
         }
     },
     [RouteType.ROUTE_ADD_CAR2]: {
-        screen: AddDriverScreen2,
+        screen: AddCarPageScreen,
         navigationOptions: {
             header: null
         }
@@ -867,6 +945,7 @@ export const AppNavigator = StackNavigator({
 
         }
     },
+
     [RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE]: {
         screen: CarOwnerVerifiedMsgCode,
         navigationOptions: {
@@ -882,7 +961,43 @@ export const AppNavigator = StackNavigator({
 
     [RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE]: {
         screen: CarOwnerAddCarThree,
-            navigationOptions: {
+        navigationOptions: {}
+    },
+    [RouteType.ROUTE_ESIGN_INDIVIDUAL]: {
+        screen: ShowESignInfoIndividual,
+        navigationOptions: {
+            // title:'设置电子签章个体'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_INDIVIDUAL]: {
+        screen: ESignTemplateIndividual,
+        navigationOptions: {
+            // title:'电子签章个体模板'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_COMPANY]: {
+        screen: ESignTemplateCompany,
+        navigationOptions: {
+            // title:'电子签章公司模板'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_TEMPLATE_COLOR]: {
+        screen: ESignTemplateColor,
+        navigationOptions: {
+            // title:'模板颜色'
+        }
+    },
+    [RouteType.ROUTE_ESIGN_HORIZONTAL_TEXT]: {
+        screen: SetHorizontalTextScreen,
+        navigationOptions: {
+            // title: '横向文',
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT]: {
+        screen: SetLastQuarterTextScreen,
+        navigationOptions: {
+            // title: '下弦文'
             header: null
         }
     },

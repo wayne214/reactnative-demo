@@ -31,6 +31,7 @@ import * as ConstValue from '../../constants/constValue';
 import StorageKey from '../../constants/storageKeys';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import TaskBackground from '../../../assets/img/driverGood/taskBackground.png';
+import * as RouteType from '../../constants/routeType';
 
 const space = 10;
 const topSpace = 10;
@@ -96,8 +97,11 @@ class orderToBeWaitSureDetail extends Component {
 
     // 上传回单界面
     uploadReceipt() {
-        this.props.navigation.navigate('UploadReceipt', {
-            transCode: this.props.transCode,
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
+            params: {
+                transCode: this.props.transCode,
+            }
         });
     }
 
@@ -125,6 +129,7 @@ class orderToBeWaitSureDetail extends Component {
             customerCode,
             dispatchTimeAgain,
             scheduleTimeAgain,
+            num
         } = this.props;
 
         const buttonView = taskInfo && taskInfo.isReceipt === '是' ?
@@ -242,7 +247,7 @@ class orderToBeWaitSureDetail extends Component {
                             }) : null
                         }
                         <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
-                        <TotalsItemCell totalTons={weight} totalSquare={vol} />
+                        <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={num}/>
                         <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
                         <DetailsCell
                             transportNO_={transCode}

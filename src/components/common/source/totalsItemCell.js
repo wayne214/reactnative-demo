@@ -59,7 +59,7 @@ class TotalsItemCell extends Component {
                     <Text style={[styles.redStyle, {marginLeft: 10}]}>
                         {totalSquare}方
                     </Text>
-                    <Text style={[styles.redStyle, {marginLeft: 10}]}>
+                    <Text style={[styles.redStyle, {marginLeft: 10, marginRight: 20}]}>
                         {totalCount ? totalCount : ''}
                     </Text>
                 </View>

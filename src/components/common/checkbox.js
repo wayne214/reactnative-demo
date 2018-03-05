@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Text,	
 	TouchableOpacity,
+	View
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -19,12 +20,19 @@ export default class CheckBox extends React.Component {
 	}
 
 	render() {
-		const { isChecked, style, contentStyle, checkedFun } = this.props;
+		const { isChecked, style, contentStyle, checkedFun, isShowText, index } = this.props;
 		return (
 			<TouchableOpacity
 				activeOpacity={ 1 }
 				onPress={ checkedFun }
 				style={ [{ justifyContent: 'center' }, contentStyle]}>
+				<View style={{flexDirection: 'row', alignItems: 'center'}}>
+				{/*{*/}
+            {/*isChecked ? <Text style={{fontSize: 14, color: '#999999', marginRight: 10}}>(默认)</Text> : null*/}
+				{/*}*/}
+				{
+						isShowText ? <Text style={{fontSize: 14, color: '#999999', marginRight: 10}}>样式{index}</Text> : null
+				}
 				{
 					(() => {
 						if (isChecked) {
@@ -33,7 +41,7 @@ export default class CheckBox extends React.Component {
 									fontSize: 20,
 									color: '#17a9df',
 				  				fontFamily: 'iconfont' }, style]}>
-				  				&#xe635;
+									&#xe648;
 				  			</Text>
 							);
 						} else {
@@ -42,12 +50,13 @@ export default class CheckBox extends React.Component {
 									fontSize: 20,
 									color: '#999999',
 				  				fontFamily: 'iconfont' }, style]}>
-				  				&#xe622;
+									&#xe647;
 				  			</Text>
 							);
 						}
 					})()
 				}
+				</View>
 			</TouchableOpacity>
 		);
 	}

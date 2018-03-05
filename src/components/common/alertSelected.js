@@ -89,7 +89,7 @@ export default class AlertSelected extends Component {
 
     renderItem(item, i) {
         return (
-            <View style={styles.tipContentView}>
+            <View style={styles.tipContentView} key={i}>
                 <View style={{height: 0.5, backgroundColor: '#a9a9a9', width: aWidth}}/>
                 <TouchableOpacity
                     index={i}

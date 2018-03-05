@@ -98,8 +98,6 @@ export default StyleSheet.create({
 	},
 	mainTextView:{
 		flexDirection: 'column',
-		
-		marginTop: 20
 	},
 	landscapeLineView:{
 		flexDirection: 'column',
@@ -107,7 +105,6 @@ export default StyleSheet.create({
 	},
 	landscapeView: {
 		width,
-		flexDirection: 'row',
 		justifyContent: 'center',
 		borderBottomWidth: 1,
 		borderBottomColor: LINE_COLOR,
@@ -116,8 +113,9 @@ export default StyleSheet.create({
 	landscapeHalfView: {
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		alignItems: 'center',
+		paddingHorizontal: 20
 	},
 	image:{
 		width: 100,
@@ -169,7 +167,7 @@ export default StyleSheet.create({
 		alignItems: 'center'
 	},
 	btn: {
-		fontSize: 15,
+		fontSize: 17,
 		color: 'white',
 	},
 	btnText: {
@@ -192,5 +190,27 @@ export default StyleSheet.create({
 		fontSize: 15,
 		color:'#333333',
 		marginRight: 10,
-	}
+	},
+	titleContainer: {
+      height: 44,
+			backgroundColor: '#FFFAF4',
+			alignItems: 'center',
+			paddingHorizontal: 20,
+			flexDirection: 'row'
+	},
+	colorContainer: {
+      height: 44,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'space-between',
+			paddingHorizontal: 20
+	},
+	colorText: {
+      color: '#666666',
+			fontSize: 14
+	},
+    separateLine: {
+        height: 1,
+        backgroundColor: '#e8e8e8',
+    },
 });

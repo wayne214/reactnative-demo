@@ -3,8 +3,13 @@ import {connect} from 'react-redux';
 import * as ConstValue from '../../constants/constValue';
 import Carousel from 'react-native-snap-carousel';
 import HomeCell from '../../components/home/homeCell';
-import {fetchData} from '../../action/app';
+import {fetchData, getHomePageCountAction} from '../../action/app';
 import {saveWeather} from '../../action/home';
+import {
+    saveUserCarList,
+    setUserCarAction,
+    queryEnterpriseNatureSuccessAction,
+} from '../../action/user';
 import {API_GET_WEATHER} from '../../constants/api';
 import locationIcon from '../../../assets/home/location.png';
 import bannerImage1 from '../../../assets/home/banner1.png';
@@ -24,8 +29,13 @@ import OwnerUp from '../../../assets/img/character/ownerUp.png';
 import OwnerDown from '../../../assets/img/character/ownerDown.png';
 import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
 import MessageMine from '../../../assets/img/oldMine/message.png';
+import Fromto from '../../../assets/img/home/fromto.png';
 import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
 import Toast from '../../utils/toast';
+import JPushModule from 'jpush-react-native';
+import LittleButtonCell from '../../components/home/littleButtonCell';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 import {
     View,
     Text,
@@ -35,6 +45,7 @@ import {
     ScrollView,
     Image,
     DeviceEventEmitter,
+    Alert
 } from 'react-native';
 import {
     loginSuccessAction,
@@ -93,44 +104,451 @@ class Home extends Component {
             // CarOwnerState: params ? params.CarOwnerState : ''
         };
 
+        this.getWeather = this.getWeather.bind(this);
+        this.vehicleLimit = this.vehicleLimit.bind(this);
         this.searchDriverState = this.searchDriverState.bind(this);
         this.searchDriverStateSucCallBack = this.searchDriverStateSucCallBack.bind(this);
         this.ownerVerifiedHome = this.ownerVerifiedHome.bind(this);
         this.ownerVerifiedHomeSucCallBack = this.ownerVerifiedHomeSucCallBack.bind(this);
         this.ownerVerifiedHomeFailCallBack = this.ownerVerifiedHomeFailCallBack.bind(this);
+
+        this.getUserCar = this.getUserCar.bind(this);
+        this.getUserCarSuccessCallBack = this.getUserCarSuccessCallBack.bind(this);
+        this.getUserCarMine = this.getUserCarMine.bind(this);
+        this.getUserCarMineSuccessCallBack = this.getUserCarMineSuccessCallBack.bind(this);
+        this.saveUserCarList = this.saveUserCarList.bind(this);
+        this.setUserCar = this.setUserCar.bind(this);
+        this.setUserCarSuccessCallBack = this.setUserCarSuccessCallBack.bind(this);
+
     }
 
-    // static navigationOptions = ({navigation}) => {
-    //     const {state, setParams} = navigation
-    //     return {
-    //         header: <NavigatorBar
-    //             title='首页'
-    //             hiddenBackIcon={true}
-    //             router={navigation}/>,
-    //     }
-    // };
+
     componentWillReceiveProps(nextProps) {
         if (this.props.location !== nextProps.location) {
-            this.props.getWeather({city: nextProps.location});
+            this.getWeather(nextProps.location);
+            this.vehicleLimit(nextProps.location);
         }
     }
 
     componentDidMount() {
+        // if (this.state.CarOwnerState) {
+        //     this.props.setCurrentCharacterAction('owner');
+        //     this.setState({
+        //         bubbleSwitch: false,
+        //         show: false,
+        //     })
+        // }
 
+        // this.getCurrentPosition(0);
+
+        if (this.props.currentStatus == 'driver') {
+            this.queryEnterpriseNature();
+        }
+        // if (Platform.OS === 'android') {
+        //     JPushModule.notifyJSDidLoad((resultCode) => {
+        //         if (resultCode === 0) {
+        //         }
+        //     });
+        //     // 收到自定义消息后触发
+        //     JPushModule.addReceiveCustomMsgListener((message) => {
+        //         console.log(message);
+        //     });
+        //     // 收到推送时将会触发此事件
+        //     JPushModule.addReceiveNotificationListener((message) => {
+        //         console.log('home,ANreceive notification: ', message);
+        //
+        //         this.props.setMessageListIcon(true);
+        //         this.saveMessage(message.alertContent);
+        //         if (message.alertContent.indexOf('认证') < 0) {
+        //             this.speechContent(message.alertContent, 0);
+        //         }
+        //         if (message.alertContent.indexOf('新货源') > -1) {
+        //             Alert.alert('提示', '您有新的订单，是否进入货源界面', [
+        //                 {
+        //                     text: '确定',
+        //                     onPress: () => {
+        //                         DeviceEventEmitter.emit('resetGood');
+        //                         this.props.navigation.navigate('GoodsSource');
+        //                     },
+        //                 },
+        //                 {text: '取消'},
+        //             ], {cancelable: false});
+        //         }
+        //
+        //         if (message.alertContent.indexOf('快来竞拍吧') > -1) {
+        //             Alert.alert('提示', '您有新的货源可以竞拍', [
+        //                 {
+        //                     text: '确定',
+        //                     onPress: () => {
+        //                         this.props.navigation.navigate('Order');
+        //                         this.changeOrderTab(1);
+        //                         DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //                     },
+        //                 },
+        //                 {text: '取消'},
+        //             ], {cancelable: false});
+        //         }
+        //
+        //         if (message.alertContent.indexOf('竞价成功') > -1) {
+        //             Alert.alert('提示', '恭喜您，竞价成功, 是否进入订单页面', [
+        //                 {
+        //                     text: '确定',
+        //                     onPress: () => {
+        //                         this.props.navigation.navigate('Order');
+        //                         this.changeOrderTab(1);
+        //                         DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //                     },
+        //                 },
+        //                 {text: '取消'},
+        //             ], {cancelable: false});
+        //         }
+        //
+        //         if (message.alertContent.indexOf('竞拍失败') > -1) {
+        //
+        //         }
+        //
+        //         if (message.alertContent.indexOf('实名认证>已认证通过') > -1) {
+        //
+        //         }
+        //
+        //         if (message.alertContent.indexOf('实名认证>已认证驳回') > -1) {
+        //
+        //         }
+        //
+        //         if (message.alertContent.indexOf('资质认证>已认证通过') > -1) {
+        //
+        //         }
+        //
+        //         if (message.alertContent.indexOf('资质认证>已认证驳回') > -1) {
+        //
+        //         }
+        //
+        //
+        //     });
+        //     // 点击通知后，将会触发此事件
+        //     JPushModule.addReceiveOpenNotificationListener((map) => {
+        //         console.log('home,ANOpening notification!', map);
+        //
+        //         this.props.setMessageListIcon(true);
+        //         this.saveMessage(map.alertContent);
+        //         if (map.alertContent.indexOf('竞价成功') > -1) {
+        //             this.props.navigation.navigate('Order');
+        //             this.changeOrderTab(1);
+        //             DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //         }
+        //         if (map.alertContent.indexOf('新货源') > -1) {
+        //             DeviceEventEmitter.emit('resetGood');
+        //             this.props.navigation.navigate('GoodsSource');
+        //         }
+        //     });
+        // }
+        // -----------jpush  ios start
+        // if (Platform.OS === 'ios') {
+        //     NativeAppEventEmitter.addListener(
+        //         'OpenNotification',
+        //         (notification) => {
+        //             console.log('打开推送', notification);
+        //
+        //             this.props.setMessageListIcon(true);
+        //             this.saveMessage(notification.aps.alert);
+        //             if (notification.aps.alert.indexOf('竞价成功') > -1) {
+        //                 this.props.navigation.navigate('Order');
+        //                 this.changeOrderTab(1);
+        //                 DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //             }
+        //             if (notification.aps.alert.indexOf('新货源') > -1) {
+        //                 DeviceEventEmitter.emit('resetGood');
+        //                 this.props.navigation.navigate('GoodsSource');
+        //             }
+        //         },
+        //     );
+        //     NativeAppEventEmitter.addListener(
+        //         'ReceiveNotification',
+        //         (notification) => {
+        //             console.log('-------------------收到推送----------------', notification);
+        //
+        //             this.props.setMessageListIcon(true);
+        //             this.saveMessage(notification.aps.alert);
+        //             if (notification.aps.alert.indexOf('认证') < 0) {
+        //                 this.speechContent(notification.aps.alert, 0);
+        //             }
+        //             if (notification.aps.alert.indexOf('新货源') > -1) {
+        //                 Alert.alert('提示', '您有新的订单，是否进入货源界面', [
+        //                     {
+        //                         text: '确定',
+        //                         onPress: () => {
+        //                             // this.props.navigator.popToTop();
+        //                             DeviceEventEmitter.emit('resetGood');
+        //                             this.props.navigation.navigate('GoodsSource');
+        //                         },
+        //                     },
+        //                     {text: '取消'},
+        //                 ], {cancelable: false});
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('快来竞拍吧') > -1) {
+        //                 Alert.alert('提示', '您有新的货源可以竞拍', [
+        //                     {
+        //                         text: '确定',
+        //                         onPress: () => {
+        //                             this.props.navigation.navigate('Order');
+        //                             this.changeOrderTab(1);
+        //                             DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //                         },
+        //                     },
+        //                     {text: '取消'},
+        //                 ], {cancelable: false});
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('竞价成功') > -1) {
+        //                 Alert.alert('提示', '恭喜您，竞价成功, 是否进入订单页面', [
+        //                     {
+        //                         text: '确定',
+        //                         onPress: () => {
+        //                             this.props.navigation.navigate('Order');
+        //                             this.changeOrderTab(1);
+        //                             DeviceEventEmitter.emit('changeOrderTabPage', 1);
+        //                         },
+        //                     },
+        //                     {text: '取消'},
+        //                 ], {cancelable: false});
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('竞拍失败') > -1) {
+        //
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('实名认证>已认证通过') > -1) {
+        //
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('实名认证>已认证驳回') > -1) {
+        //
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('资质认证>已认证通过') > -1) {
+        //
+        //             }
+        //
+        //             if (notification.aps.alert.indexOf('资质认证>已认证驳回') > -1) {
+        //
+        //             }
+        //
+        //
+        //         },
+        //     );
+        //
+        //
+        // }
+        // -----------jpush  ios end
+
+        // this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
+        //     if (this.props.currentStatus == 'driver') {
+        //         if (this.props.plateNumber) {
+        //             const {userInfo} = this.props;
+        //             this.getHomePageCount(this.props.plateNumber, userInfo.phone)
+        //         }
+        //     } else {
+        //         this.getCarrierHomePageCount();
+        //     }
+        // });
+        // this.getUserCarListener = DeviceEventEmitter.addListener('getUserCar', () => {
+        //     this.getUserCar();
+        // });
+
+
+        // this.notifyCertificationListener = DeviceEventEmitter.addListener('certification', () => {
+        //     if (this.props.currentStatus == 'driver') {
+        //         if (this.props.driverStatus == 1) {
+        //             Alert.alert('提示', '认证资料正在审核中');
+        //         } else if (this.props.driverStatus == 3) {
+        //             Alert.alert('提示', '认证资料已驳回，请重新上传资料');
+        //         }
+        //     } else {
+        //         if (this.props.ownerStatus == 11 || this.props.ownerStatus == 21) {
+        //             Alert.alert('提示', '认证资料正在审核中');
+        //         } else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 23) {
+        //             Alert.alert('提示', '认证资料已驳回，请重新上传资料');
+        //         }
+        //     }
+        // });
+
+        // this.Listener = DeviceEventEmitter.addListener('restToLoginPage', (message) => {
+        //     Toast.showShortCenter(message);
+        //     this.resetTo(0, 'Login');
+        // });
+
+        // this.bindCarListener = DeviceEventEmitter.addListener('bindUserCar', (value) => {
+        //     if (value) {
+        //         this.setUserCar(value);
+        //     }
+        // });
+
+        // // 上传日志功能
+        // // TimeToDoSomething.sendMsgToNative();
+        // this.logListener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
+        //     this.getCurrentPosition(1);
+        // });
+        // 我的界面车辆列表监听
+        // this.getUserCarMineListener = DeviceEventEmitter.addListener('getUserCarMine', (data) => {
+        //     this.getUserCarMine();
+        // });
     }
 
-    ownerVerifiedHome(ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) {
+    componentWillUnmount() {
+        // this.listener.remove();
+        // this.getUserCarListener.remove();
+        // this.Listener.remove();
+        // this.bindCarListener.remove();
+        // this.notifyCarStatusListener.remove();
+        // this.notifyCertificationListener.remove();
+        // this.logListener.remove();
+        // this.getUserCarMineListener.remove();
+    }
+
+    // 获取首页状态数量
+    getHomePageCount(plateNumber, phone) {
+        if (plateNumber) {
+            this.props.getHomePageCountAction({plateNumber: plateNumber, driverPhone: phone})
+        }
+    }
+
+    getWeather(city) {
+        this.props.getWeather({city: city});
+    }
+
+    vehicleLimit(cityName) {
+        this.props.vehicleLimit({cityName: cityName})
+    }
+
+    // 获取车辆列表
+    getUserCar() {
+        Storage.get(StorageKey.USER_INFO).then((value) => {
+            if (value) {
+                this.props.getUserCarAction({phoneNum: value.phone}, this.getUserCarSuccessCallBack)
+            }
+        });
+    }
+
+    // 获取车辆列表成功
+    getUserCarSuccessCallBack(result) {
+        if (result) {
+            if (result.length > 1) {
+                this.saveUserCarList(result);
+                this.props.navigation.navigate('ChooseCar', {
+                    carList: result,
+                    currentCar: '',
+                    flag: true,
+                });
+            } else if (result.length === 1) {
+
+                this.saveUserCarList(result);
+                this.setState({
+                    plateNumber: result[0].carNum,
+                    plateNumberObj: result[0],
+                });
+                this.saveUserCarInfo(result[0]);
+                this.setUserCar(result[0].carNum, this.setUserCarSuccessCallBack);
+            }
+        } else {
+            Alert.alert('提示', '您的账号未绑定车辆，请添加车辆');
+        }
+    }
+
+    // 获取车辆列表
+    getUserCarMine() {
+        Storage.get(StorageKey.USER_INFO).then((value) => {
+            if (value) {
+                console.log('value', value);
+                this.props.getUserCarMineAction({phoneNum: value.phone}, this.getUserCarMineSuccessCallBack);
+            }
+        });
+    }
+
+    // 获取车辆列表成功
+    getUserCarMineSuccessCallBack(result) {
+        if (result) {
+            if (result.length != 0)
+                this.saveUserCarList(result);
+        } else {
+            Alert.alert('提示', '您的账号未绑定车辆，请添加车辆');
+        }
+    }
+
+    // 设置车辆
+    setUserCar(plateNumber,setUserCarSucCallBack) {
+        Storage.get(StorageKey.USER_INFO).then((value) => {
+            if (value) {
+                this.props.setUserCarAction({
+                    plateNumber: plateNumber,
+                    phoneNum: value.phone
+                }, setUserCarSucCallBack)
+            }
+        });
+    }
+
+    // 设置车辆成功
+    setUserCarSuccessCallBack(result) {
+
+        const userInfo = this.props.userInfo;
+
+        console.log('设置车辆成功了', this.props.plateNumber, userInfo.phone);
+        this.getHomePageCount(this.props.plateNumber, userInfo.phone);
+        this.saveUserCarInfo(this.props.plateNumberObj);
+        Storage.save('setCarSuccessFlag', '2');
+        DeviceEventEmitter.emit('updateOrderList');
+        DeviceEventEmitter.emit('resetGood');
+    }
+
+    // 保存车牌号对象
+    saveUserCarInfo(plateNumberObj) {
+        this.props.saveUserSetCarSuccess(plateNumberObj);
+    }
+
+    // 保存车辆列表
+    saveUserCarList(carList) {
+        this.props.saveUserCarListAction(carList);
+    }
+
+    // 获取首页状态数量
+    getCarrierHomePageCount() {
+        currentTime = new Date().getTime();
+        if (this.props.carrierCode) {
+            HTTPRequest({
+                url: API.API_CARRIER_INDEX_STATUS_NUM,
+                params: {
+                    carrierCode: this.props.carrierCode,
+                },
+                loading: () => {
+                },
+                success: (responseData) => {
+                    lastTime = new Date().getTime();
+                    ReadAndWriteFileUtil.appendFile('获取首页状态数量', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                        locationData.district, lastTime - currentTime, '首页');
+                    if (responseData.result) {
+                        this.props.getCarrierHomoPageCountAction(responseData.result);
+                    }
+                },
+                error: () => {
+                },
+                finish: () => {
+                },
+            });
+        }
+    }
+
+    ownerVerifiedHome(ownerVerifiedHomeSucCallBack, ownerVerifiedHomeFailCallBack) {
 
         if (this.props.userInfo) {
             if (this.props.userInfo.phone) {
                 this.props.ownerVerifiedHomeAction({
                     busTel: global.phone,
-                },ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack)
+                }, ownerVerifiedHomeSucCallBack, ownerVerifiedHomeFailCallBack)
             }
         }
     }
 
-    ownerVerifiedHomeSucCallBack(result){
+    ownerVerifiedHomeSucCallBack(result) {
         debugger
         console.log('ownerVerifiedState==', result.toString());
         // let result = result;
@@ -213,7 +631,7 @@ class Home extends Component {
         }
     }
 
-    ownerVerifiedHomeFailCallBack(result){
+    ownerVerifiedHomeFailCallBack(result) {
         if (result.message == '没有车主角色') {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_CHARACTER_OWNER,
@@ -225,10 +643,10 @@ class Home extends Component {
     }
 
     searchDriverState(searchDriverStateSucCallBack) {
-        this.props.searchDriverStateAction({},searchDriverStateSucCallBack)
+        this.props.searchDriverStateAction({}, searchDriverStateSucCallBack)
     }
 
-    searchDriverStateSucCallBack(result){
+    searchDriverStateSucCallBack(result) {
         if (result) {
             if (result.status == '10') {
                 this.props.setDriverCharacterAction('4');
@@ -297,6 +715,11 @@ class Home extends Component {
         }
     }
 
+    // 查询司机对应企业性质
+    queryEnterpriseNature() {
+        this.props.httpQueryEnterpriseNatureAction({phone:global.phone})
+    }
+
     getCurrentWeekday(day) {
         let weekday = new Array(7);
         weekday[0] = "周日";
@@ -325,13 +748,13 @@ class Home extends Component {
 
 
     render() {
-        const limitView = true ?
+        const limitView = this.state.limitNumber || this.state.limitNumber !== '' ?
             <View style={styles.limitViewStyle}>
                 <Text style={{
                     fontSize: 14,
                     color: LIGHT_BLACK_TEXT_COLOR,
                     alignSelf: 'center'
-                }}>{'2todo'}</Text>
+                }}>{this.state.limitNumber}</Text>
             </View> : null;
         let date = new Date();
 
@@ -422,6 +845,9 @@ class Home extends Component {
                 clickAction={() => {
                     console.log('dianjile ma')
                     this.props.getWeather({city: '北京'});
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
+                    })
                     // if (this.props.driverStatus == 2) {
                     //     this.props.navigation.navigate('UploadAbnormal');
                     // } else {
@@ -551,8 +977,9 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{backgroundColor:'#FFFAF4',height:35,width,justifyContent:'center', alignItems:'center'}}>
-                <Text style={{color:'#F77F4F',fontSize:15}}>您的当前状态：认证中</Text>
+            <View
+                style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
             </View>
             <ScrollView>
                 <View style={styles.locationStyle}>
@@ -569,7 +996,7 @@ class Home extends Component {
                             this.getCurrentPosition(0);
                         }}
                     >
-                        <Text style={styles.icon}>&#xe66b;</Text>
+                        <Text style={styles.icon}>&#xe695;</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
@@ -591,45 +1018,110 @@ class Home extends Component {
                         removeClippedSubviews={false}
                     />
                 </View>
-                <View style={styles.weather}>
-                    <View style={styles.date}>
-                        <Text style={styles.day}>
-                            {date.getUTCDate()}
-                        </Text>
-                        <Text style={styles.week}>
-                            {this.getCurrentWeekday(date.getDay())}
-                        </Text>
-                    </View>
-                    <View style={{flexDirection: 'row', marginLeft: 20}}>
-                        <View style={{
-                            marginRight: 15,
-                            justifyContent: 'center',
-                        }}>
 
-                            <WeatherCell weatherIcon={'晴todo'}/>
+
+                {true ?
+                    <View>
+                        <View style={styles.weather}>
+                            <View style={styles.date}>
+                                <Text style={styles.day}>
+                                    {date.getUTCDate()}
+                                </Text>
+                                <Text style={styles.week}>
+                                    {this.getCurrentWeekday(date.getDay())}
+                                </Text>
+                            </View>
+                            <View style={{flexDirection: 'row', marginLeft: 20}}>
+                                <View style={{
+                                    marginRight: 15,
+                                    justifyContent: 'center',
+                                }}>
+
+                                    <WeatherCell weatherIcon={'晴todo'}/>
+                                </View>
+                                <Text style={{
+                                    marginRight: 10,
+                                    fontSize: 14,
+                                    color: LIGHT_BLACK_TEXT_COLOR,
+                                    alignSelf: 'center'
+                                }}> {'天气todo'}</Text>
+
+                                <Text style={{
+                                    marginRight: 10,
+                                    fontSize: 14,
+                                    color: LIGHT_BLACK_TEXT_COLOR,
+                                    alignSelf: 'center'
+                                }}>{-99}℃/{99}℃</Text>
+                            </View>
+                            {limitView}
                         </View>
-                        <Text style={{
-                            marginRight: 10,
-                            fontSize: 14,
-                            color: LIGHT_BLACK_TEXT_COLOR,
-                            alignSelf: 'center'
-                        }}> {'天气todo'}</Text>
-
-                        <Text style={{
-                            marginRight: 10,
-                            fontSize: 14,
-                            color: LIGHT_BLACK_TEXT_COLOR,
-                            alignSelf: 'center'
-                        }}>{-99}℃/{99}℃</Text>
+                        {this.props.currentStatus == 'driver' ? driverView : carrierView}
                     </View>
-                    {limitView}
-                </View>
-                {this.props.currentStatus == 'driver' ? driverView : carrierView}
+                    :
+                    <View style={{marginLeft: 10}}>
+
+                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
+                            <Image
+                                style={{}}
+                                source={Fromto}/>
+                            <View style={{marginTop: 5, marginLeft: 10}}>
+                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>北京市朝阳区</Text>
+                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>内蒙古自治区呼和浩特市新城区</Text>
+                            </View>
+                        </View>
+                        <LittleButtonCell marginLeft={20} color='#FF6B6B' buttonWidth={30} title='自营'/>
+
+                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
+                            <View style={{flex: 1.5}}>
+                                <Image
+                                    style={{}}
+                                    source={Fromto}/>
+                            </View>
+                            <View style={{marginTop: 5, marginLeft: 10, flex: 6.5}}>
+                                <View style={{flexDirection: 'row',}}>
+                                    <View style={styles.textBackground}>
+                                        <Text style={styles.textBackgroundFont}>有</Text>
+                                    </View>
+                                    <LittleButtonCell marginLeft={8} color='#999999' buttonWidth={30} title='水饺'/>
+                                </View>
+                                <View style={{flexDirection: 'row', marginTop: 8}}>
+                                    <View style={styles.textBackgroundBlue}>
+                                        <Text style={styles.textBackgroundFont}>求</Text>
+                                    </View>
+                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={70}
+                                                      title='4.2米-7.2米车'/>
+                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={46} title='冷藏车'/>
+                                </View>
+                            </View>
+                            <View style={{width: 1, backgroundColor: '#E6EAF2'}}/>
+                            <View style={{
+                                flex: 3,
+                                justifyContent: 'flex-end',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                marginRight: 15
+                            }}>
+                                <Text style={{color: '#FF8500', fontSize: 21}}>2344.00</Text>
+                                <Text style={{color: '#666666', fontSize: 14}}>元</Text>
+                            </View>
+                        </View>
+                        <View style={{
+                            backgroundColor: '#0092FF',
+                            width: 108,
+                            height: 34,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: width - 140
+                        }}>
+                            <Text style={{fontSize: 15, color: '#ffffff'}}>我的报价</Text>
+                        </View>
+                    </View>
+                }
             </ScrollView>
             {this.state.show ?
                 <CharacterChooseCell
                     carClick={() => {
-                        this.ownerVerifiedHome(this.ownerVerifiedHomeSucCallBack,this.ownerVerifiedHomeFailCallBack);
+                        this.ownerVerifiedHome(this.ownerVerifiedHomeSucCallBack, this.ownerVerifiedHomeFailCallBack);
                     }}
                     driverClick={() => {
                         this.searchDriverState(this.searchDriverStateSucCallBack);
@@ -809,6 +1301,28 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: LIGHT_GRAY_TEXT_COLOR,
     },
+    textBackground: {
+        justifyContent: 'center',
+        backgroundColor: '#999999',
+        height: 17,
+        width: 17,
+        alignItems: 'center',
+        borderRadius: 2,
+    },
+    textBackgroundBlue: {
+        justifyContent: 'center',
+        backgroundColor: '#0092FF',
+        height: 17,
+        width: 17,
+        alignItems: 'center',
+        borderRadius: 2,
+    },
+    textBackgroundFont: {
+        fontSize: 10,
+        color: '#ffffff',
+    },
+
+
 });
 
 
@@ -838,6 +1352,18 @@ const mapDispatchToProps = dispatch => {
         setCurrentCharacterAction: (result) => {
             dispatch(setCurrentCharacterAction(result));
         },
+        getHomoPageCountAction: (response) => {
+            dispatch(getHomePageCountAction(response));
+        },
+        saveUserCarListAction: (data) => {
+            dispatch(saveUserCarList(data));
+        },
+        saveUserSetCarSuccess: (plateNumberObj) => {
+            dispatch(setUserCarAction(plateNumberObj));
+        },
+        queryEnterpriseNatureAction: (data) => {
+            dispatch(queryEnterpriseNatureSuccessAction(data));
+        },
         getWeather: (city) => {
             dispatch(fetchData({
                 body: {},
@@ -852,7 +1378,43 @@ const mapDispatchToProps = dispatch => {
                 }
             }));
         },
-        ownerVerifiedHomeAction:(params,ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) => {
+        vehicleLimit: (params) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_VEHICLE_LIMIT,
+                success: (result) => {
+                    if (result && result !== '') {
+                        this.setState({
+                            limitNumber: '今日限行 ' + result,
+                        });
+                    } else {
+                        this.setState({
+                            limitNumber: '',
+                        });
+                    }
+                },
+                fail: (data) => {
+
+                }
+            }));
+        },
+        getHomePageCountAction: (params) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_INDEX_STATUS_NUM,
+                success: (result) => {
+                    if (result) {
+                        this.props.getHomoPageCountAction(result);
+                    }
+                },
+                fail: (data) => {
+
+                }
+            }));
+        },
+        ownerVerifiedHomeAction: (params, ownerVerifiedHomeSucCallBack, ownerVerifiedHomeFailCallBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
@@ -860,18 +1422,60 @@ const mapDispatchToProps = dispatch => {
                 success: (data) => {
                     ownerVerifiedHomeSucCallBack(data);
                 },
-                fail:(data) => {
+                fail: (data) => {
                     ownerVerifiedHomeFailCallBack(data);
                 }
             }))
         },
-        searchDriverStateAction:(params,searchDriverStateSucCallBack) => {
+        searchDriverStateAction: (params, searchDriverStateSucCallBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
                 api: API.API_DRIVER_QUERY_DRIVER_INFO + global.phone,
                 success: (data) => {
                     searchDriverStateSucCallBack(data);
+                },
+            }))
+        },
+        getUserCarAction: (params, getUserCarSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_ALL_BIND_CAR_BY_PHONE,
+                success: (data) => {
+                    getUserCarSucCallBack(data);
+                },
+            }))
+        },
+        getUserCarMineAction: (params, getUserCarMineSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_ALL_BIND_CAR_BY_PHONE,
+                success: (data) => {
+                    getUserCarMineSucCallBack(data);
+                },
+            }))
+        },
+        setUserCarAction: (params, setUserCarSucCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_SET_USER_CAR,
+                success: (data) => {
+                    setUserCarSucCallBack(data);
+                },
+            }))
+        },
+        httpQueryEnterpriseNatureAction: (params) => {
+            dispatch(fetchData({
+                body: {},
+                method: 'POST',
+                api: API.API_QUERY_ENTERPRISE_NATURE + params.phone,
+                success: (data) => {
+                    if(data){
+                        this.props.queryEnterpriseNatureAction(data);
+                    }
                 },
             }))
         },

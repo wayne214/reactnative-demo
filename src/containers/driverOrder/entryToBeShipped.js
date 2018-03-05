@@ -15,8 +15,8 @@ import {
 
 import NavigatorBar from '../../components/common/navigatorbar';
 import EntryTest from './orderToBeShippedDetails';
+import EntryUploadODO from './orderToBeUploadODODetail';
 import * as API from '../../constants/api';
-import Loading from '../../utils/loading';
 import Storage from '../../utils/storage';
 import prventDoubleClickUtil from '../../utils/prventMultiClickUtil'
 import Toast from '@remobile/react-native-toast';
@@ -28,6 +28,7 @@ import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
 import * as RouteType from '../../constants/routeType';
+import EmptyView from '../../components/common/emptyView';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -75,13 +76,13 @@ class entryToBeShipped extends Component {
             transOrderList: params.transOrderList,
             scheduleCode: params.scheduleCode,
             isShowEmptyView: true,
-            loading: false,
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
+        this.uploadODO = this.uploadODO.bind(this);
 
         this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
         this.getOrderDetailInfoFailCallBack = this.getOrderDetailInfoFailCallBack.bind(this);
@@ -91,7 +92,6 @@ class entryToBeShipped extends Component {
         this.sendOderFailCallBack = this.sendOderFailCallBack.bind(this);
         this.sendOderSuccessCallBack = this.sendOderSuccessCallBack.bind(this);
 
-        this.cancelOrderAction = this.cancelOrderAction.bind(this);
         this.cancelOderSuccessCallBack = this.cancelOderSuccessCallBack.bind(this);
         this.cancelOderFailCallBack = this.cancelOderFailCallBack.bind(this);
 
@@ -161,6 +161,8 @@ class entryToBeShipped extends Component {
             // plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
+        }, () => {
+            this.getOrderDetailInfoFailCallBack();
         })
     }
 
@@ -231,7 +233,7 @@ class entryToBeShipped extends Component {
 
     // 获取数据失败回调
     getOrderDetailInfoFailCallBack() {
-        // Toast.showShortCenter('获取订单详情失败!');
+        Toast.showShortCenter('获取订单详情失败!');
         this.setState({
             isShowEmptyView: true,
         });
@@ -249,46 +251,27 @@ class entryToBeShipped extends Component {
                 return;
             }
         }
-
         // 传递参数
-        console.log('transOrderInfo: ' + JSON.stringify(transOrderInfo));
-
-        // HTTPRequest({
-        //     url: API.API_NEW_DESPATCH,
-        //     params: {
-        //         userId: userID,
-        //         userName,
-        //         scheduleCode: this.state.scheduleCode,
-        //         transOrderInfo,
-        //         plateNum: global.plateNumber,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.sendOderSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.sendOderFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
-
+        this.props._sendOrderAction({
+            userId: userID,
+            userName,
+            scheduleCode: this.state.scheduleCode,
+            transOrderInfo,
+            plateNum: global.plateNumber,
+        },(result) => {
+            this.sendOderSuccessCallBack(result);
+        }, () => {
+            this.sendOderFailCallBack();
+        })
     }
 
     // 获取数据成功回调
     sendOderSuccessCallBack() {
-        // lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '待发运订单详情页面');
-        // Toast.showShortCenter('发运成功!');
-        //
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '待发运订单详情页面');
+        Toast.showShortCenter('发运成功!');
+
         // if (this.props.navigation.state.params.successCallBack) {
         //     this.props.navigation.state.params.successCallBack();
         // }
@@ -300,60 +283,21 @@ class entryToBeShipped extends Component {
 
     // 获取数据失败回调
     sendOderFailCallBack() {
-        // Toast.showShortCenter('发运失败!');
-    }
-
-
-    /*
-     * 点击取消调用接口
-     * */
-    cancelOrderAction() {
-        currentTime = new Date().getTime();
-        // 传递参数
-        // HTTPRequest({
-        //     url: this.props.currentStatus == 'driver' ? API.API_NEW_DRIVER_CANCEL_ORDER : API.API_NEW_CARRIER_REFUSE_ORDER,
-        //     params: this.props.currentStatus == 'driver' ? {
-        //         userId: userID,
-        //         userName,
-        //         plateNumber,
-        //         dispatchCode: this.state.scheduleCode,
-        //     } : {
-        //         userId: global.userId,
-        //         userName: global.userName,
-        //         carrierCode: this.props.carrierCode,
-        //         dispatchNo: this.state.scheduleCode,
-        //     },
-        //     loading: ()=>{
-        //         this.setState({
-        //             loading: true,
-        //         });
-        //     },
-        //     success: (responseData)=>{
-        //         this.cancelOderSuccessCallBack(responseData.result);
-        //     },
-        //     error: (errorInfo)=>{
-        //         this.cancelOderFailCallBack();
-        //     },
-        //     finish:()=>{
-        //         this.setState({
-        //             loading: false,
-        //         });
-        //     }
-        // });
+        Toast.showShortCenter('发运失败!');
     }
 
     // 获取数据成功回调
     cancelOderSuccessCallBack() {
-        // lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '待发运订单详情页面');
-        // Toast.showShortCenter('取消成功!');
-        //
+        lastTime = new Date().getTime();
+        ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '待发运订单详情页面');
+        Toast.showShortCenter('取消成功!');
+
         // if (this.props.navigation.state.params.successCallBack) {
         //     this.props.navigation.state.params.successCallBack();
         // }
-        // // 返回top
-        // // 取消接单后，刷新货源列表
+        // 返回top
+        // 取消接单后，刷新货源列表
         // DeviceEventEmitter.emit('resetGood');
         // this.props.navigation.goBack();
     }
@@ -382,15 +326,14 @@ class entryToBeShipped extends Component {
             // 收货方
             typeString = 'receiver';
         }
-
-        this.props.navigation.navigate(
-            'BaiduMap',
-            {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_BAIDU_MAP_PAGE,
+            params: {
                 sendAddr: item.deliveryInfo.departureAddress,
                 receiveAddr: item.deliveryInfo.receiveAddress,
                 clickFlag: typeString,
             },
-        );
+        });
     }
 
     // 安排车辆
@@ -415,7 +358,17 @@ class entryToBeShipped extends Component {
                     text: '确认',
                     onPress: () => {
                         if (prventDoubleClickUtil.onMultiClick()) {
-                            this.cancelOrderAction();
+                            currentTime = new Date().getTime();
+                            this.props._cancelOrderAction({
+                                userId: userID,
+                                userName,
+                                plateNumber,
+                                dispatchCode: this.state.scheduleCode,
+                            }, (result) => {
+                                this.cancelOderSuccessCallBack(result);
+                            }, () => {
+                                this.cancelOderFailCallBack();
+                            });
                         }
                     },
                 },
@@ -423,6 +376,21 @@ class entryToBeShipped extends Component {
             {cancelable: false},
         );
     }
+
+    // 上传出库单界面
+    uploadODO(data) {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_UPLOAD_ODO_PAGE,
+            params: {
+                departureContactName: data.deliveryInfo.departureContactName,
+                departurePhoneNum: data.deliveryInfo.departurePhoneNum,
+                receiveContact: data.deliveryInfo.receiveContact,
+                orderCode: data.orderCode,
+                customCode: data.customerOrderCode,
+            }
+        });
+    }
+
 
     isShowEmptyView(navigator) {
         return (
@@ -438,15 +406,13 @@ class entryToBeShipped extends Component {
                     router={navigator}
                     hiddenBackIcon={false}
                 />
-                <EmptyView/>
+                <EmptyView content="获取订单详情失败"/>
             </View>
         );
     }
 
     contentView(navigator) {
-        const aa = this.state.datas.map((item, index) => {
-            isBindGPS = item.isBindGPS;
-            bindGPSType = item.bindGPSType;
+        const dispatchView = this.state.datas.map((item, index) => {
             return (
                 <EntryTest
                     key={index}
@@ -464,6 +430,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
+                    num={'12'}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
@@ -475,74 +442,61 @@ class entryToBeShipped extends Component {
                 />
             );
         });
-        // const carrierView = <View style={styles.carrierView}>
-        //     <View style={{backgroundColor: StaticColor.BLUE_TAB_BAR_COLOR, width: 3, height: 16,}}/>
-        //     <Text style={styles.text}>承运者：{this.state.carrierName}</Text>
-        //     <Text style={styles.text}>{this.state.carrierPlateNum}</Text>
-        // </View>;
-        // const carrierBottomView = <BottomButton
-        //     onClick={() => {
-        //         if (prventDoubleClickUtil.onMultiClick()) {
-        //             this.arrangeCar();
-        //         }
-        //     }}
-        //     text="安排车辆"
-        // /> ;
-        // const bottomView = isBindGPS && bindGPSType ?
-        //     <ChooseButton
-        //         leftContent={'查看GPS设备'}
-        //         rightContent={'发运'}
-        //         leftClick={() => {
-        //             this.props.navigation.navigate('GPSDetails');
-        //         }}
-        //         rightClick={() => {
-        //             if (prventDoubleClickUtil.onMultiClick()) {
-        //                 this.sendOrder();
-        //             }
-        //         }}
-        //     /> : <ChooseButton
-        //         leftContent={'绑定GPS设备'}
-        //         rightContent={'发运'}
-        //         leftClick={() => {
-        //             this.props.navigation.navigate('ScanGPS');
-        //         }}
-        //         rightClick={() => {
-        //             if (prventDoubleClickUtil.onMultiClick()) {
-        //                 this.sendOrder();
-        //             }
-        //         }}
-        //     />;
-        const bottomView = 1 === 2 ? <BottomButton
-                onClick={() => {
-                    if (prventDoubleClickUtil.onMultiClick()) {
-                        this.sendOrder();
-                    }
-                }}
-                text="发运"
-            /> : <BottomButton
+        const uploadODOView = this.state.datas.map((item, index) => {
+            return (
+                <EntryUploadODO
+                    key={index}
+                    style={{ overflow: 'hidden' }}
+                    deliveryInfo={item.deliveryInfo}
+                    goodsInfoList={item.goodsInfo}
+                    taskInfo={item.taskInfo}
+                    time={item.time}
+                    dispatchTime={item.dispatchTime}
+                    transCode={item.transCode}
+                    customerOrderCode={item.customerOrderCode}
+                    transOrderStatus={item.transOrderStatsu}
+                    transOrderType={item.transOrderType}
+                    scheduleTime={item.scheduleTime}
+                    scheduleTimeAgain={item.twoScheduleTime}
+                    vol={item.vol}
+                    weight={item.weight}
+                    num={'12'}
+                    index={index}
+                    currentStatus={this.props.currentStatus}
+                    addressMapSelect={(indexRow, type) => {
+                        this.jumpAddressPage(indexRow, type, item);
+                    }}
+                    uploadODO={() => {
+                        this.uploadODO(item);
+                    }}
+                    chooseResult={(indexRow, obj) => {
+                        transOrderInfo[indexRow] = obj;
+                    }}
+                />
+            );
+        });
+        const bottomView = <BottomButton
             onClick={() => {
-                if (prventDoubleClickUtil.onMultiClick()) {
-                    this.props.navigation.dispatch({type: RouteType.ROUTE_UPLOAD_ODO_PAGE})
-                }
-            }}
-            text="上传出库单"
+            if (prventDoubleClickUtil.onMultiClick()) {
+                this.sendOrder();
+            }
+        }}
+            text="发运"
         />;
+
         return (
             <View style={styles.container}>
                 <NavigatorBar
                     title={'订单详情'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    optTitle={ this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
+                    optTitle={this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
                     optTitleStyle={styles.rightButton}
-                    firstLevelClick={this.props.currentStatus == 'driver' && this.state.isCompany && this.state.isCompany == '1' ? {} :
+                    firstLevelClick={this.state.isCompany && this.state.isCompany == '1' ? {} :
                         () => {
-                        this.cancelOrder
+                        this.cancelOrder();
                     }}
                 />
-                {/*{*/}
-                    {/*this.props.currentStatus == 'driver' ? null : carrierView*/}
-                {/*}*/}
                 <Text style={{textAlign: 'center', marginTop: 10, height: 20, fontSize: 16, color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}>
                     {this.state.current}/{this.state.datas.length}
                 </Text>
@@ -554,10 +508,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    {aa}
+                    { 1 === 1 ? dispatchView : uploadODOView }
                 </ScrollView>
-                {bottomView}
-                {this.state.loading ? <Loading /> : null }
+                { 1 === 1 ? bottomView : null }
             </View>
         );
     }
@@ -567,8 +520,7 @@ class entryToBeShipped extends Component {
         return (
             <View style={styles.container}>
                 {
-                    //this.state.isShowEmptyView ? this.emptyView(navigator) : this.contentView(navigator)
-                    this.contentView(navigator)
+                    this.state.isShowEmptyView ? this.emptyView(navigator) : this.contentView(navigator)
                 }
 
             </View>
@@ -592,7 +544,7 @@ function mapDispatchToProps(dispatch) {
         //     dispatch(isReSetCity(data));
         // },
         // 获取订单详情
-        _getOrderDetail: (params, callBack) => {
+        _getOrderDetail: (params, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -602,7 +554,38 @@ function mapDispatchToProps(dispatch) {
                     callBack && callBack(data)
                 },
                 fail: error => {
-                    console.log('???', error)
+                    console.log('???', error);
+                    failCallBack && failCallBack()
+                }
+            }))
+        },
+        _cancelOrderAction: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_DRIVER_CANCEL_ORDER,
+                success: data => {
+                    console.log('cancel order success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack()
+                }
+            }))
+        },
+        _sendOrderAction: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_NEW_DESPATCH,
+                success: data => {
+                    console.log('send order success ',data);
+                    callBack && callBack(data)
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack()
                 }
             }))
         }

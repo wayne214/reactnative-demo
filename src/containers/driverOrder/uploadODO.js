@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
+import * as RouteType from '../../constants/routeType';
 import PermissionsManager from '../../utils/permissionManager';
 import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 import DialogSelected from '../../components/common/alertSelected';
@@ -35,12 +36,13 @@ let maxNum = 9;
 class uploadODO extends Component {
     constructor(props) {
         super(props);
+        const params = this.props.navigation.state.params;
         this.state = {
-            departureContactName: '',
-            departurePhoneNum: '',
-            receiveContact: '',
-            orderCode: '',
-            customCode: '123',
+            departureContactName: params.departureContactName,
+            departurePhoneNum: params.departurePhoneNum,
+            receiveContact: params.receiveContact,
+            orderCode: params.orderCode,
+            customCode: params.customCode,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -130,18 +132,8 @@ class uploadODO extends Component {
 
     // 打开相机
     takePhoto(){
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-            cropping: false,
-            compressImageMaxWidth: 500,
-            compressImageMaxHeight: 500,
-        }).then(image => {
-            console.log(image);
-            this.setState({
-                data: [{uri: image.path, width: image.width, height: image.height, mime: image.mime, id: new Date().getTime()}],
-            });
-            this.props.dispatch(addImage(this.state.data));
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_TAKE_PHOTO_PAGE
         });
     }
 
@@ -166,13 +158,13 @@ class uploadODO extends Component {
 
     clickImage(index) {
         const {imageList} = this.props;
-        // this.props.navigation.navigate(
-        //     'ReceiptPhotoShow',
-        //     {
-        //         image: imageList.toArray(),
-        //         num: index,
-        //     },
-        // );
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_PHOTO_SHOW_PAGE,
+            params: {
+                image: imageList.toArray(),
+                num: index,
+            }
+        });
     }
     render() {
         const {imageList} = this.props;
@@ -366,6 +358,7 @@ const styles =StyleSheet.create({
         color: StaticColor.COLOR_CONTACT_ICON_COLOR,
         fontSize: 18,
         alignSelf: 'center',
+        marginRight: 10,
     },
     titleText: {
         fontSize: 18,

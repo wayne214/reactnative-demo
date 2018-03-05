@@ -129,6 +129,8 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 
 // 司机首页
 export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
+// 上报道路异常
+export const ROUTE_UPLOAD_ABNORMAL_PAGE = 'ROUTE_UPLOAD_ABNORMAL_PAGE';
 
 
 /************************** 司机订单 ******************************/
@@ -147,6 +149,24 @@ export const ROUTE_GPS_DETAIL_PAGE = 'ROUTE_GPS_DETAIL_PAGE';
 export const ROUTE_BIND_GPS_PAGE = 'ROUTE_BIND_GPS_PAGE';
 // 上传出库单
 export const ROUTE_UPLOAD_ODO_PAGE = 'ROUTE_UPLOAD_ODO_PAGE';
+// 微信支付
+export const ROUTE_WECHAT_PAYMENT_PAGE = 'ROUTE_WECHAT_PAYMENT_PAGE';
+// 收款
+export const ROUTE_MAKE_COLLECTIONS_PAGE = 'ROUTE_MAKE_COLLECTIONS_PAGE';
+// 签收
+export const ROUTE_SIGN_IN_PAGE = 'ROUTE_SIGN_IN_PAGE';
+// 签收成功
+export const ROUTE_SIGN_SUCCESS_PAGE = 'ROUTE_SIGN_SUCCESS_PAGE';
+// 回单
+export const ROUTE_UPLOAD_RECEIPT_PAGE = 'ROUTE_UPLOAD_RECEIPT_PAGE';
+// 百度地图
+export const ROUTE_BAIDU_MAP_PAGE = 'ROUTE_BAIDU_MAP_PAGE';
+// 拍照
+export const ROUTE_TAKE_PHOTO_PAGE = 'ROUTE_TAKE_PHOTO_PAGE';
+// 拍照完成
+export const ROUTE_TAKE_PHOTO_FINISHED_PAGE = 'ROUTE_TAKE_PHOTO_FINISHED_PAGE';
+// 照片预览及删除
+export const ROUTE_PHOTO_SHOW_PAGE = 'ROUTE_PHOTO_SHOW_PAGE';
 
 /************************** 司机订单end ******************************/
 
@@ -238,3 +258,16 @@ export const ROUTE_BIND_DRIVER = 'ROUTE_BIND_DRIVER';
 // 添加车辆
 export const ROUTE_ADD_CAR2 = 'ROUTE_ADD_CAR2';
 
+/************************** 电子签章 ******************************/
+// 签章模板-个体
+export const ROUTE_ESIGN_TEMPLATE_INDIVIDUAL = 'ROUTE_ESIGN_TEMPLATE_INDIVIDUAL';
+// 签章模板-公司
+export const ROUTE_ESIGN_TEMPLATE_COMPANY = 'ROUTE_ESIGN_TEMPLATE_COMPANY';
+// 电子签章-个体
+export const ROUTE_ESIGN_INDIVIDUAL = 'ROUTE_ESIGN_INDIVIDUAL';
+// 签章模板颜色
+export const ROUTE_ESIGN_TEMPLATE_COLOR = 'ROUTE_ESIGN_TEMPLATE_COLOR';
+// 横向文
+export const ROUTE_ESIGN_HORIZONTAL_TEXT = 'ROUTE_ESIGN_HORIZONTAL_TEXT';
+// 下弦文
+export const ROUTE_ESIGN_LAST_QUARTER_TEXT = 'ROUTE_ESIGN_LAST_QUARTER_TEXT';

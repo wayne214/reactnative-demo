@@ -37,6 +37,8 @@ export const CONTRACT_TEMPLATE_URL = DEBUG ? 'http://file-test.lenglianmajia.com
 // export const XYT_HOST = DEBUG ? 'http://mproxy-beta.xianyiscm.com/' : 'http://mproxy.xianyiscm.com/';
 export const XYT_HOST = DEBUG ? 'http://mproxy-test.xianyiscm.com/' : 'http://mproxy.xianyiscm.com/';
 
+export const WEB_SOCKET = DEBUG ? 'ws://mproxy-test.xianyiscm.com/' : 'ws://mproxy.xianyiscm.com/';
+
 // 货主
 // http://file.lenglianmajia.com/contract_template/template_goods.pdf
 
@@ -47,3 +49,5 @@ export const XYT_HOST = DEBUG ? 'http://mproxy-test.xianyiscm.com/' : 'http://mp
 // http://file-test.lenglianmajia.com/contract_template/template_goods.pdf
 
 export const HTTP_TIMEOUT = 10 * 1000
+
+export const PHOTOREFNO = 'photoRefNo';

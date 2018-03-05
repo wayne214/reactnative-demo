@@ -256,11 +256,16 @@ class Login extends BaseComponent {
 
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
+<<<<<<< HEAD
             // this.props.setCurrentCharacterAction('driver')
             this.props.setCurrentCharacterAction('driver1')
             this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
+=======
+            this.props.setCurrentCharacterAction('driver')
+            // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
+>>>>>>> 47e2b5c0dc80ed512efca5ed4b3bae09c61152fb
 
-            // this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
+            this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
 
         } else {
             // 跳转到绑定设备页面
