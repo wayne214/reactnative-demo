@@ -351,13 +351,12 @@ class UploadReceipt extends Component {
                     title={'回单'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    // backIconClick={() => {
-                    //     const routes = this.props.routes;
-                    //     const forward = routes[routes.length - 2];
-                    //     if (navigator && routes.length > 1) {
-                    //         navigator.goBack();
-                    //     }
-                    // }}
+                    backViewClick={() => {
+                        const routes = this.props.routes;
+                        if (navigator && routes.length > 1) {
+                            navigator.dispatch({type: 'pop'});
+                        }
+                    }}
                 />
                 <View style={{marginTop: 10, marginBottom: 10}}>
                     <CommonCell itemName="回单类型：纸质回单" titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}} hideBottomLine={true}/>

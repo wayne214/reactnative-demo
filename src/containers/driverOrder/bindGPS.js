@@ -57,7 +57,6 @@ class bindGPS extends Component {
                             {text: '取消',
                                 onPress: () => {
                                     this.gpsDeviceCode = null;
-                                    isLoadEnd = false;
                                     this.changeState(true);
                                 }
                             },

@@ -12,6 +12,7 @@ let flag = true
 
 export default function nav(state = initialNavState, action) {
   let nextState;
+  console.log('action=',action);
   if (action.mode && (action.mode !== 'reset' && action.mode !== 'popTo')) throw new Error(`modes not include ${action.mode}`)
   if (action.type === 'pop') {
     if (!action.key) {

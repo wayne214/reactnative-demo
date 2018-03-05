@@ -54,7 +54,7 @@ class gpsDetails extends Component {
         }, (responseData) => {
             if(responseData.result){
                 Toast.showShortCenter('解除绑定成功');
-                this.props.navigation.goBack();
+                this.props.navigation.dispatch({ type: 'pop' })
                 // DeviceEventEmitter.emit('refreshShippedDetails');
             }else {
                 Toast.showShortCenter('解除绑定失败');

@@ -92,7 +92,7 @@ class scanGPS extends Component {
 
     onBackAndroid = () => {
         if(this.props.navigation && this.props.routes.length > 1) {
-            this.props.navigation.goBack();
+            this.props.navigation.dispatch({ type: 'pop' })
             return true;
         }
         return false;
@@ -250,7 +250,7 @@ class scanGPS extends Component {
 
     // 返回按钮点击事件
     goBack() {
-        this.props.navigation.goBack();
+        this.props.navigation.dispatch({ type: 'pop' })
     }
 
 

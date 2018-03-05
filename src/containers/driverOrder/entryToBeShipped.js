@@ -278,7 +278,7 @@ class entryToBeShipped extends Component {
         // // 发运成功后，更新货源偏好出发城市
         // this.resetCityAction(true);
         // DeviceEventEmitter.emit('resetCityLIST');
-        // this.props.navigation.goBack();
+        this.props.navigation.dispatch({type: 'pop'});
     }
 
     // 获取数据失败回调
@@ -299,7 +299,7 @@ class entryToBeShipped extends Component {
         // 返回top
         // 取消接单后，刷新货源列表
         // DeviceEventEmitter.emit('resetGood');
-        // this.props.navigation.goBack();
+        this.props.navigation.dispatch({type: 'pop'});
     }
 
     // 获取数据失败回调
