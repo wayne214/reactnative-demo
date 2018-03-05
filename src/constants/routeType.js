@@ -207,6 +207,7 @@ export const ROUTE_CAR_OWNER_ADD_DRIVER = 'ROUTE_CAR_OWNER_ADD_DRIVER';
 //车主增加司机详情
 export const ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL = 'ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL';
 
+
 // 修改密码
 export const ROUTE_MODIFY_PWD = 'ROUTE_MODIFY_PWD';
 // 设置
@@ -240,6 +241,9 @@ export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
 // 选择owner角色
 export const ROUTE_CHARACTER_OWNER = 'ROUTE_CHARACTER_OWNER';
 export const ROUTE_CHARACTER_LIST = 'ROUTE_CHARACTER_LIST';
+export const ROUTE_CAR_OWNER_VERIFIED_MSG_CODE = 'ROUTE_CAR_OWNER_VERIFIED_MSG_CODE';
+export const ROUTE_CAR_OWNER_ADD_CAR_TWO = 'ROUTE_CAR_OWNER_ADD_CAR_TWO';
+export const ROUTE_CAR_OWNER_ADD_CAR_THREE = 'ROUTE_CAR_OWNER_ADD_CAR_THREE';
 
 /************************** 司机货源 ******************************/
 // 司机货源

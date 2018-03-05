@@ -13,6 +13,8 @@ const initState = Immutable.fromJS({
 	selectTemplate: 1,
   sealHtext: '',
   sealQtext: '',
+	sealPersonTemplate: '',
+  templateStyle: ''
 });
 
 export default (state = initState, action) => {
@@ -53,6 +55,11 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_SET_LAST_QUARTER_TEXT:
 				newState = newState.set('sealQtext', action.payload);
 				return newState;
+      case ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO:
+          console.log('lqq--ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO--->',action.payload.sealPersonTemplate);
+          newState = newState.set('sealPersonTemplate',action.payload.sealPersonTemplate);
+          newState = newState.set('templateStyle',action.payload.templateStyle);
+          return newState;
 		default:
 			return state;
 	}

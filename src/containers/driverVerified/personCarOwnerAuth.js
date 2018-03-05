@@ -905,7 +905,7 @@ class personCarOwnerAuth extends Component {
                     />
 
                     {travelInfo}
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.upDataToHttp();
                     }}/>
                 </ScrollView>

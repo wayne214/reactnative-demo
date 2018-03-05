@@ -218,7 +218,6 @@ class mine extends Component {
         this.imgPhotoListener.remove();
         this.cerlistener.remove();
         this.verlistener.remove();
-        this.imglistener.remove();
         this.choosePhotoListener.remove();
         this.hideModuleListener.remove();
         this.imageCameralistener.remove();
@@ -861,49 +860,9 @@ class mine extends Component {
                             />
                             <SettingCell
                                 leftIconImage={aboutUsIcon}
-                                content={'个人车主认证'}
+                                content={'车主认证'}
                                 clickAction={() => {
-                                    if (2 === 1){
-                                        Storage.get(StorageKey.personownerInfoResult).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
-                                            }
-                                        });
-                                    }else {
-                                        // 认证详情
-                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
-
-                                    }
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'企业车主认证'}
-                                clickAction={() => {
-                                    if (2 === 1){
-                                        Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
-                                            }
-                                        });
-                                    }else {
-                                        // 认证详情
-                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
-                                    }
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
                                 }}
                             />
                             <SettingCell
@@ -927,7 +886,7 @@ class mine extends Component {
                             />
                             <SettingCell
                                 leftIconImage={aboutUsIcon}
-                                content={'车主增加车辆'}
+                                content={'增加车辆'}
                                 clickAction={() => {
                                     Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
                                             if (value) {
@@ -944,6 +903,36 @@ class mine extends Component {
 
                                 }}
                             />
+
+                            {/*<SettingCell*/}
+                                {/*leftIconImage={aboutUsIcon}*/}
+                                {/*content={'司机增加车辆'}*/}
+                                {/*clickAction={() => {*/}
+                                    {/*if (2===1){*/}
+                                        {/*Storage.get(StorageKey.carInfoResult).then((value) => {*/}
+                                            {/*if (value) {*/}
+                                                {/*this.props.navigation.dispatch({*/}
+                                                    {/*type: RouteType.ROUTE_DRIVER_ADD_CAR,*/}
+                                                    {/*params: {*/}
+                                                        {/*resultInfo: value,*/}
+                                                    {/*}}*/}
+                                                {/*)*/}
+                                            {/*} else {*/}
+                                                {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_ADD_CAR })*/}
+                                            {/*}*/}
+                                        {/*});*/}
+                                    {/*}else {*/}
+                                        {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_ADD_CAR_DETAIL,params:{*/}
+                                            {/*qualifications: this.state.certificationState,*/}
+                                                                {/*phone: global.phone,*/}
+                                                                {/*plateNumber:global.plateNumber*/}
+                                        {/*} })*/}
+
+                                    {/*}*/}
+
+                                {/*}}*/}
+                            {/*/>*/}
+
                         </View> : <View>
                             <SettingCell
                                 leftIconImage={driverManagerIcon}

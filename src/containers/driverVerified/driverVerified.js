@@ -378,7 +378,8 @@ class Verified extends Component {
         this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CAMEAR,
             params: {
                 cameraType: selectType,
-                verifiedType: 1,}
+                verifiedType: 1,
+            }
         })
 
     }
@@ -1144,7 +1145,7 @@ class Verified extends Component {
                     />
 
 
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.checkUploadParams();
                     }}/>
 

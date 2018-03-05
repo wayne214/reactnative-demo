@@ -11,6 +11,18 @@ function createCarTypeDate() {
     }
     return data;
 }
+/*创建资质认证-车辆类别数据*/
+function createCarTypeTwoDate() {
+    const carTypeDataSource= ['厢式货车','集装箱挂车','集装箱车','箱式挂车'];
+
+    let data = [];
+    for(let i=0;i<carTypeDataSource.length;i++){
+        data.push(carTypeDataSource[i]);
+    }
+    return data;
+}
+
+
 /*创建资质认证-车长数据，关联出载重数据*/
 function createCarLengthDate(carWeightDataSource) {
 
@@ -79,4 +91,5 @@ export default {
     createDateDataYearMouth,
     createCarTypeDate,
     createCarLengthDate,
+    createCarTypeTwoDate
 };
