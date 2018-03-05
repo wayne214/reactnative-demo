@@ -402,6 +402,12 @@ export const API_GET_FORGET_PSD_CODE = `app/uam/message/getForgetIdentifyCode`;
 // 根据验证码修改密码
 export const API_NEW_CHANGE_PSD_WITH_CODE = `app/uam/login/forgetPassword`;
 
+// 查询头像接口
+export const API_QUERY_USER_AVATAR = `app/uam/queryUserAvatar`;
+// 更换头像接口
+// export const API_CHANGE_USER_AVATAR = `${HOST}app/uam/changeUserAvatar`;
+export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
+
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';
