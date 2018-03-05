@@ -80,6 +80,7 @@ import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 import HomeScreen from '../containers/home/home';
 import TakePhotoScreen from '../containers/home/takePhoto';
 import TakePhotoFinishedScreen from '../containers/home/takePhotoFinished';
+import UploadAbnormalScreen from '../containers/home/uploadAbnormal';
 
 // 司机货源
 import DriverGoodSourceScreen from '../containers/driverGoodSource/driverGoods';
@@ -597,6 +598,12 @@ export const AppNavigator = StackNavigator({
             // headerStyle: {backgroundColor: 'white'},
             // headerBackTitle: null,
             // headerTintColor: 'black'
+        }
+    },
+    [RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE]: {
+        screen: UploadAbnormalScreen,
+        navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_DRIVER_GOOD_PAGE]: {

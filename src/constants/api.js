@@ -370,6 +370,11 @@ export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
 
+// 上传道路异常查询调度单
+export const API_NEW_UPLOAD_DISPATCH_ORDER = `app/transport/finExceprionInfoByPlateNum`;
+// 上传道路异常保存异常信息
+export const API_NEW_UPLOAD_SAVE_EXCEPTIONINFO= `app/transport/saveExceptionInfo/`;
+
 /********************************司机用户中心API*************************************/
 //获取登录密钥
 export const API_GET_SEC_TOKEN = 'app/uam/login/getSecToken';
@@ -407,6 +412,11 @@ export const API_QUERY_USER_AVATAR = `app/uam/queryUserAvatar`;
 // 更换头像接口
 // export const API_CHANGE_USER_AVATAR = `${HOST}app/uam/changeUserAvatar`;
 export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
+
+// 道路异常-上传图片附件
+export const API_UPLOAD_FILE = `app/uam/uploadFile`;
+// 道路异常-上传视频附件
+export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
 
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息

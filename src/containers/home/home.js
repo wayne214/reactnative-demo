@@ -422,6 +422,9 @@ class Home extends Component {
                 clickAction={() => {
                     console.log('dianjile ma')
                     this.props.getWeather({city: '北京'});
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
+                    })
                     // if (this.props.driverStatus == 2) {
                     //     this.props.navigation.navigate('UploadAbnormal');
                     // } else {
