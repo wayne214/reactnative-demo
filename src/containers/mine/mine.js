@@ -10,12 +10,19 @@ import {
     DeviceEventEmitter,
     Image,
     Dimensions,
-    ImageBackground
+    ImageBackground,
+    Modal,
+    Platform
 } from 'react-native';
 
 import Storage from '../../utils/storage';
 import StorageKey from '../../constants/storageKeys';
-
+import PermissionsManager from '../../utils/permissionManager';
+import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import AlertSheetItem from '../../components/common/alertSelected';
+import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
+import {PHOTOREFNO} from '../../constants/setting';
 import SettingCell from './cell/settingCell';
 import ClickUtil from '../../utils/prventMultiClickUtil';
 import * as StaticColor from '../../constants/colors';
@@ -23,6 +30,7 @@ import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
 import * as ConstValue from '../../constants/constValue';
 import Validator from '../../utils/validator';
 import * as RouteType from '../../constants/routeType';
+import Toast from '../../utils/toast';
 // 图标
 import PersonInfoIcon from '../../../assets/img/mine/personInfo.png';
 import CarInfoIcon from '../../../assets/img/mine/carInfo.png';
@@ -129,10 +137,22 @@ class mine extends Component {
         this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
         this.certificationCallback = this.certificationCallback.bind(this);
         this.getOwnerVerifiedCallback = this.getOwnerVerifiedCallback.bind(this);
+        this.queryUserAvatarCallback = this.queryUserAvatarCallback.bind(this);
+
+        this.queryUserAvatar = this.queryUserAvatar.bind(this);
+        this.certificationState = this.certificationState.bind(this);
+        this.verifiedState = this.verifiedState.bind(this);
+
+        this.selectCamera = this.selectCamera.bind(this);
+        this.selectPhoto = this.selectPhoto.bind(this);
+        this.showAlertSelected = this.showAlertSelected.bind(this);
+        this.callbackSelected = this.callbackSelected.bind(this);
     }
 
     componentDidMount() {
-
+        this.choosePhotoListener = DeviceEventEmitter.addListener('choosePhoto', () => {
+            this.showAlertSelected();
+        });
         if (this.props.currentStatus == 'driver') {
             /*实名认证状态请求*/
             this.verifiedState(this.getVerfiedStateSucCallback);
@@ -164,18 +184,132 @@ class mine extends Component {
             }
         });
 
+        /*获取头像具体的地址，*/
+        Storage.get(StorageKey.PHOTO_REF_NO).then((value) => {
+            if (value) {
+                this.queryUserAvatar(value, this.queryUserAvatarCallback)
+            }
+        });
+
+        this.imgPhotoListener = DeviceEventEmitter.addListener('imagePhotoCallBack', (image) => {
+            if (Platform.OS === 'ios') {
+                this.imageCropProcess(image);
+            } else {
+                this.imageADCropProcess(image);
+            }
+        });
+        this.imageCameralistener = DeviceEventEmitter.addListener('imageCameraCallBack', (image) => {
+            if (Platform.OS === 'ios') {
+                this.imageCropCameraProcess(image);
+            } else {
+                this.imageADCropCameraProcess(image);
+            }
+
+        });
+        this.hideModuleListener = DeviceEventEmitter.addListener('hideModule', (response) => {
+            this.setState({
+                modalVisible: false,
+            })
+        });
     }
 
     componentWillUnmount() {
         this.mineListener.remove();
-        // this.imgPhotoListener.remove();
+        this.imgPhotoListener.remove();
         this.cerlistener.remove();
         this.verlistener.remove();
-        // this.imglistener.remove();
-        // this.choosePhotoListener.remove();
-        // this.hideModuleListener.remove();
-        // this.imageCameralistener.remove();
+        this.imglistener.remove();
+        this.choosePhotoListener.remove();
+        this.hideModuleListener.remove();
+        this.imageCameralistener.remove();
     }
+
+    /*点击弹出菜单*/
+    showAlertSelected() {
+        if (this.refs.choose){
+            this.refs.choose.show("请选择照片", selectedArr, '#333333', this.callbackSelected);
+        }
+    }
+    /*选择 拍照  相册*/
+    callbackSelected(i) {
+        switch (i) {
+            case 0:
+                // 拍照
+                if (Platform.OS === 'ios') {
+                    PermissionsManager.cameraPermission().then(data => {
+                        this.selectCamera();
+                    }).catch(err => {
+                        Alert.alert(null, err.message);
+                        this.setState({
+                            modalVisible: false,
+                        });
+                    });
+                } else {
+                    PermissionsManagerAndroid.cameraPermission().then((data) => {
+                        this.selectCamera();
+                    },(err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置相机权限');
+                        this.setState({
+                            modalVisible: false,
+                        });
+                    });
+
+                }
+                break;
+            case 1:
+                if (Platform.OS === 'ios') {
+                    // 图库
+                    PermissionsManager.photoPermission().then(data => {
+                        this.selectPhoto();
+                    }).catch(err => {
+                        // Toast.showShortCenter(err.message);
+                        Alert.alert(null, err.message);
+                        this.setState({
+                            modalVisible: false,
+                        });
+                    });
+                } else
+                    this.selectPhoto();
+                break;
+        }
+    }
+
+    selectCamera() {
+        ImageCropPicker.openCamera({
+            width: 400,
+            height: 400,
+            cropping: true
+        }).then(image => {
+            console.log('照相机image',image);
+            this.setState({
+                modalVisible: false,
+            });
+            DeviceEventEmitter.emit('imageCameraCallBack', image);
+        }).catch(e => {
+            this.setState({
+                modalVisible: false,
+            });
+            console.log(e)});
+    }
+
+    selectPhoto() {
+        ImageCropPicker.openPicker({
+            width: 400,
+            height: 400,
+            cropping: true
+        }).then(image => {
+            console.log('图片image', image);
+            this.setState({
+                modalVisible: false,
+            });
+            DeviceEventEmitter.emit('imagePhotoCallBack', image);
+        }).catch(e => {
+            this.setState({
+                modalVisible: false,
+            });
+            console.log(e)});
+    }
+
     certificationCallback(result) {
         console.log('certification', result);
         this.setState({
@@ -237,7 +371,7 @@ class mine extends Component {
             }
         }
     }
-
+    // 承运方--车主认证结果
     getOwnerVerifiedCallback(result) {
         this.setState({
             verifiedState: result && result.certificationStatus,
@@ -259,7 +393,7 @@ class mine extends Component {
                 this.props.setOwnerCharacterAction('23')
         }
     }
-
+    // 承运方--车主认证状态
     ownerVerifiedState(callback) {
         currentTime = new Date().getTime();
         if (this.props.userInfo) {
@@ -268,53 +402,203 @@ class mine extends Component {
                     busTel: global.phone,
                     // companyNature: '个人'
                 }, callback);
-
-
-
-
-                HTTPRequest({
-                    url: API.API_QUERY_COMPANY_INFO,
-                    params: {
-                        busTel: global.phone,
-                        // companyNature: '个人'
-                    },
-                    loading: () => {
-
-                    },
-                    success: (responseData) => {
-                        console.log('ownerVerifiedState==', responseData.result);
-                        let result = responseData.result;
-                        this.setState({
-                            verifiedState: result && result.certificationStatus,
-                        });
-                        // 首页状态
-                        if (result.companyNature == '个人') {
-                            // 确认个人车主
-                            result.certificationStatus == '1201' ?
-                                this.props.setOwnerCharacterAction('11')
-                                : result.certificationStatus == '1202' ?
-                                this.props.setOwnerCharacterAction('12') :
-                                this.props.setOwnerCharacterAction('13')
-                        } else {
-                            // 确认企业车主
-                            result.certificationStatus == '1201' ?
-                                this.props.setOwnerCharacterAction('21')
-                                : result.certificationStatus == '1202' ?
-                                this.props.setOwnerCharacterAction('22') :
-                                this.props.setOwnerCharacterAction('23')
-                        }
-                    },
-                    error: (errorInfo) => {
-
-                    },
-                    finish: () => {
-                    }
-                });
             }
         }
     }
 
+    queryUserAvatarCallback(result) {
+        console.log("成功的路径", result);
+        if (result == null) {
 
+        } else {
+            this.setState({
+                avatarSource: {uri: result},
+            });
+        }
+    }
+    /*查询头像地址*/
+    queryUserAvatar(photoRefNo, callback) {
+        this.props.queryUserAvatar({
+            photoRefNo: photoRefNo,
+            userId: global.userId,
+            userName: global.userName ? global.userName : this.state.phoneNum,
+        }, callback);
+    }
+
+    /*IOS获取头像照片数据*/
+    imageCropProcess(image) {
+        console.log('iamgeee',image)
+        if (image.didCancel) {
+            console.log('User cancelled image picker');
+        }
+        else if (image.error) {
+            console.log('ImagePicker Error: ', image.error);
+
+        }
+        else if (image.customButton) {
+            console.log('User tapped custom button: ', image.customButton);
+
+        }
+        else {
+
+            let source = {uri: image.path};
+
+            this.setState({
+                avatarSource: source
+            })
+
+            let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
+            let file = {
+                uri: image.path,
+                type: 'multipart/form-data',
+                name: 'image.png'
+            };   //这里的key(uri和type和name)不能改变,
+            console.log('response.fileName', image.filename, 'file', file)
+            formData.append("photo", file);   //这里的files就是后台需要的key
+            formData.append('userId', global.userId);
+            formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
+            formData.append('fileName', image.filename);
+            formData.append('mimeType', image.mime);
+            this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
+        }
+    }
+    /*ANDROID获取头像照片数据*/
+    imageADCropProcess(image) {
+        if (image.didCancel) {
+            console.log('User cancelled image picker');
+        }
+        else if (image.error) {
+            console.log('ImagePicker Error: ', image.error);
+
+        }
+        else if (image.customButton) {
+            console.log('User tapped custom button: ', image.customButton);
+
+        }
+        else {
+
+            let source = {uri: image.path};
+
+            this.setState({
+                avatarSource: source
+            })
+
+            let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
+            let file = {
+                uri: image.path,
+                type: 'multipart/form-data',
+                name: 'image.png'
+            };   //这里的key(uri和type和name)不能改变,
+            console.log('response.fileName', 'abc.jpg', 'file', file)
+            formData.append("photo", file);   //这里的files就是后台需要的key
+            formData.append('userId', global.userId);
+            formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
+            formData.append('fileName', 'abc.jpg');
+            formData.append('mimeType', image.mime);
+            this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
+        }
+    }
+
+    /*获取头像拍摄数据*/
+    imageCropCameraProcess(image) {
+
+
+        if (image.didCancel) {
+            console.log('User cancelled image picker');
+        }
+        else if (image.error) {
+            console.log('ImagePicker Error: ', image.error);
+
+        }
+        else if (image.customButton) {
+            console.log('User tapped custom button: ', image.customButton);
+
+        }
+        else {
+
+            let source = {uri: image.path};
+
+            this.setState({
+                avatarSource: source
+            })
+
+            let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
+            let file = {
+                uri: image.path,
+                type: 'multipart/form-data',
+                name: 'image.png'
+            };   //这里的key(uri和type和name)不能改变,
+            console.log('response.fileName', image.filename, 'file', file)
+            formData.append("photo", file);   //这里的files就是后台需要的key
+            formData.append('userId', global.userId);
+            formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
+            formData.append('fileName', 'abc.jpg');
+            formData.append('mimeType', image.mime);
+            this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
+        }
+    }
+    /*获取头像拍摄数据*/
+    imageADCropCameraProcess(image) {
+
+        if (image.didCancel) {
+            console.log('User cancelled image picker');
+        }
+        else if (image.error) {
+            console.log('ImagePicker Error: ', image.error);
+
+        }
+        else if (image.customButton) {
+            console.log('User tapped custom button: ', image.customButton);
+
+        }
+        else {
+
+            let source = {uri: image.path};
+
+            this.setState({
+                avatarSource: source
+            })
+
+            let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
+            let file = {
+                uri: image.path,
+                type: 'multipart/form-data',
+                name: 'image.png'
+            };   //这里的key(uri和type和name)不能改变,
+            console.log('response.fileName', image.filename, 'file', file)
+            formData.append("photo", file);   //这里的files就是后台需要的key
+            formData.append('userId', global.userId);
+            formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
+            formData.append('fileName', 'abc.jpg');
+            formData.append('mimeType', image.mime);
+            this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
+        }
+    }
+
+
+    /*上传头像*/
+    upLoadImage(url, data) {
+        console.log('upLoadImage1',url);
+        console.log('upLoadImage2',data);
+        upLoadImageManager(url,
+            data,
+            () => {
+                console.log('开始请求数据');
+            },
+            (respones) => {
+                console.log('upLoadImage',respones);
+                if (respones.code === 200) {
+                    Storage.save(PHOTOREFNO, respones.result);
+                    global.photoRefNo = respones.result;
+                    Storage.save('NewPhotoRefNo', respones.result);
+                } else {
+                    Toast.show('图片上传失败，请重新选择上传');
+                }
+            },
+            (error) => {
+                Toast.show('图片上传失败，请重新选择上传');
+            });
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -716,6 +1000,12 @@ class mine extends Component {
                         </View>
                 }
                 </ScrollView>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}>
+                    <AlertSheetItem ref="choose"/>
+                </Modal>
             </View>
         )
     }
@@ -763,6 +1053,16 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'POST',
                 api: API.API_QUERY_COMPANY_INFO,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        queryUserAvatar: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_USER_AVATAR,
                 success: data => {
                     successCallback(data);
                 },

@@ -187,7 +187,7 @@ class OrderList extends BaseComponent {
     }
 
     this.state = {
-      title: '全部货源订单',
+      title: '运单',
       showMenu: false,
       currentMenuIndex: 0,
       // activeTab: 0,
@@ -606,7 +606,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchData({
         api: API.GET_COMPANY_ORDER_LIST,
         method: 'GET',
-
         body: params,
         success: (data)=>{
           dispatch(shouldOrderListRefreshAction(false))

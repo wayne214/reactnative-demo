@@ -28,6 +28,7 @@ import {fetchData} from "../../action/app";
 // import {
 //     mainPressAction,
 // } from '../../action/app';
+import * as RouteType from '../../constants/routeType';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -196,11 +197,11 @@ class entryGoodsDetail extends Component {
             typeString = 'receiver';
         }
 
-        this.props.navigation.navigate('BaiduMap', {
+        this.props.navigation.dispatch({type: RouteType.ROUTE_BAIDU_MAP_PAGE, params: {
             sendAddr: item.deliveryInfo.departureAddress,
             receiveAddr: item.deliveryInfo.receiveAddress,
             clickFlag: typeString,
-        });
+        }});
     }
 
     /*
