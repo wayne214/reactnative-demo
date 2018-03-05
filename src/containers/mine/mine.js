@@ -218,7 +218,6 @@ class mine extends Component {
         this.imgPhotoListener.remove();
         this.cerlistener.remove();
         this.verlistener.remove();
-        this.imglistener.remove();
         this.choosePhotoListener.remove();
         this.hideModuleListener.remove();
         this.imageCameralistener.remove();
