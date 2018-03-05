@@ -436,9 +436,9 @@ class LoginSms extends BaseComponent {
                             <View>
                                 <Text
                                     onPress={() => {
-                                        this.props.navigation.navigate('ForgetPwd', {
-                                            loginPhone: this.state.phoneNumber
-                                        });
+                                        this.props.navigation.dispatch({
+                                            type: RouteType.ROUTE_FORGET_PASSWORD,
+                                            params: { loginPhone: this.state.phoneNumber}})
 
                                     }}
                                     style={styles.bottomViewText}
@@ -468,7 +468,9 @@ class LoginSms extends BaseComponent {
                             <Text
                                 style={styles.screenEndViewText}
                                 onPress={() => {
-                                    this.props.navigation.navigate('RegisterStepOne');
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_REDISTER_STEP_ONE,
+                                    })
                                 }}
                             >
                                 立即注册

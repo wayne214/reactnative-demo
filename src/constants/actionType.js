@@ -251,6 +251,16 @@ export const ACTION_SAVE_WEATHER = 'ACTION_SAVE_WEATHER';
 
 export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING'
 
+/*改变首页城市*/
+export const ACTION_GET_LOCATION = 'ACTION_GET_LOCATION';
+// 获取首页状态数量
+export const ACTION_GET_HOME_PAGE_COUNT = 'ACTION_GET_HOME_PAGE_COUNT';
+// 获取首页状态数量
+export const ACTION_GET_CARRIER_HOME_PAGE_COUNT = 'ACTION_GET_CARRIER_HOME_PAGE_COUNT';
+// 主界面点击事件
+export const ACTION_MAIN_PRESS = 'ACTION_MAIN_PRESS';
+// 版本升级
+export const UPDATE_VERSION = 'UPDATE_VERSION';
 /******************************司机角色Action*******************************/
 
 export const ACTION_SET_MESSAGE_LIST_ICON = 'ACTION_SET_MESSAGE_LIST_ICON';

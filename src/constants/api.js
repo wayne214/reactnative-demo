@@ -414,6 +414,11 @@ export const API_NEW_DRIVER_RECEIVE_ORDER = 'app/dpc/driverAppReceiveOrder';
 export const API_NEW_DRIVER_REFUSE_ORDER = 'app/dpc/driverAppRefuseOrder';
 // 根据时间获取获取货源列表--司机
 export const API_NEW_GET_SOURCE_BY_DATE = 'app/dpc/queryDispatchDocByDateV2'; // 4.0版本--司机
+// 首页-状态数量统计
+export const API_INDEX_STATUS_NUM = `app/dpc/queryIndexStatusNum`;
+// 车主首页-状态数量统计
+export const API_CARRIER_INDEX_STATUS_NUM = `app/dpc/queryCarrierDispatchCount`;
+
 /** ****************************司机运输中心接口**********************/
 // 获取货源详情
 /******************************司机APP资源中心接口**********************/
@@ -448,3 +453,13 @@ export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarIn
 
 //WebSocket
 export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;
+/** *****************************************************限行接口******************************************************/
+// 限号接口
+export const API_VEHICLE_LIMIT = `app/vehicleLimit/`;
+
+// 查询绑定的车辆信息
+export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarByPhone/v2.1.0`;
+// 用户绑定车辆
+export const API_SET_USER_CAR = `app/uam/addUserCar`;
+//司机对应企业性质
+export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;
