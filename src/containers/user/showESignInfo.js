@@ -206,7 +206,7 @@ class ShowESignInfoContainer extends BaseComponent {
 
 									<View style={styles.arrowTextRight}>
 										<Text
-											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+											style={ this.props.sealColor != '' ? styles.blackArrowText : styles.arrowText }>
 												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
 												{this.props.sealColor == '' ? '请选择印章颜色' : this.props.sealColor}
 										</Text>
@@ -227,7 +227,7 @@ class ShowESignInfoContainer extends BaseComponent {
 									</View>
 									<View style={styles.arrowTextRight}>
 										<Text
-											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+											style={  this.props.sealHtext != '' ? styles.blackArrowText : styles.arrowText }>
 												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
 												{this.props.sealHtext == '' ? '请设置横向文' : this.props.sealHtext}
 										</Text>
@@ -260,7 +260,7 @@ class ShowESignInfoContainer extends BaseComponent {
 									</View>
 									<View style={styles.arrowTextRight}>
 										<Text
-											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+											style={  this.props.sealQtext != '' ? styles.blackArrowText : styles.arrowText }>
 												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
 												{this.props.sealQtext == '' ? '请设置下弦文' : this.props.sealQtext}
 										</Text>
