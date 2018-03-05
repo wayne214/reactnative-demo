@@ -185,8 +185,12 @@ class verifiedState extends Component{
         Storage.remove(StorageKey.personInfoResult);
 
         if (this.state.resultInfo.driverPhone !== global.phone){
-            this.props.navigation.navigate('CarOwnerAddDriver', {
-                resultInfo: this.state.resultInfo,
+
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER,
+                params: {
+                    resultInfo: this.state.resultInfo,
+                }
             });
         }else {
             this.props.navigation.dispatch({

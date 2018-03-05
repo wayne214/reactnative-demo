@@ -118,6 +118,10 @@ import CarOwnerAddCar from '../containers/driverVerified/carOwnerAddCar';
 import CarOwnerAddCarDetail from '../containers/driverVerified/carOwnerAddCarDetail';
 import CarOwnerAddDriver from '../containers/driverVerified/carOwnerAddDriver';
 import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDriverDetail';
+import CarOwnerVerifiedMsgCode from '../containers/driverVerified/carOwnerVerifiedMsgCode';
+import CarOwnerAddCarTwo from '../containers/driverVerified/carOwnerAddCarTwo';
+import CarOwnerAddCarThree from '../containers/driverVerified/carOwnerAddCarThree';
+
 
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
@@ -861,6 +865,25 @@ export const AppNavigator = StackNavigator({
         screen: CharacterList,
         navigationOptions: {
 
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE]: {
+        screen: CarOwnerVerifiedMsgCode,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_TWO]: {
+        screen: CarOwnerAddCarTwo,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE]: {
+        screen: CarOwnerAddCarThree,
+            navigationOptions: {
+            header: null
         }
     },
 }, {

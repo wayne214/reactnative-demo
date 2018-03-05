@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 
 import * as API from '../../constants/api';
-import { NavigationActions } from 'react-navigation';
 
 import ImagePicker from 'react-native-image-picker';
 import TimePicker from 'react-native-picker-custom';
@@ -41,6 +40,7 @@ import StorageKey from '../../constants/storageKeys';
 import LoadingView from '../../utils/loading';
 import Toast from '@remobile/react-native-toast';
 import Validator from '../../utils/validator';
+import * as RouteType from '../../constants/routeType';
 
 import Storage from '../../utils/storage';
 import PermissionsManager from '../../utils/permissionManager';
@@ -363,14 +363,23 @@ class certification extends Component {
     selectCamera() {
 
         if (selectType < 2) {
-            this.props.navigation.navigate('TakeCamearPage', {
-                cameraType: selectType + 5,
-                verifiedType: 2,
-            });
+
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CAMEAR,
+                params: {
+                    cameraType: selectType + 5,
+                    verifiedType: 2,
+                }
+            })
+
+
+
         } else {
-            this.props.navigation.navigate('TakeCameraVer', {
-                cameraType: selectType,
-            });
+
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CEMARA_VERTICAL,
+                params: {
+                    cameraType: selectType,
+                }
+            })
         }
     }
 
@@ -661,6 +670,9 @@ class certification extends Component {
     /*上传图片，调用接口*/
     checkUploadParams() {
 
+
+
+
         if (this.state.vehicleLicenseHomepageNormalPhotoAddress === '' && this.state.vehicleLicenseHomepageThumbnailAddress === '') {
             Toast.showShortCenter('请上传行驶证主页照片');
             return;
@@ -785,7 +797,7 @@ class certification extends Component {
 
     }
 
-    /*车主增加车辆*/
+    /*增加车辆*/
     implementationVerified(carDate, insuranceData) {
         currentTime = new Date().getTime();
 
@@ -1050,8 +1062,11 @@ class certification extends Component {
                     />
 
 
-                    <VierifiedBottomItem clickAction={()=>{
-                        this.checkUploadParams();
+                    <VierifiedBottomItem btnTitle="下一步" clickAction={()=>{
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_TWO,
+                        });
+                        //this.checkUploadParams();
                     }}/>
 
                 </ScrollView>

@@ -42,6 +42,7 @@ class verifiedBottomItem extends Component{
         this.props.clickAction();
     }
     render() {
+        const {btnTitle} = this.props;
         return (
             <View style={styles.container}>
 
@@ -56,7 +57,7 @@ class verifiedBottomItem extends Component{
                         }}
                         source={BlueButtonArc}>
                         <Text style={styles.textStyle}>
-                            提交
+                            {btnTitle}
                         </Text>
                     </ImageBackground>
                 </TouchableOpacity>

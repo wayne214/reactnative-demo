@@ -1211,7 +1211,7 @@ class carOwnerAddDriver extends Component {
                     />
 
 
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.checkUploadParams();
                     }}/>
 

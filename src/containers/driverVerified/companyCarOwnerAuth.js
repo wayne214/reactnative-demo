@@ -894,7 +894,7 @@ class companyCarOwnerAuth extends Component {
                     {personCardDate}
 
                     <VerifiedSpaceItem/>
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.uploadData();
                     }}/>
                 </ScrollView>
