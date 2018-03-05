@@ -36,12 +36,13 @@ let maxNum = 9;
 class uploadODO extends Component {
     constructor(props) {
         super(props);
+        const params = this.props.navigation.state.params;
         this.state = {
-            departureContactName: '',
-            departurePhoneNum: '',
-            receiveContact: '',
-            orderCode: '',
-            customCode: '123',
+            departureContactName: params.departureContactName,
+            departurePhoneNum: params.departurePhoneNum,
+            receiveContact: params.receiveContact,
+            orderCode: params.orderCode,
+            customCode: params.customCode,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -357,6 +358,7 @@ const styles =StyleSheet.create({
         color: StaticColor.COLOR_CONTACT_ICON_COLOR,
         fontSize: 18,
         alignSelf: 'center',
+        marginRight: 10,
     },
     titleText: {
         fontSize: 18,

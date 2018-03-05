@@ -129,6 +129,8 @@ export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
 
 // 司机首页
 export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
+// 上报道路异常
+export const ROUTE_UPLOAD_ABNORMAL_PAGE = 'ROUTE_UPLOAD_ABNORMAL_PAGE';
 
 
 /************************** 司机订单 ******************************/

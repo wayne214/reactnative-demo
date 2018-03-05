@@ -234,7 +234,7 @@ class ImageViewer extends Component {
                     title={navBarTitle}
                     router={navigator}
                     hiddenBackIcon={false}
-                    firstLevelIconFont="&#xe641;"
+                    firstLevelIconFont="&#xe61c;"
                     firstLevelClick={() => {
                         this.showAlertSelected();
                     }}

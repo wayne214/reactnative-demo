@@ -123,7 +123,8 @@ export default class orderToBeSignInDetail extends Component {
             payState,
             settleMethod,
             amount,
-            currentStatus
+            currentStatus,
+            num
         } = this.props;
 
         const  buttonView = settlementMode === '20' || (isEndDistribution === 'N' && transOrderType === '606') || payState === '1' || settleMethod !== '20' || amount === '0.00' ?
@@ -248,7 +249,7 @@ export default class orderToBeSignInDetail extends Component {
                             }) : null
                     }
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
-                    <TotalsItemCell totalTons={weight} totalSquare={vol} />
+                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={num}/>
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
                     <DetailsCell
                         transportNO_={transCode}

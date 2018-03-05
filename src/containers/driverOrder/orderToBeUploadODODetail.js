@@ -1,7 +1,6 @@
 /**
- * Created by mymac on 2017/4/13.
+ * Created by xizhixin on 2018/3/5.
  */
-// 待回单页面
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
@@ -24,7 +23,6 @@ import TotalsItemCell from '../../components/common/source/totalsItemCell';
 import ProductShowItem from '../../components/common/source/OrderDetailProShowItemCell';
 import Storage from '../../utils/storage';
 import * as API from '../../constants/api';
-import Loading from '../../utils/loading';
 import * as StaticColor from '../../constants/colors';
 import prventDoubleClickUtil from '../../utils/prventMultiClickUtil'
 import * as ConstValue from '../../constants/constValue';
@@ -74,14 +72,12 @@ const styles = StyleSheet.create({
     }
 });
 
-class orderToBeWaitSureDetail extends Component {
+class orderToBeUploadODODetail extends Component {
 
     constructor(props) {
         super(props);
-        this.uploadReceipt = this.uploadReceipt.bind(this);
         this.state = {
             showGoodList: false,
-            loading: false,
             buttonDisabled: false,
         };
     }
@@ -95,15 +91,6 @@ class orderToBeWaitSureDetail extends Component {
         });
     }
 
-    // 上传回单界面
-    uploadReceipt() {
-        this.props.navigation.dispatch({
-            type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
-            params: {
-                transCode: this.props.transCode,
-            }
-        });
-    }
 
     showGoodInfoList(value) {
         this.setState({
@@ -123,24 +110,24 @@ class orderToBeWaitSureDetail extends Component {
             vol,
             weight,
             index,
-            signTime,
+            chooseResult,
             scheduleTime,
-            dispatchTime,
-            customerCode,
-            dispatchTimeAgain,
+            customerOrderCode,
+            isEndDistribution,
             scheduleTimeAgain,
-            num
+            currentStatus,
+            num,
+            uploadODO
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.isReceipt === '是' ?
-            <BottomButton
-                text={'回单'}
-                onClick={() => {
-                    this.uploadReceipt();
-                }}
-                buttonDisabled={this.state.buttonDisabled}
-            /> : null;
-
+        const buttonView = <BottomButton
+            onClick={() => {
+                if (prventDoubleClickUtil.onMultiClick()) {
+                    uploadODO && uploadODO();
+                }
+            }}
+            buttonDisabled={this.state.buttonDisabled}
+            text="上传出库单" />;
         return (
             <View style={{
                 ...Platform.select({
@@ -191,7 +178,8 @@ class orderToBeWaitSureDetail extends Component {
                                                 }
                                             }),
                                         }
-                                    ]}                                    resizeMode='stretch'>
+                                    ]}
+                                    resizeMode='stretch'>
                                     <View style={styles.constantStyle}>
                                         <Text style={styles.constantIcon}>&#xe68b;</Text>
                                         <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
@@ -224,14 +212,14 @@ class orderToBeWaitSureDetail extends Component {
                             onSelectAddr={() => {
                                 this.props.addressMapSelect(index, 'departure');
                             }}
-                            isShowContactAndPhone={true}
+                            isShowContactAndPhone={false}
                         />
                         <DetailsRedUserCell
                             deliveryInfo={deliveryInfo}
                             onSelectAddr={() => {
                                 this.props.addressMapSelect(index, 'receive');
                             }}
-                            isShowContactAndPhone={true}
+                            isShowContactAndPhone={false}
                         />
                         <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
                         <TitlesCell title="货品信息" showArrowIcon={true} onPress={(value) => { this.showGoodInfoList(value); }}/>
@@ -252,21 +240,16 @@ class orderToBeWaitSureDetail extends Component {
                         <DetailsCell
                             transportNO_={transCode}
                             transportTime={time}
-                            customerCode={customerCode}
+                            customerCode={customerOrderCode}
                             transOrderType={transOrderType}
                             transOrderStatus={transOrderStatus}
                             scheduleTime={scheduleTime}
                             scheduleTimeAgain={scheduleTimeAgain}
-                            dispatchTime={dispatchTime}
-                            dispatchTimeAgain={dispatchTimeAgain}
-                            signTime={signTime}
                         />
-
                     </ScrollView>
                     <View style={{backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND, height: 13}} />
                 </View>
                 {buttonView}
-                {this.state.loading ? <Loading/> : null}
             </View>
         );
     }
@@ -284,4 +267,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(orderToBeWaitSureDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(orderToBeUploadODODetail);

@@ -15,8 +15,8 @@ import {
 
 import NavigatorBar from '../../components/common/navigatorbar';
 import EntryTest from './orderToBeShippedDetails';
+import EntryUploadODO from './orderToBeUploadODODetail';
 import * as API from '../../constants/api';
-import Loading from '../../utils/loading';
 import Storage from '../../utils/storage';
 import prventDoubleClickUtil from '../../utils/prventMultiClickUtil'
 import Toast from '@remobile/react-native-toast';
@@ -76,13 +76,13 @@ class entryToBeShipped extends Component {
             transOrderList: params.transOrderList,
             scheduleCode: params.scheduleCode,
             isShowEmptyView: true,
-            loading: false,
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
+        this.uploadODO = this.uploadODO.bind(this);
 
         this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
         this.getOrderDetailInfoFailCallBack = this.getOrderDetailInfoFailCallBack.bind(this);
@@ -377,6 +377,21 @@ class entryToBeShipped extends Component {
         );
     }
 
+    // 上传出库单界面
+    uploadODO(data) {
+        this.props.navigation.dispatch({
+            type: RouteType.ROUTE_UPLOAD_ODO_PAGE,
+            params: {
+                departureContactName: data.deliveryInfo.departureContactName,
+                departurePhoneNum: data.deliveryInfo.departurePhoneNum,
+                receiveContact: data.deliveryInfo.receiveContact,
+                orderCode: data.orderCode,
+                customCode: data.customerOrderCode,
+            }
+        });
+    }
+
+
     isShowEmptyView(navigator) {
         return (
             this.state.isShowEmptyView ? this.emptyView(navigator) : this.contentView(navigator)
@@ -397,9 +412,7 @@ class entryToBeShipped extends Component {
     }
 
     contentView(navigator) {
-        const aa = this.state.datas.map((item, index) => {
-            isBindGPS = item.isBindGPS;
-            bindGPSType = item.bindGPSType;
+        const dispatchView = this.state.datas.map((item, index) => {
             return (
                 <EntryTest
                     key={index}
@@ -417,6 +430,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
+                    num={'12'}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
@@ -428,21 +442,48 @@ class entryToBeShipped extends Component {
                 />
             );
         });
-        const bottomView = 1 === 2 ? <BottomButton
-                onClick={() => {
-                    if (prventDoubleClickUtil.onMultiClick()) {
-                        this.sendOrder();
-                    }
-                }}
-                text="发运"
-            /> : <BottomButton
+        const uploadODOView = this.state.datas.map((item, index) => {
+            return (
+                <EntryUploadODO
+                    key={index}
+                    style={{ overflow: 'hidden' }}
+                    deliveryInfo={item.deliveryInfo}
+                    goodsInfoList={item.goodsInfo}
+                    taskInfo={item.taskInfo}
+                    time={item.time}
+                    dispatchTime={item.dispatchTime}
+                    transCode={item.transCode}
+                    customerOrderCode={item.customerOrderCode}
+                    transOrderStatus={item.transOrderStatsu}
+                    transOrderType={item.transOrderType}
+                    scheduleTime={item.scheduleTime}
+                    scheduleTimeAgain={item.twoScheduleTime}
+                    vol={item.vol}
+                    weight={item.weight}
+                    num={'12'}
+                    index={index}
+                    currentStatus={this.props.currentStatus}
+                    addressMapSelect={(indexRow, type) => {
+                        this.jumpAddressPage(indexRow, type, item);
+                    }}
+                    uploadODO={() => {
+                        this.uploadODO(item);
+                    }}
+                    chooseResult={(indexRow, obj) => {
+                        transOrderInfo[indexRow] = obj;
+                    }}
+                />
+            );
+        });
+        const bottomView = <BottomButton
             onClick={() => {
-                if (prventDoubleClickUtil.onMultiClick()) {
-                    this.props.navigation.dispatch({type: RouteType.ROUTE_UPLOAD_ODO_PAGE})
-                }
-            }}
-            text="上传出库单"
+            if (prventDoubleClickUtil.onMultiClick()) {
+                this.sendOrder();
+            }
+        }}
+            text="发运"
         />;
+
         return (
             <View style={styles.container}>
                 <NavigatorBar
@@ -467,10 +508,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    {aa}
+                    { 1 === 1 ? dispatchView : uploadODOView }
                 </ScrollView>
-                {bottomView}
-                {this.state.loading ? <Loading /> : null }
+                { 1 === 1 ? bottomView : null }
             </View>
         );
     }
