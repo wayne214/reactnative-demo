@@ -20,7 +20,7 @@ import SimplePicker from '../../components/common/picker';
 import { ESIGN_COLOR_TYPE } from '../../constants/json';
 import { fetchData,appendLogToFile } from '../../action/app';
 import { GET_ESIGN_INFO,EDIT_ESIGN_INFO } from '../../constants/api';
-import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo } from '../../action/eSign';
+import { dispatchRefreshESignPersonTemplateInfo, dispatchRefreshESignTemplateInfo } from '../../action/eSign';
 import CheckBox from '../../components/common/checkbox';
 import Toast from '../../utils/toast';
 import Regex from '../../utils/regex';
@@ -43,8 +43,6 @@ class eSignTemplateIndividual extends BaseComponent {
 			landscapeText: '',
 			lastQuarterText: '',
 			colorMap: '',
-			data: ESIGN_COLOR_TYPE,
-			visible: false,
 			sealTemplate: '',
 			isLoad: false,
 		};
@@ -67,41 +65,69 @@ class eSignTemplateIndividual extends BaseComponent {
 		this.timer && clearTimeout(this.timer);
 	}
 
-	componentWillReceiveProps(props) {
-		const {eSignInfo,isRefresh} = props;
-		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
-			setTimeout(() => {
-				this.setState({
-					isLoad: true,
-					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
-					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
-					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
-					visible: false,
-					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
-					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
-					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
-				});
-			}, 0);
-			// console.log('---clolrMap--->',this.state.colorMap.value);
-		}
-	}
+// 	componentWillReceiveProps(props) {
+// 		const {eSignInfo,isRefresh} = props;
+// 		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
+// 			setTimeout(() => {
+// 				this.setState({
+// 					isLoad: true,
+// 					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
+// 					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
+// 					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
+// 					visible: false,
+// 					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
+// 					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
+// 					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
+// 				});
+// 			}, 0);
+// 			// console.log('---clolrMap--->',this.state.colorMap.value);
+// 		}
+// 	}
 
 	_checkedInDatas(index){
 		switch(index){
 			case 1:
-			this.setState({
-				sealTemplate: 'STAR',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
+				// 	this.setState({
+				// 		sealTemplate: 'HYLSF',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'HYLSF', templateStyle: '样式1'}));
 
-			break;
+					break;
 			case 2:
-			this.setState({
-				sealTemplate: 'OVAL',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
+				// 	this.setState({
+				// 		sealTemplate: 'BORDERLESS',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'BORDERLESS', templateStyle: '样式2'}));
+
+					break;
+			case 3:
+				// 	this.setState({
+				// 			sealTemplate: 'FZKC',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'FZKC', templateStyle: '样式3'}));
 
 			break;
+			case 4:
+				// 	this.setState({
+				// 			sealTemplate: 'RECTANGLE',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'RECTANGLE', templateStyle: '样式4'}));
+
+			break;
+			case 5:
+				// 	this.setState({
+				// 			sealTemplate: 'YYGXSF',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'YYGXSF', templateStyle: '样式5'}));
+
+					break;
+			case 6:
+				// 	this.setState({
+				// 			sealTemplate: 'SQUARE',
+				// 	});
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'SQUARE', templateStyle: '样式6'}));
+
+					break;
 		}
 
       this.props.dispatch(dispatchRefreshESignTemplateInfo({selectTemplate: index}));
@@ -123,10 +149,14 @@ class eSignTemplateIndividual extends BaseComponent {
 								<View style={styles.landscapeHalfView}>
 									<Image source={personTemplateThree}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
-									<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ this.props.isCricleTemplate  }
-										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
+									<View style={{flexDirection: 'row', alignItems: 'center'}}>
+											<Text style={{fontSize: 14, color: '#999999', marginRight: 10}}>(默认)</Text>
+											<CheckBox
+												index={1}
+												isShowText={true}
+												isChecked={ this.props.selectTemplate === 1  }
+												checkedFun={ this._checkedInDatas.bind(this, 1) }/>
+									</View>
 								</View>
 
 								<View style={styles.separateLine}/>
@@ -135,8 +165,9 @@ class eSignTemplateIndividual extends BaseComponent {
 									<Image source={personTemplateFour}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
 									<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
+										index={2}
+										isShowText={true}
+										isChecked={ this.props.selectTemplate === 2  }
 										checkedFun={ this._checkedInDatas.bind(this, 2) }/>
 								</View>
 
@@ -146,8 +177,9 @@ class eSignTemplateIndividual extends BaseComponent {
 									<Image source={personTemplateTwo}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
 									<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
+										index={3}
+										isShowText={true}
+										isChecked={ this.props.selectTemplate === 3  }
 										checkedFun={ this._checkedInDatas.bind(this, 3) }/>
 								</View>
 
@@ -157,8 +189,9 @@ class eSignTemplateIndividual extends BaseComponent {
 										<Image source={personTemplateFive}
 													 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
 										<CheckBox
-											contentStyle={{ width: 20 }}
-											isChecked={ !this.props.isCricleTemplate  }
+											index={4}
+											isShowText={true}
+											isChecked={ this.props.selectTemplate === 4  }
 											checkedFun={ this._checkedInDatas.bind(this, 4) }/>
 									</View>
 
@@ -168,8 +201,9 @@ class eSignTemplateIndividual extends BaseComponent {
 									<Image source={personTemplateSix}
 												 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
 									<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
+										index={5}
+										isShowText={true}
+										isChecked={ this.props.selectTemplate === 5  }
 										checkedFun={ this._checkedInDatas.bind(this, 5) }/>
 								</View>
 
@@ -180,8 +214,9 @@ class eSignTemplateIndividual extends BaseComponent {
 										<Image source={personTemplateOne}
 													 resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>
 										<CheckBox
-											contentStyle={{ width: 20 }}
-											isChecked={ this.props.isCricleTemplate }
+											index={6}
+											isShowText={true}
+											isChecked={ this.props.selectTemplate === 6 }
 											checkedFun={ this._checkedInDatas.bind(this, 6) }/>
 									</View>
 
@@ -189,8 +224,6 @@ class eSignTemplateIndividual extends BaseComponent {
 							</View>
 						</View>
 					</ScrollView>
-					{ this.props.loading ? this._renderLoadingView() : null }
-					{ this._renderUpgrade(this.props) }
 			</View>
 			);
 	}
@@ -198,14 +231,8 @@ class eSignTemplateIndividual extends BaseComponent {
 const mapStateToProps = state => {
 	const { app ,eSign} = state;
 	return {
-		user: app.get('user'),
-		loading: app.get('loading'),
-		eSignInfo: eSign.getIn(['eSign','eSignInfoDetail']),
-		isRefresh: eSign.get('isRefresh'),
-		isCricleTemplate: eSign.get('isCricleTemplate'),
-		upgrade: app.get('upgrade'),
-		upgradeForce: app.get('upgradeForce'),
-    upgradeForceUrl: app.get('upgradeForceUrl'),
+      selectTemplate: eSign.get('selectTemplate'),
+
 	}
 }
 

@@ -17,10 +17,9 @@ import styles from '../../../assets/css/eSign';
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
 import { ESIGN_COLOR_TYPE } from '../../constants/json';
-import { dispatchGetESignInfo,dispatchRefreshESignTemplateInfo, dispatchRefreshESignColorInfo } from '../../action/eSign';
+import { dispatchRefreshESignTemplateInfo, dispatchRefreshESignColorInfo } from '../../action/eSign';
 import CheckBox from '../../components/common/checkbox';
 import HelperUtil from '../../utils/helper';
-let startTime = 0
 class eSignTemplateColor extends BaseComponent {
 
 	constructor(props) {
@@ -52,48 +51,38 @@ class eSignTemplateColor extends BaseComponent {
 
 	componentWillUnmount() {
 		super.componentWillUnmount();
-		this.timer && clearTimeout(this.timer);
 	}
 
-	componentWillReceiveProps(props) {
-		const {eSignInfo,isRefresh} = props;
-		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
-			setTimeout(() => {
-				this.setState({
-					isLoad: true,
-					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
-					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
-					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
-					visible: false,
-					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
-					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
-					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
-				});
-			}, 0);
-			// console.log('---clolrMap--->',this.state.colorMap.value);
-		}
-	}
+// 	componentWillReceiveProps(props) {
+// 		const {eSignInfo,isRefresh} = props;
+// 		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
+// 			setTimeout(() => {
+// 				this.setState({
+// 					isLoad: true,
+// 					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
+// 					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
+// 					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
+// 					visible: false,
+// 					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
+// 					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
+// 					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
+// 				});
+// 			}, 0);
+// 			// console.log('---clolrMap--->',this.state.colorMap.value);
+// 		}
+// 	}
 
 	_checkedInDatas(index){
 		switch(index){
 			case 1:
-		// 	this.setState({
-		// 		sealTemplate: 'STAR',
-		// 	});
           this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '红色'}));
 
           break;
 			case 2:
-		// 	this.setState({
-		// 		sealTemplate: 'OVAL',
-		// 	});
           this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '蓝色'}));
 			break;
 
 			case 3:
-					// 	this.setState({
-					// 		sealTemplate: 'OVAL',
-					// 	});
 					this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '黑色'}));
 					break;
 		}
@@ -118,10 +107,13 @@ class eSignTemplateColor extends BaseComponent {
 
 									<View style={styles.colorContainer}>
 										<Text style={styles.colorText}>红色</Text>
-										<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ this.props.selectTemplate === 1 }
-										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
+										<View style={{flexDirection: 'row', alignItems: 'center'}}>
+											<Text style={{fontSize: 14, color: '#999999', marginRight: 10}}>(默认)</Text>
+											<CheckBox
+											contentStyle={{ width: 20 }}
+											isChecked={ this.props.selectTemplate === 1 }
+											checkedFun={ this._checkedInDatas.bind(this, 1) }/>
+										</View>
 									</View>
 
 									<View style={styles.separateLine}/>
@@ -147,8 +139,6 @@ class eSignTemplateColor extends BaseComponent {
 							</View>
 						</View>
 					</ScrollView>
-					{ this.props.loading ? this._renderLoadingView() : null }
-					{ this._renderUpgrade(this.props) }
 			</View>
 			);
 	}

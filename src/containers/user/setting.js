@@ -27,6 +27,7 @@ import BaseComponent from '../../components/common/baseComponent'
 // import Link from '../../utils/linking'
 import AppJSON from '../../../app.json'
 import {appendLogToFile} from '../../action/app.js'
+import user from "../../reducers/user";
 let startTime = 0
 
 class SettingContainer extends BaseComponent {
@@ -145,7 +146,11 @@ class SettingContainer extends BaseComponent {
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(个体)', type: 3}}) }>
+					onPress={ () =>
+							this.props.currentStatus == 'personalOwner' ?
+							this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL, params: {title: '电签印章(个体)', type: 3}}) :
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}})
+					}>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>电子签章设置</Text>
 					</View>
@@ -264,13 +269,14 @@ class SettingContainer extends BaseComponent {
 }
 
 function mapStateToProps (state) {
-	const { app } = state;
+	const { app, user } = state;
 	return {
 		user: app.get('user'),
 		alias: app.get('alias'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    currentStatus: user.get('currentStatus'),
 	};
 }
 

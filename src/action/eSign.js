@@ -34,3 +34,10 @@ export function dispatchRefreshLastQuarterText(params){
         payload: params
     };
 }
+
+export function dispatchRefreshESignPersonTemplateInfo(params) {
+    return {
+        type: ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO,
+        payload: params
+    };
+}

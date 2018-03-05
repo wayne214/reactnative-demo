@@ -290,7 +290,7 @@ class ShowESignInfoContainer extends BaseComponent {
 							<View style={ styles.saveBtn }>
 								<Text
 									style={styles.btn}
-									>保存</Text>
+									>保存设置</Text>
 							</View>
 							</TouchableOpacity>
 						</View>

@@ -184,9 +184,7 @@ class showESignInfoIndividual extends BaseComponent {
 									<View style={styles.arrowTextRight}>
 										<Text
 											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
-                        { this.state.colorMap.value ||
-
-												HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章模板' }
+                        { this.props.templateStyle != '' ? this.props.templateStyle : '请选择印章模板' }
 										</Text>
 										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
@@ -209,7 +207,7 @@ class showESignInfoIndividual extends BaseComponent {
 								<View style={styles.arrowTextRight}>
 									<Text
 										style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
-										{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }
+										{ this.props.sealColor == '' ? '请选择印章颜色' : this.props.sealColor }
 									</Text>
 									<Text style={ styles.arrowRight }>&#xe63d;</Text>
 								</View>
@@ -246,6 +244,9 @@ const mapStateToProps = state => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+      sealPersonTemplate: eSign.get('sealPersonTemplate'),
+      sealColor: eSign.get('sealColor'),
+      templateStyle: eSign.get('templateStyle'),
 	}
 }
 
