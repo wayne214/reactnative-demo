@@ -128,6 +128,7 @@ class mine extends Component {
         };
         this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
         this.certificationCallback = this.certificationCallback.bind(this);
+        this.getOwnerVerifiedCallback = this.getOwnerVerifiedCallback.bind(this);
     }
 
     componentDidMount() {
@@ -139,6 +140,41 @@ class mine extends Component {
             this.certificationState(this.certificationCallback);
         }
 
+        /*实名认证提交成功，刷新状态*/
+        this.verlistener = DeviceEventEmitter.addListener('verifiedSuccess', () => {
+            if (this.props.currentStatus == 'driver') {
+                this.verifiedState(this.getVerfiedStateSucCallback);
+            } else {
+                this.ownerVerifiedState(this.getOwnerVerifiedCallback);
+            }
+        });
+
+        /*资质认证提交成功，刷新状态*/
+        this.cerlistener = DeviceEventEmitter.addListener('certificationSuccess', () => {
+
+            this.certificationState();
+        });
+
+        /*点击我，刷新认证状态*/
+        this.mineListener = DeviceEventEmitter.addListener('refreshMine', () => {
+            if (this.props.currentStatus == 'driver') {
+                this.verifiedState(this.getVerfiedStateSucCallback);
+            } else {
+                this.ownerVerifiedState(this.getOwnerVerifiedCallback);
+            }
+        });
+
+    }
+
+    componentWillUnmount() {
+        this.mineListener.remove();
+        // this.imgPhotoListener.remove();
+        this.cerlistener.remove();
+        this.verlistener.remove();
+        // this.imglistener.remove();
+        // this.choosePhotoListener.remove();
+        // this.hideModuleListener.remove();
+        // this.imageCameralistener.remove();
     }
     certificationCallback(result) {
         console.log('certification', result);
@@ -201,6 +237,84 @@ class mine extends Component {
             }
         }
     }
+
+    getOwnerVerifiedCallback(result) {
+        this.setState({
+            verifiedState: result && result.certificationStatus,
+        });
+        // 首页状态
+        if (result.companyNature == '个人') {
+            // 确认个人车主
+            result.certificationStatus == '1201' ?
+                this.props.setOwnerCharacterAction('11')
+                : result.certificationStatus == '1202' ?
+                this.props.setOwnerCharacterAction('12') :
+                this.props.setOwnerCharacterAction('13')
+        } else {
+            // 确认企业车主
+            result.certificationStatus == '1201' ?
+                this.props.setOwnerCharacterAction('21')
+                : result.certificationStatus == '1202' ?
+                this.props.setOwnerCharacterAction('22') :
+                this.props.setOwnerCharacterAction('23')
+        }
+    }
+
+    ownerVerifiedState(callback) {
+        currentTime = new Date().getTime();
+        if (this.props.userInfo) {
+            if (this.props.userInfo.phone) {
+                this.props.ownerVerifiedState({
+                    busTel: global.phone,
+                    // companyNature: '个人'
+                }, callback);
+
+
+
+
+                HTTPRequest({
+                    url: API.API_QUERY_COMPANY_INFO,
+                    params: {
+                        busTel: global.phone,
+                        // companyNature: '个人'
+                    },
+                    loading: () => {
+
+                    },
+                    success: (responseData) => {
+                        console.log('ownerVerifiedState==', responseData.result);
+                        let result = responseData.result;
+                        this.setState({
+                            verifiedState: result && result.certificationStatus,
+                        });
+                        // 首页状态
+                        if (result.companyNature == '个人') {
+                            // 确认个人车主
+                            result.certificationStatus == '1201' ?
+                                this.props.setOwnerCharacterAction('11')
+                                : result.certificationStatus == '1202' ?
+                                this.props.setOwnerCharacterAction('12') :
+                                this.props.setOwnerCharacterAction('13')
+                        } else {
+                            // 确认企业车主
+                            result.certificationStatus == '1201' ?
+                                this.props.setOwnerCharacterAction('21')
+                                : result.certificationStatus == '1202' ?
+                                this.props.setOwnerCharacterAction('22') :
+                                this.props.setOwnerCharacterAction('23')
+                        }
+                    },
+                    error: (errorInfo) => {
+
+                    },
+                    finish: () => {
+                    }
+                });
+            }
+        }
+    }
+
+
     render() {
         return (
             <View style={styles.container}>
@@ -639,6 +753,16 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'POST',
                 api: API.API_AUTH_QUALIFICATIONS_STATUS,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        ownerVerifiedState: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_QUERY_COMPANY_INFO,
                 success: data => {
                     successCallback(data);
                 },
