@@ -47,7 +47,7 @@ class showESignInfoIndividual extends BaseComponent {
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		this._getESignInfo = this._getESignInfo.bind(this);
-		this._onPickerSelect = this._onPickerSelect.bind(this);
+		// this._onPickerSelect = this._onPickerSelect.bind(this);
 		this._editESignInfo = this._editESignInfo.bind(this);
 	}
 
@@ -110,30 +110,30 @@ class showESignInfoIndividual extends BaseComponent {
 		},this.props.navigation);
 	}
 
-	_checkedInDatas(index){
-		switch(index){
-			case 1:
-			this.setState({
-				sealTemplate: 'STAR',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
+// 	_checkedInDatas(index){
+// 		switch(index){
+// 			case 1:
+// 			this.setState({
+// 				sealTemplate: 'STAR',
+// 			});
+// 			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
+//
+// 			break;
+// 			case 2:
+// 			this.setState({
+// 				sealTemplate: 'OVAL',
+// 			});
+// 			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
+//
+// 			break;
+// 		}
+// 	}
 
-			break;
-			case 2:
-			this.setState({
-				sealTemplate: 'OVAL',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
-
-			break;
-		}
-	}
-
-	_onPickerSelect(data) {
-		if (data.type === 'esign_color_type') {
-			this.setState({ colorMap: data,visible: false });
-		}
-	}
+// 	_onPickerSelect(data) {
+// 		if (data.type === 'esign_color_type') {
+// 			this.setState({ colorMap: data,visible: false });
+// 		}
+// 	}
 
 
 	render(){
@@ -222,11 +222,11 @@ class showESignInfoIndividual extends BaseComponent {
 							</TouchableOpacity>
 						</View>
 					</ScrollView>
-					<SimplePicker
-					data={ this.state.data }
-					visible={ this.state.visible }
-					modalPress={ () => this.setState({ visible: false }) }
-					onPickerSelect={ data => this._onPickerSelect(data) } />
+					{/*<SimplePicker*/}
+					{/*data={ this.state.data }*/}
+					{/*visible={ this.state.visible }*/}
+					{/*modalPress={ () => this.setState({ visible: false }) }*/}
+					{/*onPickerSelect={ data => this._onPickerSelect(data) } />*/}
 					{ this.props.loading ? this._renderLoadingView() : null }
 					{ this._renderUpgrade(this.props) }
 			</View>
