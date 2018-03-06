@@ -106,7 +106,17 @@ const styles = StyleSheet.create({
   rightBorder: {
     borderRightWidth: 1,
     borderRightColor: '#F1F1F1'
-  }
+  },
+   selectIcon: {
+     fontFamily: 'iconfont',
+     fontSize: 23,
+     color: '#0092FF',
+   },
+    normalIcon: {
+        fontFamily: 'iconfont',
+        fontSize: 23,
+        color: '#B4B4B4',
+    }
 });
 
 export default styles;

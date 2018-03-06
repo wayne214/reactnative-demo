@@ -54,8 +54,8 @@ const initState = Immutable.fromJS({
             key: 'mine',
             badgeCount: 0,
             withStatusBar: false,
-            renderIcon: require('../../assets/img/app/icon_order_normal.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
+            renderIcon: require('../../assets/img/app/icon_mine_carry_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_mine_carry_press.png')
         },
     ],
     driverTabs: [
@@ -64,32 +64,32 @@ const initState = Immutable.fromJS({
             key: 'Home',
             badgeCount: 0,
             withStatusBar: true,
-            renderIcon: require('../../assets/img/app/icon_route.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
+            renderIcon: require('../../assets/img/app/icon_driver_home_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_driver_home_press.png')
         },
         {
             title: '货源',
             key: 'driverGoods',
             badgeCount: 0,
             withStatusBar: false,
-            renderIcon: require('../../assets/img/app/icon_goods_normal.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
+            renderIcon: require('../../assets/img/app/icon_driver_goods_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_driver_goods_press.png')
         },
         {
             title: '订单',
             key: 'driverOrder',
             badgeCount: 0,
             withStatusBar: false,
-            renderIcon: require('../../assets/img/app/icon_cy_normal.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_cy_press.png')
+            renderIcon: require('../../assets/img/app/icon_driver_order_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_driver_order_press.png')
         },
         {
             title: '我的',
             key: 'mine',
             badgeCount: 0,
             withStatusBar: false,
-            renderIcon: require('../../assets/img/app/icon_order_normal.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_order_press.png')
+            renderIcon: require('../../assets/img/app/icon_mine_normal.png'),
+            renderSelectedIcon: require('../../assets/img/app/icon_mine_press.png')
         },
     ],
     user: {},

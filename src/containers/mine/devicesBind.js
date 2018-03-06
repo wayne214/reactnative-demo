@@ -4,7 +4,8 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 
@@ -21,11 +22,18 @@ class devicesBind extends Component {
             header: <NavigatorBar router={ navigation }/>
         };
     };
+
+    unbindAlert() {
+        Alert.alert('温馨提示', '您是否确定要解除当前设备绑定', [
+            {text: '取消', onPress: () => {console.log('取消')}},
+            {text: '确定', onPress: () => {console.log('下一步')}}
+        ])
+    }
     render() {
         return <View style={styles.container}>
             <View style={styles.itemContainer}>
                 <Text style={styles.leftText}>当前设备</Text>
-                <TouchableOpacity onPress={()=> console.log('解除设备绑定')}>
+                <TouchableOpacity onPress={()=> this.unbindAlert()}>
                     <Text style={styles.rightText}>解除绑定</Text>
                 </TouchableOpacity>
             </View>
