@@ -33,7 +33,7 @@ class devicesBind extends Component {
     };
 
     unbindAlert() {
-        Alert.alert('温馨提示', '您是否确定要解除当前设备绑定', [
+        Alert.alert('', '您是否确定要解除当前设备绑定', [
             {text: '取消', onPress: () => {console.log('取消')}},
             {text: '确定', onPress: () => {this.setState({modalVisible: true})}}
         ])
