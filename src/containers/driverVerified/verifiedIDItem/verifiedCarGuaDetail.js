@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontSize: 15,
         color: '#666666',
-        flex: 2,
+        flex: 1,
     },
     touchStyle:{
         flex: 2,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         fontSize: 15,
         color: '#333333',
-        flex: 3,
+        flex: 2,
         textAlign: 'right',
     }
 });
@@ -55,10 +55,10 @@ class verifiedDriverCardItem extends Component{
 
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        车牌号
+                        车主姓名
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.carNum}
+                        李雷雷
                     </Text>
 
                 </View>
@@ -66,45 +66,83 @@ class verifiedDriverCardItem extends Component{
 
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        所有人
+                        车主电话
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.haverName}
-                    </Text>
-
-                </View>
-
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车辆识别代码(VIN)
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        1234567890
+                        15111111111
                     </Text>
 
                 </View>
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        发动机号码
+                        车辆类型
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.engineNumber}
+                        冷藏车
                     </Text>
 
                 </View>
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        有效期至
+                        车辆类别
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.driveValidity ? resultInfo.driveValidity.toString().replace(/-/g,'/') : ''}
+                        保温车
                     </Text>
 
                 </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        车型长度
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        1.5米
+                    </Text>
 
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        实载重量
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        3.0吨
+                    </Text>
+
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        实载体积
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        20立方米
+                    </Text>
+
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        运输许可证号
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        123456789
+                    </Text>
+
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        挂车牌号
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        京12344
+                    </Text>
+
+                </View>
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
@@ -113,18 +151,10 @@ class verifiedDriverCardItem extends Component{
                 </View>
                 <Line />
 
-                <ImagesItem firstName ="行驶证主页"
-                            secondName="行驶证副页"
-                            thirdName="车头照"
-                            firstImagePath={resultInfo.drivingLicenseThumbnail ?
-                            resultInfo.drivingLicenseThumbnail : resultInfo.drivingLicensePic ?
-                            resultInfo.drivingLicensePic : ''}
-                            secondImagePath={resultInfo.drivingLicenseSecondaryThumbnail ?
-                            resultInfo.drivingLicenseSecondaryThumbnail : resultInfo.drivingLicenseSecondaryPic?
-                            resultInfo.drivingLicenseSecondaryPic : ''}
-                            thirdImagePath={resultInfo.carHeadThumbnail ?
-                            resultInfo.carHeadThumbnail : resultInfo.carHeadPic ?
-                            resultInfo.carHeadPic : ''}
+                <ImagesItem firstName ="挂车行驶证"
+                            secondName="挂车营运证"
+                            firstImagePath=''
+                            secondImagePath=''
                             imageClick={(index)=>{
                                 this.imageClick(index);
                             }}/>

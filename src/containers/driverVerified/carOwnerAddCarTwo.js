@@ -582,12 +582,12 @@ class certification extends Component {
                                                 carTypeClick={()=>{
 
                                                      selectDatePickerType = 2;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
+                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carType');
                                                 }}
                                                 carTypeTwoClick={()=>{
 
                                                      selectDatePickerType = 4;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
+                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carTwoType');
                                                 }}
                                                 carLengthClick={()=>{
 

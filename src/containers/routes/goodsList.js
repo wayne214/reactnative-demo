@@ -123,6 +123,7 @@ class GoodsList extends Component {
 
                :
                <View>
+
                  <Text>123123</Text>
 
 

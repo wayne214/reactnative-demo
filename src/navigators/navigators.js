@@ -961,7 +961,9 @@ export const AppNavigator = StackNavigator({
 
     [RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE]: {
         screen: CarOwnerAddCarThree,
-        navigationOptions: {}
+        navigationOptions: {
+            header: null
+        }
     },
     [RouteType.ROUTE_ESIGN_INDIVIDUAL]: {
         screen: ShowESignInfoIndividual,

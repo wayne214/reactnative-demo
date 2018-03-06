@@ -683,7 +683,7 @@ class mine extends Component {
                 <ScrollView>
                 {
                     //this.props.currentStatus == 'driver1' ?
-                    'driver1' == 'driver' ?
+                    'driver' == 'driver' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
@@ -900,6 +900,22 @@ class mine extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
                                             }
                                         });
+
+                                }}
+                            />
+                            <SettingCell
+                                leftIconImage={aboutUsIcon}
+                                content={'增加车辆详情'}
+                                clickAction={() => {
+                                 this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL ,
+                                                    params: {
+                                                        phone: global.phone,
+                                                        plateNumber:global.plateNumber,
+                                                        qualifications: this.state.certificationState,
+
+                                                    }}
+                                                )
 
                                 }}
                             />
