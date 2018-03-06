@@ -617,67 +617,71 @@ class mine extends Component {
                         </View> : null
                     }
                 </View>
-                <View style={styles.headerView}>
-                    <View>
-                        <TouchableOpacity onPress={() => {
-                            this.setState({
-                                modalVisible: true,
-                            }, () => {
-                                DeviceEventEmitter.emit('choosePhoto');
-                            });
-                        }}>
-                            <View style={styles.iconOutView}>
-                                {
-                                    this.state.avatarSource != '' ?
-                                        <Image
-                                            resizeMode='stretch'
-                                            style={styles.driverIcon}
-                                            source={this.state.avatarSource}
-                                        />
-                                        :
-                                        <Image
-                                            resizeMode='stretch'
-                                            style={styles.driverIcon}
-                                            source={LoginAvatar}
-                                        />
-                                }
+                    <TouchableOpacity onPress={()=> this.props.currentStatus == 'driver' ? console.log('外部区域') :
+                        this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})}
+                                      activeOpacity={1}>
+                        <View style={styles.headerView}>
+                            <View>
+                                <TouchableOpacity onPress={() => {
+                                    this.setState({
+                                        modalVisible: true,
+                                    }, () => {
+                                        DeviceEventEmitter.emit('choosePhoto');
+                                    });
+                                }}>
+                                    <View style={styles.iconOutView}>
+                                        {
+                                            this.state.avatarSource != '' ?
+                                                <Image
+                                                    resizeMode='stretch'
+                                                    style={styles.driverIcon}
+                                                    source={this.state.avatarSource}
+                                                />
+                                                :
+                                                <Image
+                                                    resizeMode='stretch'
+                                                    style={styles.driverIcon}
+                                                    source={LoginAvatar}
+                                                />
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                                <View style={styles.editContainer}>
+                                    <Text style={{fontFamily: 'iconfont', color: '#FFFFFF', fontSize: 15}}>&#xe641;</Text>
+                                </View>
                             </View>
-                        </TouchableOpacity>
-                        <View style={styles.editContainer}>
-                            <Text style={{fontFamily: 'iconfont', color: '#FFFFFF', fontSize: 15}}>&#xe641;</Text>
-                        </View>
-                    </View>
-                    {
-                        this.props.currentStatus == 'driver' ?
-                            <View style={{alignItems: 'center'}}>
-                                <Text
-                                    style={{
-                                        fontWeight: 'bold',
+                            {
+                                this.props.currentStatus == 'driver' ?
+                                    <View style={{alignItems: 'center'}}>
+                                        <Text
+                                            style={{
+                                                fontWeight: 'bold',
+                                                color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
+                                                fontSize: 18,
+                                                backgroundColor: 'transparent',
+                                            }}
+                                        >{'李雷雷'}</Text>
+                                        <Text
+                                            style={{
+                                                marginTop: 5,
+                                                marginBottom: 10,
+                                                backgroundColor: 'transparent',
+                                                color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
+                                                fontSize: 13
+                                            }}>
+                                            {'京A23456'}
+                                        </Text>
+                                    </View> : <Text style={{
+                                        marginTop: 10,
+                                        marginBottom: 20,
+                                        backgroundColor: 'transparent',
                                         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
-                                        fontSize: 18,
-                                        backgroundColor: 'transparent',
-                                    }}
-                                >{'李雷雷'}</Text>
-                                <Text
-                                    style={{
-                                        marginTop: 5,
-                                        marginBottom: 10,
-                                        backgroundColor: 'transparent',
-                                        color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
-                                        fontSize: 13
-                                    }}>
-                                    {'京A23456'}
-                                </Text>
-                            </View> : <Text style={{
-                                marginTop: 10,
-                                marginBottom: 20,
-                                backgroundColor: 'transparent',
-                                color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
-                                fontSize: 17
-                            }}>{Validator.newPhone('13321218414')}</Text>
-                    }
+                                        fontSize: 17
+                                    }}>{Validator.newPhone('13321218414')}</Text>
+                            }
 
-                </View>
+                        </View>
+                    </TouchableOpacity>
                 </ImageBackground>
                 <View style={styles.separateView}/>
                 <ScrollView>

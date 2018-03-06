@@ -85,32 +85,43 @@ class UserInfoContainer extends BaseComponent {
 		}
 		return (
 			<View style={ styles.container }>
-				<View style={ styles.topContainer }>
-					{
-						(() => {
-							if (user.currentUserRole === 1 && user.carrierType === 1) {
-								return (<Image style={ styles.userIcon } source={ CompanyIcon }/>);
-							} else if (user.currentUserRole === 1 && user.carrierType === 2) {
-								return (<Image style={ styles.userIcon } source={ GeCompanyIcon }/>);
-							} else if (user.currentUserRole === 2) {
-								return (<Image style={ styles.userIcon } source={ UserIcon }/>)
-							} else if (user.currentUserRole === 1) {
-								return (<Image style={ styles.userIcon } source={ CompanyIcon }/>)
-							}
-						})()
-					}
-					<View style={ styles.userInfoContainer }>
-					{
-						(() => {
-							if(user.certificationStatus === 2 || user.currentUserRole === 2){
-								return(<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>)
-							}else{
-								return(<Text style={ styles.firstLevelText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>)
-							}
-						})()
-					}
+				{/*<View style={ styles.topContainer }>*/}
+					{/*{*/}
+						{/*(() => {*/}
+							{/*if (user.currentUserRole === 1 && user.carrierType === 1) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ CompanyIcon }/>);*/}
+							{/*} else if (user.currentUserRole === 1 && user.carrierType === 2) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ GeCompanyIcon }/>);*/}
+							{/*} else if (user.currentUserRole === 2) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ UserIcon }/>)*/}
+							{/*} else if (user.currentUserRole === 1) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ CompanyIcon }/>)*/}
+							{/*}*/}
+						{/*})()*/}
+					{/*}*/}
+					{/*<View style={ styles.userInfoContainer }>*/}
+					{/*{*/}
+						{/*(() => {*/}
+							{/*if(user.certificationStatus === 2 || user.currentUserRole === 2){*/}
+								{/*return(<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>)*/}
+							{/*}else{*/}
+								{/*return(<Text style={ styles.firstLevelText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>)*/}
+							{/*}*/}
+						{/*})()*/}
+					{/*}*/}
+					{/*</View>*/}
+				{/*</View>*/}
+				<TouchableHighlight
+					underlayColor='#e6eaf2'>
+					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
+						<View style={ styles.cell }>
+							<Text style={ styles.leftText }>公司名称</Text>
+						</View>
+						<View style={ styles.rightCell }>
+							<Text style={ styles.rightText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>
+						</View>
 					</View>
-				</View>
+				</TouchableHighlight>
 
 				<TouchableHighlight
 					underlayColor='#e6eaf2'>
@@ -148,23 +159,23 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.leftText }>修改登录密码</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.iconFont }>&#xe60d;</Text>
+							<Text style={ styles.iconFont }>&#xe63d;</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
 
-				<TouchableHighlight
-					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>
-					<View style={ styles.cellContainer }>
-						<View style={ styles.cell }>
-							<Text style={ styles.leftText }>银行账户管理</Text>
-						</View>
-						<View style={ styles.rightCell }>
-							<Text style={ styles.iconFont }>&#xe60d;</Text>
-						</View>
-					</View>
-				</TouchableHighlight>
+				{/*<TouchableHighlight*/}
+					{/*underlayColor='#e6eaf2'*/}
+					 {/*onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>*/}
+					{/*<View style={ styles.cellContainer }>*/}
+						{/*<View style={ styles.cell }>*/}
+							{/*<Text style={ styles.leftText }>银行账户管理</Text>*/}
+						{/*</View>*/}
+						{/*<View style={ styles.rightCell }>*/}
+							{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+						{/*</View>*/}
+					{/*</View>*/}
+				{/*</TouchableHighlight>*/}
 				{ this._renderUpgrade(this.props) }
 			</View>
 		);
