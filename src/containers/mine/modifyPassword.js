@@ -99,7 +99,7 @@ class ModifyPassword extends React.Component {
         const {state, setParams} = navigation
         return {
             tabBarLabel: '修改密码',
-            header: <NavigatorBar title='忘记密码' hiddenBackIcon={false} router={navigation}/>,
+            header: <NavigatorBar title='修改密码' hiddenBackIcon={false} router={navigation}/>,
         }
     };
     getSecretCodeCallback(result) {

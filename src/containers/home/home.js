@@ -68,6 +68,7 @@ import {
     REFRESH_COLOR,
 } from '../../constants/colors';
 import * as RouteType from "../../constants/routeType";
+import * as API from '../../constants/api';
 
 const images = [
     bannerImage1,
