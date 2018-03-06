@@ -67,22 +67,35 @@ class UserInfoContainer extends BaseComponent {
 			lastName = name[name.length - 1];
 		}
 		let authStatusText;
-		let textColor;
-		if (user.currentUserRole === 1) {
-			if (!user.carrierType || user.certificationStatus === 0) {
-				textColor = '#17A9DF';
-				authStatusText = '未认证';
-			} else if (user.certificationStatus === 1) {
-				textColor = '#FFAC1B';
-				authStatusText = '认证中';
-			} else if (user.certificationStatus === 2) {
-				textColor = '#1AB036';
-				authStatusText = '已认证';
-			} else if (user.certificationStatus === 3) {
-				textColor = '#EA574C';
-				authStatusText = '认证未通过';
+		// let textColor;
+		// if (user.currentUserRole === 1) {
+		// 	if (!user.carrierType || user.certificationStatus === 0) {
+		// 		textColor = '#17A9DF';
+		// 		authStatusText = '未认证';
+		// 	} else if (user.certificationStatus === 1) {
+		// 		textColor = '#FFAC1B';
+		// 		authStatusText = '认证中';
+		// 	} else if (user.certificationStatus === 2) {
+		// 		textColor = '#1AB036';
+		// 		authStatusText = '已认证';
+		// 	} else if (user.certificationStatus === 3) {
+		// 		textColor = '#EA574C';
+		// 		authStatusText = '认证未通过';
+		// 	}
+		// }
+
+			if(this.props.ownerStatus == 11 || this.props.ownerStatus == 21) {
+          authStatusText = '认证中'
+			} else if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
+          authStatusText = '已认证'
+			} else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 13) {
+          authStatusText = '认证驳回'
+			} else if (this.props.ownerStatus == 14 || this.props.ownerStatus == 24) {
+          authStatusText = '被禁用'
+			} else {
+          authStatusText = '未认证'
 			}
-		}
+
 		return (
 			<View style={ styles.container }>
 				{/*<View style={ styles.topContainer }>*/}
@@ -118,7 +131,7 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.leftText }>公司名称</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.rightText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>
+							<Text style={ styles.rightText }>{ this.props.ownerName ? this.props.ownerName : '' }</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
@@ -136,7 +149,7 @@ class UserInfoContainer extends BaseComponent {
 				</TouchableHighlight>
 
 				{
-					this.props.user.currentUserRole === 1 &&
+					true &&
 						<TouchableHighlight
 							underlayColor='#e6eaf2'
 							onPress={ this._authOrInfo }>
@@ -145,7 +158,7 @@ class UserInfoContainer extends BaseComponent {
 									<Text style={ styles.leftText }>认证信息</Text>
 								</View>
 								<View style={ styles.rightCell }>
-									<Text style={ [styles.authText, { color: textColor }] }>{ authStatusText }</Text>
+									<Text style={ [styles.authText, { color: '#999999' }] }>{ authStatusText }</Text>
 								</View>
 							</View>
 						</TouchableHighlight>
@@ -153,7 +166,10 @@ class UserInfoContainer extends BaseComponent {
 
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}}) }>
+					 onPress={ () =>
+							 // this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}})
+               this.props.navigation.dispatch({ type: RouteType.ROUTE_MODIFY_PWD })
+					 }>
 					<View style={ styles.cellContainer }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>修改登录密码</Text>
@@ -189,6 +205,8 @@ function mapStateToProps(state) {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+      ownerStatus: state.user.get('ownerStatus'),
+      ownerName: state.user.get('ownerName'),
 	};
 }
 function mapDispatchToProps(dispatch) {

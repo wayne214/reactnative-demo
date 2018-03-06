@@ -628,7 +628,7 @@ class mine extends Component {
                                     }, () => {
                                         DeviceEventEmitter.emit('choosePhoto');
                                     });
-                                }}>
+                                }} activeOpacity={0.75}>
                                     <View style={styles.iconOutView}>
                                         {
                                             this.state.avatarSource != '' ?
