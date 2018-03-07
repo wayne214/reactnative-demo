@@ -21,11 +21,14 @@ export default function nav(state = initialNavState, action) {
     } else {
       // this.props.navigation.dispatch({ type: 'pop', key: 'Second' })
       let currentKeyIndex
+        console.log('routes=',state.routes);
       state.routes.forEach((item, index) => {
+        console.log('item=',item);
         if (item.routeName === action.key) {
           currentKeyIndex = index
         }
       })
+        console.log('****************',state.routes[currentKeyIndex + 1])
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.back({
           key: state.routes[currentKeyIndex + 1].key

@@ -58,8 +58,6 @@ class signPage extends Component {
         this.getSignInSuccessCallBack = this.getSignInSuccessCallBack.bind(this);
         this.getSignInFailCallBack = this.getSignInFailCallBack.bind(this);
         this.deleteComponent = this.deleteComponent.bind(this);
-        this.goBackForward = this.goBackForward.bind(this);
-
     }
 
     componentDidMount() {
@@ -179,16 +177,9 @@ class signPage extends Component {
                 }
             });
         }else {
-            // DeviceEventEmitter.emit('changeToWaitSign');
-            // this.goBackForward();
+            this.props._refreshOrderList(2);
+            this.props.navigation.dispatch({type: 'pop', key: 'Main'});
         }
-    }
-
-    //返回前两个界面
-    goBackForward() {
-        const routes = this.props.routes;
-        let key = routes[routes.length - 2].key;
-        this.props.navigation.goBack(key);
     }
 
     // 获取数据失败回调

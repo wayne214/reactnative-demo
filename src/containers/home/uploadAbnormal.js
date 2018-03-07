@@ -160,7 +160,7 @@ class uploadAbnormal extends Component {
         }, () => {
             Toast.showShortCenter('道路异常提交成功!');
             this.props.dispatch(updateImages());
-            this.props.navigation.goBack();
+            this.props.navigation.dispatch({type: 'pop'});
         })
     }
     // 提交道路异常

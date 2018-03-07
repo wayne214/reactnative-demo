@@ -20,6 +20,7 @@ import * as API from '../../constants/api';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 import gps from '../../../assets/img/scan/gps.png'
 import Rectangle from '../../../assets/img/scan/Rectangle.png'
@@ -83,8 +84,8 @@ class bindGPS extends Component {
         }, (responseData) => {
             if(responseData.result){
                 Toast.showShortCenter('绑定成功');
-                // this.props.navigation.goBack();
-                // DeviceEventEmitter.emit('refreshShippedDetails');
+                this.props._refreshOrderList(1);
+                this.props.navigation.dispatch({type: 'pop', key: 'Main'});
             } else {
                 Toast.showShortCenter('绑定失败');
             }
@@ -201,6 +202,9 @@ function mapDispatchToProps (dispatch){
                     console.log('???', error)
                 }
             }));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }

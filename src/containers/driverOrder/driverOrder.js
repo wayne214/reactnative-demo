@@ -4,7 +4,7 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList,
+    DeviceEventEmitter,
 } from 'react-native';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import NavigationBar from '../../components/common/navigatorbar';
@@ -52,6 +52,35 @@ class driverOrder extends Component {
 
     componentDidMount() {
         this._refreshList(0);
+    }
+
+    componentWillReceiveProps(props) {
+        const { allListData, shipListData, signListData, receiptListData } = this.props;
+        if(props){
+            switch(this.state.tabIndex){
+                case 0:
+                    if (allListData.toJS().isRefreshing){
+                        this._refreshList(0);
+                    }
+                    break;
+                case 1:
+                    if (shipListData.toJS().isRefreshing){
+                        this._refreshList(1);
+                    }
+                    break;
+                case 2:
+                    if (signListData.toJS().isRefreshing){
+                        this._refreshList(2);
+                    }
+                    break;
+                case 3:
+                    if (receiptListData.toJS().isRefreshing){
+                        this._refreshList(3);
+                    }
+                    break;
+            }
+        }
+
     }
 
     // 获取当前位置
