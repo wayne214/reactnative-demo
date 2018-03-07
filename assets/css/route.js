@@ -209,25 +209,25 @@ export default StyleSheet.create({
 	backView: {
 		marginLeft: 8,
 		backgroundColor: '#F5F5F5',
-		width: 50,
-		height: 15,
+		width: 80,
+		height: 34,
 		justifyContent: 'center',
 		alignItems: 'center',
 	}, 
 	selectedBackView:{
 		marginLeft: 8,
 		backgroundColor: '#18A9DF',
-		width: 50,
-		height: 15,
+		width: 80,
+		height: 34,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	mText:{
-		fontSize: 12,
+		fontSize: 14,
 		color: '#333333'
 	},
 	selectedMText:{
-		fontSize: 12,
+		fontSize: 14,
 		color:'#FFFFFF'
 	},
 	fromToImage:{

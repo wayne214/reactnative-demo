@@ -164,6 +164,9 @@ import ESignTemplateColor from '../containers/user/eSignTemplateColor';
 import SetHorizontalTextScreen from '../containers/user/setHorizontalText';
 import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
 
+import MessageListScreen from '../containers/mine/msgList';
+import DevicesUnBindSuccScreen from '../containers/mine/devicesUnBindSucc';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -1001,6 +1004,20 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
             // title: '下弦文'
             header: null
+        }
+    },
+    [RouteType.ROUTE_MESSAGE_LIST_PAGE]: {
+        screen: MessageListScreen,
+        navigationOptions: {
+            // title: '司机-消息列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DEVICES_UNBIND_SUCC]: {
+        screen: DevicesUnBindSuccScreen,
+        navigationOptions: {
+            // title: '设备解绑成功'
+            // header: null
         }
     },
 }, {

@@ -271,3 +271,8 @@ export const ROUTE_ESIGN_TEMPLATE_COLOR = 'ROUTE_ESIGN_TEMPLATE_COLOR';
 export const ROUTE_ESIGN_HORIZONTAL_TEXT = 'ROUTE_ESIGN_HORIZONTAL_TEXT';
 // 下弦文
 export const ROUTE_ESIGN_LAST_QUARTER_TEXT = 'ROUTE_ESIGN_LAST_QUARTER_TEXT';
+/************************** 电子签章 end ******************************/
+// 司机-消息列表
+export const ROUTE_MESSAGE_LIST_PAGE = 'ROUTE_MESSAGE_LIST_PAGE';
+// 设备解绑成功
+export const ROUTE_DEVICES_UNBIND_SUCC = 'ROUTE_DEVICES_UNBIND_SUCC';
