@@ -164,6 +164,8 @@ import ESignTemplateColor from '../containers/user/eSignTemplateColor';
 import SetHorizontalTextScreen from '../containers/user/setHorizontalText';
 import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
 
+import MessageListScreen from '../containers/mine/msgList';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -998,6 +1000,13 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT]: {
         screen: SetLastQuarterTextScreen,
+        navigationOptions: {
+            // title: '下弦文'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MESSAGE_LIST_PAGE]: {
+        screen: MessageListScreen,
         navigationOptions: {
             // title: '下弦文'
             header: null

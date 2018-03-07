@@ -613,7 +613,11 @@ class mine extends Component {
                             }}>
                                 <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
                             </TouchableOpacity>
-                            <Text style={{fontFamily: 'iconfont', fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>&#xe640;</Text>
+                            <TouchableOpacity onPress={() => {
+                                this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
+                            }}>
+                                <Text style={{fontFamily: 'iconfont', fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>&#xe640;</Text>
+                            </TouchableOpacity>
                         </View> : null
                     }
                 </View>
