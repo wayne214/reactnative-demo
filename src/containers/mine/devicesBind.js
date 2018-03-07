@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import Validator from '../../utils/validator';
-import Toast from '../../utils/toast';
+import * as RouteType from '../../constants/routeType';
 
 class devicesBind extends Component {
     constructor(props) {
@@ -44,6 +44,8 @@ class devicesBind extends Component {
             modalVisible: false
         })
         // TODO 请求接口解除设备绑定
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_DEVICES_UNBIND_SUCC})
+
     }
     render() {
         return <View style={styles.container}>
