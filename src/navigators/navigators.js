@@ -1008,7 +1008,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_MESSAGE_LIST_PAGE]: {
         screen: MessageListScreen,
         navigationOptions: {
-            // title: '下弦文'
+            // title: '司机-消息列表'
             header: null
         }
     },
