@@ -33,10 +33,10 @@ class goodlistdetailMutilAddress extends Component{
                             {
                                 this.props.address.map((item,index)=>{
                                     return(
-                                        <View style={{marginTop: 7}}>
+                                        <View style={{marginTop: 5}}>
                                             <View style={{borderRadius: 4,borderWidth: 2, borderColor: '#0092FF',width: 8,height: 8}}/>
                                             {
-                                                index === this.props.address.length - 1 ? null : <View style={{marginLeft: 3,marginTop: 2,width: 2, height: itemHeight - 8 - 7 - 2, backgroundColor: '#AFDDFF'}}/>
+                                                index === this.props.address.length - 1 ? null : <View style={{marginLeft: 3,marginTop: 2,width: 2, height: itemHeight - 8 - 5 - 2, backgroundColor: '#AFDDFF'}}/>
                                             }
                                         </View>
                                     )
@@ -47,7 +47,7 @@ class goodlistdetailMutilAddress extends Component{
                             {
                                 this.props.address.map((item,index)=>{
                                     return(
-                                        <Text style={{height: itemHeight,marginLeft: 5,color: '#999',fontSize: 17}}>D{index + 1}</Text>
+                                        <Text style={{height: itemHeight,marginLeft: 5,color: '#999'}}>D{index + 1}</Text>
 
                                     )
                                 })
@@ -58,7 +58,7 @@ class goodlistdetailMutilAddress extends Component{
                             {
                                 this.props.address.map((item,index)=>{
                                     return(
-                                        <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10, fontSize: 17,color: '#666'}}>
+                                        <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#666'}}>
                                             {item}
                                         </Text>
 

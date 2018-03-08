@@ -7,6 +7,7 @@ import {
     ImageBackground,
     ScrollView,
     Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -15,6 +16,8 @@ import AddressItem from '../../components/routes/goodlistAddressItem';
 import ItemTop from '../../components/routes/goodlistdetailTopItem';
 import MutilAddress from '../../components/routes/goodlistdetailMutilAddress';
 import GoodsDetail from '../../components/routes/goodlistdetailgoodDetail';
+import GoodsDetailTime from '../../components/routes/goodlistdetailsetTimeItem';
+import GoodsDetailMoney from '../../components/routes/goodlistdetailMoneyItem';
 
 class goodListDetail extends Component {
     constructor(props) {
@@ -41,6 +44,12 @@ class goodListDetail extends Component {
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
                         <GoodsDetail/>
                     </View>
+                    <GoodsDetailTime/>
+                    <GoodsDetailMoney/>
+
+                    <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}>
+                        <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
+                    </TouchableOpacity>
                 </ScrollView>
 
             </View>
