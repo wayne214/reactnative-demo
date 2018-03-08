@@ -125,6 +125,61 @@ class GoodsInfo extends Component{
 						<Text style={styles.goodsDetailMark}>货物详情：</Text>
 						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
 					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>货物信息：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>货物名称：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>货物规格：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>货物单位：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>应收：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>发运：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>签收：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>拒签：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
+					<View style={styles.goodsDetailItem}>
+						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
+						<Text style={styles.goodsDetailMark}>拒签原因：</Text>
+						<Text style={styles.goodsDetailContent}>{`有${configData.goodsNameStr}${configData.goodsSKU}，求${configData.carLength}冷藏车`}</Text>
+					</View>
+
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsInfoIcon}>&#xe627;</Text>
 						<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>
@@ -135,7 +190,7 @@ class GoodsInfo extends Component{
 						configData.arrivalDate ?
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsInfoIcon}>&#xe628;</Text>
-								<Text style={styles.goodsDetailMark}>到货时间：</Text>
+								<Text style={styles.goodsDetailMark}>送达时间：</Text>
 								<Text style={styles.goodsDetailContent}>{configData.arrivalDate}</Text>
 							</View>
 						: null
@@ -145,11 +200,11 @@ class GoodsInfo extends Component{
 						<Text style={styles.goodsDetailMark}>温度要求：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.temperatureStr}</Text>
 					</View>
-					<View style={styles.goodsDetailItem}>
-						<Text style={[styles.goodsInfoIcon,{alignSelf:'flex-start'}]}>&#xe626;</Text>
-						<Text style={[styles.goodsDetailMark,{alignSelf:'flex-start'}]}>备注：</Text>
-						<Text style={[styles.goodsDetailContent,{marginLeft: 30}]}>{configData.remark}</Text>
-					</View>
+					{/*<View style={styles.goodsDetailItem}>*/}
+						{/*<Text style={[styles.goodsInfoIcon,{alignSelf:'flex-start'}]}>&#xe626;</Text>*/}
+						{/*<Text style={[styles.goodsDetailMark,{alignSelf:'flex-start'}]}>备注：</Text>*/}
+						{/*<Text style={[styles.goodsDetailContent,{marginLeft: 30}]}>{configData.remark}</Text>*/}
+					{/*</View>*/}
 				</View>
 			</View>
 		)
