@@ -20,7 +20,7 @@ import NavigationBar from '../../components/common/navigatorbar';
 import EmptyView from '../../components/common/emptyView';
 import receiptSuccess from '../../../assets/img/driverOrder/receipt_success.png';
 import * as RouteType from '../../constants/routeType';
-
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 const styles = StyleSheet.create({
     container: {
@@ -93,11 +93,12 @@ class signSuccess extends Component {
                       title={'签收'}
                       router={navigator}
                       backViewClick={() => {
+                          this.props._refreshOrderList(0);
+                          this.props._refreshOrderList(2);
                           navigator.dispatch({
                               type: 'pop',
                               key: 'Main'
                           })
-                          //     DeviceEventEmitter.emit('changeToWaitSign');
                       }}
                   />
                   <View style={{flex:1}}>
@@ -120,6 +121,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        dispatch,
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        }
+    };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(signSuccess);

@@ -17,6 +17,7 @@ import * as StaticColor from '../../constants/colors';
 import * as API from '../../constants/api';
 import Toast from '@remobile/react-native-toast';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 class gpsDetails extends Component {
     constructor(props) {
@@ -54,8 +55,8 @@ class gpsDetails extends Component {
         }, (responseData) => {
             if(responseData.result){
                 Toast.showShortCenter('解除绑定成功');
+                this.props._refreshOrderList(1);
                 this.props.navigation.dispatch({ type: 'pop' })
-                // DeviceEventEmitter.emit('refreshShippedDetails');
             }else {
                 Toast.showShortCenter('解除绑定失败');
             }
@@ -131,6 +132,9 @@ function mapDispatchToProps (dispatch){
                     console.log('???', error)
                 }
             }));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }

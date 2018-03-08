@@ -29,6 +29,7 @@ import * as ConstValue from '../../constants/constValue';
 import * as RouteType from '../../constants/routeType';
 import Toast from '@remobile/react-native-toast';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 import inputNum from '../../../assets/img/scan/inputNum.png'
 import light from '../../../assets/img/scan/light.png'
@@ -173,8 +174,8 @@ class scanGPS extends Component {
         }, (responseData) => {
             if(responseData.result){
                 Toast.showShortCenter('绑定成功');
-                this.props.navigation.goBack();
-                // DeviceEventEmitter.emit('refreshShippedDetails');
+                this.props._refreshOrderList(1);
+                this.props.navigation.dispatch({type: 'pop'});
             } else {
                 Toast.showShortCenter('绑定失败');
             }
@@ -528,6 +529,9 @@ function mapDispatchToProps (dispatch) {
                     console.log('???', error)
                 }
             }));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }

@@ -27,6 +27,7 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 import * as RouteType from '../../constants/routeType';
 import EmptyView from '../../components/common/emptyView';
 
@@ -97,7 +98,6 @@ class entryToBeShipped extends Component {
 
         this.jumpAddressPage = this.jumpAddressPage.bind(this);
         this.cancelOrder = this.cancelOrder.bind(this);
-        this.popToTop = this.popToTop.bind(this);
 
         this.isShowEmptyView = this.isShowEmptyView.bind(this);
         this.emptyView = this.emptyView.bind(this);
@@ -271,10 +271,9 @@ class entryToBeShipped extends Component {
         ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待发运订单详情页面');
         Toast.showShortCenter('发运成功!');
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
 
-        // if (this.props.navigation.state.params.successCallBack) {
-        //     this.props.navigation.state.params.successCallBack();
-        // }
         // // 发运成功后，更新货源偏好出发城市
         // this.resetCityAction(true);
         // DeviceEventEmitter.emit('resetCityLIST');
@@ -292,11 +291,9 @@ class entryToBeShipped extends Component {
         ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待发运订单详情页面');
         Toast.showShortCenter('取消成功!');
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
 
-        // if (this.props.navigation.state.params.successCallBack) {
-        //     this.props.navigation.state.params.successCallBack();
-        // }
-        // 返回top
         // 取消接单后，刷新货源列表
         // DeviceEventEmitter.emit('resetGood');
         this.props.navigation.dispatch({type: 'pop'});
@@ -310,12 +307,6 @@ class entryToBeShipped extends Component {
     // resetCityAction(data) {
     //     this.props.resetCityListAction(data);
     // }
-    // 返回到根界面
-    popToTop() {
-        const routes = this.props.routes;
-        let key = routes[1].key;
-        this.props.navigation.goBack(key);
-    }
 
     jumpAddressPage(index, type, item) {
         let typeString = '';
@@ -508,9 +499,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { 1 === 1 ? dispatchView : uploadODOView }
+                    { 1 === 2 ? dispatchView : uploadODOView }
                 </ScrollView>
-                { 1 === 1 ? bottomView : null }
+                { 1 === 2 ? bottomView : null }
             </View>
         );
     }
@@ -588,6 +579,9 @@ function mapDispatchToProps(dispatch) {
                     failCallBack && failCallBack()
                 }
             }))
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }
