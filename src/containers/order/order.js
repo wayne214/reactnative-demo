@@ -380,7 +380,7 @@ class OrderList extends BaseComponent {
             <OrderListItem
               refreshList={this._refreshList}
               {...this.props}
-              tabLabel={'装货'}
+              tabLabel={'装车'}
               dataSource={orderToInstall}
               loadMoreAction={()=>{
                 this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToInstall.get('pageNo')) + 1)

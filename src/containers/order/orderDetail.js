@@ -164,27 +164,45 @@ class OrderDetail extends BaseComponent {
 						}
 						<View style={{height: 5,backgroundColor: 'white'}}/>
 						<GoodsInfo configData={orderDetail.goodsInfoData}/>
-						<FoldView title={'收发货人信息'} openHeight={floderItemCount * 44} renderContent={()=>{
+						<FoldView title={'发货方信息'} openHeight={2 * 44} renderContent={()=>{
+                return (
+									<View>
+										<View style={styles.flodItem}>
+											<Text>发货方:</Text>
+                        {
+                            orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲
+															<Text>冷链马甲</Text>
+                                : <Text>{orderDetail.shipper}</Text>
+                        }
+										</View>
+										<View style={styles.flodItem}>
+											<Text>联系电话:</Text>
+											<Text>{orderDetail.shipperPhone}</Text>
+										</View>
+									</View>
+                )
+            }}/>
+						<FoldView title={'收货方信息'} openHeight={floderItemCount * 44} renderContent={()=>{
 							return (
 								<View>
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>发货人:</Text>*/}
+										{/*{*/}
+											{/*orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲*/}
+												{/*<Text>冷链马甲</Text>*/}
+											{/*: <Text>{orderDetail.shipper}</Text>*/}
+										{/*}*/}
+									{/*</View>*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>发货人电话:</Text>*/}
+										{/*<Text>{orderDetail.shipperPhone}</Text>*/}
+									{/*</View>*/}
 									<View style={styles.flodItem}>
-										<Text>发货人:</Text>
-										{
-											orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲
-												<Text>冷链马甲</Text>
-											: <Text>{orderDetail.shipper}</Text>
-										}
-									</View>
-									<View style={styles.flodItem}>
-										<Text>发货人电话:</Text>
-										<Text>{orderDetail.shipperPhone}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>收货人:</Text>
+										<Text>收货方:</Text>
 										<Text>{orderDetail.receiver}</Text>
 									</View>
 									<View style={styles.flodItem}>
-										<Text>收货人电话:</Text>
+										<Text>联系电话:</Text>
 										<Text>{orderDetail.receiverPhone}</Text>
 									</View>
 									{
@@ -544,26 +562,24 @@ class OrderDetail extends BaseComponent {
 											}
 										]}/>
 									}else if ([12,17].includes(orderDetail.orderState)) {
-										return <ButtonView dataSource={[
-											{
-												title: '查看结算单',
-												callBack: ()=>{
-													console.log(" ===== title: '查看结算单', ");
-													if(this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL){
-													// if (this.props.router.getLastCurrentRouteKey() == 'BILL_DETAIL_PAGE') {
-														this.props.navigation.dispatch({type: 'pop'})
-													}else{
-														this.props.navigation.dispatch({
-															type: RouteType.ROUTE_BILL_DETAIL,
-															params: {
-																orderNo: orderDetail.orderNo
-															}
-														})
-													}
-
-												}
-											}
-										]}/>
+											return <ButtonView dataSource={[
+													{
+														title: '查看结算单',
+														callBack: ()=> {
+                                console.log(" ===== title: '查看结算单', ");
+                                if (this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL) {
+                                    this.props.navigation.dispatch({type: 'pop'})
+                                } else {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_BILL_DETAIL,
+                                        params: {
+                                            orderNo: orderDetail.orderNo
+                                        }
+                                    })
+                                }
+                            }
+                          }
+											]} />
 									}else{
 										// 除了以上所有orderState   所有consultState == 3 的都显示协调结果
 										if(orderDetail.consultState == 3){
