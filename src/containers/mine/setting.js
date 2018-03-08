@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     DeviceEventEmitter,
     NativeAppEventEmitter,
+    Platform
 } from 'react-native';
 import {fetchData} from "../../action/app";
 import Storage from '../../utils/storage';
@@ -27,7 +28,6 @@ import JPushModule from 'jpush-react-native';
 import { NavigationActions } from 'react-navigation';
 // import {ImageCache} from "react-native-img-cache";
 import * as StaticColor from '../../constants/colors';
-
 
 let currentTime = 0;
 let lastTime = 0;

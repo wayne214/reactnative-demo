@@ -544,26 +544,24 @@ class OrderDetail extends BaseComponent {
 											}
 										]}/>
 									}else if ([12,17].includes(orderDetail.orderState)) {
-										return <ButtonView dataSource={[
-											{
-												title: '查看结算单',
-												callBack: ()=>{
-													console.log(" ===== title: '查看结算单', ");
-													if(this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL){
-													// if (this.props.router.getLastCurrentRouteKey() == 'BILL_DETAIL_PAGE') {
-														this.props.navigation.dispatch({type: 'pop'})
-													}else{
-														this.props.navigation.dispatch({
-															type: RouteType.ROUTE_BILL_DETAIL,
-															params: {
-																orderNo: orderDetail.orderNo
-															}
-														})
-													}
-
-												}
-											}
-										]}/>
+											return <ButtonView dataSource={[
+													{
+														title: '查看结算单',
+														callBack: ()=> {
+                                console.log(" ===== title: '查看结算单', ");
+                                if (this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL) {
+                                    this.props.navigation.dispatch({type: 'pop'})
+                                } else {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_BILL_DETAIL,
+                                        params: {
+                                            orderNo: orderDetail.orderNo
+                                        }
+                                    })
+                                }
+                            }
+                          }
+											]} />
 									}else{
 										// 除了以上所有orderState   所有consultState == 3 的都显示协调结果
 										if(orderDetail.consultState == 3){
