@@ -164,27 +164,45 @@ class OrderDetail extends BaseComponent {
 						}
 						<View style={{height: 5,backgroundColor: 'white'}}/>
 						<GoodsInfo configData={orderDetail.goodsInfoData}/>
-						<FoldView title={'收发货人信息'} openHeight={floderItemCount * 44} renderContent={()=>{
+						<FoldView title={'发货方信息'} openHeight={2 * 44} renderContent={()=>{
+                return (
+									<View>
+										<View style={styles.flodItem}>
+											<Text>发货方:</Text>
+                        {
+                            orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲
+															<Text>冷链马甲</Text>
+                                : <Text>{orderDetail.shipper}</Text>
+                        }
+										</View>
+										<View style={styles.flodItem}>
+											<Text>联系电话:</Text>
+											<Text>{orderDetail.shipperPhone}</Text>
+										</View>
+									</View>
+                )
+            }}/>
+						<FoldView title={'收货方信息'} openHeight={floderItemCount * 44} renderContent={()=>{
 							return (
 								<View>
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>发货人:</Text>*/}
+										{/*{*/}
+											{/*orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲*/}
+												{/*<Text>冷链马甲</Text>*/}
+											{/*: <Text>{orderDetail.shipper}</Text>*/}
+										{/*}*/}
+									{/*</View>*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>发货人电话:</Text>*/}
+										{/*<Text>{orderDetail.shipperPhone}</Text>*/}
+									{/*</View>*/}
 									<View style={styles.flodItem}>
-										<Text>发货人:</Text>
-										{
-											orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲
-												<Text>冷链马甲</Text>
-											: <Text>{orderDetail.shipper}</Text>
-										}
-									</View>
-									<View style={styles.flodItem}>
-										<Text>发货人电话:</Text>
-										<Text>{orderDetail.shipperPhone}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>收货人:</Text>
+										<Text>收货方:</Text>
 										<Text>{orderDetail.receiver}</Text>
 									</View>
 									<View style={styles.flodItem}>
-										<Text>收货人电话:</Text>
+										<Text>联系电话:</Text>
 										<Text>{orderDetail.receiverPhone}</Text>
 									</View>
 									{
