@@ -65,6 +65,7 @@ import PreOrderScreen from '../containers/routes/preOrder.js'
 import RuleInstructionScreen from '../containers/routes/ruleInstruction.js'
 import SearchGoodsScreen from '../containers/routes/searchGoods.js'
 import BiddingListScreen from '../containers/routes/biddingList.js'
+import GoodListDetail from '../containers/routes/goodListDetail.js'
 import DispatchCarScreen from '../containers/order/dispatchCar.js'
 import TransportConfirmScreen from '../containers/entrust/transportConfirm.js'
 import EntrustOrderDetailScreen from '../containers/entrust/entrustOrderDetail.js'
@@ -1003,6 +1004,17 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_GOOD_LIST_DETAIL]: {
+        screen: GoodListDetail,
+        navigationOptions: {
+            // title: '下弦文'
+            header: null
+        }
+    },
+
+
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

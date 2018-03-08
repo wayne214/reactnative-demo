@@ -16,6 +16,7 @@ import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-vi
 import Carousel from 'react-native-snap-carousel';
 
 import NormalRoutes from '../../components/routes/normalRoutes'
+import GoodListIten from '../../components/routes/goodListItem';
 // import SegmentTabBar from '../../components/common/segmentTabBar'
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
@@ -60,21 +61,22 @@ class GoodsList extends Component {
     this._refreshList = this._refreshList.bind(this)
     this.separatorComponent = this.separatorComponent.bind(this)
     this.renderItem = this.renderItem.bind(this)
+    this.getGoodListSuccess = this.getGoodListSuccess.bind(this)
   }
   componentDidMount() {
-    this._refreshList()
+    this._refreshList(this.getGoodListSuccess)
   }
 
-  _refreshList(){
-    const {user} = this.props
-    const {activeTab,searchAddressInfo} = this.state
+  _refreshList(getGoodListSuccess){
     this.props._getNormalGoodsList({
-      type: activeTab || 0,
-      companyId: user.userId,
-      pageNo: 1,
-      ...searchAddressInfo
-    },user)
+        resourceCode: '123',
+        userId: global.userId
+    },getGoodListSuccess)
   }
+  getGoodListSuccess(data){
+
+  }
+
   static navigationOptions = ({navigation}) => {
     return {
       headerStyle: {backgroundColor: 'white'},
@@ -123,16 +125,11 @@ class GoodsList extends Component {
 
                :
                <View>
-
-                 <Text>123123</Text>
-
-
-
-
-
-
-
-
+                 <GoodListIten itemClick={()=>{
+                    this.props.navigation.dispatch({
+                      type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                    })
+                 }}/>
 
                </View>
         )
@@ -452,8 +449,7 @@ const styles =StyleSheet.create({
   },
     separatorLine: {
         height: 10,
-        backgroundColor: '#E8E8E8',
-        marginLeft: 20
+        backgroundColor: '#f0f2f5',
     },
 })
 
@@ -470,34 +466,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    _getNormalGoodsList: (params,user)=>{
+    _getNormalGoodsList: (params,getGoodListSuccess)=>{
       console.log(" --->>>>> 刷新 货源 列表");
       startTime = new Date().getTime();
-      //3 抢单（普通货源）  2 报价（优质货源）
-      if (params.type == 0) {
-        params.modeState = 3
-        if (user.certificationStatus == 2 && user.carrierType == 2) {
-          params.userRole = 1
-        };
-      }else if(params.type == 1){
-        params.modeState = 2
-      }
-      // dispatch(changeGoodsListLoadingMore(params.type))
-      dispatch(fetchData({
+        dispatch(fetchData({
         api: API.GOODS_SOURCE_LIST,
         method: 'POST',
         body: params,
         success: (data) => {
-          if (params.modeState == 2) {
-            console.log("- ---- 优质货源列表",data);
-            dispatch(appendLogToFile('线路货源','获取优质货源列表',startTime))
-          }else if (params.modeState == 3){
-            console.log("- ---- 普通源列表",data);
-            dispatch(appendLogToFile('线路货源','获取普通源列表',startTime))
-          }
-          data.pageNo = params.pageNo
-          data.goodsType = params.modeState
-          dispatch(receiveGoodsList(data))
+
+            getGoodListSuccess(data)
         }
       }))
     },
