@@ -185,9 +185,9 @@ class CarInfo extends Component {
     static navigationOptions = ({navigation}) => {
         const {state, setParams} = navigation
         return {
-            tabBarLabel: '个人信息',
+            tabBarLabel: '车辆信息',
             header: <NavigationBar
-                title='个人信息'
+                title='车辆信息'
                 hiddenBackIcon={false}
                 router={navigation}
                 optTitle='添加车辆'
