@@ -324,22 +324,24 @@ class OrderList extends BaseComponent {
           <NavigatorBar
             hiddenBackIcon={true}
             title={ title }
-            assistIconFont='&#xe60c;'
-            assistIconClick={()=>{
-              this.setState({
-                showMenu: true
-              })
-            }}/>
+            // assistIconFont='&#xe60c;'
+            // assistIconClick={()=>{
+            //   this.setState({
+            //     showMenu: true
+            //   })
+            // }}
+          />
         :
           <NavigatorBar
             hiddenBackIcon={true}
             title={title}
-            assistIconFont='&#xe60e;'
-            assistIconClick={()=>{
-              this.setState({
-                showMenu: true
-              })
-            }}/>
+            // assistIconFont='&#xe60e;'
+            // assistIconClick={()=>{
+            //   this.setState({
+            //     showMenu: true
+            //   })
+            // }}
+          />
       }
         <View style={styles.content}>
           <ScrollableTabView
