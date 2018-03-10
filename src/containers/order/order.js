@@ -21,7 +21,7 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import SegmentTabBar from '../../components/order/segmentTab'
 import OrderCell from '../../components/order/orderCell'
-import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
+import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import Coordination from '../../components/order/coordinatation'
 import { dispatchDefaultCar } from '../../action/travel';
 import {fetchData, appendLogToFile} from '../../action/app'
@@ -98,7 +98,7 @@ class OrderListItem extends Component {
         );
     };
 
-  _keyExtractor = (item, index) => item.orderNo
+  _keyExtractor = (item, index) => index
   _listEmptyComponent(){
     return (
       <View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-44-40-49}}>
@@ -397,8 +397,12 @@ class OrderList extends BaseComponent {
             initialPage={0}
             style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
             renderTabBar={() =>
-              <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
-                tabStyle={{paddingBottom: 2}}/>
+                <ScrollableTabBar
+                    tabStyle={{paddingLeft: 5,
+                        paddingRight: 5,
+                        paddingBottom: 0,
+                        }}
+                />
             }
             onChangeTab={(obj)=>{
               // if (obj.i == obj.from) {
@@ -419,7 +423,7 @@ class OrderList extends BaseComponent {
                 }
               // };
             }}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 44,marginLeft:(width*0.2-44)*0.5 }}
+            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2, }}
             tabBarActiveTextColor={COLOR.APP_THEME}
             tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
             tabBarTextStyle={{fontSize:15}}>
