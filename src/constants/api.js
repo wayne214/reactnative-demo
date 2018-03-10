@@ -479,3 +479,11 @@ export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarBy
 export const API_SET_USER_CAR = `app/uam/addUserCar`;
 //司机对应企业性质
 export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;
+
+/** ********************承运方运单接口******************************/
+// 订单列表（全部）分页查询调度单
+export const API_NEW_APP_DISPATCH_DOC_WITH_PAGE = `app/transport/queryDeleveryWithPageV4`;
+//车主获取待发运列表--承运商装车列表
+export const API_NEW_APP_DISPATCH_DOC_CARRIER = `app/dpc/queryDispatchDocByStatus`;
+// 运输中--待签收---承运商交付
+export const API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT = `app/transport/queryCarrierTransportList`;

@@ -45,6 +45,8 @@ import commonLineIcon from '../../../assets/img/mine/commonLineIcon.png';
 import carrierSettingIcon from '../../../assets/img/mine/carrierSettingIcon.png';
 
 import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
+import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
+import MessageMine from '../../../assets/img/oldMine/message.png';
 
 
 import {fetchData} from "../../action/app";
@@ -616,7 +618,17 @@ class mine extends Component {
                             <TouchableOpacity onPress={() => {
                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
                             }}>
-                                <Text style={{fontFamily: 'iconfont', fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>&#xe640;</Text>
+                                <View>
+                                    <Image
+                                        style={{
+                                            marginRight: 10,
+                                            marginTop: 10,
+                                        }}
+                                        source={
+                                            this.props.jpushIcon === true ? MessageNewMine : MessageMine
+                                        }
+                                    />
+                                </View>
                             </TouchableOpacity>
                         </View> : null
                     }

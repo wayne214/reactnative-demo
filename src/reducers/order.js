@@ -78,8 +78,9 @@ const initState = Immutable.fromJS({
 export default (state = initState, action) => {
 	let newState = state;
 	const {payload} = action
+    let newArray = [];
 	// 1所有 2待装货 3待交付   5未结算 6结算中 7已结算(已完成) 8取消
-	const statusArr = ['','orderAll','orderToInstall','orderToDelivery','','orderUnPay','orderPaying','orderPayed','orderCanceled']
+	const statusArr = ['orderAll','orderToInstall','orderToDelivery','orderCanceled']
 	switch (action.type) {
 		case ActionTypes.ACTION_CHANGE_ORDER_LOADINGMORE:
 			const rootTypeLoading = statusArr[payload]
@@ -89,61 +90,82 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_CHANGE_ORDER_LIST_REFRESHING:
 			newState = newState.setIn([statusArr[payload.orderState],'isRefreshing'],false);
 		case ActionTypes.ACTION_RECEIVE_ORDER_LIST:
-			const rootTypeList = statusArr[payload.orderState]
-			newState = newState.setIn([rootTypeList,'pageNo'],payload.pageNo);
-			newState = newState.setIn([rootTypeList,'isLoadingMore'],false);
-			newState = newState.setIn([rootTypeList,'total'],payload.total);
-			newState = newState.setIn([rootTypeList,'isRefreshing'],false);
-			newState = newState.setIn([rootTypeList,'pages'],payload.pages);
-			if (payload.pageNo === 1) {
-			  newState = newState.setIn([rootTypeList,'list'],Immutable.fromJS([]));
-			}
-			if (payload.list) {
-				const newArr = payload.list.map((item)=>{
-					if (rootTypeList === 'orderUnPay') {
-						/**
-						 * 2017-11-09, 17:08:46 GMT+0800
-						 * 在【未结算】 (orderUnPay) 列表中需要记录有没有未催款的订单， 至少有一个这种订单时 显示【批量催款】按钮
-						 */
-						if ((item.orderState == 10 || (item.orderState == 14 && item.entrustType == 1)) && item.promptState == 1) {
-							// 未结算 且 未催款
-							newState = newState.setIn(['orderUnPay','showBatchBar'],true);
-						};
-					};
-					item.from = item.fromProvinceName == item.fromCityName ? `${item.fromProvinceName}${item.fromAreaName}` : `${item.fromProvinceName}${item.fromCityName}${item.fromAreaName}`
-					item.to = item.toProvinceName == item.toCityName ? `${item.toProvinceName}${item.toAreaName}` : `${item.toProvinceName}${item.toCityName}${item.toAreaName}`
+        /* 这里获取承运商运单列表数据，根据订单类状态，放入对应的数组中   先对数据组装、格式化 */
+        /* 订单状态：orderType:  0 全部, 1 装车, 2 交付, 3 已完成 */
+        let rootType = statusArr[payload.orderType];
+        newState = newState.setIn([rootType,'isLoadingMore'],false);
+        newState = newState.setIn([rootType,'isRefreshing'],false);
+        newState = newState.setIn([rootType,'hasMore'],payload.pageNo < payload.pages ? true : false);
+        newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
+        newState = newState.setIn([rootType,'total'],payload.total);
 
-					item.orderStateStr = HelperUtil.getOrderStateStr(item.orderState, item.entrustType)
+        if (payload.pageNum === 1) {
+            // 第一页数据先清空原有数据
+            newState = newState.setIn([rootType,'list'],[]);
+            newArray = Immutable.fromJS(payload.list);
+            newState = newState.setIn([rootType,'list'], newArray);
+        }else {
+            newArray = newState.getIn([rootType,'list']);
+            newArray = newArray.concat(payload.list);
+            newState = newState.setIn([rootType,'list'],Immutable.fromJS(newArray));
+        }
 
-					// item.isBetter = payload.goodsType == 2
-					item.orderType = 'ORDER'
-					item.goodsNameStr = HelperUtil.getGoodsName(item.goodsName)
-					item.goodsSKU = (item.cargoSpecTon ? (item.cargoSpecTon + '吨') : '') + (item.cargoSpecTon && item.cargoSpecSquare ? '/' : '') + (item.cargoSpecSquare ? (item.cargoSpecSquare + '方') : '')
-					item.carLength = HelperUtil.getCarLength(parseInt(item.vehicleType))
-					// item.offerCount = 1
-					// item.offerPrice = 10
-					if (item.goodsType == 1) {
-						item.goodsTypeStr = '干线'
-						const startDate = item.loadingStartDate.split(' ')[0]
-						// const endDate = item.loadingEndDate.split(' ')[0]
-						item.installDate = startDate//`从${startDate}到${endDate}`
-					}else if(item.goodsType == 2){
-						item.goodsTypeStr = '卡班'
-						// item.installDate = item.startDate
-						item.carBanDate = `${item.startDate.split(' ')[0]} ${item.startTimeHourMin}:${item.startTimeMinuteMin}`//-${item.startTimeHourMax}:${item.startTimeMinuteMax}`
-
-					}
-					item.freight = item.carrierDealPrice
-					return item
-				})
-				newState = newState.setIn([rootTypeList,'list'],newState.getIn([rootTypeList,'list']).concat(newArr));
-			};
-			if (newState.getIn([rootTypeList,'list']).size < payload.total) {
-				newState = newState.setIn([rootTypeList,'hasMore'],true)
-			}else{
-				newState = newState.setIn([rootTypeList,'hasMore'],false)
-			}
-			return newState;
+					return newState;
+      // 	const rootTypeList = statusArr[payload.orderState]
+		// 	newState = newState.setIn([rootTypeList,'pageNo'],payload.pageNo);
+		// 	newState = newState.setIn([rootTypeList,'isLoadingMore'],false);
+		// 	newState = newState.setIn([rootTypeList,'total'],payload.total);
+		// 	newState = newState.setIn([rootTypeList,'isRefreshing'],false);
+		// 	newState = newState.setIn([rootTypeList,'pages'],payload.pages);
+		// 	if (payload.pageNo === 1) {
+		// 	  newState = newState.setIn([rootTypeList,'list'],Immutable.fromJS([]));
+		// 	}
+		// 	if (payload.list) {
+		// 		const newArr = payload.list.map((item)=>{
+		// 			if (rootTypeList === 'orderUnPay') {
+		// 				/**
+		// 				 * 2017-11-09, 17:08:46 GMT+0800
+		// 				 * 在【未结算】 (orderUnPay) 列表中需要记录有没有未催款的订单， 至少有一个这种订单时 显示【批量催款】按钮
+		// 				 */
+		// 				if ((item.orderState == 10 || (item.orderState == 14 && item.entrustType == 1)) && item.promptState == 1) {
+		// 					// 未结算 且 未催款
+		// 					newState = newState.setIn(['orderUnPay','showBatchBar'],true);
+		// 				};
+		// 			};
+		// 			item.from = item.fromProvinceName == item.fromCityName ? `${item.fromProvinceName}${item.fromAreaName}` : `${item.fromProvinceName}${item.fromCityName}${item.fromAreaName}`
+		// 			item.to = item.toProvinceName == item.toCityName ? `${item.toProvinceName}${item.toAreaName}` : `${item.toProvinceName}${item.toCityName}${item.toAreaName}`
+    //
+		// 			item.orderStateStr = HelperUtil.getOrderStateStr(item.orderState, item.entrustType)
+    //
+		// 			// item.isBetter = payload.goodsType == 2
+		// 			item.orderType = 'ORDER'
+		// 			item.goodsNameStr = HelperUtil.getGoodsName(item.goodsName)
+		// 			item.goodsSKU = (item.cargoSpecTon ? (item.cargoSpecTon + '吨') : '') + (item.cargoSpecTon && item.cargoSpecSquare ? '/' : '') + (item.cargoSpecSquare ? (item.cargoSpecSquare + '方') : '')
+		// 			item.carLength = HelperUtil.getCarLength(parseInt(item.vehicleType))
+		// 			// item.offerCount = 1
+		// 			// item.offerPrice = 10
+		// 			if (item.goodsType == 1) {
+		// 				item.goodsTypeStr = '干线'
+		// 				const startDate = item.loadingStartDate.split(' ')[0]
+		// 				// const endDate = item.loadingEndDate.split(' ')[0]
+		// 				item.installDate = startDate//`从${startDate}到${endDate}`
+		// 			}else if(item.goodsType == 2){
+		// 				item.goodsTypeStr = '卡班'
+		// 				// item.installDate = item.startDate
+		// 				item.carBanDate = `${item.startDate.split(' ')[0]} ${item.startTimeHourMin}:${item.startTimeMinuteMin}`//-${item.startTimeHourMax}:${item.startTimeMinuteMax}`
+    //
+		// 			}
+		// 			item.freight = item.carrierDealPrice
+		// 			return item
+		// 		})
+		// 		newState = newState.setIn([rootTypeList,'list'],newState.getIn([rootTypeList,'list']).concat(newArr));
+		// 	};
+		// 	if (newState.getIn([rootTypeList,'list']).size < payload.total) {
+		// 		newState = newState.setIn([rootTypeList,'hasMore'],true)
+		// 	}else{
+		// 		newState = newState.setIn([rootTypeList,'hasMore'],false)
+		// 	}
+		// 	return newState;
 		case ActionTypes.ACTION_RECEIVE_ORDER_DETAIL:
 			if (payload) {
 				payload.goodsInfoData = {
