@@ -70,7 +70,7 @@ class LoginCharacter {
                             : result[0].certificationStatus == '1202' ?
                             props.setDriverCharacterAction('2') :
                             props.setDriverCharacterAction('3')
-                        props.setCurrentCharacterAction('driver')
+                        props.setCurrentCharacterAction('driver1')
                     } else {
                         Toast.show('司机身份被禁用，请联系客服人员');
                         return
