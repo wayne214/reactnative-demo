@@ -76,7 +76,6 @@ import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
-
 export const AppNavigator = StackNavigator({
   Splash: {
     screen: SplashScreen,
