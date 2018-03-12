@@ -67,31 +67,31 @@ export const CERTIFICATION_CAR_INFO = '/carInfo/certificationCarInfo';
 export const UPDATE_GCAR = '/carInfo/updateGInfo';
 
 //路线列表
-export const ROUTE_LIST = '/carrierLineInfo/list';
+export const ROUTE_LIST = '/app/transportLine/queryTransportLineList';
 
 //编辑路线
-export const EDIT_ROUTE = '/carrierLineInfo/update';
+export const EDIT_ROUTE = '/app/transportLine/editTransportLineInfo';
 
 //删除路线
 export const DELETE_ROUTE = '/carrierLineInfo/delete';
 
 // 系统公告
-export const SYSTEM_MESSAGE = '/note/queryNoteList';
+export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
 
 // 系统公告详情
-export const SYSTEM_MSG_DETAIL = '/note/getNoteInfo';
+export const SYSTEM_MSG_DETAIL = '/app/note/noteInfoDetail';
 
 // 更新系统公告（已读未读）
-export const SYSTEM_READ_ORNOT = '/note/updateNoteInfo';
+export const SYSTEM_READ_ORNOT = '/app/note/updateNoteInfo';
 
 // 更新站内信
-export const UPDATE_WEB_MSG = '/message/updateMessageInfo';
+export const UPDATE_WEB_MSG = '/app/message/updateMessageInfo';
 
 // 站内信
-export const STACK_MSG_LIST = '/message/queryMessageList';
+export const STACK_MSG_LIST = '/app/message/queryMessageList';
 
 // 站内信详情
-export const STACK_MSG_DETAIL = '/message/getMessageInfo';
+export const STACK_MSG_DETAIL = '/app/message/getMessageInfo';
 
 //承运商详情
 export const GET_AUTHINFO_DETAIL = '/carrier/query';
@@ -479,3 +479,11 @@ export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarBy
 export const API_SET_USER_CAR = `app/uam/addUserCar`;
 //司机对应企业性质
 export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;
+
+/** ********************承运方运单接口******************************/
+// 订单列表（全部）分页查询调度单
+export const API_NEW_APP_DISPATCH_DOC_WITH_PAGE = `app/transport/queryDeleveryWithPageV4`;
+//车主获取待发运列表--承运商装车列表
+export const API_NEW_APP_DISPATCH_DOC_CARRIER = `app/dpc/queryDispatchDocByStatus`;
+// 运输中--待签收---承运商交付
+export const API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT = `app/transport/queryCarrierTransportList`;

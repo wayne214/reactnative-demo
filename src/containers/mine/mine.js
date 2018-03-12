@@ -45,6 +45,8 @@ import commonLineIcon from '../../../assets/img/mine/commonLineIcon.png';
 import carrierSettingIcon from '../../../assets/img/mine/carrierSettingIcon.png';
 
 import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
+import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
+import MessageMine from '../../../assets/img/oldMine/message.png';
 
 
 import {fetchData} from "../../action/app";
@@ -365,7 +367,7 @@ class mine extends Component {
         if (this.props.userInfo) {
             if (this.props.userInfo.phone) {
                 this.props.verifiedState({
-                    phoneNum: '15112345678',
+                    phoneNum: this.props.userInfo.phone,
                 },callback);
             }
         }
@@ -616,7 +618,17 @@ class mine extends Component {
                             <TouchableOpacity onPress={() => {
                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
                             }}>
-                                <Text style={{fontFamily: 'iconfont', fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>&#xe640;</Text>
+                                <View>
+                                    <Image
+                                        style={{
+                                            marginRight: 10,
+                                            marginTop: 10,
+                                        }}
+                                        source={
+                                            this.props.jpushIcon === true ? MessageNewMine : MessageMine
+                                        }
+                                    />
+                                </View>
                             </TouchableOpacity>
                         </View> : null
                     }
@@ -664,7 +676,7 @@ class mine extends Component {
                                                 fontSize: 18,
                                                 backgroundColor: 'transparent',
                                             }}
-                                        >{'李雷雷'}</Text>
+                                        >{this.state.verifiedState == 1202 ? this.props.userName : this.props.userInfo.phone}</Text>
                                         <Text
                                             style={{
                                                 marginTop: 5,
@@ -673,7 +685,7 @@ class mine extends Component {
                                                 color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
                                                 fontSize: 13
                                             }}>
-                                            {'京A23456'}
+                                            {this.props.plateNumber}
                                         </Text>
                                     </View> : <Text style={{
                                         marginTop: 10,
@@ -690,8 +702,8 @@ class mine extends Component {
                 <View style={styles.separateView}/>
                 <ScrollView>
                 {
-                    //this.props.currentStatus == 'driver1' ?
-                    'driver' == 'driver1' ?
+                    this.props.currentStatus == 'driver' ?
+                    // 'driver' == 'driver1' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
