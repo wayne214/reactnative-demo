@@ -24,12 +24,6 @@ class goodlistdetailMoneyItem extends Component{
         }
     }
 
-    static propTypes = {
-        style: PropTypes.object,
-    };
-    componentDidMount(){
-
-    }
 
     render() {
         return (
