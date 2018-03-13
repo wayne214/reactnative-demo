@@ -79,13 +79,13 @@ export const DELETE_ROUTE = '/carrierLineInfo/delete';
 export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
 
 // 系统公告详情
-export const SYSTEM_MSG_DETAIL = '/app/note/noteInfoDetail';
+export const SYSTEM_MSG_DETAIL = 'app/note/noteInfoDetail';
 
 // 更新系统公告（已读未读）
 export const SYSTEM_READ_ORNOT = '/app/note/updateNoteInfo';
 
 // 更新站内信
-export const UPDATE_WEB_MSG = '/app/message/updateMessageInfo';
+export const UPDATE_WEB_MSG = '/app/message/readMessage';
 
 // 站内信
 export const STACK_MSG_LIST = '/app/message/queryMessageList';

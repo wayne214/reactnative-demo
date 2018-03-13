@@ -224,7 +224,11 @@ class MessageContainer extends BaseComponent {
 			<View key={ rowIndex + rowData.id } style={ styles.messageCellContainer }>
 				<TouchableOpacity
 					activeOpacity={ 1 }
-					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }}) }>
+					onPress={ () =>
+							this.state.currentTab == 0 ? console.log('阅读消息') :
+							this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }})
+
+					}>
 					<View style={ this.state.currentTab === 0 ? styles.contentContainer : {flexDirection: 'row'} }>
 						<Animated.View style={ [styles.checkContainer, {
 							width: this.state.focusedAnim.interpolate({
