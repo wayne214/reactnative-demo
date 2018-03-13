@@ -41,16 +41,16 @@ class MessageDetail extends BaseComponent {
 		}
 
 		this.props.getMsgDetail( options, this.type, this.props );
-		// if (!this.isRead){
-		// 	this.props.readSystemMessage({
-		// 		noteId: this.noteId,
-		// 		userId: this.props.user.userId,
-		// 	});
+		if (!this.isRead){
+			this.props.readSystemMessage({
+				noteId: this.noteId,
+				userId: this.props.user.userId,
+			});
 		// 	this.props.readMessage({
 		// 		messageId: this.messageId,
 		// 		readOrDel: 'read',
 		// 	});
-		// }
+		}
 	}
 
 	componentWillUnmount() {
@@ -303,7 +303,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: type === 1 ? SYSTEM_MSG_DETAIL + "?/noteId="+ body.noteId: STACK_MSG_DETAIL,
+				api: type === 1 ? SYSTEM_MSG_DETAIL + "?noteId="+ body.noteId: STACK_MSG_DETAIL,
 				success: (data) => {
 					dispatch(passMsgDetail(data));
 					dispatch(appendLogToFile('消息详情','消息详情',startTime))

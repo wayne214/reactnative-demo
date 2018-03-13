@@ -733,21 +733,21 @@ class OrderDetail extends BaseComponent {
 										{/*// 除了以上所有orderState   所有consultState == 3 的都显示协调结果*/}
 										{/*if(orderDetail.orderState != 12 && orderDetail.consultState == 3){*/}
 											{/*return (*/}
-												<ButtonView dataSource={[
-													{
-														title: '协调结果',
-														callBack: ()=>{
-															this.props._requestCoordinateResult(
-																{
-																	orderNo: orderDetail.orderNo,
-																	entrustType: orderDetail.entrustType,
-																	goodsType: orderDetail.goodsType,
-																	carId: this.props.user.carId ? this.props.user.carId : ''
-																},(data)=>{this._showCoordinateResult(data)}
-															)
-														}
-													}
-												]}/>
+												{/*<ButtonView dataSource={[*/}
+													{/*{*/}
+														{/*title: '协调结果',*/}
+														{/*callBack: ()=>{*/}
+															{/*this.props._requestCoordinateResult(*/}
+																{/*{*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*entrustType: orderDetail.entrustType,*/}
+																	{/*goodsType: orderDetail.goodsType,*/}
+																	{/*carId: this.props.user.carId ? this.props.user.carId : ''*/}
+																{/*},(data)=>{this._showCoordinateResult(data)}*/}
+															{/*)*/}
+														{/*}*/}
+													{/*}*/}
+												{/*]}/>*/}
 											{/*)*/}
 										{/*}else{*/}
 											{/*return null*/}
@@ -769,21 +769,7 @@ class OrderDetail extends BaseComponent {
 			</Modal>
 
 			{ this._renderUpgrade(this.props) }
-			<ButtonView dataSource={[
-          {
-              title: '协调结果',
-              callBack: ()=>{
-                  this.props._requestCoordinateResult(
-                      {
-                          orderNo: orderDetail.orderNo,
-                          entrustType: orderDetail.entrustType,
-                          goodsType: orderDetail.goodsType,
-                          carId: this.props.user.carId ? this.props.user.carId : ''
-                      },(data)=>{this._showCoordinateResult(data)}
-                  )
-              }
-          }
-      ]}/>
+
 		</View>
 	}
 }
@@ -824,7 +810,6 @@ const styles =StyleSheet.create({
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
-		height: 500
 	},
 	headerView: {
 		flex: 1,
