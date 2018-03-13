@@ -16,6 +16,8 @@ import { dispatchClearAuthInfo } from '../../action/carrier';
 import { clearCombineImg,appendLogToFile } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import GeCompanyIcon from '../../../assets/img/user/ge_compony_icon.png';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 
 class UserInfoContainer extends BaseComponent {
 
@@ -30,19 +32,67 @@ class UserInfoContainer extends BaseComponent {
 	}
 
 	_authOrInfo() {
-		const certificationStatus = this.props.user.certificationStatus;
-		const carrierType = this.props.user.carrierType;
-		if(certificationStatus === 0){
-			//未认证
-			this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_ROLE,params:{title: '认证角色'}});
-		}else{
-			if(carrierType === 1){
-				let phoneNumber = this.props.user.phoneNumber;
-				this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO,params:{title: '公司认证', phoneNumber: phoneNumber}});
-			}else if(carrierType === 2){
-				this.props.navigation.dispatch({type: RouteType.ROUTE_PERSONAL_AUTH_DETAIL, params: {title: '个人认证详情'}});
-			}
+		const ownerStatus = this.props.ownerStatus;
+		// const currentStatus = this.props.currentStatus;
+		const currentStatus = 'personalOwner';
+
+        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
+        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
+
+        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
+
+		if (currentStatus === 'personalOwner'){
+                if (ownerStatus === 11 || ownerStatus === 12 || ownerStatus === 13){
+                    // 详情
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
+
+                }
+                if (ownerStatus !== 11 && ownerStatus !== 12 && ownerStatus !== 13 && ownerStatus !== 14){
+                	// 认证
+                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                        if (value) {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                params: {
+                                    resultInfo: value,
+                                }}
+                            )
+                        } else {
+                            this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                        }
+                    });
+				}
+
 		}
+        if (currentStatus === 'businessOwner'){
+                if (ownerStatus === 21 || ownerStatus === 22 || ownerStatus === 23){
+                    // 详情
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
+
+                }
+            if (ownerStatus !== 21 && ownerStatus !== 22 && ownerStatus !== 23 && ownerStatus !== 24){
+
+                // 认证
+                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                        if (value) {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                params: {
+                                    resultInfo: value,
+                                }}
+                            )
+                        } else {
+                            this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                        }
+                    });
+                }
+
+        }
+
+
+
+
+
 	}
 
 	componentDidMount(){
@@ -204,9 +254,10 @@ function mapStateToProps(state) {
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
-    upgradeForceUrl: app.get('upgradeForceUrl'),
-      ownerStatus: state.user.get('ownerStatus'),
-      ownerName: state.user.get('ownerName'),
+    	upgradeForceUrl: app.get('upgradeForceUrl'),
+        ownerStatus: state.user.get('ownerStatus'),
+        ownerName: state.user.get('ownerName'),
+        currentStatus: state.user.get('currentStatus'),
 	};
 }
 function mapDispatchToProps(dispatch) {

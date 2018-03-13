@@ -88,6 +88,7 @@ class certification extends Component {
     constructor(props) {
         super(props);
 
+
             this.state = {
                 travelRightImage,
                 travelTrunRightImage,
@@ -111,7 +112,6 @@ class certification extends Component {
 
                 vehicleLicenseVicePageNormalPhotoAddress: '', // 挂车营运证原图
                 vehicleLicenseVicePageThumbnailAddress: '', // 挂车营运证缩略图
-
 
             };
 
@@ -513,11 +513,70 @@ class certification extends Component {
     checkUploadParams() {
 
 
+        if (this.state.vehicleLicenseHomepageNormalPhotoAddress === '' && this.state.vehicleLicenseHomepageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传行驶证主页照片');
+            return;
+        }
+        if (this.state.vehicleLicenseVicePageNormalPhotoAddress === '' && this.state.vehicleLicenseVicePageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传行驶证副页照片');
+            return;
+        }
 
-        this.setState({
-            appLoading: true,
-        });
-        //this.implementationVerified(carData2, insuranceData3);
+
+
+        if (this.state.carNumber === '') {
+            Toast.showShortCenter('请输入挂车牌号');
+            return;
+        }
+        if (this.state.carVolume === '') {
+            Toast.showShortCenter('请输入车辆体积');
+            return;
+        }
+        if (this.state.carType === '') {
+            Toast.showShortCenter('请选择车辆类型');
+            return;
+        }
+        if (this.state.carTypeTwo === '') {
+            Toast.showShortCenter('请选择车辆类别');
+            return;
+        }
+        if (this.state.carLength === '') {
+            Toast.showShortCenter('请选择车辆长度');
+            return;
+        }
+        if (this.state.carWeight === '') {
+            Toast.showShortCenter('请选择车辆长度');
+            return;
+        }
+
+        if (this.state.carAllowNumber === '') {
+            Toast.showShortCenter('请输入运输许可证号');
+            return;
+        }
+        let result = this.props.navigation.state.params.result;
+
+
+        result.vehicleLength= this.state.carLength;//车长
+        result.load=this.state.carWeight;//车辆载重
+        result.vehicleType = this.state.carType;//车辆类型
+        result.carCategory= this.state.carTypeTwo;//车辆类别
+        result.volumeSize= this.state.carVolume;//实载体积
+        result.transportationLicense= this.state.carAllowNumber;//运输许可证号
+        result.gcarNo= this.state.carNumber;//挂车牌号
+        result.goperateLicenseUrlAddress = this.state.vehicleLicenseHomepageNormalPhotoAddress;//挂车营运证原图路径
+        result.goperateLicenseUrlThumbnailAddress = this.state.vehicleLicenseHomepageThumbnailAddress;//挂车营运证缩略图路径
+        result.gdrivingLicenseUrlAddress = this.state.vehicleLicenseVicePageNormalPhotoAddress;//挂车行驶证原图路径
+        result.gdrivingLicenseUrlThumbnailAddress = this.state.vehicleLicenseVicePageThumbnailAddress;//挂车行驶证缩略图路径
+
+
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE, params:{
+            result: result,
+            image1: this.state.travelRightImage.uri,
+            image2: this.state.travelTrunRightImage.uri
+        }});
+
+
+
     }
 
 
@@ -582,12 +641,12 @@ class certification extends Component {
                                                 carTypeClick={()=>{
 
                                                      selectDatePickerType = 2;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carType');
+                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
                                                 }}
                                                 carTypeTwoClick={()=>{
 
                                                      selectDatePickerType = 4;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carTwoType');
+                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
                                                 }}
                                                 carLengthClick={()=>{
 
@@ -597,7 +656,7 @@ class certification extends Component {
                                                 }}
                                                 textOnFocus={(value)=>{
                                                     if (Platform.OS === 'ios'){
-                                                        this.refs.scrollView.scrollTo({x: 0, y: value, animated: true});
+                                                        this.refs.scrollView.scrollTo({x: 0, y: 200, animated: true});
                                                      }
                                                 }}
 
@@ -648,20 +707,8 @@ class certification extends Component {
 
                     <VierifiedBottomItem btnTitle="下一步" clickAction={()=>{
 
-                        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE, params:{
-                            result: {
-                                carType: this.state.carType,
-                                carWeight: this.state.carWeight,
-                                carLength: this.state.carLength,
-                                carTwoType: this.state.carTypeTwo,
-                                carVolume: this.state.carVolume,
-                                carAllowNumber: this.state.carAllowNumber,
-                                carNumber: this.state.carNumber,
-                                image1: this.state.travelRightImage.uri,
-                                image2: this.state.travelTrunRightImage.uri
-                            }
-                        }});
-                        //this.checkUploadParams();
+
+                        this.checkUploadParams();
                     }}/>
 
                 </ScrollView>

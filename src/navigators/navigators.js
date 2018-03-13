@@ -869,6 +869,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_INFO]: {
         screen: CarInfoScreen,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {

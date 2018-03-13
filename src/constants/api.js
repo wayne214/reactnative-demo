@@ -466,6 +466,8 @@ export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelatio
 export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
 //根据车牌号搜索车辆信息返回
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
+// 车主增加车辆发送验证码
+export const API_CAR_OWNER_ADD_CAR_CODE = 'app/sendMsg/sendCarrierBindingCarSms';
 
 //WebSocket
 export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;

@@ -34,6 +34,7 @@ import VerifiedDateSources from './verifiedIDItem/verifiedDateSource';
 import VierifiedBottomItem from './verifiedIDItem/verifiedBottomItem';
 import Line from './verifiedIDItem/verifiedLineItem';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import {fetchData} from '../../action/app';
 
 const headerImageFail = require('./images/verifiedFail.png');
 const headerImageSuccess = require('./images/verifiedSuccess.png');
@@ -110,26 +111,30 @@ const styles = StyleSheet.create({
 class carOwnerAddCarThree extends Component{
     constructor(props) {
         super(props);
+
         const result = this.props.navigation.state.params.result;
 
         this.state={
-            carType: result.carType,
-            carWeight: result.carWeight,
-            carLength: result.carLength,
+            carType: result.vehicleType,
+            carWeight: result.load,
+            carLength: result.vehicleLength,
             carOwnerName: global.userName,
             carOwnerPhone: global.phone,
-            carTwoType: result.carTwoType,
-            carVolume: result.carVolume,
-            carAllowNumber: result.carAllowNumber,
-            carNumber: result.carNumber,
-            image1: result.image1,
-            image2: result.image2,
+            carTwoType: result.carCategory,
+            carVolume: result.volumeSize,
+            carAllowNumber: result.transportationLicense,
+            carNumber: result.gcarNo,
+            image1: this.props.navigation.state.params.image1,
+            image2: this.props.navigation.state.params.image2,
         };
 
         this.uploadAddCar = this.uploadAddCar.bind(this);
         this.showBigImage = this.showBigImage.bind(this);
         this.showDatePick = this.showDatePick.bind(this);
         this.getCarLengthWeight = this.getCarLengthWeight.bind(this);
+        this.upload = this.upload.bind(this);
+        this.carSuccess = this.carSuccess.bind(this);
+        this.carFail = this.carFail.bind(this);
 
     }
 
@@ -269,6 +274,72 @@ class carOwnerAddCarThree extends Component{
 
         TimePicker.show();
     }
+
+
+    // 增加车辆
+    upload(){
+
+        if (this.state.phoneNumber === '') {
+            Toast.showShortCenter('请输入车主电话');
+            return;
+        }
+        if (this.state.userName === '') {
+            Toast.showShortCenter('请输入车主姓名');
+            return;
+        }
+        const result = this.props.navigation.state.params.result;
+
+        result.fileNum =  '';//档案编号
+        result.phoneNumber = this.state.carOwnerPhone;//车主电话
+        result.userName= this.state.carOwnerName;// 车主姓名
+
+        let carCategoryInt = 0;
+        switch (result.carCategory){
+            case '厢式货车':
+                carCategoryInt = 1;
+                break;
+            case '集装箱挂车':
+                carCategoryInt = 2;
+                break;
+            case '集装箱车':
+                carCategoryInt = 3;
+                break;
+            case '箱式挂车':
+                carCategoryInt = 4;
+                break;
+        }
+
+        result.carCategory = carCategoryInt;
+        result.volumeSize = parseInt(result.volumeSize);
+
+
+
+        result.owner = '林平';
+        result.phoneNum = '15534343431';
+        result.phoneNumber = '15534343432';
+        result.plateNumber = '豫A23090';
+        result.userId = '5';
+        result.userName = '林平芝';
+
+
+
+
+        this.props.carVerifiedAction({
+            ...result
+        },this.carSuccess,this.carFail);
+
+
+    }
+
+    carSuccess(data){
+        console.log('carSuccess=',data);
+
+        this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+    }
+    carFail(data){
+        console.log('carFail=',data);
+
+    }
     render() {
 
         return (
@@ -281,6 +352,7 @@ class carOwnerAddCarThree extends Component{
                 <ScrollView
                     bounces={true}
                     ref="scrollView"
+                    keyboardDismissMode='on-drag'
                 >
                     <View style={{flexDirection: 'row'}}>
                         <Text style={styles.titleStyle}>
@@ -375,6 +447,7 @@ class carOwnerAddCarThree extends Component{
                     />
 
                     <VierifiedBottomItem btnTitle="确认提交" clickAction={()=>{
+                        this.upload()
                     }}/>
                 </ScrollView>
 
@@ -391,6 +464,19 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        carVerifiedAction:(params,ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_QUALIFICATIONS_COMMIT,
+                success: (data) => {
+                    ownerVerifiedHomeSucCallBack(data);
+                },
+                fail:(data) => {
+                    ownerVerifiedHomeFailCallBack(data);
+                }
+            }))
+        },
     };
 }
 

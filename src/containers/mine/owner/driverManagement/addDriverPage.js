@@ -366,6 +366,7 @@ class AddDriverPage extends Component {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
                                             }
                                         });
+
                                     }}
                                 >
                                     创建司机

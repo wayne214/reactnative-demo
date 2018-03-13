@@ -65,40 +65,39 @@ class carOwnerVerifiedMsgCode extends Component {
         this.state = {
             carNumber: '',
             codeNum: '',
+            codeNumNor: '',
             carOwnerName: '',
             carOwnerTel: '',
         }
 
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
         this.sendFailCallback = this.sendFailCallback.bind(this);
-        this.requestVCodeForLogin = this.requestVCodeForLogin.bind(this);
+        this.abc = this.abc.bind(this);
+    }
+
+    abc(data){
+        this.setState({
+            codeNumNor: data
+        })
     }
 
     sendVCodeCallback(shouldStartCountting) {
-
+        debugger
         shouldStartCountting(true);
     }
-
     sendFailCallback(shouldStartCountting) {
-
         shouldStartCountting(false);
     }
 
-    /*获取登录验证码*/
-    requestVCodeForLogin(sendVCodeCallback, sendFailCallback) {
 
-        this.props._getVCodeCode({
-            deviceId: '1',
-            phoneNum: this.state.carOwnerTel
-        }, sendVCodeCallback, sendFailCallback);
-    }
+
 
     render() {
         return (
 
             <View style={styles.container}>
                 <NavigatorBar
-                    title='车主认证'
+                    title='车主增加车辆'
                     router={this.props.navigation}
                     hiddenBackIcon={false}/>
 
@@ -142,7 +141,12 @@ class carOwnerVerifiedMsgCode extends Component {
                         onClick={(shouldStartCountting) => {
                                 
                                     if (Regex.test('mobile', this.state.carOwnerTel)) {
-                                        this.requestVCodeForLogin(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
+                                        this.props._getVCodeCode({
+                                            deviceId: '1',
+                                            phoneNum: this.state.carOwnerTel,
+                                            type: '0', // 0新增车辆，1绑定已有车辆
+                                        }, this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting),this.abc);
+
                                     } else {
                                         Toast.show('手机号输入有误，请重新输入');
                                         shouldStartCountting(false);
@@ -154,55 +158,45 @@ class carOwnerVerifiedMsgCode extends Component {
                 <View style={{backgroundColor: '#0092FF', marginTop: 20, marginHorizontal: 10, }}>
                     <Button
                         ref='button'
-                        //isDisabled={!(this.state.carNumber && this.state.carOwnerName && this.state.carOwnerTel && this.state.codeNum)}
                         isDisabled={false}
                         style={styles.loginButton}
                         textStyle={{color: 'white', fontSize: 18}}
                         onPress={() => {
-                             //if (Regex.test('mobile',this.state.carOwnerTel)) {
-                                 let a = 4;
-                                        // 个人车主认证
-                                        if (a === 1){
-                                            Storage.get(StorageKey.personownerInfoResult).then((value) => {
-                                                if (value) {
-                                                    this.props.navigation.dispatch({
-                                                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
-                                                        params: {
-                                                            resultInfo: value,
-                                                        }}
-                                                    )
-                                                } else {
-                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
-                                                }
-                                            });
-                                        }
-                                        if ( a=== 2) {
-                                            // 个人车主认证详情
-                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
-                                        }
+                            if (this.state.carNumber === ''){
+                                Toast.show('请输入车辆信息');
+                                return;
+                            }
+                            if (this.state.carOwnerName === ''){
+                                Toast.show('请输入车主姓名');
+                                return;
+                            }
+                            if (this.state.carOwnerTel === ''){
+                                Toast.show('请输入车主电话');
+                                return;
+                            }
+                            if (this.state.codeNum === ''){
+                                Toast.show('请输入验证码');
+                                return;
+                            }
 
-                                        if (a === 3){
-                                            // 企业车主认证
-                                            Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
-                                                if (value) {
-                                                    this.props.navigation.dispatch({
-                                                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
-                                                        params: {
-                                                            resultInfo: value,
-                                                        }}
-                                                    )
-                                                } else {
-                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
-                                                }
-                                            });
-                                        }
-                                        if (a === 4){
-                                            // 企业车主详情
-                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
-                                        }
-                             {/*} else {*/}
-                                 {/*Toast.show('手机号码输入有误，请重新输入');*/}
-                             {/*}*/}
+                            if (this.state.codeNum !== this.state.codeNumNor){
+                                Toast.show('输入验证码不正确');
+                                return;
+                            }
+
+                             Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                            if (value) {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR ,
+                                                    params: {
+                                                        resultInfo: value,
+                                                    }}
+                                                )
+                                            } else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
+                                            }
+                                        });
+
                         }}
                     >
                         确认提交
@@ -222,14 +216,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        _getVCodeCode: (params, successCallback, failCallback) => {
+        _getVCodeCode: (params, successCallback, failCallback,abc) => {
             dispatch(fetchData({
                 body: params,
                 method: 'post',
-                api: API.API_GET_LOGIN_WITH_CODE,
+                api: API.API_CAR_OWNER_ADD_CAR_CODE,
                 success: data => {
                     console.log('-------data', data);
-                    successCallback();
+                    abc(data);
+                    successCallback(data);
                 },
                 fail: error => {
                     console.log('-------error', error);

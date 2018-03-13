@@ -112,8 +112,6 @@ class verifiedIDItem extends Component{
     render() {
         const {showTitle, leftImage, rightImage, isChooseRight} = this.props;
 
-        console.log('rightImage.uri, ', rightImage.uri);
-
         let imagePath;
 
             if (rightImage.uri === '../navigationBar/IdCardAdd.png'){

@@ -58,7 +58,7 @@ class verifiedDriverCardItem extends Component{
                         车主姓名
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        李雷雷
+                        {resultInfo.haverName}
                     </Text>
 
                 </View>
@@ -69,7 +69,7 @@ class verifiedDriverCardItem extends Component{
                         车主电话
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        15111111111
+                        {resultInfo.phoneNum}
                     </Text>
 
                 </View>
@@ -79,7 +79,7 @@ class verifiedDriverCardItem extends Component{
                         车辆类型
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        冷藏车
+                        {resultInfo.carType}
                     </Text>
 
                 </View>
@@ -89,7 +89,7 @@ class verifiedDriverCardItem extends Component{
                         车辆类别
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        保温车
+                        没有返回
                     </Text>
 
                 </View>
@@ -99,7 +99,7 @@ class verifiedDriverCardItem extends Component{
                         车型长度
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        1.5米
+                        {resultInfo.carLen}
                     </Text>
 
                 </View>
@@ -109,7 +109,7 @@ class verifiedDriverCardItem extends Component{
                         实载重量
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        3.0吨
+                        {resultInfo.carryCapacity}吨
                     </Text>
 
                 </View>
@@ -119,7 +119,7 @@ class verifiedDriverCardItem extends Component{
                         实载体积
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        20立方米
+                        没有返回
                     </Text>
 
                 </View>
@@ -129,7 +129,7 @@ class verifiedDriverCardItem extends Component{
                         运输许可证号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        123456789
+                        没有返回
                     </Text>
 
                 </View>
@@ -139,7 +139,7 @@ class verifiedDriverCardItem extends Component{
                         挂车牌号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        京12344
+                        没有返回
                     </Text>
 
                 </View>
