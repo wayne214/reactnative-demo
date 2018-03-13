@@ -289,17 +289,20 @@ class OrdersItemCell extends Component {
                         <Text style={styles.orderTimeStyle}>订单时间：{transport.time ? transport.time.replace(/-/g,'/').substring(0, transport.time.length - 3) : ''}</Text>
                     </View>
                     <View style={[styles.separateLine, {width: width, marginLeft: 15, marginTop: 13, marginBottom: 13}]}/>
-                    <View>
-                        <View style={styles.orderDetailCell}>
-                        <Text style={styles.textSizeNum}>单号：{transport1.customerOrderCode ? transport1.customerOrderCode : transport1.transCode}</Text>
-                        {
-                            transport1.weight ?
-                                <Text style={styles.textSizeWeight}>{transport1.weight}Kg</Text> :
-                                <Text style={styles.textSizeWeight}>0Kg</Text>
-                        }
-                        </View>
-                        <Text style={styles.orderTimeStyle}>订单时间：{transport1.time ? transport1.time.replace(/-/g,'/').substring(0, transport1.time.length - 3) : ''}</Text>
-                    </View>
+                    {
+                        transport1 ?
+                            <View>
+                            <View style={styles.orderDetailCell}>
+                                <Text style={styles.textSizeNum}>单号：{transport1.customerOrderCode ? transport1.customerOrderCode : transport1.transCode}</Text>
+                                {
+                                    transport1.weight ?
+                                        <Text style={styles.textSizeWeight}>{transport1.weight}Kg</Text> :
+                                        <Text style={styles.textSizeWeight}>0Kg</Text>
+                                }
+                            </View>
+                            <Text style={styles.orderTimeStyle}>订单时间：{transport1.time ? transport1.time.replace(/-/g,'/').substring(0, transport1.time.length - 3) : ''}</Text>
+                        </View> : null
+                    }
                 </View>
                 <TouchableOpacity
                     style={styles.arrowStyle}

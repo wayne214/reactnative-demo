@@ -280,7 +280,7 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 /************************************************** 司机APP 接口 *************************************************/
-import { XYT_HOST, WEB_SOCKET} from './setting';
+import {WEB_SOCKET} from './setting';
 /************************ 认证部分 接口 ************************/
 
 /************  司机认证部分 接口 ************/
@@ -363,12 +363,16 @@ export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
 export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
 // 签收接口
 export const API_NEW_SIGN = 'app/transport/sign';
+// 批量签收
+export const API_TRANSPORT_BATCH_SIGN = 'app/transport/batchSign/v3.0';
 // 回单接口
-export const API_NEW_UPLOAD_RECEIPT = `${XYT_HOST}app/transport/returnTransportOrder/v2.1`;
+export const API_NEW_UPLOAD_RECEIPT = `app/transport/returnTransportOrder/v2.1`;
 // 回单照片展示接口
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
+// 上传出库单
+export const API_UPLOAD_OUT_BOUND_ORDER = 'app/transport/uploadOutBoundOrder';
 
 // 上传道路异常查询调度单
 export const API_NEW_UPLOAD_DISPATCH_ORDER = `app/transport/finExceprionInfoByPlateNum`;
@@ -414,7 +418,7 @@ export const API_QUERY_USER_AVATAR = `app/uam/queryUserAvatar`;
 export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
 
 // 道路异常-上传图片附件
-export const API_UPLOAD_FILE = `app/uam/uploadFile`;
+export const API_UPLOAD_FILE = 'app/uam/uploadFile';
 // 道路异常-上传视频附件
 export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
 

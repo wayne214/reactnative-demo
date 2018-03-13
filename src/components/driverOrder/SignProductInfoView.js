@@ -98,10 +98,10 @@ export default class SignProductInfoView extends Component {
 
     // 子组件
     subComponent(title, Specifications, getNum, arNums, shipmentNum, refuseNum, goodsUnit) {
-        const sunViews = (Specifications.length * 10 > (screenWidth - 20 - 40) / 3) ?
-            this.multilineView(Specifications, arNums, goodsUnit, shipmentNum)
-            :
-            this.singleView(Specifications, arNums, goodsUnit, shipmentNum);
+        // const sunViews = (Specifications.length * 10 > (screenWidth - 20 - 40) / 3) ?
+        //     this.multilineView(Specifications, arNums, goodsUnit, shipmentNum)
+        //     :
+        //     this.singleView(Specifications, arNums, goodsUnit, shipmentNum);
 
         return (
             <View>
@@ -122,14 +122,14 @@ export default class SignProductInfoView extends Component {
                         </View>
                         <View style={[style.subViewStyle, {flex: 1}]}>
                             <Text style={style.subContentStyle}>发运</Text>
-                            <Text style={[style.subContentStyle, {marginLeft: 20}]}>{shipmentNum}</Text>
+                            <Text style={[style.subContentStyle, {marginLeft: 20}]}>{parseFloat(shipmentNum).toFixed(2)}</Text>
                             <Text style={style.subContentStyle}>{goodsUnit}</Text>
                         </View>
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <View style={[style.subViewStyle, {flex: 1}]}>
                             <Text style={style.subContentStyle}>签收</Text>
-                            <Text style={[style.subContentStyle, {marginLeft: 20}]}>{getNum}</Text>
+                            <Text style={[style.subContentStyle, {marginLeft: 20}]}>{parseFloat(getNum).toFixed(2)}</Text>
                             <Text style={style.subContentStyle}>{goodsUnit}</Text>
                         </View>
                         <View style={[style.subViewStyle, {flex: 1}]}>

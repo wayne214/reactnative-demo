@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet,
     DeviceEventEmitter,
+    Alert,
 } from 'react-native';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import NavigationBar from '../../components/common/navigatorbar';
@@ -14,6 +15,7 @@ import DriverOrderListItem from '../../components/driverOrder/driverOrderListIte
 import {receiveDriverOrderList} from '../../action/driverOrder';
 import {fetchData} from '../../action/app';
 import * as API from '../../constants/api';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,6 +50,8 @@ class driverOrder extends Component {
         this.state = {
             tabIndex: 0,
         }
+        this.transportsList = this.transportsList.bind(this);
+        this.orderCodeList = this.orderCodeList.bind(this);
     }
 
     componentDidMount() {
@@ -241,6 +245,50 @@ class driverOrder extends Component {
         }
     }
 
+    transportBatchSign(dataRow) {
+        currentTime = new Date().getTime();
+        this.props._batchSign({
+            lastOperator: global.userName,
+            lastOperatorId: global.userId,
+            phoneNum: global.phone,
+            // plateNumber: this.props.plateNumber,
+            plateNumber: '京LPL001',
+            transCodeList: this.transportsList(dataRow),
+            orderCodeList: this.orderCodeList(dataRow),
+            lan: locationData.latitude ? locationData.latitude : '',
+            lon: locationData.longitude ? locationData.longitude : '',
+            realTimeAddress: locationData.address ? locationData.address : ''
+        },() => {
+            lastTime = new Date().getTime();
+            ReadAndWriteFileUtil.appendFile('批量签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                locationData.district, lastTime - currentTime, '订单页面');
+            this._refreshList(2);
+        },(errorInfo) => {
+            console.log('errorInfo=', errorInfo);
+            if(errorInfo.code === 800){
+                Alert.alert('批量签收前请先完成收款');
+            }
+        });
+    }
+
+    // 订单号集合
+    orderCodeList(dataRow) {
+        let list = [];
+        for (let i = 0; i < dataRow.transports.length; i++) {
+            list.push(dataRow.transports[i].orderCode);
+        }
+        return list;
+    }
+
+    // 运单号集合
+    transportsList(dataRow) {
+        let list = [];
+        for (let i = 0; i < dataRow.transports.length; i++) {
+            list.push(dataRow.transports[i].transCode);
+        }
+        return list;
+    }
+
     render() {
         const navigation = this.props.navigation;
         const {
@@ -305,6 +353,9 @@ class driverOrder extends Component {
                         dataSource={signListData}
                         refreshList={this._refreshList.bind(this)}
                         loadMoreAction={this._loadMore.bind(this)}
+                        batchSign={(data)=>{
+                            this.transportBatchSign(data);
+                        }}
                     />
                     <DriverOrderListItem
                         {...this.props}
@@ -348,6 +399,21 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('???', error)
+                }
+            }))
+        },
+        _batchSign: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_TRANSPORT_BATCH_SIGN,
+                success: data => {
+                    console.log('batch sign success ',data);
+                    callBack && callBack(data);
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }))
         }
