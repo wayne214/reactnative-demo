@@ -8,6 +8,8 @@ import {
 	StyleSheet,
 	ScrollView,
 	Dimensions,
+  Platform,
+		TouchableOpacity
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
@@ -26,6 +28,11 @@ import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
 let startTime = 0
+import * as ConstValue from '../../constants/constValue';
+const topSpace = 10;
+const topHeight = 40;
+const bottomViewHeight = 58;
+const screenHeight = Dimensions.get('window').height;
 
 class orderDetailEntry extends BaseComponent {
 	constructor(props) {
@@ -78,6 +85,15 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							)
 						}}/>
+						<View style={{height: 44, backgroundColor: '#fafafa', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
+							<Text>运输协议</Text>
+							<TouchableOpacity onPress={()=> console.log('打开运输协议')}>
+								<View style={{flexDirection: 'row'}}>
+									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
+									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#c7c7c7'}}>&#xe63d;</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
 						<FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
 							return (
 								<View>
@@ -132,17 +148,21 @@ class ButtonView extends Component {
 
 const styles =StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
 		width: width,
     overflow: 'hidden',
+		alignItems: 'center',
+      ...Platform.select({
+          ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomViewHeight - 44},
+          android:{height: screenHeight - topHeight - 73 - bottomViewHeight - 44}
+      }),
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
 		width: width - 30,
-      borderColor: '#f5f5f5',
-      borderRadius: 5,
-      borderWidth: 1,
+		borderColor: 'rgba(0,0,0,0.08)',
+		borderRadius: 5,
+		borderWidth: 1,
 	},
 	headerView: {
 		flex: 1,

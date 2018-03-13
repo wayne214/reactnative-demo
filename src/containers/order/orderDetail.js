@@ -33,6 +33,7 @@ import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
 let startTime = 0;
 import EmptyView from '../../components/common/emptyView';
+const screenWidth = Dimensions.get('window').width;
 
 import OrderDetailEntry from './orderDetailEntry';
 
@@ -45,8 +46,10 @@ class OrderDetail extends BaseComponent {
 	  	orderNo,
 	  	showCoordination: false,
       transOrderList: transOrderList,
+      current: 1,
 	  }
 	  // console.log("----- 订单详情  参数 orderNo: ",orderNo);
+      this.onScrollEnd = this.onScrollEnd.bind(this);
 	}
 	componentDidMount() {
 		// InteractionManager.runAfterInteractions(()=>{
@@ -89,18 +92,29 @@ class OrderDetail extends BaseComponent {
 		})
 	}
 
-	_rendeFloderItem(itemTitle,clickAction,isLast){
-		return (
-			<View style={[styles.flodItem]}>
-				<Text>{itemTitle}</Text>
-				<TouchableOpacity activeOpacity={0.8} style={{flex:1}} onPress={()=>{if (clickAction) {clickAction()}}}>
-					<View style={{flex:1,justifyContent: 'center'}}>
-						<Text style={{color: COLOR.APP_THEME,textAlign:'right'}}>查看</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		)
-	}
+// 	_rendeFloderItem(itemTitle,clickAction,isLast){
+// 		return (
+// 			<View style={[styles.flodItem]}>
+// 				<Text>{itemTitle}</Text>
+// 				<TouchableOpacity activeOpacity={0.8} style={{flex:1}} onPress={()=>{if (clickAction) {clickAction()}}}>
+// 					<View style={{flex:1,justifyContent: 'center'}}>
+// 						<Text style={{color: COLOR.APP_THEME,textAlign:'right'}}>查看</Text>
+// 					</View>
+// 				</TouchableOpacity>
+// 			</View>
+// 		)
+// 	}
+    onScrollEnd(event) {
+        // 得出滚动的位置
+        const index = event.nativeEvent.contentOffset.x / screenWidth + 1;
+        if (index < 1 || index > (this.props.orderDetail ? this.props.orderDetail.length : 1)) {
+            return;
+        }
+        this.setState({
+            current: parseInt(index),
+        });
+    }
+
 	render() {
 		const {orderDetail} = this.props
 		const {showCoordination} = this.state
@@ -130,6 +144,11 @@ class OrderDetail extends BaseComponent {
 			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
 				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
 				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>待发车</Text>
+			</View>
+			<View style={{justifyContent: 'center', alignItems: 'center', height: 44}}>
+				<Text style={{textAlign: 'center', fontSize: 16, color: '#666666', }}>
+            {this.state.current}/{this.props.orderDetail ? this.props.orderDetail.length : 0}
+				</Text>
 			</View>
 			{
 				orderDetail ?
@@ -801,7 +820,7 @@ class ButtonView extends Component {
 		const {dataSource} = this.props
 		const Buttons = dataSource.map((item,index)=>{
 			return (
-				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: (width-20-(dataSource.length-1)*15)/dataSource.length}}
+				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: width}}
 					isDisabled={item.isDisabled}
 					disabledStyle={{backgroundColor: COLOR.BUTTN_DISABLE}}
 					textStyle={{fontSize: 14,color: 'white'}}
@@ -813,7 +832,7 @@ class ButtonView extends Component {
 			)
 		})
 		return (
-			<View style={{flex: 1,flexDirection: 'row',paddingLeft: 10,paddingRight: 10,paddingTop: 20,justifyContent: 'space-between'}}>
+			<View style={{flexDirection: 'row',height: 44, width: width}}>
 				{ Buttons }
 			</View>
 		)
@@ -827,7 +846,6 @@ const styles =StyleSheet.create({
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
-		height: 500,
 	},
 	headerView: {
 		flex: 1,
