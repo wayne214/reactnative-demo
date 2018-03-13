@@ -378,6 +378,7 @@ class entryToBeShipped extends Component {
                 receiveContact: data.deliveryInfo.receiveContact,
                 orderCode: data.orderCode,
                 customCode: data.customerOrderCode,
+                scheduleCode: this.state.scheduleCode,
             }
         });
     }
@@ -499,9 +500,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { 1 === 2 ? dispatchView : uploadODOView }
+                    { 1 === 1 ? dispatchView : uploadODOView }
                 </ScrollView>
-                { 1 === 2 ? bottomView : null }
+                { 1 === 1 ? bottomView : null }
             </View>
         );
     }

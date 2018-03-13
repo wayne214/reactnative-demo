@@ -19,6 +19,10 @@ import * as StaticColor from '../../constants/colors';
 import Toast from '@remobile/react-native-toast';
 import * as RouteType from '../../constants/routeType';
 
+let currentTime = 0;
+let lastTime = 0;
+let locationData = '';
+
 class driverOrderListItem extends Component {
     constructor (props) {
         super(props);
@@ -70,6 +74,8 @@ class driverOrderListItem extends Component {
                 currentStatus={this.props.currentStatus}
                 carrierName={dataRow.carrierName}
                 carrierPlateNum={dataRow.carrierPlateNum}
+                isBindGps={dataRow.isBindGps}
+                gpsType={dataRow.gpsType}
                 bindGPS={() => {
                     this.props.navigation.dispatch({
                         type: RouteType.ROUTE_SCAN_GPS_PAGE,
@@ -95,21 +101,9 @@ class driverOrderListItem extends Component {
                                     scheduleCode: dataRow.scheduleCode,
                                     carrierName: dataRow.carrierName,
                                     carrierPlateNum: dataRow.carrierPlateNum,
-                                    isCompany: dataRow.isCompany                                }
+                                    isCompany: dataRow.isCompany
+                                }
                             });
-                            {/*this.props.navigation.navigate('EntryToBeShipped', {*/}
-                                {/*transOrderList: dataRow.transOrderList,*/}
-                                {/*scheduleCode: dataRow.scheduleCode,*/}
-                                {/*carrierName: dataRow.carrierName,*/}
-                                {/*carrierPlateNum: dataRow.carrierPlateNum,*/}
-                                {/*isCompany: dataRow.isCompany,*/}
-                                {/*successCallBack: () => {*/}
-                                    {/*// 刷新*/}
-                                    {/*// setTimeout(() => {*/}
-                                    {/*//     this.onRefresh();*/}
-                                    {/*// }, 500);*/}
-                                {/*},*/}
-                            {/*});*/}
                         } else {
                             // 待签收、待回单、已完成
                             this.props.navigation.dispatch({
@@ -120,11 +114,6 @@ class driverOrderListItem extends Component {
                                     carrierPlateNum: dataRow.carrierPlateNum,
                                 }
                             });
-                            {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
-                                {/*transOrderList: dataRow.transOrderList,*/}
-                                {/*carrierName: dataRow.carrierName,*/}
-                                {/*carrierPlateNum: dataRow.carrierPlateNum,*/}
-                            {/*});*/}
                         }
 
                     } else if (this.props.type === 1) {
@@ -136,32 +125,9 @@ class driverOrderListItem extends Component {
                                 scheduleCode: dataRow.scheduleCode,
                                 carrierName: dataRow.carrierName,
                                 carrierPlateNum: dataRow.carrierPlateNum,
-                                isCompany: dataRow.isCompany                                }
+                                isCompany: dataRow.isCompany
+                            }
                         });
-                        {/*this.props.navigation.navigate('EntryToBeShipped', {*/}
-                            {/*transOrderList: dataRow.transOrderList,*/}
-                            {/*scheduleCode: dataRow.scheduleCode,*/}
-                            {/*carrierName: dataRow.carrierName,*/}
-                            {/*carrierPlateNum: dataRow.carrierPlateNum,*/}
-                            {/*isCompany: dataRow.isCompany,*/}
-                            {/*successCallBack: () => {*/}
-                                {/*// 刷新*/}
-                                {/*// InteractionManager.runAfterInteractions(() => {*/}
-                                {/*//setTimeout(()=>{*/}
-                                {/*// this.onRefresh();*/}
-                                {/*// allListData = [];*/}
-                                {/*// allPage =1;*/}
-                                {/*// this.setState({*/}
-                                {/*// isLoadallMore: true,*/}
-                                {/*// });*/}
-                                {/*// delete shipListData[rowID];*/}
-                                {/*// this.setState({*/}
-                                {/*//     dataSourceShip: this.state.dataSourceShip.cloneWithRows(shipListData)*/}
-                                {/*// });*/}
-                                {/*//},500);*/}
-                                {/*// });*/}
-                            {/*},*/}
-                        {/*});*/}
                     } else {
                         // 其他的都跳转到  ORDER_ENTRY_TO_BE_SIGNIN
                         this.props.navigation.dispatch({
@@ -172,11 +138,6 @@ class driverOrderListItem extends Component {
                                 carrierPlateNum: dataRow.carrierPlateNum,
                             }
                         });
-                        {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
-                            {/*transOrderList: dataRow.transOrderList,*/}
-                            {/*carrierName: dataRow.carrierName,*/}
-                            {/*carrierPlateNum: dataRow.carrierPlateNum,*/}
-                        {/*});*/}
                     }
                 }}
             />
@@ -202,12 +163,9 @@ class driverOrderListItem extends Component {
                                 transOrderList: this.transportsList(dataRow),
                             }
                         });
-                        {/*this.props.navigation.navigate('EntryToBeSignIn', {*/}
-                            {/*transOrderList: this.transportsList(dataRow),*/}
-                        {/*})*/}
                     }}
                     onButton={() => {
-                        {/*this.transportBatchSign(dataRow);*/}
+                        this.props.batchSign(dataRow);
                     }}
                 />
             );

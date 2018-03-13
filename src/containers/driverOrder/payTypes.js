@@ -150,7 +150,7 @@ class payTypes extends Component {
     // 获取支付状态
     getSettleState() {
         currentTime = new Date().getTime();
-        this.props._getSettleStateInfo({}, (responseData) => {
+        this.props._getSettleStateInfo({}, this.state.customCode, (responseData) => {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('获取付款状态', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '获取付款状态');
@@ -176,7 +176,7 @@ class payTypes extends Component {
     }
     getSettleAmount() {
         currentTime = new Date().getTime();
-        this.props._getSettleAmountInfo({},(responseData) => {
+        this.props._getSettleAmountInfo({}, this.state.customCode, (responseData) => {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('付款方式', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '付款方式选择页面');
@@ -338,11 +338,11 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        _getSettleAmountInfo: (params, callBack) => {
+        _getSettleAmountInfo: (params, orderCode, callBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_AC_GET_SETTLE_AMOUNT + this.state.orderCode,
+                api: API.API_AC_GET_SETTLE_AMOUNT + orderCode,
                 success: data => {
                     console.log('get settle amount success ',data);
                     callBack && callBack(data)
@@ -352,11 +352,11 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        _getSettleStateInfo: (params, callBack) => {
+        _getSettleStateInfo: (params, orderCode, callBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_AC_GET_SETTLE_STATE + this.state.orderCode,
+                api: API.API_AC_GET_SETTLE_STATE + orderCode,
                 success: data => {
                     console.log('get settle state success ',data);
                     callBack && callBack(data)

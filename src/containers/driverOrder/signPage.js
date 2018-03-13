@@ -156,7 +156,7 @@ class signPage extends Component {
             lon: locationData.longitude ? locationData.longitude : '',
             realTimeAddress: locationData.address ? locationData.address : ''
         }, (responseData) => {
-            this.getSignInSuccessCallBack(responseData.result);
+            this.getSignInSuccessCallBack();
         }, () => {
             this.getSignInFailCallBack();
         })

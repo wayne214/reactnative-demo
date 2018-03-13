@@ -22,6 +22,11 @@ import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 import DialogSelected from '../../components/common/alertSelected';
 import ImagePicker from 'react-native-image-crop-picker';
 import Toast from '@remobile/react-native-toast';
+import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
+import {fetchData} from '../../action/app';
+import * as API from '../../constants/api';
+import Loading from '../../utils/loading';
+
 import {
     addImage,
     updateImages,
@@ -43,6 +48,8 @@ class uploadODO extends Component {
             receiveContact: params.receiveContact,
             orderCode: params.orderCode,
             customCode: params.customCode,
+            dispatchno: params.scheduleCode,
+            loading: false,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -51,6 +58,9 @@ class uploadODO extends Component {
         this.takePhoto = this.takePhoto.bind(this);
         this.clickImage = this.clickImage.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
+        this.submit = this.submit.bind(this);
+        this.uploadODO = this.uploadODO.bind(this);
+
     }
     componentDidMount() {
 
@@ -61,8 +71,79 @@ class uploadODO extends Component {
         dispatch(updateImages());
     }
 
-    uploadImage() {
+    uploadImage(data) {
+        upLoadImageManager(API.API_UPLOAD_FILE,
+            data,
+            ()=>{
+                this.setState({
+                    loading: true,
+                });
+            },
+            (response)=>{
+                console.log('response',response);
+                console.log('uploadCode===',response.code);
+                console.log('uploadResult===',response.result);
+                this.setState({
+                    loading: false,
+                });
+                if (response.code === 200){
+                    const list = response.result;
+                    let adArray = [];
+                    if (list && list.indexOf(',') > -1) {
+                        adArray=list.split(',');
+                    } else {
+                        adArray.push(list);
+                    }
+                    console.log('adArray', adArray);
+                    this.uploadODO(adArray);
+                }else {
+                    Toast.showShortCenter('上传失败，请重新上传');
+                }
+            },
+            (error)=>{
+                console.log('uploadError===',error);
+                this.setState({
+                    loading: false,
+                });
+            });
+    }
 
+    uploadODO(enclosureList){
+        this.props._uploadODO({
+            dispatchno: this.state.dispatchno,
+            enclosureList: enclosureList,
+            orderCode: this.state.orderCode,
+            userId: global.userId,
+            userName: global.userName,
+        }, () => {
+            Toast.showShortCenter('出库单上传成功!');
+            this.props.dispatch(updateImages());
+            this.props.navigation.dispatch({type: 'pop'});
+        })
+    }
+
+    submit() {
+        let formData = new FormData();
+        if(this.props.imageList.size > 0) {
+            this.props.imageList.map(i => {
+                if (Platform.OS === 'ios'){
+                    if(i.uri.indexOf('file://') === -1){
+                        i.uri = 'file://' + i.uri;
+                    }
+                }
+                let file = {uri: i.uri, type: 'multipart/form-data', name: i.id + '.jpg'};
+                console.log('filePath===',file.uri);
+                formData.append('photo', file);
+            });
+        }
+        formData.append('userId', global.userId);
+        formData.append('userName', global.userName);
+
+        if(this.props.imageList.size > 0){
+            this.uploadImage(formData);
+        }else {
+            Toast.showShortCenter('请添加照片');
+        }
     }
 
     callbackSelected(i){
@@ -215,7 +296,7 @@ class uploadODO extends Component {
                     optTitle={'提交'}
                     optTitleStyle={styles.rightButton}
                     firstLevelClick={() => {
-                        this.uploadImage();
+                        this.submit();
                     }}
                 />
                 <View>
@@ -265,6 +346,7 @@ class uploadODO extends Component {
                 <DialogSelected ref={(dialog)=>{
                     this.dialog = dialog;
                 }} />
+                {this.state.loading ? <Loading /> : null}
             </View>
         );
     }
@@ -386,6 +468,20 @@ function mapStateToProps(state){
 function mapDispatchToProps (dispatch){
     return {
         dispatch,
+        _uploadODO: (params, callBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_UPLOAD_OUT_BOUND_ORDER,
+                success: data => {
+                    console.log('upload ODO success ',data);
+                    callBack && callBack(data);
+                },
+                fail: error => {
+                    console.log('???', error);
+                }
+            }))
+        }
     };
 }
 
