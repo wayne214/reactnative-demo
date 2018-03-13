@@ -22,6 +22,7 @@ import Toast from '../../utils/toast.js'
 
 const { height,width } = Dimensions.get('window');
 import AddressItem from './../routes/goodlistAddressItem';
+import UniqueUtil from '../../utils/unique';
 
 const buttonWidth = width < 321 ? 95 : 106
 
@@ -49,58 +50,51 @@ class orderItemCell extends Component{
 	render() {
 		const {
 			rowData,
-			itemClick,
-			dispatchCar,//调度车辆
-			acceptDesignate,//接受派单
-			showCoordination,//协调结果
 			refreshList,
-			deleteOrderUndispatch,//删除已取消的待调度订单
 		} = this.props
-		const {
-			acceptButtonEnable
-		} = this.state
 
-		const expireTime = rowData.expireTime || (new Date()).toLocaleString()
-		// console.log("============= 过期时间 ", expireTime)
+      const orderDetaiTypeList = rowData.ofcOrderDetailTypeDtoList;
+      let goodTepesTemp = [];
+      let goodTypesName = [];
+      if(orderDetaiTypeList && orderDetaiTypeList.length > 0) {
+          let good = '';
+          for (let i = 0; i < orderDetaiTypeList.length; i++) {
+              good = orderDetaiTypeList[i];
+              goodTepesTemp = goodTepesTemp.concat(good.goodsTypes);
+          }
+          // 去重
+          goodTypesName = UniqueUtil.unique(goodTepesTemp);
+      } else {
+          goodTypesName.push('其他');
+      }
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
-				console.log("====== rowData.orderType : ",rowData.orderType);
           this.props.navigation.dispatch({
               type: RouteType.ROUTE_ORDER_DETAIL,
-              params: {orderNo: rowData.orderNo,refreshOrderList:refreshList}
+              params: {transOrderList: rowData.transOrderList,refreshOrderList:refreshList}
           })
-				// if (rowData.orderType == 'ENTRUST') {
-				// 	if (itemClick) {itemClick(rowData)};
-				// }else{
-				// 	if (rowData.isBatchEditing) {
-				// 		this.props._changeSelectStateWithOrderNo(rowData.orderNo)
-				// 	}else{
-				// 		this.props.navigation.dispatch({
-				// 			type: RouteType.ROUTE_ORDER_DETAIL,
-				// 			params: {orderNo: rowData.orderNo,refreshOrderList:refreshList}
-				// 		})
-				// 	}
-				// }
 			}}>
 				<View style={styles.container}>
 
 					<View style={styles.subContainer}>
-						<Text style={styles.orderCodeText}>运单编号：{''}</Text>
+						<Text style={styles.orderCodeText}>运单编号：{rowData.scheduleCode}</Text>
 						<View style={{flexDirection: 'row'}}>
-							<View style={styles.cuoheBg}>
-								<Text style={styles.cuoheText}>撮合</Text>
-							</View>
-							<Text style={{fontSize: 14, color: '#0092FF', marginLeft: 5}}>{'待货主上传装货'}</Text>
+								{
+									false && <View style={styles.cuoheBg}>
+										<Text style={styles.cuoheText}>撮合</Text>
+									</View>
+								}
+							<Text style={{fontSize: 14, color: '#0092FF', marginLeft: 5}}>{rowData.stateName}</Text>
 						</View>
 					</View>
 
 					<View style={styles.separateLine}/>
 
 					<View style={{paddingTop: 10}}>
-						<AddressItem startAddress='北京市海淀区' endAddress='中华人民共和国首都'/>
+						<AddressItem startAddress={rowData.departureCompleteAddress} endAddress={rowData.destinationCompleteAddress}/>
 
-						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{'2017.04.18-2017.04.22'}</Text>
+						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{rowData.loadingTime}</Text>
 
 						<View style={[styles.subContainer, {marginTop: 20}]}>
 
@@ -112,23 +106,23 @@ class orderItemCell extends Component{
 										<Text style={styles.cuoheText}>有</Text>
 									</View>
 									<View style={styles.goodBg}>
-										<Text style={styles.goodText}>{'水饺'}</Text>
+										<Text style={styles.goodText}>{goodTypesName + rowData.weight+'吨' + rowData.vol+'方'}</Text>
 									</View>
 								</View>
 							</View>
-
-							<Button activeOpacity={0.8} style={[styles.buttonBg]}
-											textStyle={{fontSize: 14,color: '#333333'}}
-											onPress={()=>{
-                          console.log("------ 查看出库单",rowData);
-                          // this.props.navigation.dispatch({
-                          //     type: RouteType.ROUTE_LADING_BILL,
-                          //     params: {title: '装货清单',images: rowData.billGoodsImg.split(',')}
-                          // })
-                      }}>
-								查看出库单
-							</Button>
-
+								{
+									rowData.stateName == '待发运' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+																												textStyle={{fontSize: 14,color: '#333333'}}
+																												onPress={()=>{
+                                                            console.log("------ 查看出库单",rowData);
+                                                            // this.props.navigation.dispatch({
+                                                            //     type: RouteType.ROUTE_LADING_BILL,
+                                                            //     params: {title: '装货清单',images: rowData.billGoodsImg.split(',')}
+                                                            // })
+                                                        }}>
+										查看出库单
+									</Button>
+								}
 						</View>
 					</View>
 
@@ -155,7 +149,8 @@ const styles = StyleSheet.create({
 	},
 	subContainer: {
       flexDirection: 'row',
-			justifyContent: 'space-between'
+			justifyContent: 'space-between',
+			alignItems: 'center'
 	},
 	orderCodeText: {
       fontSize: 15,
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
 		goodText: {
         textAlign: 'center',
 				fontSize: 10,
-				color: '#999'
+				color: '#999',
 		}
 });
 
