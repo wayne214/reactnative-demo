@@ -127,7 +127,8 @@ export default class orderToBeSignInDetail extends Component {
             num
         } = this.props;
 
-        const  buttonView = settlementMode === '20' || (isEndDistribution === 'N' && transOrderType === '606') || payState === '1' || settleMethod !== '20' || amount === '0.00' ?
+        // const  buttonView = settlementMode === '20' || (isEndDistribution === 'N' && transOrderType === '606') || payState === '1' || settleMethod !== '20' || amount === '0.00' ?
+        const  buttonView = 1 === 2 ?
             <BottomButton
                 text={'签收'}
                 onClick={() => {

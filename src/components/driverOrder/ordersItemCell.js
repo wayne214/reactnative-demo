@@ -210,6 +210,8 @@ class OrdersItemCell extends Component {
             carrierName,
             bindGPS,
             checkGPS,
+            gpsType,
+            isBindGps
         } = this.props;
         const goodIcon = goodKindsNames && goodKindsNames.length === 1 ? goodKindsNames[0] : '其他';
         const statusView = <Text style={styles.stateText}>{stateName}</Text>;
@@ -226,17 +228,7 @@ class OrdersItemCell extends Component {
                 unit={'单'}
             />
         </View>;
-        const bindGPSView = 1 === 1 ? <View>
-            <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
-            <View style={styles.buttonView}>
-                <TouchableOpacity
-                    onPress={() => {
-                        bindGPS();
-                    }}>
-                    <Text style={styles.buttonText}>绑定GPS设备</Text>
-                </TouchableOpacity>
-            </View>
-        </View> : <View>
+        const bindGPSView = isBindGps && gpsType ? <View>
             <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
             <View style={styles.buttonView}>
                 <TouchableOpacity
@@ -246,19 +238,17 @@ class OrdersItemCell extends Component {
                     <Text style={styles.buttonText}>查看GPS设备</Text>
                 </TouchableOpacity>
             </View>
+        </View> : <View>
+            <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
+            <View style={styles.buttonView}>
+                <TouchableOpacity
+                    onPress={() => {
+                        bindGPS();
+                    }}>
+                    <Text style={styles.buttonText}>绑定GPS设备</Text>
+                </TouchableOpacity>
+            </View>
         </View>;
-        // const signNumView = <View style={styles.orderNumView}>
-        //     <OrderStateNumView
-        //         fontText={'已签'}
-        //         num={waitBeSureOrderNum}
-        //         unit={'单'}
-        //     />
-        // </View>;
-        // const carrierView = <View style={styles.carrierView}>
-        //     <Image style={styles.carrierIcon} source={carrierIcon}/>
-        //     <Text style={styles.carrierText}>承运者：{carrierName}</Text>
-        //     <Text style={styles.carrierText}>{carrierPlateNum}</Text>
-        // </View>;
         return (
             <View style={styles.container}>
                 <TouchableOpacity
@@ -327,9 +317,6 @@ class OrdersItemCell extends Component {
                                             /> : null
                                     }
                                 </View>
-                                {/*{*/}
-                                    {/*/!*currentStatus == 'driver' ? null : carrierView*!/*/}
-                                {/*}*/}
                                 <View style={styles.goodsTotal}>
                                     <View style={styles.flexDirection}>
                                         <Text style={[styles.arriveAndGoodsText]}>{weight}</Text>

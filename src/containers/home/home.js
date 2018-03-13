@@ -1,41 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as ConstValue from '../../constants/constValue';
-import Carousel from 'react-native-snap-carousel';
-import HomeCell from '../../components/home/homeCell';
-import {fetchData, getHomePageCountAction} from '../../action/app';
-import {saveWeather} from '../../action/home';
-import {
-    saveUserCarList,
-    setUserCarAction,
-    queryEnterpriseNatureSuccessAction,
-} from '../../action/user';
-import {API_GET_WEATHER} from '../../constants/api';
-import locationIcon from '../../../assets/home/location.png';
-import bannerImage1 from '../../../assets/home/banner1.png';
-import bannerImage2 from '../../../assets/home/banner2.png';
-import signIcon from '../../../assets/home/sign_icon.png';
-import receiptIcon from '../../../assets/home/receipt_icon.png';
-import dispatchIcon from '../../../assets/home/despatch_icon.png';
-import receiveIcon from '../../../assets/home/receive_icon.png';
-import roadIcon from '../../../assets/home/road_abnormality.png';
-import WeatherCell from '../../components/home/weatherCell';
-import {width, height} from '../../constants/dimen';
-import {changeTab, showFloatDialog, logout, appendLogToFile} from '../../action/app';
-import NavigatorBar from '../../components/common/navigatorbar';
-import DriverUp from '../../../assets/img/character/driverUp.png';
-import DriverDown from '../../../assets/img/character/driverDown.png';
-import OwnerUp from '../../../assets/img/character/ownerUp.png';
-import OwnerDown from '../../../assets/img/character/ownerDown.png';
-import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
-import MessageMine from '../../../assets/img/oldMine/message.png';
-import Fromto from '../../../assets/img/home/fromto.png';
-import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
-import Toast from '../../utils/toast';
-import JPushModule from 'jpush-react-native';
-import LittleButtonCell from '../../components/home/littleButtonCell';
-import Storage from '../../utils/storage';
-import StorageKey from '../../constants/storageKeys';
 import {
     View,
     Text,
@@ -56,6 +20,7 @@ import {
     setCompanyCodeAction,
     setOwnerNameAction
 } from '../../action/user';
+import {locationAction} from '../../action/app';
 import {
     WHITE_COLOR,
     BLUE_CONTACT_COLOR,
@@ -69,6 +34,44 @@ import {
 } from '../../constants/colors';
 import * as RouteType from "../../constants/routeType";
 import * as API from '../../constants/api';
+import * as ConstValue from '../../constants/constValue';
+import Carousel from 'react-native-snap-carousel';
+import HomeCell from '../../components/home/homeCell';
+import {fetchData, getHomePageCountAction} from '../../action/app';
+import {saveWeather} from '../../action/home';
+import {
+    saveUserCarList,
+    setUserCarAction,
+    queryEnterpriseNatureSuccessAction,
+} from '../../action/user';
+
+import WeatherCell from '../../components/home/weatherCell';
+import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
+import Toast from '../../utils/toast';
+import JPushModule from 'jpush-react-native';
+import LittleButtonCell from '../../components/home/littleButtonCell';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
+import {Geolocation} from 'react-native-baidu-map-xzx';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import {width, height} from '../../constants/dimen';
+import {changeTab, showFloatDialog, logout, appendLogToFile} from '../../action/app';
+import NavigatorBar from '../../components/common/navigatorbar';
+
+import DriverUp from '../../../assets/img/character/driverUp.png';
+import DriverDown from '../../../assets/img/character/driverDown.png';
+import OwnerUp from '../../../assets/img/character/ownerUp.png';
+import OwnerDown from '../../../assets/img/character/ownerDown.png';
+import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
+import MessageMine from '../../../assets/img/oldMine/message.png';
+import locationIcon from '../../../assets/home/location.png';
+import bannerImage1 from '../../../assets/home/banner1.png';
+import bannerImage2 from '../../../assets/home/banner2.png';
+import signIcon from '../../../assets/home/sign_icon.png';
+import receiptIcon from '../../../assets/home/receipt_icon.png';
+import dispatchIcon from '../../../assets/home/despatch_icon.png';
+import receiveIcon from '../../../assets/home/receive_icon.png';
+import roadIcon from '../../../assets/home/road_abnormality.png';
 
 const images = [
     bannerImage1,
@@ -84,6 +87,10 @@ const slideWidth = wp(75);
 const itemHorizontalMargin = 28;
 const itemWidth = slideWidth + itemHorizontalMargin * 2;
 const itemHeight = 125 * itemWidth / 335;
+
+let currentTime = 0;
+let lastTime = 0;
+let locationData = '';
 
 class Home extends Component {
     constructor(props) {
@@ -105,6 +112,7 @@ class Home extends Component {
             // CarOwnerState: params ? params.CarOwnerState : ''
         };
 
+        this.getCurrentPosition = this.getCurrentPosition.bind(this);
         this.getWeather = this.getWeather.bind(this);
         this.vehicleLimit = this.vehicleLimit.bind(this);
         this.searchDriverState = this.searchDriverState.bind(this);
@@ -140,9 +148,9 @@ class Home extends Component {
         //     })
         // }
 
-        // this.getCurrentPosition(0);
-
+        this.getCurrentPosition(0);
         if (this.props.currentStatus == 'driver') {
+            this.setData();
             this.queryEnterpriseNature();
         }
         // if (Platform.OS === 'android') {
@@ -407,6 +415,64 @@ class Home extends Component {
         // this.getUserCarMineListener.remove();
     }
 
+    // 获取当前位置
+    getCurrentPosition(type) {
+        Geolocation.getCurrentPosition().then(data => {
+            console.log('position =', JSON.stringify(data));
+            this.props.getLocationAction(data.city);
+            locationData = data;
+            if (type === 1) {
+                ReadAndWriteFileUtil.appendFile('定位', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                    locationData.district, 0, '定位');
+                // TimeToDoSomething.uploadDataFromLocalMsg();
+            } else {
+                this.getWeather(data.city);
+                if (this.props.currentStatus == 'driver') {
+                    this.vehicleLimit(data.city);
+                }
+            }
+        }).catch(e => {
+            console.log(e, 'error');
+        });
+    }
+
+    setData() {
+        Storage.get(StorageKey.CarSuccessFlag).then((value) => {
+            console.log('---value', value);
+            if (value && value * 1 === 1) {
+                this.getUserCar();
+            } else {
+                setTimeout(() => {
+                    // 开发中reload后，保存车辆列表信息，后面切换车辆会用到
+                    Storage.get(StorageKey.userCarList).then((carList) => {
+                        this.saveUserCarList(carList);
+                    });
+                    Storage.get(StorageKey.PlateNumberObj).then((plateNumObj) => {
+                        if (plateNumObj) {
+                            const plateNumber = plateNumObj.carNum;
+                            console.log('home_plateNumber=', plateNumber);
+                            if (plateNumber !== null) {
+                                this.setState({
+                                    plateNumber: plateNumber,
+                                    plateNumberObj: plateNumObj,
+                                });
+                                if (value === 3) {
+                                    const {userInfo} = this.props;
+                                    this.saveUserCarInfo(plateNumObj);
+                                    this.getHomePageCount(plateNumber, userInfo.phone);
+                                } else {
+                                    if (plateNumber) {
+                                        this.setUserCar(plateNumber, this.setUserCarSuccessCallBack);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 200);
+            }
+        });
+    }
+
     // 获取首页状态数量
     getHomePageCount(plateNumber, phone) {
         if (plateNumber) {
@@ -477,7 +543,7 @@ class Home extends Component {
     }
 
     // 设置车辆
-    setUserCar(plateNumber,setUserCarSucCallBack) {
+    setUserCar(plateNumber, setUserCarSucCallBack) {
         Storage.get(StorageKey.USER_INFO).then((value) => {
             if (value) {
                 this.props.setUserCarAction({
@@ -511,33 +577,6 @@ class Home extends Component {
         this.props.saveUserCarListAction(carList);
     }
 
-    // 获取首页状态数量
-    getCarrierHomePageCount() {
-        currentTime = new Date().getTime();
-        if (this.props.carrierCode) {
-            HTTPRequest({
-                url: API.API_CARRIER_INDEX_STATUS_NUM,
-                params: {
-                    carrierCode: this.props.carrierCode,
-                },
-                loading: () => {
-                },
-                success: (responseData) => {
-                    lastTime = new Date().getTime();
-                    ReadAndWriteFileUtil.appendFile('获取首页状态数量', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                        locationData.district, lastTime - currentTime, '首页');
-                    if (responseData.result) {
-                        this.props.getCarrierHomoPageCountAction(responseData.result);
-                    }
-                },
-                error: () => {
-                },
-                finish: () => {
-                },
-            });
-        }
-    }
-
     ownerVerifiedHome(ownerVerifiedHomeSucCallBack, ownerVerifiedHomeFailCallBack) {
 
         if (this.props.userInfo) {
@@ -550,7 +589,6 @@ class Home extends Component {
     }
 
     ownerVerifiedHomeSucCallBack(result) {
-        debugger
         console.log('ownerVerifiedState==', result.toString());
         // let result = result;
         this.setState({
@@ -718,7 +756,7 @@ class Home extends Component {
 
     // 查询司机对应企业性质
     queryEnterpriseNature() {
-        this.props.httpQueryEnterpriseNatureAction({phone:global.phone})
+        this.props.httpQueryEnterpriseNatureAction({phone: global.phone})
     }
 
     getCurrentWeekday(day) {
@@ -749,6 +787,7 @@ class Home extends Component {
 
 
     render() {
+        const {homePageState} = this.props;
         const limitView = this.state.limitNumber || this.state.limitNumber !== '' ?
             <View style={styles.limitViewStyle}>
                 <Text style={{
@@ -766,7 +805,7 @@ class Home extends Component {
                 padding={10}// 文字与文字间距
                 imageStyle={styles.imageView}
                 backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
-                // badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
+                badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
                 renderImage={() => <Image source={receiptIcon}/>}// 图标
                 clickAction={() => { // 点击事件
                     if (this.props.driverStatus == 2) {
@@ -784,7 +823,7 @@ class Home extends Component {
                 padding={10}
                 imageStyle={styles.imageView}
                 backgroundColor={{backgroundColor: WHITE_COLOR}}
-                // badgeText={homePageState === null ? 0 : homePageState.notYetShipmentCount}
+                badgeText={homePageState === null ? 0 : homePageState.notYetShipmentCount}
                 renderImage={() => <Image source={dispatchIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
@@ -1331,7 +1370,6 @@ function mapStateToProps(state) {
     return {
         userInfo: state.user.get('userInfo'),
         homePageState: state.app.get('getHomePageCount'),
-        carrierHomePageState: state.app.get('getCarrierHomePageCount'),
         jpushIcon: state.jpush.get('jpushIcon'),
         location: state.app.get('locationData'),
         plateNumber: state.user.get('plateNumber'),
@@ -1365,11 +1403,14 @@ const mapDispatchToProps = dispatch => {
         queryEnterpriseNatureAction: (data) => {
             dispatch(queryEnterpriseNatureSuccessAction(data));
         },
+        getLocationAction: (data) => {
+            dispatch(locationAction(data));
+        },
         getWeather: (city) => {
             dispatch(fetchData({
                 body: {},
                 method: 'POST',
-                api: API_GET_WEATHER + '?city=' + city.city,
+                api: API.API_GET_WEATHER + '?city=' + city.city,
                 success: (data) => {
                     console.log('city=', data);
                     dispatch(saveWeather({data}));
@@ -1407,7 +1448,7 @@ const mapDispatchToProps = dispatch => {
                 api: API.API_INDEX_STATUS_NUM,
                 success: (result) => {
                     if (result) {
-                        this.props.getHomoPageCountAction(result);
+                        dispatch(getHomePageCountAction(result));
                     }
                 },
                 fail: (data) => {

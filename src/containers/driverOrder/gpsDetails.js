@@ -36,9 +36,9 @@ class gpsDetails extends Component {
         this.props._getGPSDetailInfo({
             bindCarNum: global.plateNumber,
         }, (responseData) => {
-            if(responseData.result){
+            if(responseData){
                 this.setState({
-                    data: responseData.result,
+                    data: responseData,
                 });
             }
         });
@@ -53,7 +53,7 @@ class gpsDetails extends Component {
             barCode: this.state.data.barCode,
             isBind: 0, // 解除绑定
         }, (responseData) => {
-            if(responseData.result){
+            if(responseData){
                 Toast.showShortCenter('解除绑定成功');
                 this.props._refreshOrderList(1);
                 this.props.navigation.dispatch({ type: 'pop' })

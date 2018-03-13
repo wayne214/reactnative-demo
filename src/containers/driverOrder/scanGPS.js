@@ -131,8 +131,8 @@ class scanGPS extends Component {
         this.props._getGPSDetailInfo({
             barCode: this.gpsDeviceCode,
         },(responseData) => {
-            if(responseData.result) {
-                let data = responseData.result;
+            if(responseData) {
+                let data = responseData;
                 if(data.isDisabled == 0){
                     if(data.eleValue && parseInt(data.eleValue) > 20) {
                         this.bindGPS();
@@ -159,6 +159,8 @@ class scanGPS extends Component {
             } else {
                 Toast.showShortCenter('该设备不存在，不能进行绑定');
             }
+        },(error) => {
+            Toast.showShortCenter(error.message);
         });
     }
 
@@ -172,13 +174,15 @@ class scanGPS extends Component {
             barCode: this.gpsDeviceCode,
             isBind: 1, // 绑定
         }, (responseData) => {
-            if(responseData.result){
+            if(responseData){
                 Toast.showShortCenter('绑定成功');
                 this.props._refreshOrderList(1);
                 this.props.navigation.dispatch({type: 'pop'});
             } else {
                 Toast.showShortCenter('绑定失败');
             }
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -502,7 +506,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps (dispatch) {
     return {
-        _getGPSDetailInfo: (params, callback) => {
+        _getGPSDetailInfo: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -513,10 +517,11 @@ function mapDispatchToProps (dispatch) {
                 },
                 fail: error => {
                     console.log('???', error)
+                    failCallBack && failCallBack(error);
                 }
             }));
         },
-        _bindGPSDevice: (params, callback) => {
+        _bindGPSDevice: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -526,7 +531,8 @@ function mapDispatchToProps (dispatch) {
                     callback && callback(data);
                 },
                 fail: error => {
-                    console.log('???', error)
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }));
         },
