@@ -8,10 +8,11 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.cboy.rn.splashscreen.SplashScreen;
+
 import com.facebook.react.ReactActivity;
 import com.umeng.analytics.MobclickAgent;
 
+import org.devio.rn.splashscreen.SplashScreen;
 import org.json.JSONObject;
 
 import java.util.HashMap;

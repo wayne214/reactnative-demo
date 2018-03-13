@@ -21,7 +21,7 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import SegmentTabBar from '../../components/order/segmentTab'
 import OrderCell from '../../components/order/orderCell'
-import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
+import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import Coordination from '../../components/order/coordinatation'
 import { dispatchDefaultCar } from '../../action/travel';
 import {fetchData, appendLogToFile} from '../../action/app'
@@ -48,9 +48,13 @@ import BatchEdit from '../../components/order/batchEdit'
 import { refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent.js'
 import DeviceInfo from 'react-native-device-info';
+import OrderItemCell from '../../components/order/orderItemCell';
 
 const { height,width } = Dimensions.get('window')
 let startTime = 0
+
+let pageNum = 1; // 第一页
+const pageSize = 10;// 每页显示数量
 
 class OrderListItem extends Component {
   constructor(props) {
@@ -58,7 +62,8 @@ class OrderListItem extends Component {
   }
 
   _renderRow(rowData,SectionId,rowID){
-    return <OrderCell {...this.props} rowData={rowData.item} rowID={ rowID }/>
+    // return <OrderCell {...this.props} rowData={rowData.item} rowID={ rowID }/>
+    return <OrderItemCell {...this.props} rowData={rowData.item} rowID={ rowID }/>
   }
 
   _renderFooter(){
@@ -86,7 +91,14 @@ class OrderListItem extends Component {
       loadMoreAction()
     }
   }
-  _keyExtractor = (item, index) => item.orderNo
+
+    separatorComponent() {
+        return (
+            <View style={{height: 10, backgroundColor: '#f0f2f5',}}/>
+        );
+    };
+
+  _keyExtractor = (item, index) => index
   _listEmptyComponent(){
     return (
       <View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-44-40-49}}>
@@ -100,10 +112,10 @@ class OrderListItem extends Component {
       <View style={{flex:1}}>
         <FlatList
           style={{flex:1}}
-          data={ dataSource.get('list').toJS() || [] }
+          data={ ['1', '2'] }
           onRefresh={()=>{
-            const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
-            this.props.dispatch(changeOrderListIsRefreshing(orderState, true))//刷新货源列表
+            // const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
+            this.props.dispatch(changeOrderListIsRefreshing(activeTab, true))//刷新货源列表
             this.props.refreshList && this.props.refreshList()
           }}
           refreshing={dataSource.get('isRefreshing')}
@@ -112,6 +124,7 @@ class OrderListItem extends Component {
           onEndReachedThreshold={0.1}
           enableEmptySections={true}
           onEndReached={ this._toEnd.bind(this) }
+          ItemSeparatorComponent={this.separatorComponent}
           ListFooterComponent={this._renderFooter.bind(this)}
           ListEmptyComponent={this._listEmptyComponent()}/>
 
@@ -187,10 +200,10 @@ class OrderList extends BaseComponent {
     }
 
     this.state = {
-      title: '全部货源订单',
+      title: '运单',
       showMenu: false,
       currentMenuIndex: 0,
-      // activeTab: 0,
+      activeTab: 0,
       // subActiveTab: 0,
       showCoordination: false,
       coordinationResult: {},
@@ -200,76 +213,111 @@ class OrderList extends BaseComponent {
 
     this._updateListWithIndex = this._updateListWithIndex.bind(this)
     this._refreshList = this._refreshList.bind(this)
-    this._creatTopMenuButtons = this._creatTopMenuButtons.bind(this)
+    // this._creatTopMenuButtons = this._creatTopMenuButtons.bind(this)
     this._showCoordinateResult = this._showCoordinateResult.bind(this)
   }
   componentDidMount() {
     super.componentDidMount()
     const {user} = this.props
-    setTimeout(()=>{
-      this.props._getCompanyOrderList({
-        carId: user.carId ? user.carId : '',
-        companyId: user.currentUserRole === 1 ? user.userId : user.carrierId,
-        orderState: 1,
-        orderType: 0,
-        pageNo: 1
-      })
-    }, Platform.OS === 'ios' ? 0 : 800);
+    // setTimeout(()=>{
+    //   this.props._getCompanyOrderList({
+    //     carId: user.carId ? user.carId : '',
+    //     companyId: user.currentUserRole === 1 ? user.userId : user.carrierId,
+    //     orderState: 1,
+    //     orderType: 0,
+    //     pageNo: 1
+    //   })
+    // }, Platform.OS === 'ios' ? 0 : 800);
+
+      this.getlistbyIndex(0);
 
   }
-  _updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,pageNo=1){
+  _updateListWithIndex(currentMenuIndex,activeTab = this.state.activeTab,activeSubTab,pageNo=1){
     const {user} = this.props
-    this.setState({
-      batchEditing: false
-    })
-    this.props._setAllUnPaySelected(false)
-    this.props._setAllUnPayEditing(false)
+    // this.setState({
+    //   batchEditing: false
+    // })
+    // this.props._setAllUnPaySelected(false)
+    // this.props._setAllUnPayEditing(false)
 
-    this.props._getCompanyOrderList({
-      companyId: user.currentUserRole === 1 ? user.userId : user.carrierId,
-      carId: user.carId ? user.carId : '',
-      orderState: HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab),
-      orderType: HelperUtil.transformOrderTypeMenuIndexToType(currentMenuIndex),
-      pageNo
-    })
+      this.getlistbyIndex(activeTab, pageNo);
+
+    // this.props._getCompanyOrderList({
+    //   companyId: user.currentUserRole === 1 ? user.userId : user.carrierId,
+    //   carId: user.carId ? user.carId : '',
+    //   orderState: HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab),
+    //   orderType: HelperUtil.transformOrderTypeMenuIndexToType(currentMenuIndex),
+    //   pageNo
+    // })
+  }
+
+    getlistbyIndex(currentPageIndex, pageNo) {
+        switch (currentPageIndex) {
+            case 0:
+              // 全部
+                this.getDataList('CCC', API.API_NEW_APP_DISPATCH_DOC_WITH_PAGE, pageNo, currentPageIndex);
+                break;
+            case 1:
+              // 装车
+                this.getDataList('BBB', API.API_NEW_APP_DISPATCH_DOC_CARRIER, pageNo, currentPageIndex);
+                break;
+            case 2:
+              // 交付
+                this.getDataList('CCC', API.API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT, pageNo, currentPageIndex);
+                break;
+            case 3:
+              // 已完成
+                this.getDataList('DDD', API.API_NEW_GET_RECEIVE_ORDER_LIST, pageNo, currentPageIndex);
+                break;
+        }
+    }
+
+  getDataList(type, api, pageNum, index) {
+    this.props._getTransportOrderList({
+        // carrierCode: this.props.carrierCode,
+        carrierCode: '15801461050',
+        page: pageNum,
+        pageSize,
+        queryType: type,
+    }, api, index);
   }
 
   _refreshList(){
     const {currentMenuIndex} = this.state
-    const {activeTab,activeSubTab} = this.props
+    const {activeTab, activeSubTab} = this.props
     console.log("====== currentMenuIndex ,activeTab, activeSubTab",currentMenuIndex,activeTab,activeSubTab);
-    this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab)
+    this._updateListWithIndex(currentMenuIndex,this.state.activeTab,activeSubTab)
   }
 
-  _selectAllUnPayItem(shouleSelectAll){
-    if (shouleSelectAll) {
-
-    };
-  }
-  _creatTopMenuButtons(titles){
-    const { currentMenuIndex } = this.state
-    const {activeSubTab, activeTab} = this.props
-    const buttons = titles.map((item,index)=>{
-      return(
-        <Button key={index} style={[styles.menuButtonStyle,{backgroundColor: currentMenuIndex === index ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0)'}]}
-          textStyle={{fontSize: 14,color: currentMenuIndex === index ? COLOR.APP_THEME : 'white'}}
-          onPress={()=>{
-            if (currentMenuIndex != index) {
-              this.setState({
-                title: item,
-                showMenu: false,
-                currentMenuIndex: index
-              })
-              this._updateListWithIndex(index,activeTab,activeSubTab)
-              this.props.dispatch(appendLogToFile('订单列表', '筛选-'+item,0))
-            };
-          }}>
-          {item}
-        </Button>
-      )
-    })
-    return buttons
-  }
+  // _selectAllUnPayItem(shouleSelectAll){
+  //   if (shouleSelectAll) {
+  //
+  //   };
+  // }
+  // _creatTopMenuButtons(titles){
+  //   const { currentMenuIndex } = this.state
+  //   const {activeSubTab, activeTab} = this.props
+  //   const buttons = titles.map((item,index)=>{
+  //     return(
+  //       <Button key={index} style={[styles.menuButtonStyle,{backgroundColor: currentMenuIndex === index ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0)'}]}
+  //         textStyle={{fontSize: 14,color: currentMenuIndex === index ? COLOR.APP_THEME : 'white'}}
+  //         onPress={()=>{
+  //           if (currentMenuIndex != index) {
+  //             this.setState({
+  //               title: item,
+  //               showMenu: false,
+  //               currentMenuIndex: index
+  //             })
+  //             this._updateListWithIndex(index,activeTab,activeSubTab)
+  //             this.props.dispatch(appendLogToFile('订单列表', '筛选-'+item,0))
+  //           };
+  //         }}>
+  //         {item}
+  //       </Button>
+  //     )
+  //   })
+  //   return buttons
+  // }
   _showCoordinateResult(result){
     this.setState({
       showCoordination: true,
@@ -285,8 +333,8 @@ class OrderList extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled,orderUnPay,orderPaying} = nextProps
-    if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore') && !orderUnPay.get('isLoadingMore') && !orderPaying.get('isLoadingMore')) {
+    const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled} = nextProps
+    if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore')) {
 
       this._refreshList()
     }
@@ -324,44 +372,58 @@ class OrderList extends BaseComponent {
           <NavigatorBar
             hiddenBackIcon={true}
             title={ title }
-            assistIconFont='&#xe60c;'
-            assistIconClick={()=>{
-              this.setState({
-                showMenu: true
-              })
-            }}/>
+            // assistIconFont='&#xe60c;'
+            // assistIconClick={()=>{
+            //   this.setState({
+            //     showMenu: true
+            //   })
+            // }}
+          />
         :
           <NavigatorBar
             hiddenBackIcon={true}
             title={title}
-            assistIconFont='&#xe60e;'
-            assistIconClick={()=>{
-              this.setState({
-                showMenu: true
-              })
-            }}/>
+            // assistIconFont='&#xe60e;'
+            // assistIconClick={()=>{
+            //   this.setState({
+            //     showMenu: true
+            //   })
+            // }}
+          />
       }
         <View style={styles.content}>
           <ScrollableTabView
-            page={activeTab}
+            // page={activeTab}
+            initialPage={0}
             style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
             renderTabBar={() =>
-              <DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
-                tabStyle={{paddingBottom: 2}}/>
+                <ScrollableTabBar
+                    tabStyle={{paddingLeft: 5,
+                        paddingRight: 5,
+                        paddingBottom: 0,
+                        }}
+                />
             }
             onChangeTab={(obj)=>{
-              if (obj.i == obj.from) {
-                return
-              };
-              this.props._changeOrderTab(obj.i,activeSubTab)
+              // if (obj.i == obj.from) {
+              //   return
+              // };
+              // this.props._changeOrderTab(obj.i,activeSubTab)
               //  1所有 2待装货 3待交付 4结算 5未结算 6结算中 7已结算(已完成) 8取消
               // if (obj.i != 3) {
-                InteractionManager.runAfterInteractions(() => {
-                  this._updateListWithIndex(currentMenuIndex,obj.i,activeSubTab)
-                });
+              //   InteractionManager.runAfterInteractions(() => {
+              //     this._updateListWithIndex(currentMenuIndex,obj.i,activeSubTab)
+              //   });
+
+                if(obj.i != obj.from){
+                    this.setState({
+                        activeTab: obj.i,
+                    });
+                    this._updateListWithIndex(currentMenuIndex,obj.i,activeSubTab)
+                }
               // };
             }}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 44,marginLeft:(width*0.2-44)*0.5 }}
+            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2, }}
             tabBarActiveTextColor={COLOR.APP_THEME}
             tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
             tabBarTextStyle={{fontSize:15}}>
@@ -380,7 +442,7 @@ class OrderList extends BaseComponent {
             <OrderListItem
               refreshList={this._refreshList}
               {...this.props}
-              tabLabel={'装货'}
+              tabLabel={'装车'}
               dataSource={orderToInstall}
               loadMoreAction={()=>{
                 this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToInstall.get('pageNo')) + 1)
@@ -398,110 +460,109 @@ class OrderList extends BaseComponent {
                 this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToDelivery.get('pageNo')) + 1)
               }}/>
 
-            <OrderListItemClear
-              {...this.props}
-              refreshList={this._refreshList}
-              tabLabel={'结算'}
-              orderUnPay={orderUnPay}
-              orderPaying={orderPaying}
-              showCoordination={(result)=>{
-                this._showCoordinateResult(result)
-              }}
-              setSubActiveTab={(newActiveSubTab)=>{
-                this.props._changeOrderTab(activeTab,newActiveSubTab)
-                this._updateListWithIndex(currentMenuIndex,activeTab,newActiveSubTab)
-              }}
-              loadMoreAction={(index)=>{
-                if (index == 0) {
-                  this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderUnPay.get('pageNo')) + 1)
-                }else if (index == 1) {
-                  this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderPaying.get('pageNo')) + 1)
-                };
-              }}
-              batchHandle={()=>{
-                // console.log("  ======= ",orderUnPay.get('allSelected'));
-                if (orderUnPay && orderUnPay.get('list').size > 0) {
-                  return <BatchEdit
-                    batchEditing={batchEditing}
-                    isAllselected={orderUnPay.get('allSelected')}
-                    startEditing={(editing)=>{
-                      this.setState({
-                        batchEditing: editing
-                      })
-                      this.props._setAllUnPayEditing(editing)
-                      if (editing) {
-                        // 开始批量编辑
-                      }else{
-                        // 结束批量编辑
-                        this.props._setAllUnPaySelected(false)
-                      };
-                    }}
-                    selectAll={(allSelectedOrNot)=>{
-                      // console.log(" 全选 ");
-                      this.props._setAllUnPaySelected(allSelectedOrNot)
-                    }}
-                    batchApply={()=>{
-                      // console.log(" apply clear");
-                      if (user.currentUserRole != 1) {
-                        Toast.show('司机帐号没有该权限')
-                        return
-                      }
-                      const allOrderNoArr = []
-                      orderUnPay.get('list').map((item,index)=>{
-                        // console.log("------- ",item.selected);
-                        if (item.selected) {
-                          allOrderNoArr.push(item.orderNo)
-                        };
-                      })
-                      if (allOrderNoArr.length < 1) {
-                        Toast.show('请选择需要催款的订单')
-                        return
-                      };
-                      // console.log("-------- p批量催款 === orderNo", allOrderNoArr);
+            {/*<OrderListItemClear*/}
+              {/*{...this.props}*/}
+              {/*refreshList={this._refreshList}*/}
+              {/*tabLabel={'结算'}*/}
+              {/*orderUnPay={orderUnPay}*/}
+              {/*orderPaying={orderPaying}*/}
+              {/*showCoordination={(result)=>{*/}
+                {/*this._showCoordinateResult(result)*/}
+              {/*}}*/}
+              {/*setSubActiveTab={(newActiveSubTab)=>{*/}
+                {/*this.props._changeOrderTab(activeTab,newActiveSubTab)*/}
+                {/*this._updateListWithIndex(currentMenuIndex,activeTab,newActiveSubTab)*/}
+              {/*}}*/}
+              {/*loadMoreAction={(index)=>{*/}
+                {/*if (index == 0) {*/}
+                  {/*this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderUnPay.get('pageNo')) + 1)*/}
+                {/*}else if (index == 1) {*/}
+                  {/*this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderPaying.get('pageNo')) + 1)*/}
+                {/*};*/}
+              {/*}}*/}
+              {/*batchHandle={()=>{*/}
+                {/*// console.log("  ======= ",orderUnPay.get('allSelected'));*/}
+                {/*if (orderUnPay && orderUnPay.get('list').size > 0) {*/}
+                  {/*return <BatchEdit*/}
+                    {/*batchEditing={batchEditing}*/}
+                    {/*isAllselected={orderUnPay.get('allSelected')}*/}
+                    {/*startEditing={(editing)=>{*/}
+                      {/*this.setState({*/}
+                        {/*batchEditing: editing*/}
+                      {/*})*/}
+                      {/*this.props._setAllUnPayEditing(editing)*/}
+                      {/*if (editing) {*/}
+                        {/*// 开始批量编辑*/}
+                      {/*}else{*/}
+                        {/*// 结束批量编辑*/}
+                        {/*this.props._setAllUnPaySelected(false)*/}
+                      {/*};*/}
+                    {/*}}*/}
+                    {/*selectAll={(allSelectedOrNot)=>{*/}
+                      {/*// console.log(" 全选 ");*/}
+                      {/*this.props._setAllUnPaySelected(allSelectedOrNot)*/}
+                    {/*}}*/}
+                    {/*batchApply={()=>{*/}
+                      {/*// console.log(" apply clear");*/}
+                      {/*if (user.currentUserRole != 1) {*/}
+                        {/*Toast.show('司机帐号没有该权限')*/}
+                        {/*return*/}
+                      {/*}*/}
+                      {/*const allOrderNoArr = []*/}
+                      {/*orderUnPay.get('list').map((item,index)=>{*/}
+                        {/*// console.log("------- ",item.selected);*/}
+                        {/*if (item.selected) {*/}
+                          {/*allOrderNoArr.push(item.orderNo)*/}
+                        {/*};*/}
+                      {/*})*/}
+                      {/*if (allOrderNoArr.length < 1) {*/}
+                        {/*Toast.show('请选择需要催款的订单')*/}
+                        {/*return*/}
+                      {/*};*/}
+                      {/*// console.log("-------- p批量催款 === orderNo", allOrderNoArr);*/}
 
-                      this.props._getBankCardList(user.userId,(data)=>{
-                        // console.log("判断是否添加开户行信息 ",data);
-                        if (data.length < 1) {
-                          Alert.alert('温馨提示','您的账户还未添加银行账户，为不影响给您打款，请前往用户中心-会员信息进行设置！',[
-                            {text: '再看看', onPress:()=>{
-                              // console.log("cancle...");
-                            }},
-                            {text: '去设置', onPress:()=>{
-                              this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}
-                              })
-                            }}
-                          ])
-                        }else{
-                          if (this.props._applyClear) {
-                            Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[
-                              {text: '取消', onPress:()=>{
-                                // console.log("cancle...");
-                              }},
-                              {text: '提交并查看', onPress:()=>{
-                                this.props._applyClear({
-                                  orderNo: allOrderNoArr.join(','),
-                                  carId: user.carId ? user.carId : '',
-                                  activeTab
-                                },()=>{
-                                  /**
-                                   * 刷新【结算】-【未结算】列表
-                                   * 全选置为false
-                                   */
-                                  this._refreshList()
-                                  console.log(" ===去发票说明");
-                                  this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}
-                                  })
-                                })
-                              }}
-                            ])
-                          };
-                        }
-                      })
-                    }}/>
-                }
-              }}/>
+                      {/*this.props._getBankCardList(user.userId,(data)=>{*/}
+                        {/*// console.log("判断是否添加开户行信息 ",data);*/}
+                        {/*if (data.length < 1) {*/}
+                          {/*Alert.alert('温馨提示','您的账户还未添加银行账户，为不影响给您打款，请前往用户中心-会员信息进行设置！',[*/}
+                            {/*{text: '再看看', onPress:()=>{*/}
+                              {/*// console.log("cancle...");*/}
+                            {/*}},*/}
+                            {/*{text: '去设置', onPress:()=>{*/}
+                              {/*this.props.navigation.dispatch({*/}
+                                {/*type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}*/}
+                              {/*})*/}
+                            {/*}}*/}
+                          {/*])*/}
+                        {/*}else{*/}
+                          {/*if (this.props._applyClear) {*/}
+                            {/*Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[*/}
+                              {/*{text: '取消', onPress:()=>{*/}
+                                {/*// console.log("cancle...");*/}
+                              {/*}},*/}
+                              {/*{text: '提交并查看', onPress:()=>{*/}
+                                {/*this.props._applyClear({*/}
+                                  {/*orderNo: allOrderNoArr.join(','),*/}
+                                  {/*carId: user.carId ? user.carId : '',*/}
+                                  {/*activeTab*/}
+                                {/*},()=>{*/}
+                                  {/*/***/}
+                                   {/** 刷新【结算】-【未结算】列表*/}
+                                   {/** 全选置为false*/}
+                                  {/*this._refreshList()*/}
+                                  {/*console.log(" ===去发票说明");*/}
+                                  {/*this.props.navigation.dispatch({*/}
+                                    {/*type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}*/}
+                                  {/*})*/}
+                                {/*})*/}
+                              {/*}}*/}
+                            {/*])*/}
+                          {/*};*/}
+                        {/*}*/}
+                      {/*})*/}
+                    {/*}}/>*/}
+                {/*}*/}
+              {/*}}/>*/}
 
             <OrderListItem
               refreshList={this._refreshList}
@@ -517,27 +578,27 @@ class OrderList extends BaseComponent {
 
           </ScrollableTabView>
         </View>
-        <Modal animationType={ "fade" } transparent={true} visible={showMenu} onRequestClose={()=>console.log('resolve warnning')} >
-          <View style={styles.modalView}>
-            <TouchableOpacity activeOpacity={0.9} onPress={()=>{
-              this.setState({showMenu: false})
-            }}>
-              <View style={{height,width,alignItems: 'center'}}>
-                <Image source={topArrow} style={{marginTop: this.toolBarHeigth - 5}}/>
-                <View style={{width: 120,height: 44*4,backgroundColor: 'rgba(0,0,0,0.7)',borderRadius: 2}}>
-                  { this._creatTopMenuButtons(['全部货源订单','普通货源订单','优质货源订单','指派订单']) }
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-        <Modal animationType={ "fade" } transparent={true} visible={showCoordination} onRequestClose={()=>console.log('resolve warnning')} >
-          <Coordination data={this.state.coordinationResult} closeAction={()=>{
-            this.setState({
-              showCoordination: false
-            })
-          }}/>
-        </Modal>
+        {/*<Modal animationType={ "fade" } transparent={true} visible={showMenu} onRequestClose={()=>console.log('resolve warnning')} >*/}
+          {/*<View style={styles.modalView}>*/}
+            {/*<TouchableOpacity activeOpacity={0.9} onPress={()=>{*/}
+              {/*this.setState({showMenu: false})*/}
+            {/*}}>*/}
+              {/*<View style={{height,width,alignItems: 'center'}}>*/}
+                {/*<Image source={topArrow} style={{marginTop: this.toolBarHeigth - 5}}/>*/}
+                {/*<View style={{width: 120,height: 44*4,backgroundColor: 'rgba(0,0,0,0.7)',borderRadius: 2}}>*/}
+                  {/*{ this._creatTopMenuButtons(['全部货源订单','普通货源订单','优质货源订单','指派订单']) }*/}
+                {/*</View>*/}
+              {/*</View>*/}
+            {/*</TouchableOpacity>*/}
+          {/*</View>*/}
+        {/*</Modal>*/}
+        {/*<Modal animationType={ "fade" } transparent={true} visible={showCoordination} onRequestClose={()=>console.log('resolve warnning')} >*/}
+          {/*<Coordination data={this.state.coordinationResult} closeAction={()=>{*/}
+            {/*this.setState({*/}
+              {/*showCoordination: false*/}
+            {/*})*/}
+          {/*}}/>*/}
+        {/*</Modal>*/}
       </View>
     )
   }
@@ -590,7 +651,8 @@ const mapStateToProps = (state) => {
     orderPaying: order.get('orderPaying'),
     activeTab: order.get('activeTab'),
     activeSubTab: order.get('activeSubTab'),
-    shouldOrderListRefresh: app.get('shouldOrderListRefresh')
+    shouldOrderListRefresh: app.get('shouldOrderListRefresh'),
+    carrierCode: state.user.get('companyCode'),
   }
 }
 
@@ -606,7 +668,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchData({
         api: API.GET_COMPANY_ORDER_LIST,
         method: 'GET',
-
         body: params,
         success: (data)=>{
           dispatch(shouldOrderListRefreshAction(false))
@@ -730,7 +791,20 @@ const mapDispatchToProps = (dispatch) => {
         }
       }));
     },
-
+    _getTransportOrderList: (params, api, tabIndex) =>{
+        startTime = new Date().getTime();
+        dispatch(fetchData({
+            body: params,
+            method: 'POST',
+            api: api,
+            success: (data) => {
+                dispatch(shouldOrderListRefreshAction(false))
+                data.orderType = tabIndex;
+                dispatch(receiveOrderList(data))
+              console.log('data')
+            }
+        }));
+    }
   }
 }
 

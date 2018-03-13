@@ -113,6 +113,8 @@ class MainContainer extends BaseComponent {
   }
 
   async componentDidMount () {
+    this._routeTab();
+    console.log('------aaa', this.props);
 
       // JPush
     if (IS_IOS) {
@@ -146,9 +148,9 @@ class MainContainer extends BaseComponent {
     }
     const { user } = this.props;
     if (!user || !user.userId) {
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
     }
-    // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+    this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
     this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
       this._getCurrentPosition();
@@ -182,7 +184,8 @@ class MainContainer extends BaseComponent {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
         console.log("定位信息",global.locationData);
-      TimeToDoSomething.uploadDataFromLocalMsg();
+      //todo 上传日志开关
+      // TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {
       // console.log('-------fail:', fail)
     }, {
@@ -204,7 +207,7 @@ class MainContainer extends BaseComponent {
     if (props && !props.legalAccount) {
       new User().delete();
       props.dispatch(logout());
-      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN, mode: 'reset', params: { title: '' } })
+      this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
     }
   }
 
@@ -350,7 +353,7 @@ class MainContainer extends BaseComponent {
         toValue: 1
       }
     ).start(() => this.state.rotateValue.setValue(0));
-    this.props.dispatch(changeTab('route'));
+    this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'goods'));
   }
 
   render() {
@@ -387,6 +390,7 @@ const mapStateToProps = (state) => {
     nav,
     user: app.get('user'),
     tabs: app.get('tabs'),
+    driverTabs: app.get('driverTabs'),
     upgrade: app.get('upgrade'),
     appState: app.get('appState'),
     currentTab: app.get('currentTab'),

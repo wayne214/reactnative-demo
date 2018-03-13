@@ -10,6 +10,11 @@ const initState = Immutable.fromJS({
 	isRefresh: false,
 	isCricleTemplate: true,
 	sealColor: '',
+	selectTemplate: 1,
+  sealHtext: '',
+  sealQtext: '',
+	sealPersonTemplate: '',
+  templateStyle: ''
 });
 
 export default (state = initState, action) => {
@@ -38,11 +43,23 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_REFRESH_ESIGN_TEMPLATE_INFO:
 			console.log('lqq--ACTION_REFRESH_ESIGN_TEMPLATE_INFO-isCricleTemplate-->',action.payload.template);
 			newState = newState.set('isCricleTemplate', action.payload.template);
+        newState = newState.set('selectTemplate',action.payload.selectTemplate);
 			return newState;
 		case ActionTypes.ACTION_REFRESH_ESIGN_COLOR_INFO:
 			console.log('lqq--ACTION_REFRESH_ESIGN_COLOR_INFO-sealColor-->',action.payload.sealColor);
 			newState = newState.set('sealColor', action.payload.sealColor);
 			return newState;
+		case ActionTypes.ACTION_SET_HORIZONTAL_TEXT:
+				newState = newState.set('sealHtext', action.payload);
+				return newState;
+		case ActionTypes.ACTION_SET_LAST_QUARTER_TEXT:
+				newState = newState.set('sealQtext', action.payload);
+				return newState;
+      case ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO:
+          console.log('lqq--ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO--->',action.payload.sealPersonTemplate);
+          newState = newState.set('sealPersonTemplate',action.payload.sealPersonTemplate);
+          newState = newState.set('templateStyle',action.payload.templateStyle);
+          return newState;
 		default:
 			return state;
 	}

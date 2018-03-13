@@ -4,13 +4,18 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.facebook.react.ReactApplication;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import org.reactnative.camera.RNCameraPackage;
+import org.lovebing.reactnative.baidumap.BaiduMapPackage;
+import com.remobile.toast.RCTToastPackage;
+import com.beefe.picker.PickerViewPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rnfs.RNFSPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.RNFetchBlob.RNFetchBlobPackage;
+
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.wonday.pdf.RCTPdfView;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -48,6 +53,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
+            new BaiduMapPackage(),
+            new RCTToastPackage(),
+            new PickerViewPackage(),
+            new ImagePickerPackage(),
             new SplashScreenReactPackage(),
             new RNDeviceInfo(),
             new RNFSPackage(),

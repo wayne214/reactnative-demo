@@ -222,3 +222,73 @@ export const ACTION_CHANGE_ORDER_LIST_REFRESHING = 'ACTION_CHANGE_ORDER_LIST_REF
 export const ACTION_CHANGE_PRE_ORDER_LIST_REFRESHING = 'ACTION_CHANGE_PRE_ORDER_LIST_REFRESHING'
 
 export const ACTION_CHANGE_ORDER_URGED_WITH_ORDER_NO = 'ACTION_CHANGE_ORDER_URGED_WITH_ORDER_NO'
+
+export const ACTION_SET_DRIVER_CHARACTER = 'ACTION_SET_DRIVER_CHARACTER'; // 账户-司机角色
+
+export const ACTION_SET_OWNER_CHARACTER = 'ACTION_SET_OWNER_CHARACTER'; // 账户-车主角色
+
+export const ACTION_SET_COMPANY_CODE = 'ACTION_SET_COMPANY_CODE'; // companyCode
+
+export const ACTION_SET_CURRENT_CHARACTER = 'ACTION_SET_CURRENT_CHARACTER'; // 账户-当前选择角色
+
+export const ACTION_QUERY_ENTER_PRISE_NATURE = 'ACTION_QUERY_ENTER_PRISE_NATURE';   // 查询司机对应企业性质
+
+export const ACTION_SAVE_USER_CAR_LIST = 'ACTION_SAVE_USER_CAR_LIST';// 主界面点击事件
+
+/*用户名*/
+export const ACTION_USER_NAME = 'ACTION_USER_NAME';
+
+// 车主名称
+export const ACTION_OWNER_NAME = 'ACTION_OWNER_NAME';
+
+/*用户绑定车辆发生改变*/
+export const ACTION_USER_CAR = 'ACTION_USER_CAR';
+/*清空user里面的值*/
+export const ACTION_USER_CLEAR = 'ACTION_USER_CLEAR';
+
+//保存天气信息
+export const ACTION_SAVE_WEATHER = 'ACTION_SAVE_WEATHER';
+
+export const ACTION_TOGGLE_LOADING = 'ACTION_TOGGLE_LOADING'
+
+/*改变首页城市*/
+export const ACTION_GET_LOCATION = 'ACTION_GET_LOCATION';
+// 获取首页状态数量
+export const ACTION_GET_HOME_PAGE_COUNT = 'ACTION_GET_HOME_PAGE_COUNT';
+// 获取首页状态数量
+export const ACTION_GET_CARRIER_HOME_PAGE_COUNT = 'ACTION_GET_CARRIER_HOME_PAGE_COUNT';
+// 主界面点击事件
+export const ACTION_MAIN_PRESS = 'ACTION_MAIN_PRESS';
+// 版本升级
+export const UPDATE_VERSION = 'UPDATE_VERSION';
+/******************************司机角色Action*******************************/
+
+export const ACTION_SET_MESSAGE_LIST_ICON = 'ACTION_SET_MESSAGE_LIST_ICON';
+
+export const ACTION_SET_VERIFIED_STATE = 'ACTION_SET_VERIFIED_STATE'; // 实名
+
+export const ACTION_SET_CERTIFICATION_STATE = 'ACTION_SET_CERTIFICATION_STATE'; // 资质
+
+export const ACTION_SET_CAR_NUM = 'ACTION_SET_CAR_NUM'; // 我的界面车牌号
+
+/******************************司机注册Action*******************************/
+
+export const ACTION_REGISTERED_IDENTITY_CODE = 'ACTION_REGISTERED_IDENTITY_CODE';
+
+
+/*******************************司机订单Action*******************************/
+
+export const ADD_IMAGE = 'ADD_IMAGE'; // 添加图片
+
+export const DELETE_IMAGE = 'DELETE_IMAGE'; // 删除图片
+
+export const UPDATE_IMAGES = 'UPDATE_IMAGES'; // 清空图片
+
+export const ACTION_GET_DRIVER_ORDER_LIST = 'ACTION_GET_DRIVER_ORDER_LIST';
+
+export const ACTION_REFRESH_DRIVER_ORDER_LIST = 'ACTION_REFRESH_DRIVER_ORDER_LIST';
+
+/*******************************承运方电子签章Action*******************************/
+export const ACTION_SET_HORIZONTAL_TEXT = 'ACTION_SET_HORIZONTAL_TEXT'; // 设置横向文
+export const ACTION_SET_LAST_QUARTER_TEXT = 'ACTION_SET_LAST_QUARTER_TEXT'; // 设置下弦文
+export const ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO = 'ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO';

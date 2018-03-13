@@ -30,6 +30,16 @@ const styles = StyleSheet.create({
     width: 20,
     resizeMode: 'cover'
   },
+  driverTabIcon:{
+      fontFamily: 'iconfont',
+      fontSize: 16,
+      color: '#B4B4B4',
+  },
+  driverSelectedTabIcon:{
+      fontFamily: 'iconfont',
+      fontSize: 16,
+      color: '#0092FF',
+  },
   routeIcon: {
     position: 'absolute',
     bottom: 0,
@@ -96,7 +106,17 @@ const styles = StyleSheet.create({
   rightBorder: {
     borderRightWidth: 1,
     borderRightColor: '#F1F1F1'
-  }
+  },
+   selectIcon: {
+     fontFamily: 'iconfont',
+     fontSize: 23,
+     color: '#0092FF',
+   },
+    normalIcon: {
+        fontFamily: 'iconfont',
+        fontSize: 23,
+        color: '#B4B4B4',
+    }
 });
 
 export default styles;

@@ -20,3 +20,24 @@ export function dispatchRefreshESignColorInfo(params){
 		payload: params
 	};
 }
+
+export function dispatchRefreshHorizontalText(params){
+    return{
+        type: ActionTypes.ACTION_SET_HORIZONTAL_TEXT,
+        payload: params
+    };
+}
+
+export function dispatchRefreshLastQuarterText(params){
+    return{
+        type: ActionTypes.ACTION_SET_LAST_QUARTER_TEXT,
+        payload: params
+    };
+}
+
+export function dispatchRefreshESignPersonTemplateInfo(params) {
+    return {
+        type: ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO,
+        payload: params
+    };
+}

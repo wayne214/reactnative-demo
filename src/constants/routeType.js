@@ -126,3 +126,154 @@ export const ROUTE_AGREEMENT_CONTENT = 'ROUTE_AGREEMENT_CONTENT';
 export const ROUTE_DRIVER_INFO_DETAIL = 'ROUTE_DRIVER_INFO_DETAIL';
 
 export const ROUTE_GAME_PAGE = 'ROUTE_GAME_PAGE';
+
+// 司机首页
+export const ROUTE_HOME_PAGE = 'ROUTE_HOME_PAGE';
+// 上报道路异常
+export const ROUTE_UPLOAD_ABNORMAL_PAGE = 'ROUTE_UPLOAD_ABNORMAL_PAGE';
+
+
+/************************** 司机订单 ******************************/
+
+// 司机订单
+export const ROUTE_DRIVER_ORDER_PAGE = 'ROUTE_DRIVER_ORDER_PAGE';
+// 待发运
+export const ROUTE_ORDER_SHIPPED_PAGE = 'ROUTE_ORDER_SHIPPED_PAGE';
+// 待签收、待回单、已完成
+export const ROUTE_ORDER_SIGN_IN_PAGE = 'ROUTE_ORDER_SIGN_IN_PAGE';
+// 扫描gps设备
+export const ROUTE_SCAN_GPS_PAGE = 'ROUTE_SCAN_GPS_PAGE';
+// gps详情
+export const ROUTE_GPS_DETAIL_PAGE = 'ROUTE_GPS_DETAIL_PAGE';
+// 绑定gps界面
+export const ROUTE_BIND_GPS_PAGE = 'ROUTE_BIND_GPS_PAGE';
+// 上传出库单
+export const ROUTE_UPLOAD_ODO_PAGE = 'ROUTE_UPLOAD_ODO_PAGE';
+// 微信支付
+export const ROUTE_WECHAT_PAYMENT_PAGE = 'ROUTE_WECHAT_PAYMENT_PAGE';
+// 收款
+export const ROUTE_MAKE_COLLECTIONS_PAGE = 'ROUTE_MAKE_COLLECTIONS_PAGE';
+// 签收
+export const ROUTE_SIGN_IN_PAGE = 'ROUTE_SIGN_IN_PAGE';
+// 签收成功
+export const ROUTE_SIGN_SUCCESS_PAGE = 'ROUTE_SIGN_SUCCESS_PAGE';
+// 回单
+export const ROUTE_UPLOAD_RECEIPT_PAGE = 'ROUTE_UPLOAD_RECEIPT_PAGE';
+// 百度地图
+export const ROUTE_BAIDU_MAP_PAGE = 'ROUTE_BAIDU_MAP_PAGE';
+// 拍照
+export const ROUTE_TAKE_PHOTO_PAGE = 'ROUTE_TAKE_PHOTO_PAGE';
+// 拍照完成
+export const ROUTE_TAKE_PHOTO_FINISHED_PAGE = 'ROUTE_TAKE_PHOTO_FINISHED_PAGE';
+// 照片预览及删除
+export const ROUTE_PHOTO_SHOW_PAGE = 'ROUTE_PHOTO_SHOW_PAGE';
+
+/************************** 司机订单end ******************************/
+
+// 我的页面
+export const ROUTE_MINE_PAGE = 'ROUTE_MINE_PAGE';
+// 账号密码登录页
+export const ROUTE_LOGIN_WITH_PWD_PAGE = 'ROUTE_LOGIN_WITH_PWD_PAGE';
+// 短信验证码登录
+export const ROUTE_LOGIN_WITH_SMS_PAGE = 'ROUTE_LOGIN_WITH_SMS_PAGE';
+//司机认证
+export const ROUTE_DRIVER_VERIFIED = 'ROUTE_DRIVER_VERIFIED';
+//个人车主认证
+export const ROUTE_PERSON_CAR_OWNER_AUTH = 'ROUTE_PERSON_CAR_OWNER_AUTH';
+//企业车主认证
+export const ROUTE_COMPANY_CAR_OWNER_AUTH = 'ROUTE_COMPANY_CAR_OWNER_AUTH';
+// 认证拍照 竖
+export const ROUTE_TAKE_CEMARA_VERTICAL = 'ROUTE_TAKE_CEMARA_VERTICAL';
+// 认证拍照 竖 结果
+export const ROUTE_TAKE_CEMARA_VERTICAL_END = 'ROUTE_TAKE_CEMARA_VERTICAL_END';
+// 企业车主认证详情
+export const ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL = 'ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL';
+// 个人车主认证详情
+export const ROUTE_PERSON_OWNER_VERIFIED = 'ROUTE_PERSON_OWNER_VERIFIED';
+//司机认证详情
+export const ROUTE_DRIVER_VERIFIED_DETAIL = 'ROUTE_DRIVER_VERIFIED_DETAIL';
+// 认证拍照 横
+export const ROUTE_TAKE_CAMEAR = 'ROUTE_TAKE_CAMEAR';
+// 认证拍照 横 结果
+export const ROUTE_TAKE_CAMEAR_END = 'ROUTE_TAKE_CAMEAR_END';
+// 认证详情显示大图
+export const ROUTE_SHOW_BIG_IMAGE = 'ROUTE_SHOW_BIG_IMAGE';
+//车主增加车辆
+export const ROUTE_CAR_OWNER_ADD_CAR = 'ROUTE_CAR_OWNER_ADD_CAR';
+//车主增加车辆详情
+export const ROUTE_CAR_OWNER_ADD_CAR_DETAIL = 'ROUTE_CAR_OWNER_ADD_CAR_DETAIL';
+//车主增加司机
+export const ROUTE_CAR_OWNER_ADD_DRIVER = 'ROUTE_CAR_OWNER_ADD_DRIVER';
+//车主增加司机详情
+export const ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL = 'ROUTE_CAR_OWNER_ADD_DRIVER_DETAIL';
+
+
+// 修改密码
+export const ROUTE_MODIFY_PWD = 'ROUTE_MODIFY_PWD';
+// 设置
+export const ROUTE_DRIVER_SETTING = 'ROUTE_DRIVER_SETTING';
+// 忘记密码
+export const ROUTE_FORGET_PASSWORD = 'ROUTE_FORGET_PASSWORD';
+// 忘记密码第二步
+export const ROUTE_FORGET_PASSWORD_TWO = 'ROUTE_FORGET_PASSWORD_TWO';
+// 注册第一步
+export const ROUTE_REDISTER_STEP_ONE = 'ROUTE_REDISTER_STEP_ONE';
+// 选择车辆
+export const ROUTE_CHOOSE_CAR = 'ROUTE_CHOOSE_CAR';
+// 个人信息
+export const ROUTE_PERSON_INFO = 'ROUTE_PERSON_INFO';
+// 车辆信息
+export const ROUTE_CAR_INFO = 'ROUTE_CAR_INFO';
+// 车辆被禁用页面
+export const ROUTE_CAR_DISABLE_PAGE = 'ROUTE_CAR_DISABLE_PAGE';
+// 设备绑定
+export const ROUTE_DEVICES_BIND = 'ROUTE_DEVICES_BIND';
+// 初次绑定设备
+export const ROUTE_CHECK_PHONE = 'ROUTE_CHECK_PHONE';
+// 初次绑定设备第二步
+export const ROUTE_CHECK_PHONE_STEP_TWO = 'ROUTE_CHECK_PHONE_STEP_TWO';
+// 绑定车辆
+export const ROUTE_BIND_CAR = 'ROUTE_BIND_CAR';
+// 司机管理
+export const ROUTE_DRIVER_MANAGEMENT = 'ROUTE_DRIVER_MANAGEMENT';
+// 添加司机
+export const ROUTE_ADD_DRIVER2 = 'ROUTE_ADD_DRIVER2';
+// 选择owner角色
+export const ROUTE_CHARACTER_OWNER = 'ROUTE_CHARACTER_OWNER';
+export const ROUTE_CHARACTER_LIST = 'ROUTE_CHARACTER_LIST';
+export const ROUTE_CAR_OWNER_VERIFIED_MSG_CODE = 'ROUTE_CAR_OWNER_VERIFIED_MSG_CODE';
+export const ROUTE_CAR_OWNER_ADD_CAR_TWO = 'ROUTE_CAR_OWNER_ADD_CAR_TWO';
+export const ROUTE_CAR_OWNER_ADD_CAR_THREE = 'ROUTE_CAR_OWNER_ADD_CAR_THREE';
+
+/************************** 司机货源 ******************************/
+// 司机货源
+export const ROUTE_DRIVER_GOOD_PAGE = 'ROUTE_DRIVER_GOOD_PAGE';
+// 司机货源详情
+export const ROUTE_DRIVER_GOOD_DETAIL_PAGE = 'ROUTE_DRIVER_GOOD_DETAIL_PAGE';
+
+/************************** 车辆管理 ******************************/
+export const ROUTE_CAR_MANAGEMENT = 'ROUTE_CAR_MANAGEMENT';
+// 绑定司机
+export const ROUTE_BIND_DRIVER = 'ROUTE_BIND_DRIVER';
+// 添加车辆
+export const ROUTE_ADD_CAR2 = 'ROUTE_ADD_CAR2';
+
+/************************** 电子签章 ******************************/
+// 签章模板-个体
+export const ROUTE_ESIGN_TEMPLATE_INDIVIDUAL = 'ROUTE_ESIGN_TEMPLATE_INDIVIDUAL';
+// 签章模板-公司
+export const ROUTE_ESIGN_TEMPLATE_COMPANY = 'ROUTE_ESIGN_TEMPLATE_COMPANY';
+// 电子签章-个体
+export const ROUTE_ESIGN_INDIVIDUAL = 'ROUTE_ESIGN_INDIVIDUAL';
+// 签章模板颜色
+export const ROUTE_ESIGN_TEMPLATE_COLOR = 'ROUTE_ESIGN_TEMPLATE_COLOR';
+// 横向文
+export const ROUTE_ESIGN_HORIZONTAL_TEXT = 'ROUTE_ESIGN_HORIZONTAL_TEXT';
+// 下弦文
+export const ROUTE_ESIGN_LAST_QUARTER_TEXT = 'ROUTE_ESIGN_LAST_QUARTER_TEXT';
+export const ROUTE_GOOD_LIST_DETAIL = 'ROUTE_GOOD_LIST_DETAIL';
+/************************** 电子签章 end ******************************/
+// 司机-消息列表
+export const ROUTE_MESSAGE_LIST_PAGE = 'ROUTE_MESSAGE_LIST_PAGE';
+// 设备解绑成功
+export const ROUTE_DEVICES_UNBIND_SUCC = 'ROUTE_DEVICES_UNBIND_SUCC';

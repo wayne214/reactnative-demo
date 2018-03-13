@@ -192,6 +192,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-camera')
+    compile project(':react-native-baidu-map-xzx')
+    compile project(':@remobile/react-native-toast')
+    compile project(':react-native-picker-custom')
+    compile project(':react-native-image-picker')
     compile project(':react-native-splash-screen')
     compile project(':react-native-device-info')
     compile project(':react-native-fs')

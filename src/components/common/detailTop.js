@@ -10,7 +10,7 @@ import {
 	Dimensions
 } from 'react-native';
 import PropTypes from 'prop-types';
-import preOrderTop from '../../../assets/img/routes/grab_order_top.png'
+import preOrderTop from '../../../assets/img/routes/goodlistdetailtop.png'
 import * as COLOR from '../../constants/colors'
 import * as ENUM from '../../constants/enum.js'
 

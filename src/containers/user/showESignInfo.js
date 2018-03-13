@@ -24,6 +24,8 @@ import Regex from '../../utils/regex';
 import HelperUtil from '../../utils/helper';
 import ESignOne from '../../../assets/img/user/eSignTemplateOne.png';
 import ESignTwo from '../../../assets/img/user/eSignTemplateTwo.png';
+import * as RouteType from '../../constants/routeType';
+
 let startTime = 0
 class ShowESignInfoContainer extends BaseComponent {
 
@@ -145,88 +147,150 @@ class ShowESignInfoContainer extends BaseComponent {
 			<View style={ styles.container }>
 					<ScrollView keyboardShouldPersistTaps='handled' style={styles.mainTextContent}>
 						<View style={styles.mainTextView}>
-							<View style={styles.landscapeLineView}>
-								<View style={[styles.cellLeft,{marginTop:10}]}>
-									<Text style={styles.cellText}>{'印章模板'}</Text>
-								</View>
-								<View style={styles.landscapeView}>
-									<View style={styles.landscapeHalfView}>
-										<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ this.props.isCricleTemplate }
-										checkedFun={ this._checkedInDatas.bind(this, 1) }/>
-										<Image source={ESignTwo}
-										resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>
-									</View>
-									<View style={styles.landscapeHalfView}>
-										<CheckBox
-										contentStyle={{ width: 20 }}
-										isChecked={ !this.props.isCricleTemplate  }
-										checkedFun={ this._checkedInDatas.bind(this, 2) }/>
-										<Image source={ESignOne}
-										resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />
-									</View>
+							{/*<View style={styles.landscapeLineView}>*/}
+								{/*<View style={[styles.cellLeft,{marginTop:10}]}>*/}
+									{/*<Text style={styles.cellText}>{'印章模板'}</Text>*/}
+								{/*</View>*/}
+								{/*<View style={styles.landscapeView}>*/}
+									{/*<View style={styles.landscapeHalfView}>*/}
+										{/*<CheckBox*/}
+										{/*contentStyle={{ width: 20 }}*/}
+										{/*isChecked={ this.props.isCricleTemplate }*/}
+										{/*checkedFun={ this._checkedInDatas.bind(this, 1) }/>*/}
+										{/*<Image source={ESignTwo}*/}
+										{/*resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]}/>*/}
+									{/*</View>*/}
+									{/*<View style={styles.landscapeHalfView}>*/}
+										{/*<CheckBox*/}
+										{/*contentStyle={{ width: 20 }}*/}
+										{/*isChecked={ !this.props.isCricleTemplate  }*/}
+										{/*checkedFun={ this._checkedInDatas.bind(this, 2) }/>*/}
+										{/*<Image source={ESignOne}*/}
+										{/*resizeMode='stretch' style={[styles.image,{ marginLeft: 10 }]} />*/}
+									{/*</View>*/}
 
 
-								</View>
-							</View>
-							<View style={styles.CellContainer}>
-								<View style={styles.cellLeft}>
-										<Text style={styles.cellText}>{'横向文'}</Text>
-								</View>
-								<View style={styles.cellRight}>
-									<TextInput
-										textAlign='right'
-										returnKeyType='done'
-										placeholder='请输入横向文'
-										placeholderTextColor='#ccc'
-										defaultValue={ eSignInfo && eSignInfo.get('sealHtext')}
-										style={ styles.textInput }
-										underlineColorAndroid={ 'transparent' }
-										value = { this.state.landscapeText }
-										onChangeText={ text => this.setState({ landscapeText: text }) }/>
+								{/*</View>*/}
+							{/*</View>*/}
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_COMPANY, params: {title: '印章模板(个体)', type: 3}})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+										<Text style={styles.cellText}>{'印章模板'}</Text>
 									</View>
-							</View>
-							<View style={styles.CellContainer}>
-								<View style={styles.cellLeft}>
-										<Text style={styles.cellText}>{'下弦文'}</Text>
-								</View>
-								<View style={styles.cellRight}>
-									<TextInput
-										textAlign='right'
-										placeholder='请输入下弦文'
-										returnKeyType='done'
-										placeholderTextColor='#ccc'
-										defaultValue={ eSignInfo && eSignInfo.get('sealQtext')}
-										style={ styles.textInput }
-										underlineColorAndroid={ 'transparent' }
-										value = { this.state.lastQuarterText }
-										onChangeText={ text => this.setState({ lastQuarterText: text }) }/>
+
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+												{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章模板' }
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
-							</View>
+								</View>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_COLOR, params: {title: '印章模板(个体)', type: 3}})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+										<Text style={styles.cellText}>{'印章颜色'}</Text>
+									</View>
+
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={ this.props.sealColor != '' ? styles.blackArrowText : styles.arrowText }>
+												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
+												{this.props.sealColor == '' ? '请选择印章颜色' : this.props.sealColor}
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
+									</View>
+								</View>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_HORIZONTAL_TEXT})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+											<Text style={styles.cellText}>{'横向文'}</Text>
+									</View>
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.props.sealHtext != '' ? styles.blackArrowText : styles.arrowText }>
+												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
+												{this.props.sealHtext == '' ? '请设置横向文' : this.props.sealHtext}
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
+									</View>
+									{/*<View style={styles.cellRight}>*/}
+										{/*<TextInput*/}
+											{/*textAlign='right'*/}
+											{/*returnKeyType='done'*/}
+											{/*placeholder='请输入横向文'*/}
+											{/*placeholderTextColor='#ccc'*/}
+											{/*defaultValue={ eSignInfo && eSignInfo.get('sealHtext')}*/}
+											{/*style={ styles.textInput }*/}
+											{/*underlineColorAndroid={ 'transparent' }*/}
+											{/*value = { this.state.landscapeText }*/}
+											{/*onChangeText={ text => this.setState({ landscapeText: text }) }/>*/}
+										{/*</View>*/}
+								</View>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								activeOpacity={ 1 }
+								onPress={ () =>
+                    // this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+                    this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_LAST_QUARTER_TEXT})
+                }>
+								<View style={styles.CellContainer}>
+									<View style={styles.cellLeft}>
+											<Text style={styles.cellText}>{'下弦文'}</Text>
+									</View>
+									<View style={styles.arrowTextRight}>
+										<Text
+											style={  this.props.sealQtext != '' ? styles.blackArrowText : styles.arrowText }>
+												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
+												{this.props.sealQtext == '' ? '请设置下弦文' : this.props.sealQtext}
+										</Text>
+										<Text style={ styles.arrowRight }>&#xe63d;</Text>
+									</View>
+									{/*<View style={styles.cellRight}>*/}
+										{/*<TextInput*/}
+											{/*textAlign='right'*/}
+											{/*placeholder='请输入下弦文'*/}
+											{/*returnKeyType='done'*/}
+											{/*placeholderTextColor='#ccc'*/}
+											{/*defaultValue={ eSignInfo && eSignInfo.get('sealQtext')}*/}
+											{/*style={ styles.textInput }*/}
+											{/*underlineColorAndroid={ 'transparent' }*/}
+											{/*value = { this.state.lastQuarterText }*/}
+											{/*onChangeText={ text => this.setState({ lastQuarterText: text }) }/>*/}
+										{/*</View>*/}
+								</View>
+							</TouchableOpacity>
 							<TouchableOpacity
 								activeOpacity={ 1 }
 								onPress={ () => this.setState({ visible: true, data: ESIGN_COLOR_TYPE })}>
 
-							<View style={styles.CellContainer}>
-								<View style={styles.cellLeft}>
-										<Text style={styles.cellText}>{'印章颜色'}</Text>
-								</View>
 
-								<View style={styles.arrowTextRight}>
-									<Text
-										style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
-										{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }
-									</Text>
-									<Text style={ styles.arrowRight }>&#xe60d;</Text>
-								</View>
-							</View>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={ () => {this._editESignInfo()} }>
 							<View style={ styles.saveBtn }>
 								<Text
 									style={styles.btn}
-									>保存</Text>
+									>保存设置</Text>
 							</View>
 							</TouchableOpacity>
 						</View>
@@ -253,6 +317,9 @@ const mapStateToProps = state => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    sealColor: eSign.get('sealColor'),
+    sealHtext: eSign.get('sealHtext'),
+    sealQtext: eSign.get('sealQtext'),
 	}
 }
 

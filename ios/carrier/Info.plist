@@ -26,7 +26,7 @@
 	<string>$(CODEPUSH_KEY)</string>
 	<key>LSApplicationCategoryType</key>
 	<array>
-		<string></string>
+		<string/>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -53,9 +53,23 @@
 	<string>根据您当前位置，为您精准推送您期望的信息</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请允许访问您的相册，以获取您相册中的图片</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>iconfont.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Roboto_medium.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
