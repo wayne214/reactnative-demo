@@ -90,6 +90,7 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_CHANGE_ORDER_LIST_REFRESHING:
 			newState = newState.setIn([statusArr[payload.orderState],'isRefreshing'],false);
 		case ActionTypes.ACTION_RECEIVE_ORDER_LIST:
+			console.log('order-payload', payload);
         /* 这里获取承运商运单列表数据，根据订单类状态，放入对应的数组中   先对数据组装、格式化 */
         /* 订单状态：orderType:  0 全部, 1 装车, 2 交付, 3 已完成 */
         let rootType = statusArr[payload.orderType];
@@ -167,40 +168,40 @@ export default (state = initState, action) => {
 		// 	}
 		// 	return newState;
 		case ActionTypes.ACTION_RECEIVE_ORDER_DETAIL:
-			if (payload) {
-				payload.goodsInfoData = {
-					from: payload.fromProvinceName + (payload.fromCityName == payload.fromProvinceName ? '' : payload.fromCityName) + payload.fromAreaName + payload.fromAddress,
-					to: payload.toProvinceName + (payload.toCityName == payload.toProvinceName ? '' : payload.toCityName) + payload.toAreaName + payload.toAddress,
-					goodsNameStr: HelperUtil.getGoodsName(payload.goodsName),
-					goodsSKU: (payload.cargoSpecTon ? (payload.cargoSpecTon + '吨') : '') + (payload.cargoSpecTon && payload.cargoSpecSquare ? '/' : '') + (payload.cargoSpecSquare ? (payload.cargoSpecSquare + '方') : ''),
-					carLength: HelperUtil.getCarLength(parseInt(payload.vehicleType)),
-					remark: payload.remark,
-					temperatureStr: HelperUtil.getTemperature(payload.temperature,payload.temperatureMin,payload.temperatureMax),
-					entrustCode: payload.resourceId,//委托单号
-					transportCode: payload.transportNo,//运单号
-					goodsType: payload.goodsType,
-				}
-
-				if (payload.loadingList && payload.loadingList.length > 0) {
-					const loadingListStrArr = payload.loadingList.map((item,index)=>{
-						return (item.loadingProvinceName == item.loadingCityName ? '' : item.loadingProvinceName) + item.loadingCityName + item.loadingAreaName + item.loadingAddress
-					})
-					payload.goodsInfoData.loadingListStrArr = loadingListStrArr
-				};
-
-				if (payload.goodsType == 1) {
-					payload.goodsTypeStr = '干线'
-					payload.goodsInfoData.installDate = payload.loadingStartDate.split(' ')[0]//`从${payload.loadingStartDate.split(' ')[0]}到${payload.loadingEndDate.split(' ')[0]}`
-					payload.goodsInfoData.arrivalDate = payload.arrivalStartDate.split(' ')[0]//`从${payload.arrivalStartDate.split(' ')[0]}到${payload.arrivalEndDate.split(' ')[0]}`
-				}else if(payload.goodsType == 2){
-					payload.goodsTypeStr = '卡班'
-					payload.goodsInfoData.installDate = payload.startDate
-					payload.goodsInfoData.carBanDate = `${payload.startDate.split(' ')[0]} ${payload.startTimeHourMin}:${payload.startTimeMinuteMin}`//-${payload.startTimeHourMax}:${payload.startTimeMinuteMax}`
-
-				}
-				payload.orderStateStr = HelperUtil.getOrderStateStr(payload.orderState, payload.entrustType)
-			};
-			newState = newState.set('orderDetail',payload)
+		// 	if (payload) {
+		// 		payload.goodsInfoData = {
+		// 			from: payload.fromProvinceName + (payload.fromCityName == payload.fromProvinceName ? '' : payload.fromCityName) + payload.fromAreaName + payload.fromAddress,
+		// 			to: payload.toProvinceName + (payload.toCityName == payload.toProvinceName ? '' : payload.toCityName) + payload.toAreaName + payload.toAddress,
+		// 			goodsNameStr: HelperUtil.getGoodsName(payload.goodsName),
+		// 			goodsSKU: (payload.cargoSpecTon ? (payload.cargoSpecTon + '吨') : '') + (payload.cargoSpecTon && payload.cargoSpecSquare ? '/' : '') + (payload.cargoSpecSquare ? (payload.cargoSpecSquare + '方') : ''),
+		// 			carLength: HelperUtil.getCarLength(parseInt(payload.vehicleType)),
+		// 			remark: payload.remark,
+		// 			temperatureStr: HelperUtil.getTemperature(payload.temperature,payload.temperatureMin,payload.temperatureMax),
+		// 			entrustCode: payload.resourceId,//委托单号
+		// 			transportCode: payload.transportNo,//运单号
+		// 			goodsType: payload.goodsType,
+		// 		}
+    //
+		// 		if (payload.loadingList && payload.loadingList.length > 0) {
+		// 			const loadingListStrArr = payload.loadingList.map((item,index)=>{
+		// 				return (item.loadingProvinceName == item.loadingCityName ? '' : item.loadingProvinceName) + item.loadingCityName + item.loadingAreaName + item.loadingAddress
+		// 			})
+		// 			payload.goodsInfoData.loadingListStrArr = loadingListStrArr
+		// 		};
+    //
+		// 		if (payload.goodsType == 1) {
+		// 			payload.goodsTypeStr = '干线'
+		// 			payload.goodsInfoData.installDate = payload.loadingStartDate.split(' ')[0]//`从${payload.loadingStartDate.split(' ')[0]}到${payload.loadingEndDate.split(' ')[0]}`
+		// 			payload.goodsInfoData.arrivalDate = payload.arrivalStartDate.split(' ')[0]//`从${payload.arrivalStartDate.split(' ')[0]}到${payload.arrivalEndDate.split(' ')[0]}`
+		// 		}else if(payload.goodsType == 2){
+		// 			payload.goodsTypeStr = '卡班'
+		// 			payload.goodsInfoData.installDate = payload.startDate
+		// 			payload.goodsInfoData.carBanDate = `${payload.startDate.split(' ')[0]} ${payload.startTimeHourMin}:${payload.startTimeMinuteMin}`//-${payload.startTimeHourMax}:${payload.startTimeMinuteMax}`
+    //
+		// 		}
+		// 		payload.orderStateStr = HelperUtil.getOrderStateStr(payload.orderState, payload.entrustType)
+		// 	};
+			newState = newState.set('orderDetail',payload);
 			return newState
 
 		case ActionTypes.ACTION_RECEIVE_CLEAR_DETAIL:
