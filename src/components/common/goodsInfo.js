@@ -8,12 +8,11 @@ import {
 	Text,
 	TouchableOpacity
 } from 'react-native';
-import addressFromPoint from '../../../assets/img/routes/from_point.png'
-import addressToPoint from '../../../assets/img/routes/to_point.png'
 import * as COLOR from '../../constants/colors'
 import MakePhoneCall from '../../utils/makePhoneCall.js'
 import Toast from '../../utils/toast.js';
 import AddressItem from '../routes/goodlistAddressItem';
+import MutilAddress from '../../components/routes/goodlistdetailMutilAddress';
 
 class GoodsInfo extends Component{
 	constructor(props) {
@@ -51,7 +50,8 @@ class GoodsInfo extends Component{
 		const {configData = {}, shipperPhone, startAddress, endAddress} = this.props
 		return (
 			<View style={styles.goodsContent}>
-				<View style={{paddingHorizontal: 15, marginTop: 10}}>
+
+				<View style={{paddingHorizontal: 15}}>
 				<AddressItem startAddress={startAddress} endAddress={endAddress}/>
 				</View>
 				<View style={styles.goodsInfo}>
@@ -104,63 +104,54 @@ class GoodsInfo extends Component{
 							</View>
 						: null
 					}
+					<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>货物信息：</Text>
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>货物名称：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.goodsName}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>货物规格：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.goodsSpce}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>货物单位：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.goodsUnit}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>应收：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.arNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>发运：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.shipmentNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>签收：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.signNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>拒签：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.refuseNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe629;</Text>
 						<Text style={styles.goodsDetailMark}>拒签原因：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.refuseReason}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe627;</Text>
 						<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>
 						<Text style={styles.goodsDetailContent}>{configData.goodsType == 1 ? configData.installDate : configData.carBanDate}</Text>
 					</View>
@@ -168,14 +159,12 @@ class GoodsInfo extends Component{
 					{
 						configData.arrivalDate ?
 							<View style={styles.goodsDetailItem}>
-								<Text style={styles.goodsInfoIcon}>&#xe628;</Text>
 								<Text style={styles.goodsDetailMark}>送达时间：</Text>
 								<Text style={styles.goodsDetailContent}>{configData.arrivalDate}</Text>
 							</View>
 						: null
 					}
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsInfoIcon}>&#xe625;</Text>
 						<Text style={styles.goodsDetailMark}>温度要求：</Text>
 						<Text style={styles.goodsDetailContent}>{configData.temperatureStr}</Text>
 					</View>
@@ -191,8 +180,8 @@ class GoodsInfo extends Component{
 }
 const styles = StyleSheet.create({
 	goodsContent: {
-		marginTop: 10,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+			paddingTop: 20,
 	},
 	addressInfo: {
 		// height: 77,

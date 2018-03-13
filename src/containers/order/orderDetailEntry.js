@@ -41,11 +41,10 @@ class orderDetailEntry extends BaseComponent {
 		console.log('---orderDetail', orderDetailData);
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView}>
-						<DetailTop configData={{
-							orderCode: orderDetailData.orderCode,
-              transCode: orderDetailData.transCode,
-						}}/>
-						<View style={{height: 5,backgroundColor: 'white'}}/>
+						<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
+							<Text style={{fontSize: 14, color: '#999999', marginLeft: 15}}>{`订单编号：${orderDetailData.orderCode}`}</Text>
+						</View>
+						<View style={{width: 200, height: 1, backgroundColor: '#E6EAF2'}}/>
 						<GoodsInfo configData={orderDetailData.goodsInfo[0]} startAddress={orderDetailData.deliveryInfo.departureAddress} endAddress={orderDetailData.deliveryInfo.receiveAddress}/>
 						<FoldView title={'发货方信息'} openHeight={2 * 44} renderContent={()=>{
                 return (
@@ -140,7 +139,10 @@ const styles =StyleSheet.create({
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
-		width: width,
+		width: width - 30,
+      borderColor: '#f5f5f5',
+      borderRadius: 5,
+      borderWidth: 1,
 	},
 	headerView: {
 		flex: 1,

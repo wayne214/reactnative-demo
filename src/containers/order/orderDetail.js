@@ -31,7 +31,8 @@ import Button from 'apsl-react-native-button'
 import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
-let startTime = 0
+let startTime = 0;
+import EmptyView from '../../components/common/emptyView';
 
 import OrderDetailEntry from './orderDetailEntry';
 
@@ -126,6 +127,10 @@ class OrderDetail extends BaseComponent {
 			entry = '';
 		}
 		return <View style={styles.container}>
+			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
+				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
+				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>待发车</Text>
+			</View>
 			{
 				orderDetail ?
 					<ScrollView
@@ -758,7 +763,7 @@ class OrderDetail extends BaseComponent {
             {/*}*/}
             {/*</View>*/}
 					</ScrollView>
-				: null
+				: <EmptyView/>
 			}
 			<Modal animationType={ "fade" } transparent={true} visible={showCoordination} onRequestClose={()=>console.log('resolve warnning')} >
 				<Coordination data={this.state.coordinationResult} closeAction={()=>{
@@ -769,6 +774,18 @@ class OrderDetail extends BaseComponent {
 			</Modal>
 
 			{ this._renderUpgrade(this.props) }
+
+				{
+            orderDetail ? <ButtonView dataSource={[
+                {
+                    title: '查看出库单',
+                    callback: () => {
+                        console.log('查看出库单')
+                    }
+                }
+            ]}
+						/> : null
+				}
 
 		</View>
 	}
@@ -810,6 +827,7 @@ const styles =StyleSheet.create({
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
+		height: 500,
 	},
 	headerView: {
 		flex: 1,
