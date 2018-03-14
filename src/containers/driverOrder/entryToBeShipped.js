@@ -235,7 +235,7 @@ class entryToBeShipped extends Component {
             isShowEmptyView: false,
         });
         for(let i = 0; i < array.length; i++){
-            if( array[i].orderFrom === '10' && array[i].isUploadOdo === 'N') {
+            if( array[i].orderFrom === '10' && array[i].isUploadOdo === 'N' && array[i].transOrderType !== '602') {
                 this.setState({
                     isUploadOdoFlag: false
                 });
@@ -258,13 +258,21 @@ class entryToBeShipped extends Component {
     // 点击发运调用接口
     sendOrder() {
         currentTime = new Date().getTime();
-        const goodInfo = transOrderInfo[0].goodsInfo;
-
-        for (let i = 0; i < goodInfo.length; i++){
-            let obj = goodInfo[i];
-            if (!obj.shipmentNums || obj.shipmentNums === '') {
-                Toast.showShortCenter('发运数量不能为空');
-                return;
+        for(let k = 0; k < this.state.datas.length; k++) {
+            let orderFrom = this.state.datas[k].orderFrom;
+            if(orderFrom === '20') {
+                for(let j = 0; j < transOrderInfo.length; j++) {
+                    let goodInfo = transOrderInfo[j].goodsInfo;
+                    if(goodInfo.length > 0) {
+                        for (let i = 0; i < goodInfo.length; i++){
+                            let obj = goodInfo[i];
+                            if (!obj.shipmentNums || obj.shipmentNums === '') {
+                                Toast.showShortCenter('发运数量不能为空');
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
         // 传递参数
@@ -439,7 +447,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
@@ -469,7 +477,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     orderFrom={item.orderFrom}

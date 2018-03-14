@@ -311,6 +311,7 @@ class entryGoodsDetail extends Component {
                     customerOrderCode={item.customerOrderCode}
                     vol={item.vol}
                     weight={item.weight}
+                    num={item.qty}
                     index={index}
                     addressMapSelect={(indexRow, type) => {
                         this.jumpAddressPage(indexRow, type, item);

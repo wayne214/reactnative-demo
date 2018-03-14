@@ -79,6 +79,7 @@ class driverGoods extends Component {
         this.getData = this.getData.bind(this);
         this.getDataSuccessCallBack = this.getDataSuccessCallBack.bind(this);
         this.getDataFailCallBack = this.getDataFailCallBack.bind(this);
+        this.renderRow = this.renderRow.bind(this);
     }
 
     componentDidMount() {
@@ -200,7 +201,7 @@ class driverGoods extends Component {
         });
     }
     // 获取数据
-    getData(status, endTime, getDataSuccessCallBack, getDataFailCallBack, pageNo) {
+    getData(status, endTime, pageNo) {
         currentTime = new Date().getTime();
         // const beginTimeTemp = this.getPreMonth(moment(new Date()).format('YYYY-MM-DD'));
         // const plateNumber = this.props.userPlateNumber;
@@ -215,7 +216,7 @@ class driverGoods extends Component {
                     driverPhone: global.phone,
                     status,
                     plateNumber: global.plateNumber,
-                }, getDataSuccessCallBack, getDataFailCallBack);
+                }, this.getDataSuccessCallBack, this.getDataFailCallBack);
             } else {
                 list = [];
                 this.setState({
@@ -235,7 +236,7 @@ class driverGoods extends Component {
         }
     }
     getDataAndCallBack(goodStatus, date, pageNo) {
-        this.getData(goodStatus, date, this.getDataSuccessCallBack, this.getDataFailCallBack, pageNo);
+        this.getData(goodStatus, date, pageNo);
     }
 
     // 刷新
@@ -248,7 +249,9 @@ class driverGoods extends Component {
         this.resetParams();
         this.getDataAndCallBack(this.state.goodStatus, this.state.date, pageNO);
     }
-    renderRow(dataRow) {
+
+    renderRow(data) {
+        const dataRow = data.item;
         const pushTime = dataRow.pushTime ? dataRow.pushTime.replace(/-/g,'/').substring(0, dataRow.pushTime.length - 3) : '';
         const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, dataRow.arrivalTime.length - 3) : '';
         // 货品类型
