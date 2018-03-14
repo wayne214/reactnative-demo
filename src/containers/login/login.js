@@ -176,8 +176,8 @@ class Login extends BaseComponent {
         super(props);
         const params = this.props.navigation.state.params;
         this.state = {
-            phoneNumber: '15801461058',
-            password: '123qwe',
+            phoneNumber: '18810083395',
+            password: '123456',
             loading: false,
         };
         this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);

@@ -12,15 +12,9 @@ import {
     Alert
 } from 'react-native';
 import {
-    loginSuccessAction,
-    setUserNameAction,
-    setDriverCharacterAction,
-    setOwnerCharacterAction,
-    setCurrentCharacterAction,
-    setCompanyCodeAction,
-    setOwnerNameAction
-} from '../../action/user';
-import {locationAction} from '../../action/app';
+    locationAction,
+    saveWeather
+} from '../../action/home';
 import {
     WHITE_COLOR,
     BLUE_CONTACT_COLOR,
@@ -42,7 +36,6 @@ import {
     getHomePageCountAction,
     changeTab,
 } from '../../action/app';
-import {saveWeather} from '../../action/home';
 import {
     changeOrderTabAction,
     refreshDriverOrderList,
@@ -50,6 +43,7 @@ import {
 import {
     saveUserCarList,
     setUserCarAction,
+    setCurrentCharacterAction,
     queryEnterpriseNatureSuccessAction,
 } from '../../action/user';
 
@@ -358,16 +352,12 @@ class Home extends Component {
         // }
         // -----------jpush  ios end
 
-        // this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
-        //     if (this.props.currentStatus == 'driver') {
-        //         if (this.props.plateNumber) {
-        //             const {userInfo} = this.props;
-        //             this.getHomePageCount(this.props.plateNumber, userInfo.phone)
-        //         }
-        //     } else {
-        //         this.getCarrierHomePageCount();
-        //     }
-        // });
+        this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
+            if (this.props.plateNumber) {
+                const {userInfo} = this.props;
+                this.getHomePageCount(this.props.plateNumber, userInfo.phone)
+            }
+        });
         // this.getUserCarListener = DeviceEventEmitter.addListener('getUserCar', () => {
         //     this.getUserCar();
         // });
@@ -809,6 +799,30 @@ class Home extends Component {
                 }}>{this.state.limitNumber}</Text>
             </View> : null;
         let date = new Date();
+        let stateView;
+        if (this.props.currentStatus == 'driver') {
+            switch (this.props.driverStatus) {
+                case '1' || 1:
+                    stateView =
+                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
+                        </View>
+                    break;
+                case '2' || 2:
+                    stateView = null;
+                    break;
+                case '3' || 3:
+                    stateView =
+                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证驳回</Text>
+                        </View>
+                    break;
+                default:
+                    stateView = null;
+                    break;
+            }
+
+        }
 
         const driverView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
             <HomeCell
@@ -967,7 +981,7 @@ class Home extends Component {
                     <TouchableOpacity
                         activeOpacity={1}
                         onPress={() => {
-
+                            // TODO
 
                         }}
                     >
@@ -985,12 +999,7 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-            {
-                1 === 1 ?
-                <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
-                </View> : null
-            }
+            {stateView}
             <ScrollView>
                 <View style={styles.locationStyle}>
                     <Image source={locationIcon}/>
@@ -1028,105 +1037,41 @@ class Home extends Component {
                         removeClippedSubviews={false}
                     />
                 </View>
-
-
-                {true ?
-                    <View>
-                        <View style={styles.weather}>
-                            <View style={styles.date}>
-                                <Text style={styles.day}>
-                                    {date.getUTCDate()}
-                                </Text>
-                                <Text style={styles.week}>
-                                    {this.getCurrentWeekday(date.getDay())}
-                                </Text>
-                            </View>
-                            <View style={{flexDirection: 'row', marginLeft: 20}}>
-                                <View style={{
-                                    marginRight: 15,
-                                    justifyContent: 'center',
-                                }}>
-
-                                    <WeatherCell weatherIcon={'晴todo'}/>
-                                </View>
-                                <Text style={{
-                                    marginRight: 10,
-                                    fontSize: 14,
-                                    color: LIGHT_BLACK_TEXT_COLOR,
-                                    alignSelf: 'center'
-                                }}> {'天气todo'}</Text>
-
-                                <Text style={{
-                                    marginRight: 10,
-                                    fontSize: 14,
-                                    color: LIGHT_BLACK_TEXT_COLOR,
-                                    alignSelf: 'center'
-                                }}>{-99}℃/{99}℃</Text>
-                            </View>
-                            {limitView}
+                <View>
+                    <View style={styles.weather}>
+                        <View style={styles.date}>
+                            <Text style={styles.day}>
+                                {date.getUTCDate()}
+                            </Text>
+                            <Text style={styles.week}>
+                                {this.getCurrentWeekday(date.getDay())}
+                            </Text>
                         </View>
-                        {driverView}
-                    </View>
-                    :
-                    <View style={{marginLeft: 10}}>
-
-                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
-                            <Image
-                                style={{}}
-                                source={Fromto}/>
-                            <View style={{marginTop: 5, marginLeft: 10}}>
-                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>北京市朝阳区</Text>
-                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>内蒙古自治区呼和浩特市新城区</Text>
-                            </View>
-                        </View>
-                        <LittleButtonCell marginLeft={20} color='#FF6B6B' buttonWidth={30} title='自营'/>
-
-                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
-                            <View style={{flex: 1.5}}>
-                                <Image
-                                    style={{}}
-                                    source={Fromto}/>
-                            </View>
-                            <View style={{marginTop: 5, marginLeft: 10, flex: 6.5}}>
-                                <View style={{flexDirection: 'row',}}>
-                                    <View style={styles.textBackground}>
-                                        <Text style={styles.textBackgroundFont}>有</Text>
-                                    </View>
-                                    <LittleButtonCell marginLeft={8} color='#999999' buttonWidth={30} title='水饺'/>
-                                </View>
-                                <View style={{flexDirection: 'row', marginTop: 8}}>
-                                    <View style={styles.textBackgroundBlue}>
-                                        <Text style={styles.textBackgroundFont}>求</Text>
-                                    </View>
-                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={70}
-                                                      title='4.2米-7.2米车'/>
-                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={46} title='冷藏车'/>
-                                </View>
-                            </View>
-                            <View style={{width: 1, backgroundColor: '#E6EAF2'}}/>
+                        <View style={{flexDirection: 'row', marginLeft: 20}}>
                             <View style={{
-                                flex: 3,
-                                justifyContent: 'flex-end',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginRight: 15
+                                marginRight: 15,
+                                justifyContent: 'center',
                             }}>
-                                <Text style={{color: '#FF8500', fontSize: 21}}>2344.00</Text>
-                                <Text style={{color: '#666666', fontSize: 14}}>元</Text>
+                                <WeatherCell weatherIcon={'晴todo'}/>
                             </View>
+                            <Text style={{
+                                marginRight: 10,
+                                fontSize: 14,
+                                color: LIGHT_BLACK_TEXT_COLOR,
+                                alignSelf: 'center'
+                            }}> {'天气todo'}</Text>
+
+                            <Text style={{
+                                marginRight: 10,
+                                fontSize: 14,
+                                color: LIGHT_BLACK_TEXT_COLOR,
+                                alignSelf: 'center'
+                            }}>{this.props.weather.temperatureLow}℃/{this.props.weather.temperatureHigh}℃</Text>
                         </View>
-                        <View style={{
-                            backgroundColor: '#0092FF',
-                            width: 108,
-                            height: 34,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: width - 140
-                        }}>
-                            <Text style={{fontSize: 15, color: '#ffffff'}}>我的报价</Text>
-                        </View>
+                        {limitView}
                     </View>
-                }
+                    {driverView}
+                </View>
             </ScrollView>
             {this.state.show ?
                 <CharacterChooseCell
@@ -1341,7 +1286,7 @@ function mapStateToProps(state) {
         userInfo: state.user.get('userInfo'),
         homePageState: state.app.get('getHomePageCount'),
         jpushIcon: state.jpush.get('jpushIcon'),
-        location: state.app.get('locationData'),
+        location: state.home.get('location'),
         plateNumber: state.user.get('plateNumber'),
         plateNumberObj: state.user.get('plateNumberObj'),
         routes: state.nav.routes,
@@ -1352,6 +1297,7 @@ function mapStateToProps(state) {
         ownerStatus: state.user.get('ownerStatus'),
         currentStatus: state.user.get('currentStatus'),
         carrierCode: state.user.get('companyCode'),
+        weather: state.home.get('weather'),
     };
 }
 
@@ -1486,7 +1432,7 @@ const mapDispatchToProps = dispatch => {
                 api: API.API_QUERY_ENTERPRISE_NATURE + params.phone,
                 success: (data) => {
                     if(data){
-                        this.props.queryEnterpriseNatureAction(data);
+                        dispatch(queryEnterpriseNatureSuccessAction(data));
                     }
                 },
             }))

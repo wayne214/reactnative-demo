@@ -99,10 +99,7 @@ class entryGoodsDetail extends Component {
 
     componentDidMount() {
         // this.getCurrentPosition();
-        this.getOrderDetailInfo(
-            this.getOrderDetailInfoSuccessCallBack,
-            this.getOrderDetailInfoFailCallBack,
-        );
+        this.getOrderDetailInfo();
     }
 
     // 获取当前位置
@@ -130,14 +127,14 @@ class entryGoodsDetail extends Component {
      * 获取列表详情调用接口
      *
      */
-    getOrderDetailInfo(getOrderDetailInfoSuccessCallBack, getOrderDetailInfoFailCallBack) {
+    getOrderDetailInfo() {
         currentTime = new Date().getTime();
         // 传递参数
         console.log('transOrderList', this.state.transOrderList);
         this.props.getOrderDetailInfo({
-            plateNumber: '京LPL001',
-            transCodeList: ["cpysd171124007", "cpysd171124006"], // this.state.transOrderList
-        }, getOrderDetailInfoSuccessCallBack, getOrderDetailInfoFailCallBack);
+            plateNumber: this.props.plateNumber,
+            transCodeList: this.state.transOrderList
+        }, this.getOrderDetailInfoSuccessCallBack, this.getOrderDetailInfoFailCallBack);
     }
 
     // 获取数据成功回调
@@ -218,10 +215,11 @@ class entryGoodsDetail extends Component {
         if (this.props.navigation.state.params.getOrderSuccess) {
             this.props.navigation.state.params.getOrderSuccess();
         }
-        this.props.navigation.dispatch({type: 'pop'});
-        this.props._changeBottomTab('driverOrder');
-        this.props._changeOrderTab(1);
         this.props._refreshOrderList(1);
+        this.props.navigation.dispatch({type: 'pop'});
+        this.props._refreshOrderList(1);
+        // this.props._changeBottomTab('driverOrder');
+        // this.props._changeOrderTab(1);
     }
 
     // 获取数据失败回调

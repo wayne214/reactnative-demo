@@ -7,3 +7,10 @@ export function saveWeather(params) {
         payload: params
     }
 }
+
+export const locationAction = (data) => {
+    return {
+        type: ActionTypes.ACTION_GET_LOCATION,
+        payload: data,
+    };
+};

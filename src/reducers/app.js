@@ -237,10 +237,6 @@ export default (state = initState, action) => {
         case ActionTypes.ACTION_RESET_AD:
             newState = newState.set('showAD', action.payload);
             return newState;
-
-        case ActionTypes.ACTION_GET_LOCATION:
-            newState = newState.set('locationData', action.payload);
-            return newState;
         case ActionTypes.ACTION_GET_HOME_PAGE_COUNT:
             newState = newState.set('getHomePageCount', action.payload);
             return newState;

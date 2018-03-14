@@ -13,6 +13,7 @@ import {
     Image,
     Alert,
     Platform,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
@@ -118,6 +119,7 @@ class uploadODO extends Component {
         }, () => {
             Toast.showShortCenter('出库单上传成功!');
             this.props.dispatch(updateImages());
+            DeviceEventEmitter.emit('refreshShippedDetails');
             this.props.navigation.dispatch({type: 'pop'});
         })
     }

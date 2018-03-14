@@ -128,8 +128,8 @@ class orderToBeUploadODODetail extends Component {
                     uploadODO && uploadODO();
                 }
             }}
-            buttonStyle={orderFrom === '10' && isUploadOdo === 'Y' ? {} : {opacity: 0.5}}
-            buttonDisabled={orderFrom === '10' && isUploadOdo === 'Y' ? false : true}
+            buttonStyle={orderFrom === '10' && isUploadOdo === 'N' ? {} : {opacity: 0.5}}
+            buttonDisabled={orderFrom === '10' && isUploadOdo === 'N' ? false : true}
             text="上传出库单" />;
         return (
             <View style={{

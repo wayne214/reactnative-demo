@@ -39,6 +39,7 @@ const initState = Immutable.fromJS({
     imageList: Immutable.List(),
     maxNum: 9, // 照片最大张数
     tabIndex: 0,
+    isUploadOdoFlag: true,
 });
 
 export default (state = initState, action) => {

@@ -203,12 +203,6 @@ export function resetADFlag(flag) {
 	}
 }
 
-export const locationAction = (data) => {
-    return {
-        type: ActionTypes.ACTION_GET_LOCATION,
-        payload: data,
-    };
-};
 // 获取首页状态数量
 export const getHomePageCountAction = (data) => {
     return {

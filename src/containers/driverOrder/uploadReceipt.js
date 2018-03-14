@@ -276,6 +276,7 @@ class UploadReceipt extends Component {
                         locationData.district, lastTime - currentTime, '上传回单页面');
                     Toast.showShortCenter('上传回单成功');
                     this.props._refreshOrderList(0);
+                    this.props._refreshOrderList(2);
                     this.props._refreshOrderList(3);
                     this.props.navigation.dispatch({type: 'pop', key: 'Main'});
 

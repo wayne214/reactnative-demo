@@ -27,7 +27,10 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
-import {refreshDriverOrderList} from '../../action/driverOrder';
+import {
+    refreshDriverOrderList,
+    changeOrderTabAction,
+} from '../../action/driverOrder';
 import * as RouteType from '../../constants/routeType';
 import EmptyView from '../../components/common/emptyView';
 
@@ -64,9 +67,8 @@ let plateNumber = '';
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
-let bindGPSType = '';
 
-let isUploadOdo = true;
+let isUploadOdoFlag = true;
 
 
 class entryToBeShipped extends Component {
@@ -82,6 +84,7 @@ class entryToBeShipped extends Component {
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
+            isUploadOdoFlag: true,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -127,7 +130,7 @@ class entryToBeShipped extends Component {
             this.getOrderDetailInfo();
         });
     }
-// 获取当前位置
+    // 获取当前位置
     getCurrentPosition(){
         Geolocation.getCurrentPosition().then(data => {
             console.log('position =',JSON.stringify(data));
@@ -159,8 +162,8 @@ class entryToBeShipped extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            plateNumber: '京LPL001'
-            // plateNumber: this.props.plateNumber
+            // plateNumber: '京LPL001'
+            plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
         }, () => {
@@ -231,6 +234,17 @@ class entryToBeShipped extends Component {
             datas: array,
             isShowEmptyView: false,
         });
+        for(let i = 0; i < array.length; i++){
+            if( array[i].orderFrom === '10' && array[i].isUploadOdo === 'N') {
+                this.setState({
+                    isUploadOdoFlag: false
+                });
+                break;
+            }
+            this.setState({
+                isUploadOdoFlag: true
+            });
+        }
     }
 
     // 获取数据失败回调
@@ -275,7 +289,7 @@ class entryToBeShipped extends Component {
         Toast.showShortCenter('发运成功!');
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(1);
-
+        this.props._changeOrderTab(2);
         // // 发运成功后，更新货源偏好出发城市
         // this.resetCityAction(true);
         // DeviceEventEmitter.emit('resetCityLIST');
@@ -405,11 +419,9 @@ class entryToBeShipped extends Component {
         );
     }
 
+
     contentView(navigator) {
         const dispatchView = this.state.datas.map((item, index) => {
-            if( item.orderFrom === '10' && item.isUploadOdo === 'N') {
-                isUploadOdo = false;
-            }
             return (
                 <EntryTest
                     key={index}
@@ -440,9 +452,6 @@ class entryToBeShipped extends Component {
             );
         });
         const uploadODOView = this.state.datas.map((item, index) => {
-            if( item.orderFrom === '10' && item.isUploadOdo === 'N') {
-                isUploadOdo = false;
-            }
             return (
                 <EntryUploadODO
                     key={index}
@@ -510,9 +519,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { isUploadOdo ? dispatchView : uploadODOView }
+                    { this.state.isUploadOdoFlag ? dispatchView : uploadODOView }
                 </ScrollView>
-                { isUploadOdo ? bottomView : null }
+                { this.state.isUploadOdoFlag ? bottomView : null }
             </View>
         );
     }
@@ -593,7 +602,10 @@ function mapDispatchToProps(dispatch) {
         },
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
-        }
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
     };
 }
 
