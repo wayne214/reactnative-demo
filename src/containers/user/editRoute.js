@@ -16,13 +16,14 @@ import { fetchData } from '../../action/app';
 import Toast from '../../utils/toast';
 import { dispatchRefreshAddRoute, getCarLength,selectedCarLength, checkedOneOfDatas,dispatchClearRouteInfo } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
-
+import AddressJson from '../../../assets/json/address.json';
 class EditRouterContainer extends BaseComponent {
 
 	constructor(props) {
 		super(props);
 
     this.title = props.navigation.state.params.title;
+    AddressHandler.set(AddressJson);
 		this.state = {
 			toProvince: '',
 			toCity: '',
@@ -88,8 +89,9 @@ class EditRouterContainer extends BaseComponent {
   	}
 
 		this.props.editRoute({
-			carrierId: this.props.user.userId,
-			id: this.data.id,
+		// 	carrierId: this.props.user.userId,
+			carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+			id: this.data.id, // 线路id
 			fromProvinceCode: (fpid ? fpid : '') || this.filterData(this.data.fromProvinceCode),
 			fromCityCode: (fcid ? fcid : '') || this.filterData(this.data.fromCityCode) ,
 			fromAreaCode: (faid ? faid :'') || this.filterData(this.data.fromAreaCode),

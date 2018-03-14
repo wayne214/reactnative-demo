@@ -21,7 +21,7 @@ export default (state = initState, action) => {
 		return newState;
 
 		case ActionTypes.ACTION_ROUTE_LIST:
-			newState = newState.set('routeList', action.payload.data);
+			newState = newState.set('routeList', action.payload.data.list);
 			newState = newState.set('isRefreshAddRoute', false);
 			newState = newState.set('isRefreshDeleteRoute', false);
 			return newState;
