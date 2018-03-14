@@ -37,8 +37,16 @@ import * as API from '../../constants/api';
 import * as ConstValue from '../../constants/constValue';
 import Carousel from 'react-native-snap-carousel';
 import HomeCell from '../../components/home/homeCell';
-import {fetchData, getHomePageCountAction} from '../../action/app';
+import {
+    fetchData,
+    getHomePageCountAction,
+    changeTab,
+} from '../../action/app';
 import {saveWeather} from '../../action/home';
+import {
+    changeOrderTabAction,
+    refreshDriverOrderList,
+} from '../../action/driverOrder'
 import {
     saveUserCarList,
     setUserCarAction,
@@ -55,7 +63,6 @@ import StorageKey from '../../constants/storageKeys';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import {width, height} from '../../constants/dimen';
-import {changeTab, showFloatDialog, logout, appendLogToFile} from '../../action/app';
 import NavigatorBar from '../../components/common/navigatorbar';
 
 import DriverUp from '../../../assets/img/character/driverUp.png';
@@ -502,13 +509,15 @@ class Home extends Component {
         if (result) {
             if (result.length > 1) {
                 this.saveUserCarList(result);
-                this.props.navigation.navigate('ChooseCar', {
-                    carList: result,
-                    currentCar: '',
-                    flag: true,
-                });
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_CHOOSE_CAR,
+                    params: {
+                        carList: result,
+                        currentCar: '',
+                        flag: true,
+                    }
+                })
             } else if (result.length === 1) {
-
                 this.saveUserCarList(result);
                 this.setState({
                     plateNumber: result[0].carNum,
@@ -556,9 +565,7 @@ class Home extends Component {
 
     // 设置车辆成功
     setUserCarSuccessCallBack(result) {
-
         const userInfo = this.props.userInfo;
-
         console.log('设置车辆成功了', this.props.plateNumber, userInfo.phone);
         this.getHomePageCount(this.props.plateNumber, userInfo.phone);
         this.saveUserCarInfo(this.props.plateNumberObj);
@@ -785,6 +792,11 @@ class Home extends Component {
         );
     }
 
+    // 切换订单tab
+    changeOrderTab(orderTab) {
+        this.props._changeOrderTab(orderTab);
+    }
+
 
     render() {
         const {homePageState} = this.props;
@@ -809,10 +821,10 @@ class Home extends Component {
                 renderImage={() => <Image source={receiptIcon}/>}// 图标
                 clickAction={() => { // 点击事件
                     if (this.props.driverStatus == 2) {
-                        DeviceEventEmitter.emit('resetGood');
-                        this.props.navigation.navigate('GoodsSource');
+                        this.props._changeBottomTab('driverGoods');
+                        {/*DeviceEventEmitter.emit('resetGood');*/}
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -827,11 +839,11 @@ class Home extends Component {
                 renderImage={() => <Image source={dispatchIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(1);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(1);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -846,11 +858,11 @@ class Home extends Component {
                 renderImage={() => <Image source={signIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(2);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 2);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(2);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -865,11 +877,11 @@ class Home extends Component {
                 renderImage={() => <Image source={receiveIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(3);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 3);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(3);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -883,54 +895,10 @@ class Home extends Component {
                 badgeText={0}
                 renderImage={() => <Image source={roadIcon}/>}
                 clickAction={() => {
-                    console.log('dianjile ma')
-                    this.props.getWeather({city: '北京'});
-                    this.props.navigation.dispatch({
-                        type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
-                    })
-                    // if (this.props.driverStatus == 2) {
-                    //     this.props.navigation.navigate('UploadAbnormal');
-                    // } else {
-                    //     DeviceEventEmitter.emit('certification');
-                    // }
-                }}
-            />
-        </View>;
-
-        const carrierView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
-            <HomeCell
-                title="接单"// 文字
-                describe="方便接单，快速查看"
-                padding={10}// 文字与文字间距
-                imageStyle={styles.imageView}
-                backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
-                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.notYetReceiveCount}// 消息提示
-                renderImage={() => <Image source={receiptIcon}/>}// 图标
-                clickAction={() => { // 点击事件
-                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
-                        this.props.navigation.navigate('GoodsSource');
-                        DeviceEventEmitter.emit('resetGood');
-                    } else {
-                        DeviceEventEmitter.emit('certification');
-                    }
-                }}
-            />
-            <View style={styles.line}/>
-            <HomeCell
-                title="调度"
-                describe="一键调度，快捷无忧"
-                padding={10}
-                imageStyle={styles.imageView}
-                backgroundColor={{backgroundColor: WHITE_COLOR}}
-                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.noDispatchCount}
-                renderImage={() => <Image source={dispatchIcon}/>}
-                clickAction={() => {
-                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
-                        this.changeOrderTab(1);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
-                        this.props.navigation.navigate('Order');
-                    } else {
-                        DeviceEventEmitter.emit('certification');
+                    if(this.props.driverStatus == 2) {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
+                        });
                     }
                 }}
             />
@@ -1017,10 +985,12 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View
-                style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
-            </View>
+            {
+                1 === 1 ?
+                <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
+                </View> : null
+            }
             <ScrollView>
                 <View style={styles.locationStyle}>
                     <Image source={locationIcon}/>
@@ -1095,7 +1065,7 @@ class Home extends Component {
                             </View>
                             {limitView}
                         </View>
-                        {this.props.currentStatus == 'driver' ? driverView : carrierView}
+                        {driverView}
                     </View>
                     :
                     <View style={{marginLeft: 10}}>
@@ -1521,8 +1491,15 @@ const mapDispatchToProps = dispatch => {
                 },
             }))
         },
-
-
+        _changeBottomTab: (tab) => {
+            dispatch(changeTab(tab));
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        }
     };
 }
 

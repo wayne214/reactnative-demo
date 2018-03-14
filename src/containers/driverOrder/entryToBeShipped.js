@@ -65,7 +65,9 @@ let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
 let bindGPSType = '';
-let isBindGPS = false;
+
+let isUploadOdo = true;
+
 
 class entryToBeShipped extends Component {
     constructor(props) {
@@ -405,6 +407,9 @@ class entryToBeShipped extends Component {
 
     contentView(navigator) {
         const dispatchView = this.state.datas.map((item, index) => {
+            if( item.orderFrom === '10' && item.isUploadOdo === 'N') {
+                isUploadOdo = false;
+            }
             return (
                 <EntryTest
                     key={index}
@@ -435,6 +440,9 @@ class entryToBeShipped extends Component {
             );
         });
         const uploadODOView = this.state.datas.map((item, index) => {
+            if( item.orderFrom === '10' && item.isUploadOdo === 'N') {
+                isUploadOdo = false;
+            }
             return (
                 <EntryUploadODO
                     key={index}
@@ -455,6 +463,8 @@ class entryToBeShipped extends Component {
                     num={'12'}
                     index={index}
                     currentStatus={this.props.currentStatus}
+                    orderFrom={item.orderFrom}
+                    isUploadOdo={item.isUploadOdo}
                     addressMapSelect={(indexRow, type) => {
                         this.jumpAddressPage(indexRow, type, item);
                     }}
@@ -500,9 +510,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { 1 === 1 ? dispatchView : uploadODOView }
+                    { isUploadOdo ? dispatchView : uploadODOView }
                 </ScrollView>
-                { 1 === 1 ? bottomView : null }
+                { isUploadOdo ? bottomView : null }
             </View>
         );
     }

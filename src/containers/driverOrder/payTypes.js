@@ -150,12 +150,12 @@ class payTypes extends Component {
     // 获取支付状态
     getSettleState() {
         currentTime = new Date().getTime();
-        this.props._getSettleStateInfo({}, this.state.customCode, (responseData) => {
+        this.props._getSettleStateInfo(this.state.orderCode, (responseData) => {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('获取付款状态', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '获取付款状态');
             if(responseData.result){
-                let flag = responseData.result === 'true';
+                let flag = responseData === 'true';
                 this.updateStatus(flag);
             }
         })
@@ -176,12 +176,12 @@ class payTypes extends Component {
     }
     getSettleAmount() {
         currentTime = new Date().getTime();
-        this.props._getSettleAmountInfo({}, this.state.customCode, (responseData) => {
+        this.props._getSettleAmountInfo(this.state.orderCode, (responseData) => {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('付款方式', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '付款方式选择页面');
             this.setState({
-                amount: responseData.result,
+                amount: responseData,
             });
         })
     }
@@ -203,8 +203,10 @@ class payTypes extends Component {
             ReadAndWriteFileUtil.appendFile('现金确认支付', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '付款方式选择页面');
             Toast.showShortCenter('收款成功');
-            // DeviceEventEmitter.emit('refreshDetails');
+            DeviceEventEmitter.emit('refreshDetails');
             this.props.navigation.dispatch({ type: 'pop' })
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
     submit() {
@@ -324,7 +326,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        _confirmPaymentWay: (params, callBack) => {
+        _confirmPaymentWay: (params, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -335,12 +337,13 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('???', error)
+                    failCallBack && failCallBack(error);
                 }
             }))
         },
-        _getSettleAmountInfo: (params, orderCode, callBack) => {
+        _getSettleAmountInfo: (orderCode, callBack) => {
             dispatch(fetchData({
-                body: params,
+                body: {},
                 showLoading: true,
                 api: API.API_AC_GET_SETTLE_AMOUNT + orderCode,
                 success: data => {
@@ -352,9 +355,9 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        _getSettleStateInfo: (params, orderCode, callBack) => {
+        _getSettleStateInfo: (orderCode, callBack) => {
             dispatch(fetchData({
-                body: params,
+                body: {},
                 showLoading: true,
                 api: API.API_AC_GET_SETTLE_STATE + orderCode,
                 success: data => {

@@ -11,23 +11,19 @@ import {
     Platform,
     InteractionManager,
 } from 'react-native';
-// import moment from 'moment';
 import NavigationBar from '../../components/common/navigatorbar';
 import EntryTest from './goodsSouceDetails';
 import * as API from '../../constants/api';
-// import Loading from '../../utils/loading';
 import ChooseButtonCell from './component/chooseButtonCell';
 import EmptyView from './component/emptyView';
 import PreventDoubleClickUtil from '../../utils/prventMultiClickUtil';
 import Toast from '../../utils/toast';
-import {fetchData} from "../../action/app";
+import {fetchData,changeTab} from "../../action/app";
 
-// import CountdownWithText from './component/countdownWithText';
-
-
-// import {
-//     mainPressAction,
-// } from '../../action/app';
+import {
+    changeOrderTabAction,
+    refreshDriverOrderList
+} from '../../action/driverOrder';
 import * as RouteType from '../../constants/routeType';
 
 
@@ -43,8 +39,8 @@ const styles = StyleSheet.create({
 
 let transOrderInfo = [];
 
-// import {Geolocation} from 'react-native-baidu-map-xzx';
-// import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import {Geolocation} from 'react-native-baidu-map-xzx';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 
 let currentTime = 0;
 let lastTime = 0;
@@ -95,17 +91,10 @@ class entryGoodsDetail extends Component {
         this.isShowEmptyView = this.isShowEmptyView.bind(this);
         this.emptyView = this.emptyView.bind(this);
         this.contentView = this.contentView.bind(this);
-        this.changeOrderTab = this.changeOrderTab.bind(this);
-
     }
 
     componentWillUnmount() {
         transOrderInfo = [];
-    }
-
-    // 切换订单tab
-    changeOrderTab(orderTab) {
-        this.props.changeOrderTab(orderTab);
     }
 
     componentDidMount() {
@@ -115,15 +104,17 @@ class entryGoodsDetail extends Component {
             this.getOrderDetailInfoFailCallBack,
         );
     }
-// 获取当前位置
-//     getCurrentPosition(){
-//         Geolocation.getCurrentPosition().then(data => {
-//             console.log('position =',JSON.stringify(data));
-//             locationData = data;
-//         }).catch(e =>{
-//             console.log(e, 'error');
-//         });
-//     }
+
+    // 获取当前位置
+    getCurrentPosition(){
+        Geolocation.getCurrentPosition().then(data => {
+            console.log('position =',JSON.stringify(data));
+            locationData = data;
+        }).catch(e =>{
+            console.log(e, 'error');
+        });
+    }
+
     onScrollEnd(event) {
         // 得出滚动的位置
         const index = event.nativeEvent.contentOffset.x / screenWidth + 1;
@@ -152,8 +143,8 @@ class entryGoodsDetail extends Component {
     // 获取数据成功回调
     getOrderDetailInfoSuccessCallBack(result) {
         lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('订单详情',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '货源详情页面');
+        ReadAndWriteFileUtil.appendFile('订单详情',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '货源详情页面');
         const array = [];
         transOrderInfo = [];
         for (let i = 0; i < result.length; i++) {
@@ -220,19 +211,17 @@ class entryGoodsDetail extends Component {
     // 获取数据成功回调
     receiveGoodsSuccessCallBack() {
         lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '货源详情页面');
+        ReadAndWriteFileUtil.appendFile('接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '货源详情页面');
         Toast.show('接单成功!');
-        DeviceEventEmitter.emit('refreshHome');
+        // DeviceEventEmitter.emit('refreshHome');
         if (this.props.navigation.state.params.getOrderSuccess) {
             this.props.navigation.state.params.getOrderSuccess();
         }
-        DeviceEventEmitter.emit('reloadOrderAllAnShippt');
-        this.props.navigation.goBack();
-        this.props.navigation.navigate('Order');
-        this.changeOrderTab(1);
-        DeviceEventEmitter.emit('changeOrderTabPage', 1);
-
+        this.props.navigation.dispatch({type: 'pop'});
+        this.props._changeBottomTab('driverOrder');
+        this.props._changeOrderTab(1);
+        this.props._refreshOrderList(1);
     }
 
     // 获取数据失败回调
@@ -467,9 +456,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        changeOrderTab: (orderTab) => {
-            // dispatch(mainPressAction(orderTab));
-        },
         receiveGoods: (params, successCallback, failCallback) => {
             dispatch(fetchData({
                 body: params,
@@ -517,7 +503,16 @@ function mapDispatchToProps(dispatch) {
                     failCallback();
                 }
             }))
-        }
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
+        _changeBottomTab: (tab) => {
+            dispatch(changeTab(tab));
+        },
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(entryGoodsDetail);

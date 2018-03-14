@@ -81,6 +81,7 @@ class bindGPS extends Component {
         }, (responseData) => {
             if(responseData){
                 Toast.showShortCenter('绑定成功');
+                this.props._refreshOrderList(0);
                 this.props._refreshOrderList(1);
                 this.props.navigation.dispatch({type: 'pop', key: 'Main'});
             } else {
