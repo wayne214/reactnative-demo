@@ -53,7 +53,9 @@ class RouteContainer extends BaseComponent {
 	componentDidMount() {
 		super.componentDidMount();
 		this.props.getRouteList({
-			pageNo: this.state.pageNo,
+        carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+        pageNum: 1,
+        pageSize: 10,
 		});
 		this.props.navigation.setParams({ navigatePress: this._pushAddRoute })
 	}
@@ -64,6 +66,7 @@ class RouteContainer extends BaseComponent {
 
 	componentWillReceiveProps(props) {
     const { routes, isRefreshAddRoute, isRefreshDeleteRoute} = props;
+    console.log('---routes', routes)
     if (props) {
       this.setState({
 					dataSource: this.state.dataSource.cloneWithRows(routes),
@@ -71,7 +74,9 @@ class RouteContainer extends BaseComponent {
       });
       if( isRefreshAddRoute || isRefreshDeleteRoute){
       	this.props.getRouteList({
-      		pageNo : 1,
+            carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+            pageNum: 1,
+            pageSize: 10,
       	});
       }
       this.setState({ pageNo: 1 });
@@ -81,7 +86,9 @@ class RouteContainer extends BaseComponent {
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
 			this.props.getRouteList({
-				pageNo: this.state.pageNo + 1,
+          carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+          pageNum: this.state.pageNo + 1,
+          pageSize: 10,
 			});
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
@@ -96,7 +103,7 @@ class RouteContainer extends BaseComponent {
 	  	const carLengths = (number.map( (item,index) => {
 	  		perM = HelperUtil.getCarLength(parseInt(number[index]));
 	  		return (
-					<View key={index} style={ [styles.backView, {marginTop:10}] }>
+					<View key={index} style={ [styles.backView, {marginTop:10, backgroundColor: '#F5F5F5', height: 19, width: 60}] }>
 						<Text style={ styles.mText }>{ perM }</Text>
 					</View>
 	  		)
@@ -104,7 +111,7 @@ class RouteContainer extends BaseComponent {
 	  	carLength = (
 				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
 					<View style={{flex:1, marginTop:10}}>
-						<Text style={ styles.hiddenText }>车辆长度</Text>
+						<Text style={ styles.hiddenText }>车辆长度:</Text>
 					</View>
 					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
 						{carLengths}
@@ -128,9 +135,8 @@ class RouteContainer extends BaseComponent {
 
 		return (
 			<Swipeout right={swipeoutBtns}>
-				<TouchableOpacity onPress={() => {
+				<TouchableOpacity activeOpacity={0.75} onPress={() => {
             this.props.navigation.dispatch({type: RouteType.ROUTE_EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
-				}} activeOpacity={0.75} >
 					<View style={ styles.itemContainer }>
 						<View style={ styles.fromAndToContainer }>
 							<Image source={fromto} style={styles.fromToImage}/>
