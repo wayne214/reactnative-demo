@@ -49,6 +49,8 @@ import { refreshTravel } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent.js'
 import DeviceInfo from 'react-native-device-info';
 import OrderItemCell from '../../components/order/orderItemCell';
+import Linking from '../../utils/linking'
+
 
 const { height,width } = Dimensions.get('window')
 let startTime = 0
@@ -368,30 +370,38 @@ class OrderList extends BaseComponent {
     return (
 
       <View style={styles.container}>
-      {
-        showMenu ?
-          <NavigatorBar
+      {/*{*/}
+        {/*showMenu ?*/}
+          {/*<NavigatorBar*/}
+            {/*hiddenBackIcon={true}*/}
+            {/*title={ title }*/}
+            {/*// assistIconFont='&#xe60c;'*/}
+            {/*// assistIconClick={()=>{*/}
+            {/*//   this.setState({*/}
+            {/*//     showMenu: true*/}
+            {/*//   })*/}
+            {/*// }}*/}
+          {/*/>*/}
+        {/*:*/}
+          {/*<NavigatorBar*/}
+            {/*hiddenBackIcon={true}*/}
+            {/*title={title}*/}
+            {/*// assistIconFont='&#xe60e;'*/}
+            {/*// assistIconClick={()=>{*/}
+            {/*//   this.setState({*/}
+            {/*//     showMenu: true*/}
+            {/*//   })*/}
+            {/*// }}*/}
+          {/*/>*/}
+      {/*}*/}
+        <NavigatorBar
             hiddenBackIcon={true}
             title={ title }
-            // assistIconFont='&#xe60c;'
-            // assistIconClick={()=>{
-            //   this.setState({
-            //     showMenu: true
-            //   })
-            // }}
-          />
-        :
-          <NavigatorBar
-            hiddenBackIcon={true}
-            title={title}
-            // assistIconFont='&#xe60e;'
-            // assistIconClick={()=>{
-            //   this.setState({
-            //     showMenu: true
-            //   })
-            // }}
-          />
-      }
+            firstLevelIconFont='&#xe640;'
+            secondLevelIconFont='&#xe63f;'
+            secondLevelClick={ () => Linking.link(this.props.hotLine) }
+            firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }
+        />
         <View style={styles.content}>
           <ScrollableTabView
             // page={activeTab}
@@ -654,6 +664,7 @@ const mapStateToProps = (state) => {
     activeSubTab: order.get('activeSubTab'),
     shouldOrderListRefresh: app.get('shouldOrderListRefresh'),
     carrierCode: state.user.get('companyCode'),
+      hotLine: app.get('hotLine'),
   }
 }
 

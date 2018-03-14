@@ -21,7 +21,10 @@ import {getEntrustOrderList,changeEntrustOrderListLoadingMore,acceptDesignateWit
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import BaseComponent from '../../components/common/baseComponent.js'
 import EntrustOrderListItem from '../../components/entrust/entrustOrderListItem.js'
-const { height,width } = Dimensions.get('window')
+const { height,width } = Dimensions.get('window');
+import Linking from '../../utils/linking'
+
+
 let startTime = 0
 
 class EntrustOrderList extends BaseComponent {
@@ -85,7 +88,12 @@ class EntrustOrderList extends BaseComponent {
 		if (1 == 1) {
 			return (
 				<View style={styles.container}>
-					<NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
+					<NavigatorBar title='我的承运' hiddenBackIcon={ true }
+												firstLevelIconFont='&#xe640;'
+												secondLevelIconFont='&#xe63f;'
+												secondLevelClick={ () => Linking.link(this.props.hotLine) }
+												firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }
+					/>
 					<ScrollableTabView
 						style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
 						renderTabBar={() =>
@@ -277,7 +285,8 @@ const mapStateToProps = (state) => {
 		shouldEntrustOrderListRefresh: app.get('shouldEntrustOrderListRefresh'),
 		user: app.get('user'),
 		entrustOrderUnconfirmed: entrust.get('entrustOrderUnconfirmed'),
-		entrustOrderUndispatch: entrust.get('entrustOrderUndispatch')
+		entrustOrderUndispatch: entrust.get('entrustOrderUndispatch'),
+      hotLine: app.get('hotLine'),
 	}
 }
 
