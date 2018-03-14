@@ -23,6 +23,8 @@ import { checkedOneOfDatas, isCheckedAll ,dispatchClearAllSeclected} from '../..
 import * as RouteType from '../../constants/routeType';
 import LoginContainer from '../user/shipperLogin';
 import CarLoginContainer from '../user/carLogin';
+import { passMsgDetail , dispatchRefreshMessageList} from '../../action/message';
+
 import User from '../../models/user';
 let startTime = 0
 class MessageContainer extends BaseComponent {
@@ -97,7 +99,10 @@ class MessageContainer extends BaseComponent {
 	  return {
 	    header: <NavigatorBar firstLevelClick={ () => {
 	    	navigation.state.params.navigatePress()
-	    }} optTitle={ navigation.state.params.text } router={ navigation }/>
+	    }} optTitle={
+	    	// navigation.state.params.text
+					''
+	    } router={ navigation }/>
 	  };
 	};
 
@@ -224,7 +229,12 @@ class MessageContainer extends BaseComponent {
 			<View key={ rowIndex + rowData.id } style={ styles.messageCellContainer }>
 				<TouchableOpacity
 					activeOpacity={ 1 }
-					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }}) }>
+					onPress={ () =>
+							this.state.currentTab == 0 ? this.props.readMessage({
+                   		messageId: rowData.id}) :
+							this.props.navigation.dispatch({type:RouteType.ROUTE_MESSAGE_DETAIL,params: {title:'消息详情' , id: rowData.id, type: this.state.currentTab, isRead:rowData.isRead }})
+
+					}>
 					<View style={ this.state.currentTab === 0 ? styles.contentContainer : {flexDirection: 'row'} }>
 						<Animated.View style={ [styles.checkContainer, {
 							width: this.state.focusedAnim.interpolate({
@@ -420,6 +430,16 @@ const mapDispatchToProps = dispatch => {
 				}
 			}));
 		},
+      readMessage:(body) => {
+          dispatch(fetchData({
+              body,
+              method: 'POST',
+              api: UPDATE_WEB_MSG + '?messageIds=' + body.messageId,
+              success: (data) => {
+                  dispatch(dispatchRefreshMessageList());
+              }
+          }));
+      }
 	};
 }
 

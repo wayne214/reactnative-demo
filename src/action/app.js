@@ -203,12 +203,6 @@ export function resetADFlag(flag) {
 	}
 }
 
-export const locationAction = (data) => {
-    return {
-        type: ActionTypes.ACTION_GET_LOCATION,
-        payload: data,
-    };
-};
 // 获取首页状态数量
 export const getHomePageCountAction = (data) => {
     return {
@@ -223,13 +217,7 @@ export const getCarrierHomoPageCountAction = (data) => {
         payload: data,
     };
 };
-export const mainPressAction = (orderTab) => {
-    return {
-        type: ActionTypes.ACTION_MAIN_PRESS,
-        payload: {orderTab},
-    };
 
-};
 // 版本升级
 export const updateVersionAction = (versionUrl) => {
     return {

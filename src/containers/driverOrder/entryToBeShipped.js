@@ -27,7 +27,10 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
-import {refreshDriverOrderList} from '../../action/driverOrder';
+import {
+    refreshDriverOrderList,
+    changeOrderTabAction,
+} from '../../action/driverOrder';
 import * as RouteType from '../../constants/routeType';
 import EmptyView from '../../components/common/emptyView';
 
@@ -64,8 +67,9 @@ let plateNumber = '';
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
-let bindGPSType = '';
-let isBindGPS = false;
+
+let isUploadOdoFlag = true;
+
 
 class entryToBeShipped extends Component {
     constructor(props) {
@@ -80,6 +84,7 @@ class entryToBeShipped extends Component {
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
+            isUploadOdoFlag: true,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -125,7 +130,7 @@ class entryToBeShipped extends Component {
             this.getOrderDetailInfo();
         });
     }
-// 获取当前位置
+    // 获取当前位置
     getCurrentPosition(){
         Geolocation.getCurrentPosition().then(data => {
             console.log('position =',JSON.stringify(data));
@@ -157,8 +162,8 @@ class entryToBeShipped extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            plateNumber: '京LPL001'
-            // plateNumber: this.props.plateNumber
+            // plateNumber: '京LPL001'
+            plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
         }, () => {
@@ -229,6 +234,17 @@ class entryToBeShipped extends Component {
             datas: array,
             isShowEmptyView: false,
         });
+        for(let i = 0; i < array.length; i++){
+            if( array[i].orderFrom === '10' && array[i].isUploadOdo === 'N' && array[i].transOrderType !== '602') {
+                this.setState({
+                    isUploadOdoFlag: false
+                });
+                break;
+            }
+            this.setState({
+                isUploadOdoFlag: true
+            });
+        }
     }
 
     // 获取数据失败回调
@@ -242,13 +258,21 @@ class entryToBeShipped extends Component {
     // 点击发运调用接口
     sendOrder() {
         currentTime = new Date().getTime();
-        const goodInfo = transOrderInfo[0].goodsInfo;
-
-        for (let i = 0; i < goodInfo.length; i++){
-            let obj = goodInfo[i];
-            if (!obj.shipmentNums || obj.shipmentNums === '') {
-                Toast.showShortCenter('发运数量不能为空');
-                return;
+        for(let k = 0; k < this.state.datas.length; k++) {
+            let orderFrom = this.state.datas[k].orderFrom;
+            if(orderFrom === '20') {
+                for(let j = 0; j < transOrderInfo.length; j++) {
+                    let goodInfo = transOrderInfo[j].goodsInfo;
+                    if(goodInfo.length > 0) {
+                        for (let i = 0; i < goodInfo.length; i++){
+                            let obj = goodInfo[i];
+                            if (!obj.shipmentNums || obj.shipmentNums === '') {
+                                Toast.showShortCenter('发运数量不能为空');
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
         // 传递参数
@@ -273,7 +297,7 @@ class entryToBeShipped extends Component {
         Toast.showShortCenter('发运成功!');
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(1);
-
+        this.props._changeOrderTab(2);
         // // 发运成功后，更新货源偏好出发城市
         // this.resetCityAction(true);
         // DeviceEventEmitter.emit('resetCityLIST');
@@ -403,6 +427,7 @@ class entryToBeShipped extends Component {
         );
     }
 
+
     contentView(navigator) {
         const dispatchView = this.state.datas.map((item, index) => {
             return (
@@ -422,7 +447,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
@@ -452,9 +477,11 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
+                    orderFrom={item.orderFrom}
+                    isUploadOdo={item.isUploadOdo}
                     addressMapSelect={(indexRow, type) => {
                         this.jumpAddressPage(indexRow, type, item);
                     }}
@@ -500,9 +527,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { 1 === 1 ? dispatchView : uploadODOView }
+                    { this.state.isUploadOdoFlag ? dispatchView : uploadODOView }
                 </ScrollView>
-                { 1 === 1 ? bottomView : null }
+                { this.state.isUploadOdoFlag ? bottomView : null }
             </View>
         );
     }
@@ -583,7 +610,10 @@ function mapDispatchToProps(dispatch) {
         },
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
-        }
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
     };
 }
 

@@ -13,6 +13,7 @@ import OrderCell from '../order/orderCell.js'
 import {changeEntrustOrderListIsRefreshing } from '../../action/entrust.js'
 import emptyList from '../../../assets/img/order/empty_order_list.png'
 import LoadMoreFooter from '../common/loadMoreFooter'
+import CarrerListItem from './carrerListItem';
 
 export default class EntrustOrderListItem extends Component {
 	constructor(props) {
@@ -20,8 +21,9 @@ export default class EntrustOrderListItem extends Component {
 	}
 	_renderRow(rowData,SectionId,rowID){
 		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
-		const {itemClick,dispatchCar,acceptDesignate} = this.props
-		return <OrderCell
+		const {itemClick,dispatchCar,bindOrder} = this.props
+			console.log('.....entrustLIST', rowData.item);
+		return <CarrerListItem
 			{...this.props}
 			itemClick={(data)=>{
 				if(itemClick){itemClick(data)}
@@ -29,8 +31,8 @@ export default class EntrustOrderListItem extends Component {
 			dispatchCar={(data)=>{
 				if(dispatchCar){dispatchCar(data)}
 			}}
-			acceptDesignate={(data)=>{
-				if(acceptDesignate){acceptDesignate(data)}
+			bindOrder={(data)=>{
+				if(bindOrder){bindOrder(data)}
 			}}
 			rowData={rowData.item}
 			rowID={ rowID }/>
@@ -68,7 +70,13 @@ export default class EntrustOrderListItem extends Component {
 			</View>
 		)
 	}
-	_keyExtractor = (item, index) => item.resourceId
+
+    separatorComponent() {
+        return (
+					<View style={{height: 10, backgroundColor: '#f0f2f5',}}/>
+        );
+    };
+	_keyExtractor = (item, index) => index
 	render(){
 		const {dataSource,type} = this.props
 		return (
@@ -85,6 +93,7 @@ export default class EntrustOrderListItem extends Component {
 				extraData={this.state}
 				onEndReachedThreshold={0.1}
 				enableEmptySections={true}
+				ItemSeparatorComponent={this.separatorComponent}
 				onEndReached={ this._toEnd.bind(this) }
 				ListFooterComponent={this._renderFooter.bind(this)}
 				ListEmptyComponent={this._listEmptyComponent()}/>

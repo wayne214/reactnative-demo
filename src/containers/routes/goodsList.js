@@ -108,6 +108,7 @@ class GoodsList extends Component {
           refreshing: false
       });
 
+
   }
 
   // 下拉刷新

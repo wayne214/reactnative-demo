@@ -336,7 +336,7 @@ class OrdersItemCell extends Component {
                             <Text style={styles.timeText}>调度时间：{time}</Text>
                         </View>
                         {
-                            this.state.showStatus === 1 ? bindGPSView : null
+                            stateName === '待发运' ? bindGPSView : null
                         }
                     </View>
                 </TouchableOpacity>

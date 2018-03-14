@@ -158,7 +158,7 @@ class MainContainer extends BaseComponent {
 
     // 获取站内公告
     if(user.userId){
-      this.props.getNotice()
+      // this.props.getNotice()
     }
     // Geolocation.requestAuthorization()
     Geolocation.getCurrentPosition(location => {
@@ -183,7 +183,7 @@ class MainContainer extends BaseComponent {
     Geolocation.getCurrentPosition(location => {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
-        console.log("定位信息",global.locationData);
+        // console.log("定位信息",global.locationData);
       //todo 上传日志开关
       // TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {

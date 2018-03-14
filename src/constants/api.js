@@ -4,8 +4,8 @@ export const HOME_DATA = '/mjWarehouseResourceController/queryResForPhone';
 export const CAR_LOGIN = '/driver/exclude/driverLogin';
 // 承运商登录
 export const SHIPPER_LOGIN = '/carrier/exclude/login';
-
-export const ADD_ROUTER = '/carrierLineInfo/add';
+// 新增常用路线
+export const ADD_ROUTER = '/app/transportLine/addTransportLine';
 
 // 获取验证码
 export const GET_SMS_CODE = '/carrier/exclude/sendSms';
@@ -40,7 +40,7 @@ export const SAVE_DRIVER_INFO = '/driver/saveDriverInfo';
 export const DELETE_DRIVER_INFO = '/driver/deleteDriverInfo';
 
 // 车辆管理列表、车辆绑定司机列表
-export const QUERY_CAR_LIST = '/carInfo/queryCarInfoList';
+export const QUERY_CAR_LIST = '/app/carrier/queryCarrierCarList';
 
 //删除车辆
 export const DELETE_CAR = '/carInfo/deleteCarInfo';
@@ -79,13 +79,13 @@ export const DELETE_ROUTE = '/carrierLineInfo/delete';
 export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
 
 // 系统公告详情
-export const SYSTEM_MSG_DETAIL = '/app/note/noteInfoDetail';
+export const SYSTEM_MSG_DETAIL = 'app/note/noteInfoDetail';
 
 // 更新系统公告（已读未读）
 export const SYSTEM_READ_ORNOT = '/app/note/updateNoteInfo';
 
 // 更新站内信
-export const UPDATE_WEB_MSG = '/app/message/updateMessageInfo';
+export const UPDATE_WEB_MSG = '/app/message/readMessage';
 
 // 站内信
 export const STACK_MSG_LIST = '/app/message/queryMessageList';
@@ -136,10 +136,10 @@ export const RESOURCE_DETAIL = '/app/goods/getGoodsInfo/';
 export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
 
 // 获取待确认（派单中）的承运单
-export const ENTRUST_ORDER_UNCONFIRMED = '/orderApp/getGoodsByCompanyId';
+export const ENTRUST_ORDER_UNCONFIRMED = '/app/myTransport/queryMyTransportList';
 
 // 获取待调度的承运单
-export const ENTRUST_ORDER_UNDISPATCH = '/orderApp/getGoodsWithDispatch';
+export const ENTRUST_ORDER_UNDISPATCH = '/app/myTransport/queryDispatchDocWithCarrier';
 
 // 承运单详情
 export const ENTRUST_ORDER_DETAIL = '/orderApp/getDispatchDetail'
@@ -162,7 +162,7 @@ export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
 
 
 // 承运商调度车辆
-export const DISPATCH_CAR = '/orderApp/dispatchCar';
+export const DISPATCH_CAR = '/app/goods/dispatchCar';
 
 // 确认承运
 export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';

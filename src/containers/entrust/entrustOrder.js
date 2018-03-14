@@ -42,14 +42,16 @@ class EntrustOrderList extends BaseComponent {
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  		pageNo: 1,
-	  		companyId: user.userId,
-	  		state: 1
+	  		companyCode: '1001',
+				 num: 1,
+				 resourceCode: '',
+				size: 10,
 	  	},showLoading)
 	  }else{
 	  	_getEntrustOrderUndispatch({
-	  		pageNo: 1,
-	  		companyId: user.userId,
+          ctcNum: 1,
+          dpcNum: 1,
+          userId: "1001"
 	  	},showLoading)
 	  }
 
@@ -80,7 +82,7 @@ class EntrustOrderList extends BaseComponent {
 			entrustOrderUnconfirmed,
 			entrustOrderUndispatch
 		} = this.props
-		if (user.currentUserRole == 1) {
+		if (1 == 1) {
 			return (
 				<View style={styles.container}>
 					<NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
@@ -97,14 +99,16 @@ class EntrustOrderList extends BaseComponent {
 							this.setState({activeTab: obj.i})
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
-									pageNo: 1,
-									companyId: user.userId,
-									state: 1
+                    companyCode: '1001',
+                    num: 1,
+                    resourceCode: '',
+                    size: 10,
 								},true)
 							}else if (obj.i == 1) {
 								this.props._getEntrustOrderUndispatch({
-									pageNo: 1,
-									companyId: user.userId,
+                    ctcNum: 1,
+                    dpcNum: 1,
+                    userId: "1001"
 								},true)
 							}
 						}}
@@ -114,7 +118,7 @@ class EntrustOrderList extends BaseComponent {
 						tabBarTextStyle={{fontSize:15}}>
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待确认'}
+							tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
@@ -123,9 +127,10 @@ class EntrustOrderList extends BaseComponent {
 									data.activeTab = this.state.activeTab
 									data.refreshCallBack = ()=>{
 										this.props._getEntrustOrderList({
-											pageNo: 1,
-											companyId: user.userId,
-											state: 1
+                        companyCode: '1001',
+                        num: 1,
+                        resourceCode: '',
+                        size: 10,
 										})
 									}
                   this.props.navigation.dispatch({
@@ -134,42 +139,46 @@ class EntrustOrderList extends BaseComponent {
                   })
 								})
 							}}
-							acceptDesignate={(data)=>{
+							bindOrder={(data)=>{
 								console.log("------ 接受派单 -- data",data);
-								this.props._acceptDesignate({
-									goodsId: data.resourceId,
-									companyId: user.userId,
-									companyName: user.companyName,
-									companyPhone: user.phoneNumber
-								},()=>{
-									Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
-									this.props.navigation.dispatch({
-									  type: RouteType.ROUTE_DISPATCH_CAR,
-									  params: {goodsId: data.resourceId, title: '调度车辆'}
-									})
-								},()=>{
-									// refreshCallBack
-									this.props._getEntrustOrderList({
-										pageNo: 1,
-										companyId: user.userId,
-										state: 1
-									})
-								})
+								
+
+								// this.props._acceptDesignate({
+								// 	goodsId: data.resourceId,
+								// 	companyId: user.userId,
+								// 	companyName: user.companyName,
+								// 	companyPhone: user.phoneNumber
+								// },()=>{
+								// 	Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
+								// 	this.props.navigation.dispatch({
+								// 	  type: RouteType.ROUTE_DISPATCH_CAR,
+								// 	  params: {goodsId: data.resourceId, title: '调度车辆'}
+								// 	})
+								// },()=>{
+								// 	// refreshCallBack
+								// 	this.props._getEntrustOrderList({
+                 //      companyCode: '1001',
+                 //      num: 0,
+                 //      resourceCode: '',
+                 //      size: 10,
+								// 	})
+								// })
 							}}
 							removeOverTimeOrder={(resourceId)=>{
 								this.props._removeOverTimeOrder(resourceId)
 							}}
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderList({
-									pageNo: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
-									companyId: user.userId,
-									state: 1
+                    companyCode: '1001',
+                    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
+                    resourceCode: '',
+                    size: 10,
 								})
 							}}/>
 
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待调度'}
+							tabLabel={'调度'}
 							type={'entrustOrderUndispatch'}
 							dataSource={entrustOrderUndispatch}
 							refreshList={this._refreshList}
@@ -191,12 +200,17 @@ class EntrustOrderList extends BaseComponent {
 								}
 							}}
 							dispatchCar={(data)=>{
-								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+								console.log('dispatchCar', data);
                   this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_DISPATCH_CAR,
-                    params: {goodsId: data.resourceId, title: '调度车辆'}
+                      type: RouteType.ROUTE_DISPATCH_CAR,
+                      params: {data, title: '选择车辆'}
                   })
-								})
+								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+                 //  this.props.navigation.dispatch({
+                 //    type: RouteType.ROUTE_DISPATCH_CAR,
+                 //    params: {goodsId: data.resourceId, title: '调度车辆'}
+                 //  })
+								// })
 							}}
 							deleteOrderUndispatch={(goodsId)=>{
 								console.log(" ======= delete cilck ");
@@ -205,7 +219,9 @@ class EntrustOrderList extends BaseComponent {
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderUndispatch({
 									pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-									companyId: user.userId,
+									ctcNum: 0,
+									dpcNum: 0,
+									userId: ""
 								})
 							}}/>
 
@@ -265,13 +281,13 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(0))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNCONFIRMED,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 0
-					data.pageNo = params.pageNo
+					data.pageNo = params.num
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
 				}
@@ -282,13 +298,13 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(1))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNDISPATCH,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 1
-					data.pageNo = params.pageNo
+					data.pageNo = params.ctcNum
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
 				}

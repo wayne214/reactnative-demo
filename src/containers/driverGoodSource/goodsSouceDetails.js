@@ -76,7 +76,7 @@ export default class GoodsSourceDetails extends Component {
         });
     }
     render() {
-        const {deliveryInfo, goodsInfoList, taskInfo, time, transCode, vol, weight, index, isFullScreen, customerOrderCode} = this.props;
+        const {deliveryInfo, goodsInfoList, taskInfo, time, transCode, vol, weight, index, isFullScreen, customerOrderCode, num} = this.props;
         return (
             <View
                 style={{
@@ -167,7 +167,7 @@ export default class GoodsSourceDetails extends Component {
                         }) : null
                     }
                     <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
-                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={'1'}/>
+                    <TotalsItemCell totalTons={weight} totalSquare={vol} totalCount={num}/>
                     <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
                     <DetailsCell
                         transportNO_={transCode}

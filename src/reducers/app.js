@@ -25,14 +25,14 @@ const initState = Immutable.fromJS({
             renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
 
         },
-        {
-            title: '行程',
-            key: 'route',
-            badgeCount: 0,
-            withStatusBar: true,
-            renderIcon: require('../../assets/img/app/icon_route.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
-        },
+        // {
+        //     title: '行程',
+        //     key: 'route',
+        //     badgeCount: 0,
+        //     withStatusBar: true,
+        //     renderIcon: require('../../assets/img/app/icon_route.png'),
+        //     renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
+        // },
         {
             title: '承运',
             key: 'carriage',
@@ -126,7 +126,6 @@ const initState = Immutable.fromJS({
     getHomePageCount: {}, // 首页状态数量
     getCarrierHomePageCount: {}, // 首页状态数量
     versionUrl: '', // 版本地址
-    mainPress: 1,
 });
 
 export default (state = initState, action) => {
@@ -238,10 +237,6 @@ export default (state = initState, action) => {
         case ActionTypes.ACTION_RESET_AD:
             newState = newState.set('showAD', action.payload);
             return newState;
-
-        case ActionTypes.ACTION_GET_LOCATION:
-            newState = newState.set('locationData', action.payload);
-            return newState;
         case ActionTypes.ACTION_GET_HOME_PAGE_COUNT:
             newState = newState.set('getHomePageCount', action.payload);
             return newState;
@@ -250,9 +245,6 @@ export default (state = initState, action) => {
             return newState;
         case ActionTypes.UPDATE_VERSION:
             newState = newState.set('versionUrl', action.payload);
-            return newState;
-        case ActionTypes.ACTION_MAIN_PRESS:
-            newState = newState.set('mainPress', action.payload.orderTab);
             return newState;
 
         default:

@@ -23,6 +23,10 @@ import {
     setUserCarAction,
 } from '../../action/user';
 
+import {
+    refreshDriverOrderList,
+} from '../../action/driverOrder';
+
 // import {
 //     getHomePageCountAction,
 // } from '../../action/app';
@@ -33,7 +37,6 @@ import * as StaticColor from '../../constants/colors';
 import * as API from '../../constants/api';
 import CarIcon from '../../../assets/img/mine/carIcon.png';
 
-import HTTPRequest from '../../utils/httpRequest';
 import Storage from '../../utils/storage';
 // import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import StorageKeys from '../../constants/storageKeys';
@@ -45,17 +48,6 @@ let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
 
-
-let tempArray = [{
-    "carNum": "京LPL001",
-    "carStatus": 20
-}, {
-    "carNum": "京LPL001",
-    "carStatus": 20
-}, {
-    "carNum": "京LPL001",
-    "carStatus": 20
-},];
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -64,7 +56,6 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 10,
         backgroundColor: 'white',
-        height: screenHeight - ConstValue.NavigationBar_StatusBar_Height - ConstValue.Tabbar_Height - 10 - 44,
     },
     // 按钮
     buttonView: {
@@ -153,16 +144,7 @@ class chooseCar extends Component {
         });
     }
 
-    // 跳转界面并重置路由栈
-    resetTo(index = 0, routeName) {
-        const resetAction = NavigationActions.reset({
-            index: index,
-            actions: [
-                NavigationActions.navigate({ routeName: routeName}),
-            ]
-        });
-        this.props.navigation.dispatch(resetAction);
-    }
+
     renderItem = (item) => {
         return (
             <TouchableOpacity onPress={() => {
@@ -171,10 +153,14 @@ class chooseCar extends Component {
                 this.saveUserCarInfo(item.item);
                 Storage.remove('carInfoResult');
                 if (this.state.flag){
-                    this.resetTo(0, 'Main');
+                    {/*this.resetTo(0, 'Main');*/}
+                    this.props.navigation.dispatch({type: 'pop'});
                 } else {
-                    this.props.navigation.goBack();
-                    DeviceEventEmitter.emit('updateOrderList');
+                    this.props._refreshOrderList(0);
+                    this.props._refreshOrderList(1);
+                    this.props._refreshOrderList(2);
+                    this.props._refreshOrderList(3);
+                    this.props.navigation.dispatch({type: 'pop'});
                     DeviceEventEmitter.emit('resetGood');
                 }
             }}>
@@ -254,7 +240,7 @@ class chooseCar extends Component {
                 <View style={styles.content}>
                     <FlatList
                         keyExtractor={ () => Math.random(2) }
-                        data={tempArray}
+                        data={this.state.dataSource}
                         renderItem={this.renderItem}
                         ItemSeparatorComponent={this.separatorComponent}
                     />
@@ -275,6 +261,9 @@ function mapDispatchToProps(dispatch) {
         saveUserSetCarSuccess: (plateNumberObj) => {
             dispatch(setUserCarAction(plateNumberObj));
         },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        }
         // reloadHomePageNum:()=>{
         //     dispatch(getHomePageCountAction(null));
         // }

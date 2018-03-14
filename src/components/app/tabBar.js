@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {
 	Text,
 	Image,
-	Animated
+	Animated,
+	DeviceEventEmitter
 } from 'react-native';
 import Immutable from 'immutable';
 import styles from '../../../assets/css/main';
@@ -109,6 +110,7 @@ class Tabar extends Component {
         Animated.timing(this.state.driverHomeAnimatedValue,
             { toValue: 1 }
         ).start(() => this.state.driverHomeAnimatedValue.setValue(0));
+        DeviceEventEmitter.emit('refreshHome');
     } else if (tab === 'driverGoods') {
         Animated.timing(this.state.driverGoodsAnimatedValue,
             { toValue: 1 }

@@ -22,11 +22,12 @@ class goodlistdetailMutilAddress extends Component{
     }
 
     render() {
+        const {subcontainer, lineStyle} = this.props;
         return (
             <View style={styles.container}>
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - 20*2,marginLeft: 20}}/>
+                <View style={[{height: 1,backgroundColor: '#E6EAF2',width: width - 20*2,marginLeft: 20}, lineStyle]}/>
 
-                <View style={{padding: 20}}>
+                <View style={[{padding: 20}, subcontainer]}>
                     <Text style={{color: '#999'}}>卸货点</Text>
                     <View style={{flexDirection: 'row', marginTop: 20}}>
                         <View style={{width: 10,height: this.props.address.length * itemHeight}}>

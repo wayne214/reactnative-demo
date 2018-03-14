@@ -235,7 +235,7 @@ class driverOrderListItem extends Component {
                         this.props.refreshList && this.props.refreshList(type)
                     }}
                     refreshing={dataSource.get('isRefreshing')}
-                    data={ dataSource.get('list').toJS() || []}
+                    data={dataSource.get('list').toJS() || []}
                     renderItem={type === 2 ? this.renderRowItem : this.renderRow}
                     keyExtractor={this._keyExtractor}
                     extraData={this.state}
