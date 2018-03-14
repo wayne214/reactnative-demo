@@ -22,6 +22,10 @@ import GoodsDetailMoney from '../../components/routes/goodlistdetailMoneyItem';
 import DateHandler from '../../utils/dateHandler'
 import Picker from '../../utils/picker';
 import moment from 'moment';
+import { fetchData } from '../../action/app.js'
+import * as API from '../../constants/api.js'
+import Toast from '@remobile/react-native-toast';
+
 let startTime = 0;
 
 
@@ -36,16 +40,31 @@ class goodListDetail extends Component {
 
             installDateStart: '',
             installDateEnd: '',
-            installTimeStart: null,
-            installTimeEnd: null,
-            arrivalDate: null,
-        }
+            installTimeStart: '',
+            installTimeEnd: '',
+            arrivalDate: '',
+            result: {},
+            money: ''
+        };
+
+        this.getDetailSuccess = this.getDetailSuccess.bind(this);
+        this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
+
     }
     componentDidMount() {
-
+        const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
+        this.props.getGoodsDetail(uri,this.getDetailSuccess)
+    }
+    getDetailSuccess(result){
+        this.setState({
+            result
+        })
     }
 
+    // 抢单成功
+    sendOrderSuccess(){
 
+    }
     _showPickerView(type){
 
         const {installDateStart,installTimeStart,installDateEnd,installTimeEnd,arrivalDate} = this.state
@@ -136,6 +155,7 @@ class goodListDetail extends Component {
                 default:
                     console.warn("none type is matched ");
             }
+
         }
     }
 
@@ -149,27 +169,66 @@ class goodListDetail extends Component {
                 />
                 <ScrollView>
 
-                    <ItemTop price='123'/>
+                    <ItemTop price={this.state.result.freight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
-                        <AddressItem startAddress='北京市海淀区' endAddress='中华人民共和国首都'/>
+                        <AddressItem startAddress={this.state.result.fromAddress} endAddress={this.state.result.toAddress}/>
                     </View>
-                    <MutilAddress address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>
+
+                    {
+                        this.state.result.loadingAreaVOList && this.state.result.loadingAreaVOList.length > 0 ?
+                            <MutilAddress address={this.state.result.loadingAreaVOList}/> : null
+                    }
+
+
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
-                        <GoodsDetail/>
+                        <GoodsDetail goodDetail={'有 '+(this.state.result.carLen || '物品')+' ' +(this.state.result.goodsTotalWeight || "重量")+
+                        '   求 ' + (this.state.result.carLength || '车长') + ' ' + (this.state.result.carType || '类型')}
+                                     beginTime={this.state.result.loadingStartTime}
+                                     endTime={this.state.result.loadingEndTime}
+                                     hot='-20° 至 -10°'
+                                     remark='备注'
+                        />
                     </View>
 
                     <GoodsDetailTime startTime={this.state.installDateStart}
-                                     endTime={this.state.installDateEnd}
+                                     endTime={this.state.installTimeStart}
                                      startaTimeClick={()=>{
                                          this._showPickerView('installDateStart')
                                      }}
                                      endTimeClick={()=>{
-                                         this._showPickerView('installDateEnd')
+                                         this._showPickerView('installTimeStart')
                                      }}/>
 
-                    <GoodsDetailMoney/>
+                    <GoodsDetailMoney moneyChange={(money)=>{
+                        this.setState({money});
+                    }}/>
 
-                    <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}>
+                    <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
+                                      onPress={()=>{
+
+                                          if (this.state.installDateStart === ''){
+                                              Toast.showShortCenter('请选择预计装货时间');
+                                              return
+                                          }
+                                          if (this.state.installTimeStart === ''){
+                                              Toast.showShortCenter('请选择预计装货时间');
+                                              return
+                                          }
+                                          if (this.state.money === ''){
+                                              Toast.showShortCenter('请输入报价金额');
+                                              return
+                                          }
+
+                                          this.props.sendOrder({
+                                              biddingPrice: this.state.money,
+                                              carrierId: '10001',
+                                              carrierName: '承运商名称',
+                                              entrustType: this.state.result.businessType,
+                                              expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart,
+                                              resourceCode: this.props.navigation.state.params.goodID,
+                                              type: this.props.navigation.state.params.type
+                                          },this.sendOrderSuccess);
+                                      }}>
                         <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -209,7 +268,31 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps (dispatch){
-    return {};
+    return {
+        getGoodsDetail: (uri,getGoodListSuccess)=>{
+            startTime = new Date().getTime();
+            dispatch(fetchData({
+                api: uri,
+                method: 'POST',
+                success: (data) => {
+
+                    getGoodListSuccess(data)
+                }
+            }))
+        },
+        sendOrder: (params,getGoodListSuccess)=>{
+            startTime = new Date().getTime();
+            dispatch(fetchData({
+                api: API.BIDORDER,
+                method: 'POST',
+                body: params,
+                success: (data) => {
+
+                    getGoodListSuccess(data)
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(goodListDetail);

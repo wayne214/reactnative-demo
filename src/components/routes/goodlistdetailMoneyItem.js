@@ -35,6 +35,7 @@ class goodlistdetailMoneyItem extends Component{
                         <TextInput style={{flex: 5,height: 30, marginLeft: 10, marginRight: 10}} value={this.state.money}
                                    onChangeText={(money)=>{
                                        this.setState({money});
+                                       this.props.moneyChange(money);
                                    }}
                         />
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
@@ -48,5 +49,8 @@ class goodlistdetailMoneyItem extends Component{
         )
     }
 }
+goodlistdetailMoneyItem.propTypes = {
+    moneyChange:PropTypes.func.isRequired
+};
 
 export default goodlistdetailMoneyItem;

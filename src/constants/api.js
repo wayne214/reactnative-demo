@@ -130,7 +130,7 @@ export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
-export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
+export const RESOURCE_DETAIL = '/app/goods/getGoodsInfo/';
 
 // 承运商订单列表
 export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
@@ -176,6 +176,8 @@ export const ROB_GOODS = '/orderApp/robGoods';
 
 //承运商竞价 报价
 export const BIDDING_GOODS = '/orderApp/biddingGoods';
+// 抢单
+export const BIDORDER = '/app/carrier/bidOrder';
 
 // 承运商抢单（报价）列表
 export const BIDDING_LIST = '/orderApp/getBiddingByCompanyId';
