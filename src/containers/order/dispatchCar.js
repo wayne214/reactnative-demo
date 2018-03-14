@@ -31,19 +31,17 @@ class DispatchCarCell extends Component {
 		const {dispatchCar,rowData} = this.props
 
 		return(
-			<View style={[styles.topTabView,{height: 50}]}>
-				<View style={styles.topTabItem}>
-					<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL}]}>{rowData.carNo}</Text>
+			<View style={[styles.topTabView,{height: 50, paddingHorizontal: 15, justifyContent: 'space-between'}]}>
+				<View style={{flexDirection: 'row', alignItems: 'center'}}>
+					<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL}]}>{rowData.carNum}</Text>
+					<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL, marginLeft: 10}]}>{rowData.drivers ? `司机:${rowData.drivers}` : ''}</Text>
 				</View>
-				<View style={styles.topTabItem}>
-					<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL}]}>{rowData.driverName}</Text>
-				</View>
-				<View style={styles.topTabItem}>
-					<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL}]}>{rowData.carTypeStr}</Text>
-				</View>
+				{/*<View style={styles.topTabItem}>*/}
+					{/*<Text style={[styles.topTabItemText,{color: COLOR.TEXT_NORMAL}]}>{rowData.carTypeStr}</Text>*/}
+				{/*</View>*/}
 				<View style={styles.topTabItem}>
 					<View style={{height: 25}}>
-						<Button activeOpacity={0.8} style={{backgroundColor: 'white',borderWidth: 1,borderRadius: 2,width:75,height: 25,borderColor: COLOR.APP_THEME}}
+						<Button activeOpacity={0.8} style={{backgroundColor: 'white',borderWidth: 1,borderRadius: 12,width:75,height: 25,borderColor: COLOR.APP_THEME}}
 							textStyle={{fontSize: 12,color: COLOR.APP_THEME}}
 							onPress={()=>{
 								if (dispatchCar) {
@@ -69,25 +67,22 @@ class DispatchCar extends BaseComponent {
 			console.warn('派车列表需要非空的goodsId')
 		};
 	  this.state = {
-	  	goodsId: params.goodsId
+	  	goodsId: params.goodsId,
+				param: params.data,
 	  }
-	  this._carBindDriver = this._carBindDriver.bind(this)
+	  // this._carBindDriver = this._carBindDriver.bind(this)
 	  this._searchKey = ''
 	}
 
 	componentDidMount() {
 		super.componentDidMount();
 		const {user } = this.props
-    this.props.navigation.setParams({carBindDriver: this._carBindDriver})
-    this._loadMoreAction(1)
-		// this.props._getCarList({
-		// 	carrierId: user.userId,
-		// 	pageNo: 1,
-		// 	searchKey: '',
-		// 	carState: 0,//休息中
-		// 	haveDriver: 1,//是否绑定司机 1 绑定  0 全部
-		// 	certificationStatus: 2 //认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过
-		// })
+    // this.props.navigation.setParams({carBindDriver: this._carBindDriver})
+    // this._loadMoreAction(1)
+		this.props._getCarList({
+        carStatus: "enable",
+        companionPhone: "15801351011" // 承运商手机号
+		})
 	}
 
 	static navigationOptions = ({navigation}) => {
@@ -95,11 +90,12 @@ class DispatchCar extends BaseComponent {
 			header: (
 				<NavigatorBar
 					router={navigation}
-					optTitle='绑定司机'
-					optTitleStyle={{color: COLOR.TEXT_NORMAL}}
-					firstLevelClick={ () => {
-						navigation.state.params.carBindDriver()
-					}}/>
+				// 	optTitle='绑定司机'
+				// 	optTitleStyle={{color: COLOR.TEXT_NORMAL}}
+				// 	firstLevelClick={ () => {
+				// 		navigation.state.params.carBindDriver()
+				// 	}}
+				/>
 			)
 	  }
 	}
@@ -120,12 +116,28 @@ class DispatchCar extends BaseComponent {
 		return <DispatchCarCell
 			dispatchCar={(data)=>{
 				console.log("-------派车 车辆信息",data);
-				this.props._getResourceState({goodsId},(resourceState)=>{
-					this.props.navigation.dispatch({
-						type: RouteType.ROUTE_TRANSPORT_CONFIRM,
-						params: {goodsId,carId: data.id, title: '承运单确认'}
-					})
-				})
+
+				this.props._disPatchCar({
+            carId: data.carId, // 车辆id
+            carLen: data.carLen, // 车辆长度
+            carNo: data.carNum, // 车辆牌号
+            carType: this.state.param.carType, // 车辆类型
+            carrierName: "string", //承运商名字
+            carryCapacity: data.carryCapacity, // 车辆载重
+            companyCode: "string", // 承运商code
+            companyPhone: "15801351011", // 承运商手机号
+            driverId: "string", // 司机id
+            driverName: data.drivers, // 司机姓名
+            driverPhone: "string", // 司机手机号
+            orderSource: this.state.param.orderSource, // 订单来源： 1.交易中心 2.调度中心
+            resourceCode: this.state.param.resourceCode // 货源id
+        });
+				// this.props._getResourceState({goodsId},(resourceState)=>{
+				// 	this.props.navigation.dispatch({
+				// 		type: RouteType.ROUTE_TRANSPORT_CONFIRM,
+				// 		params: {goodsId,carId: data.id, title: '承运单确认'}
+				// 	})
+				// })
 			}}
 			rowData={rowData}
 			rowID={ rowID }/>
@@ -149,7 +161,7 @@ class DispatchCar extends BaseComponent {
 			console.log("------ 已加载全部 size ",freeCarList.get('list').size);
 			return;
 		}
-		this._loadMoreAction()
+		// this._loadMoreAction()
 	}
 
 	_loadMoreAction(pageNo){
@@ -170,32 +182,32 @@ class DispatchCar extends BaseComponent {
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
 		return <View style={styles.container}>
-			<SearchInput searchAction={(key)=>{
-				this._searchKey = key
-				this._loadMoreAction(1)
-			}}/>
-			<View style={{padding: 10}}>
-				<Text style={{color: COLOR.TEXT_LIGHT,lineHeight: 18}}>温馨提示：该列表中仅显示休息中的可调度车辆，同时未绑定司机的车辆在该列表中无法显示，如有需要，请先到车辆管理页面绑定司机</Text>
-			</View>
-			<View style={styles.topTabView}>
-				<View style={styles.topTabItem}>
-					<Text style={styles.topTabItemText}>车牌号</Text>
-				</View>
-				<View style={styles.topTabItem}>
-					<Text style={styles.topTabItemText}>司机姓名</Text>
-				</View>
-				<View style={styles.topTabItem}>
-					<Text style={styles.topTabItemText}>车辆类型</Text>
-				</View>
-				<View style={styles.topTabItem}>
-					<Text style={styles.topTabItemText}>车辆调度</Text>
-				</View>
-			</View>
+			{/*<SearchInput searchAction={(key)=>{*/}
+				{/*this._searchKey = key*/}
+				{/*this._loadMoreAction(1)*/}
+			{/*}}/>*/}
+			{/*<View style={{padding: 10}}>*/}
+				{/*<Text style={{color: COLOR.TEXT_LIGHT,lineHeight: 18}}>温馨提示：该列表中仅显示休息中的可调度车辆，同时未绑定司机的车辆在该列表中无法显示，如有需要，请先到车辆管理页面绑定司机</Text>*/}
+			{/*</View>*/}
+			{/*<View style={styles.topTabView}>*/}
+				{/*<View style={styles.topTabItem}>*/}
+					{/*<Text style={styles.topTabItemText}>车牌号</Text>*/}
+				{/*</View>*/}
+				{/*<View style={styles.topTabItem}>*/}
+					{/*<Text style={styles.topTabItemText}>司机姓名</Text>*/}
+				{/*</View>*/}
+				{/*<View style={styles.topTabItem}>*/}
+					{/*<Text style={styles.topTabItemText}>车辆类型</Text>*/}
+				{/*</View>*/}
+				{/*<View style={styles.topTabItem}>*/}
+					{/*<Text style={styles.topTabItemText}>车辆调度</Text>*/}
+				{/*</View>*/}
+			{/*</View>*/}
 			<ListView
 				style={{flex:1}}
 				dataSource={ ds.cloneWithRows(freeCarList.get('list').toJS() || []) }
 				renderRow={this._renderRow.bind(this)}
-				onEndReachedThreshold={10}
+				onEndReachedThreshold={100}
 				enableEmptySections={true}
 				onEndReached={ this._toEnd.bind(this) }
 				renderFooter={ this._renderFooter.bind(this) }/>
@@ -217,7 +229,6 @@ const styles =StyleSheet.create({
 		borderBottomColor: COLOR.LINE_COLOR
 	},
 	topTabItem: {
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
@@ -250,7 +261,7 @@ const mapDispatchToProps = (dispatch) => {
 				body: params,
 				success: (data)=>{
 					console.log("------- 获取到供应商的司机。。。",data);
-					data.pageNo = params.pageNo,
+					data.pageNo = 1,
 					dispatch(getFreeCarList(data))
 					dispatch(appendLogToFile('调度车辆','获取可调度车辆列表',startTime))
 				}
@@ -293,7 +304,21 @@ const mapDispatchToProps = (dispatch) => {
 					failCallBack && failCallBack(data)
 				}
 			}))
-		}
+		},
+      _disPatchCar:(params)=>{
+          startTime = new Date().getTime();
+          dispatch(fetchData({
+              api: API.DISPATCH_CAR,
+              method: 'POST',
+              body: params,
+              success: (data)=>{
+                  console.log("------- 获取到供应商的司机。。。",data);
+                  data.pageNo = params.pageNo,
+                      dispatch(getFreeCarList(data))
+                  dispatch(appendLogToFile('调度车辆','获取可调度车辆列表',startTime))
+              }
+          }))
+      },
 	}
 }
 
