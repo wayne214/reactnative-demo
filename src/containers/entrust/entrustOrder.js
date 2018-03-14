@@ -141,7 +141,14 @@ class EntrustOrderList extends BaseComponent {
 							}}
 							bindOrder={(data)=>{
 								console.log("------ 接受派单 -- data",data);
-								
+								// 跳转到抢单页面
+                  this.props.navigation.dispatch({
+                      type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                      params: {
+                          goodID: data.resourceCode,
+                          type: '1'
+                      }
+                  })
 
 								// this.props._acceptDesignate({
 								// 	goodsId: data.resourceId,
