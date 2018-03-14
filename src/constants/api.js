@@ -40,7 +40,7 @@ export const SAVE_DRIVER_INFO = '/driver/saveDriverInfo';
 export const DELETE_DRIVER_INFO = '/driver/deleteDriverInfo';
 
 // 车辆管理列表、车辆绑定司机列表
-export const QUERY_CAR_LIST = '/carInfo/queryCarInfoList';
+export const QUERY_CAR_LIST = '/app/carrier/queryCarrierCarList';
 
 //删除车辆
 export const DELETE_CAR = '/carInfo/deleteCarInfo';
@@ -130,7 +130,7 @@ export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
-export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
+export const RESOURCE_DETAIL = '/app/goods/getGoodsInfo/';
 
 // 承运商订单列表
 export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
@@ -162,7 +162,7 @@ export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
 
 
 // 承运商调度车辆
-export const DISPATCH_CAR = '/orderApp/dispatchCar';
+export const DISPATCH_CAR = '/app/goods/dispatchCar';
 
 // 确认承运
 export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';
@@ -176,6 +176,8 @@ export const ROB_GOODS = '/orderApp/robGoods';
 
 //承运商竞价 报价
 export const BIDDING_GOODS = '/orderApp/biddingGoods';
+// 抢单
+export const BIDORDER = '/app/carrier/bidOrder';
 
 // 承运商抢单（报价）列表
 export const BIDDING_LIST = '/orderApp/getBiddingByCompanyId';

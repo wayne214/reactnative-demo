@@ -21,7 +21,8 @@ export default class EntrustOrderListItem extends Component {
 	}
 	_renderRow(rowData,SectionId,rowID){
 		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
-		const {itemClick,dispatchCar,acceptDesignate} = this.props
+		const {itemClick,dispatchCar,bindOrder} = this.props
+			console.log('.....entrustLIST', rowData.item);
 		return <CarrerListItem
 			{...this.props}
 			itemClick={(data)=>{
@@ -31,7 +32,7 @@ export default class EntrustOrderListItem extends Component {
 				if(dispatchCar){dispatchCar(data)}
 			}}
 			bindOrder={(data)=>{
-				if(acceptDesignate){acceptDesignate(data)}
+				if(bindOrder){bindOrder(data)}
 			}}
 			rowData={rowData.item}
 			rowID={ rowID }/>
@@ -69,7 +70,13 @@ export default class EntrustOrderListItem extends Component {
 			</View>
 		)
 	}
-	_keyExtractor = (item, index) => item.resourceId
+
+    separatorComponent() {
+        return (
+					<View style={{height: 10, backgroundColor: '#f0f2f5',}}/>
+        );
+    };
+	_keyExtractor = (item, index) => index
 	render(){
 		const {dataSource,type} = this.props
 		return (
@@ -86,6 +93,7 @@ export default class EntrustOrderListItem extends Component {
 				extraData={this.state}
 				onEndReachedThreshold={0.1}
 				enableEmptySections={true}
+				ItemSeparatorComponent={this.separatorComponent}
 				onEndReached={ this._toEnd.bind(this) }
 				ListFooterComponent={this._renderFooter.bind(this)}
 				ListEmptyComponent={this._listEmptyComponent()}/>
