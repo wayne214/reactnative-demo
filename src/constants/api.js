@@ -40,7 +40,7 @@ export const SAVE_DRIVER_INFO = '/driver/saveDriverInfo';
 export const DELETE_DRIVER_INFO = '/driver/deleteDriverInfo';
 
 // 车辆管理列表、车辆绑定司机列表
-export const QUERY_CAR_LIST = '/carInfo/queryCarInfoList';
+export const QUERY_CAR_LIST = '/app/carrier/queryCarrierCarList';
 
 //删除车辆
 export const DELETE_CAR = '/carInfo/deleteCarInfo';
@@ -162,7 +162,7 @@ export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
 
 
 // 承运商调度车辆
-export const DISPATCH_CAR = '/orderApp/dispatchCar';
+export const DISPATCH_CAR = '/app/goods/dispatchCar';
 
 // 确认承运
 export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';

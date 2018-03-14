@@ -43,15 +43,15 @@ class EntrustOrderList extends BaseComponent {
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
 	  		companyCode: '1001',
-         num: 1,
-         resourceCode: '',
-					size: 10,
+				 num: 1,
+				 resourceCode: '',
+				size: 10,
 	  	},showLoading)
 	  }else{
 	  	_getEntrustOrderUndispatch({
-          ctcNum: 0,
-          dpcNum: 0,
-          userId: ""
+          ctcNum: 1,
+          dpcNum: 1,
+          userId: "1001"
 	  	},showLoading)
 	  }
 
@@ -100,15 +100,15 @@ class EntrustOrderList extends BaseComponent {
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
                     companyCode: '1001',
-                    num: 0,
+                    num: 1,
                     resourceCode: '',
                     size: 10,
 								},true)
 							}else if (obj.i == 1) {
 								this.props._getEntrustOrderUndispatch({
-                    ctcNum: 0,
-                    dpcNum: 0,
-                    userId: "code"
+                    ctcNum: 1,
+                    dpcNum: 1,
+                    userId: "1001"
 								},true)
 							}
 						}}
@@ -128,7 +128,7 @@ class EntrustOrderList extends BaseComponent {
 									data.refreshCallBack = ()=>{
 										this.props._getEntrustOrderList({
                         companyCode: '1001',
-                        num: 0,
+                        num: 1,
                         resourceCode: '',
                         size: 10,
 										})
@@ -139,28 +139,30 @@ class EntrustOrderList extends BaseComponent {
                   })
 								})
 							}}
-							acceptDesignate={(data)=>{
+							bindOrder={(data)=>{
 								console.log("------ 接受派单 -- data",data);
-								this.props._acceptDesignate({
-									goodsId: data.resourceId,
-									companyId: user.userId,
-									companyName: user.companyName,
-									companyPhone: user.phoneNumber
-								},()=>{
-									Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
-									this.props.navigation.dispatch({
-									  type: RouteType.ROUTE_DISPATCH_CAR,
-									  params: {goodsId: data.resourceId, title: '调度车辆'}
-									})
-								},()=>{
-									// refreshCallBack
-									this.props._getEntrustOrderList({
-                      companyCode: '1001',
-                      num: 0,
-                      resourceCode: '',
-                      size: 10,
-									})
-								})
+								
+
+								// this.props._acceptDesignate({
+								// 	goodsId: data.resourceId,
+								// 	companyId: user.userId,
+								// 	companyName: user.companyName,
+								// 	companyPhone: user.phoneNumber
+								// },()=>{
+								// 	Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
+								// 	this.props.navigation.dispatch({
+								// 	  type: RouteType.ROUTE_DISPATCH_CAR,
+								// 	  params: {goodsId: data.resourceId, title: '调度车辆'}
+								// 	})
+								// },()=>{
+								// 	// refreshCallBack
+								// 	this.props._getEntrustOrderList({
+                 //      companyCode: '1001',
+                 //      num: 0,
+                 //      resourceCode: '',
+                 //      size: 10,
+								// 	})
+								// })
 							}}
 							removeOverTimeOrder={(resourceId)=>{
 								this.props._removeOverTimeOrder(resourceId)
@@ -198,12 +200,17 @@ class EntrustOrderList extends BaseComponent {
 								}
 							}}
 							dispatchCar={(data)=>{
-								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+								console.log('dispatchCar', data);
                   this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_DISPATCH_CAR,
-                    params: {goodsId: data.resourceId, title: '调度车辆'}
+                      type: RouteType.ROUTE_DISPATCH_CAR,
+                      params: {data, title: '选择车辆'}
                   })
-								})
+								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+                 //  this.props.navigation.dispatch({
+                 //    type: RouteType.ROUTE_DISPATCH_CAR,
+                 //    params: {goodsId: data.resourceId, title: '调度车辆'}
+                 //  })
+								// })
 							}}
 							deleteOrderUndispatch={(goodsId)=>{
 								console.log(" ======= delete cilck ");
@@ -280,7 +287,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 0
-					data.pageNo = params.pageNo
+					data.pageNo = params.num
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
 				}
@@ -297,7 +304,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 1
-					data.pageNo = params.pageNo
+					data.pageNo = params.ctcNum
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
 				}
