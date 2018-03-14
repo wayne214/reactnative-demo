@@ -13,6 +13,7 @@ import OrderCell from '../order/orderCell.js'
 import {changeEntrustOrderListIsRefreshing } from '../../action/entrust.js'
 import emptyList from '../../../assets/img/order/empty_order_list.png'
 import LoadMoreFooter from '../common/loadMoreFooter'
+import CarrerListItem from './carrerListItem';
 
 export default class EntrustOrderListItem extends Component {
 	constructor(props) {
@@ -21,7 +22,7 @@ export default class EntrustOrderListItem extends Component {
 	_renderRow(rowData,SectionId,rowID){
 		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
 		const {itemClick,dispatchCar,acceptDesignate} = this.props
-		return <OrderCell
+		return <CarrerListItem
 			{...this.props}
 			itemClick={(data)=>{
 				if(itemClick){itemClick(data)}
@@ -29,7 +30,7 @@ export default class EntrustOrderListItem extends Component {
 			dispatchCar={(data)=>{
 				if(dispatchCar){dispatchCar(data)}
 			}}
-			acceptDesignate={(data)=>{
+			bindOrder={(data)=>{
 				if(acceptDesignate){acceptDesignate(data)}
 			}}
 			rowData={rowData.item}

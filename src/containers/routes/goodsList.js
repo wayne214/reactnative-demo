@@ -75,7 +75,6 @@ class GoodsList extends Component {
     },getGoodListSuccess)
   }
   getGoodListSuccess(data){
-debugger
   }
 
   static navigationOptions = ({navigation}) => {

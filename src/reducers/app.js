@@ -25,14 +25,14 @@ const initState = Immutable.fromJS({
             renderSelectedIcon: require('../../assets/img/app/icon_goods_press.png')
 
         },
-        {
-            title: '行程',
-            key: 'route',
-            badgeCount: 0,
-            withStatusBar: true,
-            renderIcon: require('../../assets/img/app/icon_route.png'),
-            renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
-        },
+        // {
+        //     title: '行程',
+        //     key: 'route',
+        //     badgeCount: 0,
+        //     withStatusBar: true,
+        //     renderIcon: require('../../assets/img/app/icon_route.png'),
+        //     renderSelectedIcon: require('../../assets/img/app/icon_route_press.png')
+        // },
         {
             title: '承运',
             key: 'carriage',
