@@ -608,8 +608,10 @@ class mine extends Component {
                     {
                         this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
                             <TouchableOpacity onPress={()=> {
-                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CHOOSE_CAR, params: {
-                                    carList: [],
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_CHOOSE_CAR,
+                                    params: {
+                                    carList: this.props.userCarList,
                                     flag: false
                                 } })
                             }}>

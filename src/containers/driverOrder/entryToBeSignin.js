@@ -208,8 +208,8 @@ class entryToBeSignin extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            plateNumber: '京LPL001'
-            // plateNumber: this.props.plateNumber
+            // plateNumber: '京LPL001'
+            plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.sendOderSuccessCallBack(responseData);
         })

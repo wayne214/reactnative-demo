@@ -38,7 +38,8 @@ const initState = Immutable.fromJS({
     },
     imageList: Immutable.List(),
     maxNum: 9, // 照片最大张数
-})
+    tabIndex: 0,
+});
 
 export default (state = initState, action) => {
     let newState = state;
@@ -70,8 +71,11 @@ export default (state = initState, action) => {
             newState = newState.setIn([rootType,'hasMore'],payload.pageNum < payload.pages ? true : false);
             newState = newState.setIn([rootType,'pageNum'],payload.pageNum);
             newState = newState.setIn([rootType,'total'],payload.total);
-
-            if (payload.pageNum === 1) {
+            console.log('payload.pageNum=',payload.pageNum);
+            if(payload.pageNum === 0) {
+                newState = newState.setIn([rootType,'list'], []);
+                newState = newState.setIn([rootType,'list'], Immutable.fromJS(payload.list));
+            } else if (payload.pageNum === 1) {
                 // 第一页数据先清空原有数据
                 newState = newState.setIn([rootType,'list'],[]);
                 newArray = Immutable.fromJS(payload.list);
@@ -81,6 +85,7 @@ export default (state = initState, action) => {
                 newArray = newArray.concat(payload.list);
                 newState = newState.setIn([rootType,'list'],Immutable.fromJS(newArray));
             }
+            console.log('newArray=',newArray);
             return newState;
         case ActionTypes.ACTION_REFRESH_DRIVER_ORDER_LIST://刷新列表
             switch(payload){
@@ -127,6 +132,10 @@ export default (state = initState, action) => {
             maxNum = 9;
             newState = newState.set('imageList', imageList);
             newState = newState.set('maxNum', maxNum);
+            return newState;
+
+        case ActionTypes.ACTION_MAIN_PRESS:
+            newState = newState.set('tabIndex', action.payload);
             return newState;
         default:
             return newState

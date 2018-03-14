@@ -170,7 +170,7 @@ class uploadAbnormal extends Component {
             return;
         }
         let formData = new FormData();
-        if(this.props.imageList.length > 0) {
+        if(this.props.imageList.size > 0) {
             this.props.imageList.map(i => {
                 if (Platform.OS === 'ios'){
                     if(i.uri.indexOf('file://') === -1){

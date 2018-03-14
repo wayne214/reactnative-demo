@@ -197,7 +197,7 @@ class driverGoods extends Component {
         // const beginTimeTemp = this.getPreMonth(moment(new Date()).format('YYYY-MM-DD'));
         // const plateNumber = this.props.userPlateNumber;
         if(this.props.currentStatus == 'driver') {
-            global.plateNumber = '京LPL001';
+            // global.plateNumber = '京LPL001';
             if (global.plateNumber) {
                 this.props._getData({
                     beginTime: '2017-06-01 00:00:00',

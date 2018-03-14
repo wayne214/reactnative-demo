@@ -126,7 +126,6 @@ const initState = Immutable.fromJS({
     getHomePageCount: {}, // 首页状态数量
     getCarrierHomePageCount: {}, // 首页状态数量
     versionUrl: '', // 版本地址
-    mainPress: 1,
 });
 
 export default (state = initState, action) => {
@@ -250,9 +249,6 @@ export default (state = initState, action) => {
             return newState;
         case ActionTypes.UPDATE_VERSION:
             newState = newState.set('versionUrl', action.payload);
-            return newState;
-        case ActionTypes.ACTION_MAIN_PRESS:
-            newState = newState.set('mainPress', action.payload.orderTab);
             return newState;
 
         default:

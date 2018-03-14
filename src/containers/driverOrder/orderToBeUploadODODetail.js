@@ -117,7 +117,9 @@ class orderToBeUploadODODetail extends Component {
             scheduleTimeAgain,
             currentStatus,
             num,
-            uploadODO
+            uploadODO,
+            orderFrom,
+            isUploadOdo,
         } = this.props;
 
         const buttonView = <BottomButton
@@ -126,7 +128,8 @@ class orderToBeUploadODODetail extends Component {
                     uploadODO && uploadODO();
                 }
             }}
-            buttonDisabled={this.state.buttonDisabled}
+            buttonStyle={orderFrom === '10' && isUploadOdo === 'Y' ? {} : {opacity: 0.5}}
+            buttonDisabled={orderFrom === '10' && isUploadOdo === 'Y' ? false : true}
             text="上传出库单" />;
         return (
             <View style={{

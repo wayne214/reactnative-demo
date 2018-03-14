@@ -16,6 +16,14 @@ export const refreshDriverOrderList = payload => {
     }
 };
 
+export const changeOrderTabAction = (payload) => {
+    return {
+        type: ActionTypes.ACTION_MAIN_PRESS,
+        payload
+    };
+
+};
+
 // 上传回单-添加照片
 export const addImage = (params) => {
     return (dispatch) => {
