@@ -90,7 +90,7 @@ class certificationState extends Component{
         this.state={
             resultInfo: {},
             appLoading: false,
-            qualifications: this.props.navigation.state.params.qualifications,
+            qualifications: '',
         };
 
         this.getVerifiedDetail = this.getVerifiedDetail.bind(this);
@@ -106,7 +106,8 @@ class certificationState extends Component{
 
         this.getCurrentPosition();
 
-        this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
+        // this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
+        this.getVerifiedDetail('15534343431', '豫A23090');
 
     }
     getDetailSuccessCallBack(result){

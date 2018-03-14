@@ -190,8 +190,8 @@ export default class Route extends React.Component {
 			stepFourNum = { color: 'white' };
 			stepFourText = { color: '#17a9df' };
 
-			stepThreeNum = {  };
-			stepThreeText = {  };
+			stepThreeNum = {};
+			stepThreeText = {};
 
 			stepFourView = { backgroundColor: '#17a9df' };
 			stepThreeView = stepFiveText = stepFiveNum = stepFiveView = {};
@@ -248,8 +248,8 @@ export default class Route extends React.Component {
 				stepFourNum = { color: 'white' };
 				stepFourText = { color: '#17a9df' };
 
-				stepThreeNum = {  };
-				stepThreeText = {  };
+				stepThreeNum = {};
+				stepThreeText = {};
 
 				stepFourView = { backgroundColor: '#17a9df' };
 				stepThreeView = stepFiveText = stepFiveNum = stepFiveView = {};
@@ -270,13 +270,13 @@ export default class Route extends React.Component {
 				uploadBtnDisable = true;
 			} else if (orderStatus === 8 || orderStatus === 9) {
 			  // 协调中
-				stepFourNum = {  };
-				stepFourText = {  };
+				stepFourNum = {};
+				stepFourText = {};
 
-				stepThreeNum = {  };
-				stepThreeText = {  };
+				stepThreeNum = {};
+				stepThreeText = {};
 
-				stepFourView = {  };
+				stepFourView = {};
 				stepThreeView = stepFiveText = stepFiveNum = stepFiveView = {};
 				stepFiveNum = { color: 'white' };
 				stepFiveText = { color: '#17a9df' };

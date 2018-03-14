@@ -201,7 +201,7 @@ class verifiedTravelInfoItem extends Component{
                                placeholder={'请输入实载体积'}
                                underlineColorAndroid={'transparent'}
                                onFocus={()=>{
-                                   this.props.textOnFocus(150);
+                                   this.props.textOnFocus();
                                }}
                     />
                 </View>
@@ -221,7 +221,7 @@ class verifiedTravelInfoItem extends Component{
                                value={this.state.allowNumber}
                                placeholder={'请输入运输许可证号'}
                                onFocus={()=>{
-                                   this.props.textOnFocus(200);
+                                   this.props.textOnFocus();
                                }}
                     />
                 </View>
@@ -239,7 +239,7 @@ class verifiedTravelInfoItem extends Component{
                                    this.carNumberValueChange(text);
                                }}
                                onFocus={()=>{
-                                   this.props.textOnFocus(250);
+                                   this.props.textOnFocus();
                                }}
                                value={this.state.carNumber}
                                placeholder={'请输入挂车牌号'}

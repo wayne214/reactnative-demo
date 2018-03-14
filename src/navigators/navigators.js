@@ -77,6 +77,8 @@ import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
 
+
+
 // 首页
 import HomeScreen from '../containers/home/home';
 import TakePhotoScreen from '../containers/home/takePhoto';
@@ -869,6 +871,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_INFO]: {
         screen: CarInfoScreen,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {

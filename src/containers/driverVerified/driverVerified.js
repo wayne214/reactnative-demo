@@ -846,40 +846,42 @@ class Verified extends Component {
     realNameVerified(dataString, date) {
         currentTime = new Date().getTime();
 
+        const params = {
+            drivingLicenseHomepageNormalPhotoAddress: this.state.drivingLicenseHomepageNormalPhotoAddress,
+            drivingLicenseHomepageThumbnailAddress: this.state.drivingLicenseHomepageThumbnailAddress,
+            drivingLicenseName: this.state.drivingLicenseName,
+            drivingLicenseNum: this.state.drivingLicenseNum,
+            drivingLicenseValidUntil: dataString,
+            drivingLicenseVicePageNormalAddress: this.state.drivingLicenseVicePageNormalAddress,
+            drivingLicenseVicePageThumbnailAddress: this.state.drivingLicenseVicePageThumbnailAddress,
+            handleIDNormalPhotoAddress: this.state.handleIDNormalPhotoAddress,
+            handleIDThumbnailAddress: this.state.handleIDThumbnailAddress,
+            idBackSideNormalPhotoAddress: this.state.idBackSideNormalPhotoAddress,
+            idBackSideThumbnailAddress: this.state.idBackSideThumbnailAddress,
+            idFaceSideNormalPhotoAddress: this.state.idFaceSideNormalPhotoAddress,
+            idFaceSideThumbnailAddress: this.state.idFaceSideThumbnailAddress,
+            idName: this.state.IDName,
+            idNum: this.state.IDCard,
+            idValidUntil: date,
+            motorcycleType: this.state.motorcycleType,
+            phoneNum: '12356234111',//userPhone
+            userId: '12376543111',//userID
+            userName: 'qwer111',//this.state.IDName
+            companyPhone: '12356234111',//userPhone
+
+            // 默认
+            idCardNameRecognition: this.state.idCardNameRecognition, //识别身份证姓名
+            idCardRecognition: this.state.idCardRecognition, //识别身份证号
+            idCardValidityRecognition: Validator.timeTrunToDateString(this.state.idCardValidityRecognition), //识别身份证有效期
+            drivingLicenceNameRecognition: this.state.drivingLicenceNameRecognition, // 识别驾驶证姓名
+            driverCardRecognition: this.state.driverCardRecognition, // 识别驾驶证号
+            quasiCarTypeRecognition: this.state.quasiCarTypeRecognition, // 识别准驾车型
+            driverLicenseValidateRecognition: Validator.timeTrunToDateString(this.state.driverLicenseValidateRecognition),  // 识别驾驶证有效期
+        };
+        debugger
         HTTPRequest({
             url: API.API_AUTH_REALNAME_COMMIT,
-            params: {
-                drivingLicenseHomepageNormalPhotoAddress: this.state.drivingLicenseHomepageNormalPhotoAddress,
-                drivingLicenseHomepageThumbnailAddress: this.state.drivingLicenseHomepageThumbnailAddress,
-                drivingLicenseName: this.state.drivingLicenseName,
-                drivingLicenseNum: this.state.drivingLicenseNum,
-                drivingLicenseValidUntil: dataString,
-                drivingLicenseVicePageNormalAddress: this.state.drivingLicenseVicePageNormalAddress,
-                drivingLicenseVicePageThumbnailAddress: this.state.drivingLicenseVicePageThumbnailAddress,
-                handleIDNormalPhotoAddress: this.state.handleIDNormalPhotoAddress,
-                handleIDThumbnailAddress: this.state.handleIDThumbnailAddress,
-                idBackSideNormalPhotoAddress: this.state.idBackSideNormalPhotoAddress,
-                idBackSideThumbnailAddress: this.state.idBackSideThumbnailAddress,
-                idFaceSideNormalPhotoAddress: this.state.idFaceSideNormalPhotoAddress,
-                idFaceSideThumbnailAddress: this.state.idFaceSideThumbnailAddress,
-                idName: this.state.IDName,
-                idNum: this.state.IDCard,
-                idValidUntil: date,
-                motorcycleType: this.state.motorcycleType,
-                phoneNum: '12356234',//userPhone
-                userId: '12376543',//userID
-                userName: 'qwer',//this.state.IDName
-                companyPhone: '12356234',//userPhone
-
-                // 默认
-                idCardNameRecognition: this.state.idCardNameRecognition, //识别身份证姓名
-                idCardRecognition: this.state.idCardRecognition, //识别身份证号
-                idCardValidityRecognition: Validator.timeTrunToDateString(this.state.idCardValidityRecognition), //识别身份证有效期
-                drivingLicenceNameRecognition: this.state.drivingLicenceNameRecognition, // 识别驾驶证姓名
-                driverCardRecognition: this.state.driverCardRecognition, // 识别驾驶证号
-                quasiCarTypeRecognition: this.state.quasiCarTypeRecognition, // 识别准驾车型
-                driverLicenseValidateRecognition: Validator.timeTrunToDateString(this.state.driverLicenseValidateRecognition),  // 识别驾驶证有效期
-            },
+            params: params,
             loading: () => {
 
             },
@@ -907,7 +909,7 @@ class Verified extends Component {
                     }
                 }
 
-                this.props.navigation.navigate('Main');
+                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
             },
             error: (errorInfo) => {
             },

@@ -79,13 +79,13 @@ export const DELETE_ROUTE = '/carrierLineInfo/delete';
 export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
 
 // 系统公告详情
-export const SYSTEM_MSG_DETAIL = '/app/note/noteInfoDetail';
+export const SYSTEM_MSG_DETAIL = 'app/note/noteInfoDetail';
 
 // 更新系统公告（已读未读）
 export const SYSTEM_READ_ORNOT = '/app/note/updateNoteInfo';
 
 // 更新站内信
-export const UPDATE_WEB_MSG = '/app/message/updateMessageInfo';
+export const UPDATE_WEB_MSG = '/app/message/readMessage';
 
 // 站内信
 export const STACK_MSG_LIST = '/app/message/queryMessageList';
@@ -470,6 +470,8 @@ export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelatio
 export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
 //根据车牌号搜索车辆信息返回
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
+// 车主增加车辆发送验证码
+export const API_CAR_OWNER_ADD_CAR_CODE = 'app/sendMsg/sendCarrierBindingCarSms';
 
 //WebSocket
 export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;

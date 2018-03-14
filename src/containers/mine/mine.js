@@ -705,7 +705,6 @@ class mine extends Component {
                 <ScrollView>
                 {
                     this.props.currentStatus == 'driver' ?
-                    // 'driver' == 'driver1' ?
                         <View>
                             <SettingCell
                                 style={{height: 36}}
@@ -716,21 +715,18 @@ class mine extends Component {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
                                         if (this.state.verifiedState == '1200') {
-                                            navigator.navigate('PersonInfo', {
+                                            this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_PERSON_INFO,
+                                                        params: {
+                                                            phone: global.phone,
+                                                        }
+                                                    });
+                                        }else {
+                                             this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
                                                 phone: global.phone,
-                                            });
-                                        }
-                                        if (this.state.verifiedState == '1202') {
-                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
-                                                phone: '15801461058',
                                             } })
                                         }
-                                        if (this.state.verifiedState == '1201') {
-                                            Alert.alert('提示', '实名认证中');
-                                        }
-                                        if (this.state.verifiedState == '1203') {
-                                            Alert.alert('提示', '实名认证被驳回');
-                                        }
+
                                     }
                                 }}
                             />
@@ -763,17 +759,9 @@ class mine extends Component {
                                             }
                                         }
                                         if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
-                                            // this.props.navigation.dispatch({
-                                            //     type: RouteType.ROUTE_CAR_INFO,
-                                            //     params: {
-                                            //         certificationState: this.state.certificationState,
-                                            //     }
-                                            // });
-                                            // navigator.navigate('CerifiedStatePage', {
-                                            //     qualifications: this.state.certificationState,
-                                            //     phone: global.phone,
-                                            //     plateNumber:global.plateNumber
-                                            // })
+                                            this.props.navigation.dispatch({
+                                                type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL
+                                            })
                                         }
 
                                     }
@@ -850,126 +838,6 @@ class mine extends Component {
                                     }
                                 }}
                             />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'司机认证'}
-                                clickAction={() => {
-                                    if( 1 === 1 ){ // 没有认证 状态
-                                        Storage.get(StorageKey.changePersonInfoResult).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_DRIVER_VERIFIED,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }
-                                                });
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
-                                            }
-                                        })
-                                    }else {
-                                        // 认证中、认证通过、认证驳回 状态
-                                         this.props.navigation.dispatch({
-                                             type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
-                                             params:{
-                                                 qualifications: this.state.verifiedState,
-                                                 phone: 12356234,//global.phone
-                                                 }
-                                         });
-
-                                    }
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'车主认证'}
-                                clickAction={() => {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'车主增加司机'}
-                                clickAction={() => {
-                                        Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
-                                            }
-                                        });
-
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'增加车辆'}
-                                clickAction={() => {
-                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
-                                            }
-                                        });
-
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'增加车辆详情'}
-                                clickAction={() => {
-                                 this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL ,
-                                                    params: {
-                                                        phone: global.phone,
-                                                        plateNumber:global.plateNumber,
-                                                        qualifications: this.state.certificationState,
-
-                                                    }}
-                                                )
-
-                                }}
-                            />
-
-                            {/*<SettingCell*/}
-                                {/*leftIconImage={aboutUsIcon}*/}
-                                {/*content={'司机增加车辆'}*/}
-                                {/*clickAction={() => {*/}
-                                    {/*if (2===1){*/}
-                                        {/*Storage.get(StorageKey.carInfoResult).then((value) => {*/}
-                                            {/*if (value) {*/}
-                                                {/*this.props.navigation.dispatch({*/}
-                                                    {/*type: RouteType.ROUTE_DRIVER_ADD_CAR,*/}
-                                                    {/*params: {*/}
-                                                        {/*resultInfo: value,*/}
-                                                    {/*}}*/}
-                                                {/*)*/}
-                                            {/*} else {*/}
-                                                {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_ADD_CAR })*/}
-                                            {/*}*/}
-                                        {/*});*/}
-                                    {/*}else {*/}
-                                        {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_ADD_CAR_DETAIL,params:{*/}
-                                            {/*qualifications: this.state.certificationState,*/}
-                                                                {/*phone: global.phone,*/}
-                                                                {/*plateNumber:global.plateNumber*/}
-                                        {/*} })*/}
-
-                                    {/*}*/}
-
-                                {/*}}*/}
-                            {/*/>*/}
 
                         </View> : <View>
                             <SettingCell

@@ -3,7 +3,7 @@
  */
 /*创建资质认证-车辆类型数据*/
 function createCarTypeDate() {
-    const carTypeDataSource= ['保温车','常温车','单温车','两温车','三温车'];
+    const carTypeDataSource= ['保温车','常温车','单温车','两温车','三温车','冷藏车'];
 
     let data = [];
     for(let i=0;i<carTypeDataSource.length;i++){

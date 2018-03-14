@@ -101,28 +101,7 @@ class verifiedState extends Component{
 
         this.getCurrentPosition();
 
-        /*
-        if (this.state.qualifications == '1203') {
 
-            this.getRealNameDetail(this.state.phone);
-
-        } else {
-            Storage.get(StorageKey.personInfoResult).then((value) => {
-
-                if (value) {
-                    this.setState({
-                        resultInfo: value,
-                    });
-                } else {
-
-                    console.log('this.state.phone:', this.state.phone);
-                    this.getRealNameDetail(this.state.phone);
-
-                }
-            });
-
-        }
-        */
         this.getRealNameDetail(this.state.phone);
 
     }

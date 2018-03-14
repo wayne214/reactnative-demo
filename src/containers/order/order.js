@@ -108,11 +108,12 @@ class OrderListItem extends Component {
   }
   render(){
     const {dataSource,haveBatch, batchHandle,activeTab,activeSubTab} = this.props
+      console.log('datasoure', dataSource);
     return (
       <View style={{flex:1}}>
         <FlatList
           style={{flex:1}}
-          data={ ['1', '2'] }
+          data={ dataSource.get('list').toJS() || [] }
           onRefresh={()=>{
             // const orderState = HelperUtil.transformActiveTabToOrderState(activeTab,activeSubTab);
             this.props.dispatch(changeOrderListIsRefreshing(activeTab, true))//刷新货源列表
@@ -229,7 +230,7 @@ class OrderList extends BaseComponent {
     //   })
     // }, Platform.OS === 'ios' ? 0 : 800);
 
-      this.getlistbyIndex(0);
+      this.getlistbyIndex(0, 1);
 
   }
   _updateListWithIndex(currentMenuIndex,activeTab = this.state.activeTab,activeSubTab,pageNo=1){
@@ -275,7 +276,7 @@ class OrderList extends BaseComponent {
   getDataList(type, api, pageNum, index) {
     this.props._getTransportOrderList({
         // carrierCode: this.props.carrierCode,
-        carrierCode: '15801461050',
+        carrierCode: '1001',
         page: pageNum,
         pageSize,
         queryType: type,
@@ -801,7 +802,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(shouldOrderListRefreshAction(false))
                 data.orderType = tabIndex;
                 dispatch(receiveOrderList(data))
-              console.log('data')
+                console.log('data', data);
             }
         }));
     }

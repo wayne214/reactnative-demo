@@ -69,12 +69,13 @@ class GoodsList extends Component {
 
   _refreshList(getGoodListSuccess){
     this.props._getNormalGoodsList({
-        resourceCode: '123',
-        userId: global.userId
+        companyCode: global.userId,
+        num: 0,
+        size: 20
     },getGoodListSuccess)
   }
   getGoodListSuccess(data){
-
+debugger
   }
 
   static navigationOptions = ({navigation}) => {

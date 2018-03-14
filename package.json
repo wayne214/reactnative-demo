@@ -28,7 +28,7 @@
   "dependencies": {
     "@remobile/react-native-toast": "^1.0.7",
     "apsl-react-native-button": "^3.1.0",
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "coordtransform": "^2.1.2",
     "immutable": "^3.8.2",
     "jcore-react-native": "^1.2.5",
