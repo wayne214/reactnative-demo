@@ -51,7 +51,7 @@ class signPage extends Component {
         this.state = {
             products: params.goodsInfoList,
             orderID: params.transCode,
-            isReceipt: params.taskInfo.isReceipt,
+            receiptWay: params.taskInfo.receiptWay,
         };
         this.productInfo = this.productInfo.bind(this);
         this.getSignIn = this.getSignIn.bind(this);
@@ -168,11 +168,11 @@ class signPage extends Component {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '签收页面');
-        if (this.state.isReceipt === '是') {
+        if (this.state.receiptWay !== '不回单') {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_SIGN_SUCCESS_PAGE,
                 params: {
-                    isReceipt: this.state.isReceipt,
+                    receiptWay: this.state.receiptWay,
                     orderID: this.state.orderID,
                 }
             });

@@ -59,7 +59,7 @@ class signSuccess extends Component {
           // 初始状态
           const params = this.props.navigation.state.params;
           this.state = {
-              isReceipt: params.isReceipt,
+              receiptWay: params.receiptWay,
               orderID: params.orderID,
           };
       }
@@ -68,7 +68,7 @@ class signSuccess extends Component {
           const navigator = this.props.navigation;
           const buttonView = <View style={{flexDirection:'row',marginTop: 50}}>
               {
-                  this.state.isReceipt === '是' ?
+                  this.state.receiptWay === '不回单' ? null :
                   <View style={styles.buttonContainer}>
                       <TouchableOpacity
                           onPress={() => {
@@ -84,7 +84,7 @@ class signSuccess extends Component {
                               <Text style={styles.textSize}>立即回单</Text>
                           </View>
                       </TouchableOpacity>
-                  </View> : null
+                  </View>
               }
           </View>;
           return(

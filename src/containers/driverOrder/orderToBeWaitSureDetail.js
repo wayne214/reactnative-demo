@@ -99,6 +99,7 @@ class orderToBeWaitSureDetail extends Component {
             type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
             params: {
                 transCode: this.props.transCode,
+                receiptWay: this.props.taskInfo.receiptWay
             }
         });
     }
@@ -130,14 +131,15 @@ class orderToBeWaitSureDetail extends Component {
             num
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.isReceipt === '是' ?
+        const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
+            null :
             <BottomButton
                 text={'回单'}
                 onClick={() => {
                     this.uploadReceipt();
                 }}
                 buttonDisabled={this.state.buttonDisabled}
-            /> : null;
+            />;
 
         return (
             <View style={{
