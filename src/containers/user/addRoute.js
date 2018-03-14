@@ -17,10 +17,13 @@ import Toast from '../../utils/toast';
 import { dispatchRefreshAddRoute, getCarLength, checkedOneOfDatas,dispatchClearRouteInfo } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
 let startTime = 0
+import AddressJson from '../../../assets/json/address.json';
+
 class AddRouteContainer extends BaseComponent {
 	constructor(props) {
 		super(props);
     this.title = props.navigation.state.params.title;
+    AddressHandler.set(AddressJson);
 		this.state = {
 			toProvince: '',
 			toCity: '',
@@ -84,20 +87,21 @@ class AddRouteContainer extends BaseComponent {
 		const tcid = AddressHandler.getCIDWithCName(this.state.toCity);
 		const taid = AddressHandler.getAIDWithAName(this.state.toCity,this.state.toArea);
 		this.props.addRoute({
-			carrierId: this.props.user.userId,
-			fromProvinceCode: fpid,
-			fromCityCode: fcid,
+      carLength: this.props.carLengthIds.join(','),
+		// 	carrierId: this.props.user.userId,
+			carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
 			fromAreaCode: faid,
-			toProvinceCode: tpid,
-			toCityCode: tcid,
-			toAreaCode: taid,
-			fromProvinceName: this.state.fromProvince,
+      fromAreaName: this.state.fromArea === '不限'? '' : this.state.fromArea,
+			fromCityCode: fcid,
 			fromCityName: this.state.fromCity === '不限'? '' : this.state.fromCity,
-			fromAreaName: this.state.fromArea === '不限'? '' : this.state.fromArea,
-			toProvinceName: this.state.toProvince,
+			fromProvinceCode: fpid,
+			fromProvinceName: this.state.fromProvince,
+			toAreaCode: taid,
+      toAreaName: this.state.toArea === '不限'? '' : this.state.toArea,
+			toCityCode: tcid,
 			toCityName: this.state.toCity === '不限'? '' : this.state.toCity,
-			toAreaName: this.state.toArea === '不限'? '' : this.state.toArea,
-			carLength: this.props.carLengthIds.join(',')
+			toProvinceCode: tpid,
+			toProvinceName: this.state.toProvince,
 		}, this.props.navigation );
 	}
 
@@ -138,6 +142,7 @@ class AddRouteContainer extends BaseComponent {
 						style={ [styles.hiddenRight, { flex: 3 }] }
 						onPress={ this._selectAddress.bind(this, 'from') }>
 						<Text style={ this.state.fromAddress ? styles.routeText : styles.rightText }>{ this.state.fromAddress || '请选择' }</Text>
+						<Text style={{fontFamily: 'iconfont', fontSize: 14, color: '#c7c7c7', marginRight: 10}}>&#xe63d;</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={ styles.hiddenCellContainer }>
@@ -149,20 +154,25 @@ class AddRouteContainer extends BaseComponent {
 						style={ [styles.hiddenRight, { flex: 3 }] }
 						onPress={ this._selectAddress.bind(this, 'to')}>
 						<Text style={ this.state.toAddress ? styles.routeText : styles.rightText }>{ this.state.toAddress || '请选择' }</Text>
+						<Text style={{fontFamily: 'iconfont', fontSize: 14, color: '#c7c7c7', marginRight: 10}}>&#xe63d;</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
-					<View style={{flex:1, marginTop:10}}>
-						<Text style={ styles.hiddenText }>车辆长度</Text>
-					</View>
-					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
-						{carLengthArr}
+
+				<View style={{height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+					<Text style={ styles.hiddenText }>车辆长度</Text>
+					<View style={{flexDirection: 'row'}}>
+						<Text style={ {color: '#0092FF', fontSize: 14} }>多选</Text>
+					<Text style={ {color: '#3f3f3f', fontSize: 14, marginRight: 10} }>,在该常用线路下经常行驶的车型</Text>
 					</View>
 				</View>
 
+					<View style={[styles.perRight,{flexWrap: 'wrap'}]}>
+						{carLengthArr}
+					</View>
+
 				<View style={ styles.loginBtn }>
 					<Button
-						title='确认添加'
+						title='确认新增'
 						style={ styles.btn }
 						textStyle={ styles.btnText }
 						onPress={ this._addRoute }/>

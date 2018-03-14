@@ -42,14 +42,16 @@ class EntrustOrderList extends BaseComponent {
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  		pageNo: 1,
-	  		companyId: user.userId,
-	  		state: 1
+	  		companyCode: '1001',
+         num: 1,
+         resourceCode: '',
+					size: 10,
 	  	},showLoading)
 	  }else{
 	  	_getEntrustOrderUndispatch({
-	  		pageNo: 1,
-	  		companyId: user.userId,
+          ctcNum: 0,
+          dpcNum: 0,
+          userId: ""
 	  	},showLoading)
 	  }
 
@@ -80,7 +82,7 @@ class EntrustOrderList extends BaseComponent {
 			entrustOrderUnconfirmed,
 			entrustOrderUndispatch
 		} = this.props
-		if (user.currentUserRole == 1) {
+		if (1 == 1) {
 			return (
 				<View style={styles.container}>
 					<NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
@@ -97,14 +99,16 @@ class EntrustOrderList extends BaseComponent {
 							this.setState({activeTab: obj.i})
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
-									pageNo: 1,
-									companyId: user.userId,
-									state: 1
+                    companyCode: '1001',
+                    num: 0,
+                    resourceCode: '',
+                    size: 10,
 								},true)
 							}else if (obj.i == 1) {
 								this.props._getEntrustOrderUndispatch({
-									pageNo: 1,
-									companyId: user.userId,
+                    ctcNum: 0,
+                    dpcNum: 0,
+                    userId: "code"
 								},true)
 							}
 						}}
@@ -114,7 +118,7 @@ class EntrustOrderList extends BaseComponent {
 						tabBarTextStyle={{fontSize:15}}>
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待确认'}
+							tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
@@ -123,9 +127,10 @@ class EntrustOrderList extends BaseComponent {
 									data.activeTab = this.state.activeTab
 									data.refreshCallBack = ()=>{
 										this.props._getEntrustOrderList({
-											pageNo: 1,
-											companyId: user.userId,
-											state: 1
+                        companyCode: '1001',
+                        num: 0,
+                        resourceCode: '',
+                        size: 10,
 										})
 									}
                   this.props.navigation.dispatch({
@@ -150,9 +155,10 @@ class EntrustOrderList extends BaseComponent {
 								},()=>{
 									// refreshCallBack
 									this.props._getEntrustOrderList({
-										pageNo: 1,
-										companyId: user.userId,
-										state: 1
+                      companyCode: '1001',
+                      num: 0,
+                      resourceCode: '',
+                      size: 10,
 									})
 								})
 							}}
@@ -161,15 +167,16 @@ class EntrustOrderList extends BaseComponent {
 							}}
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderList({
-									pageNo: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
-									companyId: user.userId,
-									state: 1
+                    companyCode: '1001',
+                    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
+                    resourceCode: '',
+                    size: 10,
 								})
 							}}/>
 
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待调度'}
+							tabLabel={'调度'}
 							type={'entrustOrderUndispatch'}
 							dataSource={entrustOrderUndispatch}
 							refreshList={this._refreshList}
@@ -205,7 +212,9 @@ class EntrustOrderList extends BaseComponent {
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderUndispatch({
 									pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-									companyId: user.userId,
+									ctcNum: 0,
+									dpcNum: 0,
+									userId: ""
 								})
 							}}/>
 
@@ -265,7 +274,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(0))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNCONFIRMED,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{
@@ -282,7 +291,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(1))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNDISPATCH,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{

@@ -4,8 +4,8 @@ export const HOME_DATA = '/mjWarehouseResourceController/queryResForPhone';
 export const CAR_LOGIN = '/driver/exclude/driverLogin';
 // 承运商登录
 export const SHIPPER_LOGIN = '/carrier/exclude/login';
-
-export const ADD_ROUTER = '/carrierLineInfo/add';
+// 新增常用路线
+export const ADD_ROUTER = '/app/transportLine/addTransportLine';
 
 // 获取验证码
 export const GET_SMS_CODE = '/carrier/exclude/sendSms';
@@ -136,10 +136,10 @@ export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
 export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
 
 // 获取待确认（派单中）的承运单
-export const ENTRUST_ORDER_UNCONFIRMED = '/orderApp/getGoodsByCompanyId';
+export const ENTRUST_ORDER_UNCONFIRMED = '/app/myTransport/queryMyTransportList';
 
 // 获取待调度的承运单
-export const ENTRUST_ORDER_UNDISPATCH = '/orderApp/getGoodsWithDispatch';
+export const ENTRUST_ORDER_UNDISPATCH = '/app/myTransport/queryDispatchDocWithCarrier';
 
 // 承运单详情
 export const ENTRUST_ORDER_DETAIL = '/orderApp/getDispatchDetail'
