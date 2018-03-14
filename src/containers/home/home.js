@@ -45,6 +45,8 @@ import {
     setUserCarAction,
     setCurrentCharacterAction,
     queryEnterpriseNatureSuccessAction,
+    setOwnerCharacterAction,
+    setCompanyCodeAction
 } from '../../action/user';
 
 import WeatherCell from '../../components/home/weatherCell';
@@ -586,7 +588,7 @@ class Home extends Component {
     }
 
     ownerVerifiedHomeSucCallBack(result) {
-        console.log('ownerVerifiedState==', result.toString());
+        console.log('ownerVerifiedState==', result);
         // let result = result;
         this.setState({
             verifiedState: result && result.certificationStatus,
@@ -610,6 +612,7 @@ class Home extends Component {
                         this.props.setCompanyCodeAction(result.companyCode);
                         this.props.setOwnerCharacterAction('12');
                         this.props.setCurrentCharacterAction('personalOwner');
+                        this.props.dispatch(changeTab('goods'));
                         this.setState({
                             bubbleSwitch: false,
                             show: false,
@@ -643,6 +646,7 @@ class Home extends Component {
                             this.props.setCompanyCodeAction(result.companyCode);
                             this.props.setOwnerCharacterAction('22');
                             this.props.setCurrentCharacterAction('businessOwner');
+                            this.props.dispatch(changeTab('goods'));
                             this.setState({
                                 bubbleSwitch: false,
                                 show: false,
@@ -1445,7 +1449,16 @@ const mapDispatchToProps = dispatch => {
         },
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
-        }
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        setOwnerCharacterAction: (result) => {
+            dispatch(setOwnerCharacterAction(result));
+        },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
     };
 }
 

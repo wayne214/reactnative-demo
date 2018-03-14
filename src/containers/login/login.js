@@ -258,7 +258,7 @@ class Login extends BaseComponent {
             this.props.sendLoginSuccessAction(result);
             // this.props.setCurrentCharacterAction('driver')
             // this.props.setCurrentCharacterAction('driver1');
-            this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
+            // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
 
 
             this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);

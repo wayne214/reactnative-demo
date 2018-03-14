@@ -130,7 +130,7 @@ class Tabar extends Component {
 	render() {
 		const { tabs, driverTabs, currentTab } = this.props;
         let tabItems = '';
-        console.log('currentTab', this.props);
+        console.log('currentTab', this.props.currentStatus);
 		if (this.props.currentStatus == 'driver') {
         tabItems = driverTabs.map((item, index) => {
             return (
