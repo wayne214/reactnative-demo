@@ -38,6 +38,7 @@ export default (state = initState, action) => {
 			newState = newState.set('isRefresh', false);
 			newState = newState.set('isCricleTemplate', eSign.sealTemplate === 'STAR' ? true : false);
 			newState = newState.set('sealColor',eSign.sealColor);
+			newState = newState.set('sealPersonTemplate', eSign.sealTemplate);
 			newState = newState.setIn(['eSign','eSignInfoDetail'],Immutable.fromJS(eSignInfoDetail));
 			return newState;
 		case ActionTypes.ACTION_REFRESH_ESIGN_TEMPLATE_INFO:
@@ -58,7 +59,6 @@ export default (state = initState, action) => {
       case ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO:
           console.log('lqq--ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO--->',action.payload.sealPersonTemplate);
           newState = newState.set('sealPersonTemplate',action.payload.sealPersonTemplate);
-          newState = newState.set('templateStyle',action.payload.templateStyle);
           return newState;
 		default:
 			return state;

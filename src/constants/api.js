@@ -118,10 +118,10 @@ export const ADD_COMPANY_AUTH = '/carrier/certification';
 export const GET_ESIGN_IMAGE = '/esign/exclude/getSealImage';
 
 //获取电子签章信息
-export const GET_ESIGN_INFO = '/esign/getEsignInfo';
+export const GET_ESIGN_INFO = '/app/esign/queryEsignByCarrierId';
 
 //编辑电子签章信息
-export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
+export const EDIT_ESIGN_INFO = '/app/esign/registerPersonEsignByCarrierId';
 
 //获取承运合同列表
 export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
@@ -495,3 +495,9 @@ export const API_NEW_APP_DISPATCH_DOC_WITH_PAGE = `app/transport/queryDeleveryWi
 export const API_NEW_APP_DISPATCH_DOC_CARRIER = `app/dpc/queryDispatchDocByStatus`;
 // 运输中--待签收---承运商交付
 export const API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT = `app/transport/queryCarrierTransportList`;
+
+/** ********************电子签章******************/
+//更新个人车主电子签章信息
+export const UPDATE_PERSON_ESIGN_INFO = '/app/esign/updatePersonEsignByCarrierId';
+//更新企业车主电子签章信息
+export const UPDATE_COMPANY_ESIGN_INFO = '/app/esign/updateCarrierEsignByCarrierId';

@@ -75,15 +75,15 @@ class eSignTemplateColor extends BaseComponent {
 	_checkedInDatas(index){
 		switch(index){
 			case 1:
-          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '红色'}));
+          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: 'RED'}));
 
           break;
 			case 2:
-          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '蓝色'}));
+          this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: 'BLUE'}));
 			break;
 
 			case 3:
-					this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: '黑色'}));
+					this.props.dispatch(dispatchRefreshESignColorInfo({sealColor: 'BLACK'}));
 					break;
 		}
       this.props.dispatch(dispatchRefreshESignTemplateInfo({selectTemplate: index}));

@@ -23,7 +23,7 @@ import Toast from '../../utils/toast.js'
 const { height,width } = Dimensions.get('window');
 import AddressItem from './../routes/goodlistAddressItem';
 import UniqueUtil from '../../utils/unique';
-
+import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
 const buttonWidth = width < 321 ? 95 : 106
 
 class orderItemCell extends Component{
@@ -80,11 +80,6 @@ class orderItemCell extends Component{
 					<View style={styles.subContainer}>
 						<Text style={styles.orderCodeText}>运单编号：{rowData.scheduleCode}</Text>
 						<View style={{flexDirection: 'row'}}>
-								{
-									false && <View style={styles.cuoheBg}>
-										<Text style={styles.cuoheText}>撮合</Text>
-									</View>
-								}
 							<Text style={{fontSize: 14, color: '#0092FF', marginLeft: 5}}>{rowData.stateName}</Text>
 						</View>
 					</View>
@@ -96,10 +91,16 @@ class orderItemCell extends Component{
 
 						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{rowData.loadingTime}</Text>
 
+              {
+                  false && <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center'}}>
+										<Text style={{fontSize: 10, color: '#0092FF'}}>撮合</Text>
+									</View>
+              }
+
 						<View style={[styles.subContainer, {marginTop: 20}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
-								<Image style={styles.avatarImage}/>
+								<Image style={styles.avatarImage} source={LoginAvatar}/>
 								<View style={{flexDirection: 'row'}}>
 
 									<View style={[styles.cuoheBg, {width: 16}]}>
@@ -115,12 +116,35 @@ class orderItemCell extends Component{
 																												textStyle={{fontSize: 14,color: '#333333'}}
 																												onPress={()=>{
                                                             console.log("------ 查看出库单",rowData);
-                                                            // this.props.navigation.dispatch({
-                                                            //     type: RouteType.ROUTE_LADING_BILL,
-                                                            //     params: {title: '装货清单',images: rowData.billGoodsImg.split(',')}
-                                                            // })
+                                                            this.props.navigation.dispatch({
+                                                                type: RouteType.ROUTE_LADING_BILL,
+                                                                params: {
+                                                                    title: '出库单',
+                                                                    images: []//orderDetail.billOutImg.split(',')
+                                                                }
+                                                            })
                                                         }}>
 										查看出库单
+									</Button>
+								}
+
+								{
+                    rowData.stateName == '待签收' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+																	textStyle={{fontSize: 14,color: '#333333'}}
+																	onPress={()=>{
+                                      console.log("------ 上传回执单",rowData);
+                                      this.props.navigation.dispatch({
+                                          type: RouteType.ROUTE_UPLOAD_IMAGES,
+                                          params: {
+                                              title: '上传回执单',
+                                              entrustType: rowData.entrustType,
+                                              orderNo: rowData.orderNo,
+                                              uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+                                              remark: ''
+                                          }
+                                      })
+                                  }}>
+										上传回执单
 									</Button>
 								}
 						</View>
