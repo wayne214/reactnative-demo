@@ -46,7 +46,9 @@ import {
     setCurrentCharacterAction,
     queryEnterpriseNatureSuccessAction,
     setOwnerCharacterAction,
-    setCompanyCodeAction
+    setCompanyCodeAction,
+    saveCompanyInfoAction,
+    setDriverCharacterAction
 } from '../../action/user';
 
 import WeatherCell from '../../components/home/weatherCell';
@@ -610,6 +612,7 @@ class Home extends Component {
                 } else {
                     if (result.certificationStatus == '1202') {
                         this.props.setCompanyCodeAction(result.companyCode);
+                        this.props.saveCompanyInfoAction(result);
                         this.props.setOwnerCharacterAction('12');
                         this.props.setCurrentCharacterAction('personalOwner');
                         this.props.dispatch(changeTab('goods'));
@@ -644,6 +647,7 @@ class Home extends Component {
                     } else {
                         if (result.certificationStatus == '1202') {
                             this.props.setCompanyCodeAction(result.companyCode);
+                            this.props.saveCompanyInfoAction(result);
                             this.props.setOwnerCharacterAction('22');
                             this.props.setCurrentCharacterAction('businessOwner');
                             this.props.dispatch(changeTab('goods'));
@@ -1458,6 +1462,9 @@ const mapDispatchToProps = dispatch => {
         },
         setDriverCharacterAction: (result) => {
             dispatch(setDriverCharacterAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
         },
     };
 }
