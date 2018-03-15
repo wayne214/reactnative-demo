@@ -238,7 +238,7 @@ class GoodsList extends Component {
                         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
                         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
                         //switch (this.props.ownerStatus){
-                        switch ('11'){
+                        switch ('12'){
                             case '11' || '21':
                                 Toast.show('车主身份正在认证中，如需帮助请联系客服');
 
@@ -266,8 +266,7 @@ class GoodsList extends Component {
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                          params: {
-                                             //goodID: item.item.resourceCode,
-                                             goodID: '9',
+                                             goodID: item.item.resourceCode,
                                              type: '2'
                                          }
                                 })

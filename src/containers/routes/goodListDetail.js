@@ -160,6 +160,14 @@ class goodListDetail extends Component {
     }
 
     render() {
+        let goodName = '';
+        this.state.result.supplyInfoList ? this.state.result.supplyInfoList.map((goods,index)=>{
+                if (index === this.state.result.supplyInfoList.length - 1){
+                    goodName+=goods.typeName;
+                }else
+                    goodName+=goods.typeName+','
+            }) : null;
+
         return (
             <View style={styles.container}>
                 <NavigatorBar
@@ -181,12 +189,12 @@ class goodListDetail extends Component {
 
 
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
-                        <GoodsDetail goodDetail={'有 '+(this.state.result.carLen || '没有返回物品')+' ' +(this.state.result.goodsTotalWeight || "")+
+                        <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '   求 ' + (this.state.result.carLength || '') + ' ' + (this.state.result.carType || '')}
                                      beginTime={this.state.result.loadingStartTime}
                                      endTime={this.state.result.loadingEndTime}
-                                     hot='没有返回温度'
-                                     remark='没有返回备注'
+                                     hot={this.state.result.temperatureMin + '° ' + '至 ' + this.state.result.temperatureMax + '°'}
+                                     remark={this.state.result.remark || ''}
                         />
                     </View>
 
