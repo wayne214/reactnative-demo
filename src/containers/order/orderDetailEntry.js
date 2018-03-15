@@ -87,7 +87,14 @@ class orderDetailEntry extends BaseComponent {
 						}}/>
 						<View style={{height: 44, backgroundColor: '#fafafa', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
 							<Text>运输协议</Text>
-							<TouchableOpacity onPress={()=> console.log('打开运输协议')}>
+							<TouchableOpacity onPress={()=> this.props.navigation.dispatch({
+                  type: RouteType.ROUTE_CONTRACT_DETAIL,
+                  params: {
+                      // orderNo: orderDetail.orderNo,
+                      // contractNo: orderDetail.companyContractNo,
+                      title: '合同详情'
+                  }
+              })}>
 								<View style={{flexDirection: 'row'}}>
 									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
 									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#c7c7c7'}}>&#xe63d;</Text>
