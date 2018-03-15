@@ -35,19 +35,19 @@ class UserInfoContainer extends BaseComponent {
 		const ownerStatus = this.props.ownerStatus;
 		// const currentStatus = this.props.currentStatus;
 		const currentStatus = 'personalOwner';
-
+debugger
         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
 
         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
 
 		if (currentStatus === 'personalOwner'){
-                if (ownerStatus === 11 || ownerStatus === 12 || ownerStatus === 13){
+                if (ownerStatus == 11 || ownerStatus == 12 || ownerStatus == 13){
                     // 详情
                     this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
 
                 }
-                if (ownerStatus !== 11 && ownerStatus !== 12 && ownerStatus !== 13 && ownerStatus !== 14){
+                if (ownerStatus != 11 && ownerStatus != 12 && ownerStatus != 13 && ownerStatus != 14){
                 	// 认证
                     Storage.get(StorageKey.personownerInfoResult).then((value) => {
                         if (value) {
@@ -65,12 +65,12 @@ class UserInfoContainer extends BaseComponent {
 
 		}
         if (currentStatus === 'businessOwner'){
-                if (ownerStatus === 21 || ownerStatus === 22 || ownerStatus === 23){
+                if (ownerStatus == 21 || ownerStatus == 22 || ownerStatus == 23){
                     // 详情
                     this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
 
                 }
-            if (ownerStatus !== 21 && ownerStatus !== 22 && ownerStatus !== 23 && ownerStatus !== 24){
+            if (ownerStatus != 21 && ownerStatus != 22 && ownerStatus != 23 && ownerStatus != 24){
 
                 // 认证
                     Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {

@@ -169,7 +169,7 @@ class goodListDetail extends Component {
                 />
                 <ScrollView>
 
-                    <ItemTop price={this.state.result.freight}/>
+                    <ItemTop price={this.state.result.configFreight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
                         <AddressItem startAddress={this.state.result.fromAddress} endAddress={this.state.result.toAddress}/>
                     </View>
@@ -181,12 +181,12 @@ class goodListDetail extends Component {
 
 
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
-                        <GoodsDetail goodDetail={'有 '+(this.state.result.carLen || '物品')+' ' +(this.state.result.goodsTotalWeight || "重量")+
-                        '   求 ' + (this.state.result.carLength || '车长') + ' ' + (this.state.result.carType || '类型')}
+                        <GoodsDetail goodDetail={'有 '+(this.state.result.carLen || '没有返回物品')+' ' +(this.state.result.goodsTotalWeight || "")+
+                        '   求 ' + (this.state.result.carLength || '') + ' ' + (this.state.result.carType || '')}
                                      beginTime={this.state.result.loadingStartTime}
                                      endTime={this.state.result.loadingEndTime}
-                                     hot='-20° 至 -10°'
-                                     remark='备注'
+                                     hot='没有返回温度'
+                                     remark='没有返回备注'
                         />
                     </View>
 

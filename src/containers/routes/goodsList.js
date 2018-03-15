@@ -28,6 +28,8 @@ import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import Toast from 'react-native-root-toast'
+
+
 const { height,width } = Dimensions.get('window')
 function wp(percentage) {
     const value = (percentage * width) / 100;
@@ -82,7 +84,7 @@ import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 let startTime = 0;
 let page = 0;
-let goodArray = ['占位符'];
+let goodArray = ['占位符','1','2','3'];
 
 class GoodsList extends Component {
   constructor(props) {
@@ -91,7 +93,7 @@ class GoodsList extends Component {
       activeTab: 0,
       searchAddressInfo: null,
         refreshing: false,
-        goodList: [],
+        goodList: goodArray,
         showText: '点击加载更多',
         loadMore: true,
         bubbleSwitch: false,
@@ -101,6 +103,7 @@ class GoodsList extends Component {
     this.separatorComponent = this.separatorComponent.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.getGoodListSuccess = this.getGoodListSuccess.bind(this)
+    this.getGoodListFail = this.getGoodListFail.bind(this)
     this.refresh = this.refresh.bind(this)
     this.listFooterComponent = this.listFooterComponent.bind(this)
 
@@ -121,13 +124,13 @@ class GoodsList extends Component {
     componentWillUnmount() {
         goodArray = null;
     }
-  _refreshList(getGoodListSuccess){
+  _refreshList(getGoodListSuccess,getGoodListFail){
 
     this.props._getNormalGoodsList({
         companyCode: global.companyCode,
         num: page,
         size: 20
-    },getGoodListSuccess)
+    },getGoodListSuccess,getGoodListFail)
   }
   getGoodListSuccess(data){
     if (page === 0){
@@ -150,12 +153,18 @@ class GoodsList extends Component {
 
   }
 
+    getGoodListFail(){
+      page--;
+        this.setState({
+            refreshing: false
+        });
+    }
   // 下拉刷新
     refresh(){
 
         goodArray = ['占位符'];
         page = 0;
-        this._refreshList(this.getGoodListSuccess)
+        this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
     }
 
 
@@ -165,7 +174,7 @@ class GoodsList extends Component {
 
             if (this.state.loadMore){
               page++;
-              this._refreshList(this.getGoodListSuccess)
+              this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
             }
 
 
@@ -199,6 +208,7 @@ class GoodsList extends Component {
         );
     };
     renderItem = (item) => {
+
       console.log('item=====',item);
         return (
            item.index === 0 ?
@@ -222,20 +232,60 @@ class GoodsList extends Component {
 
                :
                <View>
-                 <GoodListIten item={item.item} itemClick={()=>{
-                    this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_GOOD_LIST_DETAIL,
-                      params: {
-                          goodID: item.item.resourceCode,
-                          type: '2'
-                      }
-                    })
-                 }}/>
 
+                   <GoodListIten item={item.item} itemClick={()=>{
+                        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
+                        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
+                        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
+                        //switch (this.props.ownerStatus){
+                        switch ('11'){
+                            case '11' || '21':
+                                Toast.show('车主身份正在认证中，如需帮助请联系客服');
+
+                                return;
+                                break;
+                            case '13' || '23':{
+
+                                if (this.props.currentStatus === 'personalOwner'){
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                                }
+
+                                if (this.props.currentStatus === 'businessOwner'){
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                                }
+
+                                return;
+                            }
+                                break;
+                            case '14' || '24':
+                                Toast.show('车主身份已经被禁用，如需帮助请联系客服');
+
+                                return;
+
+                            case '12' || '22':
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                                         params: {
+                                             //goodID: item.item.resourceCode,
+                                             goodID: '9',
+                                             type: '2'
+                                         }
+                                })
+                                break
+                            default:
+                                break
+                        }
+
+
+
+
+                     }}/>
                </View>
         )
     };
 
+    /*
+    * */
 
     searchDriverState(searchDriverStateSucCallBack) {
         this.props.searchDriverStateAction({}, searchDriverStateSucCallBack)
@@ -592,13 +642,17 @@ const mapStateToProps = (state) => {
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource'),
     hotLine: app.get('hotLine'),
+      ownerStatus: state.user.get('ownerStatus'),
+      currentStatus: state.user.get('currentStatus'),
+
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    _getNormalGoodsList: (params,getGoodListSuccess)=>{
+    _getNormalGoodsList: (params,getGoodListSuccess,getGoodListFail)=>{
       startTime = new Date().getTime();
         dispatch(fetchData({
         api: API.GOODS_SOURCE_LIST,
@@ -607,6 +661,9 @@ const mapDispatchToProps = (dispatch) => {
         success: (data) => {
 
             getGoodListSuccess(data)
+        },
+        fail: () => {
+            getGoodListFail();
         }
       }))
     },

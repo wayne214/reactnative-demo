@@ -28,7 +28,14 @@ class carrerListItem extends Component{
                 if (itemClick) {itemClick(rowData)};
             }}>
                 {
-                    rowData.orderStateStr == '待调度' && <View style={{justifyContent: 'center', borderBottomColor: '#f5f5f5', borderBottomWidth: 1, backgroundColor: '#ffffff', height: 44}}>
+                    rowData.orderStateStr == '待调度' && <View
+                        style={{justifyContent: 'center',
+                        borderBottomColor: '#f5f5f5',
+                        borderBottomWidth: 1,
+                        backgroundColor: '#fff',
+                        paddingBottom: 10,
+                        marginBottom: 10
+                        }}>
                         <Text style={{color: '#999999', fontSize: 14}}>订单编号：{'123456'}</Text>
                     </View>
                 }
@@ -36,7 +43,7 @@ class carrerListItem extends Component{
                 <AddressItem startAddress={rowData.from} endAddress={rowData.to}/>
 
                 {rowData.orderStateStr == '待调度' && <View style={{marginLeft: 20}}>
-                      <Text style={[styles.orderCodeText, {marginTop: 10}]}>装车时间：{loadStartTime + '-' + loadEndTime}</Text>
+                      <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime + '-' + loadEndTime}</Text>
                     <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10}}>
                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>自营</Text>
                     </View>
@@ -85,7 +92,6 @@ class carrerListItem extends Component{
                     </View>
                 }
 
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
 
                 <View style={{flexDirection: 'row',justifyContent: 'space-between', marginTop: 10}}>
                     {
