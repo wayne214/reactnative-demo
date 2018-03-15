@@ -36,7 +36,7 @@ class carrerListItem extends Component{
                         paddingBottom: 10,
                         marginBottom: 10
                         }}>
-                        <Text style={{color: '#999999', fontSize: 14}}>订单编号：{'123456'}</Text>
+                        <Text style={{color: '#999999', fontSize: 14}}>订单编号：{rowData.resourceCode}</Text>
                     </View>
                 }
 
