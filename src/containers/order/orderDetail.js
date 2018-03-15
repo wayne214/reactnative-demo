@@ -256,14 +256,14 @@ class OrderDetail extends BaseComponent {
 										{/*orderDetail.orderNo && orderDetail.entrustType == 1 ?*/}
 											{/*this._rendeFloderItem('我的合同:',()=>{*/}
 												{/*console.log("==== 查看合同");*/}
-												{/*this.props.navigation.dispatch({*/}
-													{/*type: RouteType.ROUTE_CONTRACT_DETAIL,*/}
-													{/*params: {*/}
-														{/*orderNo: orderDetail.orderNo,*/}
-														{/*contractNo: orderDetail.companyContractNo,*/}
-														{/*title: '合同详情'*/}
-													{/*}*/}
-												{/*})*/}
+												// this.props.navigation.dispatch({
+												// 	type: RouteType.ROUTE_CONTRACT_DETAIL,
+												// 	params: {
+												// 		orderNo: orderDetail.orderNo,
+												// 		contractNo: orderDetail.companyContractNo,
+												// 		title: '合同详情'
+												// 	}
+												// })
 												{/*// this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL,{*/}
 												{/*//*/}
 												{/*//*/}
