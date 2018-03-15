@@ -86,3 +86,11 @@ export const setCompanyCodeAction = (data) => {
         payload: data,
     };
 };
+
+/*账户-保存承运商信息*/
+export const saveCompanyInfoAction = (data) => {
+    return {
+        type: ActionTypes.ACTION_SAVE_COMPANY_INFO,
+        payload: data,
+    };
+};

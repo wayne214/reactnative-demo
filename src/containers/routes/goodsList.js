@@ -62,7 +62,8 @@ import {
     setOwnerCharacterAction,
     setCompanyCodeAction,
     setDriverCharacterAction,
-    setOwnerNameAction
+    setOwnerNameAction,
+    saveCompanyInfoAction
 } from '../../action/user';
 
 import Linking from '../../utils/linking'
@@ -394,6 +395,7 @@ class GoodsList extends Component {
                 } else {
                     if (result.certificationStatus == '1202') {
                         this.props.setCompanyCodeAction(result.companyCode);
+                        this.props.saveCompanyInfoAction(result);
                         this.props.setOwnerCharacterAction('12');
                         this.props.setCurrentCharacterAction('personalOwner');
                         this.setState({
@@ -427,6 +429,7 @@ class GoodsList extends Component {
                     } else {
                         if (result.certificationStatus == '1202') {
                             this.props.setCompanyCodeAction(result.companyCode);
+                            this.props.saveCompanyInfoAction(result);
                             this.props.setOwnerCharacterAction('22');
                             this.props.setCurrentCharacterAction('businessOwner');
                             this.setState({
@@ -727,6 +730,9 @@ const mapDispatchToProps = (dispatch) => {
                   ownerVerifiedHomeFailCallBack(data);
               }
           }))
+      },
+      saveCompanyInfoAction: (result) => {
+          dispatch(saveCompanyInfoAction(result));
       },
   }
 }

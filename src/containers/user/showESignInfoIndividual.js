@@ -28,8 +28,6 @@ import Regex from '../../utils/regex';
 import HelperUtil from '../../utils/helper';
 import * as RouteType from '../../constants/routeType';
 
-let updateInfo = false;
-
 let startTime = 0
 class showESignInfoIndividual extends BaseComponent {
 
@@ -45,7 +43,8 @@ class showESignInfoIndividual extends BaseComponent {
 			visible: false,
 			sealTemplate: '',
 			isLoad: false,
-				companyId: ''
+				companyId: '',
+        sealPersonTemplate: ''
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		this._getESignInfo = this._getESignInfo.bind(this);
@@ -71,52 +70,68 @@ class showESignInfoIndividual extends BaseComponent {
 	}
 
 	componentWillReceiveProps(props) {
-		const {eSignInfo,isRefresh} = props;
+		const {eSignInfo,isRefresh,sealPersonTemplate, sealColor} = props;
 		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
-        updateInfo = true;
 			setTimeout(() => {
 				this.setState({
 					isLoad: true,
 					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
 					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
-					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
-					visible: false,
-					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
-					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
-					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor')),
-						companyId: this.state.companyId ? this.state.companyId : eSignInfo.get('carrierId'),
+          sealPersonTemplate: this.state.sealPersonTemplate ? this.state.sealPersonTemplate : sealPersonTemplate,
+				// 	visible: false,
+				// 	landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
+				// 	lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
+					colorMap: this.state.colorMap ? this.state.colorMap : sealColor,
+					companyId: this.state.companyId ? this.state.companyId : eSignInfo.get('carrierId'),
 				});
 			}, 0);
 			// console.log('---clolrMap--->',this.state.colorMap.value);
-		} else {
-			updateInfo = false;
 		}
 	}
 
 	_getESignInfo(){
-		this.props.getESignInfo({
-        companyId: '13462bc1633f40c0a0baa2b2d6e88524',
-		},this.props.router);
+		// 个人
+      const {companyInfo} = this.props;
+      this.props.getESignInfo({
+          companyId: companyInfo.id,
+      },this.props.router);
 	}
 
 	_editESignInfo(){
-		if(!this.state.sealTemplate )return Toast.show('请选择印章模板');
-		// if(!this.state.landscapeText ) return Toast.show('请输入横向文');
-		// if(!this.state.lastQuarterText ) return Toast.show('请输入下弦文');
-		if(!this.state.colorMap.key ) return Toast.show('请选择印章颜色');
+		if(!this.state.sealPersonTemplate )return Toast.show('请选择印章模板');
 
-		this.props.editESignInfo({
-			accountId: this.state.accountId, // e签宝账号id
-			companyId: this.state.companyId, // 承运商id
-      htext: '',
-			idNo: '', // 身份证
-			mobile: '', // 手机号
-			name: '', // 车主名字
-      qtext: '',
-			sealColor: this.state.colorMap.key,
-      templateType: this.state.sealTemplate,
+		if(!this.state.colorMap ) return Toast.show('请选择印章颜色');
+      const {eSignInfo,companyInfo} = this.props;
 
-		},this.props.navigation);
+      console.log('=====companyInfo',companyInfo)
+			if (this.state.accountId) {
+          this.props.editESignInfo({
+              accountId: this.state.accountId, // e签宝账号id
+              companyId: companyInfo.id, // 承运商id
+              htext: '',
+              idNo: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
+              mobile: companyInfo.busTel, // 手机号
+              name: companyInfo.companyName, // 车主名字
+              qtext: '',
+              sealColor: this.props.sealColor,
+              templateType: this.props.sealPersonTemplate,
+
+          },UPDATE_PERSON_ESIGN_INFO, this.props.navigation);
+			} else {
+          this.props.editESignInfo({
+              accountId: '', // e签宝账号id
+              companyId: companyInfo.id, // 承运商id
+              htext: '',
+              idNo: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
+              mobile: companyInfo.busTel, // 手机号
+              name: companyInfo.companyName, // 车主名字
+              qtext: '',
+              sealColor: this.props.sealColor,
+              templateType: this.props.sealPersonTemplate,
+
+          }, EDIT_ESIGN_INFO, this.props.navigation);
+			}
+
 	}
 
 // 	_checkedInDatas(index){
@@ -182,7 +197,9 @@ class showESignInfoIndividual extends BaseComponent {
 								activeOpacity={ 1 }
 								onPress={ () =>
 										// this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+								{
                     this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_INDIVIDUAL, params: {title: '印章模板(个体)', type: 3}})
+								}
 								}>
 
 								<View style={styles.CellContainer}>
@@ -202,10 +219,10 @@ class showESignInfoIndividual extends BaseComponent {
 
 							<TouchableOpacity
 								activeOpacity={ 1 }
-								onPress={ () =>
-										// this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
+								onPress={ () =>{
                     this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_TEMPLATE_COLOR, params: {title: '印章颜色', type: 3}})
-
+								}
+										// this.setState({ visible: true, data: ESIGN_COLOR_TYPE })
                 }>
 
 							<View style={styles.CellContainer}>
@@ -243,7 +260,7 @@ class showESignInfoIndividual extends BaseComponent {
 	}
 }
 const mapStateToProps = state => {
-	const { app ,eSign} = state;
+	const { app ,eSign, user} = state;
 	return {
 		user: app.get('user'),
 		loading: app.get('loading'),
@@ -253,9 +270,10 @@ const mapStateToProps = state => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
-      sealPersonTemplate: eSign.get('sealPersonTemplate'),
-      sealColor: eSign.get('sealColor'),
-      templateStyle: eSign.get('templateStyle'),
+		sealPersonTemplate: eSign.get('sealPersonTemplate'),
+		sealColor: eSign.get('sealColor'),
+		templateStyle: eSign.get('templateStyle'),
+		companyInfo: user.get('companyInfo')
 	}
 }
 
@@ -279,12 +297,12 @@ const mapDispatchToProps = dispatch => {
 				}
 			}));
 		},
-		editESignInfo:(body, navigation) => {
+		editESignInfo:(body, api, navigation) => {
 			startTime = new Date().getTime()
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: updateInfo ? UPDATE_PERSON_ESIGN_INFO : EDIT_ESIGN_INFO,
+				api: api,
 				successToast: true,
 				showLoading: true,
 				msg: '保存成功',
