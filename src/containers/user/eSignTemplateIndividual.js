@@ -90,42 +90,42 @@ class eSignTemplateIndividual extends BaseComponent {
 				// 	this.setState({
 				// 		sealTemplate: 'HYLSF',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'HYLSF', templateStyle: '样式1'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'HYLSF',}));
 
 					break;
 			case 2:
 				// 	this.setState({
 				// 		sealTemplate: 'BORDERLESS',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'BORDERLESS', templateStyle: '样式2'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'BORDERLESS',}));
 
 					break;
 			case 3:
 				// 	this.setState({
 				// 			sealTemplate: 'FZKC',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'FZKC', templateStyle: '样式3'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'FZKC',}));
 
 			break;
 			case 4:
 				// 	this.setState({
 				// 			sealTemplate: 'RECTANGLE',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'RECTANGLE', templateStyle: '样式4'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'RECTANGLE',}));
 
 			break;
 			case 5:
 				// 	this.setState({
 				// 			sealTemplate: 'YYGXSF',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'YYGXSF', templateStyle: '样式5'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'YYGXSF', }));
 
 					break;
 			case 6:
 				// 	this.setState({
 				// 			sealTemplate: 'SQUARE',
 				// 	});
-					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'SQUARE', templateStyle: '样式6'}));
+					this.props.dispatch(dispatchRefreshESignPersonTemplateInfo({sealPersonTemplate: 'SQUARE', }));
 
 					break;
 		}

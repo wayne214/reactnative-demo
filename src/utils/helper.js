@@ -337,6 +337,34 @@ class HelperUtil {
 		}
 		return result
 	}
+
+    getPersonTemplateStyle(type){
+        if(type === 'HYLSF'){
+            return '样式一';
+        }else if(type === 'BORDERLESS'){
+            return '样式二';
+        }else if(type === 'FZKC'){
+            return '样式三';
+        }else if(type === 'RECTANGLE'){
+            return '样式四';
+        }else if(type === 'YYGXSF'){
+            return '样式五';
+        }else if(type === 'SQUARE'){
+            return '样式六';
+        }else{
+            return '';
+        }
+    }
+
+    getCompanyTemplateStyle(type){
+        if(type === 'STAR'){
+            return '样式一';
+        }else if(type === 'OVAL'){
+            return '样式二';
+        }else{
+            return '';
+        }
+    }
 }
 
 export default new HelperUtil();
