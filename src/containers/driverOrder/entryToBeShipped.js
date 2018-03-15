@@ -68,9 +68,6 @@ let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
 
-let isUploadOdoFlag = true;
-
-
 class entryToBeShipped extends Component {
     constructor(props) {
         super(props);
@@ -162,7 +159,6 @@ class entryToBeShipped extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            // plateNumber: '京LPL001'
             plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
@@ -298,9 +294,6 @@ class entryToBeShipped extends Component {
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(1);
         this.props._changeOrderTab(2);
-        // // 发运成功后，更新货源偏好出发城市
-        // this.resetCityAction(true);
-        // DeviceEventEmitter.emit('resetCityLIST');
         this.props.navigation.dispatch({type: 'pop'});
     }
 
@@ -317,9 +310,8 @@ class entryToBeShipped extends Component {
         Toast.showShortCenter('取消成功!');
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(1);
-
         // 取消接单后，刷新货源列表
-        // DeviceEventEmitter.emit('resetGood');
+        DeviceEventEmitter.emit('resetGood');
         this.props.navigation.dispatch({type: 'pop'});
     }
 
@@ -327,10 +319,6 @@ class entryToBeShipped extends Component {
     cancelOderFailCallBack() {
         Toast.showShortCenter('取消失败!');
     }
-
-    // resetCityAction(data) {
-    //     this.props.resetCityListAction(data);
-    // }
 
     jumpAddressPage(index, type, item) {
         let typeString = '';
@@ -348,13 +336,6 @@ class entryToBeShipped extends Component {
                 receiveAddr: item.deliveryInfo.receiveAddress,
                 clickFlag: typeString,
             },
-        });
-    }
-
-    // 安排车辆
-    arrangeCar() {
-        this.props.navigation.navigate('ArrangeCarList',{
-            dispatchCode: this.state.scheduleCode,
         });
     }
 
@@ -558,10 +539,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        // 刷新城市列表
-        // resetCityListAction: (data) => {
-        //     dispatch(isReSetCity(data));
-        // },
         // 获取订单详情
         _getOrderDetail: (params, callBack, failCallBack) => {
             dispatch(fetchData({

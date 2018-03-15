@@ -22,7 +22,6 @@ export default class EntrustOrderListItem extends Component {
 	_renderRow(rowData,SectionId,rowID){
 		// 我的承运中 有2种操作按钮（待确认：“接受派单”  待调度：“调度车辆”）
 		const {itemClick,dispatchCar,bindOrder} = this.props
-			console.log('.....entrustLIST', rowData.item);
 		return <CarrerListItem
 			{...this.props}
 			itemClick={(data)=>{

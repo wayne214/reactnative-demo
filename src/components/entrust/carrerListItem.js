@@ -64,7 +64,7 @@ class carrerListItem extends Component{
                                         <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                     </View>
                                     <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
-                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>{'水饺'}</Text>
+                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>没有返回</Text>
                                     </View>
                                 </View>
                                 <View style={{flexDirection: 'row',marginTop: 2}}>
@@ -129,6 +129,7 @@ class carrerListItem extends Component{
         )
     }
 }
+
 const styles = StyleSheet.create({
     container:{
         backgroundColor: 'white',

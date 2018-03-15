@@ -22,7 +22,7 @@ export default store => next => action => {
         cacheType,
         cache = false,
         method = 'post',
-        showLoading = false,
+        showLoading = true,
         failToast = false,
         successToast = false,
     } = action.payload
@@ -89,9 +89,11 @@ export default store => next => action => {
         Toast.show('请求超时，请重试!')
         if (DEBUG) console.log('error:', error)
     }).finally(() => {
-        if (showLoading) InteractionManager.runAfterInteractions(() => next({
-            type: ActionTypes.ACTION_TOGGLE_LOADING,
-            payload: false
-        }))
+
+        if (showLoading)
+            InteractionManager.runAfterInteractions(() => next({
+                type: ActionTypes.ACTION_TOGGLE_LOADING,
+                payload: false
+            }))
     })
 }
