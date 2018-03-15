@@ -102,10 +102,6 @@ class Home extends Component {
             acceptMessge: '',
             plateNumber: '',
             setUserCar: false,
-            weather: '天气',
-            temperatureLow: '--',
-            temperatureHigh: '--',
-            weatherNum: '',
             limitNumber: '',
             plateNumberObj: {},
             modalVisible: false,
@@ -484,7 +480,18 @@ class Home extends Component {
     }
 
     vehicleLimit(cityName) {
-        this.props.vehicleLimit({cityName: cityName})
+        this.props.vehicleLimit(cityName,
+            (result) => {
+                if (result && result !== '') {
+                    this.setState({
+                        limitNumber: '今日限行 ' + result,
+                    });
+                } else {
+                    this.setState({
+                        limitNumber: '',
+                    });
+                }
+            });
     }
 
     // 获取车辆列表
@@ -794,7 +801,7 @@ class Home extends Component {
 
     render() {
         const {homePageState} = this.props;
-        const limitView = this.state.limitNumber || this.state.limitNumber !== '' ?
+        const limitView =  1==1 ?
             <View style={styles.limitViewStyle}>
                 <Text style={{
                     fontSize: 14,
@@ -1056,21 +1063,23 @@ class Home extends Component {
                                 marginRight: 15,
                                 justifyContent: 'center',
                             }}>
-                                <WeatherCell weatherIcon={'晴todo'}/>
+                                <WeatherCell weatherIcon={this.props.weather.weather}/>
                             </View>
                             <Text style={{
                                 marginRight: 10,
                                 fontSize: 14,
                                 color: LIGHT_BLACK_TEXT_COLOR,
                                 alignSelf: 'center'
-                            }}> {'天气todo'}</Text>
+                            }}> {this.props.weather.weather ? this.props.weather.weather : '暂无'}</Text>
 
                             <Text style={{
                                 marginRight: 10,
                                 fontSize: 14,
                                 color: LIGHT_BLACK_TEXT_COLOR,
                                 alignSelf: 'center'
-                            }}>{this.props.weather.temperatureLow}℃/{this.props.weather.temperatureHigh}℃</Text>
+                            }}>{this.props.weather.temperatureLow ?
+                                this.props.weather.temperatureLow : '--'}℃/{this.props.weather.temperatureHigh ?
+                                this.props.weather.temperatureHigh : '--'}℃</Text>
                         </View>
                         {limitView}
                     </View>
@@ -1340,21 +1349,14 @@ const mapDispatchToProps = dispatch => {
                 }
             }));
         },
-        vehicleLimit: (params) => {
+        vehicleLimit: (params,callBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
                 api: API.API_VEHICLE_LIMIT,
                 success: (result) => {
-                    if (result && result !== '') {
-                        this.setState({
-                            limitNumber: '今日限行 ' + result,
-                        });
-                    } else {
-                        this.setState({
-                            limitNumber: '',
-                        });
-                    }
+                    console.log('限行', result);
+                    callBack && callBack(result)
                 },
                 fail: (data) => {
 
