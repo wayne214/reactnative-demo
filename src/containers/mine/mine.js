@@ -632,11 +632,17 @@ class mine extends Component {
                                     />
                                 </View>
                             </TouchableOpacity>
-                        </View> : null
+                        </View> : <View style={styles.subTitleContainer}>
+                            <Text>{''}</Text>
+                            <TouchableOpacity onPress={() => {
+                                this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})
+                            }}>
+                                <Text style={{fontSize: 20, color: '#333333'}}>会员信息</Text>
+                            </TouchableOpacity>
+                        </View>
                     }
                 </View>
-                    <TouchableOpacity onPress={()=> this.props.currentStatus == 'driver' ? console.log('外部区域') :
-                        this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})}
+                    <TouchableOpacity onPress={()=> console.log('外部区域')}
                                       activeOpacity={1}>
                         <View style={styles.headerView}>
                             <View>

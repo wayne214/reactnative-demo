@@ -186,7 +186,7 @@ class ShowESignInfoContainer extends BaseComponent {
 									<View style={styles.arrowTextRight}>
 										<Text
 											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
-												{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章模板' }
+												{  eSignInfo.get('sealTemplate') ? HelperUtil.getCompanyTemplateStyle(eSignInfo.get('sealTemplate')) : '请选择印章模板' }
 										</Text>
 										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
@@ -208,7 +208,7 @@ class ShowESignInfoContainer extends BaseComponent {
 										<Text
 											style={ this.props.sealColor != '' ? styles.blackArrowText : styles.arrowText }>
 												{/*{ this.state.colorMap.value || HelperUtil.getColor(eSignInfo.get('sealColor'))||'请选择印章颜色' }*/}
-												{this.props.sealColor == '' ? '请选择印章颜色' : this.props.sealColor}
+												{this.props.sealColor == '' ? '请选择印章颜色' : HelperUtil.getColor(this.props.sealColor)}
 										</Text>
 										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
