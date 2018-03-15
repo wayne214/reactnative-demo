@@ -45,7 +45,7 @@ class EntrustOrderList extends BaseComponent {
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  		companyCode: '1001',
+	  		companyCode: global.companyCode,
 				 num: 1,
 				 resourceCode: '',
 				size: 10,
@@ -54,7 +54,7 @@ class EntrustOrderList extends BaseComponent {
 	  	_getEntrustOrderUndispatch({
           ctcNum: 1,
           dpcNum: 1,
-            carrierCode: "1001"
+            carrierCode: global.companyCode
 	  	},showLoading)
 	  }
 
@@ -107,7 +107,7 @@ class EntrustOrderList extends BaseComponent {
 							this.setState({activeTab: obj.i})
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
-                    companyCode: '1001',
+                    companyCode: global.companyCode,
                     num: 1,
                     resourceCode: '',
                     size: 10,
@@ -116,7 +116,7 @@ class EntrustOrderList extends BaseComponent {
 								this.props._getEntrustOrderUndispatch({
                     ctcNum: 1,
                     dpcNum: 1,
-                    carrierCode: "1001"
+                    carrierCode: global.companyCode
 								},true)
 							}
 						}}
@@ -184,7 +184,7 @@ class EntrustOrderList extends BaseComponent {
 							}}
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderList({
-                    companyCode: '1001',
+                    companyCode: global.companyCode,
                     num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
                     resourceCode: '',
                     size: 10,
@@ -234,9 +234,9 @@ class EntrustOrderList extends BaseComponent {
 							loadMoreAction={()=>{
 								this.props._getEntrustOrderUndispatch({
 									pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-									ctcNum: 0,
-									dpcNum: 0,
-									carrierCode: ""
+									ctcNum: 1,
+									dpcNum: 1,
+									carrierCode: global.companyCode
 								})
 							}}/>
 
