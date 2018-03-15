@@ -170,6 +170,9 @@ import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
 import MessageListScreen from '../containers/mine/msgList';
 import DevicesUnBindSuccScreen from '../containers/mine/devicesUnBindSucc';
 
+import ArrangeCarList from '../containers/entrust/arrangeCarList';
+import ArrangeDriverList from '../containers/entrust/arrangeDriverList';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -1029,6 +1032,20 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
             // title: '设备解绑成功'
             // header: null
+        }
+    },
+    [RouteType.ROUTE_ARRANGE_CAR_LIST]: {
+        screen: ArrangeCarList,
+        navigationOptions: {
+            // title: '安排车辆列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ARRANGE_DRIVER_LIST]: {
+        screen: ArrangeDriverList,
+        navigationOptions: {
+            // title: '安排司机列表'
+            header: null
         }
     },
 }, {

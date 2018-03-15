@@ -45,7 +45,8 @@ class EntrustOrderList extends BaseComponent {
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  		companyCode: global.companyCode,
+	  	// 	companyCode: global.companyCode,
+	  		companyCode: '1001',
 				 num: 1,
 				 resourceCode: '',
 				size: 10,
@@ -54,7 +55,8 @@ class EntrustOrderList extends BaseComponent {
 	  	_getEntrustOrderUndispatch({
           ctcNum: 1,
           dpcNum: 1,
-            carrierCode: global.companyCode
+            // carrierCode: global.companyCode
+            carrierCode: '1001'
 	  	},showLoading)
 	  }
 
@@ -116,7 +118,8 @@ class EntrustOrderList extends BaseComponent {
 								this.props._getEntrustOrderUndispatch({
                     ctcNum: 1,
                     dpcNum: 1,
-                    carrierCode: global.companyCode
+                    // carrierCode: global.companyCode
+                    carrierCode: '1001'
 								},true)
 							}
 						}}
@@ -217,7 +220,7 @@ class EntrustOrderList extends BaseComponent {
 							dispatchCar={(data)=>{
 								console.log('dispatchCar', data);
                   this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_DISPATCH_CAR,
+                      type: RouteType.ROUTE_ARRANGE_CAR_LIST,
                       params: {data, title: '选择车辆'}
                   })
 								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{

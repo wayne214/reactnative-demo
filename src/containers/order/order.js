@@ -234,30 +234,33 @@ class OrderList extends BaseComponent {
         switch (currentPageIndex) {
             case 0:
               // 全部
-                this.getDataList('CCC', API.API_NEW_APP_DISPATCH_DOC_WITH_PAGE, pageNo, currentPageIndex);
+                this.getDataList(API.API_CARRIER_QUERY_TRANSPORTORDERALL, pageNo, currentPageIndex);
                 break;
             case 1:
               // 装车
-                this.getDataList('BBB', API.API_NEW_APP_DISPATCH_DOC_CARRIER, pageNo, currentPageIndex);
+                this.getDataList(API.API_CARRIER_QUERY_TRANSPORT_ORDER_LOADING, pageNo, currentPageIndex);
                 break;
             case 2:
               // 交付
-                this.getDataList('CCC', API.API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT, pageNo, currentPageIndex);
+                this.getDataList(API.API_CARRIER_QUERY_TRANSPORT_ORDER_PAY, pageNo, currentPageIndex);
                 break;
             case 3:
               // 已完成
-                this.getDataList('DDD', API.API_NEW_GET_RECEIVE_ORDER_LIST, pageNo, currentPageIndex);
+                this.getDataList(API.API_CARRIER_QUERY_TRANSPORT_ORDER_FINISH, pageNo, currentPageIndex);
                 break;
         }
     }
 
-  getDataList(type, api, pageNum, index) {
+  getDataList(api, pageNum, index) {
     this.props._getTransportOrderList({
         // carrierCode: this.props.carrierCode,
-        carrierCode: global.companyCode,
-        page: pageNum,
-        pageSize,
-        queryType: type,
+        // carrierCode: global.companyCode,
+        carrierCode: '1001',
+        ctcNum: 0,
+        tfcNum: 0,
+        // page: pageNum,
+        // pageSize,
+        // queryType: type,
     }, api, index);
   }
 
@@ -336,7 +339,7 @@ class OrderList extends BaseComponent {
                     this.setState({
                         activeTab: obj.i,
                     });
-                    this._updateListWithIndex(currentMenuIndex,obj.i,activeSubTab)
+                    this._updateListWithIndex(obj.i,1)
                 }
               // };
             }}
@@ -436,7 +439,7 @@ const mapStateToProps = (state) => {
     activeSubTab: order.get('activeSubTab'),
     shouldOrderListRefresh: app.get('shouldOrderListRefresh'),
     carrierCode: state.user.get('companyCode'),
-      hotLine: app.get('hotLine'),
+    hotLine: app.get('hotLine'),
   }
 }
 
@@ -460,11 +463,14 @@ const mapDispatchToProps = (dispatch) => {
             method: 'POST',
             api: api,
             success: (data) => {
-                dispatch(shouldOrderListRefreshAction(false))
+                dispatch(shouldOrderListRefreshAction(false));
                 data.orderType = tabIndex;
-                data.pageNo = params.page
+                data.pageNo = params.page;
                 dispatch(receiveOrderList(data))
                 console.log('data', data);
+            },
+            fail: (data) => {
+                Toast.show(data.message)
             }
         }));
     }

@@ -22,6 +22,9 @@ import HelperUtil from '../../utils/helper';
 import Modal from 'react-native-root-modal';
 // import PhotoView from 'react-native-photo-view';
 import ImagePreview from '../../components/common/imagePreview.js'
+import {fetchData} from "../../action/app";
+import * as API from '../../constants/api';
+import Toast from '../../utils/toast';
 
 const { height,width } = Dimensions.get('window')
 
@@ -33,14 +36,29 @@ class LadingBill extends Component {
 	  	title: params.title || '单据',
 	  	showPhoto: false,
 	  	images: params.images,
-	  	activeIndex: 0
+	  	activeIndex: 0,
+        orderNoBase: params.orderNoBase
 	  }
 	  if (!(params.images && params.images.length > 0 )) {
 	  	console.warn('必须有图片才能查看');
 	  };
+
+	  this.getImageListCallback = this.getImageListCallback.bind(this);
+	}
+
+	getImageListCallback(result) {
+		console.log('getImageList',result);
+		this.setState({
+        images: result
+		})
 	}
 	componentDidMount() {
-		this.props.dispatch(appendLogToFile('查看图片',this.props.navigation.state.params.title,0))
+		if(!this.state.orderNoBase) {
+        Toast.show('订单号为空');
+        return;
+		}
+		this.props.getImageList({orderNoBase: this.state.orderNoBase}, this.getImageListCallback)
+		// this.props.dispatch(appendLogToFile('查看图片',this.props.navigation.state.params.title,0))
 	}
 	static navigationOptions = ({navigation}) => {
 		const {params} = navigation.state
@@ -113,7 +131,18 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {dispatch}
+	return {dispatch,
+		getImageList: (params, callback) => {
+        dispatch(fetchData({
+            body: params,
+            method: 'POST',
+            // showLoading: true,
+            api: API.API_QUERY_OUT_ORDER_IMG,
+            success: data => {
+                callback(data);
+            },
+        }))
+		}}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LadingBill);

@@ -79,7 +79,7 @@ class FoldView extends Component {
 									outputRange: ['0deg', '-180deg']
 								}) }
 							]
-						}] }>&#xe616;</Animated.Text>
+						}] }>&#xe69f;</Animated.Text>
 					</View>
 				</TouchableOpacity>
 				<Animated.View removeClippedSubviews={false} style={[styles.contentView,{height: this.state.showHeight.interpolate({

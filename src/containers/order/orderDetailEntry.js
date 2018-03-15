@@ -27,8 +27,11 @@ import Button from 'apsl-react-native-button'
 import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
+
+import AddressItem from '../../components/routes/goodlistAddressItem';
 let startTime = 0
 import * as ConstValue from '../../constants/constValue';
+import * as StaticColor from '../../constants/colors';
 const topSpace = 10;
 const topHeight = 40;
 const bottomViewHeight = 58;
@@ -46,27 +49,67 @@ class orderDetailEntry extends BaseComponent {
 	render() {
 		const {orderDetailData} = this.props;
 		console.log('---orderDetail', orderDetailData);
+
+      const fromAddress = orderDetailData.fromProvince + orderDetailData.fromCity + orderDetailData.fromDistrict + orderDetailData.fromCustomerAddress;
+      const endAddress = orderDetailData.toProvince + orderDetailData.toCity + orderDetailData.toDistrict + orderDetailData.toCustomerAddress;
+
+      const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
+      	console.log('--goodInfo', item);
+			});
+
 		return <View style={styles.container}>
-					<ScrollView style={styles.scrollView}>
+					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
 						<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
 							<Text style={{fontSize: 14, color: '#999999', marginLeft: 15}}>{`订单编号：${orderDetailData.orderCode}`}</Text>
 						</View>
 						<View style={{width: 200, height: 1, backgroundColor: '#E6EAF2'}}/>
-						<GoodsInfo configData={orderDetailData.goodsInfo[0]} startAddress={orderDetailData.deliveryInfo.departureAddress} endAddress={orderDetailData.deliveryInfo.receiveAddress}/>
+						<View style={{paddingHorizontal: 15, backgroundColor: '#ffffff'}}>
+							<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
+						</View>
+
+						<View style={{backgroundColor: '#ffffff', paddingTop: 15}}>
+							<View style={styles.goodsDetailItem}>
+								<Text style={styles.goodsDetailMark}>{'装  货  点：'}</Text>
+								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingPoint}</Text>
+							</View>
+							{
+                  goodInfo
+							}
+						{/*<GoodsInfo startAddress={fromAddress} endAddress={endAddress}/>*/}
+
+							<View style={styles.goodsDetailItem}>
+								<Text style={styles.goodsDetailMark}>{'装货时间：'}</Text>
+								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingTime}</Text>
+							</View>
+
+								{
+										orderDetailData.deliveryTime ?
+											<View style={styles.goodsDetailItem}>
+												<Text style={styles.goodsDetailMark}>送达时间：</Text>
+												<Text style={styles.goodsDetailContent}>{orderDetailData.deliveryTime}</Text>
+											</View>
+												: null
+								}
+							<View style={styles.goodsDetailItem}>
+								<Text style={styles.goodsDetailMark}>温度要求：</Text>
+								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "-" + orderDetailData.temperatureMax}</Text>
+							</View>
+						</View>
+
 						<FoldView title={'发货方信息'} openHeight={2 * 44} renderContent={()=>{
                 return (
 									<View>
 										<View style={styles.flodItem}>
 											<Text>发货方:</Text>
                         {
-                            orderDetailData.entrustType == 1 ?//自营订单 发货方：冷链马甲
+                            orderDetailData.orderSource == 1 ?//自营订单 发货方：冷链马甲
 															<Text>冷链马甲</Text>
-                                : <Text>{orderDetailData.deliveryInfo.departureContactName}</Text>
+                                : <Text>{orderDetailData.fromCustomerName}</Text>
                         }
 										</View>
 										<View style={styles.flodItem}>
 											<Text>联系电话:</Text>
-											<Text>{orderDetailData.deliveryInfo.departurePhoneNum}</Text>
+											<Text>{orderDetailData.fromCustomerTle}</Text>
 										</View>
 									</View>
                 )
@@ -76,11 +119,11 @@ class orderDetailEntry extends BaseComponent {
 								<View>
 									<View style={styles.flodItem}>
 										<Text>收货方:</Text>
-										<Text>{orderDetailData.deliveryInfo.receiveContactName}</Text>
+										<Text>{orderDetailData.toCustomerName}</Text>
 									</View>
 									<View style={styles.flodItem}>
 										<Text>联系电话:</Text>
-										<Text>{orderDetailData.deliveryInfo.receivePhoneNum}</Text>
+										<Text>{orderDetailData.toCustomerTle}</Text>
 									</View>
 								</View>
 							)
@@ -101,25 +144,49 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							</TouchableOpacity>
 						</View>
-						<FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
-							return (
-								<View>
-									<View style={styles.flodItem}>
-										<Text>司机:</Text>
-										<Text>{orderDetailData.carOwnerName}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>司机电话:</Text>
-										<Text>{orderDetailData.carOwnerPhone}</Text>
-									</View>
-									<View style={[styles.flodItem,{borderBottomWidth:0}]}>
-										<Text>车牌号码:</Text>
-										<Text>{orderDetailData.carNo}</Text>
-									</View>
-								</View>
-							)
-						}}/>
+							{
+                  orderDetailData.orderSource !== 1 && <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
+                      return (
+												<View>
+													<View style={styles.flodItem}>
+														<Text>司机:</Text>
+														<Text>{orderDetailData.driver}</Text>
+													</View>
+													<View style={styles.flodItem}>
+														<Text>司机电话:</Text>
+														<Text>{orderDetailData.phone}</Text>
+													</View>
+													<View style={[styles.flodItem,{borderBottomWidth:0}]}>
+														<Text>车牌号码:</Text>
+														<Text>{orderDetailData.vehical}</Text>
+													</View>
+												</View>
+                      )
+                  }}/>
+							}
 					</ScrollView>
+			<View>
+				<TouchableOpacity
+					onPress={() => {
+              if(!orderDetailData.orderCode) {
+                  Toast.show('订单号为空');
+                  return;
+              }
+              this.props.navigation.dispatch({
+                  type: RouteType.ROUTE_LADING_BILL,
+                  params: {
+                      title: '出库单',
+                      orderNoBase: rowData.orderCode,
+                      images: []
+                  }
+              })
+          }}
+				>
+					<View style={styles.button}>
+						<Text style={styles.buttonText}>查看出库单</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
 		</View>
 	}
 }
@@ -160,8 +227,8 @@ const styles =StyleSheet.create({
     overflow: 'hidden',
 		alignItems: 'center',
       ...Platform.select({
-          ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomViewHeight - 44},
-          android:{height: screenHeight - topHeight - 73 - bottomViewHeight - 44}
+          ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomViewHeight},
+          android:{height: screenHeight - topHeight - 73 - bottomViewHeight}
       }),
 	},
 	scrollView:{
@@ -233,6 +300,37 @@ const styles =StyleSheet.create({
 		// marginRight: 10
 
 	},
+    goodsDetailItem: {
+        flexDirection: 'row',
+        marginTop: 5,
+        alignItems: 'center',
+        marginBottom: 5,
+				backgroundColor: '#ffffff',
+				paddingHorizontal: 15,
+    },
+    goodsDetailMark: {
+        marginRight: 5,
+        fontSize: 14,
+        color: COLOR.TEXT_LIGHT
+    },
+    goodsDetailContent: {
+        flex:1,
+        color: COLOR.TEXT_BLACK,
+        fontSize: 14
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: width,
+        height: 44,
+        backgroundColor: StaticColor.BLUE_BUTTON_COLOR,
+        alignSelf: 'center',
+        borderRadius: 5
+    },
+    buttonText: {
+        fontSize: 17,
+        color: StaticColor.WHITE_COLOR,
+    },
 })
 
 const mapStateToProps = (state) => {
