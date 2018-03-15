@@ -72,7 +72,8 @@ class orderItemCell extends Component{
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
           this.props.navigation.dispatch({
               type: RouteType.ROUTE_ORDER_DETAIL,
-              params: {transOrderList: rowData.transOrderList,refreshOrderList:refreshList}
+              params: {transOrderList: rowData.transOrderList,refreshOrderList:refreshList, orderStatus: rowData.stateName},
+
           })
 			}}>
 				<View style={styles.container}>

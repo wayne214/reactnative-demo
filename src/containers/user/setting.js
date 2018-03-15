@@ -133,16 +133,16 @@ class SettingContainer extends BaseComponent {
 
 						</TouchableOpacity>
 				}
-				<TouchableOpacity
-					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DEVICES_BIND, params: {title: '设备绑定', type: 3}}) }>
-					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>设备绑定</Text>
-					</View>
-					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe63d;</Text>
-					</View>
-				</TouchableOpacity>
+				{/*<TouchableOpacity*/}
+					{/*style={ styles.cellContainer }*/}
+					{/*onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DEVICES_BIND, params: {title: '设备绑定', type: 3}}) }>*/}
+					{/*<View style={ styles.leftAnd }>*/}
+						{/*<Text style={ styles.leftText }>设备绑定</Text>*/}
+					{/*</View>*/}
+					{/*<View style={ styles.rightAnd }>*/}
+						{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+					{/*</View>*/}
+				{/*</TouchableOpacity>*/}
 
 				<TouchableOpacity
 					style={ styles.cellContainer }

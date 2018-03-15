@@ -41,12 +41,13 @@ class OrderDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
 	  this._showCoordinateResult = this._showCoordinateResult.bind(this)
-	  const {orderNo, transOrderList} = props.navigation.state.params
+	  const {orderNo, transOrderList, orderStatus} = props.navigation.state.params
 	  this.state = {
 	  	orderNo,
 	  	showCoordination: false,
       transOrderList: transOrderList,
       current: 1,
+      orderStatus,
 	  }
 	  // console.log("----- 订单详情  参数 orderNo: ",orderNo);
       this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -143,7 +144,7 @@ class OrderDetail extends BaseComponent {
 		return <View style={styles.container}>
 			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
 				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
-				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>待发车</Text>
+				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{this.state.orderStatus}</Text>
 			</View>
 			<View style={{justifyContent: 'center', alignItems: 'center', height: 44}}>
 				<Text style={{textAlign: 'center', fontSize: 16, color: '#666666', }}>

@@ -73,7 +73,7 @@ export const ROUTE_LIST = '/app/transportLine/queryTransportLineList';
 export const EDIT_ROUTE = '/app/transportLine/editTransportLineInfo';
 
 //删除路线
-export const DELETE_ROUTE = '/carrierLineInfo/delete';
+export const DELETE_ROUTE = '/app/transportLine/deleteTransportLineList';
 
 // 系统公告
 export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
