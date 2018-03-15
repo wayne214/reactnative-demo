@@ -73,7 +73,7 @@ export const ROUTE_LIST = '/app/transportLine/queryTransportLineList';
 export const EDIT_ROUTE = '/app/transportLine/editTransportLineInfo';
 
 //删除路线
-export const DELETE_ROUTE = '/carrierLineInfo/delete';
+export const DELETE_ROUTE = '/app/transportLine/deleteTransportLineList';
 
 // 系统公告
 export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
@@ -501,3 +501,5 @@ export const API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT = `app/transport/queryCarr
 export const UPDATE_PERSON_ESIGN_INFO = '/app/esign/updatePersonEsignByCarrierId';
 //更新企业车主电子签章信息
 export const UPDATE_COMPANY_ESIGN_INFO = '/app/esign/updateCarrierEsignByCarrierId';
+// 新增企业车主电子签章
+export const NEW_COMPANY_ESIGN_INFO = '/app/esign/registerCarrierEsignByCarrierId';

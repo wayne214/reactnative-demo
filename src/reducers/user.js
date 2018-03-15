@@ -24,6 +24,7 @@ const initState = Immutable.fromJS({
     currentStatus:'driver',
     companyCode: '', // 承运商编码
     ownerName: '',
+    companyInfo: '',
 });
 
 export default (state = initState, action) => {
@@ -157,6 +158,12 @@ export default (state = initState, action) => {
             newState = newState.set('companyCode', action.payload);
             global.companyCode = action.payload;
             action.payload ? Storage.save(StorageKey.CARRIER_CODE, action.payload) : '';
+            return newState;
+
+        case ActionTypes.ACTION_SAVE_COMPANY_INFO:
+            newState = newState.set('companyInfo', action.payload);
+            // global.companyCode = action.payload;
+            action.payload ? Storage.save(StorageKey.COMPANY_INFO, action.payload) : '';
             return newState;
 
         default:

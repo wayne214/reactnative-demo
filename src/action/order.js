@@ -90,7 +90,7 @@ export const changeOrderListIsRefreshing = (orderState,showLoading) => {
 	return {
 		type: ActionTypes.ACTION_CHANGE_ORDER_LIST_REFRESHING,
 		payload: {
-			orderState,showLoading
+        orderType,showLoading
 		}
 	}
 }
