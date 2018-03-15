@@ -162,7 +162,7 @@ export default (state = initState, action) => {
 
         case ActionTypes.ACTION_SAVE_COMPANY_INFO:
             newState = newState.set('companyInfo', action.payload);
-            global.companyPhone = action.payload.companyPhone;
+            global.companyPhone = action.payload.busTel;
             global.companyId = action.payload.id;
             action.payload ? Storage.save(StorageKey.COMPANY_INFO, action.payload) : '';
             return newState;

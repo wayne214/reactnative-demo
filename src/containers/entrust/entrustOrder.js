@@ -45,18 +45,18 @@ class EntrustOrderList extends BaseComponent {
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  	// 	companyCode: global.companyCode,
-	  		companyCode: '1001',
+	  		companyCode: global.companyCode,
+	  	// 	companyCode: '1001',
 				 num: 1,
 				 resourceCode: '',
 				size: 10,
 	  	},showLoading)
 	  }else{
 	  	_getEntrustOrderUndispatch({
-          ctcNum: 1,
-          dpcNum: 1,
-            // carrierCode: global.companyCode
-            carrierCode: '1001'
+          ctcNum: 0,
+          dpcNum: 0,
+            carrierCode: global.companyCode
+            // carrierCode: '1001'
 	  	},showLoading)
 	  }
 
@@ -116,10 +116,10 @@ class EntrustOrderList extends BaseComponent {
 								},true)
 							}else if (obj.i == 1) {
 								this.props._getEntrustOrderUndispatch({
-                    ctcNum: 1,
-                    dpcNum: 1,
-                    // carrierCode: global.companyCode
-                    carrierCode: '1001'
+                    ctcNum: 0,
+                    dpcNum: 0,
+                    carrierCode: global.companyCode
+                    // carrierCode: '1001'
 								},true)
 							}
 						}}
@@ -186,12 +186,12 @@ class EntrustOrderList extends BaseComponent {
 								this.props._removeOverTimeOrder(resourceId)
 							}}
 							loadMoreAction={()=>{
-								this.props._getEntrustOrderList({
-                    companyCode: global.companyCode,
-                    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
-                    resourceCode: '',
-                    size: 10,
-								})
+								// this.props._getEntrustOrderList({
+                 //    companyCode: global.companyCode,
+                 //    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
+                 //    resourceCode: '',
+                 //    size: 10,
+								// })
 							}}/>
 
 						<EntrustOrderListItem
@@ -235,12 +235,12 @@ class EntrustOrderList extends BaseComponent {
 								this.props._deleteOrderUndispatch(goodsId)
 							}}
 							loadMoreAction={()=>{
-								this.props._getEntrustOrderUndispatch({
-									pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-									ctcNum: 1,
-									dpcNum: 1,
-									carrierCode: global.companyCode
-								})
+								// this.props._getEntrustOrderUndispatch({
+								// // 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
+								// 	ctcNum: 0,
+								// 	dpcNum: 0,
+								// 	carrierCode: global.companyCode
+								// })
 							}}/>
 
 					</ScrollableTabView>
@@ -310,10 +310,10 @@ const mapDispatchToProps = (dispatch) => {
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
 				},
-                fail: (data)=>{
+				fail: (data)=>{
+						Toast.show(data.message)
 
-
-                }
+				}
 			}))
 		},
 		_getEntrustOrderUndispatch: (params,showLoading)=>{
@@ -331,10 +331,9 @@ const mapDispatchToProps = (dispatch) => {
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
 				},
-                fail: (data)=>{
-
-
-                }
+				fail: (data)=>{
+						Toast.show(data.message)
+				}
 			}))
 		},
 		_acceptDesignate: (params,successCallBack,refreshCallBack)=>{

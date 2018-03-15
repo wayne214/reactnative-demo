@@ -32,7 +32,8 @@ import {
     setOwnerCharacterAction,
     setCurrentCharacterAction,
     setCompanyCodeAction,
-    setOwnerNameAction
+    setOwnerNameAction,
+    saveCompanyInfoAction
 } from '../../action/user';
 
 // import * as StaticColor from '../../constants/staticColor';
@@ -176,8 +177,8 @@ class Login extends BaseComponent {
         super(props);
         const params = this.props.navigation.state.params;
         this.state = {
-            phoneNumber: '15242614692',
-            password: 'a123456',
+            phoneNumber: '15801461050',
+            password: '123456',
             loading: false,
         };
         this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);
@@ -464,7 +465,10 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                 },
             }))
-        }
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
     };
 }
 

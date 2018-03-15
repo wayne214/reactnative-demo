@@ -8,7 +8,8 @@ import {
     setDriverCharacterAction,
     setOwnerCharacterAction,
     setOwnerNameAction,
-    setUserNameAction
+    setUserNameAction,
+    saveCompanyInfoAction
 } from "../action/user";
 import {connect} from "react-redux";
 import * as RouteType from '../constants/routeType';
@@ -60,6 +61,8 @@ class LoginCharacter {
                     }
                     // 保存承运商编码
                     props.setCompanyCodeAction(result[0].companyCode);
+                    props.saveCompanyInfoAction(result[0]);
+
                 }
 
                 if (result[0].owner == 2) {
@@ -128,6 +131,7 @@ class LoginCharacter {
                     }
 
                     if (result[1].status == 10) {
+                        props.saveCompanyInfoAction(result);
                         if (result[0].companyNature == '个人') {
                             props.setCurrentCharacterAction('personalOwner');
                             props.setOwnerNameAction(result[0].name);
@@ -191,6 +195,7 @@ class LoginCharacter {
                     }
 
                     if (result[0].status == 10) {
+                        // props.saveCompanyInfoAction(result[1]);
                         if (result[0].companyNature == '个人') {
                             props.setOwnerNameAction(result[1].name);
                             props.setCurrentCharacterAction('personalOwner');
@@ -247,6 +252,9 @@ function mapDispatchToProps(dispatch) {
         },
         setOwnerNameAction: (data) => {
             dispatch(setOwnerNameAction(data));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
         },
     };
 }

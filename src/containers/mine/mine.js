@@ -840,7 +840,8 @@ class mine extends Component {
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
-                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
+                                        // this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
+                                        this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '关于我们', type: 2}})
                                     }
                                 }}
                             />

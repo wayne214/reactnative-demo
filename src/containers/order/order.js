@@ -314,7 +314,7 @@ class OrderList extends BaseComponent {
         <View style={styles.content}>
           <ScrollableTabView
             // page={activeTab}
-            initialPage={0}
+            // initialPage={0}
             style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
             renderTabBar={() =>
                 <ScrollableTabBar

@@ -128,8 +128,11 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							)
 						}}/>
-						<View style={{height: 44, backgroundColor: '#fafafa', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
-							<Text>运输协议</Text>
+						<View style={{backgroundColor: '#ffffff', paddingHorizontal: 10}}>
+							<View style={{backgroundColor: '#fafafa', height: 44, justifyContent: 'center'}}>
+								<Text>运输协议</Text>
+							</View>
+
 							<TouchableOpacity onPress={()=> this.props.navigation.dispatch({
                   type: RouteType.ROUTE_CONTRACT_DETAIL,
                   params: {
@@ -138,7 +141,7 @@ class orderDetailEntry extends BaseComponent {
                       title: '合同详情'
                   }
               })}>
-								<View style={{flexDirection: 'row'}}>
+								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
 									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
 									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#c7c7c7'}}>&#xe63d;</Text>
 								</View>

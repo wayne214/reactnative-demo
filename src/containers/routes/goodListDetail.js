@@ -230,12 +230,12 @@ class goodListDetail extends Component {
 
                                           this.props.sendOrder({
                                               biddingPrice: this.state.money,
-                                              carrierId: '10001',
-                                              carrierName: '承运商名称',
-                                              entrustType: this.state.result.businessType,
-                                              expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart,
-                                              resourceCode: this.props.navigation.state.params.goodID,
-                                              type: this.props.navigation.state.params.type
+                                              carrierId: global.companyCode, // 承运商code
+                                              carrierName: global.ownerName, // 承运商名字
+                                              entrustType: this.state.result.businessType == '501' ? 1 : 2, // 委托类型
+                                              expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
+                                              resourceCode: this.props.navigation.state.params.goodID, // 货源id
+                                              type: this.props.navigation.state.params.type // 报价类型
                                           },this.sendOrderSuccess);
                                       }}>
                         <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
