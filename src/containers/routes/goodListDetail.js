@@ -207,9 +207,10 @@ class goodListDetail extends Component {
                                          this._showPickerView('installTimeStart')
                                      }}/>
 
-                    <GoodsDetailMoney norMoney={this.state.result.configFreight} moneyChange={(money)=>{
-                        this.setState({money});
-                    }}/>
+                    <GoodsDetailMoney norMoney={this.state.result.configFreight}
+                                      moneyChange={(money)=>{
+                                         this.setState({money});
+                                     }}/>
 
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{
