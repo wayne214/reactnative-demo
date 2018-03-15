@@ -88,7 +88,7 @@ export default (state = initState, action) => {
 			newState = newState.setIn([rootTypeLoading,'isLoadingMore'],true);
 			return newState
 		case ActionTypes.ACTION_CHANGE_ORDER_LIST_REFRESHING:
-			newState = newState.setIn([statusArr[payload.orderState],'isRefreshing'],false);
+			newState = newState.setIn([statusArr[payload.orderType],'isRefreshing'],false);
 		case ActionTypes.ACTION_RECEIVE_ORDER_LIST:
 			console.log('order-payload', payload);
         /* 这里获取承运商运单列表数据，根据订单类状态，放入对应的数组中   先对数据组装、格式化 */
@@ -100,7 +100,7 @@ export default (state = initState, action) => {
         newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
         newState = newState.setIn([rootType,'total'],payload.total);
 
-        if (payload.pageNum === 1) {
+        if (payload.pageNo === 1) {
             // 第一页数据先清空原有数据
             newState = newState.setIn([rootType,'list'],[]);
             newArray = Immutable.fromJS(payload.list);

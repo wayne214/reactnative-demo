@@ -43,11 +43,14 @@ class RouteContainer extends BaseComponent {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-			dataLength: 0
+			dataLength: 0,
+        sectionID: null,
+        rowID: null,
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this);
 		this._pushAddRoute = this._pushAddRoute.bind(this);
+    this.deleteAlert = this.deleteAlert.bind(this);
 	}
 
 	componentDidMount() {
@@ -93,7 +96,7 @@ class RouteContainer extends BaseComponent {
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
 	}
-  _renderItem(rowData, section, row) {
+  _renderItem(rowData, sectionID, rowID) {
   	let carLength;
   	let number = [];
   	let perM;
@@ -125,8 +128,8 @@ class RouteContainer extends BaseComponent {
               text: '删除',
               backgroundColor: 'red',
               onPress: ()=>{
-                  this.deleteAlert.bind(this, rowData.id);
-                  // this.deleteItem(row);
+              	console.log('删除路线', rowData.id);
+                  this.deleteAlert(rowData.id);
               },
 
           }
@@ -134,7 +137,15 @@ class RouteContainer extends BaseComponent {
 
 
 		return (
-			<Swipeout right={swipeoutBtns}>
+			<Swipeout
+				close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)}
+				right={swipeoutBtns}
+								onOpen={(sectionID, rowID) => {
+          this.setState({
+              sectionID,
+              rowID,
+          });
+      }}>
 				<TouchableOpacity activeOpacity={0.75} onPress={() => {
             this.props.navigation.dispatch({type: RouteType.ROUTE_EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
 					<View style={ styles.itemContainer }>
@@ -156,8 +167,12 @@ class RouteContainer extends BaseComponent {
   	Alert.alert('提示', '确定删除吗', [
   		{ text: '取消', onPress: () => console.log('取消') },
   		{ text: '确定', onPress: () => {
+          this.setState({
+              sectionID: null,
+              rowID: null,
+          });
   			this.props.deleteRouteList({
-  				id: id
+            carrierLineId: id
   			});
   		} },
   	]);
@@ -250,7 +265,7 @@ const mapDispatchToProps = dispatch => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: DELETE_ROUTE,
+				api: DELETE_ROUTE + "?carrierLineId=" + body.carrierLineId ,
 				successToast: true,
 				msg: '删除成功',
 				showLoading: true,
