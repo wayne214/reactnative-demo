@@ -207,7 +207,7 @@ class goodListDetail extends Component {
                                          this._showPickerView('installTimeStart')
                                      }}/>
 
-                    <GoodsDetailMoney moneyChange={(money)=>{
+                    <GoodsDetailMoney norMoney={this.state.result.configFreight} moneyChange={(money)=>{
                         this.setState({money});
                     }}/>
 

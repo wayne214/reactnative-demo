@@ -40,7 +40,13 @@ class goodlistdetailMoneyItem extends Component{
                         />
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
                     </View>
-                <TouchableOpacity style={{flex: 1}}>
+                <TouchableOpacity style={{flex: 1}} onPress={()=>{
+                    this.setState({
+                        money: this.props.norMoney
+                    });
+                    this.props.moneyChange(this.props.norMoney);
+
+                }}>
                     <Text style={{textAlign: 'right',lineHeight: 40,color: '#0092FF'}}>标准</Text>
                 </TouchableOpacity>
                 </View>
@@ -50,7 +56,8 @@ class goodlistdetailMoneyItem extends Component{
     }
 }
 goodlistdetailMoneyItem.propTypes = {
-    moneyChange:PropTypes.func.isRequired
+    moneyChange:PropTypes.func.isRequired,
+    norMoney:PropTypes.string.isRequired
 };
 
 export default goodlistdetailMoneyItem;
