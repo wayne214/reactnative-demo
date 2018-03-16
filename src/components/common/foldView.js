@@ -48,8 +48,8 @@ class FoldView extends Component {
 			 	duration: 300,
 			}),
 			Animated.timing(iconRotation, {
-				toValue: opening ? 0 : 1,
-				duration: 300,
+				toValue: opening ? 0.5 : 1,
+				duration: 90,
 			}),
 		]).start(
 		 	this.setState({
@@ -76,7 +76,7 @@ class FoldView extends Component {
 							transform: [
 								{ rotate: this.state.iconRotation.interpolate({
 									inputRange: [0, 1],
-									outputRange: ['0deg', '-180deg']
+									outputRange: ['0deg', '-900deg']
 								}) }
 							]
 						}] }>&#xe69f;</Animated.Text>
