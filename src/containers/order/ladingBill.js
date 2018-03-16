@@ -39,17 +39,17 @@ class LadingBill extends Component {
 	  	activeIndex: 0,
         orderNoBase: params.orderNoBase
 	  }
-	  if (!(params.images && params.images.length > 0 )) {
-	  	console.warn('必须有图片才能查看');
-	  };
+	  // if (!(params.images && params.images.length > 0 )) {
+	  // 	console.warn('必须有图片才能查看');
+	  // };
 
 	  this.getImageListCallback = this.getImageListCallback.bind(this);
 	}
 
 	getImageListCallback(result) {
-		console.log('getImageList',result);
+		console.log('getImageList',result.urlList);
 		this.setState({
-        images: result
+        images: result.urlList
 		})
 	}
 	componentDidMount() {
@@ -58,7 +58,7 @@ class LadingBill extends Component {
         return;
 		}
 		if (this.props.navigation.state.params.title == '出库单') {
-        this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_OUT_ORDER_IMG, this.getImageListCallback)
+        this.props.getImageList({orderNoBase: 'SO180314000003'}, API.API_QUERY_OUT_ORDER_IMG, this.getImageListCallback)
     } else {
         this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_RESOURCE_ATTACHMENTINFO, this.getImageListCallback)
     }
@@ -82,7 +82,7 @@ class LadingBill extends Component {
 							activeIndex: index
 						})
 					}}>
-						<Image source={{uri: HelperUtil.getFullImgPath(item,parseInt(width/3 * 2), height)}} style={{flex: 1,resizeMode: 'cover'}}/>
+						<Image source={{uri:item}} style={{flex: 1,resizeMode: 'cover'}}/>
 					</TouchableOpacity>
 				</View>
 			)
