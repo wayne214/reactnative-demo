@@ -63,7 +63,7 @@ class goodListDetail extends Component {
 
     // 抢单成功
     sendOrderSuccess(){
-
+        this.props.navigation.dispatch({type: 'pop'})
     }
     _showPickerView(type){
 
