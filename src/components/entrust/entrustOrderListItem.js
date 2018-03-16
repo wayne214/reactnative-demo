@@ -90,7 +90,7 @@ export default class EntrustOrderListItem extends Component {
 				renderItem={this._renderRow.bind(this)}
 				keyExtractor={this._keyExtractor}
 				extraData={this.state}
-				onEndReachedThreshold={0.1}
+				onEndReachedThreshold={100}
 				enableEmptySections={true}
 				ItemSeparatorComponent={this.separatorComponent}
 				onEndReached={ this._toEnd.bind(this) }

@@ -35,19 +35,22 @@ let startTime = 0;
 import EmptyView from '../../components/common/emptyView';
 const screenWidth = Dimensions.get('window').width;
 
+import HelperUtils from '../../utils/helper';
+
 import OrderDetailEntry from './orderDetailEntry';
 
 class OrderDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
 	  this._showCoordinateResult = this._showCoordinateResult.bind(this)
-	  const {orderNo, transOrderList, orderStatus} = props.navigation.state.params
+	  const {orderNo, deliveryno, orderSource, orderStatus} = props.navigation.state.params
 	  this.state = {
 	  	orderNo,
 	  	showCoordination: false,
-      transOrderList: transOrderList,
-      current: 1,
+        deliveryno: deliveryno,
+        orderSource: orderSource,
       orderStatus,
+        current: 1,
 	  }
 	  // console.log("----- 订单详情  参数 orderNo: ",orderNo);
       this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -57,8 +60,8 @@ class OrderDetail extends BaseComponent {
 		//	//延迟执行
 		// })
 		setTimeout(()=>{
-			this.props._getOrderDetail({transCodeList: this.state.transOrderList,
-          plateNumber: this.props.plateNumber})
+			this.props._getOrderDetail({orderCode: this.state.deliveryno,
+          orderSource: this.state.orderSource})
 		}, 500);
 
 	}
@@ -134,6 +137,7 @@ class OrderDetail extends BaseComponent {
 		let entry;
 		if (orderDetail) {
 			entry = orderDetail.map((item, index) => {
+				console.log('itme')
 				return (
 					<OrderDetailEntry key={index} {...this.props} orderDetailData={item}/>
 				)
@@ -144,7 +148,7 @@ class OrderDetail extends BaseComponent {
 		return <View style={styles.container}>
 			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
 				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
-				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{this.state.orderStatus}</Text>
+				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{HelperUtils.getTransOrderStatus(this.state.orderStatus)}</Text>
 			</View>
 			<View style={{justifyContent: 'center', alignItems: 'center', height: 44}}>
 				<Text style={{textAlign: 'center', fontSize: 16, color: '#666666', }}>
@@ -256,14 +260,14 @@ class OrderDetail extends BaseComponent {
 										{/*orderDetail.orderNo && orderDetail.entrustType == 1 ?*/}
 											{/*this._rendeFloderItem('我的合同:',()=>{*/}
 												{/*console.log("==== 查看合同");*/}
-												// this.props.navigation.dispatch({
-												// 	type: RouteType.ROUTE_CONTRACT_DETAIL,
-												// 	params: {
-												// 		orderNo: orderDetail.orderNo,
-												// 		contractNo: orderDetail.companyContractNo,
-												// 		title: '合同详情'
-												// 	}
-												// })
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_CONTRACT_DETAIL,*/}
+													{/*params: {*/}
+														{/*orderNo: orderDetail.orderNo,*/}
+														{/*contractNo: orderDetail.companyContractNo,*/}
+														{/*title: '合同详情'*/}
+													{/*}*/}
+												{/*})*/}
 												{/*// this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL,{*/}
 												{/*//*/}
 												{/*//*/}
@@ -795,17 +799,17 @@ class OrderDetail extends BaseComponent {
 
 			{ this._renderUpgrade(this.props) }
 
-				{
-            orderDetail ? <ButtonView dataSource={[
-                {
-                    title: '查看出库单',
-                    callback: () => {
-                        console.log('查看出库单')
-                    }
-                }
-            ]}
-						/> : null
-				}
+				{/*{*/}
+            {/*orderDetail ? <ButtonView dataSource={[*/}
+                {/*{*/}
+                    {/*title: '查看出库单',*/}
+                    {/*callback: () => {*/}
+                        {/*console.log('查看出库单')*/}
+                    {/*}*/}
+                {/*}*/}
+            {/*]}*/}
+						{/*/> : null*/}
+				{/*}*/}
 
 		</View>
 	}
@@ -930,7 +934,7 @@ const mapDispatchToProps = (dispatch) => {
 		_getOrderDetail:(params)=>{
 			startTime = new Date().getTime();
 			dispatch(fetchData({
-				api: API.API_NEW_GET_GOODS_SOURCE,
+				api: API.API_CARRIER_QUERY_TRANSPORT_ORDER_INFO,
 				method: 'POST',
 				showLoading: true,
 				body: params,

@@ -489,12 +489,16 @@ export const API_SET_USER_CAR = `app/uam/addUserCar`;
 export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;
 
 /** ********************承运方运单接口******************************/
-// 订单列表（全部）分页查询调度单
-export const API_NEW_APP_DISPATCH_DOC_WITH_PAGE = `app/transport/queryDeleveryWithPageV4`;
-//车主获取待发运列表--承运商装车列表
-export const API_NEW_APP_DISPATCH_DOC_CARRIER = `app/dpc/queryDispatchDocByStatus`;
-// 运输中--待签收---承运商交付
-export const API_NEW_GET_CARRIER_ORDER_LIST_TRANSPORT = `app/transport/queryCarrierTransportList`;
+// 承运方--全部列表
+export const API_CARRIER_QUERY_TRANSPORTORDERALL = `app/myTransport/queryTransportOrderAll`;
+// 承运方--装车列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_LOADING = `app/myTransport/queryTransportOrderLoading`;
+// 承运方--交付列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_PAY = `app/myTransport/queryTransportOrderPay`;
+// 承运方--已完成列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_FINISH = `app/myTransport/queryTransportOrderFinish`;
+// 承运方--运单详情
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_INFO = `app/myTransport/queryTransportOrderInfo`;
 
 /** ********************电子签章******************/
 //更新个人车主电子签章信息
@@ -503,3 +507,9 @@ export const UPDATE_PERSON_ESIGN_INFO = '/app/esign/updatePersonEsignByCarrierId
 export const UPDATE_COMPANY_ESIGN_INFO = '/app/esign/updateCarrierEsignByCarrierId';
 // 新增企业车主电子签章
 export const NEW_COMPANY_ESIGN_INFO = '/app/esign/registerCarrierEsignByCarrierId';
+
+/** ********************单子信息******************/
+// 查询出库单
+export const API_QUERY_OUT_ORDER_IMG = 'app/transportInfo/queryOutOrderImg';
+// 查询提货单
+export const API_QUERY_RESOURCE_ATTACHMENTINFO = 'app/attachmentRestController/queryResourceAttachmentInfo';

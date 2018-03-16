@@ -28,6 +28,7 @@ import JPushModule from 'jpush-react-native';
 import { NavigationActions } from 'react-navigation';
 // import {ImageCache} from "react-native-img-cache";
 import * as StaticColor from '../../constants/colors';
+import * as RouteType from '../../constants/routeType';
 
 let currentTime = 0;
 let lastTime = 0;
@@ -148,13 +149,17 @@ class setting extends Component {
         // Storage.clear();
         JPushModule.setAlias('', ()=>{}, ()=>{});
 
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'LoginSms'}),
-            ]
-        });
-        this.props.navigation.dispatch(resetAction);
+        // const resetAction = NavigationActions.reset({
+        //     index: 0,
+        //     actions: [
+        //         NavigationActions.navigate({ routeName: 'LoginSms'}),
+        //     ]
+        // });
+        // this.props.navigation.dispatch(resetAction);
+
+
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+
 
     }
 

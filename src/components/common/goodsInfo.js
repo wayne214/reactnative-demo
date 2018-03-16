@@ -47,63 +47,14 @@ class GoodsInfo extends Component{
 	}
 
 	render() {
-		const {configData = {}, shipperPhone, startAddress, endAddress} = this.props
+		const {configData = {}, startAddress, endAddress} = this.props
 		return (
 			<View style={styles.goodsContent}>
 
-				<View style={{paddingHorizontal: 15}}>
-				<AddressItem startAddress={startAddress} endAddress={endAddress}/>
-				</View>
+				{/*<View style={{paddingHorizontal: 15}}>*/}
+				{/*<AddressItem startAddress={startAddress} endAddress={endAddress}/>*/}
+				{/*</View>*/}
 				<View style={styles.goodsInfo}>
-					{
-						shipperPhone ?
-							<View style={styles.goodsDetailItem}>
-								<Text style={styles.goodsInfoIcon}>&#xe60f;</Text>
-								<Text style={styles.goodsDetailMark}>发货人电话：</Text>
-								<View style={{flex: 1}}>
-									<TouchableOpacity onPress={()=>{
-										MakePhoneCall.call(shipperPhone,()=>{
-											Toast.show('当前设备不支持打电话')
-										})
-									}} activeOpacity={0.8}>
-										<View style={styles.contactShipper}>
-											<Text style={{fontFamily: 'iconfont',color:'white'}}>&#xe614;</Text>
-											<Text style={{color: 'white'}}> 拨打电话</Text>
-										</View>
-									</TouchableOpacity>
-								</View>
-							</View>
-						: null
-					}
-					{
-						configData.loadingListStrArr && configData.loadingListStrArr.length > 0 ?
-							<View style={styles.goodsDetailItem}>
-								<Text style={[styles.goodsInfoIcon,{alignSelf:'flex-start'}]}>&#xe637;</Text>
-								<Text style={[styles.goodsDetailMark,{alignSelf:'flex-start'}]}>装货地点：</Text>
-								<View style={{flex: 1}}>
-									{this._loadingListComponent(configData.loadingListStrArr)}
-								</View>
-							</View>
-						: null
-					}
-					{
-						configData.entrustCode ?
-							<View style={styles.goodsDetailItem}>
-								<Text style={styles.goodsInfoIcon}>&#xe62b;</Text>
-								<Text style={styles.goodsDetailMark}>委托编号：</Text>
-								<Text style={styles.goodsDetailContent}>{configData.entrustCode}</Text>
-							</View>
-						: null
-					}
-					{
-						configData.transportCode ?
-							<View style={styles.goodsDetailItem}>
-								<Text style={[styles.goodsInfoIcon,{fontSize: 12}]}>&#xe61f;</Text>
-								<Text style={styles.goodsDetailMark}>运单编号：</Text>
-								<Text style={styles.goodsDetailContent}>{configData.transportCode}</Text>
-							</View>
-						: null
-					}
 					<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>
 
 					<View style={styles.goodsDetailItem}>
@@ -113,42 +64,42 @@ class GoodsInfo extends Component{
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>货物名称：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.goodsName}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.itemName}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>货物规格：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.goodsSpce}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.standard}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>货物单位：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.goodsUnit}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.uom}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>应收：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.arNums}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>发运：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.shipmentNum}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>签收：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.signNum}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>拒签：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.refuseNum}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.denySignNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>拒签原因：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.refuseReason}</Text>
+						<Text style={styles.goodsDetailContent}>{configData.refuseSignReason}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>

@@ -81,7 +81,7 @@ class DispatchCar extends BaseComponent {
     // this._loadMoreAction(1)
 		this.props._getCarList({
         carStatus: "enable",
-        companionPhone: "15801351011" // 承运商手机号
+        companionPhone: global.companyPhone // 承运商手机号
 		})
 	}
 
@@ -122,22 +122,16 @@ class DispatchCar extends BaseComponent {
             carLen: data.carLen, // 车辆长度
             carNo: data.carNum, // 车辆牌号
             carType: this.state.param.carType, // 车辆类型
-            carrierName: "string", //承运商名字
+            carrierName: global.ownerName, //承运商名字
             carryCapacity: data.carryCapacity, // 车辆载重
-            companyCode: "string", // 承运商code
-            companyPhone: "15801351011", // 承运商手机号
+            companyCode: global.companyCode, // 承运商code
+            companyPhone: global.companyPhone, // 承运商手机号
             driverId: "string", // 司机id
             driverName: data.drivers, // 司机姓名
             driverPhone: "string", // 司机手机号
             orderSource: this.state.param.orderSource, // 订单来源： 1.交易中心 2.调度中心
             resourceCode: this.state.param.resourceCode // 货源id
         });
-				// this.props._getResourceState({goodsId},(resourceState)=>{
-				// 	this.props.navigation.dispatch({
-				// 		type: RouteType.ROUTE_TRANSPORT_CONFIRM,
-				// 		params: {goodsId,carId: data.id, title: '承运单确认'}
-				// 	})
-				// })
 			}}
 			rowData={rowData}
 			rowID={ rowID }/>
@@ -168,12 +162,8 @@ class DispatchCar extends BaseComponent {
 		const {freeCarList, user} = this.props
 		console.log(" search key is  ",this._searchKey);
 		this.props._getCarList({
-			searchKey: this._searchKey || '',
-			carrierId: user.userId,
-			pageNo: pageNo || parseInt(freeCarList.get('pageNo')) + 1,
-			carState: 0,//休息中
-			haveDriver: 1,//是否绑定司机 1 绑定  0 全部
-			certificationStatus: 2 //认证状态 0:未认证(默认) 1:认证中 2：已认证 3：认证未通过
+        carStatus: "enable",
+        companionPhone: global.companyPhone // 承运商手机号
 		})
 	}
 
