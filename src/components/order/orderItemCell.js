@@ -146,15 +146,21 @@ class orderItemCell extends Component{
 																	onPress={()=>{
                                       console.log("------ 上传回执单",rowData);
                                       this.props.navigation.dispatch({
-                                          type: RouteType.ROUTE_UPLOAD_IMAGES,
+                                          type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
                                           params: {
-                                              title: '上传回执单',
-                                              entrustType: rowData.entrustType,
-                                              orderNo: rowData.orderNo,
-                                              uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-                                              remark: ''
+                                              transCode: rowData.orderNo
                                           }
-                                      })
+                                      });
+                                      // this.props.navigation.dispatch({
+                                      //     type: RouteType.ROUTE_UPLOAD_IMAGES,
+                                      //     params: {
+                                      //         title: '上传回执单',
+                                      //         entrustType: rowData.entrustType,
+                                      //         orderNo: rowData.orderNo,
+                                      //         uploadType: 'UPLOAD_BILL_BACK_IMAGE',
+                                      //         remark: ''
+                                      //     }
+                                      // })
                                   }}>
 										上传回执单
 									</Button>
