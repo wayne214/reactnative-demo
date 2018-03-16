@@ -163,15 +163,13 @@ class orderItemCell extends Component{
                     rowData.state == '30' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																																								 textStyle={{fontSize: 14,color: '#333333'}}
 																																								 onPress={()=>{
-                                                                                     console.log("------ 上传回执单",rowData);
+                                                                                     console.log("------ 查看提货单",rowData);
                                                                                      this.props.navigation.dispatch({
-                                                                                         type: RouteType.ROUTE_UPLOAD_IMAGES,
+                                                                                         type: RouteType.ROUTE_LADING_BILL,
                                                                                          params: {
-                                                                                             title: '上传回执单',
-                                                                                             entrustType: rowData.entrustType,
-                                                                                             orderNo: rowData.orderNo,
-                                                                                             uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-                                                                                             remark: ''
+                                                                                             title: '提货单',
+                                                                                             orderNoBase: rowData.deliveryno,
+                                                                                             images: []
                                                                                          }
                                                                                      })
                                                                                  }}>

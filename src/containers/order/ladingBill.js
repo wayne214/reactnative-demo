@@ -57,7 +57,12 @@ class LadingBill extends Component {
         Toast.show('订单号为空');
         return;
 		}
-		this.props.getImageList({orderNoBase: this.state.orderNoBase}, this.getImageListCallback)
+		if (this.props.navigation.state.params.title == '出库单') {
+        this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_OUT_ORDER_IMG, this.getImageListCallback)
+    } else {
+        this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_RESOURCE_ATTACHMENTINFO, this.getImageListCallback)
+    }
+
 		// this.props.dispatch(appendLogToFile('查看图片',this.props.navigation.state.params.title,0))
 	}
 	static navigationOptions = ({navigation}) => {
@@ -132,12 +137,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {dispatch,
-		getImageList: (params, callback) => {
+		getImageList: (params, api, callback) => {
         dispatch(fetchData({
             body: params,
             method: 'POST',
             // showLoading: true,
-            api: API.API_QUERY_OUT_ORDER_IMG,
+            api: api,
             success: data => {
                 callback(data);
             },
