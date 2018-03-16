@@ -802,7 +802,7 @@ class mine extends Component {
                                                     type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                                     params:{
                                                         qualifications: this.state.verifiedState,
-                                                        phone: 12356234,//global.phone
+                                                        phone: global.phone,//global.phone
                                                     }
                                                 });
                                             }

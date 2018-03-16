@@ -108,8 +108,7 @@ class enterpriseownerVerifiedState extends Component {
     componentDidMount() {
 
         this.getCurrentPosition();
-        // this.getRealNameDetail(global.phone);
-        this.getRealNameDetail('4231');
+        this.getRealNameDetail(global.phone);
 
         /*
          if (this.props.ownerStatus == '21' || this.props.ownerStatus == '23') {
