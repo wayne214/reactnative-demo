@@ -35,16 +35,8 @@ class ContractDetail extends BaseComponent {
 	  let uri = ''
 	  if (params.isTemplate) {
 	  	uri = CONTRACT_TEMPLATE_URL
-	  }else if (!(params.orderNo && params.contractNo)) {
-	  	console.warn("参数不足 合同详情需要订单编号（orderNo）和合同编号（contractNo）");
-	  	uri = params.uri
-	  } else {
-	  	var a = params.orderNo;
-	  	a = a.split('');
-	  	a.splice(0,2, 'CC');
-	  	let b = a.join('');
-	  	console.log('----aaaa', b);
-	  	// uri = CONTRACT_HEADER + params.orderNo + "/" + b + '.pdf';
+	  }else {
+	  	// uri = params.templateUrl;
 	  	uri = 'http://order-contract-test.oss-cn-beijing.aliyuncs.com/WT180307000006/CC180307000006.pdf';
 		}
 	  this.state = {

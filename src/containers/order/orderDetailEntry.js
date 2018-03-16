@@ -136,8 +136,7 @@ class orderDetailEntry extends BaseComponent {
 							<TouchableOpacity onPress={()=> this.props.navigation.dispatch({
                   type: RouteType.ROUTE_CONTRACT_DETAIL,
                   params: {
-                      orderNo: orderDetailData.orderCode,
-                      contractNo: orderDetailData.orderCode,
+                      templateUrl: orderDetailData.templateUrl,
                       title: '合同详情'
                   }
               })}>
