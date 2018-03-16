@@ -136,8 +136,8 @@ class orderDetailEntry extends BaseComponent {
 							<TouchableOpacity onPress={()=> this.props.navigation.dispatch({
                   type: RouteType.ROUTE_CONTRACT_DETAIL,
                   params: {
-                      // orderNo: orderDetail.orderNo,
-                      // contractNo: orderDetail.companyContractNo,
+                      orderNo: orderDetailData.orderCode,
+                      contractNo: orderDetailData.orderCode,
                       title: '合同详情'
                   }
               })}>
@@ -179,7 +179,7 @@ class orderDetailEntry extends BaseComponent {
                   type: RouteType.ROUTE_LADING_BILL,
                   params: {
                       title: '出库单',
-                      orderNoBase: rowData.orderCode,
+                      orderNoBase: orderDetailData.orderCode,
                       images: []
                   }
               })

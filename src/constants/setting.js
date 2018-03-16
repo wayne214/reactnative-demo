@@ -14,7 +14,7 @@ export const HOST = DEBUG ? 'http://carrier-mproxy-test.xianyiscm.com/' : 'http:
 // export const HOST = DEBUG ? 'http://192.168.33.48:8888/' : 'http://app-api.lenglianmajia.com/';
 
 export const IMG_HOST = DEBUG ? 'http://img-test.lenglianmajia.com/' : 'http://img.lenglianmajia.com/';
-export const CONTRACT_HEADER = DEBUG ? 'http://file-contract-test.lenglianmajia.com' : 'http://file-contract.lenglianmajia.com/';// 合同地址前缀
+export const CONTRACT_HEADER = DEBUG ? 'http://order-contract-test.oss-cn-beijing.aliyuncs.com/' : 'http://file-contract.lenglianmajia.com/';// 合同地址前缀
 export const CODE_HOST = DEBUG ? 'http://app-web-test.lenglianmajia.com/carrier/' : 'http://app-web.lenglianmajia.com/carrier/';
 export const BASE_URL = DEBUG ? 'http://app-web-test.lenglianmajia.com/carrier/' : 'http://app-web.lenglianmajia.com/carrier/';//注册协议、关于我们、发票说明
 
