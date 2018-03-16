@@ -254,8 +254,8 @@ class OrderList extends BaseComponent {
   getDataList(api, pageNum, index) {
     this.props._getTransportOrderList({
         // carrierCode: this.props.carrierCode,
-        // carrierCode: global.companyCode,
-        carrierCode: '1001',
+        carrierCode: global.companyCode,
+        // carrierCode: '1001',
         ctcNum: 0,
         tfcNum: 0,
         // page: pageNum,

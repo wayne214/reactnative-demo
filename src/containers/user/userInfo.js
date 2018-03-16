@@ -35,7 +35,6 @@ class UserInfoContainer extends BaseComponent {
 		const ownerStatus = this.props.ownerStatus;
 		// const currentStatus = this.props.currentStatus;
 		const currentStatus = 'personalOwner';
-debugger
         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
 
@@ -193,7 +192,7 @@ debugger
 							<Text style={ styles.leftText }>手机号码</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.rightText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>
+							<Text style={ styles.rightText }>{ global.phone ? (global.phone.substr(0, 3) + '****' + global.phone.substr(7, 4)) : '' }</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
