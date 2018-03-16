@@ -58,7 +58,7 @@ class LadingBill extends Component {
         return;
 		}
 		if (this.props.navigation.state.params.title == '出库单') {
-        this.props.getImageList({orderNoBase: 'SO180314000003'}, API.API_QUERY_OUT_ORDER_IMG, this.getImageListCallback)
+        this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_OUT_ORDER_IMG, this.getImageListCallback)
     } else {
         this.props.getImageList({orderNoBase: this.state.orderNoBase}, API.API_QUERY_RESOURCE_ATTACHMENTINFO, this.getImageListCallback)
     }
