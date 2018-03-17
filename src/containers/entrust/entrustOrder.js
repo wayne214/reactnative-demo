@@ -333,7 +333,7 @@ const mapDispatchToProps = (dispatch) => {
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 1
-					data.pageNo = params.ctcNum
+					data.pageNo = params.ctcNum + 1
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
 				},
