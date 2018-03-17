@@ -10,7 +10,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import Button from '../../components/common/button';
 import * as RouteType from '../../constants/routeType';
 import AddressHandler from '../../utils/address';
-import Picker from 'react-native-picker';
+import Picker from 'react-native-picker-custom';
 import { EDIT_ROUTE } from '../../constants/api';
 import { fetchData } from '../../action/app';
 import Toast from '../../utils/toast';

@@ -6,7 +6,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Picker from 'react-native-picker';
+import Picker from 'react-native-picker-custom';
 const { width, height } = Dimensions.get('window')
 
 class CommonPicker extends Component {

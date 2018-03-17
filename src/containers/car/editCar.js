@@ -18,7 +18,7 @@ import styles from '../../../assets/css/car';
 import Button from '../../components/common/button';
 import SimplePicker from '../../components/common/picker';
 import { CAR_TYPE, CAR_CATEGORY, CAR_VEHICLE } from '../../constants/json';
-import Picker from 'react-native-picker';
+import Picker from 'react-native-picker-custom';
 import DateHandler from '../../utils/dateHandler';
 import { GET_CAR_INFO ,EDIT_CAR_INFO,CERTIFICATION_CAR_INFO,UPDATE_GCAR } from '../../constants/api';
 import { fetchData,updateOSSConfig,clearImageSource } from '../../action/app';
