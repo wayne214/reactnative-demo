@@ -59,6 +59,10 @@
         android:value="${APP_CHANNEL}" />
 
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="${MAP_APP_KEY}" />
+
       <service android:name=".LogService" android:enabled="true" android:label="logService" />
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <service android:name="com.amap.api.location.APSService"/>
