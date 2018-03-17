@@ -63,7 +63,7 @@ class verifiedDriverItem extends Component{
     }
     render() {
         const {resultInfo} = this.props;
-
+//.replace(/-/g,'/')
         return (
             <View style={styles.container}>
 
@@ -105,7 +105,7 @@ class verifiedDriverItem extends Component{
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.drivingValidity.replace(/-/g,'/') : ''}
+                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.drivingValidity : ''}
                     </Text>
 
                 </View>

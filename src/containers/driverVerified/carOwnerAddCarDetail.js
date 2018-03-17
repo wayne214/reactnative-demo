@@ -106,8 +106,7 @@ class certificationState extends Component{
 
         this.getCurrentPosition();
 
-        // this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
-        this.getVerifiedDetail('15534343431', '豫A23090');
+        this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
 
     }
     getDetailSuccessCallBack(result){

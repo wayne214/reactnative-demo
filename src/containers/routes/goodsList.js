@@ -85,7 +85,7 @@ import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 let startTime = 0;
 let page = 0;
-let goodArray = ['占位符','1','2','3'];
+let goodArray = ['占位符'];
 
 class GoodsList extends Component {
   constructor(props) {

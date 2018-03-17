@@ -82,7 +82,6 @@ class carOwnerVerifiedMsgCode extends Component {
     }
 
     sendVCodeCallback(shouldStartCountting) {
-        debugger
         shouldStartCountting(true);
     }
     sendFailCallback(shouldStartCountting) {

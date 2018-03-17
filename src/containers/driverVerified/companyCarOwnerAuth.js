@@ -612,9 +612,9 @@ class companyCarOwnerAuth extends Component {
 
         //     个人            企业
         let upLoadInfo = {
-            userId: '12322',//userID,
-            userName: 'asdf',//userName,
-            busTel: '4231',//userPhone,
+            userId: userID,//userID,
+            userName: userName,//userName,
+            busTel: userPhone,//userPhone,
             companyNature: '企业', // 伙伴性质
 
             businessLicence: this.state.businessLicence, // 营业执照图片原图地址

@@ -1293,12 +1293,12 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = DF7D3DZVHK;
+						DevelopmentTeam = 6SAK22F6U5;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = DF7D3DZVHK;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 6SAK22F6U5;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1822,7 +1822,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=/Users/kaisun/develop/node-v9.4.0-darwin-x64/bin/node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1939,7 +1939,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = 6SAK22F6U5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1987,7 +1987,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = 6SAK22F6U5;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
@@ -2035,10 +2035,10 @@
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = 6SAK22F6U5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2076,8 +2076,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xescm.driverAPP;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "d444be99-086b-4f98-94b1-131d4ea197e2";
+				PROVISIONING_PROFILE_SPECIFIER = "driverAPP-dev-profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2089,10 +2089,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = 6SAK22F6U5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2130,8 +2130,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xescm.driverAPP;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "26e3f611-ccbb-404f-b585-6e725c0ea874";
+				PROVISIONING_PROFILE_SPECIFIER = "driverAPP-pro-profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2343,9 +2343,9 @@
 				CODE_SIGN_ENTITLEMENTS = carrier/carrier.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengzhou Jinsemajia  Electronic Commerce Co.,Ltd (DF7D3DZVHK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2394,7 +2394,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = DF7D3DZVHK;
+				DEVELOPMENT_TEAM = 6SAK22F6U5;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",

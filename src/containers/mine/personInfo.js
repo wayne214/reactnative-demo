@@ -221,7 +221,7 @@ class PersonInfo extends Component {
             if (global.phone) {
                 currentTime = new Date().getTime();
                 this.props.getPersonInfo({
-                    phoneNum: '15609898909' // this.state.phone
+                    phoneNum: this.state.phone // this.state.phone
                 }, getPersonInfoSuccessCallback, getPersonInfoFailCallback);
             }
 

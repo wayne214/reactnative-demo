@@ -105,8 +105,7 @@ class personownerVerifiedState extends Component{
     componentDidMount() {
 
         this.getCurrentPosition();
-        // this.getRealNameDetail(global.phone);
-        this.getRealNameDetail('12345111');
+        this.getRealNameDetail(global.phone);
 
         /*
         if (this.props.ownerStatus == '11' || this.props.ownerStatus == '13') {

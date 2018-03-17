@@ -864,10 +864,10 @@ class Verified extends Component {
             idNum: this.state.IDCard,
             idValidUntil: date,
             motorcycleType: this.state.motorcycleType,
-            phoneNum: '12356234111',//userPhone
-            userId: '12376543111',//userID
-            userName: 'qwer111',//this.state.IDName
-            companyPhone: '12356234111',//userPhone
+            phoneNum: userPhone,//userPhone
+            userId: userID,//userID
+            userName: this.state.IDName,//this.state.IDName
+            companyPhone: userPhone,//userPhone
 
             // 默认
             idCardNameRecognition: this.state.idCardNameRecognition, //识别身份证姓名
