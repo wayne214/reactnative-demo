@@ -8,7 +8,8 @@ import {
 	StyleSheet,
 	ListView,
 	Image,
-	Dimensions
+	Dimensions,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
@@ -36,10 +37,15 @@ class EntrustOrderList extends BaseComponent {
 	  }
 	}
 	componentDidMount() {
-		super.componentDidMount()
+		super.componentDidMount();
+      this.refreshListener = DeviceEventEmitter.addListener('reloadDispatchList', () => {
+          this._refreshList(true);
+      });
 		this._refreshList(true)
 	}
-
+    componentWillUnmount() {
+        this.refreshListener.remove();
+    }
 	_refreshList(showLoading){
 	  const {user, _getEntrustOrderList,_getEntrustOrderUndispatch} = this.props
 	  const {activeTab} = this.state
