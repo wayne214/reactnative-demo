@@ -100,6 +100,7 @@ android {
         targetSdkVersion 23
         versionCode 17
         versionName "1.7.0"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -107,6 +108,9 @@ android {
             JPUSH_APPKEY: "fca499d00bccff3bcf99906b", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
             APP_CHANNEL: "Android_CHANNEL"    //应用渠道号
         ]
+    }
+    dexOptions {
+        jumboMode true
     }
 
     sourceSets {
@@ -192,9 +196,17 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-camera')
+    compile (project(':react-native-camera')) {
+        exclude group: "com.google.android.gms"
+        compile 'com.android.support:exifinterface:27.+'
+    }
+    compile ("com.google.android.gms:play-services-vision:10.2.0") {
+        force = true;
+    }
+    compile project(':react-native-toast')
+    compile project(':jcore-react-native')
+    compile project(':jpush-react-native')
     compile project(':react-native-baidu-map-xzx')
-    compile project(':@remobile/react-native-toast')
     compile project(':react-native-picker-custom')
     compile project(':react-native-image-picker')
     compile project(':react-native-splash-screen')
