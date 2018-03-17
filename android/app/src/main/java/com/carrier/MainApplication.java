@@ -3,6 +3,7 @@ package com.carrier;
 import android.app.Application;
 import android.content.Intent;
 
+import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactApplication;
 import org.reactnative.camera.RNCameraPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
