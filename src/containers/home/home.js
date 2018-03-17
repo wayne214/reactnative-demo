@@ -629,7 +629,10 @@ class Home extends Component {
                         })
                     } else {
                         this.props.setOwnerCharacterAction('13');
-                        this.props.navigation.navigate('PersonownerVerifiedStatePage');
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                        });
+                        // this.props.navigation.navigate('PersonownerVerifiedStatePage');
                         this.setState({
                             show: false,
                         })
@@ -664,7 +667,10 @@ class Home extends Component {
                             })
                         } else {
                             this.props.setOwnerCharacterAction('23');
-                            this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                            });
+                            // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
                             this.setState({
                                 show: false,
                             })
@@ -720,24 +726,42 @@ class Home extends Component {
                 if (result.certificationStatus == '1203') {
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                         if (value) {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                resultInfo: value,
-                                commitSuccess: () => {
-                                    this.setState({
-                                        bubbleSwitch: false,
-                                        show: false,
-                                    })
-                                }
+                            this.props.navigation.dispatch({
+                               type: RouteType.ROUTE_DRIVER_VERIFIED,
+                               params: {resultInfo: value, commitSuccess: () => {
+                                   this.setState({
+                                       bubbleSwitch: false,
+                                       show: false,
+                                   })
+                               }}
                             });
+                            // this.props.navigation.navigate('VerifiedPage', {
+                            //     resultInfo: value,
+                            //     commitSuccess: () => {
+                            //         this.setState({
+                            //             bubbleSwitch: false,
+                            //             show: false,
+                            //         })
+                            //     }
+                            // });
                         } else {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                commitSuccess: () => {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                params: { commitSuccess: () => {
                                     this.setState({
                                         bubbleSwitch: false,
                                         show: false,
                                     })
-                                }
+                                }}
                             });
+                            // this.props.navigation.navigate('VerifiedPage', {
+                            //     commitSuccess: () => {
+                            //         this.setState({
+                            //             bubbleSwitch: false,
+                            //             show: false,
+                            //         })
+                            //     }
+                            // });
                         }
                     });
 
@@ -755,14 +779,23 @@ class Home extends Component {
                 }
             }
         } else {
-            this.props.navigation.navigate('VerifiedPage', {
-                commitSuccess: () => {
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                params: { commitSuccess: () => {
                     this.setState({
                         bubbleSwitch: false,
                         show: false,
                     })
-                }
+                }}
             });
+            // this.props.navigation.navigate('VerifiedPage', {
+            //     commitSuccess: () => {
+            //         this.setState({
+            //             bubbleSwitch: false,
+            //             show: false,
+            //         })
+            //     }
+            // });
         }
     }
 

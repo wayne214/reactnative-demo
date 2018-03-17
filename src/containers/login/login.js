@@ -442,6 +442,9 @@ function mapDispatchToProps(dispatch) {
                 success: data => {
                     successCallback(data);
                 },
+                fail: (error) => {
+                    Toast.show(error.message);
+                }
             }))
         },
         login: (params, successCallback) => {
@@ -454,6 +457,9 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                     dispatch(loadUser(data));
                 },
+                fail: (error) => {
+                    Toast.show(error.message);
+                }
             }))
         },
         quaryAccountRole: (params, successCallback) => {

@@ -542,6 +542,7 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('-------error', error);
+                    Toast.show(error.message);
                 }
             }))
         },
