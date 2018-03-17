@@ -7,7 +7,6 @@ import com.facebook.react.ReactApplication;
 import org.reactnative.camera.RNCameraPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.beefe.picker.PickerViewPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rnfs.RNFSPackage;
@@ -56,7 +55,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCameraPackage(),
               new BaiduMapPackage(getApplicationContext()),
             new RCTToastPackage(),
-            new PickerViewPackage(),
             new ImagePickerPackage(),
             new SplashScreenReactPackage(),
             new RNDeviceInfo(),
