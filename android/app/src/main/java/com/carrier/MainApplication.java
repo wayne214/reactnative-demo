@@ -16,7 +16,6 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.wonday.pdf.RCTPdfView;
-import com.beefe.picker.PickerViewPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -56,7 +55,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCameraPackage(),
               new BaiduMapPackage(getApplicationContext()),
             new RCTToastPackage(),
-            new PickerViewPackage(),
             new ImagePickerPackage(),
             new SplashScreenReactPackage(),
             new RNDeviceInfo(),

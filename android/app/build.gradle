@@ -217,7 +217,6 @@ dependencies {
     compile project(':react-native-code-push')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-pdf')
-    compile project(':react-native-picker')
     compile project(':react-native-photo-view')
     compile project(':react-native-image-crop-picker')
 //    compile fileTree(dir: "libs", include: ["*.jar"])
