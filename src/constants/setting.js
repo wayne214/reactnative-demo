@@ -48,6 +48,6 @@ export const WEB_SOCKET = DEBUG ? 'ws://mproxy-test.xianyiscm.com/' : 'ws://mpro
 // 货主
 // http://file-test.lenglianmajia.com/contract_template/template_goods.pdf
 
-export const HTTP_TIMEOUT = 10 * 1000
+export const HTTP_TIMEOUT = 30 * 1000
 
 export const PHOTOREFNO = 'photoRefNo';
