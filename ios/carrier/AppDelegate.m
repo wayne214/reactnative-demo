@@ -27,7 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-  [RCTBaiduMapViewManager initSDK:@"YQTDK3RGAXnoGrLfFqyYLyPxcMft4LHn"];
+  [RCTBaiduMapViewManager initSDK:@"lzH6ZOm35DQgShIXo2Z8RWoNeK8hsqdu"];
 
 #ifdef DEBUG
   // 测试环境

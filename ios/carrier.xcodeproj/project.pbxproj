@@ -2074,9 +2074,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xescm.driverAPP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "d444be99-086b-4f98-94b1-131d4ea197e2";
+				PROVISIONING_PROFILE = "3d0b03cb-5c2e-41fb-bf80-4728894e50d9";
 				PROVISIONING_PROFILE_SPECIFIER = "driverAPP-dev-profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2128,7 +2128,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xescm.driverAPP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
 				PROVISIONING_PROFILE = "26e3f611-ccbb-404f-b585-6e725c0ea874";
 				PROVISIONING_PROFILE_SPECIFIER = "driverAPP-pro-profile";
@@ -2381,7 +2381,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xescm.driverAPP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

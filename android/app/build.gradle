@@ -163,6 +163,7 @@ android {
 //            buildConfigField "String", "CODEPUSH_KEY", '"mJoOxuPYFFQMYbcePHq7686SniSF118907b3-0f39-4b62-b03d-f9737ab02817"'
             buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            manifestPlaceholders = [MAP_APP_KEY: "iRXVvkHfKqOpWwofE3kHsLWnlQF0RaAw"]
         }
         debug {
             applicationIdSuffix ".debug"
@@ -170,6 +171,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             buildConfigField "String", "CODEPUSH_KEY", '""'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            manifestPlaceholders = [MAP_APP_KEY: "fL4Dr2UQfVU1ZqRHkvZxyOePNMcAMGq9"]
         }
     }
     // applicationVariants are e.g. debug, release
