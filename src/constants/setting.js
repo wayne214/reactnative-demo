@@ -32,7 +32,7 @@ export const OSS_ADD_DRIVER = 'driver_license';
 export const OSS_ADD_CAR = 'car';
 
 
-export const CONTRACT_TEMPLATE_URL = DEBUG ? 'http://file-test.lenglianmajia.com/contract_template/template_carrier.pdf' : 'http://file.lenglianmajia.com/contract_template/template_carrier.pdf'
+export const CONTRACT_TEMPLATE_URL = DEBUG ? 'http://paas-web-test.xianyiscm.com/inf/template_carrier.pdf' : 'http://file.lenglianmajia.com/contract_template/template_carrier.pdf'
 
 // export const XYT_HOST = DEBUG ? 'http://mproxy-beta.xianyiscm.com/' : 'http://mproxy.xianyiscm.com/';
 export const XYT_HOST = DEBUG ? 'http://mproxy-test.xianyiscm.com/' : 'http://mproxy.xianyiscm.com/';
