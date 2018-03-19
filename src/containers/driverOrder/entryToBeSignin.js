@@ -25,6 +25,7 @@ import * as StaticColor from '../../constants/colors';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 let userID = '';
 let userName = '';
@@ -194,8 +195,9 @@ class entryToBeSignin extends Component {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '签收页面');
-        // DeviceEventEmitter.emit('changeToWaitSign');
-        this.props.navigation.goBack();
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(2);
+        this.props.navigation.dispatch({type: 'pop'});
     }
 
     // 获取数据失败回调
@@ -531,7 +533,10 @@ function mapDispatchToProps(dispatch) {
                     console.log('???', error);
                 }
             }))
-        }
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
     };
 }
 
