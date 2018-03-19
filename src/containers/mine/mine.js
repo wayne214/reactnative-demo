@@ -606,7 +606,7 @@ class mine extends Component {
                 <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}} >
                 <View style={styles.titleContainer}>
                     {
-                        this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
+                        this.props.currentStatus == 'driver' && this.state.verifiedState == '1202' ? <View style={styles.subTitleContainer}>
                             <TouchableOpacity onPress={()=> {
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_CHOOSE_CAR,
@@ -701,7 +701,7 @@ class mine extends Component {
                                         backgroundColor: 'transparent',
                                         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
                                         fontSize: 17
-                                    }}>{Validator.newPhone('13321218414')}</Text>
+                                    }}>{Validator.newPhone(global.phone)}</Text>
                             }
 
                         </View>
@@ -779,7 +779,7 @@ class mine extends Component {
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
-                                        showCertificatesOverdue={true}
+                                        showCertificatesOverdue={false}
                                         showBottomLine={false}
                                         clickAction={() => {
                                             if (this.state.verifiedState == '1200') {

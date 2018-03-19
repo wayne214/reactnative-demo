@@ -8,7 +8,8 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    Modal
+    Modal,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -63,6 +64,7 @@ class goodListDetail extends Component {
 
     // 抢单成功
     sendOrderSuccess(){
+        DeviceEventEmitter.emit('resetCarrierGoods');
         this.props.navigation.dispatch({type: 'pop'})
     }
     _showPickerView(type){
@@ -204,9 +206,9 @@ class goodListDetail extends Component {
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
                         <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
-                                     beginTime={this.state.result.loadingStartTime}
-                                     endTime={this.state.result.loadingEndTime}
-                                     hot={this.state.result.temperatureMin+ '- ' + this.state.result.temperatureMax}
+                                     beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
+                                     endTime={this.state.result.loadingEndTime ? this.state.result.loadingEndTime : ''}
+                                     hot={this.state.result.temperatureMin && this.state.result.temperatureMax ? this.state.result.temperatureMin+ '- ' + this.state.result.temperatureMax : null}
                                      remark={this.state.result.remark || ''}
                         />
                     </View>

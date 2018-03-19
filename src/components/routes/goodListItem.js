@@ -88,12 +88,14 @@ class goodListItem extends Component{
                                 <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
                                     <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
                                 </View>
-                                <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                    <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF',paddingHorizontal: 4}}>
-                                        {needDetail}
+                                {
+                                    needDetail !== '' && <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
+                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF',paddingHorizontal: 4}}>
+                                            {needDetail}
 
-                                    </Text>
-                                </View>
+                                        </Text>
+                                    </View>
+                                }
                             </View>
                         </View>
                     </View>
@@ -112,14 +114,28 @@ class goodListItem extends Component{
 
                 </View>
                 <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
-
-                <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
-                    <View style={{padding: 10,backgroundColor: '#0092FF'}}>
-                        <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                           我要抢单
-                        </Text>
+                {
+                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
+                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                我的报价{item.carrierPrice}
+                            </Text>
+                        </View>
+                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
+                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                我要抢单
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                }
+                {/*<View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>*/}
+                    {/*<View style={{padding: 10,backgroundColor: '#0092FF'}}>*/}
+                        {/*<Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>*/}
+                           {/*我要抢单*/}
+                        {/*</Text>*/}
+                    {/*</View>*/}
+                {/*</View>*/}
 
             </TouchableOpacity>
         )
