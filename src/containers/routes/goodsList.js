@@ -264,13 +264,15 @@ class GoodsList extends Component {
                                 return;
 
                             case '12' || '22':
-                                this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_GOOD_LIST_DETAIL,
-                                         params: {
-                                             goodID: item.item.resourceCode,
-                                             type: '2'
-                                         }
-                                })
+                                if (!item.carrierPrice) {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                                        params: {
+                                            goodID: item.item.resourceCode,
+                                            type: '2'
+                                        }
+                                    })
+                                }
                                 break
                             default:
                                 break

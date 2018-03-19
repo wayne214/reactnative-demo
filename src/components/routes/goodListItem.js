@@ -114,14 +114,28 @@ class goodListItem extends Component{
 
                 </View>
                 <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
-
-                <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
-                    <View style={{padding: 10,backgroundColor: '#0092FF'}}>
-                        <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                           我要抢单
-                        </Text>
+                {
+                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
+                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                我的报价{item.carrierPrice}
+                            </Text>
+                        </View>
+                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
+                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                我要抢单
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                }
+                {/*<View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>*/}
+                    {/*<View style={{padding: 10,backgroundColor: '#0092FF'}}>*/}
+                        {/*<Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>*/}
+                           {/*我要抢单*/}
+                        {/*</Text>*/}
+                    {/*</View>*/}
+                {/*</View>*/}
 
             </TouchableOpacity>
         )
