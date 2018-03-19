@@ -388,6 +388,7 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: data => {
                     shouldStartCountting(false);
+                    Toast.showShortCenter(data.message);
                 }
             }))
         },
@@ -401,7 +402,7 @@ function mapDispatchToProps(dispatch) {
                     Toast.showShortCenter('注册成功');
                 },
                 fail: data => {
-
+                    Toast.showShortCenter(data.message);
                 }
             }))
         }
