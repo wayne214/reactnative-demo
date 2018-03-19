@@ -140,7 +140,8 @@ class MainContainer extends BaseComponent {
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.props._getCityOfCountry();
+    // TODO 获取城市列表
+    // this.props._getCityOfCountry();
     const value = await Storage.get('float')
     if (value && value * 1 === 1 && this.props.user.userId) {
       // show float dialog
