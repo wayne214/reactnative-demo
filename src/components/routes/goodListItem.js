@@ -88,12 +88,14 @@ class goodListItem extends Component{
                                 <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
                                     <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
                                 </View>
-                                <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                    <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF',paddingHorizontal: 4}}>
-                                        {needDetail}
+                                {
+                                    needDetail !== '' && <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
+                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF',paddingHorizontal: 4}}>
+                                            {needDetail}
 
-                                    </Text>
-                                </View>
+                                        </Text>
+                                    </View>
+                                }
                             </View>
                         </View>
                     </View>

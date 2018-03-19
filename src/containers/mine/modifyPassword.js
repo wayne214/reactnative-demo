@@ -19,7 +19,7 @@ import Toast from '../../utils/toast';
 import XeEncrypt from '../../utils/XeEncrypt';
 import * as API from '../../constants/api';
 import {clearUser} from "../../action/user";
-import { ROUTE_LOGIN } from '../../constants/routeType'
+import { ROUTE_LOGIN_WITH_PWD_PAGE } from '../../constants/routeType'
 
 
 
@@ -119,7 +119,8 @@ class ModifyPassword extends React.Component {
             Toast.show('恭喜，密码修改成功');
             this.props._clearUserInfo();
             console.log('this.props.navigation',this.props.routes);
-            this.props.navigation.dispatch({type: 'push', routeName: ROUTE_LOGIN})
+            this.props.navigation.dispatch({ type: ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+
         }
     }
     changePSD(secretOldPWD, secretNewPWD) {
@@ -128,7 +129,7 @@ class ModifyPassword extends React.Component {
             newPassword: secretNewPWD,
             oldPassword: secretOldPWD,
             userId: global.userId,
-        }, this.changePwdSuccback());
+        }, this.changePwdSuccback);
     }
 
     /*获取密码秘钥*/
@@ -264,6 +265,7 @@ const mapDispatchToProps = dispatch => {
                 },
                 fail: error => {
                     console.log('-------error', error);
+                    Toast.show(error.message);
                 }
             }))
         },
