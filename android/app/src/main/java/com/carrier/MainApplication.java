@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactApplication;
+import com.remobile.toast.RCTToastPackage;
+import org.reactnative.camera.RNCameraPackage;
 import org.reactnative.camera.RNCameraPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
 import com.remobile.toast.RCTToastPackage;
@@ -52,6 +54,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTToastPackage(),
+            new RNCameraPackage(),
             new RNCameraPackage(),
               new BaiduMapPackage(getApplicationContext()),
             new RCTToastPackage(),
