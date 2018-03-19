@@ -779,7 +779,7 @@ class mine extends Component {
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
-                                        showCertificatesOverdue={true}
+                                        showCertificatesOverdue={false}
                                         showBottomLine={false}
                                         clickAction={() => {
                                             if (this.state.verifiedState == '1200') {
