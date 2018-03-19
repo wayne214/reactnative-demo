@@ -73,6 +73,7 @@ class arrangeDriverList extends Component {
     // 安排车辆
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
+        const api = para.orderStatus == '65' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
         this.props._disPatchCar({
             carId: driverOption.carId, // 车辆id
             carLen: driverOption.carLen, // 车辆长度
@@ -87,7 +88,7 @@ class arrangeDriverList extends Component {
             driverPhone: driver.driverPhone, // 司机手机号
             orderSource: 1, // 订单来源： 1.交易中心 2.调度中心
             resourceCode: para.resourceCode // 货源id
-        }, callback);
+        }, callback, api);
     }
 
     renderListEmpty() {
@@ -170,9 +171,9 @@ function mapDispatchToProps (dispatch){
                 }
             }))
         },
-        _disPatchCar:(params, callback)=>{
+        _disPatchCar:(params, callback, api)=>{
             dispatch(fetchData({
-                api: API.DISPATCH_CAR,
+                api: api,
                 method: 'POST',
                 body: params,
                 success: (data)=>{
