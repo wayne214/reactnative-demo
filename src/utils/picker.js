@@ -6,10 +6,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 // import Picker from 'react-native-picker';
-=======
->>>>>>> 12f63478e683251b730f8b097fa55d3193095e02
 import Picker from 'react-native-picker-custom';
 const { width, height } = Dimensions.get('window')
 

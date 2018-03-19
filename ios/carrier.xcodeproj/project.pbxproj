@@ -85,6 +85,7 @@
 		B00E49E6205D10B900FFE5E8 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B00E49E4205D0EAC00FFE5E8 /* libRCTJPushModule.a */; };
 		B075E911205D493B0031D019 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35063809205CF8000049C50D /* libRNCamera.a */; };
 		C1E8C94CD04A4889898CEE06 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0E54D23FCE48A99869C0CF /* libRCTToast.a */; };
+		C61F49F6205FA21B00854E5C /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B00E49BD205D068400FFE5E8 /* libRCTBEEPickerManager.a */; };
 		C670F8522044065100EEF395 /* PermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C670F8502044065000EEF395 /* PermissionsManager.m */; };
 		C670F8542044067400EEF395 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C670F8532044067400EEF395 /* AVFoundation.framework */; };
 		C670F8562044067B00EEF395 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C670F8552044067B00EEF395 /* AssetsLibrary.framework */; };
@@ -621,6 +622,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C61F49F6205FA21B00854E5C /* libRCTBEEPickerManager.a in Frameworks */,
 				B075E911205D493B0031D019 /* libRNCamera.a in Frameworks */,
 				B00E49E6205D10B900FFE5E8 /* libRCTJPushModule.a in Frameworks */,
 				C670F8B12044112A00EEF395 /* libRCTBaiduMap.a in Frameworks */,
