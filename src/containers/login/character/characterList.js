@@ -30,6 +30,7 @@ import {
     setDriverCharacterAction,
     setOwnerCharacterAction,
 } from '../../../action/user';
+import * as RouteType from "../../../constants/routeType";
 
 const {width, height} = Dimensions.get('window');
 
@@ -114,17 +115,18 @@ class CharacterList extends Component {
                                     },
                                     {
                                         text: '确认', onPress: () => {
-                                            //this.props.setDriverCharacterAction('1');
-                                            // this.props.navigation.navigate('Main');
                                             Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                                                 if (value) {
-                                                    navigator.navigate('VerifiedPage', {
-                                                        resultInfo: value,
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                        params: {
+                                                            resultInfo: value,
+                                                        }
                                                     });
                                                 } else {
-                                                    navigator.navigate('VerifiedPage');
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
                                                 }
-                                            });
+                                            })
                                         }
                                     },
                                 ]
@@ -144,14 +146,16 @@ class CharacterList extends Component {
                                         }},
                                     {
                                         text: '确认', onPress: () => {
-                                            //this.props.setOwnerCharacterAction('11');
                                             Storage.get(StorageKey.personownerInfoResult).then((value) => {
                                                 if (value) {
-                                                    navigator.navigate('PersonCarOwnerAuth', {
-                                                        resultInfo: value,
-                                                    });
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                                        params: {
+                                                            resultInfo: value,
+                                                        }}
+                                                    )
                                                 } else {
-                                                    navigator.navigate('PersonCarOwnerAuth');
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
                                                 }
                                             });
                                         }
@@ -173,14 +177,16 @@ class CharacterList extends Component {
                                 },
                                     {
                                         text: '确认', onPress: () => {
-                                            //this.props.setOwnerCharacterAction('21');
                                             Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
                                                 if (value) {
-                                                    navigator.navigate('CompanyCarOwnerAuth', {
-                                                        resultInfo: value,
-                                                    });
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                                        params: {
+                                                            resultInfo: value,
+                                                        }}
+                                                    )
                                                 } else {
-                                                    navigator.navigate('CompanyCarOwnerAuth');
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
                                                 }
                                             });
                                         }

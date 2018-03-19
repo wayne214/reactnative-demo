@@ -701,7 +701,7 @@ class mine extends Component {
                                         }
                                         if (this.state.verifiedState == '1202') {
                                             this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
-                                                phone: '15801461058',
+                                                phone: global.phone,
                                             } })
                                         }
                                         if (this.state.verifiedState == '1201') {

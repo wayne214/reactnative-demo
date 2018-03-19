@@ -21,6 +21,7 @@ import PersonalOwner from '../../../../assets/img/character/personalOwner.png';
 /*角色-企业车主*/
 import BusinessOwners from '../../../../assets/img/character/businessOwners.png';
 import NavigatorBar from '../../../components/common/navigatorbar';
+import * as RouteType from "../../../constants/routeType";
 
 const {width, height} = Dimensions.get('window');
 
@@ -65,14 +66,17 @@ class CharacterOwner extends Component {
                         onClick={() => {
                             console.log('选择个人车主')
                             Storage.get(StorageKey.personownerInfoResult).then((value) => {
-                                                if (value){
-                                                    navigator.navigate('PersonCarOwnerAuth', {
-                                                        resultInfo: value,
-                                                    });
-                                                }else {
-                                                   navigator.navigate('PersonCarOwnerAuth');
-                                                }
-                                            });
+                                if (value) {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                        params: {
+                                            resultInfo: value,
+                                        }}
+                                    )
+                                } else {
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                                }
+                            });
                         }}
                     />
 
@@ -83,14 +87,17 @@ class CharacterOwner extends Component {
                             console.log('选择企业车主')
 
                             Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
-                                                if (value){
-                                                    navigator.navigate('CompanyCarOwnerAuth', {
-                                                        resultInfo: value,
-                                                    });
-                                                }else {
-                                                   navigator.navigate('CompanyCarOwnerAuth');
-                                                }
-                                            });
+                                if (value) {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                        params: {
+                                            resultInfo: value,
+                                        }}
+                                    )
+                                } else {
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                                }
+                            });
                         }}
                     />
 
