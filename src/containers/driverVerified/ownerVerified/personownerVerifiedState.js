@@ -241,13 +241,13 @@ class personownerVerifiedState extends Component{
 
             if (value){
                 this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                    type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
                     params: {resultInfo: value}
                 })
 
             }else {
                 this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                    type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
                 })
             }
         });
