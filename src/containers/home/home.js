@@ -478,7 +478,7 @@ class Home extends Component {
     }
 
     getWeather(city) {
-        this.props.getWeather({city: city});
+        this.props.getWeather({city: '北京市'});
     }
 
     vehicleLimit(cityName) {

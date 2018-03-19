@@ -168,7 +168,19 @@ class goodListDetail extends Component {
                     goodName+=goods.typeName+','
             }) : null;
 
+        let qiuS = '';
+        if (!this.state.result.carLength && !this.state.result.carType) {
+        }else {
+            qiuS = '   求 ' + (this.state.result.carLength || '') + ' ' + (this.state.result.carType || '')
+        }
+
+        let fromAddress = this.state.result.fromProvinceName + this.state.result.fromCityName + this.state.result.fromAreaName + this.state.result.fromAddress;
+        let endAddress = this.state.result.toProvinceName + this.state.result.toCityName + this.state.result.toAreaName + this.state.result.toAddress;
+
         return (
+
+
+
             <View style={styles.container}>
                 <NavigatorBar
                     title='货源详情'
@@ -179,7 +191,8 @@ class goodListDetail extends Component {
 
                     <ItemTop price={this.state.result.configFreight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
-                        <AddressItem startAddress={this.state.result.fromAddress} endAddress={this.state.result.toAddress}/>
+                        <AddressItem startAddress={fromAddress}
+                                     endAddress={endAddress}/>
                     </View>
 
                     {
@@ -190,10 +203,10 @@ class goodListDetail extends Component {
 
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
                         <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
-                        '   求 ' + (this.state.result.carLength || '') + ' ' + (this.state.result.carType || '')}
+                        '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime}
                                      endTime={this.state.result.loadingEndTime}
-                                     hot={this.state.result.temperatureMin + '° ' + '至 ' + this.state.result.temperatureMax + '°'}
+                                     hot={this.state.result.temperatureMin+ '- ' + this.state.result.temperatureMax}
                                      remark={this.state.result.remark || ''}
                         />
                     </View>
@@ -228,6 +241,11 @@ class goodListDetail extends Component {
                                               return
                                           }
 
+                                          if (parseInt(this.state.money) < parseInt(this.state.result.configFreight)){
+                                              Toast.showShortCenter('报价金额不能少于标准运费');
+
+                                              return;
+                                          }
                                           this.props.sendOrder({
                                               biddingPrice: this.state.money,
                                               carrierId: global.companyCode, // 承运商code

@@ -17,7 +17,8 @@ import Toast from '@remobile/react-native-toast';
 
 class LoginCharacter {
 
-    setCharacter(props, result) {
+    setCharacter(props, result, type) {
+
         console.log("------账号角色信息:", result);
         if (result) {
             if (result.length == 0) {
@@ -131,7 +132,7 @@ class LoginCharacter {
                     }
 
                     if (result[1].status == 10) {
-                        props.saveCompanyInfoAction(result);
+                        props.saveCompanyInfoAction(result[1]);
                         if (result[0].companyNature == '个人') {
                             props.setCurrentCharacterAction('personalOwner');
                             props.setOwnerNameAction(result[0].name);
@@ -212,11 +213,20 @@ class LoginCharacter {
                 }
             }
 
-            props.navigation.dispatch({
-                type: 'Main',
-                mode: 'reset',
-                params: {title: '', currentTab: 'route', insiteNotice: '123'}
-            })
+            if (type === 'main'){
+                // props.navigation.dispatch({
+                //     type: 'Home',
+                //     mode: 'reset',
+                //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                // })
+            }else {
+                props.navigation.dispatch({
+                    type: 'Main',
+                    mode: 'reset',
+                    params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                })
+            }
+
         }
 
     }

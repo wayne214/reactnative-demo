@@ -7,6 +7,8 @@ const IS_FIRST_START_FLAG = 'IS_FIRST_START_FLAG'; // 是否第一次启动App�
 
 const USER_INFO = 'USER_INFO'; // 用户信息
 
+const USER_TYPE_INFO = 'userTypeInfo'; // 用户类型信息
+
 const TOKEN = 'TOKEN'; // 用户登录有效期
 
 const PHOTO_REF_NO = 'PHOTO_REF_NO'; // 用户头像
@@ -84,6 +86,7 @@ export default {
     USER_CURRENT_STATE,
     CARRIER_CODE,
     OWNER_NAME,
-    COMPANY_INFO
+    COMPANY_INFO,
+    USER_TYPE_INFO
 }
 

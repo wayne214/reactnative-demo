@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {
-	View,
-	Image,
-	Text,
-	Dimensions,
-	Platform,
-	AppRegistry,
-	NativeModules,
-	InteractionManager,
+    View,
+    Image,
+    Text,
+    Dimensions,
+    Platform,
+    AppRegistry,
+    NativeModules,
+    InteractionManager,
 } from 'react-native'
 import { connect } from 'react-redux'
 import Storage from '../../utils/storage'
@@ -19,45 +19,45 @@ const { width, height } = Dimensions.get('window');
 
 class Splash extends Component {
 
-	constructor(props) {
-	  super(props);
-	}
+    constructor(props) {
+        super(props);
+    }
 
-	async componentDidMount() {
-		this.props.getInitStateFromDB();
-		if (Platform.OS === 'ios') NativeModules.NativeModule.RNSendMsgToNative();
-		this.timer = setTimeout(() => {
-			SplashScreen.hide()
-		}, Platform.OS === 'ios' ? 500 : 2000)
-		const value = await Storage.get('IS_FIRST_FLAG')
-		if (value && value * 1 === 1) {
-			this.routeName = 'Main'
-		} else {
-			this.routeName = 'Welcome'
-		}
-		this.timer = setTimeout(() => {
-			this.props.navigation.dispatch({ type: this.routeName, mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice:'123' } })
-		}, Platform.OS === 'ios' ? 100 : 1500);
-	}
+    async componentDidMount() {
+        this.props.getInitStateFromDB();
+        if (Platform.OS === 'ios') NativeModules.NativeModule.RNSendMsgToNative();
+        this.timer = setTimeout(() => {
+            SplashScreen.hide()
+        }, Platform.OS === 'ios' ? 500 : 2000)
+        const value = await Storage.get('IS_FIRST_FLAG')
+        if (value && value * 1 === 1) {
+            this.routeName = 'Main'
+        } else {
+            this.routeName = 'Welcome'
+        }
+        this.timer = setTimeout(() => {
+            this.props.navigation.dispatch({ type: this.routeName, mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice:'123' } })
+        }, Platform.OS === 'ios' ? 100 : 1500);
+    }
 
-	componentWillUnmount() {
-		this.timer && clearTimeout(this.timer);
-	}
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
 
-	render() {
-		return null
-	}
+    render() {
+        return null
+    }
 }
 
 function mapStateToProps(state) {
-	const { app } = state;
-	return {};
+    const { app } = state;
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		getInitStateFromDB: () => dispatch(getInitStateFromDB()),
-	}
+    return {
+        getInitStateFromDB: () => dispatch(getInitStateFromDB()),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Splash);
