@@ -337,7 +337,7 @@ class carOwnerAddCarThree extends Component{
         this.props.navigation.dispatch({type: 'pop', key: 'Main'})
     }
     carFail(data){
-        console.log('carFail=',data);
+        Toast.showShortCenter(data.message);
 
     }
     render() {

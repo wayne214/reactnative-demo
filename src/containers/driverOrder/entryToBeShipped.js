@@ -581,7 +581,7 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('???', error);
-                    failCallBack && failCallBack()
+                    failCallBack && failCallBack(error)
                 }
             }))
         },

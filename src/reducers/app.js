@@ -1,6 +1,8 @@
 import Immutable from 'immutable';
 import * as ActionTypes from '../constants/actionType';
 import ReadAndWriteFileUtil from '../logUtil/readAndWriteFileUtil.js'
+import Storage from '../utils/storage';
+import StorageKey from '../constants/storageKeys';
 
 const initState = Immutable.fromJS({
     showAD: true,
@@ -148,7 +150,6 @@ export default (state = initState, action) => {
             newState = newState.set('loading', false);
             return newState;
         case ActionTypes.LOAD_USER:
-
             newState = newState.set('user', action.payload);
             return newState;
         case ActionTypes.ACTION_MERGE_USER:

@@ -683,7 +683,7 @@ class personCarOwnerAuth extends Component {
                 this.props.setCurrentCharacterAction('owner');
 
 
-                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+                this.props.navigation.dispatch({type: 'pop'})
 
             },
             error: (errorInfo) => {

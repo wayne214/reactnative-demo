@@ -9,7 +9,8 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setUserNameAction,
-    saveCompanyInfoAction
+    saveCompanyInfoAction,
+    saveUserTypeInfoAction
 } from "../action/user";
 import {connect} from "react-redux";
 import * as RouteType from '../constants/routeType';
@@ -213,12 +214,7 @@ class LoginCharacter {
                 }
             }
 
-            if (type === 'main'){
-                // props.navigation.dispatch({
-                //     type: 'Home',
-                //     mode: 'reset',
-                //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
-                // })
+            if(type === 'main'){
             }else {
                 props.navigation.dispatch({
                     type: 'Main',
@@ -265,6 +261,9 @@ function mapDispatchToProps(dispatch) {
         },
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserTypeInfoAction: (result) => {
+            dispatch(saveUserTypeInfoAction(result));
         },
     };
 }

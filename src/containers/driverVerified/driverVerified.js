@@ -103,7 +103,7 @@ class Verified extends Component {
 
                 this.state = {
                     isFirstCarD: result.idCardName ? true : false,
-                    isFirstDriver: result.driverCard ? true : false,
+                    isFirstDriver: result.drivingLicenceName ? true : false,
 
                     isChooseCardImage: result.isChooseCardImage ? true : false,
                     isChooseCardTrunImage: result.isChooseCardTrunImage ? true : false,
@@ -233,7 +233,6 @@ class Verified extends Component {
             userID = global.userId;
             userName = global.userName;
             userPhone = global.phone;
-
 
             /*相机拍照*/
             this.listener = DeviceEventEmitter.addListener('endSureCameraPhotoEnd', (imagePath) => {
@@ -878,7 +877,8 @@ class Verified extends Component {
             quasiCarTypeRecognition: this.state.quasiCarTypeRecognition, // 识别准驾车型
             driverLicenseValidateRecognition: Validator.timeTrunToDateString(this.state.driverLicenseValidateRecognition),  // 识别驾驶证有效期
         };
-        debugger
+
+        console.log('司机认证 = ',params);
         HTTPRequest({
             url: API.API_AUTH_REALNAME_COMMIT,
             params: params,
@@ -909,7 +909,8 @@ class Verified extends Component {
                     }
                 }
 
-                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+                this.props.navigation.dispatch({type: 'pop'})
+
             },
             error: (errorInfo) => {
             },
@@ -998,7 +999,9 @@ class Verified extends Component {
                                      }}
                                      textOnFocus={()=>{
                                           if (Platform.OS === 'ios'){
-                                              this.refs.scrollView.scrollToEnd();
+                                              //this.refs.scrollView.scrollToEnd();
+                                              this.refs.scrollView.scrollTo({x: 0, y: 900, animated: true});
+
                                           }
                                      }}
 
