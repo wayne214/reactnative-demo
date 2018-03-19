@@ -716,6 +716,7 @@ class mine extends Component {
                                 style={{height: 36}}
                                 leftIconImage={PersonInfoIcon}
                                 content={'个人信息'}
+                                authenticationStatus={this.state.verifiedState}
                                 showBottomLine={true}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
