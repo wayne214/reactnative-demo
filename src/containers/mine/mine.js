@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
 });
 
 
-
 class mine extends Component {
     constructor(props) {
         super(props);
@@ -227,10 +226,11 @@ class mine extends Component {
 
     /*点击弹出菜单*/
     showAlertSelected() {
-        if (this.refs.choose){
+        if (this.refs.choose) {
             this.refs.choose.show("请选择照片", selectedArr, '#333333', this.callbackSelected);
         }
     }
+
     /*选择 拍照  相册*/
     callbackSelected(i) {
         switch (i) {
@@ -248,7 +248,7 @@ class mine extends Component {
                 } else {
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.selectCamera();
-                    },(err) => {
+                    }, (err) => {
                         Alert.alert('提示', '请到设置-应用-授权管理设置相机权限');
                         this.setState({
                             modalVisible: false,
@@ -281,7 +281,7 @@ class mine extends Component {
             height: 400,
             cropping: true
         }).then(image => {
-            console.log('照相机image',image);
+            console.log('照相机image', image);
             this.setState({
                 modalVisible: false,
             });
@@ -290,7 +290,8 @@ class mine extends Component {
             this.setState({
                 modalVisible: false,
             });
-            console.log(e)});
+            console.log(e)
+        });
     }
 
     selectPhoto() {
@@ -308,7 +309,8 @@ class mine extends Component {
             this.setState({
                 modalVisible: false,
             });
-            console.log(e)});
+            console.log(e)
+        });
     }
 
     certificationCallback(result) {
@@ -322,6 +324,7 @@ class mine extends Component {
         }
         global.certificationState = result;
     }
+
     /*资质认证状态请求*/
     certificationState(callback) {
 
@@ -340,6 +343,7 @@ class mine extends Component {
             this.props.getCertificationState(obj, callback);
         }
     }
+
     getVerfiedStateSucCallback(result) {
         console.log('verfiedcall', result);
 
@@ -360,6 +364,7 @@ class mine extends Component {
             this.props.setDriverCharacterAction('3');
         }
     }
+
     /*实名认证状态请求*/
     verifiedState(callback) {
         currentTime = new Date().getTime();
@@ -368,10 +373,11 @@ class mine extends Component {
             if (this.props.userInfo.phone) {
                 this.props.verifiedState({
                     phoneNum: this.props.userInfo.phone,
-                },callback);
+                }, callback);
             }
         }
     }
+
     // 承运方--车主认证结果
     getOwnerVerifiedCallback(result) {
         this.setState({
@@ -394,6 +400,7 @@ class mine extends Component {
                 this.props.setOwnerCharacterAction('23')
         }
     }
+
     // 承运方--车主认证状态
     ownerVerifiedState(callback) {
         currentTime = new Date().getTime();
@@ -417,6 +424,7 @@ class mine extends Component {
             });
         }
     }
+
     /*查询头像地址*/
     queryUserAvatar(photoRefNo, callback) {
         this.props.queryUserAvatar({
@@ -428,7 +436,7 @@ class mine extends Component {
 
     /*IOS获取头像照片数据*/
     imageCropProcess(image) {
-        console.log('iamgeee',image)
+        console.log('iamgeee', image)
         if (image.didCancel) {
             console.log('User cancelled image picker');
         }
@@ -463,6 +471,7 @@ class mine extends Component {
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }
+
     /*ANDROID获取头像照片数据*/
     imageADCropProcess(image) {
         if (image.didCancel) {
@@ -538,6 +547,7 @@ class mine extends Component {
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }
+
     /*获取头像拍摄数据*/
     imageADCropCameraProcess(image) {
 
@@ -579,15 +589,15 @@ class mine extends Component {
 
     /*上传头像*/
     upLoadImage(url, data) {
-        console.log('upLoadImage1',url);
-        console.log('upLoadImage2',data);
+        console.log('upLoadImage1', url);
+        console.log('upLoadImage2', data);
         upLoadImageManager(url,
             data,
             () => {
                 console.log('开始请求数据');
             },
             (respones) => {
-                console.log('upLoadImage',respones);
+                console.log('upLoadImage', respones);
                 if (respones.code === 200) {
                     Storage.save(PHOTOREFNO, respones.result);
                     global.photoRefNo = respones.result;
@@ -600,49 +610,54 @@ class mine extends Component {
                 Toast.show('图片上传失败，请重新选择上传');
             });
     }
+
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}} >
-                <View style={styles.titleContainer}>
-                    {
-                        this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
-                            <TouchableOpacity onPress={()=> {
-                                this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_CHOOSE_CAR,
-                                    params: {
-                                    carList: this.props.userCarList,
-                                    flag: false
-                                } })
-                            }}>
-                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
-                            }}>
-                                <View>
-                                    <Image
-                                        style={{
-                                            marginRight: 10,
-                                            marginTop: 10,
-                                        }}
-                                        source={
-                                            this.props.jpushIcon === true ? MessageNewMine : MessageMine
+                <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}}>
+                    <View style={styles.titleContainer}>
+                        {
+                            this.props.currentStatus == 'driver' ? <View style={styles.subTitleContainer}>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_CHOOSE_CAR,
+                                        params: {
+                                            carList: this.props.userCarList,
+                                            flag: false
                                         }
-                                    />
-                                </View>
-                            </TouchableOpacity>
-                        </View> : <View style={styles.subTitleContainer}>
-                            <Text>{''}</Text>
-                            <TouchableOpacity onPress={() => {
-                                this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})
-                            }}>
-                                <Text style={{fontSize: 20, color: '#333333'}}>会员信息</Text>
-                            </TouchableOpacity>
-                        </View>
-                    }
-                </View>
-                    <TouchableOpacity onPress={()=> console.log('外部区域')}
+                                    })
+                                }}>
+                                    <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.dispatch({type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
+                                }}>
+                                    <View>
+                                        <Image
+                                            style={{
+                                                marginRight: 10,
+                                                marginTop: 10,
+                                            }}
+                                            source={
+                                                this.props.jpushIcon === true ? MessageNewMine : MessageMine
+                                            }
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            </View> : <View style={styles.subTitleContainer}>
+                                <Text>{''}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_USER_INFO,
+                                        params: {title: '会员信息'}
+                                    })
+                                }}>
+                                    <Text style={{fontSize: 20, color: '#333333'}}>会员信息</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
+                    </View>
+                    <TouchableOpacity onPress={() => console.log('外部区域')}
                                       activeOpacity={1}>
                         <View style={styles.headerView}>
                             <View>
@@ -671,7 +686,8 @@ class mine extends Component {
                                     </View>
                                 </TouchableOpacity>
                                 <View style={styles.editContainer}>
-                                    <Text style={{fontFamily: 'iconfont', color: '#FFFFFF', fontSize: 15}}>&#xe641;</Text>
+                                    <Text
+                                        style={{fontFamily: 'iconfont', color: '#FFFFFF', fontSize: 15}}>&#xe641;</Text>
                                 </View>
                             </View>
                             {
@@ -709,199 +725,212 @@ class mine extends Component {
                 </ImageBackground>
                 <View style={styles.separateView}/>
                 <ScrollView>
-                {
-                    this.props.currentStatus == 'driver' ?
-                        <View>
-                            <SettingCell
-                                authenticationStatus={this.state.verifiedState}
-                                style={{height: 36}}
-                                leftIconImage={PersonInfoIcon}
-                                content={'个人信息'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                    ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-                                        if (this.state.verifiedState == '1200') {
-                                            this.props.navigation.dispatch({
-                                                        type: RouteType.ROUTE_PERSON_INFO,
-                                                        params: {
-                                                            phone: global.phone,
-                                                        }
-                                                    });
-                                        }else {
-                                             this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
-                                                phone: global.phone,
-                                            } })
-                                        }
-
-                                    }
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={CarInfoIcon}
-                                leftIconImageStyle={{width: 18.5, height: 17.5}}
-                                content={'车辆信息'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                    ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-
-                                        if (this.state.certificationState == '1202' || this.state.certificationState == '1200') {
-                                            if (this.props.plateNumberObj) {
-                                                if (this.props.plateNumberObj.size === 0 || this.props.plateNumberObj.carStatus && this.props.plateNumberObj.carStatus === 20 || this.props.plateNumberObj.carStatus === 0) {
-                                                    this.props.navigation.dispatch({
-                                                        type: RouteType.ROUTE_CAR_INFO,
-                                                        params: {
-                                                            certificationState: this.state.certificationState,
-                                                        }
-                                                    });
-                                                } else {
-                                                    this.props.navigation.dispatch({
-                                                        type: RouteType.ROUTE_CAR_DISABLE_PAGE,
-                                                        params: {
-                                                            certificationState: this.state.certificationState,
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        }
-                                        if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
-                                            this.props.navigation.dispatch({
-                                                type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL
-                                            })
-                                        }
-
-                                    }
-                                }}
-                            />
-                            {
-                                this.state.verifiedState != '1202' ?
-                                    <SettingCell
-                                        leftIconImage={VertifyInfoIcon}
-                                        leftIconImageStyle={{width: 16, height: 19}}
-                                        content={'认证信息'}
-                                        showCertificatesOverdue={false}
-                                        showBottomLine={false}
-                                        clickAction={() => {
+                    {
+                        this.props.currentStatus == 'driver' ?
+                            <View>
+                                <SettingCell
+                                    authenticationStatus={this.state.verifiedState}
+                                    style={{height: 36}}
+                                    leftIconImage={PersonInfoIcon}
+                                    content={'个人信息'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        ClickUtil.resetLastTime();
+                                        if (ClickUtil.onMultiClick()) {
                                             if (this.state.verifiedState == '1200') {
-                                                // 未认证
-                                                Storage.get(StorageKey.changePersonInfoResult).then((value) => {
-                                                    if (value) {
-                                                        this.props.navigation.dispatch({
-                                                            type: RouteType.ROUTE_DRIVER_VERIFIED,
-                                                            params: {
-                                                                resultInfo: value,
-                                                            }
-                                                        });
-                                                    } else {
-                                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
-                                                    }
-                                                })
-                                            } else {
-                                                // 认证中，认证驳回，认证通过
                                                 this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
-                                                    params:{
-                                                        qualifications: this.state.verifiedState,
-                                                        phone: global.phone,//global.phone
+                                                    type: RouteType.ROUTE_PERSON_INFO,
+                                                    params: {
+                                                        phone: global.phone,
+                                                    }
+                                                });
+                                            } else {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
+                                                        phone: global.phone,
+
                                                     }
                                                 });
                                             }
-                                        }}
-                                    /> : null
-                            }
-                            <View style={styles.separateView}/>
-                            <SettingCell
-                                leftIconImage={ModifyPwdIcon}
-                                leftIconImageStyle={{width: 15.5, height: 17.5}}
-                                content={'修改密码'}
-                                showBottomLine={false}
-                                clickAction={() => {
-                                    ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_MODIFY_PWD })
-                                    }
-                                }}
-                            />
-                            <View style={styles.separateView}/>
-                            <SettingCell
-                                leftIconImage={SettingIcon}
-                                content={'设置'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                ClickUtil.resetLastTime();
-                                if (ClickUtil.onMultiClick()) {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_SETTING })
+
+
+                                        }
+                                    }}
+                                />
+                                <SettingCell
+                                    leftIconImage={CarInfoIcon}
+                                    leftIconImageStyle={{width: 18.5, height: 17.5}}
+                                    content={'车辆信息'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        ClickUtil.resetLastTime();
+                                        if (ClickUtil.onMultiClick()) {
+
+                                            if (this.state.certificationState == '1202' || this.state.certificationState == '1200') {
+                                                if (this.props.plateNumberObj) {
+                                                    if (this.props.plateNumberObj.size === 0 || this.props.plateNumberObj.carStatus && this.props.plateNumberObj.carStatus === 20 || this.props.plateNumberObj.carStatus === 0) {
+                                                        this.props.navigation.dispatch({
+                                                            type: RouteType.ROUTE_CAR_INFO,
+                                                            params: {
+                                                                certificationState: this.state.certificationState,
+                                                            }
+                                                        });
+                                                    } else {
+                                                        this.props.navigation.dispatch({
+                                                            type: RouteType.ROUTE_CAR_DISABLE_PAGE,
+                                                            params: {
+                                                                certificationState: this.state.certificationState,
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                            if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL
+                                                })
+                                            }
+
+                                        }
+                                    }}
+                                />
+                                {
+                                    this.state.verifiedState != '1202' ?
+                                        <SettingCell
+                                            leftIconImage={VertifyInfoIcon}
+                                            leftIconImageStyle={{width: 16, height: 19}}
+                                            content={'认证信息'}
+                                            showCertificatesOverdue={false}
+                                            showBottomLine={false}
+                                            clickAction={() => {
+                                                if (this.state.verifiedState == '1200') {
+                                                    // 未认证
+                                                    Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                                        if (value) {
+                                                            this.props.navigation.dispatch({
+                                                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                                params: {
+                                                                    resultInfo: value,
+                                                                }
+                                                            });
+                                                        } else {
+                                                            this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_VERIFIED})
+                                                        }
+                                                    })
+                                                } else {
+                                                    // 认证中，认证驳回，认证通过
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
+                                                        params: {
+                                                            qualifications: this.state.verifiedState,
+                                                            phone: global.phone,//global.phone
+                                                        }
+                                                    });
+                                                }
+                                            }}
+                                        /> : null
                                 }
-                            }}
-                            />
-                            <SettingCell
-                                leftIconImage={aboutUsIcon}
-                                content={'关于我们'}
-                                clickAction={() => {
-                                    ClickUtil.resetLastTime();
-                                    if (ClickUtil.onMultiClick()) {
-                                        // this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
-                                        this.props.navigation.dispatch({type:RouteType.ROUTE_AGREEMENT_CONTENT, params: {title: '关于我们', type: 2}})
-                                    }
-                                }}
-                            />
+                                <View style={styles.separateView}/>
+                                <SettingCell
+                                    leftIconImage={ModifyPwdIcon}
+                                    leftIconImageStyle={{width: 15.5, height: 17.5}}
+                                    content={'修改密码'}
+                                    showBottomLine={false}
+                                    clickAction={() => {
+                                        ClickUtil.resetLastTime();
+                                        if (ClickUtil.onMultiClick()) {
+                                            this.props.navigation.dispatch({type: RouteType.ROUTE_MODIFY_PWD})
+                                        }
+                                    }}
+                                />
+                                <View style={styles.separateView}/>
+                                <SettingCell
+                                    leftIconImage={SettingIcon}
+                                    content={'设置'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        ClickUtil.resetLastTime();
+                                        if (ClickUtil.onMultiClick()) {
+                                            this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_SETTING})
+                                        }
+                                    }}
+                                />
+                                <SettingCell
+                                    leftIconImage={aboutUsIcon}
+                                    content={'关于我们'}
+                                    clickAction={() => {
+                                        ClickUtil.resetLastTime();
+                                        if (ClickUtil.onMultiClick()) {
+                                            // this.props.navigation.dispatch({ type: RouteType.ROUTE_ABOUT_US })
+                                            this.props.navigation.dispatch({
+                                                type: RouteType.ROUTE_AGREEMENT_CONTENT,
+                                                params: {title: '关于我们', type: 2}
+                                            })
+                                        }
+                                    }}
+                                />
 
-                        </View> : <View>
-                            <SettingCell
-                                leftIconImage={driverManagerIcon}
-                                content={'司机管理'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                    this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_MANAGEMENT})
-                                    // if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') {
-                                    //     navigator.navigate('DriverManagement');
-                                    // }
-                                    // if (this.props.ownerStatus == '11' || this.props.ownerStatus == '21') {
-                                    //     Alert.alert('提示', '车主实名认证中');
-                                    // }
-                                    // if (this.props.ownerStatus == '13' || this.props.ownerStatus == '23') {
-                                    //     Alert.alert('提示', '车主实名认证被驳回');
-                                    // }
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={carManagerIcon}
-                                content={'车辆管理'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                    this.props.navigation.dispatch({type: RouteType.ROUTE_CAR_MANAGEMENT})
+                            </View> : <View>
+                                <SettingCell
+                                    leftIconImage={driverManagerIcon}
+                                    content={'司机管理'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        this.props.navigation.dispatch({type: RouteType.ROUTE_DRIVER_MANAGEMENT})
+                                        // if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') {
+                                        //     navigator.navigate('DriverManagement');
+                                        // }
+                                        // if (this.props.ownerStatus == '11' || this.props.ownerStatus == '21') {
+                                        //     Alert.alert('提示', '车主实名认证中');
+                                        // }
+                                        // if (this.props.ownerStatus == '13' || this.props.ownerStatus == '23') {
+                                        //     Alert.alert('提示', '车主实名认证被驳回');
+                                        // }
+                                    }}
+                                />
+                                <SettingCell
+                                    leftIconImage={carManagerIcon}
+                                    content={'车辆管理'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        this.props.navigation.dispatch({type: RouteType.ROUTE_CAR_MANAGEMENT})
 
-                                    // if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') {
-                                    //     navigator.navigate('CarManagement');
-                                    // }
-                                    // if (this.props.ownerStatus == '11' || this.props.ownerStatus == '21') {
-                                    //     Alert.alert('提示', '车主实名认证中');
-                                    // }
-                                    // if (this.props.ownerStatus == '13' || this.props.ownerStatus == '23') {
-                                    //     Alert.alert('提示', '车主实名认证被驳回');
-                                    // }
-                                }}
-                            />
-                            <SettingCell
-                                leftIconImage={commonLineIcon}
-                                content={'常用线路设置'}
-                                showBottomLine={true}
-                                clickAction={() => {
-                                    this.props.navigation.dispatch({type:RouteType.ROUTE_MY_ROUTE, params: {title: '我的路线'}})
-                                }}
-                            />
-                            <View style={styles.separateView}/>
-                            <SettingCell
-                                leftIconImage={carrierSettingIcon}
-                                content={'服务与设置'}
-                                showBottomLine={false}
-                                clickAction={() => {
-                                    this.props.navigation.dispatch({type:RouteType.ROUTE_SETTING, params:{title: '设置'}})
-                                }}
-                            />
-                        </View>
-                }
+                                        // if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') {
+                                        //     navigator.navigate('CarManagement');
+                                        // }
+                                        // if (this.props.ownerStatus == '11' || this.props.ownerStatus == '21') {
+                                        //     Alert.alert('提示', '车主实名认证中');
+                                        // }
+                                        // if (this.props.ownerStatus == '13' || this.props.ownerStatus == '23') {
+                                        //     Alert.alert('提示', '车主实名认证被驳回');
+                                        // }
+                                    }}
+                                />
+                                <SettingCell
+                                    leftIconImage={commonLineIcon}
+                                    content={'常用线路设置'}
+                                    showBottomLine={true}
+                                    clickAction={() => {
+                                        this.props.navigation.dispatch({
+                                            type: RouteType.ROUTE_MY_ROUTE,
+                                            params: {title: '我的路线'}
+                                        })
+                                    }}
+                                />
+                                <View style={styles.separateView}/>
+                                <SettingCell
+                                    leftIconImage={carrierSettingIcon}
+                                    content={'服务与设置'}
+                                    showBottomLine={false}
+                                    clickAction={() => {
+                                        this.props.navigation.dispatch({
+                                            type: RouteType.ROUTE_SETTING,
+                                            params: {title: '设置'}
+                                        })
+                                    }}
+                                />
+                            </View>
+                    }>
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
