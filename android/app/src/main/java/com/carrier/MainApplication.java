@@ -54,8 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RCTToastPackage(),
-            new RNCameraPackage(),
             new RNCameraPackage(),
               new BaiduMapPackage(getApplicationContext()),
             new RCTToastPackage(),
