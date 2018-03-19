@@ -12,7 +12,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
 import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
-import Picker from 'react-native-picker';
+import Picker from 'react-native-picker-custom';
 import AddressHandler from '../../utils/address';
 import {appendLogToFile } from '../../action/app.js'
 

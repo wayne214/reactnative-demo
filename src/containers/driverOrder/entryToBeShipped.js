@@ -280,8 +280,8 @@ class entryToBeShipped extends Component {
             plateNum: global.plateNumber,
         },(result) => {
             this.sendOderSuccessCallBack(result);
-        }, () => {
-            this.sendOderFailCallBack();
+        }, (error) => {
+            this.sendOderFailCallBack(error);
         })
     }
 
@@ -298,8 +298,8 @@ class entryToBeShipped extends Component {
     }
 
     // 获取数据失败回调
-    sendOderFailCallBack() {
-        Toast.showShortCenter('发运失败!');
+    sendOderFailCallBack(error) {
+        Toast.showShortCenter(error.message);
     }
 
     // 获取数据成功回调

@@ -157,7 +157,7 @@ class RegisterStepOne extends Component {
             againPWD: '',
             messageCode: '',
             loading: false,
-            checkBox:false,
+            checkBox: false,
         };
 
         this.registerAccount = this.registerAccount.bind(this);
@@ -313,7 +313,9 @@ class RegisterStepOne extends Component {
                                 underlineColorAndroid={'transparent'}
                                 placeholder="请输入新密码(最少6位，数字+字母)"
                                 placeholderTextColor="#cccccc"
-                                keyboardType="numeric"
+                                returnKeyLabel={'done'}
+                                returnKeyType={'done'}
+                                secureTextEntry={true}
                                 style={styles.registeredTextInput}
                                 value={againPWD}
                                 onChangeText={(againPWD) => {
@@ -348,7 +350,10 @@ class RegisterStepOne extends Component {
                             <Text
                                 style={styles.screenEndViewText}
                                 onPress={() => {
-                                    this.props.navigation.navigate('Protocol');
+                                    this.props.navigation.dispatch({
+                                        type:RouteType.ROUTE_AGREEMENT_CONTENT,
+                                        params:{title: '《冷链马甲服务协议》', type: 1}
+                                    });
                                 }}
                             >
                                 《用户服务协议》

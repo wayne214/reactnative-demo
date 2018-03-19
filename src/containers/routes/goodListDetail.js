@@ -250,7 +250,7 @@ class goodListDetail extends Component {
                                               biddingPrice: this.state.money,
                                               carrierId: global.companyCode, // 承运商code
                                               carrierName: global.ownerName, // 承运商名字
-                                              entrustType: this.state.result.businessType == '501' ? 1 : 2, // 委托类型
+                                              entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
                                               expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
                                               resourceCode: this.props.navigation.state.params.goodID, // 货源id
                                               type: this.props.navigation.state.params.type // 报价类型

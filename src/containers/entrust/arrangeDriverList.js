@@ -62,11 +62,9 @@ class arrangeDriverList extends Component {
     }
     arrangeCarCallback(result) {
         if(result) {
-            DeviceEventEmitter.emit('reloadOrderAllAnShippt');
+            DeviceEventEmitter.emit('reloadDispatchList');
             Toast.showShortCenter('安排车辆成功！');
-            const routes = this.props.routes;
-            let key = routes[routes.length - 3].key;
-            this.props.navigation.goBack(key);
+            this.props.navigation.dispatch({ type: 'pop', key: 'Main' })
         }else {
             Toast.showShortCenter('安排车辆失败！');
         }
@@ -75,7 +73,6 @@ class arrangeDriverList extends Component {
     // 安排车辆
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
-        console.log('---***', driverOption, para);
         this.props._disPatchCar({
             carId: driverOption.carId, // 车辆id
             carLen: driverOption.carLen, // 车辆长度

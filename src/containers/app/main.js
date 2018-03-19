@@ -93,14 +93,14 @@ class MainContainer extends BaseComponent {
         if (this.state.appState == 'background') {
             this._pushToMessageList(map)//map.messsageType || map.messageType
         }else if(this.state.appState == 'active') {
-            const alertTitle = map.messsageType == 2 ? '鎮ㄦ湁鏂扮殑绯荤粺鍏憡' : '鏀跺埌涓�鏉℃柊娑堟伅'//messageType 1=绔欏唴淇� 2=绯荤粺鍏憡
-            Alert.alert('娓╅Θ鎻愮ず',alertTitle,[
+            const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
+            Alert.alert('温馨提示',alertTitle,[
                 {
-                    text: '蹇界暐',
+                    text: '忽略',
                     onPress:()=>{}
                 },
                 {
-                    text: '鏌ョ湅',
+                    text: '查看',
                     onPress:()=>{
                         this._pushToMessageList(map)
                     }
@@ -119,10 +119,10 @@ class MainContainer extends BaseComponent {
         // JPush
         if (IS_IOS) {
             /**
-             * 鐩戝惉锛氱偣鍑绘帹閫佷簨浠�
-             * iOS10 涓嶇APP鍦ㄥ墠鍙� 杩樻槸鍚庡彴 杩樻槸宸茬粡琚潃姝�  閫氳繃鐐瑰嚮閫氱煡妯箙 閮借蛋杩欎釜鏂规硶
+             * 监听：点击推送事件
+             * iOS10 不管APP在前台 还是后台 还是已经被杀死  通过点击通知横幅 都走这个方法
              */
-            // 鐐瑰嚮閫氱煡鍚庯紝灏嗕細瑙﹀彂姝や簨浠�
+            // 点击通知后，将会触发此事件
             JPushModule.setBadge(0, (success) => {
             });
             console.log(" ==== add listener in did mount ");
@@ -140,7 +140,7 @@ class MainContainer extends BaseComponent {
         }
 
         AppState.addEventListener('change', this._handleAppStateChange);
-        // TODO 鑾峰彇鍩庡競鍒楄〃
+        // TODO 获取城市列表
         // this.props._getCityOfCountry();
         const value = await Storage.get('float')
         if (value && value * 1 === 1 && this.props.user.userId) {
@@ -157,7 +157,7 @@ class MainContainer extends BaseComponent {
             this._getCurrentPosition();
         })
 
-        // 鑾峰彇绔欏唴鍏憡
+        // 获取站内公告
         if(user.userId){
             // this.props.getNotice()
         }
@@ -178,14 +178,14 @@ class MainContainer extends BaseComponent {
         // console.log(" -- main getcurrent this",this);
         const {user} = this.props
         if (!(user && user.userId)) {
-            // console.log("   鐢ㄦ埛鏈櫥褰� 涓嶆彁浜ゆ棩蹇� ");
+            // console.log("   用户未登录 不提交日志 ");
             return
         }
         Geolocation.getCurrentPosition(location => {
             const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
             global.locationData = locationData
-            // console.log("瀹氫綅淇℃伅",global.locationData);
-            //todo 涓婁紶鏃ュ織寮�鍏�
+            // console.log("定位信息",global.locationData);
+            //todo 上传日志开关
             // TimeToDoSomething.uploadDataFromLocalMsg();
         }, fail => {
             // console.log('-------fail:', fail)
@@ -212,17 +212,17 @@ class MainContainer extends BaseComponent {
         }
     }
 
-    _pushToMessageList(message){// messageType 1=绔欏唴淇� 2=绯荤粺鍏憡
+    _pushToMessageList(message){// messageType 1=站内信 2=系统公告
         if (message && message.extras && IS_ANDROID){
             const extras = JSON.parse(message.extras)
             message.messageType = extras.messsageType
         }
         const messageType = message.messsageType || message.messageType || 1
         if (messageType == 1) {
-            // 绔欏唴淇�
+            // 站内信
             this._pushToMessageListWithType(1)
         }else{
-            // 鍏憡
+            // 公告
             Storage.get('user').then(result => {
                 if (result && result.userId) {
                     this._pushToMessageListWithType(2)
@@ -237,7 +237,7 @@ class MainContainer extends BaseComponent {
         } else if (currentRoute.key === RouteType.ROUTE_MESSAGE_DETAIL) {
             this.props.navigation.dispatch({ type: 'pop' })
         } else {
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST,params: { title: '娑堟伅', currentTab: parseInt(messageType) -1} })
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST,params: { title: '消息', currentTab: parseInt(messageType) -1} })
         }
     }
     componentWillUnmount() {
@@ -273,7 +273,7 @@ class MainContainer extends BaseComponent {
         if (this.lastPressTimer && this.lastPressTimer + 2000 >= Date.now()) {
             return false
         }
-        Toast.show('鍐嶆寜涓�娆￠��鍑�')
+        Toast.show('再按一次退出')
         this.lastPressTimer = Date.now()
         return true
     }
@@ -282,21 +282,21 @@ class MainContainer extends BaseComponent {
         switch(status) {
             case codePush.SyncStatus.DOWNLOADING_PACKAGE:
                 this.props.dispatch(upgrade({
-                    text: '姝ｅ湪涓嬭浇鏇存柊鍐呭',
+                    text: '正在下载更新内容',
                     busy: true,
                     downloaded: false,
                 }));
                 break;
             case codePush.SyncStatus.INSTALLING_UPDATE:
                 this.props.dispatch(upgrade({
-                    text: '姝ｅ湪鏇存柊鍐呭',
+                    text: '正在更新内容',
                     busy: true,
                     downloaded: true,
                 }));
                 break;
             case codePush.SyncStatus.UPDATE_INSTALLED:
                 this.props.dispatch(upgrade({
-                    text: '鏇存柊鎴愬姛',
+                    text: '更新成功',
                     busy: true,
                     downloaded: true,
                 }));
@@ -317,7 +317,7 @@ class MainContainer extends BaseComponent {
         }
         return (
             <Image style={ styles.badgeBg } source={ require('../../../assets/img/app/message_num_bg.png') }>
-              <Text style={ styles.badgeText }>{ badgeCount }</Text>
+                <Text style={ styles.badgeText }>{ badgeCount }</Text>
             </Image>
         );
     }
@@ -345,7 +345,7 @@ class MainContainer extends BaseComponent {
         this.props.getUrl({
             phone: this.props.user.phoneNumber
         });
-        this.props.dispatch(appendLogToFile('鎴戠殑琛岀▼','鏌ョ湅涓汉涓績',0))
+        this.props.dispatch(appendLogToFile('我的行程','查看个人中心',0))
     }
 
     _routeTab () {
@@ -371,11 +371,11 @@ class MainContainer extends BaseComponent {
           main: { opacity: (2-ratio) / 2 }
         })}>
 
-              <Tabar
-                  { ...this.props }
-                  note={this.insiteNotice}
-                  changeTab={ this._changeTab }
-                  openControlPanel={ this.openControlPanel } />
+                <Tabar
+                    { ...this.props }
+                    note={this.insiteNotice}
+                    changeTab={ this._changeTab }
+                    openControlPanel={ this.openControlPanel } />
 
                 { this._renderUpgrade(this.props) }
 
@@ -456,7 +456,7 @@ const mapDispatchToProps = (dispatch) => {
             }));
         },
         getNotice: ()=>{
-            //// 鎵胯繍鏂� 1 濮旀墭鏂�2
+            //// 承运方 1 委托方2
             dispatch(fetchData({
                 body: {
                     publishTarget: 1
@@ -481,14 +481,14 @@ Main = codePush({
     installMode: codePush.InstallMode.IMMEDIATE,
     checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
     updateDialog: {
-        title: '娓╅Θ鎻愮ず',
+        title: '温馨提示',
         descriptionPrefix: '',
         optionalUpdateMessage: '',
         appendReleaseDescription: true,
-        optionalInstallButtonLabel: '鏇存柊',
-        optionalIgnoreButtonLabel: '鏆備笉鏇存柊',
-        mandatoryUpdateMessage: '鍗冲皢鏇存柊app',
-        mandatoryContinueButtonLabel: '鏇存柊',
+        optionalInstallButtonLabel: '更新',
+        optionalIgnoreButtonLabel: '暂不更新',
+        mandatoryUpdateMessage: '即将更新app',
+        mandatoryContinueButtonLabel: '更新',
     }
 })(MainContainer)
 codePush.allowRestart()

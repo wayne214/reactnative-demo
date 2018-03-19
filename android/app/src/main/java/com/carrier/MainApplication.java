@@ -3,11 +3,13 @@ package com.carrier;
 import android.app.Application;
 import android.content.Intent;
 
+import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactApplication;
+import com.remobile.toast.RCTToastPackage;
+import org.reactnative.camera.RNCameraPackage;
 import org.reactnative.camera.RNCameraPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.beefe.picker.PickerViewPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rnfs.RNFSPackage;
@@ -16,7 +18,6 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.wonday.pdf.RCTPdfView;
-import com.beefe.picker.PickerViewPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -54,9 +55,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNCameraPackage(),
-            new BaiduMapPackage(),
+              new BaiduMapPackage(getApplicationContext()),
             new RCTToastPackage(),
-            new PickerViewPackage(),
             new ImagePickerPackage(),
             new SplashScreenReactPackage(),
             new RNDeviceInfo(),

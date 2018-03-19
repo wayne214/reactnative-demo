@@ -15,7 +15,7 @@ import StorageKey from '../constants/storageKeys';
 
 const initState = Immutable.fromJS({
     weather: {}, // 天气
-    location: {}, // 默认位置
+    location: '', // 默认位置
 });
 
 export default (state = initState, action) => {

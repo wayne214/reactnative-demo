@@ -12,6 +12,8 @@ import {
 import AddressItem from './../routes/goodlistAddressItem';
 import moment from 'moment';
 import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
+import TimeUtils from '../../utils/timeUtils';
+
 const {height, width} = Dimensions.get('window');
 const space = 15;
 class carrerListItem extends Component{
@@ -23,6 +25,23 @@ class carrerListItem extends Component{
         const {bindOrder, dispatchCar, rowData, itemClick} = this.props;
         const loadStartTime = moment(rowData.loadingStartTime).format('YYYY.MM.DD');
         const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
+
+        const timeSecond = rowData.pushTime - new Date().getTime();
+        var seconds = parseInt(timeSecond / 1000 % 60, 10);//计算剩余的秒数
+        let mins = ''
+        if (seconds > 60) {
+            mins = seconds % 60;
+        }
+        console.log('timeSecond', seconds);
+        // 货品名称
+        let goodName = '';
+        rowData.supplyInfoList ? rowData.supplyInfoList.map((goods,index)=>{
+            if (index === rowData.supplyInfoList.length - 1){
+                goodName+=goods.typeName;
+            }else
+                goodName+=goods.typeName+' , '
+        }) : null;
+
         return (
             <TouchableOpacity style={styles.container} onPress={()=>{
                 if (itemClick) {itemClick(rowData)};
@@ -64,7 +83,7 @@ class carrerListItem extends Component{
                                         <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                     </View>
                                     <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
-                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>没有返回</Text>
+                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>{goodName}</Text>
                                     </View>
                                 </View>
                                 <View style={{flexDirection: 'row',marginTop: 2}}>
@@ -72,12 +91,16 @@ class carrerListItem extends Component{
                                     <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
                                         <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
                                     </View>
-                                    <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carLength}</Text>
-                                    </View>
-                                    <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carType}</Text>
-                                    </View>
+                                    {
+                                        rowData.carLength ? <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
+                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carLength}</Text>
+                                        </View> : null
+                                    }
+                                    {
+                                        rowData.carType ? <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
+                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carType}</Text>
+                                        </View> : null
+                                    }
                                 </View>
                             </View>
                         </View>
@@ -107,10 +130,10 @@ class carrerListItem extends Component{
                             </View>
                         </View>
                     }
-                    {rowData.orderStateStr == '待确认' && <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
-                        <Text style={{color: '#003700', fontSize: 14}}>5’24’</Text>
-                    </View>}
+                        <Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>
+                    </View> : <View/>}
                     {
                         rowData.orderStateStr == '待确认' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>

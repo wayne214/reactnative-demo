@@ -37,6 +37,7 @@ const headerImageLoading = require('../driverVerified/images/carInfoIng.png');
 let imgListTemp = [];
 let imgList = [];
 const {width} = Dimensions.get('window');
+import StorageKey from '../../constants/storageKeys';
 
 
 let currentTime = 0;
