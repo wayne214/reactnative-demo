@@ -123,7 +123,7 @@ class carrerListItem extends Component{
                     {
                         rowData.orderStateStr == '待调度' && <View style={{width: 100,flexDirection: 'row'}}>
                             <View style={{justifyContent: 'center',width: 80}}>
-                                <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.freight}</Text>
+                                <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.configFreight}</Text>
                             </View>
                             <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
                                 <Text style={{}}>元</Text>
