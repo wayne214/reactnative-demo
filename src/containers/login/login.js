@@ -33,7 +33,8 @@ import {
     setCurrentCharacterAction,
     setCompanyCodeAction,
     setOwnerNameAction,
-    saveCompanyInfoAction
+    saveCompanyInfoAction,
+    saveUserTypeInfoAction
 } from '../../action/user';
 
 // import * as StaticColor from '../../constants/staticColor';
@@ -281,7 +282,8 @@ class Login extends BaseComponent {
 
     quaryAccountRoleCallback(result) {
         console.log("------账号角色信息",result);
-        LoginCharacter.setCharacter(this.props,result);
+        LoginCharacter.setCharacter(this.props,result, 'login');
+        this.props.saveUserTypeInfoAction(result);
     }
 
 
@@ -475,6 +477,11 @@ function mapDispatchToProps(dispatch) {
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
         },
+
+        saveUserTypeInfoAction:(result)=>{
+          dispatch(saveUserTypeInfoAction(result));
+        },
+
     };
 }
 

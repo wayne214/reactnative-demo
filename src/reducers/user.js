@@ -25,6 +25,7 @@ const initState = Immutable.fromJS({
     companyCode: '', // 承运商编码
     ownerName: '',
     companyInfo: '',
+    userTypeInfo:{}
 });
 
 export default (state = initState, action) => {
@@ -109,6 +110,7 @@ export default (state = initState, action) => {
             Storage.remove(StorageKey.payPassword);
             Storage.remove(StorageKey.carOwnerAddDriverInfo);
             Storage.remove(StorageKey.carOwnerAddCarInfo);
+            Storage.remove(StorageKey.USER_TYPE_INFO);
 
 
 
@@ -167,6 +169,11 @@ export default (state = initState, action) => {
             action.payload ? Storage.save(StorageKey.COMPANY_INFO, action.payload) : '';
             return newState;
 
+        case ActionTypes.ACTION_SAVE_USER_TYPE_INFO:
+
+            newState = newState.set('userTypeInfo', action.payload);
+            Storage.save(StorageKey.USER_TYPE_INFO, action.payload);
+            return newState;
         default:
             return state;
     }

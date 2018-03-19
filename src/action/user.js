@@ -94,3 +94,11 @@ export const saveCompanyInfoAction = (data) => {
         payload: data,
     };
 };
+/*账户-保存承运商信息*/
+export const saveUserTypeInfoAction = (data) => {
+    return {
+        type: ActionTypes.ACTION_SAVE_USER_TYPE_INFO,
+        payload: data,
+    };
+};
+

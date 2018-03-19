@@ -5,11 +5,9 @@ import android.content.Intent;
 
 import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import com.remobile.toast.RCTToastPackage;
-import org.reactnative.camera.RNCameraPackage;
-import org.reactnative.camera.RNCameraPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
-import com.remobile.toast.RCTToastPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rnfs.RNFSPackage;
