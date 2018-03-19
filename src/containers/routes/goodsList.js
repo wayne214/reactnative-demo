@@ -131,7 +131,7 @@ class GoodsList extends Component {
         this.resetCarrierGoodslistener.remove();
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
-
+    console.log('global.companyCode', global.companyCode);
     this.props._getNormalGoodsList({
         companyCode: global.companyCode,
         num: page,
