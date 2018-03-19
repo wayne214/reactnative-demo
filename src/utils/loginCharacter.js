@@ -196,7 +196,7 @@ class LoginCharacter {
                     }
 
                     if (result[0].status == 10) {
-                        // props.saveCompanyInfoAction(result[1]);
+                        props.saveCompanyInfoAction(result[1]);
                         if (result[0].companyNature == '个人') {
                             props.setOwnerNameAction(result[1].name);
                             props.setCurrentCharacterAction('personalOwner');
