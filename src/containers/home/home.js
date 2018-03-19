@@ -884,7 +884,7 @@ class Home extends Component {
                 clickAction={() => { // 点击事件
                     if (this.props.driverStatus == 2) {
                         this.props._changeBottomTab('driverGoods');
-                        {/*DeviceEventEmitter.emit('resetGood');*/}
+                        DeviceEventEmitter.emit('resetGood')
                     } else {
                         {/*DeviceEventEmitter.emit('certification');*/}
                     }

@@ -93,6 +93,7 @@ class ModifyPassword extends React.Component {
         this.loginSecretCode = this.loginSecretCode.bind(this);
         this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);
         this.changePwdSuccback = this.changePwdSuccback.bind(this);
+        this.changePSD = this.changePSD.bind(this);
     }
 
     static navigationOptions = ({navigation}) => {
@@ -103,13 +104,14 @@ class ModifyPassword extends React.Component {
         }
     };
     getSecretCodeCallback(result) {
-        if (result) {
+        console.log('====result',result)
+        if(result) {
             const secretCode = result;
             const secretOldPWD = XeEncrypt.aesEncrypt(this.state.oldPassword, secretCode, secretCode);
             const secretNewPWD = XeEncrypt.aesEncrypt(this.state.newPassword, secretCode, secretCode);
-
+            console.log('----result',result,secretOldPWD);
             /*修改密码*/
-            this.changePSD(secretOldPWD, secretNewPWD, this.changePwdSuccback);
+            this.changePSD(secretOldPWD, secretNewPWD);
         }
     }
     changePwdSuccback(result) {
@@ -120,17 +122,17 @@ class ModifyPassword extends React.Component {
             this.props.navigation.dispatch({type: 'push', routeName: ROUTE_LOGIN})
         }
     }
-    changePSD(secretOldPWD, secretNewPWD, callback) {
+    changePSD(secretOldPWD, secretNewPWD) {
         this.props._modifyPwd({
             confirmPassword: secretNewPWD,
             newPassword: secretNewPWD,
             oldPassword: secretOldPWD,
-            userId: this.props.userInfo.userId,
-        }, callback);
+            userId: global.userId,
+        }, this.changePwdSuccback());
     }
 
     /*获取密码秘钥*/
-    loginSecretCode(getSecretCodeCallback) {
+    loginSecretCode() {
         const oldPwd = this.state.oldPassword;
         const newPwd = this.state.newPassword;
         const confNd = this.state.confirmNewPwd;
@@ -148,7 +150,7 @@ class ModifyPassword extends React.Component {
             Toast.show('新密码两次输入不一致，请重新输入');
         } else {
             // 获取密钥
-            this.props._getSecretCode({}, getSecretCodeCallback);
+            this.props._getSecretCode({}, this.getSecretCodeCallback);
         }
     }
 
@@ -205,7 +207,7 @@ class ModifyPassword extends React.Component {
                             onPress={() => {
                                 if (Validator.isNewPassword(this.state.newPassword)) {
                                     if (Validator.isNewPassword(this.state.confirmNewPwd)) {
-                                        this.loginSecretCode(this.getSecretCodeCallback);
+                                        this.loginSecretCode();
                                     } else {
                                         Toast.show('新密码不可包含特殊字符,总长度应为6至14位,需包含英文和数字');
                                     }
