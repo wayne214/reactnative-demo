@@ -294,7 +294,7 @@ class scanGPS extends Component {
                                 onBarCodeRead={
                                     this.barcodeReceived
                                 }
-                                torchMode={openFlash ? 'on' : 'off'}
+                                flashMode={openFlash ? 'on' : 'off'}
                             >
                                 <View style={styles.container}>
                                     <View style={styles.titleContainer}>

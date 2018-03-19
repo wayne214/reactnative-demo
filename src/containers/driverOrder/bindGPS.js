@@ -124,7 +124,7 @@ class bindGPS extends Component {
                                 fontSize: 16,
                             }}
                             onChangeText={(barCode) => {
-                                this.setState({barCode});
+                                this.setState({barCode: barCode.toUpperCase()});
                             }}
                             value={barCode}
                             placeholder={'请确认您输入了正确的GPS设备编号'}
