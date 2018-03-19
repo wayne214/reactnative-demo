@@ -124,7 +124,7 @@ class entryToBeSignin extends Component {
         });
         // // 返回上一级
         // this.listener1 = DeviceEventEmitter.addListener('changeStateReceipt', () => {
-        //     this.props.navigator.pop();
+            // this.props.navigation.dispatch({type: 'pop'});
         // });
     }
 
@@ -208,8 +208,8 @@ class entryToBeSignin extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            plateNumber: '京LPL001'
-            // plateNumber: this.props.plateNumber
+            // plateNumber: '京LPL001'
+            plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.sendOderSuccessCallBack(responseData);
         })
@@ -312,7 +312,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
-                        num={'12'}
+                        num={item.qty}
                         signer={item.signer}
                         signTime={item.signTime}
                         scheduleTime={item.scheduleTime}
@@ -345,7 +345,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
-                        num={'12'}
+                        num={item.qty}
                         signer={item.signer}
                         signTime={item.signTime}
                         scheduleTime={item.scheduleTime}
@@ -380,7 +380,7 @@ class entryToBeSignin extends Component {
                         transOrderType={item.transOrderType}
                         vol={item.vol}
                         weight={item.weight}
-                        num={'12'}
+                        num={item.qty}
                         settlementMode={item.settleType} // 结算方式：10 按单结费 20 按车结费
                         settleMethod={item.settleMethod} // 结费方式；10 现金 20 到付 30 回付 40 月付
                         scheduleTime={item.scheduleTime}

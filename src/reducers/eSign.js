@@ -13,6 +13,9 @@ const initState = Immutable.fromJS({
 	selectTemplate: 1,
   sealHtext: '',
   sealQtext: '',
+	sealPersonTemplate: '',
+  templateStyle: '',
+    sealTemplate: ''
 });
 
 export default (state = initState, action) => {
@@ -27,8 +30,8 @@ export default (state = initState, action) => {
 				sealAuth: eSign.sealAuth,// (integer, optional): 是否设置印章 ,
 				sealColor: eSign.sealColor,// (string, optional): 印章颜色 ,
 				sealData: eSign.sealData,// (string, optional): 印章图片数据 ,
-				sealHtext: eSign.sealHtext ,// (string, optional): 生成印章中的横向文本内容 ,
-				sealQtext: eSign.sealQtext,// (string, optional): 生成印章中的下弦文本内容 ,
+				sealHtext: eSign.htext ,// (string, optional): 生成印章中的横向文本内容 ,
+				sealQtext: eSign.qtext,// (string, optional): 生成印章中的下弦文本内容 ,
 				sealTemplate: eSign.sealTemplate,// (string, optional): 印章模版 ,
 				sealTime: eSign.sealTime,// (string, optional): 设置印章时间
 			});
@@ -36,6 +39,10 @@ export default (state = initState, action) => {
 			newState = newState.set('isRefresh', false);
 			newState = newState.set('isCricleTemplate', eSign.sealTemplate === 'STAR' ? true : false);
 			newState = newState.set('sealColor',eSign.sealColor);
+			newState = newState.set('sealPersonTemplate', eSign.sealTemplate);
+			newState = newState.set('sealTemplate', eSign.sealTemplate);
+			newState = newState.set('sealHtext', eSign.htext);
+			newState = newState.set('sealQtext', eSign.qtext);
 			newState = newState.setIn(['eSign','eSignInfoDetail'],Immutable.fromJS(eSignInfoDetail));
 			return newState;
 		case ActionTypes.ACTION_REFRESH_ESIGN_TEMPLATE_INFO:
@@ -53,6 +60,10 @@ export default (state = initState, action) => {
 		case ActionTypes.ACTION_SET_LAST_QUARTER_TEXT:
 				newState = newState.set('sealQtext', action.payload);
 				return newState;
+      case ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO:
+          console.log('lqq--ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO--->',action.payload.sealPersonTemplate);
+          newState = newState.set('sealPersonTemplate',action.payload.sealPersonTemplate);
+          return newState;
 		default:
 			return state;
 	}

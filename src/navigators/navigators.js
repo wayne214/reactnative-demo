@@ -65,6 +65,7 @@ import PreOrderScreen from '../containers/routes/preOrder.js'
 import RuleInstructionScreen from '../containers/routes/ruleInstruction.js'
 import SearchGoodsScreen from '../containers/routes/searchGoods.js'
 import BiddingListScreen from '../containers/routes/biddingList.js'
+import GoodListDetail from '../containers/routes/goodListDetail.js'
 import DispatchCarScreen from '../containers/order/dispatchCar.js'
 import TransportConfirmScreen from '../containers/entrust/transportConfirm.js'
 import EntrustOrderDetailScreen from '../containers/entrust/entrustOrderDetail.js'
@@ -75,6 +76,8 @@ import ContractDetailScreen from '../containers/order/contractDetail.js'
 import ConfirmDeliveryScreen from '../containers/order/confirmDelivery.js'
 import BillDetailScreen from '../containers/order/billDetail.js'
 import ApplyCoordinationScreen from '../containers/order/applyCoordination.js'
+
+
 
 // 首页
 import HomeScreen from '../containers/home/home';
@@ -132,6 +135,10 @@ import CarOwnerAddCar from '../containers/driverVerified/carOwnerAddCar';
 import CarOwnerAddCarDetail from '../containers/driverVerified/carOwnerAddCarDetail';
 import CarOwnerAddDriver from '../containers/driverVerified/carOwnerAddDriver';
 import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDriverDetail';
+import CarOwnerVerifiedMsgCode from '../containers/driverVerified/carOwnerVerifiedMsgCode';
+import CarOwnerAddCarTwo from '../containers/driverVerified/carOwnerAddCarTwo';
+import CarOwnerAddCarThree from '../containers/driverVerified/carOwnerAddCarThree';
+
 
 // 选择车辆
 import ChooseCarScreen from '../containers/mine/chooseCar';
@@ -159,6 +166,12 @@ import ESignTemplateIndividual from '../containers/user/eSignTemplateIndividual'
 import ESignTemplateColor from '../containers/user/eSignTemplateColor';
 import SetHorizontalTextScreen from '../containers/user/setHorizontalText';
 import SetLastQuarterTextScreen from '../containers/user/setLastQuarterText';
+
+import MessageListScreen from '../containers/mine/msgList';
+import DevicesUnBindSuccScreen from '../containers/mine/devicesUnBindSucc';
+
+import ArrangeCarList from '../containers/entrust/arrangeCarList';
+import ArrangeDriverList from '../containers/entrust/arrangeDriverList';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -861,6 +874,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_INFO]: {
         screen: CarInfoScreen,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
@@ -941,6 +955,26 @@ export const AppNavigator = StackNavigator({
 
         }
     },
+
+    [RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE]: {
+        screen: CarOwnerVerifiedMsgCode,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_TWO]: {
+        screen: CarOwnerAddCarTwo,
+        navigationOptions: {
+            header: null
+        }
+    },
+
+    [RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE]: {
+        screen: CarOwnerAddCarThree,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_ESIGN_INDIVIDUAL]: {
         screen: ShowESignInfoIndividual,
         navigationOptions: {
@@ -976,6 +1010,41 @@ export const AppNavigator = StackNavigator({
         screen: SetLastQuarterTextScreen,
         navigationOptions: {
             // title: '下弦文'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_GOOD_LIST_DETAIL]: {
+        screen: GoodListDetail,
+        navigationOptions: {
+            // title: '下弦文'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MESSAGE_LIST_PAGE]: {
+        screen: MessageListScreen,
+        navigationOptions: {
+            // title: '司机-消息列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_DEVICES_UNBIND_SUCC]: {
+        screen: DevicesUnBindSuccScreen,
+        navigationOptions: {
+            // title: '设备解绑成功'
+            // header: null
+        }
+    },
+    [RouteType.ROUTE_ARRANGE_CAR_LIST]: {
+        screen: ArrangeCarList,
+        navigationOptions: {
+            // title: '安排车辆列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_ARRANGE_DRIVER_LIST]: {
+        screen: ArrangeDriverList,
+        navigationOptions: {
+            // title: '安排司机列表'
             header: null
         }
     },

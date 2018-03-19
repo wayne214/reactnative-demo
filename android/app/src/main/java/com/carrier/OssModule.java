@@ -31,9 +31,9 @@ public class OssModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void init(String filePath, String objKey, String bucket, String url, String type, Promise promise) {
-
+        Log.i("--------filePath----# ", filePath);
         String _path = ImageCompress.compressBitmap(getReactApplicationContext(), filePath, 480, 800, false);
-        Log.i("------------# ", _path);
+        Log.i("--------_path----# ", _path);
 
         OssService ossService = initOSS(endpoint, bucket, url);
         ossService.asyncPutImage(objKey, _path, bucket, type, promise);

@@ -31,25 +31,37 @@ import Button from 'apsl-react-native-button'
 import Toast from '../../utils/toast.js';
 import Coordination from '../../components/order/coordinatation'
 import BaseComponent from '../../components/common/baseComponent'
-let startTime = 0
+let startTime = 0;
+import EmptyView from '../../components/common/emptyView';
+const screenWidth = Dimensions.get('window').width;
+
+import HelperUtils from '../../utils/helper';
+
+import OrderDetailEntry from './orderDetailEntry';
 
 class OrderDetail extends BaseComponent {
 	constructor(props) {
 	  super(props);
 	  this._showCoordinateResult = this._showCoordinateResult.bind(this)
-	  const {orderNo} = props.navigation.state.params
+	  const {orderNo, deliveryno, orderSource, orderStatus} = props.navigation.state.params
 	  this.state = {
 	  	orderNo,
-	  	showCoordination: false
+	  	showCoordination: false,
+        deliveryno: deliveryno,
+        orderSource: orderSource,
+      orderStatus,
+        current: 1,
 	  }
-	  console.log("----- 订单详情  参数 orderNo: ",orderNo);
+	  // console.log("----- 订单详情  参数 orderNo: ",orderNo);
+      this.onScrollEnd = this.onScrollEnd.bind(this);
 	}
 	componentDidMount() {
 		// InteractionManager.runAfterInteractions(()=>{
 		//	//延迟执行
 		// })
 		setTimeout(()=>{
-			this.props._getOrderDetail({orderNo: this.state.orderNo})
+			this.props._getOrderDetail({orderCode: this.state.deliveryno,
+          orderSource: this.state.orderSource})
 		}, 500);
 
 	}
@@ -84,643 +96,698 @@ class OrderDetail extends BaseComponent {
 		})
 	}
 
-	_rendeFloderItem(itemTitle,clickAction,isLast){
-		return (
-			<View style={[styles.flodItem]}>
-				<Text>{itemTitle}</Text>
-				<TouchableOpacity activeOpacity={0.8} style={{flex:1}} onPress={()=>{if (clickAction) {clickAction()}}}>
-					<View style={{flex:1,justifyContent: 'center'}}>
-						<Text style={{color: COLOR.APP_THEME,textAlign:'right'}}>查看</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		)
-	}
+// 	_rendeFloderItem(itemTitle,clickAction,isLast){
+// 		return (
+// 			<View style={[styles.flodItem]}>
+// 				<Text>{itemTitle}</Text>
+// 				<TouchableOpacity activeOpacity={0.8} style={{flex:1}} onPress={()=>{if (clickAction) {clickAction()}}}>
+// 					<View style={{flex:1,justifyContent: 'center'}}>
+// 						<Text style={{color: COLOR.APP_THEME,textAlign:'right'}}>查看</Text>
+// 					</View>
+// 				</TouchableOpacity>
+// 			</View>
+// 		)
+// 	}
+    onScrollEnd(event) {
+        // 得出滚动的位置
+        const index = event.nativeEvent.contentOffset.x / screenWidth + 1;
+        if (index < 1 || index > (this.props.orderDetail ? this.props.orderDetail.length : 1)) {
+            return;
+        }
+        this.setState({
+            current: parseInt(index),
+        });
+    }
+
 	render() {
 		const {orderDetail} = this.props
 		const {showCoordination} = this.state
 		console.log("====== i am order detail",orderDetail);
-		let floderItemCount = 4
-		if (orderDetail){
-			if (orderDetail.orderNo && orderDetail.entrustType == 1) {floderItemCount+=1}
-			if (orderDetail.billGoodsImg) {floderItemCount+=1}
-			if (orderDetail.environmentImg) {floderItemCount+=1}
-			if (orderDetail.billOutImg) {floderItemCount+=1}
-			if ((orderDetail.entrustType == 1 && orderDetail.billBackImg) || (orderDetail.entrustType == 2 && orderDetail.orderState == 12 && orderDetail.billBackImg)) {
-				floderItemCount+=1
-			}
-			if (orderDetail.companyPaymentImg) {floderItemCount+=1}
+		// let floderItemCount = 4
+		// if (orderDetail){
+		// 	if (orderDetail.orderNo && orderDetail.entrustType == 1) {floderItemCount+=1}
+		// 	if (orderDetail.billGoodsImg) {floderItemCount+=1}
+		// 	if (orderDetail.environmentImg) {floderItemCount+=1}
+		// 	if (orderDetail.billOutImg) {floderItemCount+=1}
+		// 	if ((orderDetail.entrustType == 1 && orderDetail.billBackImg) || (orderDetail.entrustType == 2 && orderDetail.orderState == 12 && orderDetail.billBackImg)) {
+		// 		floderItemCount+=1
+		// 	}
+		// 	if (orderDetail.companyPaymentImg) {floderItemCount+=1}
+		// }
+		let entry;
+		if (orderDetail) {
+			entry = orderDetail.map((item, index) => {
+				console.log('itme')
+				return (
+					<OrderDetailEntry key={index} {...this.props} orderDetailData={item}/>
+				)
+			})
+		} else {
+			entry = '';
 		}
-
 		return <View style={styles.container}>
+			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
+				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
+				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{HelperUtils.getTransOrderStatus(this.state.orderStatus)}</Text>
+			</View>
+			<View style={{justifyContent: 'center', alignItems: 'center', height: 44}}>
+				<Text style={{textAlign: 'center', fontSize: 16, color: '#666666', }}>
+            {this.state.current}/{this.props.orderDetail ? this.props.orderDetail.length : 0}
+				</Text>
+			</View>
 			{
 				orderDetail ?
-					<ScrollView style={styles.scrollView}>
-						<DetailTop configData={{
-							type: ENUM.DETAIL_TYPE.ORDER,
-							orderId: orderDetail.orderNo,
-							orderStatus: orderDetail.orderStateStr,
-							goodsTypeStr: orderDetail.goodsTypeStr
-						}}/>
-						<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 18}}>
-							<Text>成单运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierDealPrice}</Text>元</Text>
-						</View>
-						{
-							orderDetail.entrustType == 1 && orderDetail.goodsType == 1 && orderDetail.companyExaminePrice ?
-								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
-									<Text>审核运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.companyExaminePrice}</Text>元</Text>
-								</View>
-							: null
-						}
-						{
-							orderDetail.consultState == 3  && !(orderDetail.entrustType == 1 && orderDetail.goodsType == 1) ?// 协调完成 且 不是自营 干线
-								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
-									<Text>协调运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierPaymentPrice}</Text>元</Text>
-								</View>
-							: null
-						}
-						{
-							(orderDetail.orderState == 10 || (orderDetail.orderState == 14 && orderDetail.entrustType == 1)) && orderDetail.promptState == 2 ?
-								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
-									<Text>催款状态：已催款</Text>
-								</View>
-							: null
-						}
-						{
-							orderDetail.orderState === 15 ?
-								<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>
-									<Text style={{color: '#F6001E',fontSize: 13}}>已结金额： {orderDetail.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{orderDetail.unknotPrice || 0}元</Text>
-								</View>
-							: null
-						}
-						{
-							orderDetail.entrustType == 2 && orderDetail.orderState == 15 && orderDetail.auditProposeType == 2 ?
-								<View style={{backgroundColor: 'white',padding: 10}}>
-									<View style={styles.tips}>
-										<Text style={styles.tipsContent}>驳回原因：{orderDetail.orderRejectReason}</Text>
-									</View>
-								</View>
-							: null
-						}
-						<View style={{height: 5,backgroundColor: 'white'}}/>
-						<GoodsInfo configData={orderDetail.goodsInfoData}/>
-						<FoldView title={'收发货人信息'} openHeight={floderItemCount * 44} renderContent={()=>{
-							return (
-								<View>
-									<View style={styles.flodItem}>
-										<Text>发货人:</Text>
-										{
-											orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲
-												<Text>冷链马甲</Text>
-											: <Text>{orderDetail.shipper}</Text>
-										}
-									</View>
-									<View style={styles.flodItem}>
-										<Text>发货人电话:</Text>
-										<Text>{orderDetail.shipperPhone}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>收货人:</Text>
-										<Text>{orderDetail.receiver}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>收货人电话:</Text>
-										<Text>{orderDetail.receiverPhone}</Text>
-									</View>
-									{
-										orderDetail.orderNo && orderDetail.entrustType == 1 ?
-											this._rendeFloderItem('我的合同:',()=>{
-												console.log("==== 查看合同");
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_CONTRACT_DETAIL,
-													params: {
-														orderNo: orderDetail.orderNo,
-														contractNo: orderDetail.companyContractNo,
-														title: '合同详情'
-													}
-												})
-												// this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL,{
-												//
-												//
-												// })
-											})
-										: null
-									}
-									{
-										orderDetail.billGoodsImg ?
-											this._rendeFloderItem('装货清单:',()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_LADING_BILL,
-													params: {
-														title: '装货清单',
-														images: orderDetail.billGoodsImg.split(',')
-													}
-												})
-											})
-										: null
-									}
-									{
-										orderDetail.environmentImg ?
-											this._rendeFloderItem('环境照片:',()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_LADING_BILL,
-													params: {
-														title: '环境照片',
-														images: orderDetail.environmentImg.split(',')
-													}
-												})
-											})
-										: null
-									}
-									{
-										orderDetail.billOutImg ?
-											this._rendeFloderItem('出库单:',()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_LADING_BILL,
-													params: {
-														title: '出库单',
-														images: orderDetail.billOutImg.split(',')
-													}
-												})
-											})
-										: null
-									}
-									{
-										(orderDetail.entrustType == 1 && orderDetail.billBackImg) || (orderDetail.entrustType == 2 && orderDetail.orderState == 12 && orderDetail.billBackImg) ?
-											this._rendeFloderItem('回执单:',()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_LADING_BILL,
-													params: {
-														title: '回执单',
-														images: orderDetail.billBackImg.split(',')
-													}
-												})
-											})
-										: null
-									}
-									{
-										orderDetail.companyPaymentImg ?
-											this._rendeFloderItem('结算单:',()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_LADING_BILL,
-													params: {
-														title: '结算单',
-														images: orderDetail.companyPaymentImg.split(',')
-													}
-												})
-											})
-										: null
-									}
-								</View>
-							)
-						}}/>
-						<FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
-							return (
-								<View>
-									<View style={styles.flodItem}>
-										<Text>司机:</Text>
-										<Text>{orderDetail.carOwnerName}</Text>
-									</View>
-									<View style={styles.flodItem}>
-										<Text>司机电话:</Text>
-										<Text>{orderDetail.carOwnerPhone}</Text>
-									</View>
-									<View style={[styles.flodItem,{borderBottomWidth:0}]}>
-										<Text>车牌号码:</Text>
-										<Text>{orderDetail.carNo}</Text>
-									</View>
-								</View>
-							)
-						}}/>
-						<View style={{height: 80,flex:1}}>
-						{
-							(()=>{
-								if (orderDetail.entrustType == 1) {
-									// 自营
-									if (orderDetail.orderState == 1 || orderDetail.orderState == 2) {
-										const dataSource = []
-										if (orderDetail.billGoodsImg && orderDetail.billGoodsImg.length > 0) {
-											dataSource.push({
-												title: '查看装货清单',
-												orderState: orderDetail.orderState,
-												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_LADING_BILL,
-														params: {
-															title: '装货清单',
-															images: orderDetail.billGoodsImg.split(',')
-														}
-													})
-												}
-											})
-										}
-										dataSource.push({
-											title: '上传出库单',
-											orderState: orderDetail.orderState,
-											callBack: ()=>{
-												this.props.navigation.dispatch({
-													type: RouteType.ROUTE_UPLOAD_IMAGES,
-													params: {
-														title: '上传出库单',
-														orderNo: orderDetail.orderNo,
-														entrustType: orderDetail.entrustType,
-														uploadType: 'UPLOAD_BILL_OUT_IMAGE'
-													}
-												})
-											}
-										})
-										return <ButtonView dataSource={dataSource}/>
-									}else if (orderDetail.orderState == 3) {
-										const dataSource = []
-										if (orderDetail.billGoodsImg && orderDetail.billGoodsImg.length > 0) {
-											dataSource.push({
-												title: '查看装货清单',
-												orderState: orderDetail.orderState,
-												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_LADING_BILL,
-														params: {
-															title: '装货清单',
-															images: orderDetail.billGoodsImg.split(',')
-														}
-													})
-												}
-											})
-										};
-										dataSource.push(
-											{
-												title: '查看出库单',
-												orderState: orderDetail.orderState,
-												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_LADING_BILL,
-														params: {
-															title: '出库单',
-															images: orderDetail.billOutImg.split(',')
-														}
-													})
-												}
-											},
-											{
-												title: '装货确认',
-												orderState: orderDetail.orderState,
-												callBack: ()=>{
-													Alert.alert('温馨提示','请认真确认是否已装货完毕',
-														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-														{text: '确认', onPress: ()=>{
-															this.props._confirmInstall({
-																entrustType: orderDetail.entrustType,
-																orderNo: orderDetail.orderNo,
-																toState: 4,
-																orderTopType: 'orderToInstall',
-																carId: this.props.user.carId ? this.props.user.carId : '',
-															},()=>{
-																Toast.show('装货确认成功！');
-																this.props._getOrderDetail({orderNo: this.state.orderNo})
-																this.props.navigation.setParams({
-																	shouldOrderListRefresh: true
-																})
-															})
-														}}]
-													)
-												}
-											})
-										return <ButtonView dataSource={dataSource} />
-									}else if (orderDetail.orderState == 5) {
-										return <ButtonView dataSource={[
-											{
-												title: '确认到达',
-												callBack: ()=>{
-													console.log("===== title: '确认到达',");
-													Alert.alert('温馨提示','拍摄您周围的环境照片，或能确认您到达目的地的重点建筑物环境照片以确认到达',
-														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-														{text: '立即拍照', onPress: ()=>{
-															this.props.navigation.setParams({
-																shouldOrderListRefresh: true
-															})
-															this.props.navigation.dispatch({
-																type: RouteType.ROUTE_UPLOAD_IMAGES,
-																params: {
-																	title: '上传环境照片',
-																	orderNo: orderDetail.orderNo,
-																	entrustType: orderDetail.entrustType,
-																	uploadType: 'UPLOAD_ENVIRONMENT_IMAGES'
-																}
-															})
-														}}]
-													)
-												}
-											}
-										]}/>
-									}else if (orderDetail.orderState == 6 ) {
-										const dataSource = []
-										if (orderDetail.consultState == 1) {
-											dataSource.push({
-												title: '申请协调',
-												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_APPLY_COORDINATION,
-														params: {
-															title: '申请协调',
-															orderNo: orderDetail.orderNo,
-															entrustType: orderDetail.entrustType
-														}
-													})
-												}
-											})
-										}
-										dataSource.push({
-											title: '确认交付',
-											callBack: ()=>{
-												Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
-													[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-													{text: '立即上传', onPress: ()=>{
-														this.props.navigation.dispatch({
-															type: RouteType.ROUTE_UPLOAD_IMAGES,
-															params: {
-																title: '上传回执单',
-																orderNo: orderDetail.orderNo,
-																uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-																entrustType: orderDetail.entrustType
-															}
-														})
-													}}]
-												);
-											}
-										})
-										return <ButtonView dataSource={dataSource}/>
-									}else if (orderDetail.orderState == 9){
-										return <ButtonView dataSource={[
-											{
-												title: '协调结果',
-												callBack: ()=>{
-													this.props._requestCoordinateResult(
-														{
-															orderNo: orderDetail.orderNo,
-															entrustType: orderDetail.entrustType,
-															goodsType: orderDetail.goodsType,
-															carId: this.props.user.carId ? this.props.user.carId : ''
-														},
-														(data)=>{this._showCoordinateResult(data)}
-													)
-												}
-											},
-											{
-												title: '确认交付',
-												callBack: ()=>{
-													Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
-														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-														{text: '立即上传', onPress: ()=>{
-															this.props.navigation.dispatch({
-																type: RouteType.ROUTE_UPLOAD_IMAGES,
-																params: {
-																	title: '上传回执单',
-																	orderNo: orderDetail.orderNo,
-																	uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-																	entrustType: orderDetail.entrustType
-																}
-															})
-														}}]
-													);
-												}
-											}
-										]}/>
+					<ScrollView
+						showsHorizontalScrollIndicator={false}
+						horizontal={true}
+						pagingEnabled={true}
+						onMomentumScrollEnd={this.onScrollEnd}
+						onScrollEndDrag={this.onScrollEnd}
+						style={styles.scrollView}>
 
-									}else if ( [10,14].includes(orderDetail.orderState) && orderDetail.promptState == 1) {
-										return <ButtonView dataSource={[
-											{
-												title: '催款',
-												callBack: ()=>{
-													if (this.props.user.currentUserRole != 1) {
-														Toast.show('司机帐号没有该权限')
-														return
-													}
-													this.props._getBankCardList(this.props.user.userId,(data)=>{
-														if (data.length < 1) {
-															Alert.alert('温馨提示','您的账户还未添加银行账户，为不影响给您打款，请前往用户中心-会员信息进行设置！',[
-																{text: '再看看', onPress:()=>{
-																	console.log("cancle...");
-																}},
-																{text: '去设置', onPress:()=>{
-																	this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}})
-																}}
-															])
-														}else{
-															if (this.props._applyClear) {
-																Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[
-																	{text: '取消', onPress:()=>{
-																		console.log("cancle...");
-																	}},
-																	{text: '提交并查看', onPress:()=>{
-																		this.props._applyClear({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{
-																				this.props.navigation.setParams({
-																					shouldOrderListRefresh: true
-																				})
-																				this.props._getOrderDetail({orderNo: this.state.orderNo})
-																				this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}})
-																			}
-																		)
-																	}}
-																])
-															}
-														}
-													})
-												}
-											}
-										]}/>
-									}else if (orderDetail.orderState == 16) {
-										return <ButtonView dataSource={[
-											{
-												title: '确认结算',
-												callBack: ()=>{
-													console.log(" ===== title: '确认结算', ");
-													this.props._clearConfirm({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{
-														this.props._getOrderDetail({orderNo: this.state.orderNo})
-														this.props.navigation.setParams({
-															shouldOrderListRefresh: true
-														})
-													})
-												}
-											}
-										]}/>
-									}else if ([12,17].includes(orderDetail.orderState)) {
-										return <ButtonView dataSource={[
-											{
-												title: '查看结算单',
-												callBack: ()=>{
-													console.log(" ===== title: '查看结算单', ");
-													if(this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL){
-													// if (this.props.router.getLastCurrentRouteKey() == 'BILL_DETAIL_PAGE') {
-														this.props.navigation.dispatch({type: 'pop'})
-													}else{
-														this.props.navigation.dispatch({
-															type: RouteType.ROUTE_BILL_DETAIL,
-															params: {
-																orderNo: orderDetail.orderNo
-															}
-														})
-													}
+							{entry}
 
-												}
-											}
-										]}/>
-									}else{
-										// 除了以上所有orderState   所有consultState == 3 的都显示协调结果
-										if(orderDetail.consultState == 3){
-											return (
-												<ButtonView dataSource={[
-													{
-														title: '协调结果',
-														callBack: ()=>{
-															this.props._requestCoordinateResult(
-																{
-																	orderNo: orderDetail.orderNo,
-																	entrustType: orderDetail.entrustType,
-																	goodsType: orderDetail.goodsType,
-																	carId: this.props.user.carId ? this.props.user.carId : ''
-																},(data)=>{this._showCoordinateResult(data)}
-															)
-														}
-													}
-												]}/>
-											)
-										}else{
-											return null
-										}
-									}
-								}else{
-									// 第三方承运
-									if (orderDetail.orderState == 3) {
-										return <ButtonView dataSource={[
-											{
-												title: '装货确认',
-												callBack: ()=>{
-													Alert.alert('温馨提示','请认真确认是否已装货完毕',
-														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-														{text: '确认', onPress: ()=>{
-															this.props._confirmInstall({
-																entrustType: orderDetail.entrustType,
-																orderNo: orderDetail.orderNo,
-																toState: 4,
-																orderTopType: 'orderToInstall',
-																carId: this.props.user.carId ? this.props.user.carId : '',
-															},()=>{
-																Toast.show('装货确认成功！');
-																// this.props.router.pop()
-																this.props._getOrderDetail({orderNo: this.state.orderNo})
-																this.props.navigation.setParams({
-																	shouldOrderListRefresh: true
-																})
-															})
-														}}]
-													)
-												}
-											}
-										]}/>
-									}else if (orderDetail.orderState == 6 || orderDetail.orderState == 15) {
-										const dataSource = []
-										if (orderDetail.consultState == 1) {
-											dataSource.push({
-												title: '申请协调',
-												callBack: ()=>{
-													this.props.navigation.dispatch({
-														type: RouteType.ROUTE_APPLY_COORDINATION,
-														params: {
-															title: '申请协调',
-															orderNo: orderDetail.orderNo,
-															entrustType: orderDetail.entrustType
-														}
-													})
-												}
-											})
-										}
-										dataSource.push({
-											title: '确认交付',
-											callBack: ()=>{
-												Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
-													[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-													{text: '立即上传', onPress: ()=>{
-														this.props.navigation.dispatch({
-															type: RouteType.ROUTE_UPLOAD_IMAGES,
-															params: {
-																title: '上传回执单',
-																orderNo: orderDetail.orderNo,
-																uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-																entrustType: orderDetail.entrustType,
-																remark: ''
-															}
-														})
-													}}]
-												)
-											}
-										})
-										return <ButtonView dataSource={dataSource}/>
-									}else if (orderDetail.orderState == 9) {
-										return <ButtonView dataSource={[
-											{
-												title: '协调结果',
-												callBack: ()=>{
-													this.props._requestCoordinateResult(
-														{
-															orderNo: orderDetail.orderNo,
-															entrustType: orderDetail.entrustType,
-															goodsType: orderDetail.goodsType,
-															carId: this.props.user.carId ? this.props.user.carId : ''
-														},(data)=>{this._showCoordinateResult(data)}
-													)
-												}
-											},
-											{
-												title: '确认交付',
-												callBack: ()=>{
-													Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',
-														[{text: '取消', onPress: ()=>{}, style: 'cancel' },
-														{text: '立即上传', onPress: ()=>{
-															this.props.navigation.dispatch({
-																type: RouteType.ROUTE_UPLOAD_IMAGES,
-																params: {
-																	title: '上传回执单',
-																	orderNo: orderDetail.orderNo,
-																	uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-																	entrustType: orderDetail.entrustType,
-																	remark: ''
-																}
-															})
-														}}]
-													)
-												}
-											}
-										]}/>
-									}else{
-										// 除了以上所有orderState   所有consultState == 3 的都显示协调结果
-										if(orderDetail.orderState != 12 && orderDetail.consultState == 3){
-											return (
-												<ButtonView dataSource={[
-													{
-														title: '协调结果',
-														callBack: ()=>{
-															this.props._requestCoordinateResult(
-																{
-																	orderNo: orderDetail.orderNo,
-																	entrustType: orderDetail.entrustType,
-																	goodsType: orderDetail.goodsType,
-																	carId: this.props.user.carId ? this.props.user.carId : ''
-																},(data)=>{this._showCoordinateResult(data)}
-															)
-														}
-													}
-												]}/>
-											)
-										}else{
-											return null
-										}
-									}
-								}
-							})()
-						}
-						</View>
+						{/*<DetailTop configData={{*/}
+							{/*type: ENUM.DETAIL_TYPE.ORDER,*/}
+							{/*orderId: orderDetail.orderNo,*/}
+							{/*orderStatus: orderDetail.orderStateStr,*/}
+							{/*goodsTypeStr: orderDetail.goodsTypeStr*/}
+						{/*}}/>*/}
+						{/*<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 18}}>*/}
+							{/*<Text>成单运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierDealPrice}</Text>元</Text>*/}
+						{/*</View>*/}
+						{/*{*/}
+							{/*orderDetail.entrustType == 1 && orderDetail.goodsType == 1 && orderDetail.companyExaminePrice ?*/}
+								{/*<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>*/}
+									{/*<Text>审核运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.companyExaminePrice}</Text>元</Text>*/}
+								{/*</View>*/}
+							{/*: null*/}
+						{/*}*/}
+						{/*{*/}
+							{/*orderDetail.consultState == 3  && !(orderDetail.entrustType == 1 && orderDetail.goodsType == 1) ?// 协调完成 且 不是自营 干线*/}
+								{/*<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>*/}
+									{/*<Text>协调运费：<Text style={{color: COLOR.TEXT_MONEY}}>{orderDetail.carrierPaymentPrice}</Text>元</Text>*/}
+								{/*</View>*/}
+							{/*: null*/}
+						{/*}*/}
+						{/*{*/}
+							{/*(orderDetail.orderState == 10 || (orderDetail.orderState == 14 && orderDetail.entrustType == 1)) && orderDetail.promptState == 2 ?*/}
+								{/*<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>*/}
+									{/*<Text>催款状态：已催款</Text>*/}
+								{/*</View>*/}
+							{/*: null*/}
+						{/*}*/}
+						{/*{*/}
+							{/*orderDetail.orderState === 15 ?*/}
+								{/*<View style={{backgroundColor: 'white',paddingLeft: 10,flexDirection: 'row',height: 40,alignItems: 'center'}}>*/}
+									{/*<Text style={{color: '#F6001E',fontSize: 13}}>已结金额： {orderDetail.knotPrice || 0}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待结金额：{orderDetail.unknotPrice || 0}元</Text>*/}
+								{/*</View>*/}
+							{/*: null*/}
+						{/*}*/}
+						{/*{*/}
+							{/*orderDetail.entrustType == 2 && orderDetail.orderState == 15 && orderDetail.auditProposeType == 2 ?*/}
+								{/*<View style={{backgroundColor: 'white',padding: 10}}>*/}
+									{/*<View style={styles.tips}>*/}
+										{/*<Text style={styles.tipsContent}>驳回原因：{orderDetail.orderRejectReason}</Text>*/}
+									{/*</View>*/}
+								{/*</View>*/}
+							{/*: null*/}
+						{/*}*/}
+						{/*<View style={{height: 5,backgroundColor: 'white'}}/>*/}
+						{/*<GoodsInfo configData={orderDetail.goodsInfoData}/>*/}
+						{/*<FoldView title={'发货方信息'} openHeight={2 * 44} renderContent={()=>{*/}
+                {/*return (*/}
+									{/*<View>*/}
+										{/*<View style={styles.flodItem}>*/}
+											{/*<Text>发货方:</Text>*/}
+                        {/*{*/}
+                            {/*orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲*/}
+															{/*<Text>冷链马甲</Text>*/}
+                                {/*: <Text>{orderDetail.shipper}</Text>*/}
+                        {/*}*/}
+										{/*</View>*/}
+										{/*<View style={styles.flodItem}>*/}
+											{/*<Text>联系电话:</Text>*/}
+											{/*<Text>{orderDetail.shipperPhone}</Text>*/}
+										{/*</View>*/}
+									{/*</View>*/}
+                {/*)*/}
+            {/*}}/>*/}
+            {/*<FoldView title={'收货方信息'} openHeight={floderItemCount * 44} renderContent={()=>{*/}
+            {/*return (*/}
+								{/*<View>*/}
+									{/*/!*<View style={styles.flodItem}>*!/*/}
+										{/*/!*<Text>发货人:</Text>*!/*/}
+										{/*/!*{*!/*/}
+											{/*/!*orderDetail.entrustType == 1 ?//自营订单 发货方：冷链马甲*!/*/}
+												{/*/!*<Text>冷链马甲</Text>*!/*/}
+											{/*/!*: <Text>{orderDetail.shipper}</Text>*!/*/}
+										{/*/!*}*!/*/}
+									{/*/!*</View>*!/*/}
+									{/*/!*<View style={styles.flodItem}>*!/*/}
+										{/*/!*<Text>发货人电话:</Text>*!/*/}
+										{/*/!*<Text>{orderDetail.shipperPhone}</Text>*!/*/}
+									{/*/!*</View>*!/*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>收货方:</Text>*/}
+										{/*<Text>{orderDetail.receiver}</Text>*/}
+									{/*</View>*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>联系电话:</Text>*/}
+										{/*<Text>{orderDetail.receiverPhone}</Text>*/}
+									{/*</View>*/}
+									{/*{*/}
+										{/*orderDetail.orderNo && orderDetail.entrustType == 1 ?*/}
+											{/*this._rendeFloderItem('我的合同:',()=>{*/}
+												{/*console.log("==== 查看合同");*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_CONTRACT_DETAIL,*/}
+													{/*params: {*/}
+														{/*orderNo: orderDetail.orderNo,*/}
+														{/*contractNo: orderDetail.companyContractNo,*/}
+														{/*title: '合同详情'*/}
+													{/*}*/}
+												{/*})*/}
+												{/*// this.props.router.push(RouteType.ROUTE_CONTRACT_DETAIL,{*/}
+												{/*//*/}
+												{/*//*/}
+												{/*// })*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+									{/*{*/}
+										{/*orderDetail.billGoodsImg ?*/}
+											{/*this._rendeFloderItem('装货清单:',()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_LADING_BILL,*/}
+													{/*params: {*/}
+														{/*title: '装货清单',*/}
+														{/*images: orderDetail.billGoodsImg.split(',')*/}
+													{/*}*/}
+												{/*})*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+									{/*{*/}
+										{/*orderDetail.environmentImg ?*/}
+											{/*this._rendeFloderItem('环境照片:',()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_LADING_BILL,*/}
+													{/*params: {*/}
+														{/*title: '环境照片',*/}
+														{/*images: orderDetail.environmentImg.split(',')*/}
+													{/*}*/}
+												{/*})*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+									{/*{*/}
+										{/*orderDetail.billOutImg ?*/}
+											{/*this._rendeFloderItem('出库单:',()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_LADING_BILL,*/}
+													{/*params: {*/}
+														{/*title: '出库单',*/}
+														{/*images: orderDetail.billOutImg.split(',')*/}
+													{/*}*/}
+												{/*})*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+									{/*{*/}
+										{/*(orderDetail.entrustType == 1 && orderDetail.billBackImg) || (orderDetail.entrustType == 2 && orderDetail.orderState == 12 && orderDetail.billBackImg) ?*/}
+											{/*this._rendeFloderItem('回执单:',()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_LADING_BILL,*/}
+													{/*params: {*/}
+														{/*title: '回执单',*/}
+														{/*images: orderDetail.billBackImg.split(',')*/}
+													{/*}*/}
+												{/*})*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+									{/*{*/}
+										{/*orderDetail.companyPaymentImg ?*/}
+											{/*this._rendeFloderItem('结算单:',()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_LADING_BILL,*/}
+													{/*params: {*/}
+														{/*title: '结算单',*/}
+														{/*images: orderDetail.companyPaymentImg.split(',')*/}
+													{/*}*/}
+												{/*})*/}
+											{/*})*/}
+										{/*: null*/}
+									{/*}*/}
+								{/*</View>*/}
+            {/*)*/}
+            {/*}}/>*/}
+            {/*<FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{*/}
+            {/*return (*/}
+								{/*<View>*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>司机:</Text>*/}
+										{/*<Text>{orderDetail.carOwnerName}</Text>*/}
+									{/*</View>*/}
+									{/*<View style={styles.flodItem}>*/}
+										{/*<Text>司机电话:</Text>*/}
+										{/*<Text>{orderDetail.carOwnerPhone}</Text>*/}
+									{/*</View>*/}
+									{/*<View style={[styles.flodItem,{borderBottomWidth:0}]}>*/}
+										{/*<Text>车牌号码:</Text>*/}
+										{/*<Text>{orderDetail.carNo}</Text>*/}
+									{/*</View>*/}
+								{/*</View>*/}
+            {/*)*/}
+            {/*}}/>*/}
+            {/*<View style={{height: 80,flex:1}}>*/}
+            {/*{*/}
+            {/*(()=>{*/}
+								{/*if (orderDetail.entrustType == 1) {*/}
+									{/*// 自营*/}
+									{/*if (orderDetail.orderState == 1 || orderDetail.orderState == 2) {*/}
+										{/*const dataSource = []*/}
+										{/*if (orderDetail.billGoodsImg && orderDetail.billGoodsImg.length > 0) {*/}
+											{/*dataSource.push({*/}
+												{/*title: '查看装货清单',*/}
+												{/*orderState: orderDetail.orderState,*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props.navigation.dispatch({*/}
+														{/*type: RouteType.ROUTE_LADING_BILL,*/}
+														{/*params: {*/}
+															{/*title: '装货清单',*/}
+															{/*images: orderDetail.billGoodsImg.split(',')*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*})*/}
+										{/*}*/}
+										{/*dataSource.push({*/}
+											{/*title: '上传出库单',*/}
+											{/*orderState: orderDetail.orderState,*/}
+											{/*callBack: ()=>{*/}
+												{/*this.props.navigation.dispatch({*/}
+													{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+													{/*params: {*/}
+														{/*title: '上传出库单',*/}
+														{/*orderNo: orderDetail.orderNo,*/}
+														{/*entrustType: orderDetail.entrustType,*/}
+														{/*uploadType: 'UPLOAD_BILL_OUT_IMAGE'*/}
+													{/*}*/}
+												{/*})*/}
+											{/*}*/}
+										{/*})*/}
+										{/*return <ButtonView dataSource={dataSource}/>*/}
+									{/*}else if (orderDetail.orderState == 3) {*/}
+										{/*const dataSource = []*/}
+										{/*if (orderDetail.billGoodsImg && orderDetail.billGoodsImg.length > 0) {*/}
+											{/*dataSource.push({*/}
+												{/*title: '查看装货清单',*/}
+												{/*orderState: orderDetail.orderState,*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props.navigation.dispatch({*/}
+														{/*type: RouteType.ROUTE_LADING_BILL,*/}
+														{/*params: {*/}
+															{/*title: '装货清单',*/}
+															{/*images: orderDetail.billGoodsImg.split(',')*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*})*/}
+										{/*};*/}
+										{/*dataSource.push(*/}
+											{/*{*/}
+												{/*title: '查看出库单',*/}
+												{/*orderState: orderDetail.orderState,*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props.navigation.dispatch({*/}
+														{/*type: RouteType.ROUTE_LADING_BILL,*/}
+														{/*params: {*/}
+															{/*title: '出库单',*/}
+															{/*images: orderDetail.billOutImg.split(',')*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*},*/}
+											{/*{*/}
+												{/*title: '装货确认',*/}
+												{/*orderState: orderDetail.orderState,*/}
+												{/*callBack: ()=>{*/}
+													{/*Alert.alert('温馨提示','请认真确认是否已装货完毕',*/}
+														{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+														{/*{text: '确认', onPress: ()=>{*/}
+															{/*this.props._confirmInstall({*/}
+																{/*entrustType: orderDetail.entrustType,*/}
+																{/*orderNo: orderDetail.orderNo,*/}
+																{/*toState: 4,*/}
+																{/*orderTopType: 'orderToInstall',*/}
+																{/*carId: this.props.user.carId ? this.props.user.carId : '',*/}
+															{/*},()=>{*/}
+																{/*Toast.show('装货确认成功！');*/}
+																{/*this.props._getOrderDetail({orderNo: this.state.orderNo})*/}
+																{/*this.props.navigation.setParams({*/}
+																	{/*shouldOrderListRefresh: true*/}
+																{/*})*/}
+															{/*})*/}
+														{/*}}]*/}
+													{/*)*/}
+												{/*}*/}
+											{/*})*/}
+										{/*return <ButtonView dataSource={dataSource} />*/}
+									{/*}else if (orderDetail.orderState == 5) {*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '确认到达',*/}
+												{/*callBack: ()=>{*/}
+													{/*console.log("===== title: '确认到达',");*/}
+													{/*Alert.alert('温馨提示','拍摄您周围的环境照片，或能确认您到达目的地的重点建筑物环境照片以确认到达',*/}
+														{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+														{/*{text: '立即拍照', onPress: ()=>{*/}
+															{/*this.props.navigation.setParams({*/}
+																{/*shouldOrderListRefresh: true*/}
+															{/*})*/}
+															{/*this.props.navigation.dispatch({*/}
+																{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+																{/*params: {*/}
+																	{/*title: '上传环境照片',*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*entrustType: orderDetail.entrustType,*/}
+																	{/*uploadType: 'UPLOAD_ENVIRONMENT_IMAGES'*/}
+																{/*}*/}
+															{/*})*/}
+														{/*}}]*/}
+													{/*)*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+									{/*}else if (orderDetail.orderState == 6 ) {*/}
+										{/*const dataSource = []*/}
+										{/*if (orderDetail.consultState == 1) {*/}
+											{/*dataSource.push({*/}
+												{/*title: '申请协调',*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props.navigation.dispatch({*/}
+														{/*type: RouteType.ROUTE_APPLY_COORDINATION,*/}
+														{/*params: {*/}
+															{/*title: '申请协调',*/}
+															{/*orderNo: orderDetail.orderNo,*/}
+															{/*entrustType: orderDetail.entrustType*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*})*/}
+										{/*}*/}
+										{/*dataSource.push({*/}
+											{/*title: '确认交付',*/}
+											{/*callBack: ()=>{*/}
+												{/*Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',*/}
+													{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+													{/*{text: '立即上传', onPress: ()=>{*/}
+														{/*this.props.navigation.dispatch({*/}
+															{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+															{/*params: {*/}
+																{/*title: '上传回执单',*/}
+																{/*orderNo: orderDetail.orderNo,*/}
+																{/*uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+																{/*entrustType: orderDetail.entrustType*/}
+															{/*}*/}
+														{/*})*/}
+													{/*}}]*/}
+												{/*);*/}
+											{/*}*/}
+										{/*})*/}
+										{/*return <ButtonView dataSource={dataSource}/>*/}
+									{/*}else if (orderDetail.orderState == 9){*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '协调结果',*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props._requestCoordinateResult(*/}
+														{/*{*/}
+															{/*orderNo: orderDetail.orderNo,*/}
+															{/*entrustType: orderDetail.entrustType,*/}
+															{/*goodsType: orderDetail.goodsType,*/}
+															{/*carId: this.props.user.carId ? this.props.user.carId : ''*/}
+														{/*},*/}
+														{/*(data)=>{this._showCoordinateResult(data)}*/}
+													{/*)*/}
+												{/*}*/}
+											{/*},*/}
+											{/*{*/}
+												{/*title: '确认交付',*/}
+												{/*callBack: ()=>{*/}
+													{/*Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',*/}
+														{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+														{/*{text: '立即上传', onPress: ()=>{*/}
+															{/*this.props.navigation.dispatch({*/}
+																{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+																{/*params: {*/}
+																	{/*title: '上传回执单',*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+																	{/*entrustType: orderDetail.entrustType*/}
+																{/*}*/}
+															{/*})*/}
+														{/*}}]*/}
+													{/*);*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+
+									{/*}else if ( [10,14].includes(orderDetail.orderState) && orderDetail.promptState == 1) {*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '催款',*/}
+												{/*callBack: ()=>{*/}
+													{/*if (this.props.user.currentUserRole != 1) {*/}
+														{/*Toast.show('司机帐号没有该权限')*/}
+														{/*return*/}
+													{/*}*/}
+													{/*this.props._getBankCardList(this.props.user.userId,(data)=>{*/}
+														{/*if (data.length < 1) {*/}
+															{/*Alert.alert('温馨提示','您的账户还未添加银行账户，为不影响给您打款，请前往用户中心-会员信息进行设置！',[*/}
+																{/*{text: '再看看', onPress:()=>{*/}
+																	{/*console.log("cancle...");*/}
+																{/*}},*/}
+																{/*{text: '去设置', onPress:()=>{*/}
+																	{/*this.props.navigation.dispatch({type: RouteType.ROUTE_ADD_BANK_CARD, params:{title:'新增开户行',id:-1}})*/}
+																{/*}}*/}
+															{/*])*/}
+														{/*}else{*/}
+															{/*if (this.props._applyClear) {*/}
+																{/*Alert.alert('温馨提示','请您在催款的同时，确保将开具好的发票邮寄给我们，以免影响您的回款',[*/}
+																	{/*{text: '取消', onPress:()=>{*/}
+																		{/*console.log("cancle...");*/}
+																	{/*}},*/}
+																	{/*{text: '提交并查看', onPress:()=>{*/}
+																		{/*this.props._applyClear({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{*/}
+																				{/*this.props.navigation.setParams({*/}
+																					{/*shouldOrderListRefresh: true*/}
+																				{/*})*/}
+																				{/*this.props._getOrderDetail({orderNo: this.state.orderNo})*/}
+																				{/*this.props.navigation.dispatch({type: RouteType.ROUTE_AGREEMENT_CONTENT, params: {title:'发票说明', type: 3}})*/}
+																			{/*}*/}
+																		{/*)*/}
+																	{/*}}*/}
+																{/*])*/}
+															{/*}*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+									{/*}else if (orderDetail.orderState == 16) {*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '确认结算',*/}
+												{/*callBack: ()=>{*/}
+													{/*console.log(" ===== title: '确认结算', ");*/}
+													{/*this.props._clearConfirm({orderNo: orderDetail.orderNo, carId: this.props.user.carId ? this.props.user.carId : '' },()=>{*/}
+														{/*this.props._getOrderDetail({orderNo: this.state.orderNo})*/}
+														{/*this.props.navigation.setParams({*/}
+															{/*shouldOrderListRefresh: true*/}
+														{/*})*/}
+													{/*})*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+									{/*}else if ([12,17].includes(orderDetail.orderState)) {*/}
+											{/*return <ButtonView dataSource={[*/}
+													{/*{*/}
+														{/*title: '查看结算单',*/}
+														{/*callBack: ()=> {*/}
+                                {/*console.log(" ===== title: '查看结算单', ");*/}
+                                {/*if (this.props.nav.routes[this.props.nav.index - 1].routeName == RouteType.ROUTE_BILL_DETAIL) {*/}
+                                    {/*this.props.navigation.dispatch({type: 'pop'})*/}
+                                {/*} else {*/}
+                                    {/*this.props.navigation.dispatch({*/}
+                                        {/*type: RouteType.ROUTE_BILL_DETAIL,*/}
+                                        {/*params: {*/}
+                                            {/*orderNo: orderDetail.orderNo*/}
+                                        {/*}*/}
+                                    {/*})*/}
+                                {/*}*/}
+                            {/*}*/}
+                          {/*}*/}
+											{/*]} />*/}
+									{/*}else{*/}
+										{/*// 除了以上所有orderState   所有consultState == 3 的都显示协调结果*/}
+										{/*if(orderDetail.consultState == 3){*/}
+											{/*return (*/}
+												{/*<ButtonView dataSource={[*/}
+													{/*{*/}
+														{/*title: '协调结果',*/}
+														{/*callBack: ()=>{*/}
+															{/*this.props._requestCoordinateResult(*/}
+																{/*{*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*entrustType: orderDetail.entrustType,*/}
+																	{/*goodsType: orderDetail.goodsType,*/}
+																	{/*carId: this.props.user.carId ? this.props.user.carId : ''*/}
+																{/*},(data)=>{this._showCoordinateResult(data)}*/}
+															{/*)*/}
+														{/*}*/}
+													{/*}*/}
+												{/*]}/>*/}
+											{/*)*/}
+										{/*}else{*/}
+											{/*return null*/}
+										{/*}*/}
+									{/*}*/}
+								{/*}else{*/}
+									{/*// 第三方承运*/}
+									{/*if (orderDetail.orderState == 3) {*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '装货确认',*/}
+												{/*callBack: ()=>{*/}
+													{/*Alert.alert('温馨提示','请认真确认是否已装货完毕',*/}
+														{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+														{/*{text: '确认', onPress: ()=>{*/}
+															{/*this.props._confirmInstall({*/}
+																{/*entrustType: orderDetail.entrustType,*/}
+																{/*orderNo: orderDetail.orderNo,*/}
+																{/*toState: 4,*/}
+																{/*orderTopType: 'orderToInstall',*/}
+																{/*carId: this.props.user.carId ? this.props.user.carId : '',*/}
+															{/*},()=>{*/}
+																{/*Toast.show('装货确认成功！');*/}
+																{/*// this.props.router.pop()*/}
+																{/*this.props._getOrderDetail({orderNo: this.state.orderNo})*/}
+																{/*this.props.navigation.setParams({*/}
+																	{/*shouldOrderListRefresh: true*/}
+																{/*})*/}
+															{/*})*/}
+														{/*}}]*/}
+													{/*)*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+									{/*}else if (orderDetail.orderState == 6 || orderDetail.orderState == 15) {*/}
+										{/*const dataSource = []*/}
+										{/*if (orderDetail.consultState == 1) {*/}
+											{/*dataSource.push({*/}
+												{/*title: '申请协调',*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props.navigation.dispatch({*/}
+														{/*type: RouteType.ROUTE_APPLY_COORDINATION,*/}
+														{/*params: {*/}
+															{/*title: '申请协调',*/}
+															{/*orderNo: orderDetail.orderNo,*/}
+															{/*entrustType: orderDetail.entrustType*/}
+														{/*}*/}
+													{/*})*/}
+												{/*}*/}
+											{/*})*/}
+										{/*}*/}
+										{/*dataSource.push({*/}
+											{/*title: '确认交付',*/}
+											{/*callBack: ()=>{*/}
+												{/*Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',*/}
+													{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+													{/*{text: '立即上传', onPress: ()=>{*/}
+														{/*this.props.navigation.dispatch({*/}
+															{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+															{/*params: {*/}
+																{/*title: '上传回执单',*/}
+																{/*orderNo: orderDetail.orderNo,*/}
+																{/*uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+																{/*entrustType: orderDetail.entrustType,*/}
+																{/*remark: ''*/}
+															{/*}*/}
+														{/*})*/}
+													{/*}}]*/}
+												{/*)*/}
+											{/*}*/}
+										{/*})*/}
+										{/*return <ButtonView dataSource={dataSource}/>*/}
+									{/*}else if (orderDetail.orderState == 9) {*/}
+										{/*return <ButtonView dataSource={[*/}
+											{/*{*/}
+												{/*title: '协调结果',*/}
+												{/*callBack: ()=>{*/}
+													{/*this.props._requestCoordinateResult(*/}
+														{/*{*/}
+															{/*orderNo: orderDetail.orderNo,*/}
+															{/*entrustType: orderDetail.entrustType,*/}
+															{/*goodsType: orderDetail.goodsType,*/}
+															{/*carId: this.props.user.carId ? this.props.user.carId : ''*/}
+														{/*},(data)=>{this._showCoordinateResult(data)}*/}
+													{/*)*/}
+												{/*}*/}
+											{/*},*/}
+											{/*{*/}
+												{/*title: '确认交付',*/}
+												{/*callBack: ()=>{*/}
+													{/*Alert.alert('温馨提示','请上传您的收货回执单，以便于运输完成后资金结算',*/}
+														{/*[{text: '取消', onPress: ()=>{}, style: 'cancel' },*/}
+														{/*{text: '立即上传', onPress: ()=>{*/}
+															{/*this.props.navigation.dispatch({*/}
+																{/*type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+																{/*params: {*/}
+																	{/*title: '上传回执单',*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+																	{/*entrustType: orderDetail.entrustType,*/}
+																	{/*remark: ''*/}
+																{/*}*/}
+															{/*})*/}
+														{/*}}]*/}
+													{/*)*/}
+												{/*}*/}
+											{/*}*/}
+										{/*]}/>*/}
+									{/*}else{*/}
+										{/*// 除了以上所有orderState   所有consultState == 3 的都显示协调结果*/}
+										{/*if(orderDetail.orderState != 12 && orderDetail.consultState == 3){*/}
+											{/*return (*/}
+												{/*<ButtonView dataSource={[*/}
+													{/*{*/}
+														{/*title: '协调结果',*/}
+														{/*callBack: ()=>{*/}
+															{/*this.props._requestCoordinateResult(*/}
+																{/*{*/}
+																	{/*orderNo: orderDetail.orderNo,*/}
+																	{/*entrustType: orderDetail.entrustType,*/}
+																	{/*goodsType: orderDetail.goodsType,*/}
+																	{/*carId: this.props.user.carId ? this.props.user.carId : ''*/}
+																{/*},(data)=>{this._showCoordinateResult(data)}*/}
+															{/*)*/}
+														{/*}*/}
+													{/*}*/}
+												{/*]}/>*/}
+											{/*)*/}
+										{/*}else{*/}
+											{/*return null*/}
+										{/*}*/}
+									{/*}*/}
+								{/*}*/}
+            {/*})()*/}
+            {/*}*/}
+            {/*</View>*/}
 					</ScrollView>
-				: null
+				: <EmptyView/>
 			}
 			<Modal animationType={ "fade" } transparent={true} visible={showCoordination} onRequestClose={()=>console.log('resolve warnning')} >
 				<Coordination data={this.state.coordinationResult} closeAction={()=>{
@@ -731,6 +798,18 @@ class OrderDetail extends BaseComponent {
 			</Modal>
 
 			{ this._renderUpgrade(this.props) }
+
+				{/*{*/}
+            {/*orderDetail ? <ButtonView dataSource={[*/}
+                {/*{*/}
+                    {/*title: '查看出库单',*/}
+                    {/*callback: () => {*/}
+                        {/*console.log('查看出库单')*/}
+                    {/*}*/}
+                {/*}*/}
+            {/*]}*/}
+						{/*/> : null*/}
+				{/*}*/}
 
 		</View>
 	}
@@ -746,7 +825,7 @@ class ButtonView extends Component {
 		const {dataSource} = this.props
 		const Buttons = dataSource.map((item,index)=>{
 			return (
-				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: (width-20-(dataSource.length-1)*15)/dataSource.length}}
+				<Button key={index} activeOpacity={0.8} style={{backgroundColor: COLOR.APP_THEME,borderWidth: 0,borderRadius: 2,height: 44,width: width}}
 					isDisabled={item.isDisabled}
 					disabledStyle={{backgroundColor: COLOR.BUTTN_DISABLE}}
 					textStyle={{fontSize: 14,color: 'white'}}
@@ -758,7 +837,7 @@ class ButtonView extends Component {
 			)
 		})
 		return (
-			<View style={{flex: 1,flexDirection: 'row',paddingLeft: 10,paddingRight: 10,paddingTop: 20,justifyContent: 'space-between'}}>
+			<View style={{flexDirection: 'row',height: 44, width: width}}>
 				{ Buttons }
 			</View>
 		)
@@ -845,7 +924,8 @@ const mapStateToProps = (state) => {
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
-		orderDetail: order.get('orderDetail')
+		orderDetail: order.get('orderDetail'),
+    plateNumber: state.user.get('plateNumber'),
 	}
 }
 
@@ -854,8 +934,8 @@ const mapDispatchToProps = (dispatch) => {
 		_getOrderDetail:(params)=>{
 			startTime = new Date().getTime();
 			dispatch(fetchData({
-				api: API.GET_ORDER_DETAIL,
-				method: 'GET',
+				api: API.API_CARRIER_QUERY_TRANSPORT_ORDER_INFO,
+				method: 'POST',
 				showLoading: true,
 				body: params,
 				success: (data)=>{

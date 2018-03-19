@@ -612,9 +612,9 @@ class companyCarOwnerAuth extends Component {
 
         //     个人            企业
         let upLoadInfo = {
-            userId: '12322',//userID,
-            userName: 'asdf',//userName,
-            busTel: '4231',//userPhone,
+            userId: userID,//userID,
+            userName: userName,//userName,
+            busTel: userPhone,//userPhone,
             companyNature: '企业', // 伙伴性质
 
             businessLicence: this.state.businessLicence, // 营业执照图片原图地址
@@ -667,11 +667,12 @@ class companyCarOwnerAuth extends Component {
                 Toast.showShortCenter('企业车主认证提交成功');
 
                 this.props.setOwnerCharacterAction('21');
-                this.props.navigation.goBack();
 
-                this.props.navigation.navigate('Main');
                 this.props.setOwnerNameAction(this.state.companyName);
                 this.props.setCurrentCharacterAction('owner');
+
+
+                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
 
 
             },
@@ -894,7 +895,7 @@ class companyCarOwnerAuth extends Component {
                     {personCardDate}
 
                     <VerifiedSpaceItem/>
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.uploadData();
                     }}/>
                 </ScrollView>

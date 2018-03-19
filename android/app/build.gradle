@@ -100,6 +100,7 @@ android {
         targetSdkVersion 23
         versionCode 17
         versionName "1.7.0"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -107,6 +108,9 @@ android {
             JPUSH_APPKEY: "fca499d00bccff3bcf99906b", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
             APP_CHANNEL: "Android_CHANNEL"    //应用渠道号
         ]
+    }
+    dexOptions {
+        jumboMode true
     }
 
     sourceSets {
@@ -159,6 +163,7 @@ android {
 //            buildConfigField "String", "CODEPUSH_KEY", '"mJoOxuPYFFQMYbcePHq7686SniSF118907b3-0f39-4b62-b03d-f9737ab02817"'
             buildConfigField "String", "CODEPUSH_KEY", '"nGt-PxMSqV7vpBnxMXOa6ceDND2C118907b3-0f39-4b62-b03d-f9737ab02817"'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            manifestPlaceholders = [MAP_APP_KEY: "iRXVvkHfKqOpWwofE3kHsLWnlQF0RaAw"]
         }
         debug {
             applicationIdSuffix ".debug"
@@ -166,6 +171,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             buildConfigField "String", "CODEPUSH_KEY", '""'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            manifestPlaceholders = [MAP_APP_KEY: "fL4Dr2UQfVU1ZqRHkvZxyOePNMcAMGq9"]
         }
     }
     // applicationVariants are e.g. debug, release
@@ -192,9 +198,17 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-camera')
+    compile (project(':react-native-camera')) {
+        exclude group: "com.google.android.gms"
+        compile 'com.android.support:exifinterface:27.+'
+    }
+    compile ("com.google.android.gms:play-services-vision:10.2.0") {
+        force = true;
+    }
+    compile project(':react-native-toast')
+    compile project(':jcore-react-native')
+    compile project(':jpush-react-native')
     compile project(':react-native-baidu-map-xzx')
-    compile project(':@remobile/react-native-toast')
     compile project(':react-native-picker-custom')
     compile project(':react-native-image-picker')
     compile project(':react-native-splash-screen')
@@ -203,7 +217,6 @@ dependencies {
     compile project(':react-native-code-push')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-pdf')
-    compile project(':react-native-picker')
     compile project(':react-native-photo-view')
     compile project(':react-native-image-crop-picker')
 //    compile fileTree(dir: "libs", include: ["*.jar"])

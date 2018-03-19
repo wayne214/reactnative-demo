@@ -337,6 +337,54 @@ class HelperUtil {
 		}
 		return result
 	}
+
+    getPersonTemplateStyle(type){
+        if(type === 'HYLSF'){
+            return '样式一';
+        }else if(type === 'BORDERLESS'){
+            return '样式二';
+        }else if(type === 'FZKC'){
+            return '样式三';
+        }else if(type === 'RECTANGLE'){
+            return '样式四';
+        }else if(type === 'YYGXSF'){
+            return '样式五';
+        }else if(type === 'SQUARE'){
+            return '样式六';
+        }else{
+            return '';
+        }
+    }
+
+    getCompanyTemplateStyle(type){
+        if(type === 'STAR'){
+            return '样式一';
+        }else if(type === 'OVAL'){
+            return '样式二';
+        }else{
+            return '';
+        }
+    }
+
+    getTransOrderStatus(status) {
+        switch(status) {
+            case '10':
+                return '未发车';
+            case '20':
+                return '在途';
+            case '30':
+                return '已到站';
+            case '32':
+                return '待回单';
+            case '40':
+                return '已完成';
+            case '1':
+                return '已取消';
+            default:
+                return '';
+        }
+    }
+
 }
 
 export default new HelperUtil();

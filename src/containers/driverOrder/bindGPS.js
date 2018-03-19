@@ -20,6 +20,7 @@ import * as API from '../../constants/api';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 import gps from '../../../assets/img/scan/gps.png'
 import Rectangle from '../../../assets/img/scan/Rectangle.png'
@@ -41,8 +42,8 @@ class bindGPS extends Component {
         this.props._getGPSDetailInfo({
             barCode: this.state.barCode,
         },(responseData) => {
-            if(responseData.result) {
-                let data = responseData.result;
+            if(responseData) {
+                let data = responseData;
                 if(data.isDisabled == 0){
                     if(data.eleValue && parseInt(data.eleValue) > 20) {
                         this.bindGPS();
@@ -54,13 +55,7 @@ class bindGPS extends Component {
                                     this.bindGPS();
                                 },
                             },
-                            {text: '取消',
-                                onPress: () => {
-                                    this.gpsDeviceCode = null;
-                                    isLoadEnd = false;
-                                    this.changeState(true);
-                                }
-                            },
+                            {text: '取消'},
                         ], {cancelable: false});
                     }
                 }else {
@@ -69,6 +64,8 @@ class bindGPS extends Component {
             } else {
                 Toast.showShortCenter('该设备不存在，不能进行绑定');
             }
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         });
 
     }
@@ -82,13 +79,16 @@ class bindGPS extends Component {
             barCode: this.state.barCode,
             isBind: 1, // 绑定
         }, (responseData) => {
-            if(responseData.result){
+            if(responseData){
                 Toast.showShortCenter('绑定成功');
-                // this.props.navigation.goBack();
-                // DeviceEventEmitter.emit('refreshShippedDetails');
+                this.props._refreshOrderList(0);
+                this.props._refreshOrderList(1);
+                this.props.navigation.dispatch({type: 'pop', key: 'Main'});
             } else {
                 Toast.showShortCenter('绑定失败');
             }
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -124,7 +124,7 @@ class bindGPS extends Component {
                                 fontSize: 16,
                             }}
                             onChangeText={(barCode) => {
-                                this.setState({barCode});
+                                this.setState({barCode: barCode.toUpperCase()});
                             }}
                             value={barCode}
                             placeholder={'请确认您输入了正确的GPS设备编号'}
@@ -175,7 +175,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps (dispatch){
     return {
-        _getGPSDetailInfo: (params, callback) => {
+        _getGPSDetailInfo: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -185,11 +185,12 @@ function mapDispatchToProps (dispatch){
                     callback && callback(data);
                 },
                 fail: error => {
-                    console.log('???', error)
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }));
         },
-        _bindGPSDevice: (params, callback) => {
+        _bindGPSDevice: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -198,10 +199,14 @@ function mapDispatchToProps (dispatch){
                     console.log('bind gps success ', data);
                     callback && callback(data);
                 },
-                fail: error => {
-                    console.log('???', error)
+                fail: (error) => {
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }

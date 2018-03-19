@@ -44,7 +44,8 @@ import {
     setOwnerCharacterAction,
     setCurrentCharacterAction,
     setCompanyCodeAction,
-    setOwnerNameAction
+    setOwnerNameAction,
+    saveCompanyInfoAction
 } from '../../action/user';
 // import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 import * as RouteType from '../../constants/routeType'
@@ -541,6 +542,7 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('-------error', error);
+                    Toast.show(error.message);
                 }
             }))
         },
@@ -553,7 +555,10 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                 },
             }))
-        }
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
     };
 }
 

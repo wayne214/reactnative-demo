@@ -160,7 +160,7 @@ class uploadAbnormal extends Component {
         }, () => {
             Toast.showShortCenter('道路异常提交成功!');
             this.props.dispatch(updateImages());
-            this.props.navigation.goBack();
+            this.props.navigation.dispatch({type: 'pop'});
         })
     }
     // 提交道路异常
@@ -170,7 +170,7 @@ class uploadAbnormal extends Component {
             return;
         }
         let formData = new FormData();
-        if(this.props.imageList.length > 0) {
+        if(this.props.imageList.size > 0) {
             this.props.imageList.map(i => {
                 if (Platform.OS === 'ios'){
                     if(i.uri.indexOf('file://') === -1){
@@ -320,43 +320,43 @@ class uploadAbnormal extends Component {
                 {this.createAddItem(3)}
             </View>
         </View>;
+
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={'道路异常'}
                     router={navigator}
-                    // leftButtonConfig={{
-                    //     type: 'string',
-                    //     title: '取消',
-                    //     onClick: () => {
-                    //         Alert.alert('','退出此次编辑？',[
-                    //             {
-                    //                 text: '取消',
-                    //                 onPress: () => {}
-                    //             },
-                    //             {
-                    //                 text: '退出',
-                    //                 onPress: () => {
-                    //                     this.setState({
-                    //                         chooseItem: null,
-                    //                     });
-                    //                     this.props.dispatch(updateImages());
-                    //                     this.props.dispatch(clearVideoAction());
-                    //                     navigator.goBack();
-                    //
-                    //                 }
-                    //             },
-                    //         ], {cancelable: true});
-                    //     },
-                    // }}
-                    // rightButtonConfig={{
-                    //     type: 'string',
-                    //     title: '提交',
-                    //     titleStyle: {color: StaticColor.BLUE_CONTACT_COLOR},
-                    //     onClick: () => {
-                    //         this.submit();
-                    //     }
-                    // }}
+                    backTitle={'取消'}
+                    backTitleStyle={{
+                        color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
+                        fontSize: 16,
+                    }}
+                    backViewClick={() => {
+                        Alert.alert('','退出此次编辑？',[
+                            {
+                                text: '取消',
+                                onPress: () => {}
+                            },
+                            {
+                                text: '退出',
+                                onPress: () => {
+                                    this.setState({
+                                        chooseItem: null,
+                                    });
+                                    this.props.dispatch(updateImages());
+                                    this.props.navigation.dispatch({type: 'pop'})
+                                }
+                            },
+                        ], {cancelable: true});
+                    }}
+                    optTitle={'提交'}
+                    optTitleStyle={{
+                        color: StaticColor.BLUE_BACKGROUND_COLOR,
+                        fontSize: 16,
+                    }}
+                    firstLevelClick={() => {
+                        this.submit();
+                    }}
                 />
                 <View>
                     <View style={styles.topView}>

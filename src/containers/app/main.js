@@ -140,7 +140,8 @@ class MainContainer extends BaseComponent {
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.props._getCityOfCountry();
+    // TODO 获取城市列表
+    // this.props._getCityOfCountry();
     const value = await Storage.get('float')
     if (value && value * 1 === 1 && this.props.user.userId) {
       // show float dialog
@@ -158,7 +159,7 @@ class MainContainer extends BaseComponent {
 
     // 获取站内公告
     if(user.userId){
-      this.props.getNotice()
+      // this.props.getNotice()
     }
     // Geolocation.requestAuthorization()
     Geolocation.getCurrentPosition(location => {
@@ -183,7 +184,7 @@ class MainContainer extends BaseComponent {
     Geolocation.getCurrentPosition(location => {
       const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
       global.locationData = locationData
-        console.log("定位信息",global.locationData);
+        // console.log("定位信息",global.locationData);
       //todo 上传日志开关
       // TimeToDoSomething.uploadDataFromLocalMsg();
     }, fail => {

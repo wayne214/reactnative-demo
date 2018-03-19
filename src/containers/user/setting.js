@@ -15,7 +15,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import styles from '../../../assets/css/setting';
 import Button from '../../components/common/button';
 import User from '../../models/user';
-import { receiverAlias } from '../../action/app';
+import {fetchData, receiverAlias} from '../../action/app';
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import JPushModule from 'jpush-react-native';
@@ -27,7 +27,12 @@ import BaseComponent from '../../components/common/baseComponent'
 // import Link from '../../utils/linking'
 import AppJSON from '../../../app.json'
 import {appendLogToFile} from '../../action/app.js'
+import user from "../../reducers/user";
+import * as API from '../../constants/api';
 let startTime = 0
+import {
+    clearUser,
+} from '../../action/user';
 
 class SettingContainer extends BaseComponent {
 
@@ -41,6 +46,7 @@ class SettingContainer extends BaseComponent {
     this.title = props.navigation.state.params.title;
 	  this._logout = this._logout.bind(this);
 	  this._onValueChange = this._onValueChange.bind(this);
+    this.loginOut = this.loginOut.bind(this);
 	}
 
 	componentDidMount(){
@@ -64,17 +70,21 @@ class SettingContainer extends BaseComponent {
 		});
 	}
 
-	_logoutAction(){
-		new User().delete();
-	  // console.log("user logout Set alias empty success",);
-	  this.props.dispatch(logout());
-	  this.props.navigation.dispatch({type:RouteType.ROUTE_LOGIN, params:{title:''}});
-	  if (Platform.OS === 'ios') {
-		  JPushModule.setBadge(0, (success) => {
-		    console.log(success)
-		  });
-		}
-	}
+// 	_logoutAction(){
+// 		new User().delete();
+// 	  // console.log("user logout Set alias empty success",);
+// 	  this.props.dispatch(logout());
+// 	  this.props.navigation.dispatch({type:RouteType.ROUTE_LOGIN, params:{title:''}});
+// 	  if (Platform.OS === 'ios') {
+// 		  JPushModule.setBadge(0, (success) => {
+// 		    console.log(success)
+// 		  });
+// 		}
+// 	}
+
+    loginOut(){
+        this.props.loginOut({});
+    }
 
 	_logout () {
 		Alert.alert(
@@ -82,28 +92,38 @@ class SettingContainer extends BaseComponent {
 			'确定退出吗',
 			[
 				{ text: '稍后', onPress: () => {
-					if (DEBUG) this._logoutAction();
+					//if (DEBUG) this._logoutAction();
 				}, style: 'cancel' },
 				{ text: '退出', onPress: () => {
 					this.setState({
 						showLoading: true
 					})
 					startTime = new Date().getTime()
-					JPushModule.setAlias('', () => {
-						this._logoutAction()
-					  this.setState({
-					  	showLoading: false
-					  })
-					  this.props.dispatch(appendLogToFile('设置','退出登录成功',startTime))
-					}, () => {
-						// console.log("Set alias empty fail");
-						this.setState({
-							showLoading: false
-						})
-						Toast.show('退出失败，请重试！');
-						this.props.dispatch(appendLogToFile('设置','退出登录失败',startTime))
 
-					})
+            this.loginOut();
+            this.props.removeUserInfoAction();
+
+            this.props.navigation.dispatch({
+								type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
+								mode: 'reset',
+								params: { title: '' } })
+
+
+            // 	JPushModule.setAlias('', () => {
+				// 		this._logoutAction()
+				// 	  this.setState({
+				// 	  	showLoading: false
+				// 	  })
+				// 	  this.props.dispatch(appendLogToFile('设置','退出登录成功',startTime))
+				// 	}, () => {
+				// 		// console.log("Set alias empty fail");
+				// 		this.setState({
+				// 			showLoading: false
+				// 		})
+				// 		Toast.show('退出失败，请重试！');
+				// 		this.props.dispatch(appendLogToFile('设置','退出登录失败',startTime))
+        //
+				// 	})
 				}},
 			]
 		);
@@ -132,20 +152,24 @@ class SettingContainer extends BaseComponent {
 
 						</TouchableOpacity>
 				}
-				<TouchableOpacity
-					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DEVICES_BIND, params: {title: '设备绑定', type: 3}}) }>
-					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>设备绑定</Text>
-					</View>
-					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe63d;</Text>
-					</View>
-				</TouchableOpacity>
+				{/*<TouchableOpacity*/}
+					{/*style={ styles.cellContainer }*/}
+					{/*onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_DEVICES_BIND, params: {title: '设备绑定', type: 3}}) }>*/}
+					{/*<View style={ styles.leftAnd }>*/}
+						{/*<Text style={ styles.leftText }>设备绑定</Text>*/}
+					{/*</View>*/}
+					{/*<View style={ styles.rightAnd }>*/}
+						{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+					{/*</View>*/}
+				{/*</TouchableOpacity>*/}
 
 				<TouchableOpacity
 					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(个体)', type: 3}}) }>
+					onPress={ () =>
+							this.props.currentStatus == 'personalOwner' ?
+							this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL, params: {title: '电签印章(个体)', type: 3}}) :
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}})
+					}>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>电子签章设置</Text>
 					</View>
@@ -264,17 +288,34 @@ class SettingContainer extends BaseComponent {
 }
 
 function mapStateToProps (state) {
-	const { app } = state;
+	const { app, user } = state;
 	return {
 		user: app.get('user'),
 		alias: app.get('alias'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    currentStatus: user.get('currentStatus'),
 	};
 }
 
 function mapDispatchToProps (dispatch) {
-	return { dispatch };
+	return { dispatch,
+      loginOut: (params) => {
+          dispatch(fetchData({
+              body: params,
+              method: 'post',
+              api: API.API_USER_LOGOUT + global.phone,
+              success: data => {
+              },
+              fail: error => {
+              }
+          }))
+      },
+      removeUserInfoAction:()=>{
+          dispatch(clearUser());
+      },
+
+	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer);

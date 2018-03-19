@@ -624,9 +624,9 @@ class personCarOwnerAuth extends Component {
         currentTime = new Date().getTime();
 
         let obj = {
-            userId: '1234',//userID, //用户ID
-            userName: '阿斯顿发',//userName, // 用户名
-            busTel: '12345',//userPhone, // 用户手机号
+            userId: userID,//userID, //用户ID
+            userName: userName,//userName, // 用户名
+            busTel: userPhone,//userPhone, // 用户手机号
             companyNature: '个人', // 伙伴性质
 
             positiveCard: this.state.idFaceSideNormalPhotoAddress, // 身份证正面原图地址
@@ -677,12 +677,13 @@ class personCarOwnerAuth extends Component {
                 Storage.remove(StorageKey.personownerInfoResult);
                 Toast.showShortCenter('个人车主认证提交成功');
 
-                this.props.navigation.goBack();
 
                 this.props.setOwnerCharacterAction('11');
                 this.props.setOwnerNameAction(this.state.IDName);
                 this.props.setCurrentCharacterAction('owner');
 
+
+                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
 
             },
             error: (errorInfo) => {
@@ -905,7 +906,7 @@ class personCarOwnerAuth extends Component {
                     />
 
                     {travelInfo}
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.upDataToHttp();
                     }}/>
                 </ScrollView>

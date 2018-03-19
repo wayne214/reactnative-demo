@@ -4,8 +4,8 @@ export const HOME_DATA = '/mjWarehouseResourceController/queryResForPhone';
 export const CAR_LOGIN = '/driver/exclude/driverLogin';
 // 承运商登录
 export const SHIPPER_LOGIN = '/carrier/exclude/login';
-
-export const ADD_ROUTER = '/carrierLineInfo/add';
+// 新增常用路线
+export const ADD_ROUTER = '/app/transportLine/addTransportLine';
 
 // 获取验证码
 export const GET_SMS_CODE = '/carrier/exclude/sendSms';
@@ -40,7 +40,7 @@ export const SAVE_DRIVER_INFO = '/driver/saveDriverInfo';
 export const DELETE_DRIVER_INFO = '/driver/deleteDriverInfo';
 
 // 车辆管理列表、车辆绑定司机列表
-export const QUERY_CAR_LIST = '/carInfo/queryCarInfoList';
+export const QUERY_CAR_LIST = '/app/carrier/queryCarrierCarList';
 
 //删除车辆
 export const DELETE_CAR = '/carInfo/deleteCarInfo';
@@ -67,31 +67,31 @@ export const CERTIFICATION_CAR_INFO = '/carInfo/certificationCarInfo';
 export const UPDATE_GCAR = '/carInfo/updateGInfo';
 
 //路线列表
-export const ROUTE_LIST = '/carrierLineInfo/list';
+export const ROUTE_LIST = '/app/transportLine/queryTransportLineList';
 
 //编辑路线
-export const EDIT_ROUTE = '/carrierLineInfo/update';
+export const EDIT_ROUTE = '/app/transportLine/editTransportLineInfo';
 
 //删除路线
-export const DELETE_ROUTE = '/carrierLineInfo/delete';
+export const DELETE_ROUTE = '/app/transportLine/deleteTransportLineList';
 
 // 系统公告
-export const SYSTEM_MESSAGE = '/note/queryNoteList';
+export const SYSTEM_MESSAGE = '/app/note/queryNoteList';
 
 // 系统公告详情
-export const SYSTEM_MSG_DETAIL = '/note/getNoteInfo';
+export const SYSTEM_MSG_DETAIL = 'app/note/noteInfoDetail';
 
 // 更新系统公告（已读未读）
-export const SYSTEM_READ_ORNOT = '/note/updateNoteInfo';
+export const SYSTEM_READ_ORNOT = '/app/note/updateNoteInfo';
 
 // 更新站内信
-export const UPDATE_WEB_MSG = '/message/updateMessageInfo';
+export const UPDATE_WEB_MSG = '/app/message/readMessage';
 
 // 站内信
-export const STACK_MSG_LIST = '/message/queryMessageList';
+export const STACK_MSG_LIST = '/app/message/queryMessageList';
 
 // 站内信详情
-export const STACK_MSG_DETAIL = '/message/getMessageInfo';
+export const STACK_MSG_DETAIL = '/app/message/getMessageInfo';
 
 //承运商详情
 export const GET_AUTHINFO_DETAIL = '/carrier/query';
@@ -118,10 +118,10 @@ export const ADD_COMPANY_AUTH = '/carrier/certification';
 export const GET_ESIGN_IMAGE = '/esign/exclude/getSealImage';
 
 //获取电子签章信息
-export const GET_ESIGN_INFO = '/esign/getEsignInfo';
+export const GET_ESIGN_INFO = '/app/esign/queryEsignByCarrierId';
 
 //编辑电子签章信息
-export const EDIT_ESIGN_INFO = '/esign/updateEsignInfo';
+export const EDIT_ESIGN_INFO = '/app/esign/registerPersonEsignByCarrierId';
 
 //获取承运合同列表
 export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
@@ -130,16 +130,16 @@ export const GET_CARRIR_BARGAIN_LIST = '/orderApp/companyContract';
 export const GOODS_SOURCE_LIST = '/app/goods/queryGoodsList';
 
 // 货源详情
-export const RESOURCE_DETAIL = '/resourceApp/getResourceDetail';
+export const RESOURCE_DETAIL = '/app/goods/getGoodsInfo/';
 
 // 承运商订单列表
 export const GET_COMPANY_ORDER_LIST = '/orderApp/getCompanyOrder';
 
 // 获取待确认（派单中）的承运单
-export const ENTRUST_ORDER_UNCONFIRMED = '/orderApp/getGoodsByCompanyId';
+export const ENTRUST_ORDER_UNCONFIRMED = '/app/myTransport/queryMyTransportList';
 
 // 获取待调度的承运单
-export const ENTRUST_ORDER_UNDISPATCH = '/orderApp/getGoodsWithDispatch';
+export const ENTRUST_ORDER_UNDISPATCH = '/app/myTransport/queryDispatchDocWithCarrier';
 
 // 承运单详情
 export const ENTRUST_ORDER_DETAIL = '/orderApp/getDispatchDetail'
@@ -162,7 +162,7 @@ export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
 
 
 // 承运商调度车辆
-export const DISPATCH_CAR = '/orderApp/dispatchCar';
+export const DISPATCH_CAR = '/app/goods/dispatchCar';
 
 // 确认承运
 export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';
@@ -176,6 +176,8 @@ export const ROB_GOODS = '/orderApp/robGoods';
 
 //承运商竞价 报价
 export const BIDDING_GOODS = '/orderApp/biddingGoods';
+// 抢单
+export const BIDORDER = '/app/carrier/bidOrder';
 
 // 承运商抢单（报价）列表
 export const BIDDING_LIST = '/orderApp/getBiddingByCompanyId';
@@ -280,7 +282,7 @@ export const INSITE_NOTICE = '/siteNote/querySiteNoteList'
 export const API_COLLECT_LOG = 'app/log/log'
 
 /************************************************** 司机APP 接口 *************************************************/
-import { XYT_HOST, WEB_SOCKET} from './setting';
+import {WEB_SOCKET} from './setting';
 /************************ 认证部分 接口 ************************/
 
 /************  司机认证部分 接口 ************/
@@ -363,12 +365,16 @@ export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
 export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
 // 签收接口
 export const API_NEW_SIGN = 'app/transport/sign';
+// 批量签收
+export const API_TRANSPORT_BATCH_SIGN = 'app/transport/batchSign/v3.0';
 // 回单接口
-export const API_NEW_UPLOAD_RECEIPT = `${XYT_HOST}app/transport/returnTransportOrder/v2.1`;
+export const API_NEW_UPLOAD_RECEIPT = `app/transport/returnTransportOrder/v2.1`;
 // 回单照片展示接口
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
+// 上传出库单
+export const API_UPLOAD_OUT_BOUND_ORDER = 'app/transport/uploadOutBoundOrder';
 
 // 上传道路异常查询调度单
 export const API_NEW_UPLOAD_DISPATCH_ORDER = `app/transport/finExceprionInfoByPlateNum`;
@@ -414,7 +420,7 @@ export const API_QUERY_USER_AVATAR = `app/uam/queryUserAvatar`;
 export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
 
 // 道路异常-上传图片附件
-export const API_UPLOAD_FILE = `app/uam/uploadFile`;
+export const API_UPLOAD_FILE = 'app/uam/uploadFile';
 // 道路异常-上传视频附件
 export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
 
@@ -466,6 +472,8 @@ export const API_BIND_CAR_DRIVER_RELATION = 'app/rmc/rmcCar/bindCarDriverRelatio
 export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompanyPhone';
 //根据车牌号搜索车辆信息返回
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
+// 车主增加车辆发送验证码
+export const API_CAR_OWNER_ADD_CAR_CODE = 'app/sendMsg/sendCarrierBindingCarSms';
 
 //WebSocket
 export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;
@@ -479,3 +487,29 @@ export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarBy
 export const API_SET_USER_CAR = `app/uam/addUserCar`;
 //司机对应企业性质
 export const API_QUERY_ENTERPRISE_NATURE = `app/rmc/queryEnterpriseNature/`;
+
+/** ********************承运方运单接口******************************/
+// 承运方--全部列表
+export const API_CARRIER_QUERY_TRANSPORTORDERALL = `app/myTransport/queryTransportOrderAll`;
+// 承运方--装车列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_LOADING = `app/myTransport/queryTransportOrderLoading`;
+// 承运方--交付列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_PAY = `app/myTransport/queryTransportOrderPay`;
+// 承运方--已完成列表
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_FINISH = `app/myTransport/queryTransportOrderFinish`;
+// 承运方--运单详情
+export const API_CARRIER_QUERY_TRANSPORT_ORDER_INFO = `app/myTransport/queryTransportOrderInfo`;
+
+/** ********************电子签章******************/
+//更新个人车主电子签章信息
+export const UPDATE_PERSON_ESIGN_INFO = '/app/esign/updatePersonEsignByCarrierId';
+//更新企业车主电子签章信息
+export const UPDATE_COMPANY_ESIGN_INFO = '/app/esign/updateCarrierEsignByCarrierId';
+// 新增企业车主电子签章
+export const NEW_COMPANY_ESIGN_INFO = '/app/esign/registerCarrierEsignByCarrierId';
+
+/** ********************单子信息******************/
+// 查询出库单
+export const API_QUERY_OUT_ORDER_IMG = 'app/transportInfo/queryOutOrderImg';
+// 查询提货单
+export const API_QUERY_RESOURCE_ATTACHMENTINFO = 'app/attachmentRestController/queryResourceAttachmentInfo';

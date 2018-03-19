@@ -41,7 +41,8 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		borderBottomWidth: 1,
 		backgroundColor: 'white',
-		borderBottomColor: LINE_COLOR,		
+		borderBottomColor: LINE_COLOR,
+		alignItems: 'center'
 	},
 	hiddenLeft: {
 		flex: 1,
@@ -55,7 +56,7 @@ export default StyleSheet.create({
 	},
 	hiddenText: {
 		fontSize: 15,
-		color: '#666',
+		color: '#333333',
 		marginLeft: 15,
 	},
 	routeText: {
@@ -187,12 +188,12 @@ export default StyleSheet.create({
 	},
 	loginBtn: {
 		marginTop: 20,
-		marginRight: 40,
-		marginLeft: 40,
+		marginRight: 20,
+		marginLeft: 20,
 		height: 45
 	},
 	btn: {
-		width: width - 80,
+		width: width - 40,
 		height: 44,
 		borderColor: '#17a9df',
 		backgroundColor: '#17a9df', 
@@ -208,26 +209,26 @@ export default StyleSheet.create({
 	},
 	backView: {
 		marginLeft: 8,
-		backgroundColor: '#F5F5F5',
-		width: 50,
-		height: 15,
+		backgroundColor: '#FFFFFF',
+		width: 80,
+		height: 34,
 		justifyContent: 'center',
 		alignItems: 'center',
 	}, 
 	selectedBackView:{
 		marginLeft: 8,
-		backgroundColor: '#18A9DF',
-		width: 50,
-		height: 15,
+		backgroundColor: '#0092FF',
+		width: 80,
+		height: 34,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	mText:{
-		fontSize: 12,
+		fontSize: 14,
 		color: '#333333'
 	},
 	selectedMText:{
-		fontSize: 12,
+		fontSize: 14,
 		color:'#FFFFFF'
 	},
 	fromToImage:{

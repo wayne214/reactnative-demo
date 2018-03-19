@@ -28,6 +28,7 @@ import Loading from '../../utils/loading';
 import StorageKeys from '../../constants/storageKeys';
 import CarImage from '../../../assets/img/mine/car/carInfo.png';
 import {fetchData} from "../../action/app";
+import * as RouteType from '../../constants/routeType';
 
 const headerImageFail = require('../driverVerified/images/carInfoFail.png');
 const headerImageSuccess = require('../driverVerified/images/carInfoHeader.png');
@@ -36,6 +37,7 @@ const headerImageLoading = require('../driverVerified/images/carInfoIng.png');
 let imgListTemp = [];
 let imgList = [];
 const {width} = Dimensions.get('window');
+import StorageKey from '../../constants/storageKeys';
 
 
 let currentTime = 0;
@@ -182,21 +184,26 @@ class CarInfo extends Component {
         this.getCarInfoFailCallBack = this.getCarInfoFailCallBack.bind(this);
     }
 
-    static navigationOptions = ({navigation}) => {
-        const {state, setParams} = navigation
-        return {
-            tabBarLabel: '个人信息',
-            header: <NavigationBar
-                title='个人信息'
-                hiddenBackIcon={false}
-                router={navigation}
-                optTitle='添加车辆'
-                optTitleStyle={styles.rightButtonStyle}
-                firstLevelClick={() => {
-                    this.props.navigation.navigate('AddCarDriver');
-                }}/>,
-        }
-    };
+    // static navigationOptions = ({navigation}) => {
+    //     const {state, setParams} = navigation
+    //     return {
+    //         tabBarLabel: '车辆信息',
+    //         header: <NavigationBar
+    //             title='车辆信息'
+    //             hiddenBackIcon={false}
+    //             router={navigation}
+    //             optTitle='添加车辆'
+    //             optTitleStyle={styles.rightButtonStyle}
+    //             firstLevelClick={() => {
+    //                 this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
+    //
+    //
+    //
+    //
+    //
+    //             }}/>,
+    //     }
+    // };
 
     componentDidMount() {
 
@@ -363,22 +370,28 @@ class CarInfo extends Component {
                 </View>;
 
         return (
+
             <View style={styles.allContainer}>
-                {/*<NavigationBar*/}
-                    {/*title={'车辆详情'}*/}
-                    {/*router={navigator}*/}
-                    {/*hiddenBackIcon={false}*/}
-                    {/*rightButtonConfig={{*/}
-                        {/*type: 'string',*/}
-                        {/*title: '添加车辆',*/}
-                        {/*disable:'false',*/}
-                        {/*rightTitleStyle: {*/}
-                        {/*},*/}
-                        {/*onClick: () => {*/}
-                            {/*this.props.navigation.navigate('AddCarDriver');*/}
-                        {/*},*/}
-                    {/*}}*/}
-                {/*/>*/}
+                <NavigationBar
+                    title='车辆信息'
+                    hiddenBackIcon={false}
+                    router={this.props.navigation}
+                    optTitle='添加车辆'
+                    optTitleStyle={styles.rightButtonStyle}
+                    firstLevelClick={() => {
+                        {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })*/}
+                        Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                         if (value){
+                                             this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
+                                                 resultInfo: value,
+                                             } });
+
+                                         }else {
+                                             this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
+                                         }
+
+                                     });
+                }}/>
                 {
                     aCar === '' ?
                         <View style={{
@@ -404,8 +417,8 @@ class CarInfo extends Component {
                                     style={styles.Button}
                                     textStyle={styles.ButtonText}
                                     onPress={() => {
-                                        // this.props.navigation.navigate('CertificationPage')
-                                        this.props.navigation.navigate('AddCarDriver');
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
+
                                     }}
                                 >
                                     添加车辆

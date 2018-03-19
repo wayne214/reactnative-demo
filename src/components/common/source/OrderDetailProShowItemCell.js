@@ -84,7 +84,7 @@ class OrderDetailProShowItemCell extends Component {
 
         const showReason = isSign ? this.showLine(orderInfo) : this.showReason(orderInfo);
         const signView = isSign ? null :
-            <GoodInfoCell title="签收" num={orderInfo.signNum ? orderInfo.signNum : '0'} unit={orderInfo.arNums && orderInfo.arNums !== '' &&  orderInfo.arNums !== '0' ? orderInfo.goodsUnit : 'Kg'} />;
+            <GoodInfoCell title="签收" num={orderInfo.signNum ? parseFloat(orderInfo.signNum).toFixed(2): '0'} unit={orderInfo.arNums && orderInfo.arNums !== '' &&  orderInfo.arNums !== '0' ? orderInfo.goodsUnit : 'Kg'} />;
         const notSignView = isSign ? null :
             <GoodInfoCell
                 title="拒收" num={orderInfo.refuseNum ? orderInfo.refuseNum : '0'}

@@ -101,28 +101,7 @@ class verifiedState extends Component{
 
         this.getCurrentPosition();
 
-        /*
-        if (this.state.qualifications == '1203') {
 
-            this.getRealNameDetail(this.state.phone);
-
-        } else {
-            Storage.get(StorageKey.personInfoResult).then((value) => {
-
-                if (value) {
-                    this.setState({
-                        resultInfo: value,
-                    });
-                } else {
-
-                    console.log('this.state.phone:', this.state.phone);
-                    this.getRealNameDetail(this.state.phone);
-
-                }
-            });
-
-        }
-        */
         this.getRealNameDetail(this.state.phone);
 
     }
@@ -185,8 +164,12 @@ class verifiedState extends Component{
         Storage.remove(StorageKey.personInfoResult);
 
         if (this.state.resultInfo.driverPhone !== global.phone){
-            this.props.navigation.navigate('CarOwnerAddDriver', {
-                resultInfo: this.state.resultInfo,
+
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER,
+                params: {
+                    resultInfo: this.state.resultInfo,
+                }
             });
         }else {
             this.props.navigation.dispatch({

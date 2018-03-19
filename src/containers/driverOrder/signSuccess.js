@@ -20,7 +20,7 @@ import NavigationBar from '../../components/common/navigatorbar';
 import EmptyView from '../../components/common/emptyView';
 import receiptSuccess from '../../../assets/img/driverOrder/receipt_success.png';
 import * as RouteType from '../../constants/routeType';
-
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 const styles = StyleSheet.create({
     container: {
@@ -59,7 +59,7 @@ class signSuccess extends Component {
           // 初始状态
           const params = this.props.navigation.state.params;
           this.state = {
-              isReceipt: params.isReceipt,
+              receiptWay: params.receiptWay,
               orderID: params.orderID,
           };
       }
@@ -68,7 +68,7 @@ class signSuccess extends Component {
           const navigator = this.props.navigation;
           const buttonView = <View style={{flexDirection:'row',marginTop: 50}}>
               {
-                  this.state.isReceipt === '是' ?
+                  this.state.receiptWay === '不回单' ? null :
                   <View style={styles.buttonContainer}>
                       <TouchableOpacity
                           onPress={() => {
@@ -84,7 +84,7 @@ class signSuccess extends Component {
                               <Text style={styles.textSize}>立即回单</Text>
                           </View>
                       </TouchableOpacity>
-                  </View> : null
+                  </View>
               }
           </View>;
           return(
@@ -92,12 +92,14 @@ class signSuccess extends Component {
                   <NavigationBar
                       title={'签收'}
                       router={navigator}
-                      // backIconClick={() => {
-                      //     let routes = this.props.routes;
-                      //     let rootKey = routes[1].key;
-                      //     navigator.goBack(rootKey);
-                      //     DeviceEventEmitter.emit('changeToWaitSign');
-                      // }}
+                      backViewClick={() => {
+                          this.props._refreshOrderList(0);
+                          this.props._refreshOrderList(2);
+                          navigator.dispatch({
+                              type: 'pop',
+                              key: 'Main'
+                          })
+                      }}
                   />
                   <View style={{flex:1}}>
                       <EmptyView
@@ -119,6 +121,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        dispatch,
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        }
+    };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(signSuccess);

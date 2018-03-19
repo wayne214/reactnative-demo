@@ -27,6 +27,10 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import {fetchData} from '../../action/app';
+import {
+    refreshDriverOrderList,
+    changeOrderTabAction,
+} from '../../action/driverOrder';
 import * as RouteType from '../../constants/routeType';
 import EmptyView from '../../components/common/emptyView';
 
@@ -63,8 +67,6 @@ let plateNumber = '';
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
-let bindGPSType = '';
-let isBindGPS = false;
 
 class entryToBeShipped extends Component {
     constructor(props) {
@@ -79,6 +81,7 @@ class entryToBeShipped extends Component {
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
+            isUploadOdoFlag: true,
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -97,7 +100,6 @@ class entryToBeShipped extends Component {
 
         this.jumpAddressPage = this.jumpAddressPage.bind(this);
         this.cancelOrder = this.cancelOrder.bind(this);
-        this.popToTop = this.popToTop.bind(this);
 
         this.isShowEmptyView = this.isShowEmptyView.bind(this);
         this.emptyView = this.emptyView.bind(this);
@@ -125,7 +127,7 @@ class entryToBeShipped extends Component {
             this.getOrderDetailInfo();
         });
     }
-// 获取当前位置
+    // 获取当前位置
     getCurrentPosition(){
         Geolocation.getCurrentPosition().then(data => {
             console.log('position =',JSON.stringify(data));
@@ -157,8 +159,7 @@ class entryToBeShipped extends Component {
         currentTime = new Date().getTime();
         this.props._getOrderDetail({
             transCodeList: this.state.transOrderList,
-            plateNumber: '京LPL001'
-            // plateNumber: this.props.plateNumber
+            plateNumber: this.props.plateNumber
         }, (responseData) => {
             this.getOrderDetailInfoSuccessCallBack(responseData);
         }, () => {
@@ -229,6 +230,17 @@ class entryToBeShipped extends Component {
             datas: array,
             isShowEmptyView: false,
         });
+        for(let i = 0; i < array.length; i++){
+            if( array[i].orderFrom === '10' && array[i].isUploadOdo === 'N' && array[i].transOrderType !== '602') {
+                this.setState({
+                    isUploadOdoFlag: false
+                });
+                break;
+            }
+            this.setState({
+                isUploadOdoFlag: true
+            });
+        }
     }
 
     // 获取数据失败回调
@@ -242,13 +254,21 @@ class entryToBeShipped extends Component {
     // 点击发运调用接口
     sendOrder() {
         currentTime = new Date().getTime();
-        const goodInfo = transOrderInfo[0].goodsInfo;
-
-        for (let i = 0; i < goodInfo.length; i++){
-            let obj = goodInfo[i];
-            if (!obj.shipmentNums || obj.shipmentNums === '') {
-                Toast.showShortCenter('发运数量不能为空');
-                return;
+        for(let k = 0; k < this.state.datas.length; k++) {
+            let orderFrom = this.state.datas[k].orderFrom;
+            if(orderFrom === '20') {
+                for(let j = 0; j < transOrderInfo.length; j++) {
+                    let goodInfo = transOrderInfo[j].goodsInfo;
+                    if(goodInfo.length > 0) {
+                        for (let i = 0; i < goodInfo.length; i++){
+                            let obj = goodInfo[i];
+                            if (!obj.shipmentNums || obj.shipmentNums === '') {
+                                Toast.showShortCenter('发运数量不能为空');
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
         // 传递参数
@@ -260,8 +280,8 @@ class entryToBeShipped extends Component {
             plateNum: global.plateNumber,
         },(result) => {
             this.sendOderSuccessCallBack(result);
-        }, () => {
-            this.sendOderFailCallBack();
+        }, (error) => {
+            this.sendOderFailCallBack(error);
         })
     }
 
@@ -271,19 +291,15 @@ class entryToBeShipped extends Component {
         ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待发运订单详情页面');
         Toast.showShortCenter('发运成功!');
-
-        // if (this.props.navigation.state.params.successCallBack) {
-        //     this.props.navigation.state.params.successCallBack();
-        // }
-        // // 发运成功后，更新货源偏好出发城市
-        // this.resetCityAction(true);
-        // DeviceEventEmitter.emit('resetCityLIST');
-        // this.props.navigation.goBack();
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
+        this.props._changeOrderTab(2);
+        this.props.navigation.dispatch({type: 'pop'});
     }
 
     // 获取数据失败回调
-    sendOderFailCallBack() {
-        Toast.showShortCenter('发运失败!');
+    sendOderFailCallBack(error) {
+        Toast.showShortCenter(error.message);
     }
 
     // 获取数据成功回调
@@ -292,29 +308,16 @@ class entryToBeShipped extends Component {
         ReadAndWriteFileUtil.appendFile('取消接单',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待发运订单详情页面');
         Toast.showShortCenter('取消成功!');
-
-        // if (this.props.navigation.state.params.successCallBack) {
-        //     this.props.navigation.state.params.successCallBack();
-        // }
-        // 返回top
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
         // 取消接单后，刷新货源列表
-        // DeviceEventEmitter.emit('resetGood');
-        // this.props.navigation.goBack();
+        DeviceEventEmitter.emit('resetGood');
+        this.props.navigation.dispatch({type: 'pop'});
     }
 
     // 获取数据失败回调
     cancelOderFailCallBack() {
         Toast.showShortCenter('取消失败!');
-    }
-
-    // resetCityAction(data) {
-    //     this.props.resetCityListAction(data);
-    // }
-    // 返回到根界面
-    popToTop() {
-        const routes = this.props.routes;
-        let key = routes[1].key;
-        this.props.navigation.goBack(key);
     }
 
     jumpAddressPage(index, type, item) {
@@ -333,13 +336,6 @@ class entryToBeShipped extends Component {
                 receiveAddr: item.deliveryInfo.receiveAddress,
                 clickFlag: typeString,
             },
-        });
-    }
-
-    // 安排车辆
-    arrangeCar() {
-        this.props.navigation.navigate('ArrangeCarList',{
-            dispatchCode: this.state.scheduleCode,
         });
     }
 
@@ -387,6 +383,7 @@ class entryToBeShipped extends Component {
                 receiveContact: data.deliveryInfo.receiveContact,
                 orderCode: data.orderCode,
                 customCode: data.customerOrderCode,
+                scheduleCode: this.state.scheduleCode,
             }
         });
     }
@@ -411,6 +408,7 @@ class entryToBeShipped extends Component {
         );
     }
 
+
     contentView(navigator) {
         const dispatchView = this.state.datas.map((item, index) => {
             return (
@@ -430,7 +428,7 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
@@ -460,9 +458,11 @@ class entryToBeShipped extends Component {
                     scheduleTimeAgain={item.twoScheduleTime}
                     vol={item.vol}
                     weight={item.weight}
-                    num={'12'}
+                    num={item.qty}
                     index={index}
                     currentStatus={this.props.currentStatus}
+                    orderFrom={item.orderFrom}
+                    isUploadOdo={item.isUploadOdo}
                     addressMapSelect={(indexRow, type) => {
                         this.jumpAddressPage(indexRow, type, item);
                     }}
@@ -508,9 +508,9 @@ class entryToBeShipped extends Component {
                     onMomentumScrollEnd={this.onScrollEnd}
                     onScrollEndDrag={this.onScrollEnd}
                 >
-                    { 1 === 1 ? dispatchView : uploadODOView }
+                    { this.state.isUploadOdoFlag ? dispatchView : uploadODOView }
                 </ScrollView>
-                { 1 === 1 ? bottomView : null }
+                { this.state.isUploadOdoFlag ? bottomView : null }
             </View>
         );
     }
@@ -539,10 +539,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        // 刷新城市列表
-        // resetCityListAction: (data) => {
-        //     dispatch(isReSetCity(data));
-        // },
         // 获取订单详情
         _getOrderDetail: (params, callBack, failCallBack) => {
             dispatch(fetchData({
@@ -588,7 +584,13 @@ function mapDispatchToProps(dispatch) {
                     failCallBack && failCallBack()
                 }
             }))
-        }
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
     };
 }
 

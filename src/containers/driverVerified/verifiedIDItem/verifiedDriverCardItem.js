@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontSize: 15,
         color: '#666666',
-        flex: 1,
+        flex: 2,
     },
     touchStyle:{
         flex: 2,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         fontSize: 15,
         color: '#333333',
-        flex: 2,
+        flex: 3,
         textAlign: 'right',
     }
 });
@@ -38,19 +38,10 @@ class verifiedDriverCardItem extends Component{
     constructor(props) {
         super(props);
 
-        this.nameValueChange = this.nameValueChange.bind(this);
-        this.cardValueChange = this.cardValueChange.bind(this);
+
         this.imageClick = this.imageClick.bind(this);
     }
 
-    /*输入姓名*/
-    nameValueChange(text){
-        this.props.nameChange(text);
-    }
-    /*输入身份证号*/
-    cardValueChange(text){
-        this.props.cardChange(text);
-    }
 
     imageClick(index){
         this.props.imageClick(index);
@@ -82,44 +73,14 @@ class verifiedDriverCardItem extends Component{
                     </Text>
 
                 </View>
+
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        车辆类型
+                        车辆识别代码(VIN)
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.carType}
-                    </Text>
-
-                </View>
-                <Line />
-
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车长
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        {resultInfo.carLen}
-                    </Text>
-
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        载重
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        {resultInfo.carryCapacity ? resultInfo.carryCapacity + '吨' : ''}
-                    </Text>
-
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        有效期至
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        {resultInfo.driveValidity ? resultInfo.driveValidity.toString().replace(/-/g,'/') : ''}
+                        1234567890
                     </Text>
 
                 </View>
@@ -133,6 +94,17 @@ class verifiedDriverCardItem extends Component{
                     </Text>
 
                 </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        有效期至
+                    </Text>
+                    <Text style={styles.textInputStyle}>
+                        {resultInfo.driveValidity ? resultInfo.driveValidity.toString().replace(/-/g,'/') : ''}
+                    </Text>
+
+                </View>
+
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>

@@ -7,6 +7,8 @@ import {
 	TouchableHighlight,
 	Alert,
 	Image,
+	TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import styles from '../../../assets/css/route';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -14,7 +16,7 @@ import * as RouteType from '../../constants/routeType';
 import {ROUTE_LIST, DELETE_ROUTE } from '../../constants/api';
 import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app';
 import { dispatchRouteList } from '../../action/route';
-import Button from '../../components/common/button';
+// import Button from '../../components/common/button';
 import editRoute from './editRoute';
 import { dispatchRefreshDeleteRoute } from '../../action/route';
 import BaseComponent from '../../components/common/baseComponent';
@@ -25,6 +27,11 @@ import ToPoint from '../../../assets/img/routes/to_point.png';
 import HelperUtil from '../../utils/helper';
 import { CAR_VEHICLE } from '../../constants/json';
 import fromto from '../../../assets/img/routes/fromto.png';
+import Button from 'apsl-react-native-button';
+import Swipeout from 'react-native-swipeout';
+import EmptyView from '../../components/common/emptyView';
+const {height, width} = Dimensions.get('window');
+
 let startTime = 0
 class RouteContainer extends BaseComponent {
 
@@ -36,16 +43,22 @@ class RouteContainer extends BaseComponent {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+			dataLength: 0,
+        sectionID: null,
+        rowID: null,
 		};
 		this._endReached = this._endReached.bind(this);
 		this._renderItem = this._renderItem.bind(this);
 		this._pushAddRoute = this._pushAddRoute.bind(this);
+    this.deleteAlert = this.deleteAlert.bind(this);
 	}
 
 	componentDidMount() {
 		super.componentDidMount();
 		this.props.getRouteList({
-			pageNo: this.state.pageNo,
+        carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+        pageNum: 1,
+        pageSize: 10,
 		});
 		this.props.navigation.setParams({ navigatePress: this._pushAddRoute })
 	}
@@ -56,11 +69,17 @@ class RouteContainer extends BaseComponent {
 
 	componentWillReceiveProps(props) {
     const { routes, isRefreshAddRoute, isRefreshDeleteRoute} = props;
+    console.log('---routes', routes)
     if (props) {
-      this.setState({ dataSource: this.state.dataSource.cloneWithRows(routes) });
+      this.setState({
+					dataSource: this.state.dataSource.cloneWithRows(routes),
+					dataLength: routes.length
+      });
       if( isRefreshAddRoute || isRefreshDeleteRoute){
       	this.props.getRouteList({
-      		pageNo : 1,
+            carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+            pageNum: 1,
+            pageSize: 10,
       	});
       }
       this.setState({ pageNo: 1 });
@@ -70,12 +89,14 @@ class RouteContainer extends BaseComponent {
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
 			this.props.getRouteList({
-				pageNo: this.state.pageNo + 1,
+          carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+          pageNum: this.state.pageNo + 1,
+          pageSize: 10,
 			});
 			this.setState({ pageNo: this.state.pageNo + 1 });
 		}
 	}
-  _renderItem(rowData, section, row) {
+  _renderItem(rowData, sectionID, rowID) {
   	let carLength;
   	let number = [];
   	let perM;
@@ -85,7 +106,7 @@ class RouteContainer extends BaseComponent {
 	  	const carLengths = (number.map( (item,index) => {
 	  		perM = HelperUtil.getCarLength(parseInt(number[index]));
 	  		return (
-					<View key={index} style={ [styles.backView, {marginTop:10}] }>
+					<View key={index} style={ [styles.backView, {marginTop:10, backgroundColor: '#F5F5F5', height: 19, width: 60}] }>
 						<Text style={ styles.mText }>{ perM }</Text>
 					</View>
 	  		)
@@ -93,7 +114,7 @@ class RouteContainer extends BaseComponent {
 	  	carLength = (
 				<View style={ [styles.carLengthContainer,{paddingBottom:10}] }>
 					<View style={{flex:1, marginTop:10}}>
-						<Text style={ styles.hiddenText }>车辆长度</Text>
+						<Text style={ styles.hiddenText }>车辆长度:</Text>
 					</View>
 					<View style={[styles.perRight,{flex:3,flexWrap: 'wrap'}]}>
 						{carLengths}
@@ -101,40 +122,44 @@ class RouteContainer extends BaseComponent {
 				</View>)
   	}
 
+      // Buttons
+      const swipeoutBtns = [
+          {
+              text: '删除',
+              backgroundColor: 'red',
+              onPress: ()=>{
+              	console.log('删除路线', rowData.id);
+                  this.deleteAlert(rowData.id);
+              },
+
+          }
+      ];
+
+
 		return (
-			<View style={ styles.itemContainer }>
-				<View style={ styles.fromAndToContainer }>
-					<Image source={fromto} style={styles.fromToImage}/>
-					<View style={styles.textView}>
-						<Text style={styles.fromtoText}>{(rowData.fromProvinceName + rowData.fromCityName + rowData.fromAreaName)}</Text>
-						<Text style={styles.fromtoText}>{(rowData.toProvinceName + rowData.toCityName + rowData.toAreaName)}</Text>
+			<Swipeout
+				close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)}
+				right={swipeoutBtns}
+								onOpen={(sectionID, rowID) => {
+          this.setState({
+              sectionID,
+              rowID,
+          });
+      }}>
+				<TouchableOpacity activeOpacity={0.75} onPress={() => {
+            this.props.navigation.dispatch({type: RouteType.ROUTE_EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
+					<View style={ styles.itemContainer }>
+						<View style={ styles.fromAndToContainer }>
+							<Image source={fromto} style={styles.fromToImage}/>
+							<View style={styles.textView}>
+								<Text style={styles.fromtoText}>{(rowData.fromProvinceName + rowData.fromCityName + rowData.fromAreaName)}</Text>
+								<Text style={styles.fromtoText}>{(rowData.toProvinceName + rowData.toCityName + rowData.toAreaName)}</Text>
+							</View>
+						</View>
+						{carLength}
 					</View>
-				</View>
-				{carLength}
-				<View style={ styles.line }></View>
-				<View style={ styles.optContainer }>
-					<TouchableHighlight
-						underlayColor='#e6eaf2'
-						style={ styles.optView }
-						onPress = { this.deleteAlert.bind(this, rowData.id) }>
-						<View style={ styles.optView }>
-							<Text style={ styles.iconFontOpt }>&#xe61c;</Text>
-							<Text style={ styles.optText }>删除</Text>
-						</View>
-					</TouchableHighlight>
-					<View style={ styles.lineVertical }></View>
-					<TouchableHighlight
-						underlayColor='#e6eaf2'
-						style={ styles.optView }
-						onPress = { () => {
-							this.props.navigation.dispatch({type: RouteType.ROUTE_EDIT_ROUNT_PAGE, params: {title:'编辑路线', data: rowData }}) }}>
-						<View style={ styles.optView }>
-							<Text style={ styles.iconFontOpt }>&#xe617;</Text>
-							<Text style={ styles.optText }>编辑</Text>
-						</View>
-					</TouchableHighlight>
-				</View>
-			</View>
+				</TouchableOpacity>
+			</Swipeout>
 		);
   }
 
@@ -142,8 +167,12 @@ class RouteContainer extends BaseComponent {
   	Alert.alert('提示', '确定删除吗', [
   		{ text: '取消', onPress: () => console.log('取消') },
   		{ text: '确定', onPress: () => {
+          this.setState({
+              sectionID: null,
+              rowID: null,
+          });
   			this.props.deleteRouteList({
-  				id: id
+            carrierLineId: id
   			});
   		} },
   	]);
@@ -155,7 +184,7 @@ class RouteContainer extends BaseComponent {
 	  return {
 	    header: <NavigatorBar firstLevelClick={ () => {
 	    	navigation.state.params.navigatePress()
-	    }} firstLevelIconFont='&#xe7bf;' router={ navigation }/>
+	    }} firstLevelIconFont='&#xe68c;' router={ navigation }/>
 	  };
 	};
 
@@ -163,13 +192,35 @@ class RouteContainer extends BaseComponent {
 		const { router } = this.props;
 		return (
 			<View style={ styles.container }>
-				<ListView
-					style={ styles.listView }
-					renderRow={ this._renderItem }
-					enableEmptySections={ true }
-					onEndReachedThreshold={ 100 }
-					onEndReached={ this._endReached }
-					dataSource={ this.state.dataSource }/>
+					{this.state.dataLength > 0 ? <ListView
+						style={ styles.listView }
+						renderRow={ this._renderItem }
+						enableEmptySections={ true }
+						onEndReachedThreshold={ 100 }
+						onEndReached={ this._endReached }
+						dataSource={ this.state.dataSource }/> :
+							<EmptyView/>
+					}
+				<Button
+					ref='button'
+					isDisabled={false}
+					style={{
+              backgroundColor: '#0083FF',
+              width: width - 40,
+              marginBottom: 10,
+              height: 44,
+              borderRadius: 0,
+              borderWidth: 0,
+              borderColor: '#0083FF',
+							alignSelf: 'center'
+          }}
+					textStyle={{color: 'white', fontSize: 18}}
+					onPress={() => {
+              this.props.navigation.dispatch({type:RouteType.ROUTE_ADD_ROUTE, params: {title:'新增路线'}});
+          }}
+				>
+					新增线路
+				</Button>
 				{ this.props.loading ? this._renderLoadingView() : null }
 
 				{ this._renderUpgrade(this.props) }
@@ -214,7 +265,7 @@ const mapDispatchToProps = dispatch => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: DELETE_ROUTE,
+				api: DELETE_ROUTE + "?carrierLineId=" + body.carrierLineId ,
 				successToast: true,
 				msg: '删除成功',
 				showLoading: true,

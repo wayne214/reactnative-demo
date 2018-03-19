@@ -47,18 +47,16 @@ class verifiedTravelInfoItem extends Component{
     constructor(props) {
         super(props);
 
-
         this.state={
             carNumber: this.props.carNumber,
-            owner: this.props.carOwner,
-            engineNumber: this.props.carEngineNumber,
+            carVolume: this.props.carVolume,
+            allowNumber: this.props.carAllowNumber,
         };
 
         this.carNumberValueChange = this.carNumberValueChange.bind(this);
-        this.ownValueChange = this.ownValueChange.bind(this);
+        this.allowNumberValueChange = this.allowNumberValueChange.bind(this);
         this.clickCarType = this.clickCarType.bind(this);
         this.clickCarLength = this.clickCarLength.bind(this);
-        this.textOnFocus = this.textOnFocus.bind(this);
 
     }
 
@@ -67,14 +65,19 @@ class verifiedTravelInfoItem extends Component{
         this.props.carNumberChange(text);
     }
 
-    /*输入所有人*/
-    ownValueChange(text){
-        this.props.carOwnerChange(text);
+    /*输入体积*/
+    volumeValueChange(text){
+        this.props.volumeValueChange(text);
     }
 
     /*选择车辆类型*/
     clickCarType(){
         this.props.carTypeClick();
+    }
+
+    /*选择车辆类别*/
+    clickCarTwoType(){
+        this.props.carTypeTwoClick();
     }
 
     /*选择车长*/
@@ -83,17 +86,14 @@ class verifiedTravelInfoItem extends Component{
     }
 
     /*输入发动机编号*/
-    codeValueChange(text){
-        this.props.carEngineNumberChange(text);
+    allowNumberValueChange(text){
+        this.props.allowNumberValueChange(text);
     }
 
-    /*获得焦点*/
-    textOnFocus(value){
-        this.props.textOnFocus(value);
-    }
+
     render() {
 
-        const {carType, carWeight, carLength} = this.props;
+        const {carType, carWeight, carLength, carTypeTwo} = this.props;
 
 
         let catString = '请选择车辆类型';
@@ -101,6 +101,13 @@ class verifiedTravelInfoItem extends Component{
         if (carType){
             catString = carType;
             carColor = {color: '#333333'}
+        }
+
+        let catString1 = '请选择车辆类别';
+        let carColor1 = {color : '#666666'};
+        if (carTypeTwo){
+            catString1 = carTypeTwo;
+            carColor1 = {color: '#333333'}
         }
 
         let carWeightString = '请选择车辆长度';
@@ -119,51 +126,6 @@ class verifiedTravelInfoItem extends Component{
 
         return (
             <View style={styles.container}>
-
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车牌号
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               maxLength={7}
-                               onChangeText={(text) => {
-                                   this.setState({
-                                       carNumber: text,
-                                   });
-                                   this.carNumberValueChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus(300);
-                               }}
-                               value={this.state.carNumber}
-                               placeholder={'请输入车牌号'}
-                               underlineColorAndroid={'transparent'}
-
-                    />
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        所有人
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        owner: text,
-                                    });
-                                    this.ownValueChange(text);
-
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus(300);
-                               }}
-                               value={this.state.owner}
-                               placeholder={'请输入所有人'}
-                               underlineColorAndroid={'transparent'}
-
-                    />
-                </View>
-                <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
                         车辆类型
@@ -181,7 +143,22 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        车长
+                        车辆类别
+                    </Text>
+                    <TouchableOpacity style={styles.touchStyle}
+                                      onPress={()=>{
+                                          this.clickCarTwoType();
+                                      }}>
+                        <Text style={[styles.textStyle, carColor]}>
+                            {catString1}
+                        </Text>
+
+                    </TouchableOpacity>
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        车型长度
                     </Text>
                     <TouchableOpacity style={styles.touchStyle}
                                       onPress={()=>{
@@ -196,7 +173,7 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        载重
+                        实载重量
                     </Text>
                     <TouchableOpacity style={styles.touchStyle}
                                       onPress={()=>{
@@ -210,23 +187,67 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        发动机号码
+                        实载体积
+                    </Text>
+                    <TextInput style={styles.textInputStyle}
+                               maxLength={7}
+                               onChangeText={(text) => {
+                                   this.setState({
+                                       carVolume: text,
+                                   });
+                                   this.volumeValueChange(text);
+                               }}
+                               value={this.state.carVolume}
+                               placeholder={'请输入实载体积'}
+                               underlineColorAndroid={'transparent'}
+                               onFocus={()=>{
+                                   this.props.textOnFocus();
+                               }}
+                    />
+                </View>
+                <Line/>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        运输许可证号
                     </Text>
                     <TextInput style={styles.textInputStyle}
                                onChangeText={(text) => {
                                     this.setState({
-                                        engineNumber: text,
+                                        allowNumber: text,
                                     });
-                                    this.codeValueChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus(450);
+                                    this.allowNumberValueChange(text);
                                }}
                                underlineColorAndroid={'transparent'}
-                               value={this.state.engineNumber}
-                               placeholder={'请输入发动机编号'}
+                               value={this.state.allowNumber}
+                               placeholder={'请输入运输许可证号'}
+                               onFocus={()=>{
+                                   this.props.textOnFocus();
+                               }}
                     />
                 </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        挂车牌号
+                    </Text>
+                    <TextInput style={styles.textInputStyle}
+                               maxLength={7}
+                               onChangeText={(text) => {
+                                   this.setState({
+                                       carNumber: text,
+                                   });
+                                   this.carNumberValueChange(text);
+                               }}
+                               onFocus={()=>{
+                                   this.props.textOnFocus();
+                               }}
+                               value={this.state.carNumber}
+                               placeholder={'请输入挂车牌号'}
+                               underlineColorAndroid={'transparent'}
+
+                    />
+                </View>
+                <Line />
             </View>
         )
     }

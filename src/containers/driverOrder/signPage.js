@@ -51,15 +51,13 @@ class signPage extends Component {
         this.state = {
             products: params.goodsInfoList,
             orderID: params.transCode,
-            isReceipt: params.taskInfo.isReceipt,
+            receiptWay: params.taskInfo.receiptWay,
         };
         this.productInfo = this.productInfo.bind(this);
         this.getSignIn = this.getSignIn.bind(this);
         this.getSignInSuccessCallBack = this.getSignInSuccessCallBack.bind(this);
         this.getSignInFailCallBack = this.getSignInFailCallBack.bind(this);
         this.deleteComponent = this.deleteComponent.bind(this);
-        this.goBackForward = this.goBackForward.bind(this);
-
     }
 
     componentDidMount() {
@@ -158,7 +156,7 @@ class signPage extends Component {
             lon: locationData.longitude ? locationData.longitude : '',
             realTimeAddress: locationData.address ? locationData.address : ''
         }, (responseData) => {
-            this.getSignInSuccessCallBack(responseData.result);
+            this.getSignInSuccessCallBack();
         }, () => {
             this.getSignInFailCallBack();
         })
@@ -170,25 +168,18 @@ class signPage extends Component {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '签收页面');
-        if (this.state.isReceipt === '是') {
+        if (this.state.receiptWay !== '不回单') {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_SIGN_SUCCESS_PAGE,
                 params: {
-                    isReceipt: this.state.isReceipt,
+                    receiptWay: this.state.receiptWay,
                     orderID: this.state.orderID,
                 }
             });
         }else {
-            // DeviceEventEmitter.emit('changeToWaitSign');
-            // this.goBackForward();
+            this.props._refreshOrderList(2);
+            this.props.navigation.dispatch({type: 'pop', key: 'Main'});
         }
-    }
-
-    //返回前两个界面
-    goBackForward() {
-        const routes = this.props.routes;
-        let key = routes[routes.length - 2].key;
-        this.props.navigation.goBack(key);
     }
 
     // 获取数据失败回调

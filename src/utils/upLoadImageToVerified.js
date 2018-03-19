@@ -35,7 +35,7 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
         headers.PhoneNum = global.phone;
     }
     console.log('%c HTTP Request', 'color:blue');
-    console.log(`%c request url ${url}`, 'color:green');
+    console.log(`%c request url ${HOST + url}`, 'color:green');
     console.log(`%c Request params ${JSON.stringify(data)}`, 'color:green');
 
     const myFetch = fetch(HOST + url, {

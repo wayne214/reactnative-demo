@@ -16,6 +16,8 @@ import { dispatchClearAuthInfo } from '../../action/carrier';
 import { clearCombineImg,appendLogToFile } from '../../action/app';
 import BaseComponent from '../../components/common/baseComponent';
 import GeCompanyIcon from '../../../assets/img/user/ge_compony_icon.png';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 
 class UserInfoContainer extends BaseComponent {
 
@@ -30,19 +32,66 @@ class UserInfoContainer extends BaseComponent {
 	}
 
 	_authOrInfo() {
-		const certificationStatus = this.props.user.certificationStatus;
-		const carrierType = this.props.user.carrierType;
-		if(certificationStatus === 0){
-			//未认证
-			this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_ROLE,params:{title: '认证角色'}});
-		}else{
-			if(carrierType === 1){
-				let phoneNumber = this.props.user.phoneNumber;
-				this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO,params:{title: '公司认证', phoneNumber: phoneNumber}});
-			}else if(carrierType === 2){
-				this.props.navigation.dispatch({type: RouteType.ROUTE_PERSONAL_AUTH_DETAIL, params: {title: '个人认证详情'}});
-			}
+		const ownerStatus = this.props.ownerStatus;
+		// const currentStatus = this.props.currentStatus;
+		const currentStatus = 'personalOwner';
+        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
+        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
+
+        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
+
+		if (currentStatus === 'personalOwner'){
+                if (ownerStatus == 11 || ownerStatus == 12 || ownerStatus == 13){
+                    // 详情
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
+
+                }
+                if (ownerStatus != 11 && ownerStatus != 12 && ownerStatus != 13 && ownerStatus != 14){
+                	// 认证
+                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
+                        if (value) {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                params: {
+                                    resultInfo: value,
+                                }}
+                            )
+                        } else {
+                            this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                        }
+                    });
+				}
+
 		}
+        if (currentStatus === 'businessOwner'){
+                if (ownerStatus == 21 || ownerStatus == 22 || ownerStatus == 23){
+                    // 详情
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
+
+                }
+            if (ownerStatus != 21 && ownerStatus != 22 && ownerStatus != 23 && ownerStatus != 24){
+
+                // 认证
+                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                        if (value) {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                params: {
+                                    resultInfo: value,
+                                }}
+                            )
+                        } else {
+                            this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                        }
+                    });
+                }
+
+        }
+
+
+
+
+
 	}
 
 	componentDidMount(){
@@ -67,50 +116,74 @@ class UserInfoContainer extends BaseComponent {
 			lastName = name[name.length - 1];
 		}
 		let authStatusText;
-		let textColor;
-		if (user.currentUserRole === 1) {
-			if (!user.carrierType || user.certificationStatus === 0) {
-				textColor = '#17A9DF';
-				authStatusText = '未认证';
-			} else if (user.certificationStatus === 1) {
-				textColor = '#FFAC1B';
-				authStatusText = '认证中';
-			} else if (user.certificationStatus === 2) {
-				textColor = '#1AB036';
-				authStatusText = '已认证';
-			} else if (user.certificationStatus === 3) {
-				textColor = '#EA574C';
-				authStatusText = '认证未通过';
+		// let textColor;
+		// if (user.currentUserRole === 1) {
+		// 	if (!user.carrierType || user.certificationStatus === 0) {
+		// 		textColor = '#17A9DF';
+		// 		authStatusText = '未认证';
+		// 	} else if (user.certificationStatus === 1) {
+		// 		textColor = '#FFAC1B';
+		// 		authStatusText = '认证中';
+		// 	} else if (user.certificationStatus === 2) {
+		// 		textColor = '#1AB036';
+		// 		authStatusText = '已认证';
+		// 	} else if (user.certificationStatus === 3) {
+		// 		textColor = '#EA574C';
+		// 		authStatusText = '认证未通过';
+		// 	}
+		// }
+
+			if(this.props.ownerStatus == 11 || this.props.ownerStatus == 21) {
+          authStatusText = '认证中'
+			} else if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
+          authStatusText = '已认证'
+			} else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 13) {
+          authStatusText = '认证驳回'
+			} else if (this.props.ownerStatus == 14 || this.props.ownerStatus == 24) {
+          authStatusText = '被禁用'
+			} else {
+          authStatusText = '未认证'
 			}
-		}
+
 		return (
 			<View style={ styles.container }>
-				<View style={ styles.topContainer }>
-					{
-						(() => {
-							if (user.currentUserRole === 1 && user.carrierType === 1) {
-								return (<Image style={ styles.userIcon } source={ CompanyIcon }/>);
-							} else if (user.currentUserRole === 1 && user.carrierType === 2) {
-								return (<Image style={ styles.userIcon } source={ GeCompanyIcon }/>);
-							} else if (user.currentUserRole === 2) {
-								return (<Image style={ styles.userIcon } source={ UserIcon }/>)
-							} else if (user.currentUserRole === 1) {
-								return (<Image style={ styles.userIcon } source={ CompanyIcon }/>)
-							}
-						})()
-					}
-					<View style={ styles.userInfoContainer }>
-					{
-						(() => {
-							if(user.certificationStatus === 2 || user.currentUserRole === 2){
-								return(<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>)
-							}else{
-								return(<Text style={ styles.firstLevelText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>)
-							}
-						})()
-					}
+				{/*<View style={ styles.topContainer }>*/}
+					{/*{*/}
+						{/*(() => {*/}
+							{/*if (user.currentUserRole === 1 && user.carrierType === 1) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ CompanyIcon }/>);*/}
+							{/*} else if (user.currentUserRole === 1 && user.carrierType === 2) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ GeCompanyIcon }/>);*/}
+							{/*} else if (user.currentUserRole === 2) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ UserIcon }/>)*/}
+							{/*} else if (user.currentUserRole === 1) {*/}
+								{/*return (<Image style={ styles.userIcon } source={ CompanyIcon }/>)*/}
+							{/*}*/}
+						{/*})()*/}
+					{/*}*/}
+					{/*<View style={ styles.userInfoContainer }>*/}
+					{/*{*/}
+						{/*(() => {*/}
+							{/*if(user.certificationStatus === 2 || user.currentUserRole === 2){*/}
+								{/*return(<Text style={ styles.firstLevelText }>{ user.currentUserRole === 1 ? (user.companyName || '**' + lastName) : ('**' + lastName) }</Text>)*/}
+							{/*}else{*/}
+								{/*return(<Text style={ styles.firstLevelText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>)*/}
+							{/*}*/}
+						{/*})()*/}
+					{/*}*/}
+					{/*</View>*/}
+				{/*</View>*/}
+				<TouchableHighlight
+					underlayColor='#e6eaf2'>
+					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
+						<View style={ styles.cell }>
+							<Text style={ styles.leftText }>公司名称</Text>
+						</View>
+						<View style={ styles.rightCell }>
+							<Text style={ styles.rightText }>{ this.props.ownerName ? this.props.ownerName : '' }</Text>
+						</View>
 					</View>
-				</View>
+				</TouchableHighlight>
 
 				<TouchableHighlight
 					underlayColor='#e6eaf2'>
@@ -119,13 +192,13 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.leftText }>手机号码</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.rightText }>{ user.phoneNumber ? (user.phoneNumber.substr(0, 3) + '****' + user.phoneNumber.substr(7, 4)) : '' }</Text>
+							<Text style={ styles.rightText }>{ global.phone ? (global.phone.substr(0, 3) + '****' + global.phone.substr(7, 4)) : '' }</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
 
 				{
-					this.props.user.currentUserRole === 1 &&
+					true &&
 						<TouchableHighlight
 							underlayColor='#e6eaf2'
 							onPress={ this._authOrInfo }>
@@ -134,7 +207,7 @@ class UserInfoContainer extends BaseComponent {
 									<Text style={ styles.leftText }>认证信息</Text>
 								</View>
 								<View style={ styles.rightCell }>
-									<Text style={ [styles.authText, { color: textColor }] }>{ authStatusText }</Text>
+									<Text style={ [styles.authText, { color: '#999999' }] }>{ authStatusText }</Text>
 								</View>
 							</View>
 						</TouchableHighlight>
@@ -142,29 +215,32 @@ class UserInfoContainer extends BaseComponent {
 
 				<TouchableHighlight
 					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}}) }>
+					 onPress={ () =>
+							 // this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}})
+               this.props.navigation.dispatch({ type: RouteType.ROUTE_MODIFY_PWD })
+					 }>
 					<View style={ styles.cellContainer }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>修改登录密码</Text>
 						</View>
 						<View style={ styles.rightCell }>
-							<Text style={ styles.iconFont }>&#xe60d;</Text>
+							<Text style={ styles.iconFont }>&#xe63d;</Text>
 						</View>
 					</View>
 				</TouchableHighlight>
 
-				<TouchableHighlight
-					underlayColor='#e6eaf2'
-					 onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>
-					<View style={ styles.cellContainer }>
-						<View style={ styles.cell }>
-							<Text style={ styles.leftText }>银行账户管理</Text>
-						</View>
-						<View style={ styles.rightCell }>
-							<Text style={ styles.iconFont }>&#xe60d;</Text>
-						</View>
-					</View>
-				</TouchableHighlight>
+				{/*<TouchableHighlight*/}
+					{/*underlayColor='#e6eaf2'*/}
+					 {/*onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_BANK_CARD_LIST,params:{title:'银行账户管理'}}) }>*/}
+					{/*<View style={ styles.cellContainer }>*/}
+						{/*<View style={ styles.cell }>*/}
+							{/*<Text style={ styles.leftText }>银行账户管理</Text>*/}
+						{/*</View>*/}
+						{/*<View style={ styles.rightCell }>*/}
+							{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+						{/*</View>*/}
+					{/*</View>*/}
+				{/*</TouchableHighlight>*/}
 				{ this._renderUpgrade(this.props) }
 			</View>
 		);
@@ -177,7 +253,10 @@ function mapStateToProps(state) {
 		user: app.get('user'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
-    upgradeForceUrl: app.get('upgradeForceUrl'),
+    	upgradeForceUrl: app.get('upgradeForceUrl'),
+        ownerStatus: state.user.get('ownerStatus'),
+        ownerName: state.user.get('ownerName'),
+        currentStatus: state.user.get('currentStatus'),
 	};
 }
 function mapDispatchToProps(dispatch) {

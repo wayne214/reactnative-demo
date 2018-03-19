@@ -33,6 +33,7 @@ import * as RouteType from '../../constants/routeType';
 import {
     addImage,
     updateImages,
+    refreshDriverOrderList,
 } from '../../action/driverOrder';
 import * as API from '../../constants/api';
 import Loading from '../../utils/loading';
@@ -116,6 +117,7 @@ class UploadReceipt extends Component {
         this.state = {
             data:[],
             transCode: params.transCode,
+            receiptWay: params.receiptWay,
             loading: false,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
@@ -125,8 +127,6 @@ class UploadReceipt extends Component {
         this.takePhoto = this.takePhoto.bind(this);
         this.clickImage = this.clickImage.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-        this.popToTop = this.popToTop.bind(this);
-        this.goBackForward = this.goBackForward.bind(this);
 
     }
     componentDidMount() {
@@ -276,8 +276,10 @@ class UploadReceipt extends Component {
                     ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                         locationData.district, lastTime - currentTime, '上传回单页面');
                     Toast.showShortCenter('上传回单成功');
-                    DeviceEventEmitter.emit('changeStateReceipt');
-                    this.goBackForward();
+                    this.props._refreshOrderList(0);
+                    this.props._refreshOrderList(2);
+                    this.props._refreshOrderList(3);
+                    this.props.navigation.dispatch({type: 'pop', key: 'Main'});
 
                 }else {
                     Toast.showShortCenter('图片上传失败，请重新上传');
@@ -290,19 +292,6 @@ class UploadReceipt extends Component {
                 });
                 // Toast.showShortCenter('上传回单失败');
             });
-    }
-
-    // 返回到根界面
-    popToTop() {
-        const routes = this.props.routes;
-        let rootKey = routes[1].key;
-        this.props.navigation.goBack(rootKey);
-    }
-
-    goBackForward() {
-        const routes = this.props.routes;
-        let routeKey = routes[routes.length - 2].key;
-        this.props.navigation.goBack(routeKey);
     }
 
     render() {
@@ -351,16 +340,18 @@ class UploadReceipt extends Component {
                     title={'回单'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    // backIconClick={() => {
-                    //     const routes = this.props.routes;
-                    //     const forward = routes[routes.length - 2];
-                    //     if (navigator && routes.length > 1) {
-                    //         navigator.goBack();
-                    //     }
-                    // }}
+                    backViewClick={() => {
+                        const routes = this.props.routes;
+                        if(routes[routes.length - 2].routeName === RouteType.ROUTE_SIGN_SUCCESS_PAGE) {
+                            this.props._refreshOrderList(2);
+                            navigator.dispatch({type: 'pop', key: 'Main'});
+                        }else {
+                            navigator.dispatch({type: 'pop'});
+                        }
+                    }}
                 />
                 <View style={{marginTop: 10, marginBottom: 10}}>
-                    <CommonCell itemName="回单类型：纸质回单" titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}} hideBottomLine={true}/>
+                    <CommonCell itemName={`签单返回：${this.state.receiptWay}`}titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}} hideBottomLine={true}/>
                 </View>
                 <View style={{backgroundColor: StaticColor.WHITE_COLOR}}>
                     <CommonCell itemName="上传回单" titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}}/>
@@ -428,6 +419,9 @@ class UploadReceipt extends Component {
 function mapDispatchToProps (dispatch){
     return {
         dispatch,
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        }
     };
 }
 

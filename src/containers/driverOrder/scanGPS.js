@@ -29,6 +29,7 @@ import * as ConstValue from '../../constants/constValue';
 import * as RouteType from '../../constants/routeType';
 import Toast from '@remobile/react-native-toast';
 import {fetchData} from '../../action/app';
+import {refreshDriverOrderList} from '../../action/driverOrder';
 
 import inputNum from '../../../assets/img/scan/inputNum.png'
 import light from '../../../assets/img/scan/light.png'
@@ -92,7 +93,7 @@ class scanGPS extends Component {
 
     onBackAndroid = () => {
         if(this.props.navigation && this.props.routes.length > 1) {
-            this.props.navigation.goBack();
+            this.props.navigation.dispatch({ type: 'pop' })
             return true;
         }
         return false;
@@ -130,8 +131,8 @@ class scanGPS extends Component {
         this.props._getGPSDetailInfo({
             barCode: this.gpsDeviceCode,
         },(responseData) => {
-            if(responseData.result) {
-                let data = responseData.result;
+            if(responseData) {
+                let data = responseData;
                 if(data.isDisabled == 0){
                     if(data.eleValue && parseInt(data.eleValue) > 20) {
                         this.bindGPS();
@@ -158,6 +159,8 @@ class scanGPS extends Component {
             } else {
                 Toast.showShortCenter('该设备不存在，不能进行绑定');
             }
+        },(error) => {
+            Toast.showShortCenter(error.message);
         });
     }
 
@@ -171,13 +174,16 @@ class scanGPS extends Component {
             barCode: this.gpsDeviceCode,
             isBind: 1, // 绑定
         }, (responseData) => {
-            if(responseData.result){
+            if(responseData){
                 Toast.showShortCenter('绑定成功');
-                this.props.navigation.goBack();
-                // DeviceEventEmitter.emit('refreshShippedDetails');
+                this.props._refreshOrderList(0);
+                this.props._refreshOrderList(1);
+                this.props.navigation.dispatch({type: 'pop'});
             } else {
                 Toast.showShortCenter('绑定失败');
             }
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -250,7 +256,7 @@ class scanGPS extends Component {
 
     // 返回按钮点击事件
     goBack() {
-        this.props.navigation.goBack();
+        this.props.navigation.dispatch({ type: 'pop' })
     }
 
 
@@ -288,7 +294,7 @@ class scanGPS extends Component {
                                 onBarCodeRead={
                                     this.barcodeReceived
                                 }
-                                torchMode={openFlash ? 'on' : 'off'}
+                                flashMode={openFlash ? 'on' : 'off'}
                             >
                                 <View style={styles.container}>
                                     <View style={styles.titleContainer}>
@@ -501,7 +507,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps (dispatch) {
     return {
-        _getGPSDetailInfo: (params, callback) => {
+        _getGPSDetailInfo: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -512,10 +518,11 @@ function mapDispatchToProps (dispatch) {
                 },
                 fail: error => {
                     console.log('???', error)
+                    failCallBack && failCallBack(error);
                 }
             }));
         },
-        _bindGPSDevice: (params, callback) => {
+        _bindGPSDevice: (params, callback, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -525,9 +532,13 @@ function mapDispatchToProps (dispatch) {
                     callback && callback(data);
                 },
                 fail: error => {
-                    console.log('???', error)
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         }
     };
 }

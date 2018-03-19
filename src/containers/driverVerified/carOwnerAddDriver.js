@@ -900,7 +900,7 @@ class carOwnerAddDriver extends Component {
                 idName: this.state.IDName,
                 idNum: this.state.IDCard,
                 idValidUntil: date,
-                motorcycleType: this.state.motorcycleType,
+                motorcycleType: this.state.motoercycleType,
                 phoneNum: this.state.enterPhone,
                 userId: userID,
                 userName: this.state.IDName,
@@ -1023,7 +1023,7 @@ class carOwnerAddDriver extends Component {
                                           });
                                      }}
                                      textOnFocus={()=>{
-                                          if (Platform.OS === 'ios'){
+                                          if (PlatfPlatformorm.OS === 'ios'){
                                               this.refs.scrollView.scrollToEnd();
                                           }
                                      }}
@@ -1211,7 +1211,7 @@ class carOwnerAddDriver extends Component {
                     />
 
 
-                    <VierifiedBottomItem clickAction={()=>{
+                    <VierifiedBottomItem btnTitle="提交" clickAction={()=>{
                         this.checkUploadParams();
                     }}/>
 

@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {
     View,
     StyleSheet,
-    ListView,
+    FlatList,
     Platform,
     RefreshControl,
     InteractionManager,
     Dimensions,
     DeviceEventEmitter,
+    Image,
+    Text
 } from 'react-native';
 import moment from 'moment';
 import {fetchData} from "../../action/app";
@@ -21,7 +23,9 @@ import * as API from '../../constants/api';
 import CommonListItem from './component/commonListItem';
 import * as RouteType from '../../constants/routeType';
 import UniqueUtil from '../../utils/unique';
-import EmptyView from './component/emptyView';
+import emptyList from '../../../assets/img/emptyView/nodata.png';
+import LoadMoreFooter from '../../components/common/loadMoreFooter'
+
 let pageNO = 1; // 第一页
 const pageSize = 10; // 每页显示的数量
 let list = [];
@@ -53,24 +57,29 @@ const styles = StyleSheet.create({
             },
         }),
     },
+    content: {
+        fontSize: 17,
+        color: StaticColor.LIGHT_GRAY_TEXT_COLOR,
+        textAlign: 'center',
+        marginTop: 14,
+    },
 });
 class driverGoods extends Component {
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const initLength = Platform.OS === 'ios' ? 1 : 0;
         this.state = {
             date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
             goodStatus: '1',
-            dataSource: ds,
+            dataSource: [],
             isLoadMore: true,
-
             isRefresh: false,
             goodsListLength: initLength,
         };
         this.getData = this.getData.bind(this);
         this.getDataSuccessCallBack = this.getDataSuccessCallBack.bind(this);
         this.getDataFailCallBack = this.getDataFailCallBack.bind(this);
+        this.renderRow = this.renderRow.bind(this);
     }
 
     componentDidMount() {
@@ -113,7 +122,7 @@ class driverGoods extends Component {
         list = [];
         pageNO = 1;
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(list),
+            dataSource: list,
         });
     }
     // 加载更多
@@ -145,7 +154,7 @@ class driverGoods extends Component {
             />
         );
     }
-// 成功回调
+    // 成功回调
     getDataSuccessCallBack(result) {
         console.log('=goodResult',result);
         lastTime = new Date().getTime();
@@ -170,7 +179,7 @@ class driverGoods extends Component {
         }
         if (result.list.length === 0) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(list),
+                dataSource: list,
                 isRefresh: false,
                 goodsListLength: 0,
             });
@@ -178,7 +187,7 @@ class driverGoods extends Component {
             list = list.concat(result.list);
             console.log('goooododisfiodojif---list,', list);
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(list),
+                dataSource: list,
                 isRefresh: false,
             });
         }
@@ -192,12 +201,12 @@ class driverGoods extends Component {
         });
     }
     // 获取数据
-    getData(status, endTime, getDataSuccessCallBack, getDataFailCallBack, pageNo) {
+    getData(status, endTime, pageNo) {
         currentTime = new Date().getTime();
         // const beginTimeTemp = this.getPreMonth(moment(new Date()).format('YYYY-MM-DD'));
         // const plateNumber = this.props.userPlateNumber;
         if(this.props.currentStatus == 'driver') {
-            global.plateNumber = '京LPL001';
+            // global.plateNumber = '京LPL001';
             if (global.plateNumber) {
                 this.props._getData({
                     beginTime: '2017-06-01 00:00:00',
@@ -207,7 +216,7 @@ class driverGoods extends Component {
                     driverPhone: global.phone,
                     status,
                     plateNumber: global.plateNumber,
-                }, getDataSuccessCallBack, getDataFailCallBack);
+                }, this.getDataSuccessCallBack, this.getDataFailCallBack);
             } else {
                 list = [];
                 this.setState({
@@ -227,7 +236,7 @@ class driverGoods extends Component {
         }
     }
     getDataAndCallBack(goodStatus, date, pageNo) {
-        this.getData(goodStatus, date, this.getDataSuccessCallBack, this.getDataFailCallBack, pageNo);
+        this.getData(goodStatus, date, pageNo);
     }
 
     // 刷新
@@ -240,7 +249,9 @@ class driverGoods extends Component {
         this.resetParams();
         this.getDataAndCallBack(this.state.goodStatus, this.state.date, pageNO);
     }
-    renderRow(dataRow) {
+
+    renderRow(data) {
+        const dataRow = data.item;
         const pushTime = dataRow.pushTime ? dataRow.pushTime.replace(/-/g,'/').substring(0, dataRow.pushTime.length - 3) : '';
         const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, dataRow.arrivalTime.length - 3) : '';
         // 货品类型
@@ -285,14 +296,38 @@ class driverGoods extends Component {
                         refPrice: dataRow.refPrice,
                         getOrderSuccess: () => {
                             // 刷新
-                            InteractionManager.runAfterInteractions(() => {
+                            // InteractionManager.runAfterInteractions(() => {
                                 this.onRefresh();
-                            });
+                            // });
                         },
                     }});
                 }}
             />
         );
+    }
+
+    _renderFooter(){
+        if (this.state.dataSource.length > 1) {
+            if (this.state.isLoadMore) {
+                return <LoadMoreFooter />
+            }else{
+                return <LoadMoreFooter isLoadAll={true}/>
+            }
+        }else{
+            return null
+        }
+    }
+
+    _listEmptyComponent(){
+        return (
+            <View style={{flex:1,justifyContent: 'center',alignItems: 'center',height: SCREEN_HEIGHT-DANGER_TOP-DANGER_BOTTOM-64-49}}>
+                <Image source={emptyList}/>
+                <Text style={styles.content}>暂无数据</Text>
+            </View>
+        )
+    }
+    _keyExtractor = (item, index) => {
+        return index;
     }
 
     render() {
@@ -324,30 +359,23 @@ class driverGoods extends Component {
                     }}
                 >
                     <View style={{backgroundColor: StaticColor.COLOR_SEPARATE_LINE, height: 1}}/>
-                    {
-                        this.state.goodsListLength > 0 ?
-                            <ListView
-                                dataSource={this.state.dataSource}
-                                renderRow={this.renderRow.bind(this)}
-                                style={styles.listView}
-                                renderSeparator={this.renderSeparator}
-                                onEndReached={this.toEnd.bind(this)}
-                                onEndReachedThreshold={100}
-                                enableEmptySections={true}
-                                removeClippedSubviews={false}
-                                showsVerticalScrollIndicator={false}
-                                refreshControl={
-                                    <RefreshControl
-                                        refreshing={this.state.isRefresh}
-                                        onRefresh={this.onRefresh.bind(this)}
-                                        tintColor="#CCC"
-                                        colors={['#43B8FF', '#309DED', '#008dcf']}
-                                        progressBackgroundColor="#CCC"
-                                    />
-                                }
-                            />
-                            : <View style={{flex: 1}}><EmptyView /></View>
-                    }
+                        <FlatList
+                            style={styles.listView}
+                            onRefresh={()=>{
+                                this.onRefresh();
+                            }}
+                            refreshing={this.state.isRefresh}
+                            data={this.state.dataSource}
+                            renderItem={this.renderRow}
+                            keyExtractor={this._keyExtractor}
+                            extraData={this.state}
+                            onEndReachedThreshold={0.1}
+                            enableEmptySections={true}
+                            onEndReached={ this.toEnd.bind(this) }
+                            ItemSeparatorComponent={this.renderSeparator}
+                            ListFooterComponent={this._renderFooter.bind(this)}
+                            ListEmptyComponent={this._listEmptyComponent()}
+                        />
                 </DropdownMenu>
             </View>
         )

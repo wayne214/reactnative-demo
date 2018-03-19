@@ -27,7 +27,7 @@ const BlueButtonArc = require('../../../assets/img/button/blueButtonArc.png');
 import {fetchData} from "../../action/app";
 
 import Button from 'apsl-react-native-button';
-
+import GuaCheDetail from './verifiedIDItem/verifiedCarGuaDetail';
 
 const headerImageFail = require('./images/verifiedFail.png');
 const headerImageSuccess = require('./images/verifiedSuccess.png');
@@ -90,7 +90,7 @@ class certificationState extends Component{
         this.state={
             resultInfo: {},
             appLoading: false,
-            qualifications: this.props.navigation.state.params.qualifications,
+            qualifications: '',
         };
 
         this.getVerifiedDetail = this.getVerifiedDetail.bind(this);
@@ -106,30 +106,22 @@ class certificationState extends Component{
 
         this.getCurrentPosition();
 
-        if (this.state.qualifications == '1203'){
-
-            this.getVerifiedDetail(global.userInfo.phone, global.plateNumber, this.getDetailSuccessCallBack, this.getDetailFailCallBack);
-
-        }else {
-            this.getVerifiedDetail(global.userInfo.phone, global.plateNumber, this.getDetailSuccessCallBack, this.getDetailFailCallBack);
-
-        }
+        this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
 
     }
-    getDetailSuccessCallBack(){
+    getDetailSuccessCallBack(result){
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('获取司机增加车辆详情详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '司机增加车辆详情详情页面');
         this.setState({
-            resultInfo: responseData.result,
-            qualifications: responseData.result.certificationStatus,
+            resultInfo: result,
+            qualifications: result.certificationStatus,
+            appLoading: false,
         });
 
 
         DeviceEventEmitter.emit('certificationSuccess');
-        this.setState({
-            appLoading: false,
-        });
+
     }
     getDetailFailCallBack(){
         Toast.showShortCenter('获取详情失败');
@@ -138,13 +130,13 @@ class certificationState extends Component{
         });
     }
     /*资质详情认证*/
-    getVerifiedDetail(phoneNum, plateNumber, verifiedSuccessCallBack, verifiedFailCallBack) {
+    getVerifiedDetail(phoneNum, plateNumber) {
         currentTime = new Date().getTime();
 
-        this.getCarInfo({
+        this.props.getCarInfo({
             phoneNum: phoneNum,
             plateNumber: plateNumber,
-        }, verifiedSuccessCallBack, verifiedFailCallBack);
+        }, this.getDetailSuccessCallBack, this.getDetailFailCallBack);
 
     }
 
@@ -248,6 +240,20 @@ class certificationState extends Component{
 
 
                     {headView}
+                    <VerifiedGrayTitleItem title="车辆信息"/>
+                    <GuaCheDetail resultInfo={this.state.resultInfo}
+                                  imageClick={(index)=>{
+
+
+                                      if (index === 0){
+                                          // 挂车行驶证
+                                      }
+                                      if (index === 1){
+                                          // 挂车运营证
+                                      }
+
+
+                                  }}/>
 
                     <VerifiedGrayTitleItem title="行驶证"/>
                     <DriverCardItem resultInfo={this.state.resultInfo}
@@ -312,7 +318,7 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'POST',
                 api: API.API_AUTH_QUALIFICATIONS_DETAIL,
-                success: data => {
+                success: (data) => {
                     successCallback(data);
                 },
                 fail: ()=> {

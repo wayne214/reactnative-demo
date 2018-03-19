@@ -1,41 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as ConstValue from '../../constants/constValue';
-import Carousel from 'react-native-snap-carousel';
-import HomeCell from '../../components/home/homeCell';
-import {fetchData, getHomePageCountAction} from '../../action/app';
-import {saveWeather} from '../../action/home';
-import {
-    saveUserCarList,
-    setUserCarAction,
-    queryEnterpriseNatureSuccessAction,
-} from '../../action/user';
-import {API_GET_WEATHER} from '../../constants/api';
-import locationIcon from '../../../assets/home/location.png';
-import bannerImage1 from '../../../assets/home/banner1.png';
-import bannerImage2 from '../../../assets/home/banner2.png';
-import signIcon from '../../../assets/home/sign_icon.png';
-import receiptIcon from '../../../assets/home/receipt_icon.png';
-import dispatchIcon from '../../../assets/home/despatch_icon.png';
-import receiveIcon from '../../../assets/home/receive_icon.png';
-import roadIcon from '../../../assets/home/road_abnormality.png';
-import WeatherCell from '../../components/home/weatherCell';
-import {width, height} from '../../constants/dimen';
-import {changeTab, showFloatDialog, logout, appendLogToFile} from '../../action/app';
-import NavigatorBar from '../../components/common/navigatorbar';
-import DriverUp from '../../../assets/img/character/driverUp.png';
-import DriverDown from '../../../assets/img/character/driverDown.png';
-import OwnerUp from '../../../assets/img/character/ownerUp.png';
-import OwnerDown from '../../../assets/img/character/ownerDown.png';
-import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
-import MessageMine from '../../../assets/img/oldMine/message.png';
-import Fromto from '../../../assets/img/home/fromto.png';
-import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
-import Toast from '../../utils/toast';
-import JPushModule from 'jpush-react-native';
-import LittleButtonCell from '../../components/home/littleButtonCell';
-import Storage from '../../utils/storage';
-import StorageKey from '../../constants/storageKeys';
 import {
     View,
     Text,
@@ -48,14 +12,9 @@ import {
     Alert
 } from 'react-native';
 import {
-    loginSuccessAction,
-    setUserNameAction,
-    setDriverCharacterAction,
-    setOwnerCharacterAction,
-    setCurrentCharacterAction,
-    setCompanyCodeAction,
-    setOwnerNameAction
-} from '../../action/user';
+    locationAction,
+    saveWeather
+} from '../../action/home';
 import {
     WHITE_COLOR,
     BLUE_CONTACT_COLOR,
@@ -68,6 +27,56 @@ import {
     REFRESH_COLOR,
 } from '../../constants/colors';
 import * as RouteType from "../../constants/routeType";
+import * as API from '../../constants/api';
+import * as ConstValue from '../../constants/constValue';
+import Carousel from 'react-native-snap-carousel';
+import HomeCell from '../../components/home/homeCell';
+import {
+    fetchData,
+    getHomePageCountAction,
+    changeTab,
+} from '../../action/app';
+import {
+    changeOrderTabAction,
+    refreshDriverOrderList,
+} from '../../action/driverOrder'
+import {
+    saveUserCarList,
+    setUserCarAction,
+    setCurrentCharacterAction,
+    queryEnterpriseNatureSuccessAction,
+    setOwnerCharacterAction,
+    setCompanyCodeAction,
+    saveCompanyInfoAction,
+    setDriverCharacterAction
+} from '../../action/user';
+
+import WeatherCell from '../../components/home/weatherCell';
+import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
+import Toast from '../../utils/toast';
+import JPushModule from 'jpush-react-native';
+import LittleButtonCell from '../../components/home/littleButtonCell';
+import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
+import {Geolocation} from 'react-native-baidu-map-xzx';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import {width, height} from '../../constants/dimen';
+import NavigatorBar from '../../components/common/navigatorbar';
+
+import DriverUp from '../../../assets/img/character/driverUp.png';
+import DriverDown from '../../../assets/img/character/driverDown.png';
+import OwnerUp from '../../../assets/img/character/ownerUp.png';
+import OwnerDown from '../../../assets/img/character/ownerDown.png';
+import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
+import MessageMine from '../../../assets/img/oldMine/message.png';
+import locationIcon from '../../../assets/home/location.png';
+import bannerImage1 from '../../../assets/home/banner1.png';
+import bannerImage2 from '../../../assets/home/banner2.png';
+import signIcon from '../../../assets/home/sign_icon.png';
+import receiptIcon from '../../../assets/home/receipt_icon.png';
+import dispatchIcon from '../../../assets/home/despatch_icon.png';
+import receiveIcon from '../../../assets/home/receive_icon.png';
+import roadIcon from '../../../assets/home/road_abnormality.png';
 
 const images = [
     bannerImage1,
@@ -84,6 +93,10 @@ const itemHorizontalMargin = 28;
 const itemWidth = slideWidth + itemHorizontalMargin * 2;
 const itemHeight = 125 * itemWidth / 335;
 
+let currentTime = 0;
+let lastTime = 0;
+let locationData = '';
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -91,10 +104,6 @@ class Home extends Component {
             acceptMessge: '',
             plateNumber: '',
             setUserCar: false,
-            weather: '天气',
-            temperatureLow: '--',
-            temperatureHigh: '--',
-            weatherNum: '',
             limitNumber: '',
             plateNumberObj: {},
             modalVisible: false,
@@ -104,6 +113,7 @@ class Home extends Component {
             // CarOwnerState: params ? params.CarOwnerState : ''
         };
 
+        this.getCurrentPosition = this.getCurrentPosition.bind(this);
         this.getWeather = this.getWeather.bind(this);
         this.vehicleLimit = this.vehicleLimit.bind(this);
         this.searchDriverState = this.searchDriverState.bind(this);
@@ -139,9 +149,9 @@ class Home extends Component {
         //     })
         // }
 
-        // this.getCurrentPosition(0);
-
+        this.getCurrentPosition(0);
         if (this.props.currentStatus == 'driver') {
+            this.setData();
             this.queryEnterpriseNature();
         }
         // if (Platform.OS === 'android') {
@@ -342,16 +352,12 @@ class Home extends Component {
         // }
         // -----------jpush  ios end
 
-        // this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
-        //     if (this.props.currentStatus == 'driver') {
-        //         if (this.props.plateNumber) {
-        //             const {userInfo} = this.props;
-        //             this.getHomePageCount(this.props.plateNumber, userInfo.phone)
-        //         }
-        //     } else {
-        //         this.getCarrierHomePageCount();
-        //     }
-        // });
+        this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
+            if (this.props.plateNumber) {
+                const {userInfo} = this.props;
+                this.getHomePageCount(this.props.plateNumber, userInfo.phone)
+            }
+        });
         // this.getUserCarListener = DeviceEventEmitter.addListener('getUserCar', () => {
         //     this.getUserCar();
         // });
@@ -406,6 +412,64 @@ class Home extends Component {
         // this.getUserCarMineListener.remove();
     }
 
+    // 获取当前位置
+    getCurrentPosition(type) {
+        Geolocation.getCurrentPosition().then(data => {
+            console.log('position =', JSON.stringify(data));
+            this.props.getLocationAction(data.city);
+            locationData = data;
+            if (type === 1) {
+                ReadAndWriteFileUtil.appendFile('定位', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                    locationData.district, 0, '定位');
+                // TimeToDoSomething.uploadDataFromLocalMsg();
+            } else {
+                this.getWeather(data.city);
+                if (this.props.currentStatus == 'driver') {
+                    this.vehicleLimit(data.city);
+                }
+            }
+        }).catch(e => {
+            console.log(e, 'error');
+        });
+    }
+
+    setData() {
+        Storage.get(StorageKey.CarSuccessFlag).then((value) => {
+            console.log('---value', value);
+            if (value && value * 1 === 1) {
+                this.getUserCar();
+            } else {
+                setTimeout(() => {
+                    // 开发中reload后，保存车辆列表信息，后面切换车辆会用到
+                    Storage.get(StorageKey.userCarList).then((carList) => {
+                        this.saveUserCarList(carList);
+                    });
+                    Storage.get(StorageKey.PlateNumberObj).then((plateNumObj) => {
+                        if (plateNumObj) {
+                            const plateNumber = plateNumObj.carNum;
+                            console.log('home_plateNumber=', plateNumber);
+                            if (plateNumber !== null) {
+                                this.setState({
+                                    plateNumber: plateNumber,
+                                    plateNumberObj: plateNumObj,
+                                });
+                                if (value === 3) {
+                                    const {userInfo} = this.props;
+                                    this.saveUserCarInfo(plateNumObj);
+                                    this.getHomePageCount(plateNumber, userInfo.phone);
+                                } else {
+                                    if (plateNumber) {
+                                        this.setUserCar(plateNumber, this.setUserCarSuccessCallBack);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 200);
+            }
+        });
+    }
+
     // 获取首页状态数量
     getHomePageCount(plateNumber, phone) {
         if (plateNumber) {
@@ -418,7 +482,18 @@ class Home extends Component {
     }
 
     vehicleLimit(cityName) {
-        this.props.vehicleLimit({cityName: cityName})
+        this.props.vehicleLimit(cityName,
+            (result) => {
+                if (result && result !== '') {
+                    this.setState({
+                        limitNumber: '今日限行 ' + result,
+                    });
+                } else {
+                    this.setState({
+                        limitNumber: '',
+                    });
+                }
+            });
     }
 
     // 获取车辆列表
@@ -435,13 +510,15 @@ class Home extends Component {
         if (result) {
             if (result.length > 1) {
                 this.saveUserCarList(result);
-                this.props.navigation.navigate('ChooseCar', {
-                    carList: result,
-                    currentCar: '',
-                    flag: true,
-                });
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_CHOOSE_CAR,
+                    params: {
+                        carList: result,
+                        currentCar: '',
+                        flag: true,
+                    }
+                })
             } else if (result.length === 1) {
-
                 this.saveUserCarList(result);
                 this.setState({
                     plateNumber: result[0].carNum,
@@ -476,7 +553,7 @@ class Home extends Component {
     }
 
     // 设置车辆
-    setUserCar(plateNumber,setUserCarSucCallBack) {
+    setUserCar(plateNumber, setUserCarSucCallBack) {
         Storage.get(StorageKey.USER_INFO).then((value) => {
             if (value) {
                 this.props.setUserCarAction({
@@ -489,9 +566,7 @@ class Home extends Component {
 
     // 设置车辆成功
     setUserCarSuccessCallBack(result) {
-
         const userInfo = this.props.userInfo;
-
         console.log('设置车辆成功了', this.props.plateNumber, userInfo.phone);
         this.getHomePageCount(this.props.plateNumber, userInfo.phone);
         this.saveUserCarInfo(this.props.plateNumberObj);
@@ -510,33 +585,6 @@ class Home extends Component {
         this.props.saveUserCarListAction(carList);
     }
 
-    // 获取首页状态数量
-    getCarrierHomePageCount() {
-        currentTime = new Date().getTime();
-        if (this.props.carrierCode) {
-            HTTPRequest({
-                url: API.API_CARRIER_INDEX_STATUS_NUM,
-                params: {
-                    carrierCode: this.props.carrierCode,
-                },
-                loading: () => {
-                },
-                success: (responseData) => {
-                    lastTime = new Date().getTime();
-                    ReadAndWriteFileUtil.appendFile('获取首页状态数量', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                        locationData.district, lastTime - currentTime, '首页');
-                    if (responseData.result) {
-                        this.props.getCarrierHomoPageCountAction(responseData.result);
-                    }
-                },
-                error: () => {
-                },
-                finish: () => {
-                },
-            });
-        }
-    }
-
     ownerVerifiedHome(ownerVerifiedHomeSucCallBack, ownerVerifiedHomeFailCallBack) {
 
         if (this.props.userInfo) {
@@ -549,8 +597,7 @@ class Home extends Component {
     }
 
     ownerVerifiedHomeSucCallBack(result) {
-        debugger
-        console.log('ownerVerifiedState==', result.toString());
+        console.log('ownerVerifiedState==', result);
         // let result = result;
         this.setState({
             verifiedState: result && result.certificationStatus,
@@ -572,15 +619,20 @@ class Home extends Component {
                 } else {
                     if (result.certificationStatus == '1202') {
                         this.props.setCompanyCodeAction(result.companyCode);
+                        this.props.saveCompanyInfoAction(result);
                         this.props.setOwnerCharacterAction('12');
                         this.props.setCurrentCharacterAction('personalOwner');
+                        this.props.dispatch(changeTab('goods'));
                         this.setState({
                             bubbleSwitch: false,
                             show: false,
                         })
                     } else {
                         this.props.setOwnerCharacterAction('13');
-                        this.props.navigation.navigate('PersonownerVerifiedStatePage');
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                        });
+                        // this.props.navigation.navigate('PersonownerVerifiedStatePage');
                         this.setState({
                             show: false,
                         })
@@ -605,15 +657,20 @@ class Home extends Component {
                     } else {
                         if (result.certificationStatus == '1202') {
                             this.props.setCompanyCodeAction(result.companyCode);
+                            this.props.saveCompanyInfoAction(result);
                             this.props.setOwnerCharacterAction('22');
                             this.props.setCurrentCharacterAction('businessOwner');
+                            this.props.dispatch(changeTab('goods'));
                             this.setState({
                                 bubbleSwitch: false,
                                 show: false,
                             })
                         } else {
                             this.props.setOwnerCharacterAction('23');
-                            this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                            });
+                            // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
                             this.setState({
                                 show: false,
                             })
@@ -669,24 +726,42 @@ class Home extends Component {
                 if (result.certificationStatus == '1203') {
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                         if (value) {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                resultInfo: value,
-                                commitSuccess: () => {
-                                    this.setState({
-                                        bubbleSwitch: false,
-                                        show: false,
-                                    })
-                                }
+                            this.props.navigation.dispatch({
+                               type: RouteType.ROUTE_DRIVER_VERIFIED,
+                               params: {resultInfo: value, commitSuccess: () => {
+                                   this.setState({
+                                       bubbleSwitch: false,
+                                       show: false,
+                                   })
+                               }}
                             });
+                            // this.props.navigation.navigate('VerifiedPage', {
+                            //     resultInfo: value,
+                            //     commitSuccess: () => {
+                            //         this.setState({
+                            //             bubbleSwitch: false,
+                            //             show: false,
+                            //         })
+                            //     }
+                            // });
                         } else {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                commitSuccess: () => {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                params: { commitSuccess: () => {
                                     this.setState({
                                         bubbleSwitch: false,
                                         show: false,
                                     })
-                                }
+                                }}
                             });
+                            // this.props.navigation.navigate('VerifiedPage', {
+                            //     commitSuccess: () => {
+                            //         this.setState({
+                            //             bubbleSwitch: false,
+                            //             show: false,
+                            //         })
+                            //     }
+                            // });
                         }
                     });
 
@@ -704,20 +779,29 @@ class Home extends Component {
                 }
             }
         } else {
-            this.props.navigation.navigate('VerifiedPage', {
-                commitSuccess: () => {
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                params: { commitSuccess: () => {
                     this.setState({
                         bubbleSwitch: false,
                         show: false,
                     })
-                }
+                }}
             });
+            // this.props.navigation.navigate('VerifiedPage', {
+            //     commitSuccess: () => {
+            //         this.setState({
+            //             bubbleSwitch: false,
+            //             show: false,
+            //         })
+            //     }
+            // });
         }
     }
 
     // 查询司机对应企业性质
     queryEnterpriseNature() {
-        this.props.httpQueryEnterpriseNatureAction({phone:global.phone})
+        this.props.httpQueryEnterpriseNatureAction({phone: global.phone})
     }
 
     getCurrentWeekday(day) {
@@ -746,9 +830,15 @@ class Home extends Component {
         );
     }
 
+    // 切换订单tab
+    changeOrderTab(orderTab) {
+        this.props._changeOrderTab(orderTab);
+    }
+
 
     render() {
-        const limitView = this.state.limitNumber || this.state.limitNumber !== '' ?
+        const {homePageState} = this.props;
+        const limitView =  1==1 ?
             <View style={styles.limitViewStyle}>
                 <Text style={{
                     fontSize: 14,
@@ -757,6 +847,30 @@ class Home extends Component {
                 }}>{this.state.limitNumber}</Text>
             </View> : null;
         let date = new Date();
+        let stateView;
+        if (this.props.currentStatus == 'driver') {
+            switch (this.props.driverStatus) {
+                case '1' || 1:
+                    stateView =
+                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
+                        </View>
+                    break;
+                case '2' || 2:
+                    stateView = null;
+                    break;
+                case '3' || 3:
+                    stateView =
+                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证驳回</Text>
+                        </View>
+                    break;
+                default:
+                    stateView = null;
+                    break;
+            }
+
+        }
 
         const driverView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
             <HomeCell
@@ -765,14 +879,14 @@ class Home extends Component {
                 padding={10}// 文字与文字间距
                 imageStyle={styles.imageView}
                 backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
-                // badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
+                badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
                 renderImage={() => <Image source={receiptIcon}/>}// 图标
                 clickAction={() => { // 点击事件
                     if (this.props.driverStatus == 2) {
-                        DeviceEventEmitter.emit('resetGood');
-                        this.props.navigation.navigate('GoodsSource');
+                        this.props._changeBottomTab('driverGoods');
+                        DeviceEventEmitter.emit('resetGood')
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -783,15 +897,15 @@ class Home extends Component {
                 padding={10}
                 imageStyle={styles.imageView}
                 backgroundColor={{backgroundColor: WHITE_COLOR}}
-                // badgeText={homePageState === null ? 0 : homePageState.notYetShipmentCount}
+                badgeText={homePageState === null ? 0 : homePageState.notYetShipmentCount}
                 renderImage={() => <Image source={dispatchIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(1);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(1);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -806,11 +920,11 @@ class Home extends Component {
                 renderImage={() => <Image source={signIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(2);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 2);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(2);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -825,11 +939,11 @@ class Home extends Component {
                 renderImage={() => <Image source={receiveIcon}/>}
                 clickAction={() => {
                     if (this.props.driverStatus == 2) {
+                        this.props._changeBottomTab('driverOrder');
                         this.changeOrderTab(3);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 3);
-                        this.props.navigation.navigate('Order');
+                        this.props._refreshOrderList(3);
                     } else {
-                        DeviceEventEmitter.emit('certification');
+                        {/*DeviceEventEmitter.emit('certification');*/}
                     }
                 }}
             />
@@ -843,54 +957,10 @@ class Home extends Component {
                 badgeText={0}
                 renderImage={() => <Image source={roadIcon}/>}
                 clickAction={() => {
-                    console.log('dianjile ma')
-                    this.props.getWeather({city: '北京'});
-                    this.props.navigation.dispatch({
-                        type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
-                    })
-                    // if (this.props.driverStatus == 2) {
-                    //     this.props.navigation.navigate('UploadAbnormal');
-                    // } else {
-                    //     DeviceEventEmitter.emit('certification');
-                    // }
-                }}
-            />
-        </View>;
-
-        const carrierView = <View style={{marginTop: 10, backgroundColor: WHITE_COLOR, width: width,}}>
-            <HomeCell
-                title="接单"// 文字
-                describe="方便接单，快速查看"
-                padding={10}// 文字与文字间距
-                imageStyle={styles.imageView}
-                backgroundColor={{backgroundColor: WHITE_COLOR}}// 背景色
-                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.notYetReceiveCount}// 消息提示
-                renderImage={() => <Image source={receiptIcon}/>}// 图标
-                clickAction={() => { // 点击事件
-                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
-                        this.props.navigation.navigate('GoodsSource');
-                        DeviceEventEmitter.emit('resetGood');
-                    } else {
-                        DeviceEventEmitter.emit('certification');
-                    }
-                }}
-            />
-            <View style={styles.line}/>
-            <HomeCell
-                title="调度"
-                describe="一键调度，快捷无忧"
-                padding={10}
-                imageStyle={styles.imageView}
-                backgroundColor={{backgroundColor: WHITE_COLOR}}
-                // badgeText={carrierHomePageState === null ? 0 : carrierHomePageState.noDispatchCount}
-                renderImage={() => <Image source={dispatchIcon}/>}
-                clickAction={() => {
-                    if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
-                        this.changeOrderTab(1);
-                        DeviceEventEmitter.emit('changeOrderTabPage', 1);
-                        this.props.navigation.navigate('Order');
-                    } else {
-                        DeviceEventEmitter.emit('certification');
+                    if(this.props.driverStatus == 2) {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
+                        });
                     }
                 }}
             />
@@ -959,7 +1029,7 @@ class Home extends Component {
                     <TouchableOpacity
                         activeOpacity={1}
                         onPress={() => {
-
+                            // TODO
 
                         }}
                     >
@@ -977,10 +1047,7 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View
-                style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
-            </View>
+            {stateView}
             <ScrollView>
                 <View style={styles.locationStyle}>
                     <Image source={locationIcon}/>
@@ -1018,105 +1085,43 @@ class Home extends Component {
                         removeClippedSubviews={false}
                     />
                 </View>
-
-
-                {true ?
-                    <View>
-                        <View style={styles.weather}>
-                            <View style={styles.date}>
-                                <Text style={styles.day}>
-                                    {date.getUTCDate()}
-                                </Text>
-                                <Text style={styles.week}>
-                                    {this.getCurrentWeekday(date.getDay())}
-                                </Text>
-                            </View>
-                            <View style={{flexDirection: 'row', marginLeft: 20}}>
-                                <View style={{
-                                    marginRight: 15,
-                                    justifyContent: 'center',
-                                }}>
-
-                                    <WeatherCell weatherIcon={'晴todo'}/>
-                                </View>
-                                <Text style={{
-                                    marginRight: 10,
-                                    fontSize: 14,
-                                    color: LIGHT_BLACK_TEXT_COLOR,
-                                    alignSelf: 'center'
-                                }}> {'天气todo'}</Text>
-
-                                <Text style={{
-                                    marginRight: 10,
-                                    fontSize: 14,
-                                    color: LIGHT_BLACK_TEXT_COLOR,
-                                    alignSelf: 'center'
-                                }}>{-99}℃/{99}℃</Text>
-                            </View>
-                            {limitView}
+                <View>
+                    <View style={styles.weather}>
+                        <View style={styles.date}>
+                            <Text style={styles.day}>
+                                {date.getUTCDate()}
+                            </Text>
+                            <Text style={styles.week}>
+                                {this.getCurrentWeekday(date.getDay())}
+                            </Text>
                         </View>
-                        {this.props.currentStatus == 'driver' ? driverView : carrierView}
-                    </View>
-                    :
-                    <View style={{marginLeft: 10}}>
-
-                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
-                            <Image
-                                style={{}}
-                                source={Fromto}/>
-                            <View style={{marginTop: 5, marginLeft: 10}}>
-                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>北京市朝阳区</Text>
-                                <Text style={{height: 23, fontSize: 15, color: '#333333'}}>内蒙古自治区呼和浩特市新城区</Text>
-                            </View>
-                        </View>
-                        <LittleButtonCell marginLeft={20} color='#FF6B6B' buttonWidth={30} title='自营'/>
-
-                        <View style={{flexDirection: 'row', height: 67, alignItems: 'center'}}>
-                            <View style={{flex: 1.5}}>
-                                <Image
-                                    style={{}}
-                                    source={Fromto}/>
-                            </View>
-                            <View style={{marginTop: 5, marginLeft: 10, flex: 6.5}}>
-                                <View style={{flexDirection: 'row',}}>
-                                    <View style={styles.textBackground}>
-                                        <Text style={styles.textBackgroundFont}>有</Text>
-                                    </View>
-                                    <LittleButtonCell marginLeft={8} color='#999999' buttonWidth={30} title='水饺'/>
-                                </View>
-                                <View style={{flexDirection: 'row', marginTop: 8}}>
-                                    <View style={styles.textBackgroundBlue}>
-                                        <Text style={styles.textBackgroundFont}>求</Text>
-                                    </View>
-                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={70}
-                                                      title='4.2米-7.2米车'/>
-                                    <LittleButtonCell marginLeft={8} color='#0092FF' buttonWidth={46} title='冷藏车'/>
-                                </View>
-                            </View>
-                            <View style={{width: 1, backgroundColor: '#E6EAF2'}}/>
+                        <View style={{flexDirection: 'row', marginLeft: 20}}>
                             <View style={{
-                                flex: 3,
-                                justifyContent: 'flex-end',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginRight: 15
+                                marginRight: 15,
+                                justifyContent: 'center',
                             }}>
-                                <Text style={{color: '#FF8500', fontSize: 21}}>2344.00</Text>
-                                <Text style={{color: '#666666', fontSize: 14}}>元</Text>
+                                <WeatherCell weatherIcon={this.props.weather.weather}/>
                             </View>
+                            <Text style={{
+                                marginRight: 10,
+                                fontSize: 14,
+                                color: LIGHT_BLACK_TEXT_COLOR,
+                                alignSelf: 'center'
+                            }}> {this.props.weather.weather ? this.props.weather.weather : '暂无'}</Text>
+
+                            <Text style={{
+                                marginRight: 10,
+                                fontSize: 14,
+                                color: LIGHT_BLACK_TEXT_COLOR,
+                                alignSelf: 'center'
+                            }}>{this.props.weather.temperatureLow ?
+                                this.props.weather.temperatureLow : '--'}℃/{this.props.weather.temperatureHigh ?
+                                this.props.weather.temperatureHigh : '--'}℃</Text>
                         </View>
-                        <View style={{
-                            backgroundColor: '#0092FF',
-                            width: 108,
-                            height: 34,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: width - 140
-                        }}>
-                            <Text style={{fontSize: 15, color: '#ffffff'}}>我的报价</Text>
-                        </View>
+                        {limitView}
                     </View>
-                }
+                    {driverView}
+                </View>
             </ScrollView>
             {this.state.show ?
                 <CharacterChooseCell
@@ -1330,9 +1335,8 @@ function mapStateToProps(state) {
     return {
         userInfo: state.user.get('userInfo'),
         homePageState: state.app.get('getHomePageCount'),
-        carrierHomePageState: state.app.get('getCarrierHomePageCount'),
         jpushIcon: state.jpush.get('jpushIcon'),
-        location: state.app.get('locationData'),
+        location: state.home.get('location'),
         plateNumber: state.user.get('plateNumber'),
         plateNumberObj: state.user.get('plateNumberObj'),
         routes: state.nav.routes,
@@ -1343,6 +1347,7 @@ function mapStateToProps(state) {
         ownerStatus: state.user.get('ownerStatus'),
         currentStatus: state.user.get('currentStatus'),
         carrierCode: state.user.get('companyCode'),
+        weather: state.home.get('weather'),
     };
 }
 
@@ -1364,11 +1369,14 @@ const mapDispatchToProps = dispatch => {
         queryEnterpriseNatureAction: (data) => {
             dispatch(queryEnterpriseNatureSuccessAction(data));
         },
+        getLocationAction: (data) => {
+            dispatch(locationAction(data));
+        },
         getWeather: (city) => {
             dispatch(fetchData({
                 body: {},
                 method: 'POST',
-                api: API_GET_WEATHER + '?city=' + city.city,
+                api: API.API_GET_WEATHER + '?city=' + city.city,
                 success: (data) => {
                     console.log('city=', data);
                     dispatch(saveWeather({data}));
@@ -1378,21 +1386,14 @@ const mapDispatchToProps = dispatch => {
                 }
             }));
         },
-        vehicleLimit: (params) => {
+        vehicleLimit: (params,callBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
                 api: API.API_VEHICLE_LIMIT,
                 success: (result) => {
-                    if (result && result !== '') {
-                        this.setState({
-                            limitNumber: '今日限行 ' + result,
-                        });
-                    } else {
-                        this.setState({
-                            limitNumber: '',
-                        });
-                    }
+                    console.log('限行', result);
+                    callBack && callBack(result)
                 },
                 fail: (data) => {
 
@@ -1406,7 +1407,7 @@ const mapDispatchToProps = dispatch => {
                 api: API.API_INDEX_STATUS_NUM,
                 success: (result) => {
                     if (result) {
-                        this.props.getHomoPageCountAction(result);
+                        dispatch(getHomePageCountAction(result));
                     }
                 },
                 fail: (data) => {
@@ -1474,13 +1475,32 @@ const mapDispatchToProps = dispatch => {
                 api: API.API_QUERY_ENTERPRISE_NATURE + params.phone,
                 success: (data) => {
                     if(data){
-                        this.props.queryEnterpriseNatureAction(data);
+                        dispatch(queryEnterpriseNatureSuccessAction(data));
                     }
                 },
             }))
         },
-
-
+        _changeBottomTab: (tab) => {
+            dispatch(changeTab(tab));
+        },
+        _changeOrderTab: (orderTab) => {
+            dispatch(changeOrderTabAction(orderTab));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        setOwnerCharacterAction: (result) => {
+            dispatch(setOwnerCharacterAction(result));
+        },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
     };
 }
 

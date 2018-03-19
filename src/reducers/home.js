@@ -15,7 +15,7 @@ import StorageKey from '../constants/storageKeys';
 
 const initState = Immutable.fromJS({
     weather: {}, // 天气
-    location: {}, // 默认位置
+    location: '', // 默认位置
 });
 
 export default (state = initState, action) => {
@@ -26,7 +26,9 @@ export default (state = initState, action) => {
         case ActionTypes.ACTION_SAVE_WEATHER:
             newState = newState.set('weather', action.payload)
             return newState
-
+        case ActionTypes.ACTION_GET_LOCATION:
+            newState = newState.set('location', action.payload);
+            return newState;
         default:
             return state;
     }

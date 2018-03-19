@@ -74,7 +74,7 @@ class takePhoto extends Component {
                             <View style={{width: width / 2 - 39,}}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        navigator.goBack();
+                                        this.props.navigation.dispatch({ type: 'pop' })
                                     }}
                                 >
                                     <Text style={styles.backIcon}>&#xe674;</Text>

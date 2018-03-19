@@ -22,9 +22,10 @@ import NoImage from '../../../assets/img/mine/person/noiamgeShow.png';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 // import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import HTTPRequest from '../../utils/httpRequest';
-import StorageKeys from '../../constants/storageKeys';
+import StorageKey from '../../constants/storageKeys';
 import PersonNoInfo from '../../../assets/img/mine/person/personInfo.png';
 import {fetchData} from "../../action/app";
+import * as RouteType from '../../constants/routeType';
 
 
 const {width} = Dimensions.get('window');
@@ -137,7 +138,7 @@ class PersonInfo extends Component {
             });
             this.fetchData(this.getPersonInfoSuccessCallback, this.getPersonInfoFailCallback);
         }
-       // Storage.get(StorageKeys.personInfoResult).then((value) => {
+       // Storage.get(StorageKey.personInfoResult).then((value) => {
        //      if (value) {
        //          if (value.drivingLicenceHomePage && value.drivingLicenceHomePage !== '') {
        //              imgListTemp.push(value.drivingLicenceHomePage);
@@ -194,7 +195,7 @@ class PersonInfo extends Component {
         // ReadAndWriteFileUtil.appendFile('实名认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
         //     locationData.district, lastTime - currentTime, '个人信息页面');
         if (result) {
-            Storage.save(StorageKeys.personInfoResult, result);
+            Storage.save(StorageKey.personInfoResult, result);
             this.setState({
                 personInfo: result,
             });
@@ -220,7 +221,7 @@ class PersonInfo extends Component {
             if (global.phone) {
                 currentTime = new Date().getTime();
                 this.props.getPersonInfo({
-                    phoneNum: this.state.phone,
+                    phoneNum: this.state.phone // this.state.phone
                 }, getPersonInfoSuccessCallback, getPersonInfoFailCallback);
             }
 
@@ -279,8 +280,20 @@ class PersonInfo extends Component {
                                     style={styles.Button}
                                     textStyle={styles.ButtonText}
                                     onPress={() => {
-                                        // 跳转实名认证页面
-                                        this.props.navigation.navigate('VerifiedPage');
+
+                                       Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+                                                   if (value) {
+                                                       this.props.navigation.dispatch({
+                                                           type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                           params: {
+                                                               resultInfo: value,
+                                                           }
+                                                       });
+                                                   }else {
+                                                       this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
+                                                   }
+                                                });
+
                                     }}
                                 >
                                     立即认证

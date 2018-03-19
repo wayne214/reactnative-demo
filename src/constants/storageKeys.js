@@ -55,6 +55,8 @@ const CARRIER_CODE = 'companyCode'; // 承运商编码
 
 const OWNER_NAME = 'OWNER_NAME'; // 承运商编码
 
+const COMPANY_INFO = 'COMPANY_INFO'; // 承运商信息
+
 export default {
     IS_FIRST_START_FLAG,
     USER_INFO,
@@ -82,5 +84,6 @@ export default {
     USER_CURRENT_STATE,
     CARRIER_CODE,
     OWNER_NAME,
+    COMPANY_INFO
 }
 

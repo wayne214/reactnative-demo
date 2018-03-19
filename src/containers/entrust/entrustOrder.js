@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { Component, PropType } from 'react';
 import { connect } from 'react-redux';
 import {
 	View,
@@ -8,7 +8,8 @@ import {
 	StyleSheet,
 	ListView,
 	Image,
-	Dimensions
+	Dimensions,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
@@ -21,7 +22,10 @@ import {getEntrustOrderList,changeEntrustOrderListLoadingMore,acceptDesignateWit
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import BaseComponent from '../../components/common/baseComponent.js'
 import EntrustOrderListItem from '../../components/entrust/entrustOrderListItem.js'
-const { height,width } = Dimensions.get('window')
+const { height,width } = Dimensions.get('window');
+import Linking from '../../utils/linking'
+
+
 let startTime = 0
 
 class EntrustOrderList extends BaseComponent {
@@ -33,23 +37,32 @@ class EntrustOrderList extends BaseComponent {
 	  }
 	}
 	componentDidMount() {
-		super.componentDidMount()
+		super.componentDidMount();
+      this.refreshListener = DeviceEventEmitter.addListener('reloadDispatchList', () => {
+          this._refreshList(true);
+      });
 		this._refreshList(true)
 	}
-
+    componentWillUnmount() {
+        this.refreshListener.remove();
+    }
 	_refreshList(showLoading){
 	  const {user, _getEntrustOrderList,_getEntrustOrderUndispatch} = this.props
 	  const {activeTab} = this.state
 	  if (activeTab == 0) {
 	  	_getEntrustOrderList({
-	  		pageNo: 1,
-	  		companyId: user.userId,
-	  		state: 1
+	  		companyCode: global.companyCode,
+	  	// 	companyCode: '1001',
+				 num: 1,
+				 resourceCode: '',
+				size: 10,
 	  	},showLoading)
 	  }else{
 	  	_getEntrustOrderUndispatch({
-	  		pageNo: 1,
-	  		companyId: user.userId,
+          ctcNum: 0,
+          dpcNum: 0,
+            carrierCode: global.companyCode
+            // carrierCode: '1001'
 	  	},showLoading)
 	  }
 
@@ -80,10 +93,15 @@ class EntrustOrderList extends BaseComponent {
 			entrustOrderUnconfirmed,
 			entrustOrderUndispatch
 		} = this.props
-		if (user.currentUserRole == 1) {
+		if (1 == 1) {
 			return (
 				<View style={styles.container}>
-					<NavigatorBar title='我的承运' hiddenBackIcon={ true }/>
+					<NavigatorBar title='我的承运' hiddenBackIcon={ true }
+												firstLevelIconFont='&#xe640;'
+												secondLevelIconFont='&#xe63f;'
+												secondLevelClick={ () => Linking.link(this.props.hotLine) }
+												firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }
+					/>
 					<ScrollableTabView
 						style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
 						renderTabBar={() =>
@@ -97,14 +115,17 @@ class EntrustOrderList extends BaseComponent {
 							this.setState({activeTab: obj.i})
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
-									pageNo: 1,
-									companyId: user.userId,
-									state: 1
+                    companyCode: global.companyCode,
+                    num: 1,
+                    resourceCode: '',
+                    size: 10,
 								},true)
 							}else if (obj.i == 1) {
 								this.props._getEntrustOrderUndispatch({
-									pageNo: 1,
-									companyId: user.userId,
+                    ctcNum: 0,
+                    dpcNum: 0,
+                    carrierCode: global.companyCode
+                    // carrierCode: '1001'
 								},true)
 							}
 						}}
@@ -114,99 +135,118 @@ class EntrustOrderList extends BaseComponent {
 						tabBarTextStyle={{fontSize:15}}>
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待确认'}
+							tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
 							itemClick={(data)=>{
-								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
-									data.activeTab = this.state.activeTab
-									data.refreshCallBack = ()=>{
-										this.props._getEntrustOrderList({
-											pageNo: 1,
-											companyId: user.userId,
-											state: 1
-										})
-									}
-                  this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
-                    params: {...data, title: '委托详情'}
-                  })
-								})
+								{/*this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{*/}
+									{/*data.activeTab = this.state.activeTab*/}
+									{/*data.refreshCallBack = ()=>{*/}
+										{/*this.props._getEntrustOrderList({*/}
+                        {/*companyCode: '1001',*/}
+                        {/*num: 1,*/}
+                        {/*resourceCode: '',*/}
+                        {/*size: 10,*/}
+										{/*})*/}
+									{/*}*/}
+                  {/*this.props.navigation.dispatch({*/}
+                    {/*type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,*/}
+                    {/*params: {...data, title: '委托详情'}*/}
+                  {/*})*/}
+								{/*})*/}
 							}}
-							acceptDesignate={(data)=>{
+							bindOrder={(data)=>{
 								console.log("------ 接受派单 -- data",data);
-								this.props._acceptDesignate({
-									goodsId: data.resourceId,
-									companyId: user.userId,
-									companyName: user.companyName,
-									companyPhone: user.phoneNumber
-								},()=>{
-									Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
-									this.props.navigation.dispatch({
-									  type: RouteType.ROUTE_DISPATCH_CAR,
-									  params: {goodsId: data.resourceId, title: '调度车辆'}
-									})
-								},()=>{
-									// refreshCallBack
-									this.props._getEntrustOrderList({
-										pageNo: 1,
-										companyId: user.userId,
-										state: 1
-									})
-								})
+								// 跳转到抢单页面
+                  this.props.navigation.dispatch({
+                      type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                      params: {
+                          goodID: data.resourceCode,
+                          type: '1'
+                      }
+                  })
+
+								// this.props._acceptDesignate({
+								// 	goodsId: data.resourceId,
+								// 	companyId: user.userId,
+								// 	companyName: user.companyName,
+								// 	companyPhone: user.phoneNumber
+								// },()=>{
+								// 	Toast.show('温馨提示： \n接受派单成功，等待车辆调度！')
+								// 	this.props.navigation.dispatch({
+								// 	  type: RouteType.ROUTE_DISPATCH_CAR,
+								// 	  params: {goodsId: data.resourceId, title: '调度车辆'}
+								// 	})
+								// },()=>{
+								// 	// refreshCallBack
+								// 	this.props._getEntrustOrderList({
+                 //      companyCode: '1001',
+                 //      num: 0,
+                 //      resourceCode: '',
+                 //      size: 10,
+								// 	})
+								// })
 							}}
 							removeOverTimeOrder={(resourceId)=>{
 								this.props._removeOverTimeOrder(resourceId)
 							}}
 							loadMoreAction={()=>{
-								this.props._getEntrustOrderList({
-									pageNo: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
-									companyId: user.userId,
-									state: 1
-								})
+								// this.props._getEntrustOrderList({
+                 //    companyCode: global.companyCode,
+                 //    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
+                 //    resourceCode: '',
+                 //    size: 10,
+								// })
 							}}/>
 
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'待调度'}
+							tabLabel={'调度'}
 							type={'entrustOrderUndispatch'}
 							dataSource={entrustOrderUndispatch}
 							refreshList={this._refreshList}
 							itemClick={(data)=>{
-								data.activeTab = this.state.activeTab
-								data.title = '委托详情'
-								if (data.resourceStatus == 1) {
-									this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
-                    this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
-                      params: data
-                    })
-									})
-								}else{
-                  this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,
-                    params: data
-                  })
-								}
+								{/*data.activeTab = this.state.activeTab*/}
+								{/*data.title = '委托详情'*/}
+								{/*if (data.resourceStatus == 1) {*/}
+									{/*this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{*/}
+                    {/*this.props.navigation.dispatch({*/}
+                      {/*type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,*/}
+                      {/*params: data*/}
+                    {/*})*/}
+									{/*})*/}
+								{/*}else{*/}
+                  {/*this.props.navigation.dispatch({*/}
+                    {/*type: RouteType.ROUTE_ENTRUST_ORDER_DETAIL,*/}
+                    {/*params: data*/}
+                  {/*})*/}
+								{/*}*/}
 							}}
 							dispatchCar={(data)=>{
-								this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+								console.log('dispatchCar', data);
                   this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_DISPATCH_CAR,
-                    params: {goodsId: data.resourceId, title: '调度车辆'}
+                      type: RouteType.ROUTE_ARRANGE_CAR_LIST,
+                      params: {data, title: '选择车辆'}
                   })
-								})
+								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
+                 //  this.props.navigation.dispatch({
+                 //    type: RouteType.ROUTE_DISPATCH_CAR,
+                 //    params: {goodsId: data.resourceId, title: '调度车辆'}
+                 //  })
+								// })
 							}}
 							deleteOrderUndispatch={(goodsId)=>{
 								console.log(" ======= delete cilck ");
 								this.props._deleteOrderUndispatch(goodsId)
 							}}
 							loadMoreAction={()=>{
-								this.props._getEntrustOrderUndispatch({
-									pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-									companyId: user.userId,
-								})
+								// this.props._getEntrustOrderUndispatch({
+								// // 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
+								// 	ctcNum: 0,
+								// 	dpcNum: 0,
+								// 	carrierCode: global.companyCode
+								// })
 							}}/>
 
 					</ScrollableTabView>
@@ -254,7 +294,8 @@ const mapStateToProps = (state) => {
 		shouldEntrustOrderListRefresh: app.get('shouldEntrustOrderListRefresh'),
 		user: app.get('user'),
 		entrustOrderUnconfirmed: entrust.get('entrustOrderUnconfirmed'),
-		entrustOrderUndispatch: entrust.get('entrustOrderUndispatch')
+		entrustOrderUndispatch: entrust.get('entrustOrderUndispatch'),
+      hotLine: app.get('hotLine'),
 	}
 }
 
@@ -265,15 +306,19 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(0))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNCONFIRMED,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 0
-					data.pageNo = params.pageNo
+					data.pageNo = params.num
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
+				},
+				fail: (data)=>{
+						Toast.show(data.message)
+
 				}
 			}))
 		},
@@ -282,15 +327,18 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(changeEntrustOrderListLoadingMore(1))
 			dispatch(fetchData({
 				api: API.ENTRUST_ORDER_UNDISPATCH,
-				method: 'GET',
+				method: 'POST',
 				body: params,
 				showLoading,
 				success: (data)=>{
 					dispatch(entrustListShouldRefresh(false))
 					data.entrustOrderType = 1
-					data.pageNo = params.pageNo
+					data.pageNo = params.ctcNum + 1
 					dispatch(getEntrustOrderList(data))
 					dispatch(appendLogToFile('我的承运','获取我的承运-待调度列表',startTime))
+				},
+				fail: (data)=>{
+						Toast.show(data.message)
 				}
 			}))
 		},
@@ -348,7 +396,7 @@ const mapDispatchToProps = (dispatch) => {
 				body: params,
 				success: (data)=>{
 						// 1正常 2货源以关闭  3货源以取消  4货源以删除
-						console.log("----- data",data);
+
 					if (data == 1) {
 						successCallBack && successCallBack(data)
 					}else if (data == 2) {
@@ -371,6 +419,8 @@ const mapDispatchToProps = (dispatch) => {
 		}
 	}
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntrustOrderList);
 

@@ -24,7 +24,6 @@ import TotalsItemCell from '../../components/common/source/totalsItemCell';
 import ProductShowItem from '../../components/common/source/OrderDetailProShowItemCell';
 import Storage from '../../utils/storage';
 import * as API from '../../constants/api';
-import Loading from '../../utils/loading';
 import * as StaticColor from '../../constants/colors';
 import prventDoubleClickUtil from '../../utils/prventMultiClickUtil'
 import * as ConstValue from '../../constants/constValue';
@@ -81,7 +80,6 @@ class orderToBeWaitSureDetail extends Component {
         this.uploadReceipt = this.uploadReceipt.bind(this);
         this.state = {
             showGoodList: false,
-            loading: false,
             buttonDisabled: false,
         };
     }
@@ -101,6 +99,7 @@ class orderToBeWaitSureDetail extends Component {
             type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
             params: {
                 transCode: this.props.transCode,
+                receiptWay: this.props.taskInfo.receiptWay
             }
         });
     }
@@ -132,14 +131,15 @@ class orderToBeWaitSureDetail extends Component {
             num
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.isReceipt === '是' ?
+        const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
+            null :
             <BottomButton
                 text={'回单'}
                 onClick={() => {
                     this.uploadReceipt();
                 }}
                 buttonDisabled={this.state.buttonDisabled}
-            /> : null;
+            />;
 
         return (
             <View style={{
@@ -266,7 +266,6 @@ class orderToBeWaitSureDetail extends Component {
                     <View style={{backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND, height: 13}} />
                 </View>
                 {buttonView}
-                {this.state.loading ? <Loading/> : null}
             </View>
         );
     }
@@ -276,6 +275,7 @@ function mapStateToProps(state) {
     return {
         userInfo: state.user.get('userInfo'),
         currentStatus: state.user.get('currentStatus'),
+        routes: state.nav.routes,
     };
 }
 

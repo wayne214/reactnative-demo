@@ -114,12 +114,12 @@ export default (state = initState, action) => {
 			if (payload.pageNo === 1) {
 			  newState = newState.setIn(['freeCarList','list'],Immutable.fromJS([]));
 			}
-			if (payload.list) {
-				const newArr = payload.list.map((item)=>{
-					item.carTypeStr = HelperUtil.getCarType(item.carType)
-					return item
-				})
-				newState = newState.setIn(['freeCarList','list'],newState.getIn(['freeCarList','list']).concat(newArr));
+			if (payload) {
+				// const newArr = payload.map((item)=>{
+				// 	item.carTypeStr = HelperUtil.getCarType(item.carType)
+				// 	return item
+				// })
+				newState = newState.setIn(['freeCarList','list'],newState.getIn(['freeCarList','list']).concat(payload));
 			};
 			newState = newState.setIn(['freeCarList','hasMore'],newState.getIn(['freeCarList','list']).size < payload.total)
 			return newState

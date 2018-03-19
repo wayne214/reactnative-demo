@@ -32,7 +32,8 @@ import {
     setOwnerCharacterAction,
     setCurrentCharacterAction,
     setCompanyCodeAction,
-    setOwnerNameAction
+    setOwnerNameAction,
+    saveCompanyInfoAction
 } from '../../action/user';
 
 // import * as StaticColor from '../../constants/staticColor';
@@ -176,8 +177,8 @@ class Login extends BaseComponent {
         super(props);
         const params = this.props.navigation.state.params;
         this.state = {
-            phoneNumber: '15801461058',
-            password: '123qwe',
+            phoneNumber: '15801461050',
+            password: '123456',
             loading: false,
         };
         this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);
@@ -256,8 +257,10 @@ class Login extends BaseComponent {
 
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
-            this.props.setCurrentCharacterAction('driver')
+            // this.props.setCurrentCharacterAction('driver')
+            // this.props.setCurrentCharacterAction('driver1');
             // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
+
 
             this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
 
@@ -439,6 +442,9 @@ function mapDispatchToProps(dispatch) {
                 success: data => {
                     successCallback(data);
                 },
+                fail: (error) => {
+                    Toast.show(error.message);
+                }
             }))
         },
         login: (params, successCallback) => {
@@ -451,6 +457,9 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                     dispatch(loadUser(data));
                 },
+                fail: (error) => {
+                    Toast.show(error.message);
+                }
             }))
         },
         quaryAccountRole: (params, successCallback) => {
@@ -462,7 +471,10 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                 },
             }))
-        }
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
     };
 }
 
