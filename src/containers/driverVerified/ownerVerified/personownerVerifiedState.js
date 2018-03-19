@@ -240,13 +240,15 @@ class personownerVerifiedState extends Component{
         Storage.get(StorageKey.personownerInfoResult).then((value) => {
 
             if (value){
-                this.props.navigation.navigate('PersonCarOwnerAuth', {
-                    resultInfo: value,
-                });
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                    params: {resultInfo: value}
+                })
+
             }else {
-                this.props.navigation.navigate('PersonCarOwnerAuth', {
-                    resultInfo: this.state.resultInfo,
-                });
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                })
             }
         });
 
