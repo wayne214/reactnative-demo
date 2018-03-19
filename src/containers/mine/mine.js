@@ -701,7 +701,7 @@ class mine extends Component {
                                         backgroundColor: 'transparent',
                                         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
                                         fontSize: 17
-                                    }}>{Validator.newPhone('13321218414')}</Text>
+                                    }}>{Validator.newPhone(global.phone)}</Text>
                             }
 
                         </View>
@@ -779,7 +779,7 @@ class mine extends Component {
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
-                                        showCertificatesOverdue={true}
+                                        showCertificatesOverdue={false}
                                         showBottomLine={false}
                                         clickAction={() => {
                                             if (this.state.verifiedState == '1200') {

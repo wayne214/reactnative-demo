@@ -12,6 +12,7 @@ import {
     FlatList,
     TouchableOpacity,
     Platform,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
@@ -120,10 +121,14 @@ class GoodsList extends Component {
           refreshing: true
       });
     this.refresh();
+      this.resetCarrierGoodslistener = DeviceEventEmitter.addListener('resetCarrierGoods', () => {
+          this.refresh();
+      });
   }
 
     componentWillUnmount() {
         goodArray = null;
+        this.resetCarrierGoodslistener.remove();
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
 
@@ -264,13 +269,15 @@ class GoodsList extends Component {
                                 return;
 
                             case '12' || '22':
-                                this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_GOOD_LIST_DETAIL,
-                                         params: {
-                                             goodID: item.item.resourceCode,
-                                             type: '2'
-                                         }
-                                })
+                                if (!item.carrierPrice) {
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                                        params: {
+                                            goodID: item.item.resourceCode,
+                                            type: '2'
+                                        }
+                                    })
+                                }
                                 break
                             default:
                                 break

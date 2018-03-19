@@ -37,6 +37,7 @@ class goodlistdetailMoneyItem extends Component{
                                        this.setState({money});
                                        this.props.moneyChange(money);
                                    }}
+                                   underlineColorAndroid="transparent"
                         />
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
                     </View>
