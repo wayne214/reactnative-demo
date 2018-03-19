@@ -135,11 +135,17 @@ class carrerListItem extends Component{
                         <Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>
                     </View> : <View/>}
                     {
-                        rowData.orderStateStr == '待确认' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
-                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                                我要抢单
-                            </Text>
-                        </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        rowData.orderStateStr == '待确认' ? (
+                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => console.log('点击')}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                    我的报价{rowData.carrierPrice}
+                                </Text>
+                            </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                    我要抢单
+                                </Text>
+                            </TouchableOpacity>
+                        ) : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 立即调车
                             </Text>
