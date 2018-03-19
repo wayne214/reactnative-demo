@@ -57,6 +57,7 @@ import UserInfoScreen from '../containers/user/userInfo';
 import PwdStepOneScreen from '../containers/user/pwdStepOne';
 import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
 import CustomServiceScreen from '../containers/user/customService';
+import ProtocolScreen from '../containers/register/protocol';
 
 
 // 货源列表
@@ -1043,6 +1044,13 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_ARRANGE_DRIVER_LIST]: {
         screen: ArrangeDriverList,
+        navigationOptions: {
+            // title: '安排司机列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_PROTOCOL_PAGE]: {
+        screen: ProtocolScreen,
         navigationOptions: {
             // title: '安排司机列表'
             header: null
