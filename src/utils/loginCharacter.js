@@ -9,7 +9,8 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setUserNameAction,
-    saveCompanyInfoAction
+    saveCompanyInfoAction,
+    saveUserTypeInfoAction
 } from "../action/user";
 import {connect} from "react-redux";
 import * as RouteType from '../constants/routeType';
@@ -265,6 +266,9 @@ function mapDispatchToProps(dispatch) {
         },
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserTypeInfoAction: (result) => {
+            dispatch(saveUserTypeInfoAction(result));
         },
     };
 }

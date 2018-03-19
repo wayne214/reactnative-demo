@@ -672,7 +672,7 @@ class companyCarOwnerAuth extends Component {
                 this.props.setCurrentCharacterAction('owner');
 
 
-                this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+                this.props.navigation.dispatch({type: 'pop'})
 
 
             },
@@ -706,7 +706,7 @@ class companyCarOwnerAuth extends Component {
                                     }}
                                     textOnFocus={()=>{
                                         if (Platform.OS === 'ios'){
-                                            this.refs.scrollView.scrollTo({x: 0, y: 900, animated: true});
+                                            this.refs.scrollView.scrollTo({x: 0, y: 560, animated: true});
                                         }
 
                                     }}

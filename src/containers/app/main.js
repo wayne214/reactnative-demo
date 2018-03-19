@@ -34,6 +34,7 @@ import { updateMsgList, dispatchRefreshMessageList } from '../../action/message'
 import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
+import StorageKey from '../../constants/storageKeys';
 import JPushModule from 'jpush-react-native';
 import { openNotification } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
@@ -147,20 +148,32 @@ class MainContainer extends BaseComponent {
             // show float dialog
             this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
         }
+        //
+        // const userTypeInfo = await Storage.get(StorageKey.USER_TYPE_INFO);
+        //
+        // if (!userTypeInfo) {
+        //     this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+        // }else{
+        //     const current = global.currentStatus == 'driver' ? 'Home' : 'goods';
+        //
+        //     this.props.dispatch(changeTab('driver'))
+        //     this.props.navigation.setParams({ currentTab: 'driver', title: '' })
+        // }
+
+
         const { user } = this.props;
         if (!user || !user.userId) {
             this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
         }
-        this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
+
+
+        this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: 2 })
 
         this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
             this._getCurrentPosition();
         })
 
-        // 获取站内公告
-        if(user.userId){
-            // this.props.getNotice()
-        }
+
         // Geolocation.requestAuthorization()
         Geolocation.getCurrentPosition(location => {
             const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)

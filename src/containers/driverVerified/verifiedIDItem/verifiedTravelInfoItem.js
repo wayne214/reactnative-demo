@@ -187,7 +187,7 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        实载体积
+                        实载体积(m³)
                     </Text>
                     <TextInput style={styles.textInputStyle}
                                maxLength={7}
@@ -197,6 +197,7 @@ class verifiedTravelInfoItem extends Component{
                                    });
                                    this.volumeValueChange(text);
                                }}
+                               //keyboardType='number-pad'
                                value={this.state.carVolume}
                                placeholder={'请输入实载体积'}
                                underlineColorAndroid={'transparent'}

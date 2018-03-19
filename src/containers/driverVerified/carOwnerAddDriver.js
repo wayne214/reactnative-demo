@@ -1023,8 +1023,10 @@ class carOwnerAddDriver extends Component {
                                           });
                                      }}
                                      textOnFocus={()=>{
-                                          if (PlatfPlatformorm.OS === 'ios'){
-                                              this.refs.scrollView.scrollToEnd();
+                                        if (Platform.OS === 'ios'){
+                                              //this.refs.scrollView.scrollToEnd();
+                                              this.refs.scrollView.scrollTo({x: 0, y: 1000, animated: true});
+
                                           }
                                      }}
 

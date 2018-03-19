@@ -782,11 +782,13 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_TAKE_CAMEAR]: {
         screen: TakeCamera,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_TAKE_CAMEAR_END]: {
         screen: TakeCameraEnd,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_DRIVER_VERIFIED_DETAIL]: {
