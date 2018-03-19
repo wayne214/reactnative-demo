@@ -306,7 +306,7 @@ class LoginSms extends BaseComponent {
 
     quaryAccountRoleCallback(result) {
         console.log("------账号角色信息",result);
-        LoginCharacter.setCharacter(this.props,result);
+        LoginCharacter.setCharacter(this.props,result, 'login');
 
     }
 
@@ -539,6 +539,8 @@ function mapDispatchToProps(dispatch) {
                 success: data => {
                     console.log('-------data', data);
                     successCallback(data);
+                    dispatch(loadUser(user));
+
                 },
                 fail: error => {
                     console.log('-------error', error);

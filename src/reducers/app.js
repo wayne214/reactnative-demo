@@ -138,7 +138,7 @@ export default (state = initState, action) => {
             if (action.payload === 'order') {
                 newState = newState.set('shouldOrderListRefresh', true)
             }
-            ;
+
             newState = newState.set('currentTab', action.payload);
             return newState;
         case ActionTypes.SHOW_LOADING:
@@ -148,6 +148,7 @@ export default (state = initState, action) => {
             newState = newState.set('loading', false);
             return newState;
         case ActionTypes.LOAD_USER:
+
             newState = newState.set('user', action.payload);
             return newState;
         case ActionTypes.ACTION_MERGE_USER:

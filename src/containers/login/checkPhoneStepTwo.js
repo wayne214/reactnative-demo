@@ -167,7 +167,7 @@ class CheckPhoneStepTwo extends Component {
 
     quaryAccountRoleCallback(result) {
         console.log("------账号角色信息two",result);
-        LoginCharacter.setCharacter(this.props,result);
+        LoginCharacter.setCharacter(this.props,result,'login');
     }
 
 
