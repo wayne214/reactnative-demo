@@ -287,7 +287,7 @@ class LoginSms extends BaseComponent {
             // 发送Action,全局赋值用户信息
             this.props.sendLoginSuccessAction(result);
 
-            this.props.quaryAccountRole({},this.quaryAccountRoleCallback);
+            this.props.quaryAccountRole({},this.quaryAccountRoleCallback, this.state.phoneNumber);
 
         } else {
             // 跳转到绑定设备页面
@@ -548,11 +548,11 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        quaryAccountRole: (params, successCallback) => {
+        quaryAccountRole: (params, successCallback, phoneNumber) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
-                api: API.API_INQUIRE_ACCOUNT_ROLE + '15112345678',
+                api: API.API_INQUIRE_ACCOUNT_ROLE + phoneNumber,
                 success: data => {
                     successCallback(data);
                 },

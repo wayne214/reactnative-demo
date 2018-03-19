@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import Storage from '../../utils/storage'
 import SplashScreen from 'react-native-splash-screen'
 import { getInitStateFromDB } from '../../action/app'
-import { H5_GAME_ADDRESS } from '../../constants/api'
+// import { H5_GAME_ADDRESS } from '../../constants/api'
 
 const { width, height } = Dimensions.get('window');
 
@@ -39,6 +39,8 @@ class Splash extends Component {
             this.props.navigation.dispatch({ type: this.routeName, mode: 'reset', params: { title: '', currentTab: 'route',insiteNotice:'123' } })
         }, Platform.OS === 'ios' ? 100 : 1500);
     }
+
+
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer);

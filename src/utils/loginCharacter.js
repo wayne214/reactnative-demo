@@ -213,12 +213,7 @@ class LoginCharacter {
                 }
             }
 
-            if (type === 'main'){
-                // props.navigation.dispatch({
-                //     type: 'Home',
-                //     mode: 'reset',
-                //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
-                // })
+            if(type === 'main'){
             }else {
                 props.navigation.dispatch({
                     type: 'Main',

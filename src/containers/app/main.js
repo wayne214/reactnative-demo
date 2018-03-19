@@ -18,33 +18,52 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import styles from '../../../assets/css/main';
 import Tabar from '../../components/app/tabBar';
-import { changeTab, showFloatDialog, logout, appendLogToFile } from '../../action/app';
+import {
+    changeTab,
+    showFloatDialog,
+    logout,
+    appendLogToFile,
+    openNotification,
+    getGameUrl,
+    receiveInSiteNotice,
+    upgrade,
+    fetchData,
+    getInitStateFromDB,
+} from '../../action/app';
 import { changeOrderTopTab } from '../../action/order';
 import Drawer from 'react-native-drawer';
 import Linking from '../../utils/linking';
 import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
-// import Image from '../../components/common/image';
 import SplashScreen from 'react-native-splash-screen'
-import NavigatorBar from '../../components/common/navigatorbar';
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { fetchData, getInitStateFromDB, setAppState, redictLogin, getGameUrl, receiveInSiteNotice, upgrade } from '../../action/app';
 import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE } from '../../constants/api';
 import { updateMsgList, dispatchRefreshMessageList } from '../../action/message';
 import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
 import JPushModule from 'jpush-react-native';
-import { openNotification } from '../../action/app';
+import {
+    saveUserTypeInfoAction,
+    loginSuccessAction,
+    setUserNameAction,
+    setCurrentCharacterAction,
+    setDriverCharacterAction,
+    setOwnerCharacterAction,
+    setCompanyCodeAction,
+    setOwnerNameAction,
+    saveCompanyInfoAction
+} from '../../action/user';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
-// import LoginContainer from '../user/shipperLogin';
 import Button from '../../components/common/button'
 import Geolocation from 'Geolocation'
 import codePush from 'react-native-code-push'
 import TimeToDoSomething from '../../logUtil/timeToDoSomething.js'
 import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
-
+import ObjectUitls from '../../utils/objectUitls';
+import StorageKey from '../../constants/storageKeys'
+import LoginCharacter from '../../utils/loginCharacter';
 import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
 
 const receiveCustomMsgEvent = "receivePushMsg";
@@ -113,9 +132,24 @@ class MainContainer extends BaseComponent {
     }
 
     async componentDidMount () {
+        await Storage.get(StorageKey.USER_INFO).then((userInfo) => {
+            if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)){
+                // 发送Action,全局赋值用户信息
+                this.props.sendLoginSuccessAction(userInfo);
+            }
+        });
+        await Storage.get(StorageKey.USER_CURRENT_STATE).then((status) => {
+            if(status){
+                this.props.setCurrentCharacterAction(status);
+            }
+        });
+        await Storage.get(StorageKey.USER_TYPE_INFO).then((result) => {
+            if (result){
+                this.props.saveUserTypeInfoAction(result);
+            }
+        });
         this._routeTab();
         console.log('------aaa', this.props);
-
         // JPush
         if (IS_IOS) {
             /**
@@ -150,6 +184,10 @@ class MainContainer extends BaseComponent {
         const { user } = this.props;
         if (!user || !user.userId) {
             this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+        }else {
+            if(this.props.userTypeInfo) {
+                LoginCharacter.setCharacter(this.props, this.props.userTypeInfo, 'main');
+            }
         }
         this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: user.currentUserRole })
 
@@ -354,6 +392,7 @@ class MainContainer extends BaseComponent {
                 toValue: 1
             }
         ).start(() => this.state.rotateValue.setValue(0));
+        console.log('currentStatus=',global.currentStatus);
         this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'goods'));
     }
 
@@ -386,20 +425,22 @@ class MainContainer extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-    const { app, nav } = state;
+    const { app, nav, user } = state;
     return {
         nav,
-        user: app.get('user'),
+        user: user.get('userInfo'),
         tabs: app.get('tabs'),
         driverTabs: app.get('driverTabs'),
         upgrade: app.get('upgrade'),
         appState: app.get('appState'),
         currentTab: app.get('currentTab'),
+        currentStatus: user.get('currentStatus'),
         legalAccount: app.get('legalAccount'),
         upgradeForce: app.get('upgradeForce'),
         upgradeForceUrl: app.get('upgradeForceUrl'),
         showFloatDialog: app.get('showFloatDialog'),
-        openNotification: app.get('openNotification')
+        openNotification: app.get('openNotification'),
+        userTypeInfo: user.get('userTypeInfo')
     };
 }
 
@@ -473,7 +514,33 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(receiveInSiteNotice(noticeContent))
                 },
             }));
-        }
+        },
+        saveUserTypeInfoAction:(result)=>{
+            dispatch(saveUserTypeInfoAction(result));
+        },
+        sendLoginSuccessAction: (result) => {
+            dispatch(loginSuccessAction(result));
+            dispatch(setUserNameAction(result.userName ? result.userName : result.phone))
+        },
+        setCurrentCharacterAction: (result) => {
+            dispatch(setCurrentCharacterAction(result));
+        },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setOwnerCharacterAction: (result) => {
+            dispatch(setOwnerCharacterAction(result));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        setOwnerNameAction:(data)=>{
+            dispatch(setOwnerNameAction(data));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
+
     }
 }
 

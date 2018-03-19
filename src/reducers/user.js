@@ -21,7 +21,7 @@ const initState = Immutable.fromJS({
     userCarList: [], // 用户车辆列表
     driverStatus: '0',
     ownerStatus: '0',
-    currentStatus:'driver',
+    currentStatus: 'driver',
     companyCode: '', // 承运商编码
     ownerName: '',
     companyInfo: '',
@@ -170,7 +170,6 @@ export default (state = initState, action) => {
             return newState;
 
         case ActionTypes.ACTION_SAVE_USER_TYPE_INFO:
-
             newState = newState.set('userTypeInfo', action.payload);
             Storage.save(StorageKey.USER_TYPE_INFO, action.payload);
             return newState;
