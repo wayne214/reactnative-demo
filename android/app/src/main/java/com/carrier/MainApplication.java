@@ -65,8 +65,10 @@ public class MainApplication extends Application implements ReactApplication {
             new PickerViewPackage(),
             new PhotoViewPackage(),
             new PickerPackage(),
+              new PermissionManagerPackage(),
               new NativePackage(),
               new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
+
       );
     }
   };

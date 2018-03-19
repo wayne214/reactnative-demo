@@ -8,7 +8,8 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    Modal
+    Modal,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -63,6 +64,7 @@ class goodListDetail extends Component {
 
     // 抢单成功
     sendOrderSuccess(){
+        DeviceEventEmitter.emit('resetCarrierGoods');
         this.props.navigation.dispatch({type: 'pop'})
     }
     _showPickerView(type){
