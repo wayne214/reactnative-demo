@@ -608,7 +608,7 @@ class mine extends Component {
                     {
                         this.props.currentStatus == 'driver'  ? <View>
                                 {
-                                    this.state.verifiedState == '1202' ? <View style={styles.subTitleContainer}>
+                                    this.state.verifiedState == '1202' &&  this.props.userCarList.length  > 1 ? <View style={styles.subTitleContainer}>
                                             <TouchableOpacity onPress={()=> {
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_CHOOSE_CAR,
