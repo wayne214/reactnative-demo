@@ -57,7 +57,7 @@ class goodListItem extends Component{
 
                     <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30}}>
                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>
-                            {item.businessType === 1 ? '自营干线' : item.businessType === 2 ? '自营卡班' : '撮合'}
+                            {item.businessType === 601 ? '自营干线' : item.businessType === 602 ? '自营卡班' : '撮合'}
                         </Text>
                     </View>
 
@@ -75,13 +75,16 @@ class goodListItem extends Component{
                                 <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10}}>
                                     <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                 </View>
-                                <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
-                                    <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999',paddingHorizontal: 4}}>
+                                {
+                                    goodName || goodName != '' ? <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
+                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999',paddingHorizontal: 4}}>
 
-                                        {goodName}
+                                            {goodName}
 
-                                    </Text>
-                                </View>
+                                        </Text>
+                                    </View> : null
+                                }
+
                             </View>
                             <View style={{flexDirection: 'row',marginTop: 2}}>
 
@@ -99,18 +102,20 @@ class goodListItem extends Component{
                             </View>
                         </View>
                     </View>
+                    {
+                        item.configFreight ? <View style={{width: 100,flexDirection: 'row'}}>
+                            <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
+                            <View style={{justifyContent: 'center',width: 80}}>
+                                <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>
+                                    {item.configFreight}
+                                </Text>
+                            </View>
+                            <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
+                                <Text style={{}}>元</Text>
+                            </View>
+                        </View> : null
+                    }
 
-                    <View style={{width: 100,flexDirection: 'row'}}>
-                        <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
-                        <View style={{justifyContent: 'center',width: 80}}>
-                            <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>
-                                {item.configFreight}
-                            </Text>
-                        </View>
-                        <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
-                            <Text style={{}}>元</Text>
-                        </View>
-                    </View>
 
                 </View>
                 <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
