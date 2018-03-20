@@ -290,7 +290,9 @@ const mapDispatchToProps = dispatch => {
 				api: GET_ESIGN_INFO + '?companyId='+ body.companyId,
 				success: (data) => {
 					// console.log('lqq---getESignInfo--success-->'+data);
-					dispatch(dispatchGetESignInfo({data}));
+						if (data) {
+                dispatch(dispatchGetESignInfo({data}));
+						}
 					dispatch(appendLogToFile('电子签章','电子签章信息',startTime))
 				},
 				fail: () => {
