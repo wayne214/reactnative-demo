@@ -56,7 +56,7 @@ class RouteContainer extends BaseComponent {
 	componentDidMount() {
 		super.componentDidMount();
 		this.props.getRouteList({
-        carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+        carrierId: global.companyId, // 承运商id
         pageNum: 1,
         pageSize: 10,
 		});
