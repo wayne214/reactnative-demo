@@ -452,6 +452,8 @@ class GoodsList extends Component {
                     }
                 }
             } else {
+
+
                 this.props.navigation.dispatch({
                     type: RouteType.ROUTE_CHARACTER_OWNER,
                 })
@@ -463,6 +465,8 @@ class GoodsList extends Component {
     }
 
     ownerVerifiedHomeFailCallBack(result) {
+
+
         if (result.message == '没有车主角色') {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_CHARACTER_OWNER,

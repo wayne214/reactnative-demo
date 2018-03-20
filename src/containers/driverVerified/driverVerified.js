@@ -909,7 +909,20 @@ class Verified extends Component {
                     }
                 }
 
-                this.props.navigation.dispatch({type: 'pop'})
+
+                if (this.props.navigation.state.params && this.props.navigation.state.params.type){
+                    this.props.navigation.dispatch({
+                        type: 'Main',
+                        mode: 'reset',
+                        params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                    })
+                }else
+                    this.props.navigation.dispatch({type: 'pop'});
+
+
+
+
+
 
             },
             error: (errorInfo) => {
@@ -1056,7 +1069,6 @@ class Verified extends Component {
                             isChooseDriverCarTrunImage: this.state.isChooseDriverCarTrunImage,
                             isChooseHandPicImage: this.state.isChooseHandPicImage,
 
-
                             // 默认
                             idCardNameRecognition: this.state.idCardNameRecognition, //识别身份证姓名
                             idCardRecognition: this.state.idCardRecognition, //识别身份证号
@@ -1069,7 +1081,8 @@ class Verified extends Component {
                         };
                         Storage.save(StorageKey.changePersonInfoResult, info);
 
-                        this.props.navigation.goBack();
+                        this.props.navigation.dispatch({type: 'pop'});
+
                     }}
                 />
 
