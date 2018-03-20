@@ -80,19 +80,22 @@ class ContractDetail extends BaseComponent {
 		}else{
 			return {
 				header: (
-					<NavigatorBar router={navigation} firstLevelIconFont='&#xe61a;' firstLevelClick={ () => {
-						if (params.uri) {
-							Alert.alert('合同下载地址',params.uri,[
-								{ text: '复制到剪贴板', onPress: () => {
-									Clipboard.setString(params.uri)
-									Toast.show('已复制到剪贴板')
-									params && params.copyToClipboardAndAppendLogToFile && params.copyToClipboardAndAppendLogToFile()
-								}}
-							])
-						}else{
-							Toast.show('未找到合同下载链接')
-						}
-					}}/>
+					<NavigatorBar router={navigation}
+				// 								firstLevelIconFont='&#xe61a;'
+				// 								firstLevelClick={ () => {
+				// 		if (params.uri) {
+				// 			Alert.alert('合同下载地址',params.uri,[
+				// 				{ text: '复制到剪贴板', onPress: () => {
+				// 					Clipboard.setString(params.uri)
+				// 					Toast.show('已复制到剪贴板')
+				// 					params && params.copyToClipboardAndAppendLogToFile && params.copyToClipboardAndAppendLogToFile()
+				// 				}}
+				// 			])
+				// 		}else{
+				// 			Toast.show('未找到合同下载链接')
+				// 		}
+				// 	}}
+					/>
 				)
 			}
 		}
