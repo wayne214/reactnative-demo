@@ -21,7 +21,7 @@ import * as ConstValue from '../../../../constants/constValue';
 import CarAvatar from '../../../../../assets/img/mine/character/carAvatar.png';
 import * as API from '../../../../constants/api';
 import HTTPRequest from '../../../../utils/httpRequest';
-import Toast from '@remobile/react-native-toast';
+import Toast from '../../../../utils/toast';
 import emptyData from '../../../../../assets/img/mine/car/carInfo.png';
 import Button from 'apsl-react-native-button';
 import Storage from '../../../../utils/storage';
@@ -137,6 +137,10 @@ class AddCarPage extends Component {
         }
     }
     queryAllCarList(carNum, callback) {
+        if (!carNum) {
+            Toast.show('请输入车牌号');
+            return;
+        }
         this.props._queryAllCarList({
             carNum: carNum,
         }, callback);

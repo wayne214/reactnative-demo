@@ -179,7 +179,7 @@ class CarManagement extends Component {
     //点击城市cell
     cityClicked(item) {
         console.log('item', item);
-        this.props.navigation.dispatch({ type: RouteType.ROUTE_BIND_CAR, params: {carId: item.carId} });
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_BIND_DRIVER, params: {carId: item.carId} });
         //
         // this.props.navigation.navigate('BindDriverPage', {
         //     carId: item.carId
@@ -453,14 +453,15 @@ class CarManagement extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    this.state.carList.length > 0 ? <FlatList
+                        style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
+                        data={this.state.carList}
+                        renderItem={this.renderItemView.bind(this)}
+                        keyExtractor={this.extraUniqueKey}//去除警告
+                    /> : null
+                }
 
-                <FlatList
-                    style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
-                    data={this.state.carList}
-                    renderItem={this.renderItemView.bind(this)}
-                    keyExtractor={this.extraUniqueKey}//去除警告
-                >
-                </FlatList>
                 <Button
                     ref='button'
                     isDisabled={false}

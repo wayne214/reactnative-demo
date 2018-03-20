@@ -86,6 +86,7 @@ class DriverManagement extends Component {
     }
 
     componentDidMount() {
+        this.queryDriverList(this.queryDriverListCallback);
         this.bindCarListener = DeviceEventEmitter.addListener('bindCarPage', () => {
             this.queryDriverList(this.queryDriverListCallback);
         });
@@ -548,14 +549,16 @@ class DriverManagement extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    this.state.driverList.length > 0 ? <FlatList
+                        style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
+                        data={this.state.driverList}
+                        renderItem={this.renderItemView.bind(this)}
+                        keyExtractor={this.extraUniqueKey}//去除警告
+                    >
+                    </FlatList> : <View style={{backgroundColor: '#F4F4F4', flex: 1}}/>
+                }
 
-                <FlatList
-                    style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
-                    data={this.state.driverList}
-                    renderItem={this.renderItemView.bind(this)}
-                    keyExtractor={this.extraUniqueKey}//去除警告
-                >
-                </FlatList>
                 <Button
                     ref='button'
                     isDisabled={false}
