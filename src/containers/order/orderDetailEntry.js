@@ -55,6 +55,8 @@ class orderDetailEntry extends BaseComponent {
 
       const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
       	console.log('--goodInfo', item);
+      	return (<GoodsInfo configData={item}/>)
+
 			});
 
       const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.substr(0, 10) : '';
