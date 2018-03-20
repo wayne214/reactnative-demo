@@ -25,7 +25,7 @@ import Picker from '../../utils/picker';
 import moment from 'moment';
 import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 
 let startTime = 0;
 

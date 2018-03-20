@@ -64,6 +64,7 @@ class CarManagement extends Component {
         this.unBindRelieveCar = this.unBindRelieveCar.bind(this);
         this.queryCarOne = this.queryCarOne.bind(this);
         this.queryCarListCallback = this.queryCarListCallback.bind(this);
+        this.unBindRelieveCarCallback = this.unBindRelieveCarCallback.bind(this);
         // this.queryCarList();
         this.state = {
             NumberArr: '',
@@ -158,7 +159,7 @@ class CarManagement extends Component {
         }, this.queryCarListCallback);
     }
     unBindRelieveCarCallback(result) {
-        console.log('----result',result);
+
         if (result) {
             this.setState({
                 loading: false,
