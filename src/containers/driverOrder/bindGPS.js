@@ -21,7 +21,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import * as StaticColor from '../../constants/colors';
 import {fetchData} from '../../action/app';
 import {refreshDriverOrderList} from '../../action/driverOrder';
-
+import Validator from '../../utils/validator';
 import gps from '../../../assets/img/scan/gps.png'
 import Rectangle from '../../../assets/img/scan/Rectangle.png'
 
@@ -124,6 +124,9 @@ class bindGPS extends Component {
                                 fontSize: 16,
                             }}
                             onChangeText={(barCode) => {
+                                if(barCode && !Validator.isGpsCode(barCode)){
+                                    return Toast.showShortCenter('请您输入正确的格式');
+                                }
                                 this.setState({barCode: barCode.toUpperCase()});
                             }}
                             value={barCode}
