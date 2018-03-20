@@ -115,8 +115,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'AAA'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
                     // }
@@ -132,8 +130,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'BBB'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
                     // }
@@ -149,8 +145,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phoneNum: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phoneNum: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: ''
                         }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
                     // }
@@ -166,8 +160,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'DDD'
                         }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
                     // }
@@ -191,8 +183,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'AAA'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
                     // }
@@ -208,8 +198,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'BBB'
                         }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
                     // }
@@ -224,8 +212,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phoneNum: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phoneNum: '15801461058',
-                            // plateNumber: '京LPL001',
                         }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
                     // }
                 }
@@ -240,8 +226,6 @@ class driverOrder extends Component {
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            // phone: '15801461058',
-                            // plateNumber: '京LPL001',
                             queryType: 'DDD'
                         }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
                     // }
