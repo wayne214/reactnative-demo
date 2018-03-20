@@ -71,8 +71,8 @@ class orderItemCell extends Component{
 
       const loadStartTime = moment(rowData.loadingTime).format('YYYY.MM.DD');
       const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
-      const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromDistrict + rowData.fromCustomerAddress;
-      const endAddress = rowData.toProvince + rowData.toCity + rowData.toDistrict + rowData.toCustomerAddress;
+      const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromCustomerAddress + rowData.fromCustomerAddress;
+      const endAddress = rowData.toProvince + rowData.toCity + rowData.toCustomerAddress + rowData.toDistrict;
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
