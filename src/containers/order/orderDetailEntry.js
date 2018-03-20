@@ -149,7 +149,7 @@ class orderDetailEntry extends BaseComponent {
 							</TouchableOpacity>
 						</View>
 							{
-                  orderDetailData.orderSource !== 1 && <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
+                  orderDetailData.businessType && orderDetailData.businessType == '501' ? null :  <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
                       return (
 												<View>
 													<View style={styles.flodItem}>
@@ -170,7 +170,7 @@ class orderDetailEntry extends BaseComponent {
 							}
 					</ScrollView>
 				{
-            orderDetailData.orderSource == 1 ? <View>
+            orderDetailData.businessType && orderDetailData.businessType == '501' ? null : <View>
 							<TouchableOpacity
 								onPress={() => {
                     if(!orderDetailData.orderCode) {
@@ -191,7 +191,7 @@ class orderDetailEntry extends BaseComponent {
 									<Text style={styles.buttonText}>查看出库单</Text>
 								</View>
 							</TouchableOpacity>
-						</View> : null
+						</View>
 				}
 		</View>
 	}
