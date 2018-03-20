@@ -269,7 +269,8 @@ class GoodsList extends Component {
                                 return;
 
                             case '12' || '22':
-                                if (!item.carrierPrice) {
+                                console.log('item.carrierPrice', item.item.carrierPrice);
+                                if (!item.item.carrierPrice) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {
@@ -452,6 +453,8 @@ class GoodsList extends Component {
                     }
                 }
             } else {
+
+
                 this.props.navigation.dispatch({
                     type: RouteType.ROUTE_CHARACTER_OWNER,
                 })
@@ -463,6 +466,8 @@ class GoodsList extends Component {
     }
 
     ownerVerifiedHomeFailCallBack(result) {
+
+
         if (result.message == '没有车主角色') {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_CHARACTER_OWNER,

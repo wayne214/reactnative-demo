@@ -251,6 +251,7 @@ export default class OrderDetails extends Component {
                                 <View style={styles.separateLine}/>
                                 <View style={{marginHorizontal: 10}}>
                                     <DetailsOrdersCell
+                                        carrFeePayer={taskInfo.carrFeePayer}
                                         ifReceipt={taskInfo.isReceipt}
                                         receiptStyle={taskInfo.receiptWay}
                                         arrivalTime={taskInfo.committedArrivalTime ? taskInfo.committedArrivalTime.replace(/-/g, '/') : ''}
