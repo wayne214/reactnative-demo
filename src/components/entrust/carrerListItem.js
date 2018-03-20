@@ -23,8 +23,15 @@ class carrerListItem extends Component{
 
     render() {
         const {bindOrder, dispatchCar, rowData, itemClick} = this.props;
-        const loadStartTime = moment(rowData.loadingStartTime).format('YYYY.MM.DD');
-        const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
+        let loadStartTime = '';
+        if (rowData.loadingStartTime) {
+            loadStartTime = moment(rowData.loadingStartTime).format('YYYY.MM.DD');
+        } else {
+            loadStartTime = '';
+        }
+
+        // const loadStartTime = moment(rowData.loadingStartTime).format('YYYY.MM.DD');
+        // // const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
 
         const timeSecond = rowData.pushTime - new Date().getTime();
         var seconds = parseInt(timeSecond / 1000 % 60, 10);//计算剩余的秒数
@@ -62,9 +69,11 @@ class carrerListItem extends Component{
                 <AddressItem startAddress={rowData.from} endAddress={rowData.to}/>
 
                 {rowData.orderStateStr == '待调度' && <View style={{marginLeft: 20}}>
-                      <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime + '-' + loadEndTime}</Text>
+                    {
+                        loadStartTime != '' ? <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime}</Text> : null
+                    }
                     <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10}}>
-                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType === 1 ? '自营干线' : rowData.businessType === 2 ? '自营卡班' : '撮合'}</Text>
+                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '601' ? '干线' : rowData.businessType == '602' ? '卡班' : '撮合'}</Text>
                     </View>
                 </View>}
 
