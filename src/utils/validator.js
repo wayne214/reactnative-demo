@@ -33,6 +33,11 @@ const isFloat = (char) => {
     const reg = /^\d+(\.\d+)?$/;
     return reg.test(char);
 };
+// 只有数字和字母
+const isGpsCode = (char) => {
+    const reg = /^([\d]+$)|([\da-zA-Z]+$)|([a-zA-Z]+$)$/;
+    return reg.test(char);
+}
 
 // 前方补0方法
 const leadingZeros = (num, length = null) => {
@@ -103,5 +108,6 @@ export default {
     leadingZeros,
     newPhone,
     timeTrunToDateString,
-    equalTime
+    equalTime,
+    isGpsCode
 };

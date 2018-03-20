@@ -61,14 +61,15 @@ class carOwnerVerifiedMsgCode extends Component {
 
     constructor(props) {
         super(props);
+        const result = this.props.navigation.state.params.result;
 
         this.state = {
-            carNumber: '',
+            carNumber:result.plateNumber,
             codeNum: '',
             codeNumNor: '',
-            carOwnerName: '',
-            carOwnerTel: '',
-        }
+            carOwnerName: result.owner,
+            carOwnerTel: result.phoneNum,
+        };
 
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
         this.sendFailCallback = this.sendFailCallback.bind(this);
@@ -101,17 +102,17 @@ class carOwnerVerifiedMsgCode extends Component {
                     hiddenBackIcon={false}/>
 
                 <View style={{backgroundColor: 'white', marginTop: 10, marginBottom: 10}}>
-                    <Item title='车辆信息' des='请输入车牌号' entering={(text)=>{
+                    <Item title='车辆信息' des='请输入车牌号' showValue={this.state.carNumber} entering={(text)=>{
                       this.setState({
                           carNumber: text
                       })
                   }}/>
-                    <Item title='车主姓名' des='请输入车主姓名' entering={(text)=>{
+                    <Item title='车主姓名' des='请输入车主姓名' showValue={this.state.carOwnerName} entering={(text)=>{
                         this.setState({
                             carOwnerName: text
                         })
                   }}/>
-                    <Item title='车主电话' des='请输入车主电话' keyboardType='numeric' entering={(text)=>{
+                    <Item title='车主电话' des='请输入车主电话' keyboardType='numeric' showValue={this.state.carOwnerTel} entering={(text)=>{
                         this.setState({
                             carOwnerTel: text
                         })
@@ -182,19 +183,7 @@ class carOwnerVerifiedMsgCode extends Component {
                                 Toast.show('输入验证码不正确');
                                 return;
                             }
-
-                             Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_CAR ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR })
-                                            }
-                                        });
+                            this.props.navigation.dispatch({type: 'pop', key: 'Main'})
 
                         }}
                     >

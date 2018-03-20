@@ -44,7 +44,7 @@ class title_enterDesItem extends Component {
         super(props);
 
         this.state = {
-            carNumber: '',
+            showValue: this.props.showValue,
         }
 
     }
@@ -62,11 +62,11 @@ class title_enterDesItem extends Component {
                                    underlineColorAndroid={'transparent'}
                                    onChangeText={(text) => {
                                        this.setState({
-                                           carNumber: text,
+                                           showValue: text,
                                        });
                                        this.props.entering(text);
                                }}
-                                   value={this.state.carNumber}
+                                   value={this.state.showValue}
                                    placeholder={this.props.des}
                                    keyboardType={this.props.keyboardType}
 
@@ -85,12 +85,14 @@ title_enterDesItem.propTypes = {
     title: PropTypes.string,
     des: PropTypes.string,
     entering: PropTypes.func,
+    showValue: PropTypes.string,
     keyboardType:PropTypes.string
 };
 
 title_enterDesItem.defaultProps = {
     title: '标题',
     des: '描述',
+    showValue: '',
     entering: (text)=>{},
     keyboardType: 'default'
 };
