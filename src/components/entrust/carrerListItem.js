@@ -121,14 +121,14 @@ class carrerListItem extends Component{
 
                 <View style={{flexDirection: 'row',justifyContent: 'space-between', marginTop: 10}}>
                     {
-                        (rowData.orderStateStr == '待调度' && rowData.configFreight) && <View style={{width: 100,flexDirection: 'row'}}>
+                        (rowData.orderStateStr == '待调度' && rowData.configFreight) ?  <View style={{width: 100,flexDirection: 'row'}}>
                             <View style={{justifyContent: 'center',width: 80}}>
                                 <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.configFreight}</Text>
                             </View>
                             <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
                                 <Text style={{}}>元</Text>
                             </View>
-                        </View>
+                        </View> : null
                     }
                     {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
