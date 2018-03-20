@@ -14,7 +14,7 @@ import {
     Alert
 } from 'react-native';
 import Button from 'apsl-react-native-button';
-import Toast from '@remobile/react-native-toast';
+import Toast from '../../utils/toast';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import Loading from '../../utils/loading';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -198,16 +198,18 @@ class RegisterStepOne extends Component {
 
     /*注册*/
     registerAccount(phoneNum,messageCode,againPWD) {
-        if (this.state.checkBox){
-            this.props.registeredAction({
-                confirmPassword: againPWD,
-                identifyCode: messageCode,
-                password: againPWD,
-                phoneNum: phoneNum
-            },this.registerAccountSucCallBack)
-        } else {
+        if (!this.state.checkBox) {
             Toast.show("请阅读并同意《冷链马甲服务协议》");
+            return;
         }
+
+        this.props.registeredAction({
+            confirmPassword: againPWD,
+            identifyCode: messageCode,
+            password: againPWD,
+            phoneNum: phoneNum
+        },this.registerAccountSucCallBack)
+
     }
 
     registerAccountSucCallBack(){
