@@ -75,7 +75,7 @@ class showESignInfoIndividual extends BaseComponent {
 			setTimeout(() => {
 				this.setState({
 					isLoad: true,
-					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
+				// 	esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
 					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
           sealPersonTemplate: this.state.sealPersonTemplate ? this.state.sealPersonTemplate : sealPersonTemplate,
 				// 	visible: false,
@@ -93,11 +93,12 @@ class showESignInfoIndividual extends BaseComponent {
 		// 个人
       const {companyInfo} = this.props;
       this.props.getESignInfo({
-          companyId: companyInfo.id,
+          companyId: global.companyId,
       },this.props.router);
 	}
 
 	_editESignInfo(){
+		console.log('----this.state.sealPersonTemplate',this.state.sealPersonTemplate)
 		if(!this.state.sealPersonTemplate )return Toast.show('请选择印章模板');
 
 		if(!this.state.colorMap ) return Toast.show('请选择印章颜色');
@@ -289,7 +290,9 @@ const mapDispatchToProps = dispatch => {
 				api: GET_ESIGN_INFO + '?companyId='+ body.companyId,
 				success: (data) => {
 					// console.log('lqq---getESignInfo--success-->'+data);
-					dispatch(dispatchGetESignInfo({data}));
+						if (data) {
+                dispatch(dispatchGetESignInfo({data}));
+						}
 					dispatch(appendLogToFile('电子签章','电子签章信息',startTime))
 				},
 				fail: () => {

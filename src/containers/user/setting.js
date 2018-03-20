@@ -239,16 +239,16 @@ class SettingContainer extends BaseComponent {
 					</View>
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					style={ styles.cellContainer }
-					onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title:'反馈问题'}}) }>
-					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>帮助</Text>
-					</View>
-					<View style={ styles.rightAnd }>
-						<Text style={ styles.iconFont }>&#xe63d;</Text>
-					</View>
-				</TouchableOpacity>
+				{/*<TouchableOpacity*/}
+					{/*style={ styles.cellContainer }*/}
+					{/*onPress={ () => this.props.navigation.dispatch({type:RouteType.ROUTE_HELP,params:{title:'反馈问题'}}) }>*/}
+					{/*<View style={ styles.leftAnd }>*/}
+						{/*<Text style={ styles.leftText }>帮助</Text>*/}
+					{/*</View>*/}
+					{/*<View style={ styles.rightAnd }>*/}
+						{/*<Text style={ styles.iconFont }>&#xe63d;</Text>*/}
+					{/*</View>*/}
+				{/*</TouchableOpacity>*/}
 
 				<TouchableOpacity
 					style={ styles.cellContainer }

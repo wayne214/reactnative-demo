@@ -56,23 +56,29 @@ class orderItemCell extends Component{
 
       const orderDetaiTypeList = rowData.ofcOrderDetailTypeDtoList;
       let goodTepesTemp = [];
-      let goodTypesName = [];
-      if(orderDetaiTypeList && orderDetaiTypeList.length > 0) {
-          let good = '';
-          for (let i = 0; i < orderDetaiTypeList.length; i++) {
-              good = orderDetaiTypeList[i];
-              goodTepesTemp = goodTepesTemp.concat(good.goodsTypes);
-          }
-          // 去重
-          goodTypesName = UniqueUtil.unique(goodTepesTemp);
-      } else {
-          goodTypesName.push('其他');
-      }
+      // let goodTypesName = [];
+      // if(orderDetaiTypeList && orderDetaiTypeList.length > 0) {
+      //     let good = '';
+      //     for (let i = 0; i < orderDetaiTypeList.length; i++) {
+      //         good = orderDetaiTypeList[i];
+      //         goodTepesTemp = goodTepesTemp.concat(good.goodsTypes);
+      //     }
+      //     // 去重
+      //     goodTypesName = UniqueUtil.unique(goodTepesTemp);
+      // } else {
+      //     goodTypesName.push('其他');
+      // }
 
       const loadStartTime = moment(rowData.loadingTime).format('YYYY.MM.DD');
       const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
       const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromCustomerAddress + rowData.fromCustomerAddress;
       const endAddress = rowData.toProvince + rowData.toCity + rowData.toCustomerAddress + rowData.toDistrict;
+
+      const weight = rowData.weight ? rowData.weight + '吨' : '';
+      const vol = rowData.volume ? rowData.volume + '方' : '';
+      const goodsType = rowData.goodsType ? rowData.goodsType : '';
+
+      const qiu = goodsType + weight + vol;
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
@@ -96,7 +102,7 @@ class orderItemCell extends Component{
 					<View style={{paddingTop: 10}}>
 						<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
-						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime + '-' + loadEndTime}</Text>
+						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
 
               {
                   rowData.orderSource == 1 && <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
@@ -113,9 +119,11 @@ class orderItemCell extends Component{
 									<View style={[styles.cuoheBg, {width: 16}]}>
 										<Text style={styles.cuoheText}>有</Text>
 									</View>
-									<View style={styles.goodBg}>
-										<Text style={styles.goodText}>{rowData.itemName + rowData.weight+'吨' + rowData.volume+'方'}</Text>
-									</View>
+										{
+											qiu ? <View style={styles.goodBg}>
+												<Text style={styles.goodText}>{qiu}</Text>
+											</View> : null
+										}
 								</View>
 							</View>
 								{

@@ -8,7 +8,7 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    Image
+    Image,
 } from 'react-native';
 import LoadMoreFooter from '../common/loadMoreFooter'
 import UniqueUtil from '../../utils/unique';
