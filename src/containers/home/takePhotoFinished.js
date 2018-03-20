@@ -42,7 +42,9 @@ class takePhotoFinished extends Component {
     // 完成
     next() {
         console.log('-----imagePath-------',this.state.imagePath);
-        let data = [{uri: this.state.imagePath, id: new Date().getTime(), mediaType: this.state.mediaType}];
+        let arr = this.state.imagePath.split('/');
+        let id = arr[arr.length - 1];
+        let data = [{uri: this.state.imagePath, id: id, mediaType: this.state.mediaType}];
         this.props.dispatch(addImage(data));
 
         const routes = this.props.routes;

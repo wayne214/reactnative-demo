@@ -209,7 +209,9 @@ class UploadReceipt extends Component {
             this.setState({
                 data: arr.map(i => {
                     console.log('received image', i);
-                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: new Date().getTime()};
+                    let arr = i.path.split('/');
+                    let id = arr[arr.length - 1];
+                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: id};
                 }),
             });
             console.log('-----------',this.state.data.length);
@@ -379,6 +381,7 @@ class UploadReceipt extends Component {
                             if (ClickUtil.onMultiClick()) {
                                 let formData = new FormData();
                                 this.props.imageList.map(i => {
+                                    console.log('i.id===',i.id);
                                     if (Platform.OS === 'ios'){
                                         if(i.uri.indexOf('file://') === -1){
                                             i.uri = 'file://' + i.uri;
