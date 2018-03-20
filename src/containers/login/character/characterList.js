@@ -121,10 +121,14 @@ class CharacterList extends Component {
                                                         type: RouteType.ROUTE_DRIVER_VERIFIED,
                                                         params: {
                                                             resultInfo: value,
+                                                            type: 'login'
                                                         }
                                                     });
                                                 } else {
-                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED })
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                                     params:{
+                                                        type: 'login'
+                                                     }})
                                                 }
                                             })
                                         }

@@ -1102,7 +1102,10 @@ class carOwnerAddDriver extends Component {
                             driverLicenseValidateRecognition: this.state.driverLicenseValidateRecognition,  // 识别驾驶证有效期
                         };
                         Storage.save(StorageKey.carOwnerAddDriverInfo, info);
-                        navigator.goBack();
+
+                        this.props.navigation.dispatch({type: 'pop'})
+
+
                     }}
                 />
                 <ScrollView keyboardDismissMode={plat} ref="scrollView">

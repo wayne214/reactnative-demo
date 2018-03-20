@@ -107,7 +107,6 @@ class certification extends Component {
                 carNumber: result.carNum, // 车牌号
                 carOwner: result.haverName, // 所有人
                 carEngineNumber: result.engineNumber, // 发动机编号
-                carType: result.carType, // 车辆类型
                 carDate: result.driveValidity, // 行驶证有效期至
                 insuranceData: result.insuranceDate, // 强险有效期至
                 carVIN: result.carVIN,
@@ -149,7 +148,6 @@ class certification extends Component {
 
                 carNumber: '', // 车牌号
                 carOwner: '', // 所有人
-                carType: '', // 车辆类型
                 carDate: '请选择有效期', // 有效期
                 carEngineNumber: '', // 发动机号码
                 insuranceData: '请选择有效期', // 交强险
@@ -183,7 +181,6 @@ class certification extends Component {
         this.upLoadImage = this.upLoadImage.bind(this);
         this.showDatePick = this.showDatePick.bind(this);
         this.checkUploadParams = this.checkUploadParams.bind(this);
-        this.implementationVerified = this.implementationVerified.bind(this);
         this.getCarLengthWeight = this.getCarLengthWeight.bind(this);
         this.isRightData = this.isRightData.bind(this);
         this.popToTop = this.popToTop.bind(this);
@@ -565,9 +562,6 @@ class certification extends Component {
             }
             selectValue = [year + '年', month + '月', day + '日'];
 
-        } else if (type === 'carType') {
-            selectValue = [data[0]];
-            title = '车辆类型';
         } else if (type === 'carLength') {
             selectValue = [data[0]];
             title = '车长';
@@ -639,19 +633,6 @@ class certification extends Component {
                         this.setState({
                             insuranceData: Validator.timeTrunToDateString(year + month + day),
                         })
-                    } else if (selectDatePickerType === 2) {
-                        this.setState({
-                            carType: pickedValue[0],
-                        });
-                    } else if (selectDatePickerType === 3) {
-                        this.setState({
-                            carLength: pickedValue[0],
-                            carWeight: carWeightDataSource[pickedValue[0]],
-                        });
-                    } else if (selectDatePickerType === 4) {
-                        this.setState({
-                            carTypeTwo: pickedValue[0],
-                        });
                     }
 
                 }
@@ -696,10 +677,7 @@ class certification extends Component {
             Toast.showShortCenter('请输入所有人');
             return;
         }
-        if (this.state.carType === '') {
-            Toast.showShortCenter('请输入车辆类型');
-            return;
-        }
+
         if (this.state.carVIN === '') {
             Toast.showShortCenter('请输入VIN代码');
             return;
@@ -732,7 +710,6 @@ class certification extends Component {
 
         console.log('车牌号：', this.state.carNumber);
         console.log('所有人：', this.state.carOwner);
-        console.log('车辆类型：', this.state.carType);
 
         console.log('默认车牌号：', this.state.analysisCarNum);
         console.log('默认所有人：', this.state.analysisHaverName);
@@ -778,7 +755,6 @@ class certification extends Component {
                 analysisCarNum: this.state.analysisCarNum, // 解析车牌号
                 owner: this.state.carOwner,//车辆所有人
                 analysisHaverName:this.state.analysisHaverName, // 解析所有人
-                vehicleType: this.state.carType,//车辆类型
                 validUntil: this.state.carDate.replace('/', '-'),//行驶证有效期至
                 engineNumber: this.state.carEngineNumber,//发动机号
                 analysisEngineNum:this.state.analysisEngineNum, //  解析发动机号
@@ -798,6 +774,7 @@ class certification extends Component {
                 fileNum: '',//档案编号
                 phoneNumber: '',//车主电话
                 carCategory: '',//车辆类别
+                vehicleType: '',//车辆类型
                 volumeSize: '',//实载体积
                 transportationLicense: '',//运输许可证号
                 gcarNo: '',//挂车牌号
@@ -816,13 +793,6 @@ class certification extends Component {
             }
         });
 
-
-
-
-
-
-
-        // this.implementationVerified(carData2, insuranceData3);
     }
 
     isRightData(date) {
@@ -843,82 +813,6 @@ class certification extends Component {
 
     }
 
-    /*增加车辆*/
-    implementationVerified(carDate, insuranceData) {
-        currentTime = new Date().getTime();
-
-        // driver 司机  personalOwner 个人车主 businessOwner 企业车主
-
-        // OUTSIDEDRIVER 司机  Personalowner 个人    Enterpriseowner 企业
-
-        let shenfen = '';
-        if (this.props.currentStatus === 'driver'){
-            shenfen = 'OUTSIDEDRIVER';
-        }
-        if (this.props.currentStatus === 'personalOwner'){
-            shenfen = 'Personalowner';
-        }
-        if (this.props.currentStatus === 'businessOwner'){
-            shenfen = 'Enterpriseowner';
-        }
-
-        HTTPRequest({
-            url: API.API_AUTH_QUALIFICATIONS_COMMIT,
-            params: {
-                engineNumber: this.state.carEngineNumber,
-                handleIDNormalPhotoAddress: this.state.handleIDNormalPhotoAddress,
-                insuranceThumbnailAddress: this.state.insuranceThumbnailAddress,
-                insuranceValidUntil: insuranceData.replace('/', '-').replace('/', '-'),
-                load: this.state.carWeight,
-                owner: this.state.carOwner,
-                phoneNum: userPhone,
-                plateNumber: this.state.carNumber,
-                userId: userID,
-                userName: this.state.carOwner,
-                validUntil: carDate.replace('/', '-'),
-                vehicleLength: this.state.carLength,
-                vehicleLicenseHomepageNormalPhotoAddress: this.state.vehicleLicenseHomepageNormalPhotoAddress,
-                vehicleLicenseHomepageThumbnailAddress: this.state.vehicleLicenseHomepageThumbnailAddress,
-                vehicleLicenseVicePageNormalPhotoAddress: this.state.vehicleLicenseVicePageNormalPhotoAddress,
-                vehicleLicenseVicePageThumbnailAddress: this.state.vehicleLicenseVicePageThumbnailAddress,
-                vehicleNormalPhotoAddress: this.state.vehicleNormalPhotoAddress,
-                vehicleThumbnailAddress: this.state.vehicleThumbnailAddress,
-                vehicleType: this.state.carType,
-                analysisCarNum: this.state.analysisCarNum, // 解析车牌号
-                analysisHaverName:this.state.analysisHaverName, // 解析所有人
-                analysisEngineNum:this.state.analysisEngineNum, //  解析发动机号
-                currentRole: shenfen
-            },
-            loading: () => {
-
-            },
-            success: (responseData) => {
-                lastTime = new Date().getTime();
-                ReadAndWriteFileUtil.appendFile('提交车主增加司机', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                    locationData.district, lastTime - currentTime, '车主增加司机页面');
-
-                this.props.saveUserSetCarSuccess({carNum: this.state.carNumber, carStatus: 0});
-
-                Toast.showShortCenter('车主增加司机提交成功');
-                Storage.remove(StorageKey.carOwnerAddCarInfo);
-                DeviceEventEmitter.emit('addCarPage');
-                //Storage.remove(StorageKey.carInfoResult);
-
-                //this.popToTop();
-                this.props.navigation.goBack()
-
-            },
-            error: (errorInfo) => {
-            },
-            finish: () => {
-                this.setState({
-                    appLoading: false,
-                });
-
-            }
-        });
-
-    }
 
     render() {
         const navigator = this.props.navigation;
@@ -929,7 +823,6 @@ class certification extends Component {
                 <VerifiedTravelInfoItem carNumber={this.state.carNumber}
                                         carOwner={this.state.carOwner}
                                         carEngineNumber={this.state.carEngineNumber}
-                                        carType={this.state.carType}
                                         carVin={this.state.carVIN}
                                         carNumberChange={(text)=>{
 
@@ -952,11 +845,7 @@ class certification extends Component {
                                                  });
 
                                          }}
-                                        carTypeChange={(text)=>{
-                                            this.setState({
-                                                     carType: text,
-                                                 });
-                                         }}
+
                                         carVINChange={(text)=>{
                                             this.setState({
                                                      carVIN: text,
@@ -986,7 +875,6 @@ class certification extends Component {
                             carNum: this.state.carNumber, // 车牌号
                             haverName: this.state.carOwner, // 所有人
                             engineNumber: this.state.carEngineNumber, // 发动机编号
-                            carType: this.state.carType, // 车辆类型
                             driveValidity: this.state.carDate, // 行驶证有效期至
                             insuranceDate: this.state.insuranceData, // 强险有效期至
                             carVIN: this.state.carVIN,

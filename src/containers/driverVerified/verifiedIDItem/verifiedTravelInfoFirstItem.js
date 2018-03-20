@@ -52,13 +52,11 @@ class verifiedTravelInfoItem extends Component{
             carNumber: this.props.carNumber,
             owner: this.props.carOwner,
             engineNumber: this.props.carEngineNumber,
-            carType: this.props.carType,
             carVin: this.props.carVin,
         };
 
         this.carNumberValueChange = this.carNumberValueChange.bind(this);
         this.ownValueChange = this.ownValueChange.bind(this);
-        this.carTypeChange = this.carTypeChange.bind(this);
         this.carVINChange = this.carVINChange.bind(this);
         this.textOnFocus = this.textOnFocus.bind(this);
 
@@ -74,10 +72,6 @@ class verifiedTravelInfoItem extends Component{
         this.props.carOwnerChange(text);
     }
 
-    /*输入车辆类型*/
-    carTypeChange(text){
-        this.props.carTypeChange(text);
-    }
 
     /*输入代码VIN*/
     carVINChange(text){
@@ -138,26 +132,6 @@ class verifiedTravelInfoItem extends Component{
                                placeholder={'请输入所有人'}
                                underlineColorAndroid={'transparent'}
 
-                    />
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车辆识别
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        carType: text,
-                                    });
-                                    this.carTypeChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus();
-                               }}
-                               underlineColorAndroid={'transparent'}
-                               value={this.state.carType}
-                               placeholder={'请输入车辆识别'}
                     />
                 </View>
                 <Line />
