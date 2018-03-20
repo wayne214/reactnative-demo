@@ -853,7 +853,7 @@ class certification extends Component {
                                          }}
                                         textOnFocus={()=>{
                                              if (Platform.OS === 'ios'){
-                                                 this.refs.scrollView.scrollTo({x: 0, y: 550, animated: true});
+                                                 this.refs.scrollView.scrollTo({x: 0, y: 500, animated: true});
                                              }
 
                                          }}

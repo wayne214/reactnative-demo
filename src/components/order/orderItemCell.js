@@ -78,6 +78,8 @@ class orderItemCell extends Component{
       const vol = rowData.volume ? rowData.volume + '方' : '';
       const goodsType = rowData.goodsType ? rowData.goodsType : '';
 
+      const qiu = goodsType + weight + vol;
+
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
           this.props.navigation.dispatch({
@@ -117,9 +119,11 @@ class orderItemCell extends Component{
 									<View style={[styles.cuoheBg, {width: 16}]}>
 										<Text style={styles.cuoheText}>有</Text>
 									</View>
-									<View style={styles.goodBg}>
-										<Text style={styles.goodText}>{goodsType + weight + vol}</Text>
-									</View>
+										{
+											qiu ? <View style={styles.goodBg}>
+												<Text style={styles.goodText}>{qiu}</Text>
+											</View> : null
+										}
 								</View>
 							</View>
 								{

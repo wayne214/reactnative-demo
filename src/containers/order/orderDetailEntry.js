@@ -50,12 +50,14 @@ class orderDetailEntry extends BaseComponent {
 		const {orderDetailData} = this.props;
 		console.log('---orderDetail', orderDetailData);
 
-      const fromAddress = orderDetailData.fromProvince + orderDetailData.fromCity + orderDetailData.fromDistrict + orderDetailData.fromCustomerAddress;
-      const endAddress = orderDetailData.toProvince + orderDetailData.toCity + orderDetailData.toDistrict + orderDetailData.toCustomerAddress;
+      const fromAddress = orderDetailData.fromProvince + orderDetailData.fromCity + orderDetailData.fromCustomerAddress + orderDetailData.fromDistrict;
+      const endAddress = orderDetailData.toProvince + orderDetailData.toCity + orderDetailData.toCustomerAddress + orderDetailData.toDistrict;
 
       const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
       	console.log('--goodInfo', item);
 			});
+
+      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.substr(0, 10) : '';
 
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
@@ -79,7 +81,7 @@ class orderDetailEntry extends BaseComponent {
 
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装货时间：'}</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingTime}</Text>
+								<Text style={styles.goodsDetailContent}>{loaddingTime}</Text>
 							</View>
 
 								{
@@ -92,7 +94,7 @@ class orderDetailEntry extends BaseComponent {
 								}
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>温度要求：</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "-" + orderDetailData.temperatureMax}</Text>
+								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "℃-" + orderDetailData.temperatureMax + '℃'}</Text>
 							</View>
 						</View>
 
@@ -167,28 +169,30 @@ class orderDetailEntry extends BaseComponent {
                   }}/>
 							}
 					</ScrollView>
-			<View>
-				<TouchableOpacity
-					onPress={() => {
-              if(!orderDetailData.orderCode) {
-                  Toast.show('订单号为空');
-                  return;
-              }
-              this.props.navigation.dispatch({
-                  type: RouteType.ROUTE_LADING_BILL,
-                  params: {
-                      title: '出库单',
-                      orderNoBase: orderDetailData.orderCode,
-                      images: []
-                  }
-              })
-          }}
-				>
-					<View style={styles.button}>
-						<Text style={styles.buttonText}>查看出库单</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
+				{
+            orderDetailData.orderSource == 1 ? <View>
+							<TouchableOpacity
+								onPress={() => {
+                    if(!orderDetailData.orderCode) {
+                        Toast.show('订单号为空');
+                        return;
+                    }
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_LADING_BILL,
+                        params: {
+                            title: '出库单',
+                            orderNoBase: orderDetailData.orderCode,
+                            images: []
+                        }
+                    })
+                }}
+							>
+								<View style={styles.button}>
+									<Text style={styles.buttonText}>查看出库单</Text>
+								</View>
+							</TouchableOpacity>
+						</View> : null
+				}
 		</View>
 	}
 }
