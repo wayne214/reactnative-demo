@@ -52,7 +52,8 @@ import {
     setOwnerCharacterAction,
     setCompanyCodeAction,
     setOwnerNameAction,
-    saveCompanyInfoAction
+    saveCompanyInfoAction,
+    setUserCarAction
 } from '../../action/user';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
@@ -147,10 +148,18 @@ class MainContainer extends BaseComponent {
         });
         await Storage.get(StorageKey.USER_TYPE_INFO).then((userTypeInfo) => {
             console.log('-main-usertypeInfo', userTypeInfo);
-            if (result){
+            if (userTypeInfo){
                 this.props.saveUserTypeInfoAction(userTypeInfo);
             }
         });
+
+        await Storage.get(StorageKey.PlateNumberObj).then((result) => {
+            if (result && !ObjectUitls.isOwnEmpty(result)){
+                // 发送Action,全局赋值车辆信息
+                this.props.saveUserSetCarSuccess(result);
+            }
+        });
+
         this._routeTab();
         console.log('------aaa', this.props);
         // JPush
@@ -554,6 +563,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserSetCarSuccess: (plateNumberObj) => {
+            dispatch(setUserCarAction(plateNumberObj));
         },
 
     }
