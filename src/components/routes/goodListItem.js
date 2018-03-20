@@ -55,11 +55,14 @@ class goodListItem extends Component{
                             </View> : null
                     }
 
-                    <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30}}>
-                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>
-                            {item.businessType === 601 ? '自营干线' : item.businessType === 602 ? '自营卡班' : '撮合'}
-                        </Text>
-                    </View>
+                    {
+                        item.businessType ? <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30}}>
+                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>
+                                {item.businessType == '601' ? '干线' : item.businessType == '602' ? '卡班' : '撮合'}
+                            </Text>
+                        </View> : null
+                    }
+
 
                 </View>
                 <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
