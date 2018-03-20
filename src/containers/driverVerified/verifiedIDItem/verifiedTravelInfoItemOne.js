@@ -52,11 +52,13 @@ class verifiedTravelInfoItemOne extends Component{
             carNumber: this.props.carNumber,
             owner: this.props.carOwner,
             engineNumber: this.props.carEngineNumber,
+            carVin: this.props.carVin
         };
 
         this.carNumberValueChange = this.carNumberValueChange.bind(this);
         this.ownValueChange = this.ownValueChange.bind(this);
         this.textOnFocus = this.textOnFocus.bind(this);
+        this.carVinValueChange = this.carVinValueChange.bind(this);
 
     }
 
@@ -69,10 +71,14 @@ class verifiedTravelInfoItemOne extends Component{
     ownValueChange(text){
         this.props.carOwnerChange(text);
     }
+    /*输入车辆识别代码*/
+    carVinValueChange(text){
+        this.props.carOwnerChange(text);
+    }
 
     /*输入发动机编号*/
     codeValueChange(text){
-        this.props.carEngineNumberChange(text);
+        this.props.carVinChange(text);
     }
 
     /*获得焦点*/
@@ -123,6 +129,28 @@ class verifiedTravelInfoItemOne extends Component{
                                }}
                                value={this.state.owner}
                                placeholder={'请输入所有人'}
+                               underlineColorAndroid={'transparent'}
+
+                    />
+                </View>
+                <Line />
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.titleStyle}>
+                        车辆识别代码(VIN)
+                    </Text>
+                    <TextInput style={styles.textInputStyle}
+                               onChangeText={(text) => {
+                                    this.setState({
+                                        carVin: text,
+                                    });
+                                    this.ownValueChange(text);
+
+                               }}
+                               onFocus={()=>{
+                                   this.textOnFocus(920);
+                               }}
+                               value={this.state.carVin}
+                               placeholder={'请输入车辆识别代码'}
                                underlineColorAndroid={'transparent'}
 
                     />

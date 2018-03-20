@@ -29,6 +29,7 @@ import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import Toast from 'react-native-root-toast'
+import LoadingView from '../../utils/loading';
 
 
 const { height,width } = Dimensions.get('window')
@@ -97,9 +98,10 @@ class GoodsList extends Component {
         refreshing: false,
         goodList: goodArray,
         showText: '点击加载更多',
-        loadMore: true,
         bubbleSwitch: false,
         show: false,
+        appLoading: false,
+        pages : 1,
     }
     this._refreshList = this._refreshList.bind(this)
     this.separatorComponent = this.separatorComponent.bind(this)
@@ -132,6 +134,11 @@ class GoodsList extends Component {
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
     console.log('global.companyCode', global.companyCode);
+      this.setState({
+          appLoading: true,
+      })
+
+
     this.props._getNormalGoodsList({
         companyCode: global.companyCode,
         num: page,
@@ -143,17 +150,19 @@ class GoodsList extends Component {
         goodArray = ['占位符'];
     }
 
-    if (data.list.length === 0){
-      this.setState({
-          showText: '没有更多',
-          loadMore: false
-      })
-    }
      goodArray = goodArray.concat(data.list);
+
+      this.setState({
+          showText: '点击加载更多',
+      })
+
+
 
     this.setState({
           goodList: goodArray,
-          refreshing: false
+          refreshing: false,
+        appLoading: false,
+        pages: data.pages,
       });
 
 
@@ -162,7 +171,8 @@ class GoodsList extends Component {
     getGoodListFail(){
       page--;
         this.setState({
-            refreshing: false
+            refreshing: false,
+            appLoading: false,
         });
     }
   // 下拉刷新
@@ -177,11 +187,18 @@ class GoodsList extends Component {
     listFooterComponent(){
       return(
           <TouchableOpacity style={{padding: 20,marginTop: 10, backgroundColor: 'white'}} onPress={()=>{
-
-            if (this.state.loadMore){
               page++;
+
+
+                if (this.state.pages <=  page){
+                  this.setState({
+                      showText: '没有更多',
+                  })
+                    return;
+                }
+
               this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
-            }
+
 
 
           }}>
@@ -195,7 +212,6 @@ class GoodsList extends Component {
     }
   }
     renderImg(item, index) {
-        console.log('------item-----', item);
         return (
             <Image
                 style={{
@@ -215,7 +231,6 @@ class GoodsList extends Component {
     };
     renderItem = (item) => {
 
-      console.log('item=====',item);
         return (
            item.index === 0 ?
                <Carousel
@@ -588,15 +603,22 @@ class GoodsList extends Component {
                 onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
                 ListFooterComponent={this.listFooterComponent}
             />
-              {this.state.show ?
-                  <CharacterChooseCell
-                      carClick={() => {
+              {
+                  this.state.show ?
+                      <CharacterChooseCell
+                          carClick={() => {
                           this.ownerVerifiedHome(this.ownerVerifiedHomeSucCallBack, this.ownerVerifiedHomeFailCallBack);
                       }}
-                      driverClick={() => {
+                          driverClick={() => {
                           this.searchDriverState(this.searchDriverStateSucCallBack);
                       }}
-                  /> : null}
+                      /> : null
+              }
+
+              {
+                  this.state.appLoading ? <LoadingView /> : null
+              }
+
 
           </View>
       )

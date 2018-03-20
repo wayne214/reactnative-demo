@@ -156,10 +156,14 @@ class CharacterList extends Component {
                                                         type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
                                                         params: {
                                                             resultInfo: value,
+                                                            type: 'login'
                                                         }}
                                                     )
                                                 } else {
-                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
+                                                     params:{
+                                                        type: 'login'
+                                                     }})
                                                 }
                                             });
                                         }
@@ -187,10 +191,14 @@ class CharacterList extends Component {
                                                         type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
                                                         params: {
                                                             resultInfo: value,
+                                                            type: 'login'
                                                         }}
                                                     )
                                                 } else {
-                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                                                     params:{
+                                                        type: 'login'
+                                                     }})
                                                 }
                                             });
                                         }

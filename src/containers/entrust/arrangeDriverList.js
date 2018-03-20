@@ -55,9 +55,10 @@ class arrangeDriverList extends Component {
     // 获取司机列表信息
     getDriverList(callback) {
         // 传递参数
-
+        const {driverOption }= this.state;
         this.props.getDriverList({
-            companyPhone: global.phone,
+            companionId: global.companyId,
+            carId: driverOption.carId
         }, callback);
     }
     arrangeCarCallback(result) {
@@ -73,7 +74,8 @@ class arrangeDriverList extends Component {
     // 安排车辆
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
-        const api = para.orderStatus == '65' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
+        console.log('----para', para);
+        const api = para.orderState == '60' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
         this.props._disPatchCar({
             carId: driverOption.carId, // 车辆id
             carLen: driverOption.carLen, // 车辆长度
@@ -125,7 +127,7 @@ class arrangeDriverList extends Component {
                                 selectedArr.push(selected);
                             }
                         }}
-                    /> : null
+                    /> : <View style={{flex: 1}}/>
                 }
                 <BottomButton
                     text={'提交'}
@@ -160,7 +162,7 @@ function mapDispatchToProps (dispatch){
     return {
         getDriverList: (params, callback) => {
             dispatch(fetchData({
-                api: API.API_QUERY_DRIVERS_ALL,
+                api: API.API_QUERY_DRIVER_BID_CAR_LIST,
                 method: 'POST',
                 body: params,
                 success: (data)=>{

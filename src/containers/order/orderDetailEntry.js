@@ -137,7 +137,7 @@ class orderDetailEntry extends BaseComponent {
                   type: RouteType.ROUTE_CONTRACT_DETAIL,
                   params: {
                       templateUrl: orderDetailData.templateUrl,
-                      title: '合同详情'
+                      title: '运输协议'
                   }
               })}>
 								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>

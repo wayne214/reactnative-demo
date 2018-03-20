@@ -312,18 +312,6 @@ class carOwnerAddCarThree extends Component{
         result.carCategory = carCategoryInt;
         result.volumeSize = parseInt(result.volumeSize);
 
-
-
-        result.owner = '林平';
-        result.phoneNum = '15534343431';
-        result.phoneNumber = '15534343432';
-        result.plateNumber = '豫A23090';
-        result.userId = '5';
-        result.userName = '林平芝';
-
-
-
-
         this.props.carVerifiedAction({
             ...result
         },this.carSuccess,this.carFail);

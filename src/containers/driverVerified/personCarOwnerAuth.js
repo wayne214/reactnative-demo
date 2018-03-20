@@ -38,12 +38,14 @@ import StorageKey from '../../constants/storageKeys';
 import VierifiedBottomItem from './verifiedIDItem/verifiedBottomItem';
 import HTTPRequest from '../../utils/httpRequest';
 import * as RouteType from '../../constants/routeType';
-
+import LoginCharacter from '../../utils/loginCharacter';
+import {fetchData} from "../../action/app";
 
 import {
     setOwnerCharacterAction,
     setOwnerNameAction,
-    setCurrentCharacterAction
+    setCurrentCharacterAction,
+    saveUserTypeInfoAction
 } from '../../action/user';
 
 
@@ -109,7 +111,7 @@ class personCarOwnerAuth extends Component {
                 idBackSideNormalPhotoAddress: result.idBackSideNormalPhotoAddress, // 身份证反面原图
                 idBackSideThumbnailAddress: result.idBackSideThumbnailAddress, // 身份证反面缩略图
 
-
+                carVin: result.carVin,
                 carNumber: result.carNumber,
                 carOwner: result.carOwner,
                 carEngineNumber: result.carEngineNumber,
@@ -160,6 +162,7 @@ class personCarOwnerAuth extends Component {
 
                 carNumber: '',
                 carOwner: '',
+                carVin: '',
                 carEngineNumber: '',
                 travelRightImage: travelRightImage,
                 travelTrunRightImage: travelTrunRightImage,
@@ -199,6 +202,7 @@ class personCarOwnerAuth extends Component {
         this.upLoadImage = this.upLoadImage.bind(this);
         this.upDataToHttp = this.upDataToHttp.bind(this);
         this.getCurrentPosition = this.getCurrentPosition.bind(this);
+        this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
 
     }
 
@@ -623,6 +627,55 @@ class personCarOwnerAuth extends Component {
     upDataToHttp(){
         currentTime = new Date().getTime();
 
+
+
+        if (!this.state.manualIdCardName){
+            Toast.showShortCenter('请输入身份证名字');
+            return;
+        }
+        if (!this.state.manualIdCard){
+            Toast.showShortCenter('请输入身份证号');
+            return;
+        }
+        if (!this.state.manualIdCardValidity){
+            Toast.showShortCenter('请选择身份证有效期');
+            return;
+        }
+        if (!this.state.positiveCard){
+            Toast.showShortCenter('请上传法人身份证正面');
+            return;
+        }
+        if (!this.state.oppositeCard){
+            Toast.showShortCenter('请上传法人身份证反面');
+            return;
+        }
+        if (!this.state.manualHaverName){
+            Toast.showShortCenter('请输入行驶证所有人');
+            return;
+        }
+        if (!this.state.manualCarNum){
+            Toast.showShortCenter('请输入车牌号');
+            return;
+        }
+        if (!this.state.companyAddress){
+            Toast.showShortCenter('请输入公司地址');
+            return;
+        }
+        if (!this.state.manualEngineNum){
+            Toast.showShortCenter('请输入发动机编号');
+            return;
+        }
+        if (!this.state.drivingValidity){
+            Toast.showShortCenter('请选择行驶证有效期');
+            return;
+        }
+        if (!this.state.manualVin){
+            Toast.showShortCenter('请输入车辆识别代码');
+            return;
+        }
+
+
+
         let obj = {
             userId: userID,//userID, //用户ID
             userName: userName,//userName, // 用户名
@@ -653,6 +706,8 @@ class personCarOwnerAuth extends Component {
                 manualHaverName: this.state.carOwner, // 修改的所有人
                 manualEngineNum: this.state.carEngineNumber, // 修改的发动机号
                 drivingValidity: this.state.drivingLicenseValidUntil, // 行驶证有效期
+                manualVin: this.state.carVin,// 车辆识别代码
+
                 // 默认
                 idCardName: this.state.moRenidCardName, // 身份证解析姓名
                 idCard: this.state.moRenidCard, // 解析身份证号
@@ -660,6 +715,8 @@ class personCarOwnerAuth extends Component {
                 carNum: this.state.moRencarNum, // 车牌号
                 haverName: this.state.moRenhaverName, // 所有人
                 engineNum: this.state.moRenengineNum, // 发动机号码
+                vin: this.state.carVin,// 车辆识别代码
+
             }
         };
         console.log(obj);
@@ -683,7 +740,20 @@ class personCarOwnerAuth extends Component {
                 this.props.setCurrentCharacterAction('owner');
 
 
-                this.props.navigation.dispatch({type: 'pop'})
+                if (this.props.navigation.state.params && this.props.navigation.state.params.type){
+
+
+                    // this.props.navigation.dispatch({
+                    //     type: 'Main',
+                    //     mode: 'reset',
+                    //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                    // })
+
+                    this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
+
+                }else
+                    this.props.navigation.dispatch({type: 'pop',key: 'Main'});
+
 
             },
             error: (errorInfo) => {
@@ -697,7 +767,11 @@ class personCarOwnerAuth extends Component {
         });
     }
 
-
+    quaryAccountRoleCallback(result) {
+        console.log("------账号角色信息",result);
+        LoginCharacter.setCharacter(this.props, result, 'login');
+        this.props.saveUserTypeInfoAction(result);
+    }
     render() {
         const navigator = this.props.navigation;
 
@@ -745,7 +819,8 @@ class personCarOwnerAuth extends Component {
                 <VerifiedGrayTitleItem title="确认行驶证基本信息"/>
                 <VerifiedTravelInfoItemOne carNumber={this.state.carNumber}
                                             carOwner={this.state.carOwner}
-                                            carEngineNumber={this.state.carEngineNumber}
+                                           carVin={this.state.carVin}
+                                           carEngineNumber={this.state.carEngineNumber}
                                             carNumberChange={(text)=>{
 
                                                  this.setState({
@@ -753,6 +828,12 @@ class personCarOwnerAuth extends Component {
                                                  });
 
                                             }}
+                                           carVinChange={(text)=>{
+                                                this.setState({
+                                                     carVin: text,
+                                                 });
+
+                                           }}
                                             carOwnerChange={(text)=>{
 
                                                   this.setState({
@@ -798,7 +879,7 @@ class personCarOwnerAuth extends Component {
                             idBackSideNormalPhotoAddress: this.state.idBackSideNormalPhotoAddress, // 身份证反面原图
                             idBackSideThumbnailAddress: this.state.idBackSideThumbnailAddress , // 身份证反面缩略图
 
-
+                            carVin: this.state.carVin,
                             carNumber: this.state.carNumber,
                             carOwner: this.state.carOwner,
                             carEngineNumber: this.state.carEngineNumber,
@@ -828,7 +909,9 @@ class personCarOwnerAuth extends Component {
                         };
 
                         Storage.save(StorageKey.personownerInfoResult, info);
-                        navigator.goBack();
+                        this.props.navigation.dispatch({type: 'pop'});
+
+
                     }}
                 />
                 <ScrollView keyboardDismissMode={plat} ref="scrollView">
@@ -944,6 +1027,19 @@ function mapDispatchToProps (dispatch){
         },
         setCurrentCharacterAction: (data) => {
             dispatch(setCurrentCharacterAction(data));
+        },
+        quaryAccountRole: (params, successCallback) => {
+            dispatch(fetchData({
+                body: '',
+                method: 'POST',
+                api: API.API_INQUIRE_ACCOUNT_ROLE + params,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        saveUserTypeInfoAction:(result)=>{
+            dispatch(saveUserTypeInfoAction(result));
         },
     };
 }

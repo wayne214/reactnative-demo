@@ -54,7 +54,9 @@ class MessageContainer extends BaseComponent {
 		const { user } = this.props;
 		if (!user || !user.userId) {
 			InteractionManager.runAfterInteractions(() => {
-				this.props.navigator.pop();
+				this.props.navigation.dispatch({
+						type: 'pop'
+				});
 			});
 		} else {
 			if(this.state.currentTab === 1){
@@ -342,9 +344,9 @@ class MessageContainer extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-	const { app, message } = state;
+	const { app, message, user } = state;
 	return {
-		user: app.get('user'),
+		user: user.get('userInfo'),
 		loading: app.get('loading'),
 		hasMore: message.get('hasMore'),
 		ids: message.getIn(['msg', 'ids']),

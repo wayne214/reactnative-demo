@@ -37,10 +37,14 @@ import Storage from '../../utils/storage';
 import StorageKey from '../../constants/storageKeys';
 import VierifiedBottomItem from './verifiedIDItem/verifiedBottomItem';
 import HTTPRequest from '../../utils/httpRequest';
+import LoginCharacter from '../../utils/loginCharacter';
+import {fetchData} from "../../action/app";
+
 import {
     setOwnerCharacterAction,
     setOwnerNameAction,
-    setCurrentCharacterAction
+    setCurrentCharacterAction,
+    saveUserTypeInfoAction
 } from '../../action/user';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import * as RouteType from '../../constants/routeType';
@@ -81,7 +85,7 @@ let currentTime = 0;
 class companyCarOwnerAuth extends Component {
     constructor(props) {
         super(props);
-        if (this.props.navigation.state.params) {
+        if (this.props.navigation.state.params && this.props.navigation.state.params.result) {
             const result = this.props.navigation.state.params.resultInfo;
 
 
@@ -184,6 +188,8 @@ class companyCarOwnerAuth extends Component {
         this.upLoadImage = this.upLoadImage.bind(this);
         this.uploadData = this.uploadData.bind(this);
         this.getCurrentPosition = this.getCurrentPosition.bind(this);
+        this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
+
     }
 
     componentWillUnmount() {
@@ -610,6 +616,54 @@ class companyCarOwnerAuth extends Component {
         console.log('默认解析的统一社会信用代码',this.state.unifiedSocialCreditCode);
         console.log('默认营业执照有效期',this.state.businessValidity);
 
+
+        if (!this.state.IDName){
+            Toast.showShortCenter('请输入法人身份证名字');
+            return;
+        }
+        if (!this.state.IDCard){
+            Toast.showShortCenter('请输入法人身份证号');
+            return;
+        }
+        if (!this.state.IDDate){
+            Toast.showShortCenter('请选择法人身份证有效期');
+            return;
+        }
+        if (!this.state.legalPersonPositiveCard){
+            Toast.showShortCenter('请上传法人身份证正面');
+            return;
+        }
+        if (!this.state.legalPersonOppositeCard){
+            Toast.showShortCenter('请上传法人身份证反面');
+            return;
+        }
+        if (!this.state.companyName){
+            Toast.showShortCenter('请输入公司名称');
+            return;
+        }
+        if (!this.state.companyOwnerName){
+            Toast.showShortCenter('请输入公司所有人');
+            return;
+        }
+        if (!this.state.companyAddress){
+            Toast.showShortCenter('请输入公司地址');
+            return;
+        }
+        if (!this.state.companyCode){
+            Toast.showShortCenter('请输入社会编码');
+            return;
+        }
+        if (!this.state.businessLicenseValidUntil){
+            Toast.showShortCenter('请选择营业执照有效期');
+            return;
+        }
+        if (!this.state.businessLicence){
+            Toast.showShortCenter('请上传营业执照');
+            return;
+        }
+
+
+
         //     个人            企业
         let upLoadInfo = {
             userId: userID,//userID,
@@ -672,7 +726,20 @@ class companyCarOwnerAuth extends Component {
                 this.props.setCurrentCharacterAction('owner');
 
 
-                this.props.navigation.dispatch({type: 'pop'})
+
+                if (this.props.navigation.state.params && this.props.navigation.state.params.type){
+
+
+                    // this.props.navigation.dispatch({
+                    //     type: 'Main',
+                    //     mode: 'reset',
+                    //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                    // })
+
+                    this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
+
+                }else
+                    this.props.navigation.dispatch({type: 'pop',key: 'Main'});
 
 
             },
@@ -685,7 +752,11 @@ class companyCarOwnerAuth extends Component {
             }
         });
     }
-
+    quaryAccountRoleCallback(result) {
+        console.log("------账号角色信息",result);
+        LoginCharacter.setCharacter(this.props, result, 'login');
+        this.props.saveUserTypeInfoAction(result);
+    }
     render() {
         const navigator = this.props.navigation;
 
@@ -706,7 +777,7 @@ class companyCarOwnerAuth extends Component {
                                     }}
                                     textOnFocus={()=>{
                                         if (Platform.OS === 'ios'){
-                                            this.refs.scrollView.scrollTo({x: 0, y: 560, animated: true});
+                                            this.refs.scrollView.scrollTo({x: 0, y: 840, animated: true});
                                         }
 
                                     }}
@@ -813,7 +884,7 @@ class companyCarOwnerAuth extends Component {
 
                         };
                         Storage.save(StorageKey.enterpriseownerInfoResult, info);
-                        navigator.goBack();
+                        this.props.navigation.dispatch({type: 'pop'});
                     }}
                 />
                 <ScrollView keyboardDismissMode={plat} ref="scrollView">
@@ -932,6 +1003,19 @@ function mapDispatchToProps (dispatch){
         },
         setCurrentCharacterAction: (data) => {
             dispatch(setCurrentCharacterAction(data));
+        },
+        quaryAccountRole: (params, successCallback) => {
+            dispatch(fetchData({
+                body: '',
+                method: 'POST',
+                api: API.API_INQUIRE_ACCOUNT_ROLE + params,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        saveUserTypeInfoAction:(result)=>{
+            dispatch(saveUserTypeInfoAction(result));
         },
     };
 }
