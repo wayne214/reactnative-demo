@@ -98,10 +98,10 @@ class GoodsList extends Component {
         refreshing: false,
         goodList: goodArray,
         showText: '点击加载更多',
-        loadMore: true,
         bubbleSwitch: false,
         show: false,
-        appLoading: false
+        appLoading: false,
+        pages : 1,
     }
     this._refreshList = this._refreshList.bind(this)
     this.separatorComponent = this.separatorComponent.bind(this)
@@ -150,19 +150,19 @@ class GoodsList extends Component {
         goodArray = ['占位符'];
     }
 
-    if (data.list.length === 0){
-      this.setState({
-          showText: '没有更多',
-          loadMore: false,
-
-      })
-    }
      goodArray = goodArray.concat(data.list);
+
+      this.setState({
+          showText: '点击加载更多',
+      })
+
+
 
     this.setState({
           goodList: goodArray,
           refreshing: false,
         appLoading: false,
+        pages: data.pages,
       });
 
 
@@ -187,11 +187,18 @@ class GoodsList extends Component {
     listFooterComponent(){
       return(
           <TouchableOpacity style={{padding: 20,marginTop: 10, backgroundColor: 'white'}} onPress={()=>{
-
-            if (this.state.loadMore){
               page++;
+
+
+                if (this.state.pages <=  page){
+                  this.setState({
+                      showText: '没有更多',
+                  })
+                    return;
+                }
+
               this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
-            }
+
 
 
           }}>
