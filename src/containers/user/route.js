@@ -77,7 +77,7 @@ class RouteContainer extends BaseComponent {
       });
       if( isRefreshAddRoute || isRefreshDeleteRoute){
       	this.props.getRouteList({
-            carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+            carrierId: global.companyId, // 承运商id
             pageNum: 1,
             pageSize: 10,
       	});
@@ -89,7 +89,7 @@ class RouteContainer extends BaseComponent {
 	_endReached() {
 		if (this.props.hasMore && !this.props.isEndReached) {
 			this.props.getRouteList({
-          carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+          carrierId: global.companyId, // 承运商id
           pageNum: this.state.pageNo + 1,
           pageSize: 10,
 			});

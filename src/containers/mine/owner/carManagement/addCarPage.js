@@ -375,17 +375,17 @@ class AddCarPage extends Component {
                                 onPress={() => {
                                     this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
 
-                                    {/*Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {*/}
-                                         {/*if (value){*/}
-                                             {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {*/}
-                                                 {/*resultInfo: value,*/}
-                                             {/*} });*/}
-                                            {/**/}
-                                         {/*}else {*/}
-                                             {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });*/}
-                                         {/*}*/}
+                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                        if (value){
+                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
+                                                resultInfo: value,
+                                            } });
 
-                                     {/*});*/}
+                                        }else {
+                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
+                                        }
+
+                                    });
                                 }}
                             >
                                 创建车辆
