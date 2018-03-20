@@ -25,7 +25,7 @@ import Picker from '../../utils/picker';
 import moment from 'moment';
 import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
-import Toast from '@remobile/react-native-toast';
+import Toast from '../../utils/toast';
 
 let startTime = 0;
 
@@ -64,6 +64,7 @@ class goodListDetail extends Component {
 
     // 抢单成功
     sendOrderSuccess(){
+        Toast.show('抢单成功');
         DeviceEventEmitter.emit('resetCarrierGoods');
         this.props.navigation.dispatch({type: 'pop'})
     }
