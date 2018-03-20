@@ -28,7 +28,6 @@ class LoginCharacter {
                 })
                 return;
             }
-
             if (result.length == 1) {
                 if (result[0].owner == 1) {
                     // 车主

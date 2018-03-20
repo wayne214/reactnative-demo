@@ -214,6 +214,7 @@ class LoginSms extends BaseComponent {
         this.loginSucCallback = this.loginSucCallback.bind(this);
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
         this.sendFailCallback = this.sendFailCallback.bind(this);
+        this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
     }
 
     componentWillMount () {
@@ -301,7 +302,7 @@ class LoginSms extends BaseComponent {
             phoneNum: this.state.phoneNumber,
             identifyCode: this.state.smsCode,
             loginSite: "2",
-        }, loginSucCallback);
+        }, this.loginSucCallback);
     }
 
     quaryAccountRoleCallback(result) {
@@ -427,7 +428,7 @@ class LoginSms extends BaseComponent {
                                     //     this.login();
                                     //
                                     // }
-                                    this.login(this.loginSucCallback);
+                                    this.login();
                                 }}
                             >
                                 登录

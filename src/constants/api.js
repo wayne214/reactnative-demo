@@ -164,6 +164,8 @@ export const TRAVEL_ONOFCAR = '/orderApp/companyTripCar';
 // 承运商调度车辆
 export const DISPATCH_CAR = '/app/goods/dispatchCar';
 
+export const RE_DISPATCH_CAR = '/app/goods/redispatchCar';
+
 // 确认承运
 export const TRANSPORT_CONFIRM = '/orderApp/confirmLoading';
 

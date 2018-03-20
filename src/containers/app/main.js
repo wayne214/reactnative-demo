@@ -62,7 +62,6 @@ import codePush from 'react-native-code-push'
 import TimeToDoSomething from '../../logUtil/timeToDoSomething.js'
 import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
 import ObjectUitls from '../../utils/objectUitls';
-import StorageKey from '../../constants/storageKeys'
 import LoginCharacter from '../../utils/loginCharacter';
 import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
 

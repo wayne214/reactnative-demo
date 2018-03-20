@@ -232,13 +232,17 @@ class enterpriseownerVerifiedState extends Component {
         Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
 
             if (value) {
-                this.props.navigation.navigate('CompanyCarOwnerAuth', {
-                    resultInfo: value,
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                    params: {resultInfo: value}
                 });
             } else {
-                this.props.navigation.navigate('CompanyCarOwnerAuth', {
-                    resultInfo: this.state.resultInfo,
-                });
+                this.props.navigation.dispatch({
+                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH
+                })
+                // this.props.navigation.navigate('CompanyCarOwnerAuth', {
+                //     resultInfo: this.state.resultInfo,
+                // });
             }
         });
     }
