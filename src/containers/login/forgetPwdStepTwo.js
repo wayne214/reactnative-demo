@@ -107,7 +107,7 @@ class ForgetPwdStepTwo extends Component {
     getSecretCodeCallback(result) {
         if (result) {
             const secretCode = result;
-            const secretPassWord = XeEncrypt.aesEncrypt(this.state.password, secretCode, secretCode);
+            const secretPassWord = XeEncrypt.aesEncrypt(this.state.newPWD, secretCode, secretCode);
             this.changePsd(secretPassWord, this.changePsdSucCallback);
         }
     }

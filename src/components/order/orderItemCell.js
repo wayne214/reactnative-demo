@@ -71,8 +71,8 @@ class orderItemCell extends Component{
 
       const loadStartTime = moment(rowData.loadingTime).format('YYYY.MM.DD');
       const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
-      const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromDistrict + rowData.fromCustomerAddress;
-      const endAddress = rowData.toProvince + rowData.toCity + rowData.toDistrict + rowData.toCustomerAddress;
+      const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromCustomerAddress + rowData.fromCustomerAddress;
+      const endAddress = rowData.toProvince + rowData.toCity + rowData.toCustomerAddress + rowData.toDistrict;
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
@@ -99,7 +99,7 @@ class orderItemCell extends Component{
 						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime + '-' + loadEndTime}</Text>
 
               {
-                  rowData.orderSource == 1 && <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center'}}>
+                  rowData.orderSource == 1 && <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
 										<Text style={{fontSize: 10, color: '#0092FF'}}>撮合</Text>
 									</View>
               }

@@ -24,6 +24,9 @@ import * as API from '../../../../constants/api';
 import HTTPRequest from '../../../../utils/httpRequest';
 import Loading from '../../../../utils/loading';
 import {fetchData} from "../../../../action/app";
+import Toast from '../../../../utils/toast';
+
+
 const {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
@@ -127,6 +130,10 @@ class BindCarPage extends Component {
 
 
     queryAllCarList(carNum, callback) {
+        if (!carNum) {
+            Toast.show('请输入车牌号');
+            return;
+        }
         this.props._queryAllCarList({
             carNum: carNum,
             companionPhone: global.phone,
