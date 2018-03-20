@@ -42,7 +42,6 @@ import { updateMsgList, dispatchRefreshMessageList } from '../../action/message'
 import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
-import StorageKey from '../../constants/storageKeys';
 import JPushModule from 'jpush-react-native';
 import {
     saveUserTypeInfoAction,
@@ -65,6 +64,7 @@ import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
 import ObjectUitls from '../../utils/objectUitls';
 import LoginCharacter from '../../utils/loginCharacter';
 import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
+import StorageKey from '../../constants/storageKeys';
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";

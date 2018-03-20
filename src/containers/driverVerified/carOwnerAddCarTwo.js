@@ -340,7 +340,7 @@ class certification extends Component {
                             isChooseTravelRightImage: false,
                             isFirst: false
                         });
-                        this.upLoadImage(API.API_GET_TRAVEL_INFO, formData);
+                        this.upLoadImage(API.API_GET_TRAVEL_TRUN_INFO, formData);
                         break;
                     case 1:
                         this.setState({
@@ -379,21 +379,19 @@ class certification extends Component {
                     switch (selectType) {
                         case 0:
 
-                            if (respones.result.plateNumber && respones.result.owner && respones.result.engineNumber) {
-                                this.setState({
-                                    carNumber: respones.result.plateNumber === 'FailInRecognition' ? '' : respones.result.plateNumber,
-                                    carOwner: respones.result.owner === 'FailInRecognition' ? '' : respones.result.owner,
-                                    carEngineNumber: respones.result.engineNumber === 'FailInRecognition' ? '' : respones.result.engineNumber,
+                            this.setState({
+                                // carNumber: respones.result.plateNumber === 'FailInRecognition' ? '' : respones.result.plateNumber,
+                                // carOwner: respones.result.owner === 'FailInRecognition' ? '' : respones.result.owner,
+                                // carEngineNumber: respones.result.engineNumber === 'FailInRecognition' ? '' : respones.result.engineNumber,
+                                //
+                                // analysisCarNum: respones.result.plateNumber, // 解析车牌号
+                                // analysisHaverName:respones.result.owner, // 解析所有人
+                                // analysisEngineNum:respones.result.engineNumber, //  解析发动机号
 
-                                    analysisCarNum: respones.result.plateNumber, // 解析车牌号
-                                    analysisHaverName:respones.result.owner, // 解析所有人
-                                    analysisEngineNum:respones.result.engineNumber, //  解析发动机号
+                                vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
+                                vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
+                            });
 
-                                    vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
-                                    vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
-                                });
-                            } else
-                                Toast.showShortCenter('图片解析失败，请手动填写信息');
                             this.setState({
                                 isFirst: true
                             });

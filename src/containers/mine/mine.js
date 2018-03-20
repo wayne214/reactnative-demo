@@ -606,8 +606,10 @@ class mine extends Component {
                 <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}} >
                 <View style={styles.titleContainer}>
                     {
-                        this.props.currentStatus == 'driver' && this.state.verifiedState == '1202' ? <View style={styles.subTitleContainer}>
-                            <TouchableOpacity onPress={()=> {
+                        this.props.currentStatus == 'driver'  ? <View>
+                                {
+                                    this.state.verifiedState == '1202' &&  this.props.userCarList.length  > 1 ? <View style={styles.subTitleContainer}>
+                                            <TouchableOpacity onPress={()=> {
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_CHOOSE_CAR,
                                     params: {
@@ -615,23 +617,26 @@ class mine extends Component {
                                     flag: false
                                 } })
                             }}>
-                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
+                                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => {
                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
                             }}>
-                                <View>
-                                    <Image
-                                        style={{
+                                                <View>
+                                                    <Image
+                                                        style={{
                                             marginRight: 10,
                                             marginTop: 10,
                                         }}
-                                        source={
+                                                        source={
                                             this.props.jpushIcon === true ? MessageNewMine : MessageMine
                                         }
-                                    />
-                                </View>
-                            </TouchableOpacity>
+                                                    />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View> : null
+                                }
+
                         </View> : <View style={styles.subTitleContainer}>
                             <Text>{''}</Text>
                             <TouchableOpacity onPress={() => {
@@ -716,6 +721,7 @@ class mine extends Component {
                                 style={{height: 36}}
                                 leftIconImage={PersonInfoIcon}
                                 content={'个人信息'}
+                                authenticationStatus={this.state.verifiedState}
                                 showBottomLine={true}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();

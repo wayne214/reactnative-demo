@@ -89,7 +89,7 @@ class verifiedTravelInfoItemOne extends Component{
                         车牌号
                     </Text>
                     <TextInput style={styles.textInputStyle}
-                               maxLength={7}
+                               maxLength={10}
                                onChangeText={(text) => {
                                    this.setState({
                                        carNumber: text,

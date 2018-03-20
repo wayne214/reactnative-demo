@@ -193,7 +193,6 @@ export default class orderProductItemInfo extends Component {
                         }}
                         onChangeText={(value) =>{
                             value = this.checkPrice(value);
-                            // debugger
                             parseFloat(value) < 0 ? this.setState({
                                 text: '1',
                                 length: 1
