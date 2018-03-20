@@ -76,6 +76,7 @@ class orderItemCell extends Component{
 
       const weight = rowData.weight ? rowData.weight + '吨' : '';
       const vol = rowData.volume ? rowData.volume + '方' : '';
+      const goodsType = rowData.goodsType ? rowData.goodsType : '';
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
@@ -117,7 +118,7 @@ class orderItemCell extends Component{
 										<Text style={styles.cuoheText}>有</Text>
 									</View>
 									<View style={styles.goodBg}>
-										<Text style={styles.goodText}>{rowData.itemName + weight + vol}</Text>
+										<Text style={styles.goodText}>{goodsType + weight + vol}</Text>
 									</View>
 								</View>
 							</View>
