@@ -373,7 +373,7 @@ class AddCarPage extends Component {
                                 }}
                                 textStyle={{color: 'white', fontSize: 18}}
                                 onPress={() => {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
+                                    // this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
 
                                     Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
                                         if (value){
