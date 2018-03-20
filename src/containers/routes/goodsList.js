@@ -269,7 +269,8 @@ class GoodsList extends Component {
                                 return;
 
                             case '12' || '22':
-                                if (!item.carrierPrice) {
+                                console.log('item.carrierPrice', item.item.carrierPrice);
+                                if (!item.item.carrierPrice) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {
