@@ -515,3 +515,8 @@ export const NEW_COMPANY_ESIGN_INFO = '/app/esign/registerCarrierEsignByCarrierI
 export const API_QUERY_OUT_ORDER_IMG = 'app/transportInfo/queryOutOrderImg';
 // 查询提货单
 export const API_QUERY_RESOURCE_ATTACHMENTINFO = 'app/attachmentRestController/queryResourceAttachmentInfo';
+
+
+// 订单调车车辆司机列表
+export const API_QUERY_DRIVER_BID_CAR_LIST = 'app/goods/queryDriverBidCar';
+
