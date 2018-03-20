@@ -145,7 +145,7 @@ class carrerListItem extends Component{
                                     我要抢单
                                 </Text>
                             </TouchableOpacity>
-                        ) : (rowData.orderState == '65' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 重新调车
                             </Text>

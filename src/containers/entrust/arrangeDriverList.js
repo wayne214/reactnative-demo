@@ -74,7 +74,8 @@ class arrangeDriverList extends Component {
     // 安排车辆
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
-        const api = para.orderStatus == '65' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
+        console.log('----para', para);
+        const api = para.orderState == '60' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
         this.props._disPatchCar({
             carId: driverOption.carId, // 车辆id
             carLen: driverOption.carLen, // 车辆长度
