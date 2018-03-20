@@ -597,7 +597,7 @@ class Home extends Component {
     }
 
     ownerVerifiedHomeSucCallBack(result) {
-        debugger
+
         console.log('ownerVerifiedState==', result);
         // let result = result;
         this.setState({

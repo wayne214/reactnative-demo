@@ -606,9 +606,9 @@ class mine extends Component {
                 <ImageBackground source={mineHeaderBg} resizeMode={'stretch'} style={{width: width, height: 210}} >
                 <View style={styles.titleContainer}>
                     {
-                        this.props.currentStatus == 'driver'  ? <View style={styles.subTitleContainer}>
+                        this.props.currentStatus == 'driver'  ? <View>
                                 {
-                                    this.state.verifiedState == '1202' ? <View>
+                                    this.state.verifiedState == '1202' ? <View style={styles.subTitleContainer}>
                                             <TouchableOpacity onPress={()=> {
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_CHOOSE_CAR,

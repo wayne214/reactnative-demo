@@ -64,6 +64,7 @@ import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
 import ObjectUitls from '../../utils/objectUitls';
 import LoginCharacter from '../../utils/loginCharacter';
 import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
+import StorageKey from '../../constants/storageKeys';
 
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
