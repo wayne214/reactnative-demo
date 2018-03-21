@@ -28,10 +28,6 @@ import { NavigationActions } from 'react-navigation';
 import * as StaticColor from '../../constants/colors';
 import * as RouteType from '../../constants/routeType';
 import {
-    refreshDriverOrderList,
-} from '../../action/driverOrder'
-
-import {
     voiceSpeechAction,
 } from '../../action/app'
 
