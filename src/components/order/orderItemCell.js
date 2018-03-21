@@ -71,8 +71,20 @@ class orderItemCell extends Component{
 
       const loadStartTime = moment(rowData.loadingTime).format('YYYY.MM.DD');
       const loadEndTime = moment(rowData.loadingEndTime).format('YYYY.MM.DD');
-      const fromAddress = rowData.fromProvince + rowData.fromCity + rowData.fromCustomerAddress + rowData.fromCustomerAddress;
-      const endAddress = rowData.toProvince + rowData.toCity + rowData.toCustomerAddress + rowData.toDistrict;
+
+      const fromProvince = rowData.fromProvince ? rowData.fromProvince : '';
+      const fromCity = rowData.fromCity ? rowData.fromCity : '';
+      const fromDistrict = rowData.fromDistrict ? rowData.fromDistrict : '';
+      const fromCustomerAddress = rowData.fromCustomerAddress ? rowData.fromCustomerAddress : '';
+
+      const fromAddress = fromProvince + fromCity + fromDistrict + fromCustomerAddress;
+
+      const toProvince = rowData.toProvince ? rowData.toProvince : '';
+      const toCity = rowData.toCity ? rowData.toCity : '';
+      const toDistrict = rowData.toDistrict ? rowData.toDistrict : '';
+      const toCustomerAddress = rowData.toCustomerAddress ? rowData.toCustomerAddress : '';
+
+      const endAddress = toProvince + toCity + toDistrict + toCustomerAddress;
 
       const weight = rowData.weight ? rowData.weight + '吨' : '';
       const vol = rowData.volume ? rowData.volume + '方' : '';

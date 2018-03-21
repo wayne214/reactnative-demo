@@ -49,6 +49,12 @@ class GoodsInfo extends Component{
 	render() {
 		const {configData = {}, startAddress, endAddress} = this.props;
 		console.log('--configData', configData);
+
+		const goodsType = configData.goodsType ? configData.goodsType : '';
+		const goodsCategory = configData.goodsCategory ? configData.goodsCategory : '';
+		const weight = configData.weight ? configData.weight : '';
+		const uom = configData.uom ? configData.uom : '';
+		const goodDetail = goodsType + goodsCategory + weight + uom;
 		return (
 			<View style={styles.goodsContent}>
 
@@ -59,7 +65,7 @@ class GoodsInfo extends Component{
 					{/*<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>*/}
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物信息：</Text>
+						<Text style={styles.goodsDetailMark}>货物详情：{goodDetail }</Text>
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 
@@ -166,7 +172,6 @@ const styles = StyleSheet.create({
 	},
 	goodsInfo: {
 		margin: 15,
-		marginTop: 20
 	},
 	goodsInfoIcon:{
 		fontFamily: 'iconfont',
