@@ -377,7 +377,7 @@ class CarInfo extends Component {
                     hiddenBackIcon={false}
                     router={this.props.navigation}
                     optTitle='添加车辆'
-                    optTitleStyle={styles.rightButtonStyle}
+                    optTitleStyle={[styles.rightButtonStyle, {width: 100,textAlign: 'right'}]}
                     firstLevelClick={() => {
                         {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })*/}
                         Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {

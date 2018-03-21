@@ -574,12 +574,16 @@ class certification extends Component {
         result.gdrivingLicenseUrlThumbnailAddress = this.state.vehicleLicenseVicePageThumbnailAddress;//挂车行驶证缩略图路径
 
 
-        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE, params:{
-            result: result,
-            image1: this.state.travelRightImage.uri,
-            image2: this.state.travelTrunRightImage.uri
-        }});
+        // this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE, params:{
+        //     result: result,
+        //     image1: this.state.travelRightImage.uri,
+        //     image2: this.state.travelTrunRightImage.uri
+        // }});
 
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE,
+            params:{
+                result : result
+            }})
 
 
     }
