@@ -331,7 +331,7 @@ class ShowESignInfoContainer extends BaseComponent {
 	}
 }
 const mapStateToProps = state => {
-	const { app ,eSign} = state;
+	const { app ,eSign, user} = state;
 	return {
 		user: app.get('user'),
 		loading: app.get('loading'),
@@ -345,6 +345,7 @@ const mapStateToProps = state => {
     sealHtext: eSign.get('sealHtext'),
     sealQtext: eSign.get('sealQtext'),
       sealTemplate: eSign.get('sealTemplate'),
+      companyInfo: user.get('companyInfo')
 	}
 }
 
