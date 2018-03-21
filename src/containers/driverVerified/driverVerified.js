@@ -917,6 +917,8 @@ class Verified extends Component {
                 }
 
 
+                DeviceEventEmitter.emit('verifiedSuccess');
+
                 if (this.props.navigation.state.params && this.props.navigation.state.params.type){
 
 
