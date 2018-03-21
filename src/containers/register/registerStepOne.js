@@ -295,7 +295,7 @@ class RegisterStepOne extends Component {
                                     if (Validator.isPhoneNumber(phoneNum)) {
                                         this.registeredIdentityCode(shouldStartCountting)
                                     } else {
-                                        Toast.showShortCenter('手机号输入有误，请重新输入');
+                                        Toast.show('手机号输入有误，请重新输入');
                                         shouldStartCountting(false);
                                     }
                                 }}
@@ -385,12 +385,13 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_UAM_REGISTER_IDENTIFY_CODE,
                 success: data => {
                     shouldStartCountting(true);
-                    Toast.showShortCenter('验证码已发送');
+                    Toast.show('验证码已发送');
                     dispatch(registeredIdentityCodeAction(data));
                 },
-                fail: data => {
+                fail: error => {
+                    console.log('--register', error);
                     shouldStartCountting(false);
-                    Toast.showShortCenter(data.message);
+                    Toast.show(error.message);
                 }
             }))
         },
@@ -401,10 +402,10 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_UAM_REGISTER,
                 success: data => {
                     registerAccountSucCallBack()
-                    Toast.showShortCenter('注册成功');
+                    Toast.show('注册成功');
                 },
                 fail: data => {
-                    Toast.showShortCenter(data.message);
+                    Toast.show(data.message);
                 }
             }))
         }
