@@ -114,7 +114,7 @@ class carrerListItem extends Component{
                             </View>
                         </View>
                         {
-                            rowData.configFreight && <View style={{width: 100,flexDirection: 'row'}}>
+                            rowData.configFreight ? <View style={{width: 100,flexDirection: 'row'}}>
                                 <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
                                 <View style={{justifyContent: 'center',width: 80}}>
                                     <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.configFreight}</Text>
@@ -122,7 +122,7 @@ class carrerListItem extends Component{
                                 <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
                                     <Text style={{}}>元</Text>
                                 </View>
-                            </View>
+                            </View> : null
                         }
                     </View>
                 }
