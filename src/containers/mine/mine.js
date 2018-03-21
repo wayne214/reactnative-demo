@@ -753,7 +753,7 @@ class mine extends Component {
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
-
+debugger
                                         if (this.state.certificationState == '1202' || this.state.certificationState == '1200') {
                                             if (this.props.plateNumberObj) {
                                                 if (this.props.plateNumberObj.size === 0 || this.props.plateNumberObj.carStatus && this.props.plateNumberObj.carStatus === 20 || this.props.plateNumberObj.carStatus === 0) {
@@ -775,7 +775,12 @@ class mine extends Component {
                                         }
                                         if (this.state.certificationState === '1201' || this.state.certificationState === '1203') {
                                             this.props.navigation.dispatch({
-                                                type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL
+                                                type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL,
+                                                params:{
+                                                    phone:global.phone,
+                                                    plateNumber:global.plateNumber
+                                                }
+
                                             })
                                         }
 
