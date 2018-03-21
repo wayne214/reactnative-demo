@@ -33,8 +33,8 @@ class UserInfoContainer extends BaseComponent {
 
 	_authOrInfo() {
 		const ownerStatus = this.props.ownerStatus;
-		// const currentStatus = this.props.currentStatus;
-		const currentStatus = 'personalOwner';
+		const currentStatus = this.props.currentStatus;
+		// const currentStatus = 'personalOwner';
         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
 

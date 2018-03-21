@@ -44,7 +44,9 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setCurrentCharacterAction,
-    saveUserTypeInfoAction
+    saveUserTypeInfoAction,
+    saveCompanyInfoAction,
+    setCompanyCodeAction,
 } from '../../action/user';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import * as RouteType from '../../constants/routeType';
@@ -592,6 +594,7 @@ class companyCarOwnerAuth extends Component {
     }
 
     uploadData(){
+
         currentTime = new Date().getTime();
 
         console.log('法人身份证名字',this.state.IDName);
@@ -1018,6 +1021,16 @@ function mapDispatchToProps (dispatch){
         saveUserTypeInfoAction:(result)=>{
             dispatch(saveUserTypeInfoAction(result));
         },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
+
     };
 }
 

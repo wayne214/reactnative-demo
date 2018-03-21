@@ -28,7 +28,7 @@ import { fetchData, appendLogToFile, changeTab } from '../../action/app.js'
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
-import Toast from 'react-native-root-toast'
+import Toast from '../../utils/toast';
 import LoadingView from '../../utils/loading';
 
 
@@ -263,14 +263,15 @@ class GoodsList extends Component {
                         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
                         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
                         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
-                        //switch (this.props.ownerStatus){
-                        switch ('12'){
-                            case '11' || '21':
+                       debugger
+                        switch (this.props.ownerStatus){
+                            case '11':
+                            case '21':
                                 Toast.show('车主身份正在认证中，如需帮助请联系客服');
 
-                                return;
                                 break;
-                            case '13' || '23':{
+                            case '13' :
+                            case '23' :
 
                                 if (this.props.currentStatus === 'personalOwner'){
                                     this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
@@ -280,15 +281,15 @@ class GoodsList extends Component {
                                     this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
                                 }
 
-                                return;
-                            }
+
                                 break;
-                            case '14' || '24':
+                            case '14':
+                            case '24':
                                 Toast.show('车主身份已经被禁用，如需帮助请联系客服');
 
-                                return;
-
-                            case '12' || '22':
+                                break;
+                            case '12':
+                            case '22':
                                 console.log('item.carrierPrice', item.item.carrierPrice);
                                 if (!item.item.carrierPrice) {
                                     this.props.navigation.dispatch({

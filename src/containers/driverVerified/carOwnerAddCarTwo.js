@@ -535,11 +535,11 @@ class certification extends Component {
             return;
         }
 
-        if (this.state.carAllowNumber === '') {
-            Toast.showShortCenter('请输入运输许可证号');
-            return;
-        }
 
+        // if (this.state.carAllowNumber === '') {
+        //     Toast.showShortCenter('请输入运输许可证号');
+        //     return;
+        // }
 
         /*
         if (this.state.carNumber === '') {
