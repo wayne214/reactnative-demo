@@ -124,7 +124,6 @@ const initState = Immutable.fromJS({
     gameUrl: '',
     hotLine: 'tel:4006635656',
     insiteNotice: '',//站内公告
-    locationData: '定位中',
     getHomePageCount: {}, // 首页状态数量
     getCarrierHomePageCount: {}, // 首页状态数量
     versionUrl: '', // 版本地址

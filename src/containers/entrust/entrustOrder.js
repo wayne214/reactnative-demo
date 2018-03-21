@@ -9,7 +9,8 @@ import {
 	ListView,
 	Image,
 	Dimensions,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+		Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
@@ -33,10 +34,18 @@ class EntrustOrderList extends BaseComponent {
 	  super(props);
 	  this._refreshList = this._refreshList.bind(this)
 	  this.state = {
-	  	activeTab: 0
+	  	activeTab: 0,
+      showAlert: true,
 	  }
 	}
 	componentDidMount() {
+		setTimeout(()=> {
+			this.setState({
+					showAlert: false
+			})
+		}, 3000);
+
+
 		super.componentDidMount();
       this.refreshListener = DeviceEventEmitter.addListener('reloadDispatchList', () => {
           this._refreshList(true);
@@ -133,9 +142,16 @@ class EntrustOrderList extends BaseComponent {
 						tabBarActiveTextColor={COLOR.APP_THEME}
 						tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
 						tabBarTextStyle={{fontSize:15}}>
+						<View tabLabel={'接单'} style={{flex: 1}}>
+								{
+										this.state.showAlert ? <View style={{height: 65, backgroundColor: '#FFFAF4', justifyContent: 'center', paddingHorizontal: 15}}>
+											<Text style={{fontSize: 14, color: '#FF8500'}}>
+											优先抢单倒计时结束后，该订单将被所有承运商看到，即时您将失去优先抢单的机会，要抓紧时间哦
+										</Text></View> : null
+								}
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'接单'}
+						// 	tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
@@ -199,7 +215,7 @@ class EntrustOrderList extends BaseComponent {
                  //    size: 10,
 								// })
 							}}/>
-
+						</View>
 						<EntrustOrderListItem
 							{...this.props}
 							tabLabel={'调度'}
@@ -224,11 +240,28 @@ class EntrustOrderList extends BaseComponent {
 								{/*}*/}
 							}}
 							dispatchCar={(data)=>{
-								console.log('dispatchCar', data);
-                  this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_ARRANGE_CAR_LIST,
-                      params: {data, title: '选择车辆'}
-                  })
+								console.log('dispatchCar', data.carNo);
+								   if (data.carNo) {
+								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改掉其他车辆？',
+												[
+														{text: '取消',onPress: () => {
+															console.log('取消');
+														}},
+														{
+															text: '确定', onPress: () => {
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_ARRANGE_CAR_LIST,
+                                    params: {data, title: '选择车辆'}
+                                })
+														}
+														}
+												])
+									 } else {
+                       this.props.navigation.dispatch({
+                           type: RouteType.ROUTE_ARRANGE_CAR_LIST,
+                           params: {data, title: '选择车辆'}
+                       })
+									 }
 								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
                  //  this.props.navigation.dispatch({
                  //    type: RouteType.ROUTE_DISPATCH_CAR,
@@ -236,10 +269,10 @@ class EntrustOrderList extends BaseComponent {
                  //  })
 								// })
 							}}
-							deleteOrderUndispatch={(goodsId)=>{
-								console.log(" ======= delete cilck ");
-								this.props._deleteOrderUndispatch(goodsId)
-							}}
+						// 	deleteOrderUndispatch={(goodsId)=>{
+						// 		console.log(" ======= delete cilck ");
+						// 		this.props._deleteOrderUndispatch(goodsId)
+						// 	}}
 							loadMoreAction={()=>{
 								// this.props._getEntrustOrderUndispatch({
 								// // 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,

@@ -290,7 +290,9 @@ class Login extends BaseComponent {
     render() {
         const {phoneNumber, password} = this.state;
         return (
-            <View style={styles.container}>
+            <ScrollView
+                ref = 'scrollViewLogin'
+                style={styles.container}>
                 <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
                 <KeyboardAwareScrollView
                     scrollOffset = {50}
@@ -308,6 +310,9 @@ class Login extends BaseComponent {
                                 textAlign="left"
                                 keyboardType="numeric"
                                 style={styles.textInput}
+                                onFocus={()=>{
+                                   this.refs.scrollViewLogin.scrollTo({x: 0, y: 100, animated: true})
+                                }}
                                 onChangeText={(phoneNumber) => {
                                     this.setState({phoneNumber});
                                 }}
@@ -401,7 +406,7 @@ class Login extends BaseComponent {
                 {/*{*/}
                     {/*this.state.loading ? <Loading/> : null*/}
                 {/*}*/}
-            </View>
+            </ScrollView>
         );
     }
 }

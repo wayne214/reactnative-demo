@@ -75,22 +75,35 @@ class arrangeDriverList extends Component {
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
         console.log('----para', para);
-        const api = para.orderState == '60' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR
-        this.props._disPatchCar({
-            carId: driverOption.carId, // 车辆id
-            carLen: driverOption.carLen, // 车辆长度
-            carNo: driverOption.carNum, // 车辆牌号
-            carType: para.carType, // 车辆类型
-            carrierName: global.ownerName, //承运商名字
-            carryCapacity: driverOption.carryCapacity, // 车辆载重
-            companyCode: global.companyCode, // 承运商code
-            companyPhone: global.phone, // 承运商手机号
-            driverId: driver.id, // 司机id
-            driverName: driver.driverName, // 司机姓名
-            driverPhone: driver.driverPhone, // 司机手机号
-            orderSource: 1, // 订单来源： 1.交易中心 2.调度中心
-            resourceCode: para.resourceCode // 货源id
-        }, callback, api);
+        const api = para.orderState == '60' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR;
+
+        Alert.alert('',
+            '您是否选择：'+'\n' + `${driverOption.carNum}` + `驾驶司机${driver.driverName}，`  + '作为本次运输的车辆和司机',
+            [
+                {
+                    text: '取消', onPress: () => {console.log('取消')},
+                },
+                {
+                    text: '确定', onPress: () => {
+                        this.props._disPatchCar({
+                            carId: driverOption.carId, // 车辆id
+                            carLen: driverOption.carLen, // 车辆长度
+                            carNo: driverOption.carNum, // 车辆牌号
+                            carType: para.carType, // 车辆类型
+                            carrierName: global.ownerName, //承运商名字
+                            carryCapacity: driverOption.carryCapacity, // 车辆载重
+                            companyCode: global.companyCode, // 承运商code
+                            companyPhone: global.phone, // 承运商手机号
+                            driverId: driver.id, // 司机id
+                            driverName: driver.driverName, // 司机姓名
+                            driverPhone: driver.driverPhone, // 司机手机号
+                            orderSource: 1, // 订单来源： 1.交易中心 2.调度中心
+                            resourceCode: para.resourceCode // 货源id
+                            }, callback, api);
+                    }
+                }
+            ]
+            );
     }
 
     renderListEmpty() {
