@@ -15,7 +15,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import styles from '../../../assets/css/setting';
 import Button from '../../components/common/button';
 import User from '../../models/user';
-import {fetchData, receiverAlias} from '../../action/app';
+import {fetchData, receiverAlias, getHomePageCountAction} from '../../action/app';
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import JPushModule from 'jpush-react-native';
@@ -101,8 +101,8 @@ class SettingContainer extends BaseComponent {
 					startTime = new Date().getTime()
 
             this.loginOut();
-            this.props.removeUserInfoAction();
-
+			this.props.getHomoPageCountAction({});
+			this.props.removeUserInfoAction();
             this.props.navigation.dispatch({
 								type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
 								mode: 'reset',
@@ -315,7 +315,9 @@ function mapDispatchToProps (dispatch) {
       removeUserInfoAction:()=>{
           dispatch(clearUser());
       },
-
+        getHomoPageCountAction: (response) => {
+            dispatch(getHomePageCountAction(response));
+        },
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer);
