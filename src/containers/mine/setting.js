@@ -33,6 +33,10 @@ import {
     refreshDriverOrderList,
 } from '../../action/driverOrder'
 
+import {
+    voiceSpeechAction,
+} from '../../action/app'
+
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
@@ -160,7 +164,7 @@ class setting extends Component {
         this.setState({
             speechSwitch: value,
         });
-        // this.props.speechSwitchAction(value);
+        this.props.speechSwitchAction(value);
     }
     /*通知开关状态改变*/
     valueChange(value) {
@@ -233,7 +237,7 @@ class setting extends Component {
 
 function mapStateToProps(state) {
     return {
-        speechSwitchStatus: state.app.get('speechSwitchStatus'),
+        speechSwitchStatus: state.user.get('speechSwitchStatus'),
         homePageState: state.app.get('getHomePageCount'),
         currentStatus: state.user.get('currentStatus'),
     };
@@ -244,9 +248,9 @@ function mapDispatchToProps(dispatch) {
         removeUserInfoAction:()=>{
             dispatch(clearUser());
         },
-        // speechSwitchAction:(data)=>{
-        //     dispatch(voiceSpeechAction(data));
-        // },
+        speechSwitchAction:(data)=>{
+            dispatch(voiceSpeechAction(data));
+        },
         // reloadHomePageNum:()=>{
         //     dispatch(getHomePageCountAction(null));
         // },
@@ -293,6 +297,7 @@ function mapDispatchToProps(dispatch) {
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
         },
+
     };
 }
 
