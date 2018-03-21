@@ -13,6 +13,7 @@ import {
     Image,
     Alert,
     DeviceEventEmitter,
+    ScrollView
 } from 'react-native';
 import Toast from '@remobile/react-native-toast';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
@@ -24,7 +25,6 @@ import {refreshDriverOrderList} from '../../action/driverOrder';
 import Validator from '../../utils/validator';
 import gps from '../../../assets/img/scan/gps.png'
 import Rectangle from '../../../assets/img/scan/Rectangle.png'
-const {height} = Dimensions.get('window');
 class bindGPS extends Component {
     constructor(props) {
         super(props);
@@ -96,61 +96,58 @@ class bindGPS extends Component {
         const navigator = this.props.navigation;
         const {barCode} = this.state;
         return (
-            <View style={{flex: 1, justifyContent:'space-between'}}>
-                <View style={styles.container}>
-                    <NavigatorBar
-                        title={'绑定GPS设备'}
-                        hiddenBackIcon={false}
-                        router={navigator}
+            <View style={styles.container}>
+                <NavigatorBar
+                    title={'绑定GPS设备'}
+                    hiddenBackIcon={false}
+                    router={navigator}
+                />
+                <ScrollView style={{flex: 1,}}>
+                    <Image
+                        style={styles.icon}
+                        source={gps}
                     />
-                    <View style={{flex: 1}}>
-                        <Image
-                            style={styles.icon}
-                            source={gps}
+                    <Image
+                        style={styles.inputView}
+                        source={Rectangle}
+                    >
+                        <TextInput
+                            style={{
+                                backgroundColor: StaticColor.WHITE_COLOR,
+                                marginLeft: 5,
+                                marginRight: 5,
+                                marginTop: 5,
+                                marginBottom: 5,
+                                height: 40,
+                                textAlign: 'center',
+                                color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
+                                fontSize: 16,
+                            }}
+                            onChangeText={(barCode) => {
+                                if(barCode && !Validator.isGpsCode(barCode)){
+                                    return Toast.showShortCenter('请您输入正确的格式');
+                                }
+                                this.setState({barCode: barCode.toUpperCase()});
+                            }}
+                            value={barCode}
+                            placeholder={'请确认您输入了正确的GPS设备编号'}
+                            placeholderTextColor={StaticColor.LIGHT_GRAY_TEXT_COLOR}
+                            underlineColorAndroid={'transparent'}
                         />
-                        <Image
-                            style={styles.inputView}
-                            source={Rectangle}
-                        >
-                            <TextInput
-                                style={{
-                                    backgroundColor: StaticColor.WHITE_COLOR,
-                                    marginLeft: 5,
-                                    marginRight: 5,
-                                    marginTop: 5,
-                                    marginBottom: 5,
-                                    height: 40,
-                                    textAlign: 'center',
-                                    color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
-                                    fontSize: 16,
-                                }}
-                                onChangeText={(barCode) => {
-                                    if(barCode && !Validator.isGpsCode(barCode)){
-                                        return Toast.showShortCenter('请您输入正确的格式');
-                                    }
-                                    this.setState({barCode: barCode.toUpperCase()});
-                                }}
-                                value={barCode}
-                                placeholder={'请确认您输入了正确的GPS设备编号'}
-                                placeholderTextColor={StaticColor.LIGHT_GRAY_TEXT_COLOR}
-                                underlineColorAndroid={'transparent'}
-                            />
-                        </Image>
-                        <Text style={styles.tip}>请注意区分字母大小写</Text>
-                    </View>
-                </View>
-                <View>
-                    <BottomButton
-                        onClick={() => {
-                            if(!this.state.barCode) {
-                                Toast.showShortCenter('GPS编号不能为空');
-                                return;
-                            }
-                            this.getGPSDetails();
-                        }}
-                        text="确认"
-                    />
-                </View>
+                    </Image>
+                    <Text style={styles.tip}>请注意区分字母大小写</Text>
+                </ScrollView>
+                <BottomButton
+                    style={{position: 'absolute', bottom: 0, left: 0}}
+                    onClick={() => {
+                        if(!this.state.barCode) {
+                            Toast.showShortCenter('GPS编号不能为空');
+                            return;
+                        }
+                        this.getGPSDetails();
+                    }}
+                    text="确认"
+                />
             </View>
         );
     }
