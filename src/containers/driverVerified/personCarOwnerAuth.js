@@ -45,7 +45,9 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setCurrentCharacterAction,
-    saveUserTypeInfoAction
+    saveUserTypeInfoAction,
+    saveCompanyInfoAction,
+    setCompanyCodeAction,
 } from '../../action/user';
 
 
@@ -678,6 +680,7 @@ class personCarOwnerAuth extends Component {
             return;
         }
 
+        debugger
         if (!this.state.carVin){
             Toast.showShortCenter('请输入车辆识别代码');
             return;
@@ -1047,7 +1050,16 @@ function mapDispatchToProps (dispatch){
                 },
             }))
         },
-        saveUserTypeInfoAction:(result)=>{
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserTypeInfoAction: (result) => {
             dispatch(saveUserTypeInfoAction(result));
         },
     };

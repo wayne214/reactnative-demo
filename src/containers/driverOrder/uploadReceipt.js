@@ -120,6 +120,7 @@ class UploadReceipt extends Component {
             transCode: params.transCode,
             receiptWay: params.receiptWay,
             loading: false,
+            flag: params.flag
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -353,9 +354,12 @@ class UploadReceipt extends Component {
                         }
                     }}
                 />
-                <View style={{marginTop: 10, marginBottom: 10}}>
-                    <CommonCell itemName={`签单返回：${this.state.receiptWay}`}titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}} hideBottomLine={true}/>
-                </View>
+                {
+                    this.state.flag == 1 ? null : <View style={{marginTop: 10, marginBottom: 10}}>
+                        <CommonCell itemName={`签单返回：${this.state.receiptWay}`} titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}} hideBottomLine={true}/>
+                    </View>
+                }
+
                 <View style={{backgroundColor: StaticColor.WHITE_COLOR}}>
                     <CommonCell itemName="上传回单" titleColorStyle={{color:StaticColor.LIGHT_BLACK_TEXT_COLOR}}/>
                     <View style={styles.imageLayout}>

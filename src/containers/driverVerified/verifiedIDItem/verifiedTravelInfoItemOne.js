@@ -73,12 +73,12 @@ class verifiedTravelInfoItemOne extends Component{
     }
     /*输入车辆识别代码*/
     carVinValueChange(text){
-        this.props.carOwnerChange(text);
+        this.props.carVinChange(text);
     }
 
     /*输入发动机编号*/
     codeValueChange(text){
-        this.props.carVinChange(text);
+        this.props.carEngineNumberChange(text);
     }
 
     /*获得焦点*/
@@ -143,7 +143,7 @@ class verifiedTravelInfoItemOne extends Component{
                                     this.setState({
                                         carVin: text,
                                     });
-                                    this.ownValueChange(text);
+                                    this.carVinValueChange(text);
 
                                }}
                                onFocus={()=>{

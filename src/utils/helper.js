@@ -371,11 +371,11 @@ class HelperUtil {
             case '10':
                 return '未发车';
             case '20':
-                return '在途';
+                return '待确认收货';
             case '30':
                 return '已到站';
             case '32':
-                return '待回单';
+                return '待上传回执单';
             case '40':
                 return '已完成';
             case '1':

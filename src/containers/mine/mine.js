@@ -341,6 +341,7 @@ class mine extends Component {
         }
     }
     getVerfiedStateSucCallback(result) {
+
         console.log('verfiedcall', result);
 
         lastTime = new Date().getTime();
@@ -724,6 +725,8 @@ class mine extends Component {
                                 authenticationStatus={this.state.verifiedState}
                                 showBottomLine={true}
                                 clickAction={() => {
+                                     // driverStatus ： 1 司机认证中     2 司机认证通过     3 司机认证驳回  4 司机被禁用
+
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
                                         if (this.state.verifiedState == '1200' || this.state.verifiedState == '1202') {
@@ -920,6 +923,7 @@ class mine extends Component {
 }
 
 function mapStateToProps(state) {
+
     return {
         userInfo: state.user.get('userInfo'),
         userName: state.user.get('userName'),
