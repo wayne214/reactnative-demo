@@ -311,7 +311,6 @@ class Login extends BaseComponent {
                                 style={styles.textInput}
                                 onFocus={()=>{
                                    this.refs.scrollViewLogin.scrollTo({x: 0, y: 100, animated: true})
-
                                 }}
                                 onChangeText={(phoneNumber) => {
                                     this.setState({phoneNumber});

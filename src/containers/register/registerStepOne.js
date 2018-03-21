@@ -14,7 +14,7 @@ import {
     Alert
 } from 'react-native';
 import Button from 'apsl-react-native-button';
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import Loading from '../../utils/loading';
 import NavigatorBar from '../../components/common/navigatorbar';
