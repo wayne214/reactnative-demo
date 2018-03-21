@@ -50,8 +50,20 @@ class orderDetailEntry extends BaseComponent {
 		const {orderDetailData} = this.props;
 		console.log('---orderDetail', orderDetailData);
 
-      const fromAddress = orderDetailData.fromProvince + orderDetailData.fromCity + orderDetailData.fromCustomerAddress + orderDetailData.fromDistrict;
-      const endAddress = orderDetailData.toProvince + orderDetailData.toCity + orderDetailData.toCustomerAddress + orderDetailData.toDistrict;
+			const fromProvince = orderDetailData.fromProvince ? orderDetailData.fromProvince : '';
+			const fromCity = orderDetailData.fromCity ? orderDetailData.fromCity : '';
+      const fromDistrict = orderDetailData.fromDistrict ? orderDetailData.fromDistrict : '';
+			const fromCustomerAddress = orderDetailData.fromCustomerAddress ? orderDetailData.fromCustomerAddress : '';
+
+
+      const fromAddress = fromProvince + fromCity + fromDistrict + fromCustomerAddress;
+
+      const toProvince = orderDetailData.toProvince ? orderDetailData.toProvince : '';
+      const toCity = orderDetailData.toCity ? orderDetailData.toCity : '';
+      const toDistrict = orderDetailData.toDistrict ? orderDetailData.toDistrict : '';
+      const toCustomerAddress = orderDetailData.toCustomerAddress ? orderDetailData.toCustomerAddress : '';
+
+      const endAddress = toProvince + toCity + toDistrict + toCustomerAddress;
 
       const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
       	console.log('--goodInfo', item);
@@ -75,6 +87,10 @@ class orderDetailEntry extends BaseComponent {
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装  货  点：'}</Text>
 								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingPoint}</Text>
+							</View>
+
+							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center', paddingLeft: 10}}>
+								<Text>货品信息</Text>
 							</View>
 							{
                   goodInfo
