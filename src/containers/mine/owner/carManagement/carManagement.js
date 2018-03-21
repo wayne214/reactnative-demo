@@ -238,12 +238,21 @@ class CarManagement extends Component {
                 scroll={event => console.log('scroll event')}
             >
                 <TouchableOpacity onPress={() => {
-                    // TODO 跳转至认证详情页面
-                    this.props.navigation.navigate('CerifiedStatePage', {
-                        phone: item.carPhone,
-                        plateNumber: item.carNum
 
-                    });
+
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_DETAIL,params:{
+                            phone:item.carPhone,
+                            plateNumber:item.carNum
+                        }
+                    })
+
+
+
+
+
+
+
                 }}>
 
                     <View style={{paddingLeft: 10, backgroundColor: '#ffffff'}}>

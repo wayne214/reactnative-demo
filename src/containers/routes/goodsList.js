@@ -47,6 +47,8 @@ import bannerImage1 from '../../../assets/home/banner1.png';
 import bannerImage2 from '../../../assets/home/banner2.png';
 import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
 import StorageKey from '../../constants/storageKeys';
+import Storage from '../../utils/storage';
+
 import {
     WHITE_COLOR,
     BLUE_CONTACT_COLOR,
@@ -345,13 +347,15 @@ class GoodsList extends Component {
                     this.props.setDriverCharacterAction('3');
                 }
                 if (result.certificationStatus == '1203') {
+
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+
                         if (value) {
 
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                 params: {
-                                    resultInfo: value,
+                                    phone: global.phone,//global.phone
                                     commitSuccess: () => {
                                         this.setState({
                                             bubbleSwitch: false,
@@ -365,9 +369,11 @@ class GoodsList extends Component {
                         } else {
 
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                 params: {
+                                    phone: global.phone,//global.phone
                                     commitSuccess: () => {
+
                                         this.setState({
                                             bubbleSwitch: false,
                                             show: false,
@@ -385,6 +391,7 @@ class GoodsList extends Component {
                     })
 
                 } else {
+
                     this.props.setCurrentCharacterAction('driver');
                     this.props.dispatch(changeTab('Home'));
                     this.setState({
@@ -394,9 +401,11 @@ class GoodsList extends Component {
                 }
             }
         } else {
+
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
+                    phone: global.phone,//global.phone
                     commitSuccess: () => {
                         this.setState({
                             bubbleSwitch: false,

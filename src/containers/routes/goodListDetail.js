@@ -248,6 +248,7 @@ class goodListDetail extends Component {
 
                     <GoodsDetailMoney norMoney={this.state.result.configFreight}
                                       moneyChange={(money)=>{
+
                                          this.setState({money});
                                      }}/>
 

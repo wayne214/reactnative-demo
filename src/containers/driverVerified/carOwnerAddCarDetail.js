@@ -106,7 +106,8 @@ class certificationState extends Component{
 
         this.getCurrentPosition();
 
-        this.getVerifiedDetail(global.userInfo.phone, global.plateNumber);
+
+        this.getVerifiedDetail(this.props.navigation.state.params.phone, this.props.navigation.state.params.plateNumber);
 
     }
     getDetailSuccessCallBack(result){

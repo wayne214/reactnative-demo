@@ -208,9 +208,15 @@ class DriverManagement extends Component {
         return (
             item.companyType == 1 ?
                 <TouchableOpacity onPress={()=>{
-                    this.props.navigation.navigate('VerifiedStatePage', {
-                        phone: item.driverPhone,
-                    });
+
+
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
+                                                phone: item.driverPhone,
+                                            } })
+
+
+
+
                 }}>
                     <View style={{paddingLeft: 10, backgroundColor: '#ffffff'}}>
                         <View style={{
@@ -327,7 +333,7 @@ class DriverManagement extends Component {
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params:{
                             qualifications: this.state.verifiedState,
-                            phone: 12356234,//global.phone
+                            phone: global.phone
                         } });
                     }}>
 
