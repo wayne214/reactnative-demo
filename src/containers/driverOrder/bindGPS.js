@@ -24,7 +24,7 @@ import {refreshDriverOrderList} from '../../action/driverOrder';
 import Validator from '../../utils/validator';
 import gps from '../../../assets/img/scan/gps.png'
 import Rectangle from '../../../assets/img/scan/Rectangle.png'
-
+const {height} = Dimensions.get('window');
 class bindGPS extends Component {
     constructor(props) {
         super(props);
@@ -136,9 +136,15 @@ class bindGPS extends Component {
                         />
                     </Image>
                     <Text style={styles.tip}>请注意区分字母大小写</Text>
+
                 </View>
                 <BottomButton
+                    // style={{position: 'absolute', bottom: 0, left: 0}}
                     onClick={() => {
+                        if(!this.state.barCode) {
+                            Toast.showShortCenter('GPS编号不能为空');
+                            return;
+                        }
                         this.getGPSDetails();
                     }}
                     text="确认"

@@ -28,6 +28,7 @@ import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
 import StorageKey from '../../constants/storageKeys';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import Validator from '../../utils/validator';
 import * as RouteType from '../../constants/routeType';
 
 import {
@@ -381,20 +382,24 @@ class UploadReceipt extends Component {
                             if (ClickUtil.onMultiClick()) {
                                 let formData = new FormData();
                                 this.props.imageList.map(i => {
-                                    console.log('i.id===',i.id);
                                     if (Platform.OS === 'ios'){
                                         if(i.uri.indexOf('file://') === -1){
                                             i.uri = 'file://' + i.uri;
                                         }
                                     }
-                                    let file = {uri: i.uri, type: 'multipart/form-data', name: i.id + '.jpg'};
+                                    if(Validator.isHasChinese(i.id)){
+                                        let reg = /[\u4e00-\u9fa5]/g;
+                                        i.id = i.id.replace(reg, 'receiptPhoto')
+                                    }
+                                    console.log('i.id===',i.id);
+                                    let file = {uri: i.uri, type: 'multipart/form-data', name: i.id};
                                     console.log('filePath===',file.uri);
                                     formData.append('photo', file);
                                 });
                                 formData.append('userId', userID);
                                 formData.append('userName', userName);
                                 formData.append('transCode', this.state.transCode);
-                                formData.append('receiptType', '纸质回单');
+                                formData.append('receiptType', this.state.receiptWay);
                                 const url = API.API_NEW_UPLOAD_RECEIPT;
                                 this.uploadImage(url, formData);
                             }
@@ -410,7 +415,8 @@ class UploadReceipt extends Component {
             </View>
         );
     }
-}function mapStateToProps(state){
+}
+function mapStateToProps(state){
     return {
         imageList: state.driverOrder.get('imageList'),
         maxNum: state.driverOrder.get('maxNum'),

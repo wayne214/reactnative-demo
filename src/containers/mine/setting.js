@@ -16,11 +16,9 @@ import NavigatorBar from '../../components/common/navigatorbar'
 import {
     clearUser,
 } from '../../action/user';
-// import {
-//     voiceSpeechAction,
-//     getHomePageCountAction,
-//     getCarrierHomoPageCountAction,
-// } from '../../action/app';
+import {
+    refreshDriverOrderList
+} from '../../action/driverOrder';
 import * as API from '../../constants/api';
 import JPushModule from 'jpush-react-native';
 // import {Geolocation} from 'react-native-baidu-map-xzx';
@@ -286,6 +284,9 @@ function mapDispatchToProps(dispatch) {
         },
         getHomoPageCountAction: (response) => {
             dispatch(getHomePageCountAction(response));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         },
     };
 }
