@@ -9,7 +9,8 @@ import {
 	ListView,
 	Image,
 	Dimensions,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+		Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
@@ -224,11 +225,28 @@ class EntrustOrderList extends BaseComponent {
 								{/*}*/}
 							}}
 							dispatchCar={(data)=>{
-								console.log('dispatchCar', data);
-                  this.props.navigation.dispatch({
-                      type: RouteType.ROUTE_ARRANGE_CAR_LIST,
-                      params: {data, title: '选择车辆'}
-                  })
+								console.log('dispatchCar', data.carNo);
+								   if (data.carNo) {
+								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改掉其他车辆？',
+												[
+														{text: '取消',onPress: () => {
+															console.log('取消');
+														}},
+														{
+															text: '确定', onPress: () => {
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_ARRANGE_CAR_LIST,
+                                    params: {data, title: '选择车辆'}
+                                })
+														}
+														}
+												])
+									 } else {
+                       this.props.navigation.dispatch({
+                           type: RouteType.ROUTE_ARRANGE_CAR_LIST,
+                           params: {data, title: '选择车辆'}
+                       })
+									 }
 								// this.props._getResourceState({goodsId: data.resourceId},(resourceState)=>{
                  //  this.props.navigation.dispatch({
                  //    type: RouteType.ROUTE_DISPATCH_CAR,
@@ -236,10 +254,10 @@ class EntrustOrderList extends BaseComponent {
                  //  })
 								// })
 							}}
-							deleteOrderUndispatch={(goodsId)=>{
-								console.log(" ======= delete cilck ");
-								this.props._deleteOrderUndispatch(goodsId)
-							}}
+						// 	deleteOrderUndispatch={(goodsId)=>{
+						// 		console.log(" ======= delete cilck ");
+						// 		this.props._deleteOrderUndispatch(goodsId)
+						// 	}}
 							loadMoreAction={()=>{
 								// this.props._getEntrustOrderUndispatch({
 								// // 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
