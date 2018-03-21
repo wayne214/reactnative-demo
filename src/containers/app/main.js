@@ -160,7 +160,7 @@ class MainContainer extends BaseComponent {
             }
         });
 
-        this._routeTab();
+        // this._routeTab();
         console.log('------aaa', this.props);
         // JPush
         if (IS_IOS) {
@@ -193,19 +193,6 @@ class MainContainer extends BaseComponent {
             // show float dialog
             this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
         }
-        //
-        // const userTypeInfo = await Storage.get(StorageKey.USER_TYPE_INFO);
-        //
-        // if (!userTypeInfo) {
-        //     this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
-        // }else{
-        //     const current = global.currentStatus == 'driver' ? 'Home' : 'goods';
-        //
-        //     this.props.dispatch(changeTab('driver'))
-        //     this.props.navigation.setParams({ currentTab: 'driver', title: '' })
-        // }
-
-
         const { user } = this.props;
         if (!user || !user.userId) {
             this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
@@ -214,15 +201,11 @@ class MainContainer extends BaseComponent {
                 LoginCharacter.setCharacter(this.props, this.props.userTypeInfo, 'main');
             }
         }
-
-
+        this._routeTab();
         this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: 2 })
-
         this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
             this._getCurrentPosition();
         })
-
-
         // Geolocation.requestAuthorization()
         Geolocation.getCurrentPosition(location => {
             const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)

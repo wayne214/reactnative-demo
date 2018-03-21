@@ -75,7 +75,8 @@ class signSuccess extends Component {
                               this.props.navigation.dispatch({
                                   type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
                                   params: {
-                                      transCode: this.state.orderID
+                                      transCode: this.state.orderID,
+                                      receiptWay: this.state.receiptWay
                                   }
                               });
                           }}

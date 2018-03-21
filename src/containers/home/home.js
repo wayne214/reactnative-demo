@@ -571,7 +571,10 @@ class Home extends Component {
         this.getHomePageCount(this.props.plateNumber, userInfo.phone);
         this.saveUserCarInfo(this.props.plateNumberObj);
         Storage.save('setCarSuccessFlag', '2');
-        DeviceEventEmitter.emit('updateOrderList');
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
+        this.props._refreshOrderList(2);
+        this.props._refreshOrderList(3);
         DeviceEventEmitter.emit('resetGood');
     }
 
