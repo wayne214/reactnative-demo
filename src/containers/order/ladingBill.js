@@ -93,7 +93,8 @@ class LadingBill extends Component {
 		})
 
 		const imagePathes = images.map((item,index)=>{
-			return item
+		// 	return HelperUtil.getFullImgPath(item, width * 2,height)
+				return item
 		})
 		return <View style={styles.container}>
 
