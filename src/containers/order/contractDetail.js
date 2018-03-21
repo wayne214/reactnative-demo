@@ -36,8 +36,8 @@ class ContractDetail extends BaseComponent {
 	  if (params.isTemplate) {
 	  	uri = CONTRACT_TEMPLATE_URL
 	  }else {
-	  	 //uri = params.templateUrl;
-	  	uri = 'http://order-contract-test.oss-cn-beijing.aliyuncs.com/WT180307000006/CC180307000006.pdf';
+	  	 uri = params.templateUrl;
+	  	// uri = 'http://order-contract-test.oss-cn-beijing.aliyuncs.com/WT180307000006/CC180307000006.pdf';
 		}
 	  this.state = {
 	  	uri,

@@ -400,8 +400,8 @@ class UploadReceipt extends Component {
                                     console.log('filePath===',file.uri);
                                     formData.append('photo', file);
                                 });
-                                formData.append('userId', userID);
-                                formData.append('userName', userName);
+                                formData.append('userId', this.state.flag == 1 ? global.companyId : userID);
+                                formData.append('userName', this.state.flag == 1 ? global.ownerName : userName);
                                 formData.append('transCode', this.state.transCode);
                                 formData.append('receiptType', this.state.receiptWay);
                                 const url = API.API_NEW_UPLOAD_RECEIPT;

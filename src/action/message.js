@@ -60,3 +60,10 @@ export function dispatchClearAllSeclected(params) {
 		payload: params
 	}
 }
+
+export function refreshList(params) {
+    return{
+        type: ActionTypes.ACTION_CLEAR_ALL_MESSAGE,
+        payload: params
+    }
+}

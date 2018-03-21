@@ -20,6 +20,10 @@ export default (state = initState, action) => {
 	let tmpMsgList = [];
 	switch(action.type) {
 		case ActionTypes.ACTION_SYSTEM_MESSAGE:
+        if(action.payload.pageNo === 1) {
+            tmpMsgList = [];
+        }
+
 			if (action.payload.pageNo !== 1) {
 				tmpMsgList = state.getIn(['msg', 'msgs']).toArray();
 				if (tmpMsgList.length > 0) newState = newState.set('isCheckedAll', false); 
@@ -40,7 +44,7 @@ export default (state = initState, action) => {
 			newState = newState.set('isEndReached', false);
 			newState = newState.set('isRefreshMsg', false);
 			
-			if (tmpMsgList.length === action.payload.data.total) newState = newState.set('hasMore', false);
+			if (tmpMsgList.length < 10) newState = newState.set('hasMore', false);
 			newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS(tmpMsgList));
 			return newState;
 		case ActionTypes.MSG_SELECT_ONE_OF_DATAS:
@@ -102,6 +106,10 @@ export default (state = initState, action) => {
 			return newState;
 
 		case ActionTypes.ACTION_WEB_MSG_LIST:
+			if(action.payload.pageNo === 1) {
+          tmpMsgList = [];
+			}
+
 			if (action.payload.pageNo !== 1) {
 				tmpMsgList = state.getIn(['msg', 'msgs']).toArray();
 				if (tmpMsgList.length > 0) newState = newState.set('isCheckedAll', false); 
@@ -119,7 +127,7 @@ export default (state = initState, action) => {
 			newState = newState.set('isEndReached', false);
 			newState = newState.set('isRefreshMsg', false);
 			newState = newState.set('hasMore', true);
-			if (action.payload.data.pages - action.payload.pageNo === 0) newState = newState.set('hasMore', false);
+			if (action.payload.data.list.length < 10) newState = newState.set('hasMore', false);
 			newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS(tmpMsgList));		
 			return newState;
 
@@ -149,7 +157,9 @@ export default (state = initState, action) => {
  			newState = newState.set('isCheckedAll', false);
  			newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS(selectMsg));							
 			return newState;
-
+      case ActionTypes.ACTION_CLEAR_ALL_MESSAGE:
+          newState = newState.setIn(['msg', 'msgs'], Immutable.fromJS([]));
+          return newState;
 		default:
 			return state;
 	}

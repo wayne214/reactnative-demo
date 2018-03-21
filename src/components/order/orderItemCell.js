@@ -152,6 +152,7 @@ class orderItemCell extends Component{
                                                                 params: {
                                                                     title: '出库单',
                                                                     orderNoBase: rowData.deliveryno,
+                                                                    // orderNoBase: 'WT180321000085',
                                                                     images: []
                                                                 }
                                                             })
@@ -161,14 +162,15 @@ class orderItemCell extends Component{
 								}
 
 								{
-										(rowData.businessType && rowData.businessType == '501') && rowData.state == '32' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+										(rowData.businessType && rowData.businessType == '501') && rowData.state == '20' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																	textStyle={{fontSize: 14,color: '#333333'}}
 																	onPress={()=>{
                                       console.log("------ 上传回执单",rowData);
                                       this.props.navigation.dispatch({
                                           type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
                                           params: {
-                                              transCode: rowData.orderNo,
+                                              transCode: rowData.deliveryno,
+                                              receiptWay: '纸质回单',
 																							flag: '1'
                                           }
                                       });

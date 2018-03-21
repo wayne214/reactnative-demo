@@ -399,7 +399,7 @@ class entryToBeSignin extends Component {
                         }}
                         signIn={() => {
                             if(item.taskInfo) {
-                                if(item.goodsInfo.length <= 0){
+                                if(item.goodsInfo.length === 0){
                                     Toast.showShortCenter('货品明细尚未补齐，请稍后签收');
                                     return;
                                 }
