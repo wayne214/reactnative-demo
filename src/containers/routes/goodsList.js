@@ -122,7 +122,11 @@ class GoodsList extends Component {
       this.setState({
           refreshing: true
       });
-    this.refresh();
+
+      setTimeout(()=>{
+          this.refresh();
+      },500);
+
       this.resetCarrierGoodslistener = DeviceEventEmitter.addListener('resetCarrierGoods', () => {
           this.refresh();
       });
@@ -133,7 +137,8 @@ class GoodsList extends Component {
         this.resetCarrierGoodslistener.remove();
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
-    console.log('global.companyCode', global.companyCode);
+
+
       this.setState({
           appLoading: true,
       })
@@ -315,6 +320,8 @@ class GoodsList extends Component {
     }
 
     searchDriverStateSucCallBack(result) {
+
+
         if (result) {
             if (result.status == '10') {
                 this.props.setDriverCharacterAction('4');
@@ -337,24 +344,36 @@ class GoodsList extends Component {
                 if (result.certificationStatus == '1203') {
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                         if (value) {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                resultInfo: value,
-                                commitSuccess: () => {
-                                    this.setState({
-                                        bubbleSwitch: false,
-                                        show: false,
-                                    })
+
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                params: {
+                                    resultInfo: value,
+                                    commitSuccess: () => {
+                                        this.setState({
+                                            bubbleSwitch: false,
+                                            show: false,
+                                        })
+                                    }
                                 }
-                            });
+                            })
+
+
                         } else {
-                            this.props.navigation.navigate('VerifiedPage', {
-                                commitSuccess: () => {
-                                    this.setState({
-                                        bubbleSwitch: false,
-                                        show: false,
-                                    })
+
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                params: {
+                                    commitSuccess: () => {
+                                        this.setState({
+                                            bubbleSwitch: false,
+                                            show: false,
+                                        })
+                                    }
                                 }
-                            });
+                            })
+
+
                         }
                     });
 
@@ -372,14 +391,17 @@ class GoodsList extends Component {
                 }
             }
         } else {
-            this.props.navigation.navigate('VerifiedPage', {
-                commitSuccess: () => {
-                    this.setState({
-                        bubbleSwitch: false,
-                        show: false,
-                    })
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                params: {
+                    commitSuccess: () => {
+                        this.setState({
+                            bubbleSwitch: false,
+                            show: false,
+                        })
+                    }
                 }
-            });
+            })
         }
     }
 
@@ -680,7 +702,7 @@ const mapStateToProps = (state) => {
     hotLine: app.get('hotLine'),
       ownerStatus: state.user.get('ownerStatus'),
       currentStatus: state.user.get('currentStatus'),
-
+      companyCode:state.user.get('companyCode'),
 
   }
 }

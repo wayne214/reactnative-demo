@@ -279,16 +279,6 @@ class carOwnerAddCarThree extends Component{
     // 增加车辆
     upload(){
 
-
-        const result111 = this.props.navigation.state.params.result;
-
-        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE,
-            params:{
-                result : result111
-            }})
-
-
-        return;
         if (this.state.phoneNumber === '') {
             Toast.showShortCenter('请输入车主电话');
             return;

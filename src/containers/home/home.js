@@ -1345,7 +1345,6 @@ function mapStateToProps(state) {
         plateNumberObj: state.user.get('plateNumberObj'),
         routes: state.nav.routes,
         userCarList: state.user.get('userCarList'),
-        speechSwitchStatus: state.app.get('speechSwitchStatus'),
         versionUrl: state.app.get('versionUrl'),
         driverStatus: state.user.get('driverStatus'),
         ownerStatus: state.user.get('ownerStatus'),

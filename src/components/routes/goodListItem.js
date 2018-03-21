@@ -40,12 +40,17 @@ class goodListItem extends Component{
             needDetail = ''
 
 
+        let fromAddress = item.fromProvinceName + item.fromCityName + item.fromAreaName + item.fromAddress;
+        let endAddress = item.toProvinceName + item.toCityName + item.toAreaName + item.toAddress;
+
+
         return (
             <TouchableOpacity style={styles.container} onPress={()=>{
                 this.props.itemClick();
             }}>
 
-                <AddressItem startAddress={item.fromAddress} endAddress={item.toAddress}/>
+                <AddressItem startAddress={fromAddress} endAddress={endAddress}/>
+
                 <View style={{flexDirection: 'row',marginTop: 12,marginLeft: 20}}>
 
                     {
