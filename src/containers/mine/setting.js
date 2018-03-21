@@ -29,6 +29,9 @@ import { NavigationActions } from 'react-navigation';
 // import {ImageCache} from "react-native-img-cache";
 import * as StaticColor from '../../constants/colors';
 import * as RouteType from '../../constants/routeType';
+import {
+    refreshDriverOrderList,
+} from '../../action/driverOrder'
 
 let currentTime = 0;
 let lastTime = 0;
@@ -286,6 +289,9 @@ function mapDispatchToProps(dispatch) {
         },
         getHomoPageCountAction: (response) => {
             dispatch(getHomePageCountAction(response));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
         },
     };
 }
