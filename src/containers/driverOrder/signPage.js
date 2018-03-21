@@ -37,7 +37,7 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import * as ConstValue from '../../constants/constValue';
 import StorageKey from '../../constants/storageKeys';
-
+import {refreshDriverOrderList} from '../../action/driverOrder';
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
@@ -425,7 +425,10 @@ function mapDispatchToProps(dispatch) {
                     failCallBack && failCallBack()
                 }
             }))
-        }
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(signPage);

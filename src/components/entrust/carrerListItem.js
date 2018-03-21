@@ -12,7 +12,7 @@ import {
 import AddressItem from './../routes/goodlistAddressItem';
 import moment from 'moment';
 import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
-import TimeUtils from '../../utils/timeUtils';
+import CountDownReact from '../../components/order/countDownReact';
 
 const {height, width} = Dimensions.get('window');
 const space = 15;
@@ -35,10 +35,34 @@ class carrerListItem extends Component{
 
         const timeSecond = rowData.pushTime - new Date().getTime();
         var seconds = parseInt(timeSecond / 1000 % 60, 10);//计算剩余的秒数
-        let mins = ''
-        if (seconds > 60) {
-            mins = seconds % 60;
-        }
+
+        // const endTime = moment(rowData.pushTime).format('YYYY-MM-DD HH:mm:ss');
+        const endTime = '2018-03-21 18:40:00';
+
+        const countDown = <CountDownReact
+                date={endTime}
+                days={{plural: '天 ', singular: '天 '}}
+                hours=":"
+                mins=":"
+                // segs=":"
+                tip=""
+                daysStyle={styles.time}
+                hoursStyle={styles.time}
+                minsStyle={styles.time}
+                secsStyle={styles.time}
+                firstColonStyle={styles.colon}
+                secondColonStyle={styles.colon}
+                tipStyle={styles.tip}
+                onEnd={() => {
+                    // this.setState({
+                    //     isEnd: true,
+                    // });
+                    // onEnded();
+                }}
+            />;
+
+
+
         console.log('timeSecond', seconds);
         // 货品名称
         let goodName = '';
@@ -114,7 +138,7 @@ class carrerListItem extends Component{
                             </View>
                         </View>
                         {
-                            rowData.configFreight && <View style={{width: 100,flexDirection: 'row'}}>
+                            rowData.configFreight ? <View style={{width: 100,flexDirection: 'row'}}>
                                 <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
                                 <View style={{justifyContent: 'center',width: 80}}>
                                     <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.configFreight}</Text>
@@ -122,7 +146,7 @@ class carrerListItem extends Component{
                                 <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
                                     <Text style={{}}>元</Text>
                                 </View>
-                            </View>
+                            </View> : null
                         }
                     </View>
                 }
@@ -139,9 +163,12 @@ class carrerListItem extends Component{
                             </View>
                         </View> : null
                     }
-                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {rowData.orderStateStr == '待确认' &&  1 > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
-                        <Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>
+                        {/*<Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>*/}
+                        {
+                            countDown
+                        }
                     </View> : <View/>}
                     {
                         rowData.orderStateStr == '待确认' ? (
@@ -178,7 +205,29 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: space
     },
-
+    time: {
+        paddingHorizontal: 2,
+        fontSize: 14,
+        color: '#FF8500',
+        textAlign: 'center',
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
+    // 冒号
+    colon: {
+        fontSize: 14,
+        color: '#FF8500',
+        textAlign: 'center',
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
+    tip: {
+        color: '#FF8500',
+        textAlign: 'center',
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
 })
 
 export default carrerListItem

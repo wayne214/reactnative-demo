@@ -138,7 +138,6 @@ class personownerVerifiedState extends Component{
         });
     }
 
-    /*个人车主实名认证*/
     getRealNameDetail(userPhone) {
         currentTime = new Date().getTime();
         HTTPRequest({
@@ -177,6 +176,7 @@ class personownerVerifiedState extends Component{
                         carNumber: responseData.result.rmcAnalysisAndContrast.manualCarNum,
                         carOwner: responseData.result.rmcAnalysisAndContrast.manualHaverName,
                         carEngineNumber: responseData.result.rmcAnalysisAndContrast.manualEngineNum,
+                        carVin: responseData.result.rmcAnalysisAndContrast.manualVin,
 
                         travelRightImage: responseData.result.rmcPicAddress.drivingCardHomePageThumbnailAddress ,
                         travelTrunRightImage:  responseData.result.rmcPicAddress.drivingPermitSubPageThumbnailAddress,
@@ -204,6 +204,7 @@ class personownerVerifiedState extends Component{
                         moRenhaverName: responseData.result.haverName, // 所有人
                         moRenengineNum: responseData.result.engineNum, // 发动机号码
                         moRendrivingValidsity: responseData.result.drivingValidity, // 行驶证有效期
+                        manualVin: responseData.result.rmcAnalysisAndContrast.vin,
                     };
 
 

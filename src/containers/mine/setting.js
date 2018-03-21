@@ -16,11 +16,9 @@ import NavigatorBar from '../../components/common/navigatorbar'
 import {
     clearUser,
 } from '../../action/user';
-// import {
-//     voiceSpeechAction,
-//     getHomePageCountAction,
-//     getCarrierHomoPageCountAction,
-// } from '../../action/app';
+import {
+    refreshDriverOrderList
+} from '../../action/driverOrder';
 import * as API from '../../constants/api';
 import JPushModule from 'jpush-react-native';
 // import {Geolocation} from 'react-native-baidu-map-xzx';
@@ -30,8 +28,8 @@ import { NavigationActions } from 'react-navigation';
 import * as StaticColor from '../../constants/colors';
 import * as RouteType from '../../constants/routeType';
 import {
-    refreshDriverOrderList,
-} from '../../action/driverOrder'
+    voiceSpeechAction,
+} from '../../action/app'
 
 let currentTime = 0;
 let lastTime = 0;
@@ -160,7 +158,7 @@ class setting extends Component {
         this.setState({
             speechSwitch: value,
         });
-        // this.props.speechSwitchAction(value);
+        this.props.speechSwitchAction(value);
     }
     /*通知开关状态改变*/
     valueChange(value) {
@@ -233,7 +231,7 @@ class setting extends Component {
 
 function mapStateToProps(state) {
     return {
-        speechSwitchStatus: state.app.get('speechSwitchStatus'),
+        speechSwitchStatus: state.user.get('speechSwitchStatus'),
         homePageState: state.app.get('getHomePageCount'),
         currentStatus: state.user.get('currentStatus'),
     };
@@ -244,9 +242,9 @@ function mapDispatchToProps(dispatch) {
         removeUserInfoAction:()=>{
             dispatch(clearUser());
         },
-        // speechSwitchAction:(data)=>{
-        //     dispatch(voiceSpeechAction(data));
-        // },
+        speechSwitchAction:(data)=>{
+            dispatch(voiceSpeechAction(data));
+        },
         // reloadHomePageNum:()=>{
         //     dispatch(getHomePageCountAction(null));
         // },

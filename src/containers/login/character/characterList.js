@@ -151,6 +151,7 @@ class CharacterList extends Component {
                                     {
                                         text: '确认', onPress: () => {
                                             Storage.get(StorageKey.personownerInfoResult).then((value) => {
+
                                                 if (value) {
                                                     this.props.navigation.dispatch({
                                                         type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,

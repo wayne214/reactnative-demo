@@ -44,7 +44,9 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setCurrentCharacterAction,
-    saveUserTypeInfoAction
+    saveUserTypeInfoAction,
+    saveCompanyInfoAction,
+    setCompanyCodeAction,
 } from '../../action/user';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import * as RouteType from '../../constants/routeType';
@@ -85,7 +87,7 @@ let currentTime = 0;
 class companyCarOwnerAuth extends Component {
     constructor(props) {
         super(props);
-        if (this.props.navigation.state.params && this.props.navigation.state.params.result) {
+        if (this.props.navigation.state.params && this.props.navigation.state.params.resultInfo) {
             const result = this.props.navigation.state.params.resultInfo;
 
 
@@ -592,6 +594,7 @@ class companyCarOwnerAuth extends Component {
     }
 
     uploadData(){
+
         currentTime = new Date().getTime();
 
         console.log('法人身份证名字',this.state.IDName);
@@ -616,7 +619,14 @@ class companyCarOwnerAuth extends Component {
         console.log('默认解析的统一社会信用代码',this.state.unifiedSocialCreditCode);
         console.log('默认营业执照有效期',this.state.businessValidity);
 
-
+        if (!this.state.legalPersonPositiveCard){
+            Toast.showShortCenter('请上传法人身份证正面');
+            return;
+        }
+        if (!this.state.legalPersonOppositeCard){
+            Toast.showShortCenter('请上传法人身份证反面');
+            return;
+        }
         if (!this.state.IDName){
             Toast.showShortCenter('请输入法人身份证名字');
             return;
@@ -629,12 +639,9 @@ class companyCarOwnerAuth extends Component {
             Toast.showShortCenter('请选择法人身份证有效期');
             return;
         }
-        if (!this.state.legalPersonPositiveCard){
-            Toast.showShortCenter('请上传法人身份证正面');
-            return;
-        }
-        if (!this.state.legalPersonOppositeCard){
-            Toast.showShortCenter('请上传法人身份证反面');
+
+        if (!this.state.businessLicence){
+            Toast.showShortCenter('请上传营业执照');
             return;
         }
         if (!this.state.companyName){
@@ -657,10 +664,7 @@ class companyCarOwnerAuth extends Component {
             Toast.showShortCenter('请选择营业执照有效期');
             return;
         }
-        if (!this.state.businessLicence){
-            Toast.showShortCenter('请上传营业执照');
-            return;
-        }
+
 
 
 
@@ -1017,6 +1021,16 @@ function mapDispatchToProps (dispatch){
         saveUserTypeInfoAction:(result)=>{
             dispatch(saveUserTypeInfoAction(result));
         },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
+
     };
 }
 

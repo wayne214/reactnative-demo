@@ -135,6 +135,7 @@ class certification extends Component {
                 analysisCarNum: result.analysisCarNum, // 解析车牌号
                 analysisHaverName:result.analysisHaverName, // 解析所有人
                 analysisEngineNum:result.analysisEngineNum, //  解析发动机号
+                analysisVin: result.analysisVin, // vin
             };
         } else {
             this.state = {
@@ -169,7 +170,7 @@ class certification extends Component {
                 analysisCarNum: '', // 解析车牌号
                 analysisHaverName:'', // 解析所有人
                 analysisEngineNum:'', //  解析发动机号
-
+                analysisVin:'', //解析的vin
 
                 isFirst: false
             };
@@ -474,10 +475,12 @@ class certification extends Component {
                                     carNumber: respones.result.plateNumber,
                                     carOwner: respones.result.owner,
                                     carEngineNumber: respones.result.engineNumber,
+                                    carVIN: respones.result.vin,
 
                                     analysisCarNum: respones.result.plateNumber, // 解析车牌号
                                     analysisHaverName:respones.result.owner, // 解析所有人
                                     analysisEngineNum:respones.result.engineNumber, //  解析发动机号
+                                    analysisVin:respones.result.vin, // 解析的vin
 
                                     vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
                                     vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
@@ -652,6 +655,11 @@ class certification extends Component {
     /*上传图片，调用接口*/
     checkUploadParams() {
 
+
+        if (this.state.carDate === '' || this.state.carDate === '请选择有效期') {
+            Toast.showShortCenter('请选择行驶证有效期');
+            return;
+        }
         if (this.state.vehicleLicenseHomepageNormalPhotoAddress === '' && this.state.vehicleLicenseHomepageThumbnailAddress === '') {
             Toast.showShortCenter('请上传行驶证主页照片');
             return;
@@ -660,14 +668,7 @@ class certification extends Component {
             Toast.showShortCenter('请上传行驶证副页照片');
             return;
         }
-        if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDNormalPhotoAddress === '') {
-            Toast.showShortCenter('请上传强险照片');
-            return;
-        }
-        if (this.state.vehicleNormalPhotoAddress === '' && this.state.vehicleThumbnailAddress === '') {
-            Toast.showShortCenter('请上传车头照片');
-            return;
-        }
+
 
         if (this.state.carNumber === '') {
             Toast.showShortCenter('请输入车牌号');
@@ -682,16 +683,22 @@ class certification extends Component {
             Toast.showShortCenter('请输入VIN代码');
             return;
         }
-        if (this.state.carDate === '') {
-            Toast.showShortCenter('请选择行驶证有效期');
-            return;
-        }
+
         if (this.state.carEngineNumber === '') {
             Toast.showShortCenter('请输入发动机号码');
             return;
         }
         if (this.state.insuranceData === '' || this.state.insuranceData === '请选择有效期') {
             Toast.showShortCenter('请选择强险有效期');
+            return;
+        }
+
+        if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDNormalPhotoAddress === '') {
+            Toast.showShortCenter('请上传强险照片');
+            return;
+        }
+        if (this.state.vehicleNormalPhotoAddress === '' && this.state.vehicleThumbnailAddress === '') {
+            Toast.showShortCenter('请上传车头照片');
             return;
         }
 
@@ -766,7 +773,7 @@ class certification extends Component {
                 vehicleNormalPhotoAddress: this.state.vehicleNormalPhotoAddress,//车头照原图地址
                 currentRole: shenfen,//当前角色
                 vinCode: this.state.carVIN,//车辆识别代码VIN
-                analysisVinCode: this.state.carVIN,//解析的车辆识别代码VIN
+                analysisVinCode: this.state.analysisVin,//解析的车辆识别代码VIN
 
 
                 vehicleLength: '',//车长
@@ -904,12 +911,13 @@ class certification extends Component {
                             analysisCarNum: this.state.analysisCarNum, // 解析车牌号
                             analysisHaverName:this.state.analysisHaverName, // 解析所有人
                             analysisEngineNum:this.state.analysisEngineNum, //  解析发动机号
+                            analysisVin:this.state.analysisVin,
                         };
 
                         console.log(info);
 
                         Storage.save(StorageKey.carOwnerAddCarInfo, info);
-                        navigator.goBack();
+                        this.props.navigation.dispatch({type: 'pop'});
 
                     }}
                 />

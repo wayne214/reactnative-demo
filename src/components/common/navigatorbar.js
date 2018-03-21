@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	firstLevelView: {
-		marginRight: 17,
+		marginRight: 15,
 		paddingTop: 2,
 	},
 	secondLevelView: {

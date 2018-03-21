@@ -45,7 +45,9 @@ import {
     setOwnerCharacterAction,
     setOwnerNameAction,
     setCurrentCharacterAction,
-    saveUserTypeInfoAction
+    saveUserTypeInfoAction,
+    saveCompanyInfoAction,
+    setCompanyCodeAction,
 } from '../../action/user';
 
 
@@ -92,7 +94,8 @@ class personCarOwnerAuth extends Component {
     constructor(props) {
         super(props);
 
-        if (this.props.navigation.state.params) {
+
+        if (this.props.navigation.state.params && this.props.navigation.state.params.resultInfo) {
             const result = this.props.navigation.state.params.resultInfo;
 
             this.state = {
@@ -141,6 +144,7 @@ class personCarOwnerAuth extends Component {
                 moRenhaverName: result.moRenhaverName, // 所有人
                 moRenengineNum: result.moRenengineNum, // 发动机号码
                 moRendrivingValidsity: result.moRendrivingValidity, // 行驶证有效期
+                manualVin:result.manualVin,
             };
         }else {
             this.state = {
@@ -190,6 +194,7 @@ class personCarOwnerAuth extends Component {
                 moRenhaverName: '', // 所有人
                 moRenengineNum: '', // 发动机号码
                 moRendrivingValidity: '', // 行驶证有效期
+                manualVin: '', //vin
 
             };
         }
@@ -583,10 +588,12 @@ class personCarOwnerAuth extends Component {
                                     vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
                                     vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
                                     isShowDriverInfo: true,
+                                    carVin:respones.result.vin,
 
                                     moRencarNum: respones.result.plateNumber, // 车牌号
                                     moRenhaverName: respones.result.owner, // 所有人
                                     moRenengineNum: respones.result.engineNumber, // 发动机号码
+                                    manualVin: respones.result.vin, // vin
 
                                 });
                             } else
@@ -616,6 +623,7 @@ class personCarOwnerAuth extends Component {
 
             },
             (error) => {
+
                 Toast.showShortCenter('解析失败，请重新上传');
 
                 this.setState({
@@ -629,54 +637,57 @@ class personCarOwnerAuth extends Component {
 
 
 
-        if (!this.state.manualIdCardName){
+        if (!this.state.idFaceSideNormalPhotoAddress){
+            Toast.showShortCenter('请上传身份证正面');
+            return;
+        }
+        if (!this.state.idBackSideNormalPhotoAddress){
+            Toast.showShortCenter('请上传身份证反面');
+            return;
+        }
+        if (!this.state.IDName){
             Toast.showShortCenter('请输入身份证名字');
             return;
         }
-        if (!this.state.manualIdCard){
+        if (!this.state.IDCard){
             Toast.showShortCenter('请输入身份证号');
             return;
         }
-        if (!this.state.manualIdCardValidity){
+        if (!this.state.IDDate){
             Toast.showShortCenter('请选择身份证有效期');
             return;
         }
-        if (!this.state.positiveCard){
-            Toast.showShortCenter('请上传法人身份证正面');
+
+        if (!this.state.vehicleLicenseHomepageNormalPhotoAddress){
+            Toast.showShortCenter('请上传行驶证正面');
             return;
         }
-        if (!this.state.oppositeCard){
-            Toast.showShortCenter('请上传法人身份证反面');
+        if (!this.state.vehicleLicenseVicePageNormalPhotoAddress){
+            Toast.showShortCenter('请上传行驶证反面');
             return;
         }
-        if (!this.state.manualHaverName){
+        if (!this.state.carOwner){
             Toast.showShortCenter('请输入行驶证所有人');
             return;
         }
-        if (!this.state.manualCarNum){
+        if (!this.state.carNumber){
             Toast.showShortCenter('请输入车牌号');
             return;
         }
-        if (!this.state.companyAddress){
-            Toast.showShortCenter('请输入公司地址');
-            return;
-        }
-        if (!this.state.manualEngineNum){
+
+        if (!this.state.carEngineNumber){
             Toast.showShortCenter('请输入发动机编号');
             return;
         }
-        if (!this.state.drivingValidity){
-            Toast.showShortCenter('请选择行驶证有效期');
-            return;
-        }
-        if (!this.state.manualVin){
+
+        debugger
+        if (!this.state.carVin){
             Toast.showShortCenter('请输入车辆识别代码');
             return;
         }
 
 
-
-        let obj = {
+            let obj = {
             userId: userID,//userID, //用户ID
             userName: userName,//userName, // 用户名
             busTel: userPhone,//userPhone, // 用户手机号
@@ -706,7 +717,7 @@ class personCarOwnerAuth extends Component {
                 manualHaverName: this.state.carOwner, // 修改的所有人
                 manualEngineNum: this.state.carEngineNumber, // 修改的发动机号
                 drivingValidity: this.state.drivingLicenseValidUntil, // 行驶证有效期
-                manualVin: this.state.carVin,// 车辆识别代码
+                manualVin: this.state.manualVin,// 车辆识别代码
 
                 // 默认
                 idCardName: this.state.moRenidCardName, // 身份证解析姓名
@@ -906,6 +917,7 @@ class personCarOwnerAuth extends Component {
                             moRenhaverName: this.state.moRenhaverName, // 所有人
                             moRenengineNum: this.state.moRenengineNum, // 发动机号码
                             moRendrivingValidity: this.state.moRendrivingValidity, // 行驶证有效期
+                            manualVin: this.state.manualVin
                         };
 
                         Storage.save(StorageKey.personownerInfoResult, info);
@@ -1038,7 +1050,16 @@ function mapDispatchToProps (dispatch){
                 },
             }))
         },
-        saveUserTypeInfoAction:(result)=>{
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setCompanyCodeAction: (result) => {
+            dispatch(setCompanyCodeAction(result));
+        },
+        saveCompanyInfoAction: (result) => {
+            dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserTypeInfoAction: (result) => {
             dispatch(saveUserTypeInfoAction(result));
         },
     };

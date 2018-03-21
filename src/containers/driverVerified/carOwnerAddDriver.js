@@ -400,10 +400,14 @@ class carOwnerAddDriver extends Component {
 
     /*选择相机*/
     selectCamera() {
-        this.props.navigation.navigate('TakeCamearPage', {
-            cameraType: selectType,
-            verifiedType: 1,
-        });
+
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CAMEAR,
+            params: {
+                cameraType: selectType,
+                verifiedType: 1
+        }})
+
+
 
     }
 

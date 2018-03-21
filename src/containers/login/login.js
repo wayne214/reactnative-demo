@@ -178,7 +178,7 @@ class Login extends BaseComponent {
         super(props);
         const params = this.props.navigation.state.params;
         this.state = {
-            phoneNumber: '18514536944',
+            phoneNumber: '18614536942',
             password: 'a12345',
             loading: false,
         };
@@ -295,6 +295,7 @@ class Login extends BaseComponent {
                 style={styles.container}>
                 <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
                 <KeyboardAwareScrollView
+                    scrollOffset = {50}
                     alwaysBounceVertical={height < 667}
                     automaticallyAdjustContentInsets={false}
                     style={{width: width, height: height}}>

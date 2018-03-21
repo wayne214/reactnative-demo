@@ -72,6 +72,7 @@ class signSuccess extends Component {
                   <View style={styles.buttonContainer}>
                       <TouchableOpacity
                           onPress={() => {
+                              console.log('this.state.receiptWay=',this.state.receiptWay);
                               this.props.navigation.dispatch({
                                   type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
                                   params: {

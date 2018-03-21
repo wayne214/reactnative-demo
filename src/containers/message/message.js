@@ -117,14 +117,16 @@ class MessageContainer extends BaseComponent {
 		if (this.props.hasMore && !this.props.isEndReached) {
 			if(this.state.currentTab === 1) {
 				this.props.getSystemMsg({
-					pageNo: this.state.pageNo + 1,
-					userId: this.props.user.userId,
-					noteFlag: 1,
+            pageNum: this.state.pageNo + 1,
+            pageSize: 10,
+            userId: this.props.user.userId,
+            noteFlag: 1,
 				});
 			} else {
 				this.props.getWebMsgs({
-					pageNo: this.state.pageNo + 1,
-					userId: this.props.user.userId,
+            pageNum: this.state.pageNo + 1,
+            userId: this.props.user.userId,
+            pageSize: 10,
 				})
 			}
 
@@ -270,12 +272,14 @@ class MessageContainer extends BaseComponent {
 	_getMsg(index) {
 		if (index === 0) {
 			this.props.getWebMsgs({
-				pageNo: 1,
+				pageNum: 1,
 				userId: this.props.user.userId,
+        pageSize: 10,
 			});
 		} else if (index === 1) {
 			this.props.getSystemMsg({
-				pageNo: 1,
+				pageNum: 1,
+				pageSize: 10,
 				userId: this.props.user.userId,
 				noteFlag: 1,
 			});

@@ -25,7 +25,10 @@ import Picker from '../../utils/picker';
 import moment from 'moment';
 import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
-import Toast from '@remobile/react-native-toast';
+// import Toast from '@remobile/react-native-toast';
+import Toast from '../../utils/toast';
+
+
 
 let startTime = 0;
 
@@ -50,6 +53,7 @@ class goodListDetail extends Component {
 
         this.getDetailSuccess = this.getDetailSuccess.bind(this);
         this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
+        this.sendOrderFail = this.sendOrderFail.bind(this);
 
     }
     componentDidMount() {
@@ -67,6 +71,25 @@ class goodListDetail extends Component {
         Toast.show('抢单成功');
         DeviceEventEmitter.emit('resetCarrierGoods');
         this.props.navigation.dispatch({type: 'pop'})
+    }
+    sendOrderFail(data){
+
+        if (data.message.search('承运商名称为空') != -1){
+            // 认证
+            if (this.props.currentStatus === 'personalOwner'){
+                this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+            }
+
+            if (this.props.currentStatus === 'businessOwner'){
+                this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+            }
+        }else {
+            Toast.show(data.message);
+        }
+
+
+
+
     }
     _showPickerView(type){
 
@@ -257,7 +280,7 @@ class goodListDetail extends Component {
                                               expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
                                               resourceCode: this.props.navigation.state.params.goodID, // 货源id
                                               type: this.props.navigation.state.params.type // 报价类型
-                                          },this.sendOrderSuccess);
+                                          },this.sendOrderSuccess,this.sendOrderFail);
                                       }}>
                         <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
                     </TouchableOpacity>
@@ -294,7 +317,9 @@ const styles =StyleSheet.create({
 });
 
 function mapStateToProps(state){
-    return {};
+    return {
+        currentStatus: state.user.get('currentStatus'),
+    };
 }
 
 function mapDispatchToProps (dispatch){
@@ -310,7 +335,7 @@ function mapDispatchToProps (dispatch){
                 }
             }))
         },
-        sendOrder: (params,getGoodListSuccess)=>{
+        sendOrder: (params,getGoodListSuccess,getGoodListFail)=>{
             startTime = new Date().getTime();
             dispatch(fetchData({
                 api: API.BIDORDER,
@@ -319,6 +344,9 @@ function mapDispatchToProps (dispatch){
                 success: (data) => {
 
                     getGoodListSuccess(data)
+                },
+                fail:(data)=>{
+                    getGoodListFail(data)
                 }
             }))
         },

@@ -69,6 +69,7 @@ class title_enterDesItem extends Component {
                                    value={this.state.showValue}
                                    placeholder={this.props.des}
                                    keyboardType={this.props.keyboardType}
+                                   editable={false}
 
                         />
                     </View>

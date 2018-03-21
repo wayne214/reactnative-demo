@@ -74,6 +74,10 @@ class carOwnerVerifiedMsgCode extends Component {
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
         this.sendFailCallback = this.sendFailCallback.bind(this);
         this.abc = this.abc.bind(this);
+
+        this.upload = this.upload.bind(this);
+        this.carSuccess = this.carSuccess.bind(this);
+        this.carFail = this.carFail.bind(this);
     }
 
     abc(data){
@@ -91,6 +95,61 @@ class carOwnerVerifiedMsgCode extends Component {
 
 
 
+    // 增加车辆
+    upload(){
+
+        if (this.state.carOwnerTel === '') {
+
+            Toast.show('请输入车主电话');
+            return;
+        }
+        if (this.state.carOwnerName === '') {
+            Toast.show('请输入车主姓名');
+            return;
+        }
+        const result = this.props.navigation.state.params.result;
+
+        result.fileNum =  '';//档案编号
+        result.phoneNumber = this.state.carOwnerTel;//车主电话
+        result.userName= this.state.carOwnerName;// 车主姓名
+        result.plateNumber = this.state.carNumber; // 车牌号
+debugger
+        let carCategoryInt = 0;
+        switch (result.carCategory){
+            case '厢式货车':
+                carCategoryInt = 1;
+                break;
+            case '集装箱挂车':
+                carCategoryInt = 2;
+                break;
+            case '集装箱车':
+                carCategoryInt = 3;
+                break;
+            case '箱式挂车':
+                carCategoryInt = 4;
+                break;
+        }
+
+        result.carCategory = carCategoryInt;
+        result.volumeSize = parseInt(result.volumeSize);
+
+        this.props.carVerifiedAction({
+            ...result
+        },this.carSuccess,this.carFail);
+
+
+
+    }
+
+    carSuccess(data){
+        this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+
+    }
+    carFail(data){
+
+        Toast.show(data.message);
+
+    }
 
     render() {
         return (
@@ -183,7 +242,8 @@ class carOwnerVerifiedMsgCode extends Component {
                                 Toast.show('输入验证码不正确');
                                 return;
                             }
-                            this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+
+                            this.upload();
 
                         }}
                     >
@@ -217,6 +277,19 @@ function mapDispatchToProps(dispatch) {
                 fail: error => {
                     console.log('-------error', error);
                     failCallback();
+                }
+            }))
+        },
+        carVerifiedAction:(params,ownerVerifiedHomeSucCallBack,ownerVerifiedHomeFailCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_AUTH_QUALIFICATIONS_COMMIT,
+                success: (data) => {
+                    ownerVerifiedHomeSucCallBack(data);
+                },
+                fail:(data) => {
+                    ownerVerifiedHomeFailCallBack(data);
                 }
             }))
         },

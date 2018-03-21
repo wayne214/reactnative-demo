@@ -26,6 +26,8 @@ import EntrustOrderListItem from '../../components/entrust/entrustOrderListItem.
 const { height,width } = Dimensions.get('window');
 import Linking from '../../utils/linking'
 
+import CountDownReact from '../../components/order/countDownReact';
+
 
 let startTime = 0
 
@@ -34,10 +36,18 @@ class EntrustOrderList extends BaseComponent {
 	  super(props);
 	  this._refreshList = this._refreshList.bind(this)
 	  this.state = {
-	  	activeTab: 0
+	  	activeTab: 0,
+      showAlert: true,
 	  }
 	}
 	componentDidMount() {
+		setTimeout(()=> {
+			this.setState({
+					showAlert: false
+			})
+		}, 3000);
+
+
 		super.componentDidMount();
       this.refreshListener = DeviceEventEmitter.addListener('reloadDispatchList', () => {
           this._refreshList(true);
@@ -94,6 +104,33 @@ class EntrustOrderList extends BaseComponent {
 			entrustOrderUnconfirmed,
 			entrustOrderUndispatch
 		} = this.props
+
+     //  const endTime = '2018-03-21 18:30:00';
+    //
+     //  const countDown = <CountDownReact
+		// 		date={endTime}
+		// 		days={{plural: '天 ', singular: '天 '}}
+		// 		hours=":"
+		// 		mins=":"
+		// 		// segs=":"
+		// 		tip=""
+		// 		daysStyle={styles.time}
+		// 		hoursStyle={styles.time}
+		// 		minsStyle={styles.time}
+		// 		secsStyle={styles.time}
+		// 		firstColonStyle={styles.colon}
+		// 		secondColonStyle={styles.colon}
+		// 		tipStyle={styles.tip}
+		// 		onEnd={() => {
+     //        // this.setState({
+     //        //     isEnd: true,
+     //        // });
+     //        // onEnded();
+     //    }}
+		// 	/>;
+
+
+
 		if (1 == 1) {
 			return (
 				<View style={styles.container}>
@@ -134,9 +171,17 @@ class EntrustOrderList extends BaseComponent {
 						tabBarActiveTextColor={COLOR.APP_THEME}
 						tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
 						tabBarTextStyle={{fontSize:15}}>
+						<View tabLabel={'接单'} style={{flex: 1}}>
+								{
+										this.state.showAlert ? <View style={{height: 65, backgroundColor: '#FFFAF4', justifyContent: 'center', paddingHorizontal: 15}}>
+											<Text style={{fontSize: 14, color: '#FF8500'}}>
+											优先抢单倒计时结束后，该订单将被所有承运商看到，即时您将失去优先抢单的机会，要抓紧时间哦
+										</Text>
+										</View> : null
+								}
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'接单'}
+						// 	tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
@@ -200,7 +245,7 @@ class EntrustOrderList extends BaseComponent {
                  //    size: 10,
 								// })
 							}}/>
-
+						</View>
 						<EntrustOrderListItem
 							{...this.props}
 							tabLabel={'调度'}
@@ -303,7 +348,30 @@ const styles =StyleSheet.create({
 		marginTop: 10,
 		fontSize: 14,
 		color: COLOR.TEXT_LIGHT
-	}
+	},
+    time: {
+        paddingHorizontal: 2,
+        fontSize: 14,
+        color: '#003700',
+        textAlign: 'center',
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
+    // 冒号
+    colon: {
+        fontSize: 14,
+        color: '#f00',
+        textAlign: 'center',
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
+    tip: {
+        color: '#0f0',
+        textAlign: 'center',
+        fontSize: 14,
+        lineHeight: 17,
+        fontWeight: 'bold',
+    },
 })
 
 const mapStateToProps = (state) => {
