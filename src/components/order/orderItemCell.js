@@ -151,7 +151,8 @@ class orderItemCell extends Component{
                                                                 type: RouteType.ROUTE_LADING_BILL,
                                                                 params: {
                                                                     title: '出库单',
-                                                                    orderNoBase: 'WT180321000085',
+                                                                    orderNoBase: rowData.deliveryno,
+                                                                    // orderNoBase: 'WT180321000085',
                                                                     images: []
                                                                 }
                                                             })
