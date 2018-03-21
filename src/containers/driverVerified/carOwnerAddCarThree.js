@@ -279,6 +279,16 @@ class carOwnerAddCarThree extends Component{
     // 增加车辆
     upload(){
 
+
+        const result111 = this.props.navigation.state.params.result;
+
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE,
+            params:{
+                result : result111
+            }})
+
+
+        return;
         if (this.state.phoneNumber === '') {
             Toast.showShortCenter('请输入车主电话');
             return;
@@ -312,29 +322,28 @@ class carOwnerAddCarThree extends Component{
         result.carCategory = carCategoryInt;
         result.volumeSize = parseInt(result.volumeSize);
 
-
-
-        result.owner = '林平';
-        result.phoneNum = '15534343431';
-        result.phoneNumber = '15534343432';
-        result.plateNumber = '豫A23090';
-        result.userId = '5';
-        result.userName = '林平芝';
-
-
-
-
         this.props.carVerifiedAction({
             ...result
         },this.carSuccess,this.carFail);
-
 
     }
 
     carSuccess(data){
         console.log('carSuccess=',data);
+        if (this.props.currentStatus === 'driver'){
+            this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+        }else {
+            const result = this.props.navigation.state.params.result;
 
-        this.props.navigation.dispatch({type: 'pop', key: 'Main'})
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE,
+            params:{
+                result : result
+            }})
+
+        }
+
+
+
     }
     carFail(data){
         Toast.showShortCenter(data.message);
@@ -459,6 +468,7 @@ class carOwnerAddCarThree extends Component{
 
 function mapStateToProps(state) {
     return {
+        currentStatus: state.user.get('currentStatus'),
     };
 }
 

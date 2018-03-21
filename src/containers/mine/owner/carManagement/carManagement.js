@@ -64,6 +64,7 @@ class CarManagement extends Component {
         this.unBindRelieveCar = this.unBindRelieveCar.bind(this);
         this.queryCarOne = this.queryCarOne.bind(this);
         this.queryCarListCallback = this.queryCarListCallback.bind(this);
+        this.unBindRelieveCarCallback = this.unBindRelieveCarCallback.bind(this);
         // this.queryCarList();
         this.state = {
             NumberArr: '',
@@ -84,13 +85,13 @@ class CarManagement extends Component {
     }
 
     componentDidMount() {
-        this.queryCarList(this.queryCarListCallback);
+        this.queryCarList();
 
         this.bindDriverListener = DeviceEventEmitter.addListener('bindDriverPage', () => {
-            this.queryCarList(this.queryCarListCallback);
+            this.queryCarList();
         });
         this.addCarListener = DeviceEventEmitter.addListener('addCarPage', () => {
-            this.queryCarList(this.queryCarListCallback);
+            this.queryCarList();
         });
     }
 
@@ -142,29 +143,32 @@ class CarManagement extends Component {
         });
     }
 
-    queryCarList(callback) {
+    queryCarList() {
         this.props._queryCarList({
             carNum: '',
             carStatus: '',
             companionPhone: global.phone,
-        }, callback);
+        }, this.queryCarListCallback);
     }
 
-    queryCarOne(carNum, callback) {
+    queryCarOne(carNum) {
         this.props._queryCarList({
             carNum: carNum,
             carStatus: '',
             companionPhone: global.phone,
-        }, callback);
+        }, this.queryCarListCallback);
     }
-    unBindRelieveCarCallback() {
-        this.setState({
-            loading: false,
-        });
-        this.queryCarList(this.queryCarListCallback);
+    unBindRelieveCarCallback(result) {
+
+        if (result) {
+            this.setState({
+                loading: false,
+            });
+            this.queryCarList();
+        }
     }
     /* 解除车辆绑定 */
-    unBindRelieveCar(item, callback) {
+    unBindRelieveCar(item) {
         this.props._unBindRelieveCar({
             bindRelieveFlag: 2, // 1是绑定  其余是解除
             carId: item.carId,
@@ -173,13 +177,13 @@ class CarManagement extends Component {
             companionPhone: global.phone, //车主手机号
             driverIds: [],
             driverPhone: '' // 司机时手机号
-        }, callback);
+        }, this.unBindRelieveCarCallback);
     }
 
     //点击城市cell
     cityClicked(item) {
         console.log('item', item);
-        this.props.navigation.dispatch({ type: RouteType.ROUTE_BIND_CAR, params: {carId: item.carId} });
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_BIND_DRIVER, params: {carId: item.carId} });
         //
         // this.props.navigation.navigate('BindDriverPage', {
         //     carId: item.carId
@@ -194,7 +198,7 @@ class CarManagement extends Component {
                 text: '删除',
                 backgroundColor: 'red',
                 onPress: () => {
-                    this.unBindRelieveCar(item, this.unBindRelieveCarCallback);
+                    this.unBindRelieveCar(item);
                 },
 
             }
@@ -445,7 +449,7 @@ class CarManagement extends Component {
 
                     </View>
                     <TouchableOpacity onPress={() => {
-                        this.queryCarOne(this.state.text, this.queryCarListCallback);
+                        this.queryCarOne(this.state.text);
                     }}>
                         <Text
                             style={{color: '#0071FF', fontSize: 16, width: 49, textAlign: 'center'}}
@@ -453,14 +457,15 @@ class CarManagement extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    this.state.carList.length > 0 ? <FlatList
+                        style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
+                        data={this.state.carList}
+                        renderItem={this.renderItemView.bind(this)}
+                        keyExtractor={this.extraUniqueKey}//去除警告
+                    /> : <View style={{backgroundColor: '#F4F4F4', flex: 1}}/>
+                }
 
-                <FlatList
-                    style={{backgroundColor: '#F4F4F4', flex: 1, paddingTop: 10}}
-                    data={this.state.carList}
-                    renderItem={this.renderItemView.bind(this)}
-                    keyExtractor={this.extraUniqueKey}//去除警告
-                >
-                </FlatList>
                 <Button
                     ref='button'
                     isDisabled={false}

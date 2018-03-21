@@ -726,7 +726,7 @@ class mine extends Component {
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
-                                        if (this.state.verifiedState == '1200') {
+                                        if (this.state.verifiedState == '1200' || this.state.verifiedState == '1202') {
                                             this.props.navigation.dispatch({
                                                         type: RouteType.ROUTE_PERSON_INFO,
                                                         params: {

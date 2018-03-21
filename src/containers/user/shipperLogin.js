@@ -208,6 +208,8 @@ function mapStateToProps(state) {
     upgrade: app.get('upgrade'),
     upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
+    homePageState: app.get('getHomePageCount'),
+
   };
 }
 

@@ -18,7 +18,7 @@ import {
     Platform,
     Alert,
 } from 'react-native';
-import Camera from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import * as API from '../../constants/api';
 import ViewFinder from '../../components/driverOrder/viewFinder';
 import Loading from '../../utils/loading';
@@ -285,7 +285,7 @@ class scanGPS extends Component {
                 {(() => {
                     if (active) {
                         return (
-                            <Camera
+                            <RNCamera
                                 ref={(cam) => {
                                     this.camera = cam;
                                 }}
@@ -294,7 +294,9 @@ class scanGPS extends Component {
                                 onBarCodeRead={
                                     this.barcodeReceived
                                 }
-                                flashMode={openFlash ? 'on' : 'off'}
+                                flashMode={openFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                                permissionDialogTitle={'访问相机权限'}
+                                permissionDialogMessage={'我们需要访问您的相机权限'}
                             >
                                 <View style={styles.container}>
                                     <View style={styles.titleContainer}>
@@ -374,7 +376,7 @@ class scanGPS extends Component {
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                            </Camera>
+                            </RNCamera>
                         );
                     }
                 })()}

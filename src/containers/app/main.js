@@ -52,7 +52,8 @@ import {
     setOwnerCharacterAction,
     setCompanyCodeAction,
     setOwnerNameAction,
-    saveCompanyInfoAction
+    saveCompanyInfoAction,
+    setUserCarAction
 } from '../../action/user';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
@@ -133,22 +134,33 @@ class MainContainer extends BaseComponent {
 
     async componentDidMount () {
         await Storage.get(StorageKey.USER_INFO).then((userInfo) => {
+            console.log('-main-userinfo', userInfo);
             if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)){
                 // 发送Action,全局赋值用户信息
                 this.props.sendLoginSuccessAction(userInfo);
             }
         });
         await Storage.get(StorageKey.USER_CURRENT_STATE).then((status) => {
+            console.log('-main-status', status);
             if(status){
                 this.props.setCurrentCharacterAction(status);
             }
         });
-        await Storage.get(StorageKey.USER_TYPE_INFO).then((result) => {
-            if (result){
-                this.props.saveUserTypeInfoAction(result);
+        await Storage.get(StorageKey.USER_TYPE_INFO).then((userTypeInfo) => {
+            console.log('-main-usertypeInfo', userTypeInfo);
+            if (userTypeInfo){
+                this.props.saveUserTypeInfoAction(userTypeInfo);
             }
         });
-        this._routeTab();
+
+        await Storage.get(StorageKey.PlateNumberObj).then((result) => {
+            if (result && !ObjectUitls.isOwnEmpty(result)){
+                // 发送Action,全局赋值车辆信息
+                this.props.saveUserSetCarSuccess(result);
+            }
+        });
+
+        // this._routeTab();
         console.log('------aaa', this.props);
         // JPush
         if (IS_IOS) {
@@ -181,19 +193,6 @@ class MainContainer extends BaseComponent {
             // show float dialog
             this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
         }
-        //
-        // const userTypeInfo = await Storage.get(StorageKey.USER_TYPE_INFO);
-        //
-        // if (!userTypeInfo) {
-        //     this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
-        // }else{
-        //     const current = global.currentStatus == 'driver' ? 'Home' : 'goods';
-        //
-        //     this.props.dispatch(changeTab('driver'))
-        //     this.props.navigation.setParams({ currentTab: 'driver', title: '' })
-        // }
-
-
         const { user } = this.props;
         if (!user || !user.userId) {
             this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
@@ -202,15 +201,11 @@ class MainContainer extends BaseComponent {
                 LoginCharacter.setCharacter(this.props, this.props.userTypeInfo, 'main');
             }
         }
-
-
+        this._routeTab();
         this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: 2 })
-
         this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
             this._getCurrentPosition();
         })
-
-
         // Geolocation.requestAuthorization()
         Geolocation.getCurrentPosition(location => {
             const locationData = getAMapLocation(location.coords.longitude, location.coords.latitude)
@@ -551,6 +546,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
+        },
+        saveUserSetCarSuccess: (plateNumberObj) => {
+            dispatch(setUserCarAction(plateNumberObj));
         },
 
     }

@@ -511,21 +511,9 @@ class certification extends Component {
     checkUploadParams() {
 
 
-        if (this.state.vehicleLicenseHomepageNormalPhotoAddress === '' && this.state.vehicleLicenseHomepageThumbnailAddress === '') {
-            Toast.showShortCenter('请上传行驶证主页照片');
-            return;
-        }
-        if (this.state.vehicleLicenseVicePageNormalPhotoAddress === '' && this.state.vehicleLicenseVicePageThumbnailAddress === '') {
-            Toast.showShortCenter('请上传行驶证副页照片');
-            return;
-        }
 
 
 
-        if (this.state.carNumber === '') {
-            Toast.showShortCenter('请输入挂车牌号');
-            return;
-        }
         if (this.state.carVolume === '') {
             Toast.showShortCenter('请输入车辆体积');
             return;
@@ -551,6 +539,25 @@ class certification extends Component {
             Toast.showShortCenter('请输入运输许可证号');
             return;
         }
+
+
+        /*
+        if (this.state.carNumber === '') {
+            Toast.showShortCenter('请输入挂车牌号');
+            return;
+        }
+        if (this.state.vehicleLicenseHomepageNormalPhotoAddress === '' && this.state.vehicleLicenseHomepageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传行驶证主页照片');
+            return;
+        }
+        if (this.state.vehicleLicenseVicePageNormalPhotoAddress === '' && this.state.vehicleLicenseVicePageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传行驶证副页照片');
+            return;
+        }
+        */
+
+
+
         let result = this.props.navigation.state.params.result;
 
 

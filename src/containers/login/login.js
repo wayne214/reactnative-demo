@@ -179,7 +179,7 @@ class Login extends BaseComponent {
         const params = this.props.navigation.state.params;
         this.state = {
             phoneNumber: '18514536944',
-            password: 'a123456',
+            password: 'a12345',
             loading: false,
         };
         this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);
@@ -261,6 +261,7 @@ class Login extends BaseComponent {
             // this.props.setCurrentCharacterAction('driver')
             // this.props.setCurrentCharacterAction('driver1');
             // this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'Home' , insiteNotice:'123'} })
+
 
             this.props.quaryAccountRole(result.phone,this.quaryAccountRoleCallback);
 

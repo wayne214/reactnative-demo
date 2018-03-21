@@ -47,7 +47,11 @@ class LadingBill extends Component {
 	}
 
 	getImageListCallback(result) {
-		console.log('getImageList',result.urlList);
+		console.log('getImageList',result);
+		if (!result || result.urlList.length == 0) {
+			Toast.show('暂无图片');
+			result;
+		}
 		this.setState({
         images: result.urlList
 		})

@@ -25,7 +25,7 @@ import Picker from '../../utils/picker';
 import moment from 'moment';
 import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 
 let startTime = 0;
 
@@ -232,20 +232,20 @@ class goodListDetail extends Component {
                                       onPress={()=>{
 
                                           if (this.state.installDateStart === ''){
-                                              Toast.showShortCenter('请选择预计装货时间');
+                                              Toast.show('请选择预计装货时间');
                                               return
                                           }
                                           if (this.state.installTimeStart === ''){
-                                              Toast.showShortCenter('请选择预计装货时间');
+                                              Toast.show('请选择预计装货时间');
                                               return
                                           }
                                           if (this.state.money === ''){
-                                              Toast.showShortCenter('请输入报价金额');
+                                              Toast.show('请输入报价金额');
                                               return
                                           }
 
                                           if (parseInt(this.state.money) < parseInt(this.state.result.configFreight)){
-                                              Toast.showShortCenter('报价金额不能少于标准运费');
+                                              Toast.show('报价金额不能少于标准运费');
 
                                               return;
                                           }

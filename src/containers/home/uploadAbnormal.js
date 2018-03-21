@@ -88,8 +88,7 @@ class uploadAbnormal extends Component {
     getItemContent() {
         currentTime = new Date().getTime();
         this.props._getItemContentInfo({
-            // plateNum: global.plateNumber,
-            plateNum: '京LPL001',
+            plateNum: global.plateNumber,
             driverPhoneNum: global.phone,
         }, (result) => {
             if(result && result.length > 0){

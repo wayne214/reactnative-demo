@@ -10,7 +10,7 @@ import {
     NativeAppEventEmitter,
     Platform
 } from 'react-native';
-import {fetchData} from "../../action/app";
+import {fetchData,getHomePageCountAction} from "../../action/app";
 import Storage from '../../utils/storage';
 import NavigatorBar from '../../components/common/navigatorbar'
 import {
@@ -134,30 +134,19 @@ class setting extends Component {
 
     /*退出登录*/
     press() {
-        // this.props.reloadHomePageNum();
-        // this.props.reloadCarrierHomePageNum();
+        this.props.getHomoPageCountAction({});
         console.log('homePageState=',this.props.homePageState);
-        console.log('carrierHomePageState=',this.props.carrierHomePageState);
-        DeviceEventEmitter.emit('updateOrderList');
         this.loginOut();
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
+        this.props._refreshOrderList(2);
+        this.props._refreshOrderList(3);
         this.props.removeUserInfoAction();
         // ImageCache.get().clear();
-
-
 
         // 清空存储数据
         // Storage.clear();
         JPushModule.setAlias('', ()=>{}, ()=>{});
-
-        // const resetAction = NavigationActions.reset({
-        //     index: 0,
-        //     actions: [
-        //         NavigationActions.navigate({ routeName: 'LoginSms'}),
-        //     ]
-        // });
-        // this.props.navigation.dispatch(resetAction);
-
-
         this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
 
 
@@ -243,7 +232,6 @@ function mapStateToProps(state) {
     return {
         speechSwitchStatus: state.app.get('speechSwitchStatus'),
         homePageState: state.app.get('getHomePageCount'),
-        carrierHomePageState: state.app.get('getCarrierHomePageCount'),
         currentStatus: state.user.get('currentStatus'),
     };
 }
@@ -295,7 +283,10 @@ function mapDispatchToProps(dispatch) {
                 fail: error => {
                 }
             }))
-        }
+        },
+        getHomoPageCountAction: (response) => {
+            dispatch(getHomePageCountAction(response));
+        },
     };
 }
 

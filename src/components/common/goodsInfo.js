@@ -47,7 +47,14 @@ class GoodsInfo extends Component{
 	}
 
 	render() {
-		const {configData = {}, startAddress, endAddress} = this.props
+		const {configData = {}, startAddress, endAddress} = this.props;
+		console.log('--configData', configData);
+
+		const goodsType = configData.goodsType ? configData.goodsType : '';
+		const goodsCategory = configData.goodsCategory ? configData.goodsCategory : '';
+		const weight = configData.weight ? configData.weight : '';
+		const uom = configData.uom ? configData.uom : '';
+		const goodDetail = goodsType + goodsCategory + weight + uom;
 		return (
 			<View style={styles.goodsContent}>
 
@@ -55,10 +62,10 @@ class GoodsInfo extends Component{
 				{/*<AddressItem startAddress={startAddress} endAddress={endAddress}/>*/}
 				{/*</View>*/}
 				<View style={styles.goodsInfo}>
-					<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>
+					{/*<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>*/}
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物信息：</Text>
+						<Text style={styles.goodsDetailMark}>货物详情：{goodDetail }</Text>
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 
@@ -102,23 +109,23 @@ class GoodsInfo extends Component{
 						<Text style={styles.goodsDetailContent}>{configData.refuseSignReason}</Text>
 					</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>
-						<Text style={styles.goodsDetailContent}>{configData.goodsType == 1 ? configData.installDate : configData.carBanDate}</Text>
-					</View>
+					{/*<View style={styles.goodsDetailItem}>*/}
+						{/*<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>*/}
+						{/*<Text style={styles.goodsDetailContent}>{configData.goodsType == 1 ? configData.installDate : configData.carBanDate}</Text>*/}
+					{/*</View>*/}
 
 					{
-						configData.arrivalDate ?
-							<View style={styles.goodsDetailItem}>
-								<Text style={styles.goodsDetailMark}>送达时间：</Text>
-								<Text style={styles.goodsDetailContent}>{configData.arrivalDate}</Text>
-							</View>
-						: null
+						// configData.arrivalDate ?
+						// 	<View style={styles.goodsDetailItem}>
+						// 		<Text style={styles.goodsDetailMark}>送达时间：</Text>
+						// 		<Text style={styles.goodsDetailContent}>{configData.arrivalDate}</Text>
+						// 	</View>
+						// : null
 					}
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>温度要求：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.temperatureStr}</Text>
-					</View>
+					{/*<View style={styles.goodsDetailItem}>*/}
+						{/*<Text style={styles.goodsDetailMark}>温度要求：</Text>*/}
+						{/*<Text style={styles.goodsDetailContent}>{configData.temperatureStr}</Text>*/}
+					{/*</View>*/}
 					{/*<View style={styles.goodsDetailItem}>*/}
 						{/*<Text style={[styles.goodsInfoIcon,{alignSelf:'flex-start'}]}>&#xe626;</Text>*/}
 						{/*<Text style={[styles.goodsDetailMark,{alignSelf:'flex-start'}]}>备注：</Text>*/}
@@ -132,7 +139,6 @@ class GoodsInfo extends Component{
 const styles = StyleSheet.create({
 	goodsContent: {
 		backgroundColor: 'white',
-			paddingTop: 20,
 	},
 	addressInfo: {
 		// height: 77,
@@ -166,7 +172,6 @@ const styles = StyleSheet.create({
 	},
 	goodsInfo: {
 		margin: 15,
-		marginTop: 20
 	},
 	goodsInfoIcon:{
 		fontFamily: 'iconfont',

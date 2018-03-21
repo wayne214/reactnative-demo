@@ -137,7 +137,7 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        代码（VIN）
+                        车辆识别代码(VIN)
                     </Text>
                     <TextInput style={styles.textInputStyle}
                                onChangeText={(text) => {

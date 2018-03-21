@@ -175,7 +175,7 @@ class AddDriverPage extends Component {
                                     fontSize: 16,
                                     height: 27,
                                     marginBottom:5,
-                                }}>{item.driverPhone.substr(0, 3) + '*****' + item.driverPhone.substr(8, 3)}
+                                }}>{item.driverPhone ? item.driverPhone.substr(0, 3) + '*****' + item.driverPhone.substr(8, 3) : null}
                                 </Text>
 
                             </View>

@@ -44,12 +44,14 @@ import HTTPRequest from '../../utils/httpRequest';
 import StorageKey from '../../constants/storageKeys';
 import Validator from '../../utils/validator';
 import * as RouteType from '../../constants/routeType';
-
+import LoginCharacter from '../../utils/loginCharacter';
+import {fetchData} from "../../action/app";
 
 import {
     setDriverCharacterAction,
     setCurrentCharacterAction,
-    setUserNameAction
+    setUserNameAction,
+    saveUserTypeInfoAction
 } from '../../action/user';
 
 
@@ -226,6 +228,7 @@ class Verified extends Component {
         this.isRightData = this.isRightData.bind(this);
         this.formatterTime = this.formatterTime.bind(this);
         this.popToTop = this.popToTop.bind(this);
+        this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
     }
     componentDidMount() {
         this.getCurrentPosition();
@@ -911,17 +914,18 @@ class Verified extends Component {
 
 
                 if (this.props.navigation.state.params && this.props.navigation.state.params.type){
-                    this.props.navigation.dispatch({
-                        type: 'Main',
-                        mode: 'reset',
-                        params: {title: '', currentTab: 'route', insiteNotice: '123'}
-                    })
+
+
+                    // this.props.navigation.dispatch({
+                    //     type: 'Main',
+                    //     mode: 'reset',
+                    //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
+                    // })
+
+                    this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
+
                 }else
-                    this.props.navigation.dispatch({type: 'pop'});
-
-
-
-
+                    this.props.navigation.dispatch({type: 'pop',key: 'Main'});
 
 
             },
@@ -934,7 +938,11 @@ class Verified extends Component {
             }
         });
     }
-
+    quaryAccountRoleCallback(result) {
+        console.log("------账号角色信息",result);
+        LoginCharacter.setCharacter(this.props, result, 'login');
+        this.props.saveUserTypeInfoAction(result);
+    }
 
     render() {
         const navigator = this.props.navigation;
@@ -1198,6 +1206,19 @@ function mapDispatchToProps(dispatch) {
         },
         setCurrentCharacterAction: (result) => {
             dispatch(setCurrentCharacterAction(result));
+        },
+        quaryAccountRole: (params, successCallback) => {
+            dispatch(fetchData({
+                body: '',
+                method: 'POST',
+                api: API.API_INQUIRE_ACCOUNT_ROLE + params,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        saveUserTypeInfoAction:(result)=>{
+            dispatch(saveUserTypeInfoAction(result));
         },
     };
 }

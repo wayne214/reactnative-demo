@@ -21,7 +21,7 @@ import * as ConstValue from '../../../../constants/constValue';
 import CarAvatar from '../../../../../assets/img/mine/character/carAvatar.png';
 import * as API from '../../../../constants/api';
 import HTTPRequest from '../../../../utils/httpRequest';
-import Toast from '@remobile/react-native-toast';
+import Toast from '../../../../utils/toast';
 import emptyData from '../../../../../assets/img/mine/car/carInfo.png';
 import Button from 'apsl-react-native-button';
 import Storage from '../../../../utils/storage';
@@ -137,6 +137,10 @@ class AddCarPage extends Component {
         }
     }
     queryAllCarList(carNum, callback) {
+        if (!carNum) {
+            Toast.show('请输入车牌号');
+            return;
+        }
         this.props._queryAllCarList({
             carNum: carNum,
         }, callback);
@@ -369,19 +373,29 @@ class AddCarPage extends Component {
                                 }}
                                 textStyle={{color: 'white', fontSize: 18}}
                                 onPress={() => {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_VERIFIED_MSG_CODE })
+                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                            if (value){
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
+                                                    resultInfo: value,
+                                                } });
 
-                                    {/*Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {*/}
-                                         {/*if (value){*/}
-                                             {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {*/}
-                                                 {/*resultInfo: value,*/}
-                                             {/*} });*/}
-                                            {/**/}
-                                         {/*}else {*/}
-                                             {/*this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });*/}
-                                         {/*}*/}
+                                            }else {
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
+                                            }
 
-                                     {/*});*/}
+                                        });
+
+                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
+                                        if (value){
+                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
+                                                resultInfo: value,
+                                            } });
+
+                                        }else {
+                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
+                                        }
+
+                                    });
                                 }}
                             >
                                 创建车辆

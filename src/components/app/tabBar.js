@@ -98,10 +98,10 @@ class Tabar extends Component {
 			Animated.timing(this.state.orderAnimatedValue,
 				{ toValue: 1 }
 			).start(() => this.state.orderAnimatedValue.setValue(0));
-		} else if (tab === 'route') {
-			Animated.timing(this.state.routeAnimatedValue,
-				{ toValue: 1 }
-			).start(() => this.state.routeAnimatedValue.setValue(0));
+		// } else if (tab === 'route') {
+		// 	Animated.timing(this.state.routeAnimatedValue,
+		// 		{ toValue: 1 }
+		// 	).start(() => this.state.routeAnimatedValue.setValue(0));
 		} else if (tab === 'carriage') {
 			Animated.timing(this.state.carriageAnimatedValue,
 				{ toValue: 1 }
@@ -236,19 +236,19 @@ class Tabar extends Component {
                             }] }
 								source={ item.get('renderSelectedIcon') }/>
                         );
-                    } else if (item.get('key') === 'route') {
-                        return (
-							<Animated.Image
-								style={ [styles.tabIcon, {
-                                transform: [
-                                    { scale: this.state.routeAnimatedValue.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [1, 0.8]
-                                    })}
-                                ]
-                            }] }
-								source={ item.get('renderSelectedIcon') }/>
-                        );
+                    {/*} else if (item.get('key') === 'route') {*/}
+                        {/*return (*/}
+							{/*<Animated.Image*/}
+								{/*style={ [styles.tabIcon, {*/}
+                                {/*transform: [*/}
+                                    {/*{ scale: this.state.routeAnimatedValue.interpolate({*/}
+                                        {/*inputRange: [0, 1],*/}
+                                        {/*outputRange: [1, 0.8]*/}
+                                    {/*})}*/}
+                                {/*]*/}
+                            {/*}] }*/}
+								{/*source={ item.get('renderSelectedIcon') }/>*/}
+                        {/*);*/}
                     } else if (item.get('key') === 'carriage') {
                         return (
 							<Animated.Image

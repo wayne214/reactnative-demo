@@ -50,12 +50,28 @@ class orderDetailEntry extends BaseComponent {
 		const {orderDetailData} = this.props;
 		console.log('---orderDetail', orderDetailData);
 
-      const fromAddress = orderDetailData.fromProvince + orderDetailData.fromCity + orderDetailData.fromDistrict + orderDetailData.fromCustomerAddress;
-      const endAddress = orderDetailData.toProvince + orderDetailData.toCity + orderDetailData.toDistrict + orderDetailData.toCustomerAddress;
+			const fromProvince = orderDetailData.fromProvince ? orderDetailData.fromProvince : '';
+			const fromCity = orderDetailData.fromCity ? orderDetailData.fromCity : '';
+      const fromDistrict = orderDetailData.fromDistrict ? orderDetailData.fromDistrict : '';
+			const fromCustomerAddress = orderDetailData.fromCustomerAddress ? orderDetailData.fromCustomerAddress : '';
+
+
+      const fromAddress = fromProvince + fromCity + fromDistrict + fromCustomerAddress;
+
+      const toProvince = orderDetailData.toProvince ? orderDetailData.toProvince : '';
+      const toCity = orderDetailData.toCity ? orderDetailData.toCity : '';
+      const toDistrict = orderDetailData.toDistrict ? orderDetailData.toDistrict : '';
+      const toCustomerAddress = orderDetailData.toCustomerAddress ? orderDetailData.toCustomerAddress : '';
+
+      const endAddress = toProvince + toCity + toDistrict + toCustomerAddress;
 
       const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
       	console.log('--goodInfo', item);
+      	return (<GoodsInfo configData={item}/>)
+
 			});
+
+      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.substr(0, 10) : '';
 
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
@@ -72,6 +88,10 @@ class orderDetailEntry extends BaseComponent {
 								<Text style={styles.goodsDetailMark}>{'装  货  点：'}</Text>
 								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingPoint}</Text>
 							</View>
+
+							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center', paddingLeft: 10}}>
+								<Text>货品信息</Text>
+							</View>
 							{
                   goodInfo
 							}
@@ -79,7 +99,7 @@ class orderDetailEntry extends BaseComponent {
 
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装货时间：'}</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingTime}</Text>
+								<Text style={styles.goodsDetailContent}>{loaddingTime}</Text>
 							</View>
 
 								{
@@ -92,7 +112,7 @@ class orderDetailEntry extends BaseComponent {
 								}
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>温度要求：</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "-" + orderDetailData.temperatureMax}</Text>
+								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "℃-" + orderDetailData.temperatureMax + '℃'}</Text>
 							</View>
 						</View>
 
@@ -137,7 +157,7 @@ class orderDetailEntry extends BaseComponent {
                   type: RouteType.ROUTE_CONTRACT_DETAIL,
                   params: {
                       templateUrl: orderDetailData.templateUrl,
-                      title: '合同详情'
+                      title: '运输协议'
                   }
               })}>
 								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
@@ -147,7 +167,7 @@ class orderDetailEntry extends BaseComponent {
 							</TouchableOpacity>
 						</View>
 							{
-                  orderDetailData.orderSource !== 1 && <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
+                  orderDetailData.businessType && orderDetailData.businessType == '501' ? null :  <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
                       return (
 												<View>
 													<View style={styles.flodItem}>
@@ -167,28 +187,30 @@ class orderDetailEntry extends BaseComponent {
                   }}/>
 							}
 					</ScrollView>
-			<View>
-				<TouchableOpacity
-					onPress={() => {
-              if(!orderDetailData.orderCode) {
-                  Toast.show('订单号为空');
-                  return;
-              }
-              this.props.navigation.dispatch({
-                  type: RouteType.ROUTE_LADING_BILL,
-                  params: {
-                      title: '出库单',
-                      orderNoBase: orderDetailData.orderCode,
-                      images: []
-                  }
-              })
-          }}
-				>
-					<View style={styles.button}>
-						<Text style={styles.buttonText}>查看出库单</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
+				{
+            orderDetailData.businessType && orderDetailData.businessType == '501' ? null : <View>
+							<TouchableOpacity
+								onPress={() => {
+                    if(!orderDetailData.orderCode) {
+                        Toast.show('订单号为空');
+                        return;
+                    }
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_LADING_BILL,
+                        params: {
+                            title: '出库单',
+                            orderNoBase: orderDetailData.orderCode,
+                            images: []
+                        }
+                    })
+                }}
+							>
+								<View style={styles.button}>
+									<Text style={styles.buttonText}>查看出库单</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+				}
 		</View>
 	}
 }

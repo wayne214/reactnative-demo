@@ -89,7 +89,7 @@ class AddRouteContainer extends BaseComponent {
 		this.props.addRoute({
       carLength: this.props.carLengthIds.join(','),
 		// 	carrierId: this.props.user.userId,
-			carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+			carrierId: global.companyId, // 承运商id
 			fromAreaCode: faid,
       fromAreaName: this.state.fromArea === '不限'? '' : this.state.fromArea,
 			fromCityCode: fcid,
