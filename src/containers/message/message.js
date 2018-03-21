@@ -8,7 +8,8 @@ import {
 	Animated,
 	Platform,
 	TouchableOpacity,
-	InteractionManager
+	InteractionManager,
+		FlatList
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import BaseComponent from '../../components/common/baseComponent';
@@ -16,7 +17,7 @@ import styles from '../../../assets/css/message';
 import TabView from '../../components/common/tabView';
 import { SYSTEM_MESSAGE, SYSTEM_READ_ORNOT, STACK_MSG_LIST, UPDATE_WEB_MSG , CARRIER_DETAIL_INFO} from '../../constants/api';
 import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app';
-import { updateMsgList, passSysMessage, passWebMessage, dispatchRefreshCheckBox } from '../../action/message';
+import { updateMsgList, passSysMessage, passWebMessage, dispatchRefreshCheckBox, refreshList } from '../../action/message';
 import CheckBox from '../../components/common/checkbox';
 import Toast from '../../utils/toast';
 import { checkedOneOfDatas, isCheckedAll ,dispatchClearAllSeclected} from '../../action/message';
@@ -63,8 +64,9 @@ class MessageContainer extends BaseComponent {
 				this._changeTab(1);
 			}else{
 				this.props.getWebMsgs({
-					pageNo: this.state.pageNo,
-					userId: user.userId,
+            pageNum: 1,
+            userId: this.props.user.userId,
+            pageSize: 10,
 				});
 
 			}
@@ -376,9 +378,13 @@ const mapDispatchToProps = dispatch => {
 				failToast: false,
 				api: SYSTEM_MESSAGE,
 				success: (data) => {
-					dispatch(passSysMessage({ data, pageNo: body.pageNo }));
+					dispatch(passSysMessage({ data, pageNo: body.pageNum }));
 					dispatch(appendLogToFile('消息列表','获取站内公告', startTime))
-				}
+				},
+					fail: (error) => {
+					dispatch(refreshList([]));
+						Toast.show(error.message);
+					}
 			}));
 		},
 		updateMsgStatus: (body, currentTab) => {
@@ -404,9 +410,13 @@ const mapDispatchToProps = dispatch => {
 				failToast: false,
 				api: STACK_MSG_LIST,
 				success: (data) => {
-					dispatch(passWebMessage({ data, pageNo: body.pageNo }));
+					dispatch(passWebMessage({ data, pageNo: body.pageNum }));
 					dispatch(appendLogToFile('消息列表','获取站内信', startTime))
-				}
+				},
+					fail: (error) => {
+              dispatch(refreshList([]));
+					Toast.show(error.message);
+					}
 			}));
 		},
 		_getUserInfo: (body) => {
