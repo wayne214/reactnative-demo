@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         // alignItems: 'flex-end',
-        height: 40,
-        top: height - 60,
+        height: 35,
+        top: height - 55,
         left: 0,
         // marginBottom: 20
     },

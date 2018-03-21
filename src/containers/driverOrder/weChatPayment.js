@@ -76,9 +76,9 @@ class WeChatPayment extends Component {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('获取二维码图片', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '二维码付款页面');
-            console.log('url',responseData.result);
+            console.log('url',responseData);
             this.setState({
-                url: responseData.result
+                url: responseData
             })
         })
     }
