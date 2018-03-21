@@ -34,10 +34,18 @@ class EntrustOrderList extends BaseComponent {
 	  super(props);
 	  this._refreshList = this._refreshList.bind(this)
 	  this.state = {
-	  	activeTab: 0
+	  	activeTab: 0,
+      showAlert: true,
 	  }
 	}
 	componentDidMount() {
+		setTimeout(()=> {
+			this.setState({
+					showAlert: false
+			})
+		}, 3000);
+
+
 		super.componentDidMount();
       this.refreshListener = DeviceEventEmitter.addListener('reloadDispatchList', () => {
           this._refreshList(true);
@@ -134,9 +142,16 @@ class EntrustOrderList extends BaseComponent {
 						tabBarActiveTextColor={COLOR.APP_THEME}
 						tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
 						tabBarTextStyle={{fontSize:15}}>
+						<View tabLabel={'接单'} style={{flex: 1}}>
+								{
+										this.state.showAlert ? <View style={{height: 65, backgroundColor: '#FFFAF4', justifyContent: 'center', paddingHorizontal: 15}}>
+											<Text style={{fontSize: 14, color: '#FF8500'}}>
+											优先抢单倒计时结束后，该订单将被所有承运商看到，即时您将失去优先抢单的机会，要抓紧时间哦
+										</Text></View> : null
+								}
 						<EntrustOrderListItem
 							{...this.props}
-							tabLabel={'接单'}
+						// 	tabLabel={'接单'}
 							type={'entrustOrderUnconfirmed'}
 							dataSource={entrustOrderUnconfirmed}
 							refreshList={this._refreshList}
@@ -200,7 +215,7 @@ class EntrustOrderList extends BaseComponent {
                  //    size: 10,
 								// })
 							}}/>
-
+						</View>
 						<EntrustOrderListItem
 							{...this.props}
 							tabLabel={'调度'}
