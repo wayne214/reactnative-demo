@@ -153,7 +153,9 @@ export default class GoodsSourceDetails extends Component {
                         title="货品信息"
                         showArrowIcon={true}
                         onPress={(value) => {
-                            this.showGoodInfoList(value);
+                            if(goodsInfoList.length > 0) {
+                                this.showGoodInfoList(value);
+                            }
                         }}
                     />
                     {

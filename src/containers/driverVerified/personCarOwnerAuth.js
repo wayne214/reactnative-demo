@@ -680,7 +680,7 @@ class personCarOwnerAuth extends Component {
             return;
         }
 
-        debugger
+
         if (!this.state.carVin){
             Toast.showShortCenter('请输入车辆识别代码');
             return;
@@ -745,6 +745,7 @@ class personCarOwnerAuth extends Component {
                 Storage.remove(StorageKey.personownerInfoResult);
                 Toast.showShortCenter('个人车主认证提交成功');
 
+                DeviceEventEmitter.emit('verifiedSuccess');
 
                 this.props.setOwnerCharacterAction('11');
                 this.props.setOwnerNameAction(this.state.IDName);
