@@ -220,7 +220,7 @@ dependencies {
     compile project(':react-native-pdf')
     compile project(':react-native-photo-view')
     compile project(':react-native-image-crop-picker')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
     //    compile "com.android.support:appcompat-v7:23.0.1"
     compile 'com.facebook.react:react-native:+'
     // From node_modules
@@ -231,7 +231,6 @@ dependencies {
     compile 'com.lijunhuayc.downloader:easyfiledownloader:1.1.5'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.amap.api:location:latest.integration'
-    compile files('libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar')
 }
 
 // Run this once to be able to run the application with BUCK

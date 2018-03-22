@@ -277,12 +277,16 @@ class UploadReceipt extends Component {
                 if (response.code === 200){
 
                     lastTime = new Date().getTime();
-                    ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                        locationData.district, lastTime - currentTime, '上传回单页面');
+                    // ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                    //     locationData.district, lastTime - currentTime, '上传回单页面');
                     Toast.showShortCenter('上传回单成功');
-                    this.props._refreshOrderList(0);
-                    this.props._refreshOrderList(2);
-                    this.props._refreshOrderList(3);
+
+                    if(this.state.flag != '1') {
+                        this.props._refreshOrderList(0);
+                        this.props._refreshOrderList(2);
+                        this.props._refreshOrderList(3);
+                    }
+
                     this.props.navigation.dispatch({type: 'pop', key: 'Main'});
 
                 }else {
@@ -400,11 +404,22 @@ class UploadReceipt extends Component {
                                     console.log('filePath===',file.uri);
                                     formData.append('photo', file);
                                 });
-                                formData.append('userId', this.state.flag == 1 ? global.companyId : userID);
-                                formData.append('userName', this.state.flag == 1 ? global.ownerName : userName);
-                                formData.append('transCode', this.state.transCode);
-                                formData.append('receiptType', this.state.receiptWay);
-                                const url = API.API_NEW_UPLOAD_RECEIPT;
+
+
+                                let url = '';
+                                if (this.state.flag == 1) {
+                                    formData.append('resourceCode', this.state.transCode);
+
+                                    url = API.API_NEW_UPLOAD_CTC_ORDER_MATCH;
+                                } else {
+                                    formData.append('userId', userID);
+                                    formData.append('userName', userName);
+                                    formData.append('transCode', this.state.transCode);
+                                    formData.append('receiptType', this.state.receiptWay);
+                                    url = API.API_NEW_UPLOAD_RECEIPT;
+                                }
+
+
                                 this.uploadImage(url, formData);
                             }
                         }}
