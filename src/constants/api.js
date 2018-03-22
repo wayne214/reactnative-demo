@@ -522,3 +522,6 @@ export const API_QUERY_RESOURCE_ATTACHMENTINFO = 'app/attachmentRestController/q
 // 订单调车车辆司机列表
 export const API_QUERY_DRIVER_BID_CAR_LIST = 'app/goods/queryDriverBidCar';
 
+// 承运商上传回执单接口
+export const API_NEW_UPLOAD_CTC_ORDER_MATCH = `app/receiveMatch/uploadCtcOrderMatch`;
+
