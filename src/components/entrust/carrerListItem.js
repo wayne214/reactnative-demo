@@ -36,8 +36,8 @@ class carrerListItem extends Component{
         const timeSecond = rowData.pushTime - new Date().getTime();
         var seconds = parseInt(timeSecond / 1000 % 60, 10);//计算剩余的秒数
 
-        // const endTime = moment(rowData.pushTime).format('YYYY-MM-DD HH:mm:ss');
-        const endTime = '2018-03-21 18:40:00';
+        const endTime = moment(rowData.pushTime).format('YYYY-MM-DD HH:mm:ss');
+        // const endTime = '2018-03-21 18:40:00';
 
         const countDown = <CountDownReact
                 date={endTime}
@@ -163,7 +163,7 @@ class carrerListItem extends Component{
                             </View>
                         </View> : null
                     }
-                    {rowData.orderStateStr == '待确认' &&  1 > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
                         {/*<Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>*/}
                         {

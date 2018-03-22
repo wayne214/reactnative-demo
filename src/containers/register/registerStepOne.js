@@ -199,7 +199,7 @@ class RegisterStepOne extends Component {
     /*注册*/
     registerAccount(phoneNum,messageCode,againPWD) {
         if (!this.state.checkBox) {
-            Toast.show("请阅读并同意《冷链马甲服务协议》");
+            Toast.showShortCenter("请阅读并同意《冷链马甲服务协议》");
             return;
         }
 
@@ -295,7 +295,7 @@ class RegisterStepOne extends Component {
                                     if (Validator.isPhoneNumber(phoneNum)) {
                                         this.registeredIdentityCode(shouldStartCountting)
                                     } else {
-                                        Toast.show('手机号输入有误，请重新输入');
+                                        Toast.showShortCenter('手机号输入有误，请重新输入');
                                         shouldStartCountting(false);
                                     }
                                 }}
@@ -385,13 +385,13 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_UAM_REGISTER_IDENTIFY_CODE,
                 success: data => {
                     shouldStartCountting(true);
-                    Toast.show('验证码已发送');
+                    Toast.showShortCenter('验证码已发送');
                     dispatch(registeredIdentityCodeAction(data));
                 },
                 fail: error => {
                     console.log('--register', error);
                     shouldStartCountting(false);
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },
@@ -402,10 +402,10 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_UAM_REGISTER,
                 success: data => {
                     registerAccountSucCallBack()
-                    Toast.show('注册成功');
+                    Toast.showShortCenter('注册成功');
                 },
                 fail: data => {
-                    Toast.show(data.message);
+                    Toast.showShortCenter(data.message);
                 }
             }))
         }
