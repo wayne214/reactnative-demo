@@ -580,6 +580,8 @@ class DriverManagement extends Component {
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
                         this.props.navigation.dispatch({ type: RouteType.ROUTE_ADD_DRIVER2 });
+
+
                     }}
                 >
                     添加司机
