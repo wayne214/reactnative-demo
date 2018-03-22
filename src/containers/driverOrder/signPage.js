@@ -56,7 +56,6 @@ class signPage extends Component {
         this.productInfo = this.productInfo.bind(this);
         this.getSignIn = this.getSignIn.bind(this);
         this.getSignInSuccessCallBack = this.getSignInSuccessCallBack.bind(this);
-        this.getSignInFailCallBack = this.getSignInFailCallBack.bind(this);
         this.deleteComponent = this.deleteComponent.bind(this);
     }
 
@@ -157,8 +156,8 @@ class signPage extends Component {
             realTimeAddress: locationData.address ? locationData.address : ''
         }, (responseData) => {
             this.getSignInSuccessCallBack();
-        }, () => {
-            this.getSignInFailCallBack();
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -180,11 +179,6 @@ class signPage extends Component {
             this.props._refreshOrderList(2);
             this.props.navigation.dispatch({type: 'pop', key: 'Main'});
         }
-    }
-
-    // 获取数据失败回调
-    getSignInFailCallBack() {
-        Toast.showShortCenter('签收失败!');
     }
 
     deleteComponent(componentID ,index , numbers){
