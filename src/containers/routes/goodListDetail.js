@@ -311,10 +311,6 @@ class goodListDetail extends Component {
                                               return;
                                           }
 
-
-
-
-
                                           this.sendPrice();
 
                                       }}>

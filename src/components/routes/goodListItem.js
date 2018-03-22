@@ -24,11 +24,29 @@ class goodListItem extends Component{
         const {item} = this.props;
         let goodName = '';
         item.supplyInfoList ? item.supplyInfoList.map((goods,index)=>{
-                if (index === item.supplyInfoList.length - 1){
-                    goodName+=goods.typeName;
-                }else
-                    goodName+=goods.typeName+' , '
+                if (goods.categoryName){
+                    if (index === item.supplyInfoList.length - 1){
+                        goodName+=goods.categoryName + ' ';
+                    }else
+                        goodName+=goods.categoryName+' , '
+                }
             }) : null;
+
+
+        let haveDetail = '';
+        if (item.goodsTotalWeight && item.goodsTotalVolume){
+            haveDetail = item.goodsTotalWeight+'吨' + ' , '+ item.goodsTotalVolume+'方'
+        }else if (item.goodsTotalWeight && !item.goodsTotalVolume){
+            haveDetail = item.goodsTotalWeight+'吨'
+        }else if (!item.goodsTotalWeight && item.goodsTotalVolume){
+            haveDetail = item.goodsTotalVolume+'方'
+        }else
+            haveDetail = '';
+
+
+        haveDetail = goodName + haveDetail;
+
+
         let needDetail = '';
         if (item.carLength && item.carType){
             needDetail = item.carLength + ' , '+ item.carType
@@ -37,7 +55,7 @@ class goodListItem extends Component{
         }else if (!item.carLength && item.carType){
             needDetail = item.carType
         }else
-            needDetail = ''
+            needDetail = '';
 
 
         let fromAddress = item.fromProvinceName + item.fromCityName + item.fromAreaName + item.fromAddress;
@@ -75,7 +93,7 @@ class goodListItem extends Component{
 
                 <View style={{marginTop: 10, flexDirection: 'row'}}>
                     <View style={{width: width - space*2 - 100,flexDirection: 'row'}}>
-                        <Image style={{borderRadius: 18,backgroundColor: 'red',width: 36, height: 36}} source={HeadIcon}/>
+                        <Image style={{borderRadius: 18,width: 36, height: 36}} source={HeadIcon}/>
 
                         <View>
                             <View style={{flexDirection: 'row'}}>
@@ -84,10 +102,10 @@ class goodListItem extends Component{
                                     <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                 </View>
                                 {
-                                    goodName || goodName != '' ? <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
+                                    haveDetail !== '' ? <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
                                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999',paddingHorizontal: 4}}>
 
-                                            {goodName}
+                                            {haveDetail}
 
                                         </Text>
                                     </View> : null
