@@ -166,9 +166,9 @@ class SettingContainer extends BaseComponent {
 				<TouchableOpacity
 					style={ styles.cellContainer }
 					onPress={ () =>
-							this.props.currentStatus == 'personalOwner' ?
+							this.props.currentStatus == 'personalOwner' && this.props.ownerStatus == '12' ?
 							this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL, params: {title: '电签印章(个体)', type: 3}}) :
-                  this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}})
+									(this.props.currentStatus == 'Enterpriseowner' && this.props.ownerStatus == '22') ? this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}}) : console.log('dianji')
 					}>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>电子签章设置</Text>
@@ -296,6 +296,7 @@ function mapStateToProps (state) {
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
     currentStatus: user.get('currentStatus'),
+      ownerStatus: user.get('ownerStatus'),
 	};
 }
 
