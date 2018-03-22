@@ -286,7 +286,7 @@ class UploadReceipt extends Component {
                         this.props._refreshOrderList(2);
                         this.props._refreshOrderList(3);
                     }
-
+                    DeviceEventEmitter.emit('refreshCarrierOrderList');
                     this.props.navigation.dispatch({type: 'pop', key: 'Main'});
 
                 }else {
