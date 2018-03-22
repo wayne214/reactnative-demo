@@ -167,7 +167,7 @@ android {
         }
         debug {
             applicationIdSuffix ".debug"
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             buildConfigField "String", "CODEPUSH_KEY", '""'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"

@@ -68,7 +68,7 @@ class goodlistdetailsetTimeItem extends Component{
                     </View>
                 </View>
                 <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 20}}>
-                    <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,textAlign: 'center',color: 'red'}}>
+                    <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,color: 'red'}}>
                         注：装货时间应该在24小时内，避免造成额外损失
                     </Text>
                 </View>

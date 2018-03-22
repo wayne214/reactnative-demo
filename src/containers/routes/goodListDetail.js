@@ -9,7 +9,8 @@ import {
     Dimensions,
     TouchableOpacity,
     Modal,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -54,11 +55,11 @@ class goodListDetail extends Component {
         this.getDetailSuccess = this.getDetailSuccess.bind(this);
         this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
         this.sendOrderFail = this.sendOrderFail.bind(this);
+        this.sendPrice = this.sendPrice.bind(this);
 
     }
     componentDidMount() {
          const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
-        //const uri = API.RESOURCE_DETAIL + 'WT180321000084';
         this.props.getGoodsDetail(uri,this.getDetailSuccess)
     }
     getDetailSuccess(result){
@@ -186,6 +187,33 @@ class goodListDetail extends Component {
         }
     }
 
+    sendPrice(){
+        Alert.alert(
+            '提示',
+            '确认此报价？',
+            [
+                { text: '确认', onPress: () => {
+
+                    this.props.sendOrder({
+                        biddingPrice: this.state.money,
+                        carrierId: global.companyCode, // 承运商code
+                        carrierName: global.ownerName, // 承运商名字
+                        entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
+                        expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
+                        resourceCode: this.props.navigation.state.params.goodID, // 货源id
+                        type: this.props.navigation.state.params.type // 报价类型
+                    },this.sendOrderSuccess,this.sendOrderFail);
+
+
+                    }
+                },
+                { text: '取消', onPress: () => console.log('cancel') },
+            ]
+        );
+    }
+
+
+
     render() {
         let goodName = '';
         this.state.result.supplyInfoList ? this.state.result.supplyInfoList.map((goods,index)=>{
@@ -204,9 +232,12 @@ class goodListDetail extends Component {
         let fromAddress = this.state.result.fromProvinceName + this.state.result.fromCityName + this.state.result.fromAreaName + this.state.result.fromAddress;
         let endAddress = this.state.result.toProvinceName + this.state.result.toCityName + this.state.result.toAreaName + this.state.result.toAddress;
 
+        let hot = '';
+        if ( String(this.state.result.temperatureMin) && String(this.state.result.temperatureMax) ){
+            hot = String(this.state.result.temperatureMin)+ '℃ - '  + String(this.state.result.temperatureMax) + '℃';
+        }
+
         return (
-
-
 
             <View style={styles.container}>
                 <NavigatorBar
@@ -214,7 +245,7 @@ class goodListDetail extends Component {
                     router={this.props.navigation}
                     hiddenBackIcon={false}
                 />
-                <ScrollView>
+                <ScrollView keyboardDismissMode={'on-drag'}>
 
                     <ItemTop price={this.state.result.configFreight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
@@ -233,7 +264,7 @@ class goodListDetail extends Component {
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
                                      endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
-                                     hot={this.state.result.temperatureMin && this.state.result.temperatureMax ? this.state.result.temperatureMin+ '℃ - '  + this.state.result.temperatureMax + '℃' : ''}
+                                     hot={hot}
                                      remark={this.state.result.remark || ''}
                         />
                     </View>
@@ -248,6 +279,8 @@ class goodListDetail extends Component {
                                      }}/>
 
                     <GoodsDetailMoney norMoney={this.state.result.configFreight}
+                                      minPrice={this.state.result.priceMin}
+                                      maxPrice={this.state.result.priceMax}
                                       moneyChange={(money)=>{
 
                                          this.setState({money});
@@ -269,20 +302,17 @@ class goodListDetail extends Component {
                                               return
                                           }
 
-                                          if (parseInt(this.state.money) < parseInt(this.state.result.configFreight)){
-                                              Toast.show('报价金额不能少于标准运费');
-
+                                          if (parseInt(this.state.money) < parseInt(this.state.result.priceMin)){
+                                              Toast.show('报价金额不能少于最低标准运费');
                                               return;
                                           }
-                                          this.props.sendOrder({
-                                              biddingPrice: this.state.money,
-                                              carrierId: global.companyCode, // 承运商code
-                                              carrierName: global.ownerName, // 承运商名字
-                                              entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
-                                              expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
-                                              resourceCode: this.props.navigation.state.params.goodID, // 货源id
-                                              type: this.props.navigation.state.params.type // 报价类型
-                                          },this.sendOrderSuccess,this.sendOrderFail);
+                                          if (parseInt(this.state.money) > parseInt(this.state.result.priceMax)){
+                                              Toast.show('报价金额不能少于最高标准运费');
+                                              return;
+                                          }
+
+                                          this.sendPrice();
+
                                       }}>
                         <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
                     </TouchableOpacity>

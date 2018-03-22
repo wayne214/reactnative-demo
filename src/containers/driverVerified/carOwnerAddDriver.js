@@ -47,6 +47,7 @@ import { setUserNameAction } from '../../action/user';
 import StorageKey from '../../constants/storageKeys';
 import Validator from '../../utils/validator';
 import Line from './verifiedIDItem/verifiedLineItem';
+import Regex from '../../utils/regex';
 
 
 const idCardLeftImage = require('./images/IdCardModel.png');
@@ -633,9 +634,7 @@ class carOwnerAddDriver extends Component {
 
     // 返回到根界面
     popToTop() {
-        const routes = this.props.routes;
-        let key = routes[1].key;
-        this.props.navigation.goBack(key);
+        this.props.navigation.dispatch({type: 'pop',key:'Main'})
     }
 
 
@@ -748,6 +747,17 @@ class carOwnerAddDriver extends Component {
     /*上传图片，调用接口*/
     checkUploadParams() {
 
+        if (!this.state.enterPhone){
+            Toast.showShortCenter('请输入手机号码');
+            return;
+        }
+
+        if (!Regex.test('mobile', this.state.enterPhone)) {
+            Toast.showShortCenter('手机号输入有误，请重新输入');
+            return;
+        }
+
+
         if (this.state.idFaceSideNormalPhotoAddress === '' && this.state.idFaceSideThumbnailAddress === '') {
             Toast.showShortCenter('请上传身份证正面照片');
             return;
@@ -756,18 +766,7 @@ class carOwnerAddDriver extends Component {
             Toast.showShortCenter('请上传身份证反面照片');
             return;
         }
-        if (this.state.drivingLicenseHomepageNormalPhotoAddress === '' && this.state.drivingLicenseHomepageThumbnailAddress === '') {
-            Toast.showShortCenter('请上传驾驶证正面照片');
-            return;
-        }
-        if (this.state.drivingLicenseVicePageNormalAddress === '' && this.state.drivingLicenseVicePageThumbnailAddress === '') {
-            Toast.showShortCenter('请上传驾驶证反面照片');
-            return;
-        }
-        if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDThumbnailAddress === '') {
-            Toast.showShortCenter('请上传手持身份证照片');
-            return;
-        }
+
         if (this.state.IDName === '') {
             Toast.showShortCenter('请输入身份证姓名');
             return;
@@ -783,6 +782,15 @@ class carOwnerAddDriver extends Component {
             Toast.showShortCenter('请选择身份证有效期');
             return;
         }
+        if (this.state.drivingLicenseHomepageNormalPhotoAddress === '' && this.state.drivingLicenseHomepageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传驾驶证正面照片');
+            return;
+        }
+        if (this.state.drivingLicenseVicePageNormalAddress === '' && this.state.drivingLicenseVicePageThumbnailAddress === '') {
+            Toast.showShortCenter('请上传驾驶证反面照片');
+            return;
+        }
+
         if (this.state.drivingLicenseName === '') {
             Toast.showShortCenter('请输入驾驶证姓名');
             return;
@@ -813,6 +821,10 @@ class carOwnerAddDriver extends Component {
         if (!this.isRightData(dataString)){
             Toast.showShortCenter('所选择的驾驶证有效期应大于今天，请重新选择');
 
+            return;
+        }
+        if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDThumbnailAddress === '') {
+            Toast.showShortCenter('请上传手持身份证照片');
             return;
         }
 
@@ -938,7 +950,9 @@ class carOwnerAddDriver extends Component {
                 DeviceEventEmitter.emit('addDriverPage');
 
                 // this.popToTop();
-                this.props.navigation.goBack();
+               // this.props.navigation.goBack();
+                this.props.navigation.dispatch({type: 'pop',key:'Main'})
+
 
             },
             error: (errorInfo) => {

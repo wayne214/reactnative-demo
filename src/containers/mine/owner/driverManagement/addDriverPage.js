@@ -354,18 +354,9 @@ class AddDriverPage extends Component {
                                     textStyle={{color: 'white', fontSize: 18}}
                                     onPress={() => {
 
-                                        Storage.get(StorageKey.carOwnerAddDriverInfo).then((value) => {
-                                            if (value) {
-                                                this.props.navigation.dispatch({
-                                                    type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER ,
-                                                    params: {
-                                                        resultInfo: value,
-                                                    }}
-                                                )
-                                            } else {
-                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_DRIVER })
-                                            }
-                                        });
+                                        this.props.navigation.dispatch({ type: RouteType.ROUTE_CAROWNER_CREAT_DRIVER });
+
+
 
                                     }}
                                 >
