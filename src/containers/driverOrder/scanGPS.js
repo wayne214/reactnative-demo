@@ -30,6 +30,7 @@ import * as RouteType from '../../constants/routeType';
 import Toast from '@remobile/react-native-toast';
 import {fetchData} from '../../action/app';
 import {refreshDriverOrderList} from '../../action/driverOrder';
+import PermissionsManager from '../../utils/permissionManager';
 
 import inputNum from '../../../assets/img/scan/inputNum.png'
 import light from '../../../assets/img/scan/light.png'
@@ -75,10 +76,25 @@ class scanGPS extends Component {
         });
         this.getCurrentPosition();
         this.timeout = setTimeout(() => {
-            this.setState({
-                active: true,
-                loading: false
-            });
+            if(Platform.OS === 'ios'){
+                PermissionsManager.cameraPermission().then(data => {
+                    this.setState({
+                        active: true,
+                        loading: false
+                    });
+                }).catch(err=>{
+                    this.setState({
+                        active: false,
+                        loading: false
+                    });
+                    Alert.alert(null,err.message)
+                });
+            }else {
+                this.setState({
+                    active: true,
+                    loading: false
+                });
+            }
         }, 1000);
         this.startAnimation();
         this.startTimer();
@@ -377,6 +393,29 @@ class scanGPS extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </RNCamera>
+                        );
+                    } else {
+                        return(
+                            <View style={styles.container}>
+                                <View style={styles.titleContainer}>
+                                    <View style={styles.leftContainer}>
+                                        <TouchableOpacity
+                                            activeOpacity={1}
+                                            onPress={this.goBack}
+                                        >
+                                            <View style={{width: 80}}>
+                                                <Image
+                                                    style={styles.backImg}
+                                                    source={scanBackIcon}
+                                                />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.leftTitle}>
+                                        <Text style={styles.titleText}>扫描GPS设备</Text>
+                                    </View>
+                                </View>
+                            </View>
                         );
                     }
                 })()}
