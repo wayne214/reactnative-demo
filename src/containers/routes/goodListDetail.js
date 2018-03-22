@@ -57,8 +57,8 @@ class goodListDetail extends Component {
 
     }
     componentDidMount() {
-        // const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
-        const uri = API.RESOURCE_DETAIL + 'WT180321000013';
+         const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
+        //const uri = API.RESOURCE_DETAIL + 'WT180321000084';
         this.props.getGoodsDetail(uri,this.getDetailSuccess)
     }
     getDetailSuccess(result){
