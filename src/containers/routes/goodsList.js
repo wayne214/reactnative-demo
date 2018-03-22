@@ -266,7 +266,7 @@ class GoodsList extends Component {
 
                    <GoodListIten item={item.item} itemClick={()=>{
                                 // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
-                                if (item.item.biddingState == 0 || item.item.biddingState == 3) {
+                                if (!item.item.biddingState || item.item.biddingState == 0) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {
@@ -274,7 +274,11 @@ class GoodsList extends Component {
                                             type: '2'
                                         }
                                     })
+                                }else {
+                                    Toast.show('已经报价成功，请勿重复报价');
+
                                 }
+
 
                      }}/>
                </View>
