@@ -266,7 +266,7 @@ class GoodsList extends Component {
 
                    <GoodListIten item={item.item} itemClick={()=>{
                                 // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
-                                //if (item.item.biddingState == 0 || item.item.biddingState == 3) {
+                                if (item.item.biddingState == 0 || item.item.biddingState == 3) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {
@@ -274,7 +274,7 @@ class GoodsList extends Component {
                                             type: '2'
                                         }
                                     })
-                                //}
+                                }
 
                      }}/>
                </View>
@@ -370,6 +370,7 @@ class GoodsList extends Component {
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
                     phone: global.phone,//global.phone
+                    type: 'login',
                     commitSuccess: () => {
                         this.setState({
                             bubbleSwitch: false,

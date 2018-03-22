@@ -27,7 +27,7 @@ class goodlistdetailMoneyItem extends Component{
 
     render() {
         let price = '';
-        debugger
+
         if (this.props.minPrice && this.props.maxPrice){
             price = String(this.props.minPrice)+'元' + '~' + String(this.props.maxPrice)+'元';
         }
