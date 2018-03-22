@@ -62,7 +62,6 @@ export default class TimerButton extends React.Component {
                     selfEnable: true,
                 });
             } else {
-                console.log('---- timer ', timer);
                 this.setState({
                     timerCount: timer,
                     timerTitle: `(${timer}s)`,

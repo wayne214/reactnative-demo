@@ -170,7 +170,6 @@ class orderItemCell extends Component{
                                           type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
                                           params: {
                                               transCode: rowData.deliveryno,
-                                              receiptWay: '纸质回单',
 																							flag: '1'
                                           }
                                       });

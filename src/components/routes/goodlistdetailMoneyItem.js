@@ -26,9 +26,22 @@ class goodlistdetailMoneyItem extends Component{
 
 
     render() {
+        let price = '';
+
+        if (this.props.minPrice && this.props.maxPrice){
+            price = String(this.props.minPrice)+'元' + '~' + String(this.props.maxPrice)+'元';
+        }
+        //price = '110'+'元' + ' ~ ' + '550'+'元';
+
         return (
             <View style={styles.container}>
-                <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 20}}>我要报价</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 20}}>我要报价</Text>
+                    <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,paddingVertical: 20,color: 'red',fontSize: 12}}>
+                        {price}
+                    </Text>
+
+                </View>
 
                 <View style={{padding: 20, backgroundColor: 'white',flexDirection:'row'}}>
                     <View style={{borderColor: '#E6EAF2', borderWidth: 1,flex: 5,height: 40,flexDirection:'row',justifyContent: 'space-between',alignItems: 'center'}}>
@@ -40,6 +53,7 @@ class goodlistdetailMoneyItem extends Component{
                                    }}
                                    underlineColorAndroid="transparent"
                                    keyboardType='decimal-pad'
+                                   onBlur={()=>{}}
                         />
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
                     </View>
@@ -55,6 +69,11 @@ class goodlistdetailMoneyItem extends Component{
                 </TouchableOpacity>
                 </View>
 
+                <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 20}}>
+                    <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,color: 'red'}}>
+                        注：报价范围应该在 {price} 之间
+                    </Text>
+                </View>
             </View>
         )
     }

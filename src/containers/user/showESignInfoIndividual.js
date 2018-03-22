@@ -70,8 +70,7 @@ class showESignInfoIndividual extends BaseComponent {
 	}
 
 	componentWillReceiveProps(props) {
-		const {eSignInfo,isRefresh,sealPersonTemplate, sealColor} = props;
-		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
+		const {eSignInfo,sealPersonTemplate, sealColor} = props;
 			setTimeout(() => {
 				this.setState({
 					isLoad: true,
@@ -86,7 +85,6 @@ class showESignInfoIndividual extends BaseComponent {
 				});
 			}, 0);
 			// console.log('---clolrMap--->',this.state.colorMap.value);
-		}
 	}
 
 	_getESignInfo(){
@@ -210,7 +208,7 @@ class showESignInfoIndividual extends BaseComponent {
 
 									<View style={styles.arrowTextRight}>
 										<Text
-											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+											style={  this.props.sealPersonTemplate ? styles.blackArrowText : styles.arrowText }>
                         { this.props.sealPersonTemplate != '' ? HelperUtil.getPersonTemplateStyle(this.props.sealPersonTemplate) : '请选择印章模板' }
 										</Text>
 										<Text style={ styles.arrowRight }>&#xe63d;</Text>
@@ -233,7 +231,7 @@ class showESignInfoIndividual extends BaseComponent {
 
 								<View style={styles.arrowTextRight}>
 									<Text
-										style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
+										style={  this.state.colorMap ? styles.blackArrowText : styles.arrowText }>
 										{ this.props.sealColor == '' ? '请选择印章颜色' : HelperUtil.getColor(this.props.sealColor) }
 									</Text>
 									<Text style={ styles.arrowRight }>&#xe63d;</Text>
@@ -295,7 +293,8 @@ const mapDispatchToProps = dispatch => {
 						}
 					dispatch(appendLogToFile('电子签章','电子签章信息',startTime))
 				},
-				fail: () => {
+				fail: (error) => {
+            Toast.show(error.message);
 					// console.log('lqq---getESignInfo--fail-->');
 				}
 			}));
@@ -315,7 +314,8 @@ const mapDispatchToProps = dispatch => {
 					// dispatch(dispatchRefreshESignTemplateInfo());
 					// console.log('lqq---editESignInfo--success-->'+data);
 				},
-				fail: () => {
+				fail: (error) => {
+            Toast.show(error.message);
 					// console.log('lqq---editESignInfo--fail-->');
 				}
 			}));

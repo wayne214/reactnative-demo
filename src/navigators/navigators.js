@@ -138,6 +138,7 @@ import CarOwnerAddDriverDetail from '../containers/driverVerified/carOwnerAddDri
 import CarOwnerVerifiedMsgCode from '../containers/driverVerified/carOwnerVerifiedMsgCode';
 import CarOwnerAddCarTwo from '../containers/driverVerified/carOwnerAddCarTwo';
 import CarOwnerAddCarThree from '../containers/driverVerified/carOwnerAddCarThree';
+import CarOwnerCreatDriver from '../containers/driverVerified/carOwnerCreatDriver';
 
 
 // 选择车辆
@@ -1050,6 +1051,15 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_CAROWNER_CREAT_DRIVER]: {
+        screen: CarOwnerCreatDriver,
+        navigationOptions: {
+            // title: '安排司机列表'
+            header: null
+        }
+    },
+
+
 }, {
     headerMode: 'screen',
     initialRouteName: 'Splash',

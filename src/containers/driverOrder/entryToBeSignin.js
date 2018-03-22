@@ -186,8 +186,8 @@ class entryToBeSignin extends Component {
             realTimeAddress: locationData.address ? locationData.address : ''
         }, (responseData) => {
             this.getSignInSuccessCallBack(responseData.result);
-        }, () => {
-            this.getSignInFailCallBack();
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -199,11 +199,6 @@ class entryToBeSignin extends Component {
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(2);
         this.props.navigation.dispatch({type: 'pop'});
-    }
-
-    // 获取数据失败回调
-    getSignInFailCallBack() {
-        Toast.showShortCenter('签收失败!');
     }
 
     // 获取列表详情调用接口
@@ -401,7 +396,7 @@ class entryToBeSignin extends Component {
                         signIn={() => {
                             if(item.taskInfo) {
                                 if(item.goodsInfo.length === 0){
-                                    Toast.showShortCenter('货品明细尚未补齐，请稍后签收');
+                                    Toast.showShortCenter('运输单尚未完善，请稍后签收');
                                     return;
                                 }
                                 // 跳转到具体的签收页面

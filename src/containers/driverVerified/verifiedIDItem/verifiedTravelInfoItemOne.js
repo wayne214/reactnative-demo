@@ -147,7 +147,7 @@ class verifiedTravelInfoItemOne extends Component{
 
                                }}
                                onFocus={()=>{
-                                   this.textOnFocus(920);
+                                   this.textOnFocus(1000);
                                }}
                                value={this.state.carVin}
                                placeholder={'请输入车辆识别代码'}
@@ -168,7 +168,7 @@ class verifiedTravelInfoItemOne extends Component{
                                     this.codeValueChange(text);
                                }}
                                onFocus={()=>{
-                                   this.textOnFocus(940);
+                                   this.textOnFocus(1000);
                                }}
                                underlineColorAndroid={'transparent'}
                                value={this.state.engineNumber}

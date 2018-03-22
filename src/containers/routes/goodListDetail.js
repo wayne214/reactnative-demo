@@ -9,7 +9,8 @@ import {
     Dimensions,
     TouchableOpacity,
     Modal,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Alert
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as COLOR from '../../constants/colors'
@@ -27,6 +28,7 @@ import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
 // import Toast from '@remobile/react-native-toast';
 import Toast from '../../utils/toast';
+import * as RouteType from '../../constants/routeType'
 
 
 
@@ -54,10 +56,11 @@ class goodListDetail extends Component {
         this.getDetailSuccess = this.getDetailSuccess.bind(this);
         this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
         this.sendOrderFail = this.sendOrderFail.bind(this);
+        this.sendPrice = this.sendPrice.bind(this);
 
     }
     componentDidMount() {
-        const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
+         const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
         this.props.getGoodsDetail(uri,this.getDetailSuccess)
     }
     getDetailSuccess(result){
@@ -185,6 +188,37 @@ class goodListDetail extends Component {
         }
     }
 
+    sendPrice(){
+
+
+
+
+        Alert.alert(
+            '提示',
+            '确认此报价？',
+            [
+                { text: '确认', onPress: () => {
+
+                    this.props.sendOrder({
+                        biddingPrice: this.state.money,
+                        carrierId: global.companyCode, // 承运商code
+                        carrierName: global.ownerName, // 承运商名字
+                        entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
+                        expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
+                        resourceCode: this.props.navigation.state.params.goodID, // 货源id
+                        type: this.props.navigation.state.params.type // 报价类型
+                    },this.sendOrderSuccess,this.sendOrderFail);
+
+
+                    }
+                },
+                { text: '取消', onPress: () => console.log('cancel') },
+            ]
+        );
+    }
+
+
+
     render() {
         let goodName = '';
         this.state.result.supplyInfoList ? this.state.result.supplyInfoList.map((goods,index)=>{
@@ -203,9 +237,12 @@ class goodListDetail extends Component {
         let fromAddress = this.state.result.fromProvinceName + this.state.result.fromCityName + this.state.result.fromAreaName + this.state.result.fromAddress;
         let endAddress = this.state.result.toProvinceName + this.state.result.toCityName + this.state.result.toAreaName + this.state.result.toAddress;
 
+        let hot = '';
+        if ( String(this.state.result.temperatureMin) && String(this.state.result.temperatureMax) ){
+            hot = String(this.state.result.temperatureMin)+ '℃ - '  + String(this.state.result.temperatureMax) + '℃';
+        }
+
         return (
-
-
 
             <View style={styles.container}>
                 <NavigatorBar
@@ -213,7 +250,7 @@ class goodListDetail extends Component {
                     router={this.props.navigation}
                     hiddenBackIcon={false}
                 />
-                <ScrollView>
+                <ScrollView keyboardDismissMode={'on-drag'}>
 
                     <ItemTop price={this.state.result.configFreight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
@@ -232,7 +269,7 @@ class goodListDetail extends Component {
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
                                      endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
-                                     hot={this.state.result.temperatureMin && this.state.result.temperatureMax ? this.state.result.temperatureMin+ '℃ - '  + this.state.result.temperatureMax + '℃' : ''}
+                                     hot={hot}
                                      remark={this.state.result.remark || ''}
                         />
                     </View>
@@ -247,6 +284,8 @@ class goodListDetail extends Component {
                                      }}/>
 
                     <GoodsDetailMoney norMoney={this.state.result.configFreight}
+                                      minPrice={this.state.result.priceMin}
+                                      maxPrice={this.state.result.priceMax}
                                       moneyChange={(money)=>{
 
                                          this.setState({money});
@@ -254,6 +293,48 @@ class goodListDetail extends Component {
 
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{
+
+                                if (this.state.result.biddingState == 0 || this.state.result.biddingState == 3) {
+
+        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
+        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
+        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
+
+        switch (this.props.ownerStatus){
+            case '11':
+            case '21':
+                Toast.show('车主身份正在认证中，如需帮助请联系客服');
+                return;
+                break;
+            case '13' :
+            case '23' :
+                Toast.show('车主身份认证驳回，请重新上传');
+
+                if (this.props.currentStatus === 'personalOwner'){
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                }
+
+                if (this.props.currentStatus === 'businessOwner'){
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                }
+                return;
+
+                break;
+            case '14':
+            case '24':
+                Toast.show('车主身份已经被禁用，如需帮助请联系客服');
+                return;
+                break;
+            case '12':
+            case '22':
+                break
+            default:
+                return;
+                break
+        }
+
+
+
 
                                           if (this.state.installDateStart === ''){
                                               Toast.show('请选择预计装货时间');
@@ -268,20 +349,20 @@ class goodListDetail extends Component {
                                               return
                                           }
 
-                                          if (parseInt(this.state.money) < parseInt(this.state.result.configFreight)){
-                                              Toast.show('报价金额不能少于标准运费');
-
+                                          if (parseInt(this.state.money) < parseInt(this.state.result.priceMin)){
+                                              Toast.show('报价金额不能少于最低标准运费');
                                               return;
                                           }
-                                          this.props.sendOrder({
-                                              biddingPrice: this.state.money,
-                                              carrierId: global.companyCode, // 承运商code
-                                              carrierName: global.ownerName, // 承运商名字
-                                              entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
-                                              expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
-                                              resourceCode: this.props.navigation.state.params.goodID, // 货源id
-                                              type: this.props.navigation.state.params.type // 报价类型
-                                          },this.sendOrderSuccess,this.sendOrderFail);
+                                          if (parseInt(this.state.money) > parseInt(this.state.result.priceMax)){
+                                              Toast.show('报价金额不能高于最高标准运费');
+                                              return;
+                                          }
+
+                                          this.sendPrice();
+                                }
+                                else {
+                                              Toast.show('已经报价成功，请勿重复报价');
+                                }
                                       }}>
                         <Text style={{textAlign: 'center', fontSize: 17,color: 'white',fontWeight: 'bold'}}>立即抢单</Text>
                     </TouchableOpacity>
@@ -320,6 +401,8 @@ const styles =StyleSheet.create({
 function mapStateToProps(state){
     return {
         currentStatus: state.user.get('currentStatus'),
+        ownerStatus: state.user.get('ownerStatus'),
+
     };
 }
 

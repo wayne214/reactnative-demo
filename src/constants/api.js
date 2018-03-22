@@ -476,6 +476,8 @@ export const API_QUERY_DRIVERS_ALL_COMPANY = 'app/rmc/driver/queryDriversByCompa
 export const API_QUERY_CAR_INFO_BY_PHONE_NUM_DRIVER = 'app/rmc/rmcCar/queryCarInfoByCarNum';
 // 车主增加车辆发送验证码
 export const API_CAR_OWNER_ADD_CAR_CODE = 'app/sendMsg/sendCarrierBindingCarSms';
+// 车主开通司机账号
+export const API_OPEN_DRIVER_ACCOUNT = 'app/carrier/openDriverAccount';
 
 //WebSocket
 export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;
@@ -519,4 +521,7 @@ export const API_QUERY_RESOURCE_ATTACHMENTINFO = 'app/attachmentRestController/q
 
 // 订单调车车辆司机列表
 export const API_QUERY_DRIVER_BID_CAR_LIST = 'app/goods/queryDriverBidCar';
+
+// 承运商上传回执单接口
+export const API_NEW_UPLOAD_CTC_ORDER_MATCH = `app/receiveMatch/uploadCtcOrderMatch`;
 

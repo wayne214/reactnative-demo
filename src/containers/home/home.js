@@ -149,6 +149,7 @@ class Home extends Component {
         //     })
         // }
 
+
         this.getCurrentPosition(0);
         if (this.props.currentStatus == 'driver') {
             this.setData();

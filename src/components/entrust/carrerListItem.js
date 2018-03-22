@@ -36,8 +36,8 @@ class carrerListItem extends Component{
         const timeSecond = rowData.pushTime - new Date().getTime();
         var seconds = parseInt(timeSecond / 1000 % 60, 10);//计算剩余的秒数
 
-        // const endTime = moment(rowData.pushTime).format('YYYY-MM-DD HH:mm:ss');
-        const endTime = '2018-03-21 18:40:00';
+        const endTime = moment(rowData.pushTime).format('YYYY-MM-DD HH:mm:ss');
+        // const endTime = '2018-03-21 18:40:00';
 
         const countDown = <CountDownReact
                 date={endTime}
@@ -97,7 +97,7 @@ class carrerListItem extends Component{
                         loadStartTime != '' ? <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime}</Text> : null
                     }
                     <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10}}>
-                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '601' ? '干线' : rowData.businessType == '602' ? '卡班' : '撮合'}</Text>
+                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '501' ? '撮合' : '自营'}</Text>
                     </View>
                 </View>}
 
@@ -163,7 +163,7 @@ class carrerListItem extends Component{
                             </View>
                         </View> : null
                     }
-                    {rowData.orderStateStr == '待确认' &&  1 > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
                         {/*<Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>*/}
                         {

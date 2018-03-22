@@ -141,7 +141,7 @@ class GoodsList extends Component {
         this.resetCarrierGoodslistener.remove();
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
-      if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22'){
+      //if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22'){
           this.setState({
               appLoading: true,
           })
@@ -152,7 +152,7 @@ class GoodsList extends Component {
               num: page,
               size: 20
           },getGoodListSuccess,getGoodListFail)
-      }
+      //}
 
   }
   getGoodListSuccess(data){
@@ -265,37 +265,8 @@ class GoodsList extends Component {
                <View>
 
                    <GoodListIten item={item.item} itemClick={()=>{
-                        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
-                        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
-                        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
-                        switch (this.props.ownerStatus){
-                            case '11':
-                            case '21':
-                                Toast.show('车主身份正在认证中，如需帮助请联系客服');
-
-                                break;
-                            case '13' :
-                            case '23' :
-
-                                if (this.props.currentStatus === 'personalOwner'){
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
-                                }
-
-                                if (this.props.currentStatus === 'businessOwner'){
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
-                                }
-
-
-                                break;
-                            case '14':
-                            case '24':
-                                Toast.show('车主身份已经被禁用，如需帮助请联系客服');
-
-                                break;
-                            case '12':
-                            case '22':
-                                console.log('item.carrierPrice', item.item.carrierPrice);
-                                if (!item.item.carrierPrice) {
+                                // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
+                                if (item.item.biddingState == 0 || item.item.biddingState == 3) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {
@@ -304,13 +275,6 @@ class GoodsList extends Component {
                                         }
                                     })
                                 }
-                                break
-                            default:
-                                break
-                        }
-
-
-
 
                      }}/>
                </View>
@@ -406,6 +370,7 @@ class GoodsList extends Component {
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
                     phone: global.phone,//global.phone
+                    type: 'login',
                     commitSuccess: () => {
                         this.setState({
                             bubbleSwitch: false,
@@ -628,24 +593,17 @@ class GoodsList extends Component {
               </View>
 
 
-              {
-                  (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') ? <FlatList
-                          extraData={this.state}
-                          keyExtractor={ () => Math.random(2) }
-                          data={this.state.goodList}
-                          renderItem={this.renderItem}
-                          ItemSeparatorComponent={this.separatorComponent}
-                          refreshing={this.state.refreshing} // 是否刷新 ，自带刷新控件
-                          onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
-                          ListFooterComponent={this.listFooterComponent}
-                      /> : <FlatList
-                          extraData={this.state}
-                          keyExtractor={ () => Math.random(2) }
-                          data={['占位符']}
-                          renderItem={this.renderItem}
-                          ItemSeparatorComponent={this.separatorComponent}
-                      />
-              }
+              <FlatList
+                  extraData={this.state}
+                  keyExtractor={ () => Math.random(2) }
+                  data={this.state.goodList}
+                  renderItem={this.renderItem}
+                  ItemSeparatorComponent={this.separatorComponent}
+                  refreshing={this.state.refreshing} // 是否刷新 ，自带刷新控件
+                  onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
+                  ListFooterComponent={this.listFooterComponent}
+              />
+
 
 
 

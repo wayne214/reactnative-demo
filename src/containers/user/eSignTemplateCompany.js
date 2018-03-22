@@ -64,21 +64,21 @@ class eSignTemplateCompany extends BaseComponent {
 
 	componentWillReceiveProps(props) {
 		const {eSignInfo,isRefresh} = props;
-		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
-			setTimeout(() => {
-				this.setState({
-					isLoad: true,
-					esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
-					accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
-					sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
-					visible: false,
-					landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
-					lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
-					colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
-				});
-			}, 0);
-			// console.log('---clolrMap--->',this.state.colorMap.value);
-		}
+		// if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
+		// 	setTimeout(() => {
+		// 		this.setState({
+		// 			isLoad: true,
+		// 			esignId: this.state.esignId ? this.state.esignId : eSignInfo.get('esignId'),
+		// 			accountId: this.state.accountId ? this.state.accountId : eSignInfo.get('accountId'),
+		// 			sealTemplate: this.state.sealTemplate ? this.state.sealTemplate : eSignInfo.get('sealTemplate'),
+		// 			visible: false,
+		// 			landscapeText: this.state.landscapeText ? this.state.landscapeText : eSignInfo.get('sealHtext'),
+		// 			lastQuarterText: this.state.lastQuarterText ? this.state.lastQuarterText : eSignInfo.get('sealQtext'),
+		// 			colorMap: this.state.colorMap ? this.state.colorMap : HelperUtil.getObject(ESIGN_COLOR_TYPE,eSignInfo.get('sealColor'))
+		// 		});
+		// 	}, 0);
+		// 	// console.log('---clolrMap--->',this.state.colorMap.value);
+		// }
 	}
 
 	_checkedInDatas(index){
@@ -87,14 +87,14 @@ class eSignTemplateCompany extends BaseComponent {
 			this.setState({
 				sealTemplate: 'STAR',
 			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
+			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true, sealTemplate: 'STAR'}));
 
 			break;
 			case 2:
 			this.setState({
 				sealTemplate: 'OVAL',
 			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
+			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false, sealTemplate: 'OVAL'}));
 
 			break;
 		}
