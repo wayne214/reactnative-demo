@@ -931,7 +931,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		_getOrderDetail:(params)=>{
+		_getOrderDetail:(params, failCallBack)=>{
 			startTime = new Date().getTime();
 			dispatch(fetchData({
 				api: API.API_CARRIER_QUERY_TRANSPORT_ORDER_INFO,
@@ -942,7 +942,11 @@ const mapDispatchToProps = (dispatch) => {
 					console.log("------ 获取订单详情的数据",data);
 					dispatch(receiveOrderDetail(data))
 					dispatch(appendLogToFile('订单详情','获取订单详情',startTime))
-				}
+				},
+                fail: error => {
+                    console.log('???', error);
+                    Toast.show(error.message);
+                }
 			}))
 		},
 		_clearOrderDetail:()=>{
