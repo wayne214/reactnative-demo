@@ -67,6 +67,7 @@ class MessageContainer extends BaseComponent {
             pageNum: 1,
             userId: this.props.user.userId,
             pageSize: 10,
+						pushType: 1,
 				});
 
 			}
@@ -129,6 +130,7 @@ class MessageContainer extends BaseComponent {
             pageNum: this.state.pageNo + 1,
             userId: this.props.user.userId,
             pageSize: 10,
+						pushType: 1,
 				})
 			}
 
@@ -277,6 +279,7 @@ class MessageContainer extends BaseComponent {
 				pageNum: 1,
 				userId: this.props.user.userId,
         pageSize: 10,
+				pushType: 1,
 			});
 		} else if (index === 1) {
 			this.props.getSystemMsg({
