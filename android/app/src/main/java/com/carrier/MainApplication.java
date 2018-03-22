@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.jpush.reactnativejpush.JPushPackage;
-import voice.VoiceReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   // 设置为 true 将不弹出 toast

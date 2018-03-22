@@ -64,6 +64,7 @@ export default (state = initState, action) => {
       case ActionTypes.ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO:
           console.log('lqq--ACTION_REFRESH_ESIGN_PERSON_TEMPLATE_INFO--->',action.payload.sealPersonTemplate);
           newState = newState.set('sealPersonTemplate',action.payload.sealPersonTemplate);
+          newState = newState.set('selectTemplate', action.payload.selectTemplate);
           return newState;
 		default:
 			return state;

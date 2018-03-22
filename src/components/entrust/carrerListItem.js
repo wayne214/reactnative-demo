@@ -97,7 +97,7 @@ class carrerListItem extends Component{
                         loadStartTime != '' ? <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime}</Text> : null
                     }
                     <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10}}>
-                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '601' ? '干线' : rowData.businessType == '602' ? '卡班' : '撮合'}</Text>
+                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '501' ? '撮合' : '自营'}</Text>
                     </View>
                 </View>}
 
