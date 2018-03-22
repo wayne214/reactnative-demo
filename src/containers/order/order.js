@@ -13,7 +13,8 @@ import {
   TouchableOpacity,
   Modal,
   InteractionManager,
-  Alert
+  Alert,
+    DeviceEventEmitter
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar';
 import * as RouteType from '../../constants/routeType'
@@ -222,7 +223,9 @@ class OrderList extends BaseComponent {
     super.componentDidMount()
     const {user} = this.props
       this.getlistbyIndex(0, 1);
-
+      DeviceEventEmitter.addListener('refreshCarrierOrderList', () => {
+          this.getlistbyIndex(2, 1);
+      });
   }
   _updateListWithIndex(activeTab = this.state.activeTab,pageNo){
     const {user} = this.props
