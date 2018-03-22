@@ -265,7 +265,7 @@ class CarInfo extends Component {
             }
         });
 
-        //this.getCarInfo(userInfo, this.getCarInfoSuccessCallBack, this.getCarInfoFailCallBack);
+        // this.getCarInfo(userInfo, this.getCarInfoSuccessCallBack, this.getCarInfoFailCallBack);
 
     }
     getCarInfoFailCallBack() {

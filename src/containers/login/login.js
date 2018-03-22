@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // alignItems: 'flex-end',
         height: 35,
-        top: height - 55,
+        top: height - 50,
         left: 0,
         // marginBottom: 20
     },

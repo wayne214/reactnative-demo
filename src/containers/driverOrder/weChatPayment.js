@@ -132,7 +132,7 @@ class WeChatPayment extends Component {
                                         <TouchableOpacity
                                             onPress={() => {
                                                 DeviceEventEmitter.emit('refreshSettleState');
-                                                navigator.goBack();
+                                                navigator.dispatch({type: 'pop'});
                                             }}
                                         >
                                             <Text style={styles.leftTextStyle}>&#xe69f;</Text>
