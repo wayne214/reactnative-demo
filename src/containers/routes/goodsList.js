@@ -266,7 +266,7 @@ class GoodsList extends Component {
 
                    <GoodListIten item={item.item} itemClick={()=>{
                                 // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
-                                if (!item.item.biddingState || item.item.biddingState == 0) {
+                                if (!item.item.biddingState) {
                                     this.props.navigation.dispatch({
                                         type: RouteType.ROUTE_GOOD_LIST_DETAIL,
                                         params: {

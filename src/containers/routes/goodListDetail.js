@@ -294,7 +294,7 @@ class goodListDetail extends Component {
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{
 
-                                if (!item.item.biddingState || item.item.biddingState == 0) {
+                                if (!item.item.biddingState) {
 
         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
