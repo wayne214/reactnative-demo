@@ -321,12 +321,13 @@ class personownerVerifiedState extends Component{
                     title={'车主认证'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    optTitle='企业认证'
+                    optTitle={this.state.qualifications == '1203' ? '企业认证' : ''}
                     optTitleStyle={{fontSize: 16,color: '#333333'}}
                     firstLevelClick={()=>{
                         // 进行企业车主认证
                         //this.props.navigation.navigate('CompanyCarOwnerAuth');
-                        Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+                        if (this.state.qualifications == '1203'){
+                            Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
                                             if (value) {
                                                 this.props.navigation.dispatch({
                                                     type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
@@ -338,6 +339,9 @@ class personownerVerifiedState extends Component{
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
                                             }
                                         });
+                        }
+
+
                     }}
                 />
                 <ScrollView
