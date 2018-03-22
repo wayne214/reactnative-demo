@@ -45,7 +45,7 @@ class ShowESignInfoContainer extends BaseComponent {
 		};
 		// this.title = props.router.getCurrentRouteTitle();
 		this._getESignInfo = this._getESignInfo.bind(this);
-		this._onPickerSelect = this._onPickerSelect.bind(this);
+		// this._onPickerSelect = this._onPickerSelect.bind(this);
 		this._editESignInfo = this._editESignInfo.bind(this);
 	}
 
@@ -68,7 +68,6 @@ class ShowESignInfoContainer extends BaseComponent {
 
 	componentWillReceiveProps(props) {
 		const {eSignInfo,isRefresh, sealTemplate, sealColor, sealHtext, sealQtext} = props;
-		if(eSignInfo && eSignInfo.get('accountId') && !this.state.isLoad){
 			setTimeout(() => {
 				this.setState({
 					isLoad: true,
@@ -83,7 +82,6 @@ class ShowESignInfoContainer extends BaseComponent {
 				});
 			}, 0);
 			// console.log('---clolrMap--->',this.state.colorMap.value);
-		}
 	}
 
 	_getESignInfo(){
@@ -95,16 +93,17 @@ class ShowESignInfoContainer extends BaseComponent {
 	}
 
 	_editESignInfo(){
-		if(!this.state.sealTemplate )return Toast.show('请选择印章模板');
-		if(!this.state.landscapeText ) return Toast.show('请输入横向文');
-		if(!this.state.lastQuarterText ) return Toast.show('请输入下弦文');
-		if(!this.state.colorMap.key ) return Toast.show('请选择印章颜色');
-		if(this.state.landscapeText && !Regex.test('eSginText', this.state.landscapeText)){
-			return Toast.show('请输入正确的横向文格式')
-		}
-		if(this.state.lastQuarterText && !Regex.test('eSginText', this.state.lastQuarterText)){
-			return Toast.show('请输入正确的下弦文格式')
-		}
+      console.log('---',this.state.sealTemplate,this.state.landscapeText,this.state.lastQuarterText,this.state.colorMap)
+      if(!this.state.sealTemplate )return Toast.show('请选择印章模板');
+      if(!this.state.colorMap ) return Toast.show('请选择印章颜色');
+      if(!this.state.landscapeText ) return Toast.show('请输入横向文');
+      if(!this.state.lastQuarterText ) return Toast.show('请输入下弦文');
+      // if(this.state.landscapeText && !Regex.test('eSginText', this.state.landscapeText)){
+      //     return Toast.show('请输入正确的横向文格式')
+      // }
+      // if(this.state.lastQuarterText && !Regex.test('eSginText', this.state.lastQuarterText)){
+      //     return Toast.show('请输入正确的下弦文格式')
+      // }
 
     const {companyInfo} = this.props;
 
@@ -118,7 +117,7 @@ class ShowESignInfoContainer extends BaseComponent {
             mobile: companyInfo.busTel, // 手机号
             qtext: this.state.lastQuarterText,
             sealColor: this.props.sealColor,
-            templateType: this.props.sealPersonTemplate,
+            templateType: this.state.sealTemplate,
         }, UPDATE_COMPANY_ESIGN_INFO, this.props.navigation);
 		} else {
         this.props.editESignInfo({
@@ -130,37 +129,19 @@ class ShowESignInfoContainer extends BaseComponent {
             mobile: companyInfo.busTel, // 手机号
             qtext: this.state.lastQuarterText,
             sealColor: this.props.sealColor,
-            templateType: this.props.sealPersonTemplate,
+            templateType: this.state.sealTemplate,
         }, NEW_COMPANY_ESIGN_INFO, this.props.navigation);
 		}
 
 
 	}
 
-	_checkedInDatas(index){
-		switch(index){
-			case 1:
-			this.setState({
-				sealTemplate: 'STAR',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: true}));
 
-			break;
-			case 2:
-			this.setState({
-				sealTemplate: 'OVAL',
-			});
-			this.props.dispatch(dispatchRefreshESignTemplateInfo({template: false}));
-
-			break;
-		}
-	}
-
-	_onPickerSelect(data) {
-		if (data.type === 'esign_color_type') {
-			this.setState({ colorMap: data,visible: false });
-		}
-	}
+// 	_onPickerSelect(data) {
+// 		if (data.type === 'esign_color_type') {
+// 			this.setState({ colorMap: data,visible: false });
+// 		}
+// 	}
 
 
 	render(){
@@ -209,8 +190,8 @@ class ShowESignInfoContainer extends BaseComponent {
 
 									<View style={styles.arrowTextRight}>
 										<Text
-											style={  this.state.colorMap.value ? styles.blackArrowText : styles.arrowText }>
-												{  eSignInfo.get('sealTemplate') ? HelperUtil.getCompanyTemplateStyle(eSignInfo.get('sealTemplate')) : '请选择印章模板' }
+											style={  this.props.sealTemplate ? styles.blackArrowText : styles.arrowText }>
+												{  this.props.sealTemplate ? this.props.sealTemplate : '请选择印章模板' }
 										</Text>
 										<Text style={ styles.arrowRight }>&#xe63d;</Text>
 									</View>
@@ -319,12 +300,12 @@ class ShowESignInfoContainer extends BaseComponent {
 							</TouchableOpacity>
 						</View>
 					</ScrollView>
-					<SimplePicker
-					data={ this.state.data }
-					visible={ this.state.visible }
-					modalPress={ () => this.setState({ visible: false }) }
-					onPickerSelect={ data => this._onPickerSelect(data) } />
-					{ this.props.loading ? this._renderLoadingView() : null }
+					{/*<SimplePicker*/}
+					{/*data={ this.state.data }*/}
+					{/*visible={ this.state.visible }*/}
+					{/*modalPress={ () => this.setState({ visible: false }) }*/}
+					{/*onPickerSelect={ data => this._onPickerSelect(data) } />*/}
+					{/*{ this.props.loading ? this._renderLoadingView() : null }*/}
 					{ this._renderUpgrade(this.props) }
 			</View>
 			);
@@ -386,7 +367,8 @@ const mapDispatchToProps = dispatch => {
 					// dispatch(dispatchRefreshESignTemplateInfo());
 					// console.log('lqq---editESignInfo--success-->'+data);
 				},
-				fail: () => {
+				fail: (error) => {
+					Toast.show(error.message);
 					// console.log('lqq---editESignInfo--fail-->');
 				}
 			}));
