@@ -81,7 +81,7 @@ class goodListItem extends Component{
                     {
                         item.businessType ? <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30}}>
                             <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>
-                                {item.businessType == '601' ? '干线' : item.businessType == '602' ? '卡班' : '撮合'}
+                                {item.businessType == '501' ? '撮合' : '自营'}
                             </Text>
                         </View> : null
                     }
