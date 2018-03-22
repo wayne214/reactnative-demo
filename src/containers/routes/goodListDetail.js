@@ -28,6 +28,7 @@ import { fetchData } from '../../action/app.js'
 import * as API from '../../constants/api.js'
 // import Toast from '@remobile/react-native-toast';
 import Toast from '../../utils/toast';
+import * as RouteType from '../../constants/routeType'
 
 
 
@@ -188,6 +189,10 @@ class goodListDetail extends Component {
     }
 
     sendPrice(){
+
+
+
+
         Alert.alert(
             '提示',
             '确认此报价？',
@@ -289,6 +294,48 @@ class goodListDetail extends Component {
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{
 
+
+
+        //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
+        //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
+        // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
+
+        switch (this.props.ownerStatus){
+            case '11':
+            case '21':
+                Toast.show('车主身份正在认证中，如需帮助请联系客服');
+                return;
+                break;
+            case '13' :
+            case '23' :
+                Toast.show('车主身份认证驳回，请重新上传');
+
+                if (this.props.currentStatus === 'personalOwner'){
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
+                }
+
+                if (this.props.currentStatus === 'businessOwner'){
+                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
+                }
+                return;
+
+                break;
+            case '14':
+            case '24':
+                Toast.show('车主身份已经被禁用，如需帮助请联系客服');
+                return;
+                break;
+            case '12':
+            case '22':
+                break
+            default:
+                return;
+                break
+        }
+
+
+
+
                                           if (this.state.installDateStart === ''){
                                               Toast.show('请选择预计装货时间');
                                               return
@@ -351,6 +398,8 @@ const styles =StyleSheet.create({
 function mapStateToProps(state){
     return {
         currentStatus: state.user.get('currentStatus'),
+        ownerStatus: state.user.get('ownerStatus'),
+
     };
 }
 
