@@ -51,6 +51,7 @@ class signPage extends Component {
         this.state = {
             products: params.goodsInfoList,
             orderID: params.transCode,
+            orderCode: params.orderCode,
             receiptWay: params.taskInfo.receiptWay,
         };
         this.productInfo = this.productInfo.bind(this);
@@ -150,6 +151,7 @@ class signPage extends Component {
             userId: userID,
             userName,
             transCode: this.state.orderID,
+            orderCode: this.state.orderCode,
             goodsInfo,
             lan: locationData.latitude ? locationData.latitude : '',
             lon: locationData.longitude ? locationData.longitude : '',
