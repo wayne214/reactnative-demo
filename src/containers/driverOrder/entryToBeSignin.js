@@ -173,12 +173,13 @@ class entryToBeSignin extends Component {
         }
     }
 
-    getSignIn(orderID){
+    getSignIn(orderID, orderCode){
         currentTime = new Date().getTime();
         this.props._signIn({
             userId: userID,
             userName,
             transCode: orderID,
+            orderCode: orderCode,
             goodsInfo: null,
             lan: locationData.latitude ? locationData.latitude : '',
             lon: locationData.longitude ? locationData.longitude : '',
@@ -408,12 +409,13 @@ class entryToBeSignin extends Component {
                                     type: RouteType.ROUTE_SIGN_IN_PAGE,
                                     params: {
                                         transCode: item.transCode,
+                                        orderCode: item.orderCode,
                                         goodsInfoList: item.goodsInfo,
                                         taskInfo: item.taskInfo,
                                     }
                                 })
                             }else {
-                                this.getSignIn(item.transCode);
+                                this.getSignIn(item.transCode,item.orderCode);
                             }
                         }}
                         payment={() => {
