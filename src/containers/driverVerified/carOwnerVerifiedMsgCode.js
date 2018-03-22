@@ -9,7 +9,8 @@ import {
     TextInput,
     TouchableOpacity,
     Platform,
-    Dimensions
+    Dimensions,
+    DeviceEventEmitter
 } from 'react-native'
 import {connect} from 'react-redux'
 import Line from './verifiedIDItem/verifiedLineItem';
@@ -24,6 +25,10 @@ import Toast from '../../utils/toast';
 import Storage from '../../utils/storage';
 import StorageKey from '../../constants/storageKeys';
 import * as RouteType from '../../constants/routeType';
+import {
+    setUserCarAction,
+} from '../../action/user';
+
 
 const {Swidth, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -142,6 +147,9 @@ debugger
     }
 
     carSuccess(data){
+        DeviceEventEmitter.emit('certificationSuccess');
+        this.props.saveUserSetCarSuccess({carNum: this.state.carNumber, carStatus: 0});
+
         this.props.navigation.dispatch({type: 'pop', key: 'Main'})
 
     }
@@ -292,6 +300,9 @@ function mapDispatchToProps(dispatch) {
                     ownerVerifiedHomeFailCallBack(data);
                 }
             }))
+        },
+        saveUserSetCarSuccess: (plateNumber) => {
+            dispatch(setUserCarAction(plateNumber));
         },
     }
 }

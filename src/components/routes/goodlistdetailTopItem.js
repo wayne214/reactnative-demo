@@ -26,7 +26,8 @@ class goodlistdetailTopItem extends Component{
             <View style={styles.container}>
                 <ImageBackground style={{width: width, height: 166}} source={topImg}>
                     <View style={{marginLeft: 110, marginTop: 60,width: width - 130}}>
-                        <Text style={{backgroundColor: 'transparent', color: '#FF8500',fontSize: 25,fontWeight: 'bold'}}>{this.props.price}</Text>
+
+                        <Text style={{backgroundColor: 'transparent', color: '#FF8500',fontSize: 25,fontWeight: 'bold'}}>{this.props.price || ''}</Text>
                         <Text style={{backgroundColor: 'transparent', color: '#999',fontSize: 12, marginTop: 5}}>标准运费（元）</Text>
                     </View>
                 </ImageBackground>

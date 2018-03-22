@@ -399,6 +399,10 @@ class entryToBeSignin extends Component {
                         }}
                         signIn={() => {
                             if(item.taskInfo) {
+                                if(item.goodsInfo.length === 0){
+                                    Toast.showShortCenter('货品明细尚未补齐，请稍后签收');
+                                    return;
+                                }
                                 // 跳转到具体的签收页面
                                 this.props.navigation.dispatch({
                                     type: RouteType.ROUTE_SIGN_IN_PAGE,

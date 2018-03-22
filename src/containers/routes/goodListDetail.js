@@ -231,8 +231,8 @@ class goodListDetail extends Component {
                         <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
-                                     endTime={this.state.result.loadingEndTime ? this.state.result.loadingEndTime : ''}
-                                     hot={this.state.result.temperatureMin && this.state.result.temperatureMax ? this.state.result.temperatureMin+ '- ' + this.state.result.temperatureMax : null}
+                                     endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
+                                     hot={this.state.result.temperatureMin && this.state.result.temperatureMax ? this.state.result.temperatureMin+ '℃ - '  + this.state.result.temperatureMax + '℃' : ''}
                                      remark={this.state.result.remark || ''}
                         />
                     </View>
@@ -248,6 +248,7 @@ class goodListDetail extends Component {
 
                     <GoodsDetailMoney norMoney={this.state.result.configFreight}
                                       moneyChange={(money)=>{
+
                                          this.setState({money});
                                      }}/>
 

@@ -47,6 +47,8 @@ import bannerImage1 from '../../../assets/home/banner1.png';
 import bannerImage2 from '../../../assets/home/banner2.png';
 import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
 import StorageKey from '../../constants/storageKeys';
+import Storage from '../../utils/storage';
+
 import {
     WHITE_COLOR,
     BLUE_CONTACT_COLOR,
@@ -123,6 +125,8 @@ class GoodsList extends Component {
           refreshing: true
       });
 
+
+
       setTimeout(()=>{
           this.refresh();
       },500);
@@ -137,18 +141,19 @@ class GoodsList extends Component {
         this.resetCarrierGoodslistener.remove();
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
+      if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22'){
+          this.setState({
+              appLoading: true,
+          })
 
 
-      this.setState({
-          appLoading: true,
-      })
+          this.props._getNormalGoodsList({
+              companyCode: global.companyCode,
+              num: page,
+              size: 20
+          },getGoodListSuccess,getGoodListFail)
+      }
 
-
-    this.props._getNormalGoodsList({
-        companyCode: global.companyCode,
-        num: page,
-        size: 20
-    },getGoodListSuccess,getGoodListFail)
   }
   getGoodListSuccess(data){
     if (page === 0){
@@ -263,7 +268,6 @@ class GoodsList extends Component {
                         //ownerStatus ： 11 个人车主认证中 12 个人车主认证通过 13 个人车主认证驳回  14 个人车主被禁用
                         //               21 企业车主认证中 22 企业车主认证通过 23 企业车主认证驳回  24 企业车主被禁用
                         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
-                       debugger
                         switch (this.props.ownerStatus){
                             case '11':
                             case '21':
@@ -343,13 +347,15 @@ class GoodsList extends Component {
                     this.props.setDriverCharacterAction('3');
                 }
                 if (result.certificationStatus == '1203') {
+
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
+
                         if (value) {
 
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                 params: {
-                                    resultInfo: value,
+                                    phone: global.phone,//global.phone
                                     commitSuccess: () => {
                                         this.setState({
                                             bubbleSwitch: false,
@@ -363,9 +369,11 @@ class GoodsList extends Component {
                         } else {
 
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                 params: {
+                                    phone: global.phone,//global.phone
                                     commitSuccess: () => {
+
                                         this.setState({
                                             bubbleSwitch: false,
                                             show: false,
@@ -383,6 +391,7 @@ class GoodsList extends Component {
                     })
 
                 } else {
+
                     this.props.setCurrentCharacterAction('driver');
                     this.props.dispatch(changeTab('Home'));
                     this.setState({
@@ -392,9 +401,11 @@ class GoodsList extends Component {
                 }
             }
         } else {
+
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
+                    phone: global.phone,//global.phone
                     commitSuccess: () => {
                         this.setState({
                             bubbleSwitch: false,
@@ -616,16 +627,28 @@ class GoodsList extends Component {
                   </View>
               </View>
 
-            <FlatList
-                extraData={this.state}
-                keyExtractor={ () => Math.random(2) }
-                data={this.state.goodList}
-                renderItem={this.renderItem}
-                ItemSeparatorComponent={this.separatorComponent}
-                refreshing={this.state.refreshing} // 是否刷新 ，自带刷新控件
-                onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
-                ListFooterComponent={this.listFooterComponent}
-            />
+
+              {
+                  (this.props.ownerStatus == '12' || this.props.ownerStatus == '22') ? <FlatList
+                          extraData={this.state}
+                          keyExtractor={ () => Math.random(2) }
+                          data={this.state.goodList}
+                          renderItem={this.renderItem}
+                          ItemSeparatorComponent={this.separatorComponent}
+                          refreshing={this.state.refreshing} // 是否刷新 ，自带刷新控件
+                          onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
+                          ListFooterComponent={this.listFooterComponent}
+                      /> : <FlatList
+                          extraData={this.state}
+                          keyExtractor={ () => Math.random(2) }
+                          data={['占位符']}
+                          renderItem={this.renderItem}
+                          ItemSeparatorComponent={this.separatorComponent}
+                      />
+              }
+
+
+
               {
                   this.state.show ?
                       <CharacterChooseCell

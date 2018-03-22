@@ -257,15 +257,15 @@ class CarInfo extends Component {
     }
     fetchData() {
          
-        /*
+
         Storage.get(StorageKeys.USER_INFO).then((userInfo) => {
+
             if (userInfo) {
                 this.getCarInfo(userInfo, this.getCarInfoSuccessCallBack, this.getCarInfoFailCallBack);
             }
         });
-        */
 
-        this.getCarInfo(userInfo, this.getCarInfoSuccessCallBack, this.getCarInfoFailCallBack);
+        // this.getCarInfo(userInfo, this.getCarInfoSuccessCallBack, this.getCarInfoFailCallBack);
 
     }
     getCarInfoFailCallBack() {
@@ -327,11 +327,14 @@ class CarInfo extends Component {
             imgList = imgListTemp.map((i, index) => {
                 return {url: i ? i : ''};
             });
+
             this.props.navigation.navigate('ImageShow',
                 {
                     image: imgList,
                     num: imgIndex,
                 });
+
+
         }
     }
 

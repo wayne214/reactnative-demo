@@ -616,6 +616,8 @@ class Home extends Component {
                 if (result.certificationStatus == '1201') {
                     this.props.setOwnerCharacterAction('11');
                     this.props.setCurrentCharacterAction('personalOwner');
+                    this.props.dispatch(changeTab('goods'));
+
                     this.setState({
                         bubbleSwitch: false,
                         show: false,
@@ -654,6 +656,8 @@ class Home extends Component {
                     if (result.certificationStatus == '1201') {
                         this.props.setOwnerCharacterAction('21');
                         this.props.setCurrentCharacterAction('businessOwner');
+                        this.props.dispatch(changeTab('goods'));
+
                         this.setState({
                             bubbleSwitch: false,
                             show: false,
@@ -672,7 +676,7 @@ class Home extends Component {
                         } else {
                             this.props.setOwnerCharacterAction('23');
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                                type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL,
                             });
                             // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
                             this.setState({

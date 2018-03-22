@@ -236,7 +236,13 @@ export default class orderToBeSignInDetail extends Component {
                         isShowContactAndPhone={true}
                     />
                     <View style={{height: 1, backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND}} />
-                    <TitlesCell title="货品信息" showArrowIcon={true} onPress={(value) => { this.showGoodInfoList(value); }}/>
+                    <TitlesCell title="货品信息"
+                                showArrowIcon={true}
+                                onPress={(value) => {
+                                    if(goodsInfoList.length > 0) {
+                                        this.showGoodInfoList(value);
+                                    }
+                                }}/>
                     {
                         this.state.showGoodList ? goodsInfoList.map((item, indexRow) => {
                                 return (
