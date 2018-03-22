@@ -60,7 +60,6 @@ class goodListDetail extends Component {
     }
     componentDidMount() {
          const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
-        //const uri = API.RESOURCE_DETAIL + 'WT180321000084';
         this.props.getGoodsDetail(uri,this.getDetailSuccess)
     }
     getDetailSuccess(result){
@@ -246,7 +245,7 @@ class goodListDetail extends Component {
                     router={this.props.navigation}
                     hiddenBackIcon={false}
                 />
-                <ScrollView>
+                <ScrollView keyboardDismissMode={'on-drag'}>
 
                     <ItemTop price={this.state.result.configFreight}/>
                     <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
@@ -280,6 +279,8 @@ class goodListDetail extends Component {
                                      }}/>
 
                     <GoodsDetailMoney norMoney={this.state.result.configFreight}
+                                      minPrice={this.state.result.priceMin}
+                                      maxPrice={this.state.result.priceMax}
                                       moneyChange={(money)=>{
 
                                          this.setState({money});
@@ -301,10 +302,19 @@ class goodListDetail extends Component {
                                               return
                                           }
 
-                                          if (parseInt(this.state.money) < parseInt(this.state.result.configFreight)){
-                                              Toast.show('报价金额不能少于标准运费');
+                                          if (parseInt(this.state.money) < parseInt(this.state.result.priceMin)){
+                                              Toast.show('报价金额不能少于最低标准运费');
                                               return;
                                           }
+                                          if (parseInt(this.state.money) > parseInt(this.state.result.priceMax)){
+                                              Toast.show('报价金额不能少于最高标准运费');
+                                              return;
+                                          }
+
+
+
+
+
                                           this.sendPrice();
 
                                       }}>
