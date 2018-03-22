@@ -354,7 +354,7 @@ class goodListDetail extends Component {
                                               return;
                                           }
                                           if (parseInt(this.state.money) > parseInt(this.state.result.priceMax)){
-                                              Toast.show('报价金额不能少于最高标准运费');
+                                              Toast.show('报价金额不能高于最高标准运费');
                                               return;
                                           }
 
