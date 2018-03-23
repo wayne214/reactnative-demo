@@ -100,17 +100,17 @@ class showESignInfoIndividual extends BaseComponent {
 		if(!this.state.sealPersonTemplate )return Toast.show('请选择印章模板');
 
 		if(!this.state.colorMap ) return Toast.show('请选择印章颜色');
-      const {eSignInfo,companyInfo} = this.props;
+      const {eSignInfo,ownerInfo} = this.props;
 
-      console.log('=====companyInfo',companyInfo)
+      console.log('=====companyInfo',ownerInfo)
 			if (this.state.accountId) {
           this.props.editESignInfo({
               accountId: this.state.accountId, // e签宝账号id
-              companyId: companyInfo.id, // 承运商id
+              companyId: ownerInfo.id, // 承运商id
               htext: '',
-              idNo: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
-              mobile: companyInfo.busTel, // 手机号
-              name: companyInfo.companyName, // 车主名字
+              idNo: ownerInfo.rmcAnalysisAndContrast ? ownerInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
+              mobile: ownerInfo.busTel, // 手机号
+              name: ownerInfo.companyName, // 车主名字
               qtext: '',
               sealColor: this.props.sealColor,
               templateType: this.props.sealPersonTemplate,
@@ -119,11 +119,11 @@ class showESignInfoIndividual extends BaseComponent {
 			} else {
           this.props.editESignInfo({
               accountId: '', // e签宝账号id
-              companyId: companyInfo.id, // 承运商id
+              companyId: ownerInfo.id, // 承运商id
               htext: '',
-              idNo: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
-              mobile: companyInfo.busTel, // 手机号
-              name: companyInfo.companyName, // 车主名字
+              idNo: ownerInfo.rmcAnalysisAndContrast ? ownerInfo.rmcAnalysisAndContrast.manualIdCard : '', // 身份证
+              mobile: ownerInfo.busTel, // 手机号
+              name: ownerInfo.companyName, // 车主名字
               qtext: '',
               sealColor: this.props.sealColor,
               templateType: this.props.sealPersonTemplate,
@@ -272,7 +272,8 @@ const mapStateToProps = state => {
 		sealPersonTemplate: eSign.get('sealPersonTemplate'),
 		sealColor: eSign.get('sealColor'),
 		templateStyle: eSign.get('templateStyle'),
-		companyInfo: user.get('companyInfo')
+		companyInfo: user.get('companyInfo'),
+      ownerInfo: user.get('ownerInfo'),
 	}
 }
 
