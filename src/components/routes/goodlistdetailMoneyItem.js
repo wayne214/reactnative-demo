@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import * as COLOR from '../../constants/colors'
 const {width, height} = Dimensions.get('window');
+import Toast from '@remobile/react-native-toast';
 
 const styles = StyleSheet.create({
     container:{
@@ -58,6 +59,11 @@ class goodlistdetailMoneyItem extends Component{
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
                     </View>
                 <TouchableOpacity style={{flex: 1}} onPress={()=>{
+                    if (!this.props.norMoney || this.props.norMoney === 'null') {
+                        Toast.showShortCenter('标准运费为空');
+                        return;
+                    }
+
 
                     this.setState({
                         money: String(this.props.norMoney)
