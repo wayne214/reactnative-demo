@@ -105,16 +105,23 @@ class ShowESignInfoContainer extends BaseComponent {
       //     return Toast.show('请输入正确的下弦文格式')
       // }
 
-    const {companyInfo} = this.props;
+    const {ownerInfo} = this.props;
+
+    if (!ownerInfo.busTel || !ownerInfo.companyName || !(ownerInfo.rmcAnalysisAndContrast && ownerInfo.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode)) {
+        alert('信息不完整，请联系系统管理员');
+        return;
+		}
+
+
 
 		if (this.state.accountId) {
         this.props.editESignInfo({
             accountId: this.state.accountId, // e签宝账号id
             companyId: this.state.companyId, // 承运商id
-            companyName: companyInfo.companyName, // 承运商名字
+            companyName: ownerInfo.companyName, // 承运商名字
             htext: this.state.landscapeText,
-            organCode: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode : '', // 统一信用代码
-            mobile: companyInfo.busTel, // 手机号
+            organCode: ownerInfo.rmcAnalysisAndContrast ? ownerInfo.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode : '', // 统一信用代码
+            mobile: ownerInfo.busTel, // 手机号
             qtext: this.state.lastQuarterText,
             sealColor: this.props.sealColor,
             templateType: this.state.sealTemplate,
@@ -122,11 +129,11 @@ class ShowESignInfoContainer extends BaseComponent {
 		} else {
         this.props.editESignInfo({
             accountId: '', // e签宝账号id
-            companyId: companyInfo.id, // 承运商id
-            companyName: companyInfo.companyName, // 承运商名字
+            companyId: ownerInfo.id, // 承运商id
+            companyName: ownerInfo.companyName, // 承运商名字
             htext: this.state.landscapeText,
-            organCode: companyInfo.rmcAnalysisAndContrast ? companyInfo.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode : '', // 统一信用代码
-            mobile: companyInfo.busTel, // 手机号
+            organCode: ownerInfo.rmcAnalysisAndContrast ? ownerInfo.rmcAnalysisAndContrast.manualUnifiedSocialCreditCode : '', // 统一信用代码
+            mobile: ownerInfo.busTel, // 手机号
             qtext: this.state.lastQuarterText,
             sealColor: this.props.sealColor,
             templateType: this.state.sealTemplate,
@@ -326,7 +333,8 @@ const mapStateToProps = state => {
     sealHtext: eSign.get('sealHtext'),
     sealQtext: eSign.get('sealQtext'),
       sealTemplate: eSign.get('sealTemplate'),
-      companyInfo: user.get('companyInfo')
+      companyInfo: user.get('companyInfo'),
+      ownerInfo: user.get('ownerInfo'),
 	}
 }
 
