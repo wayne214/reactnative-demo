@@ -284,9 +284,9 @@ class MessageDetail extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-	const { app, message } = state;
+	const { app, message, user } = state;
 	return {
-		user: app.get('user'),
+		user: user.get('userInfo'),
 		msg: message.get('msgDetail'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
@@ -314,7 +314,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: SYSTEM_READ_ORNOT,
+				api: SYSTEM_READ_ORNOT +'?userId=' + body.userId + '&noteId=' + body.noteId ,
 				success:() => {
 					dispatch(dispatchRefreshMessageList());
 				}
