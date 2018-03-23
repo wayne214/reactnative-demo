@@ -65,7 +65,7 @@ class GoodsInfo extends Component{
 					{/*<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>*/}
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物详情：{goodDetail }</Text>
+						<Text style={styles.goodsDetailMark}>货物详情：{ (goodDetail && goodDetail !== '') ? goodDetail : '货品' }</Text>
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 

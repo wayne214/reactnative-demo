@@ -140,7 +140,9 @@ class orderItemCell extends Component{
 										{
 												(qiu && qiu !== '') ? <View style={styles.goodBg}>
 												<Text style={styles.goodText}>{qiu}</Text>
-											</View> : null
+											</View> : <View style={styles.goodBg}>
+													<Text style={styles.goodText}>货品</Text>
+												</View>
 										}
 								</View>
 							</View>
