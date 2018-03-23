@@ -149,7 +149,7 @@ class goodListItem extends Component{
                     item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
                         <View style={{padding: 10,backgroundColor: '#0092FF'}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                                我的报价{item.carrierPrice}
+                                { item.biddingState == '3' ? '抢单失败' : '我的报价' + item.carrierPrice }
                             </Text>
                         </View>
                     </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
