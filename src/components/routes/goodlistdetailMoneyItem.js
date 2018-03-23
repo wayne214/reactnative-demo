@@ -74,12 +74,14 @@ class goodlistdetailMoneyItem extends Component{
                     <Text style={{textAlign: 'right',lineHeight: 40,color: '#0092FF'}}>标准</Text>
                 </TouchableOpacity>
                 </View>
+                {
+                    this.props.businessType === '501' ? null : <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 20}}>
+                        <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,color: 'red'}}>
+                            注：报价范围应该在 {price} 之间
+                        </Text>
+                    </View>
+                }
 
-                <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 20}}>
-                    <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,color: 'red'}}>
-                        注：报价范围应该在 {price} 之间
-                    </Text>
-                </View>
             </View>
         )
     }
