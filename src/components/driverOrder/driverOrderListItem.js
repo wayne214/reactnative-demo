@@ -9,6 +9,8 @@ import {
     StyleSheet,
     FlatList,
     Image,
+    Platform,
+    Alert,
 } from 'react-native';
 import LoadMoreFooter from '../common/loadMoreFooter'
 import UniqueUtil from '../../utils/unique';
@@ -18,6 +20,7 @@ import OrderTransportCell from '../../components/driverOrder/orderTransportCell'
 import * as StaticColor from '../../constants/colors';
 import Toast from '@remobile/react-native-toast';
 import * as RouteType from '../../constants/routeType';
+import PermissionsManager from '../../utils/permissionManager';
 
 let currentTime = 0;
 let lastTime = 0;
@@ -77,9 +80,19 @@ class driverOrderListItem extends Component {
                 isBindGps={dataRow.isBindGps}
                 gpsType={dataRow.gpsType}
                 bindGPS={() => {
-                    this.props.navigation.dispatch({
-                        type: RouteType.ROUTE_SCAN_GPS_PAGE,
-                    })
+                    if(Platform.OS === 'ios'){
+                        PermissionsManager.cameraPermission().then(data => {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_SCAN_GPS_PAGE,
+                            })
+                        }).catch(err=>{
+                            Alert.alert(null,err.message)
+                        });
+                    }else {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_SCAN_GPS_PAGE,
+                        })
+                    }
                 }}
                 checkGPS={() =>{
                     this.props.navigation.dispatch({
