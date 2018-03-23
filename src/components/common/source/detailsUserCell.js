@@ -65,24 +65,22 @@ class DetailsUserCell extends Component {
                                 >
                                     {deliveryInfo.departureContactName}
                                 </Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        if(!deliveryInfo.departurePhoneNum){
-                                            Toast.showShortCenter('配送信息不完善，无法联系对方');
-                                            return;
-                                        }
-                                        Communications.phonecall(deliveryInfo.departurePhoneNum, true);
-                                    }}
-                                >
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Image source={Contact} resizeMode='cover'/>
-                                        <Text style={{
-                                            fontSize: 15,
-                                            marginLeft: 8,
-                                            color: StaticColor.BLUE_CONTACT_COLOR,
-                                        }}>联系对方</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                    {
+                                        deliveryInfo.departurePhoneNum && deliveryInfo.departurePhoneNum != '' ? <TouchableOpacity
+                                            onPress={() => {
+                                                Communications.phonecall(deliveryInfo.departurePhoneNum, true);
+                                            }}
+                                        >
+                                            <View style={{flexDirection: 'row'}}>
+                                                <Image source={Contact} resizeMode='cover'/>
+                                                <Text style={{
+                                                    fontSize: 15,
+                                                    marginLeft: 8,
+                                                    color: StaticColor.BLUE_CONTACT_COLOR,
+                                                }}>联系对方</Text>
+                                            </View>
+                                        </TouchableOpacity> : null
+                                    }
                             </View> : null
                         }
                         <TouchableOpacity
