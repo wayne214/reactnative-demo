@@ -20,6 +20,7 @@ import Logo from '../../../assets/img/app/logo.png';
 import styles from '../../../assets/css/login';
 import * as RouteType from '../../constants/routeType';
 import { CAR_LOGIN, TEST, SHIPPER_LOGIN } from '../../constants/api';
+import {DEBUG} from '../../constants/setting';
 import Storage from '../../utils/storage';
 import User from '../../models/user';
 import Toast from '../../utils/toast';
@@ -249,13 +250,32 @@ function mapDispatchToProps(dispatch) {
           // console.log('lqq---user--',user);
           dispatch(appendLogToFile('登录','用户登录-承运商登录',startTime))
           startTime = new Date().getTime();
-          JPushModule.setAlias(user.userId, () => {
-            console.log("Set alias succeed");
-            dispatch(appendLogToFile('登录','设置推送别名成功',startTime))
-          }, () => {
-            console.warn("Set alias failed");
-            dispatch(appendLogToFile('登录','设置推送别名失败',startTime))
-          });
+
+            if (DEBUG) {
+                JPushModule.setAlias('B' + user.phoneNumber, () => {
+                    console.log("Set alias succeed ! tag: ", user.phoneNumber);
+                    dispatch(appendLogToFile('登录','设置推送别名成功',startTime))
+                }, () => {
+                    console.warn("Set alias failed");
+                    dispatch(appendLogToFile('登录','设置推送别名失败',startTime))
+                });
+            } else {
+                JPushModule.setAlias('A' + user.phoneNumber, () => {
+                    console.log("Set alias succeed ! tag: ", user.phoneNumber);
+                    dispatch(appendLogToFile('登录','设置推送别名成功',startTime))
+                }, () => {
+                    console.warn("Set alias failed");
+                    dispatch(appendLogToFile('登录','设置推送别名失败',startTime))
+                });
+            }
+
+          // JPushModule.setAlias(user.userId, () => {
+          //   console.log("Set alias succeed");
+          //   dispatch(appendLogToFile('登录','设置推送别名成功',startTime))
+          // }, () => {
+          //   console.warn("Set alias failed");
+          //   dispatch(appendLogToFile('登录','设置推送别名失败',startTime))
+          // });
         }
       }));
     },

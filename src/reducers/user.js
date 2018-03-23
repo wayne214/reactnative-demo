@@ -26,7 +26,8 @@ const initState = Immutable.fromJS({
     ownerName: '',
     companyInfo: '',
     userTypeInfo:{},
-    speechSwitchStatus: true
+    speechSwitchStatus: true,
+    ownerInfo: ''
 });
 
 export default (state = initState, action) => {
@@ -179,6 +180,10 @@ export default (state = initState, action) => {
             return newState;
         case ActionTypes.ACTION_VOICE_SWITCH:
             newState = newState.set('speechSwitchStatus', action.payload);
+            return newState;
+
+        case ActionTypes.ACTION_QUERY_COMPANY_INFO:
+            newState = newState.set('ownerInfo', action.payload);
             return newState;
         default:
             return state;

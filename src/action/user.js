@@ -102,3 +102,12 @@ export const saveUserTypeInfoAction = (data) => {
     };
 };
 
+/*-查询伙伴信息*/
+export const queryCompanyInfoAction = (data) => {
+    return {
+        type: ActionTypes.ACTION_QUERY_COMPANY_INFO,
+        payload: data,
+    };
+};
+
+
