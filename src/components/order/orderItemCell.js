@@ -86,11 +86,17 @@ class orderItemCell extends Component{
 
       const endAddress = toProvince + toCity + toDistrict + toCustomerAddress;
 
-      const weight = rowData.weight ? rowData.weight + '吨' : '';
-      const vol = rowData.volume ? rowData.volume + '方' : '';
-      const goodsType = rowData.goodsType ? rowData.goodsType : '';
+      const weight = (rowData.weight && rowData.weight !== 'null') ? rowData.weight + '吨' : '';
+      const vol = (rowData.volume && rowData.volume !== 'null') ? rowData.volume + '方' : '';
 
-      const qiu = goodsType + weight + vol;
+
+      const goodsType = (rowData.goodsType && rowData.weight !== 'null') ? rowData.goodsType : '';
+      const goodsCategory = (rowData.goodsCategory && rowData.goodsCategory !== 'null') ? rowData.goodsCategory : '';
+      const itemName = (rowData.itemName && rowData.itemName !== 'null') ? rowData.itemName : '';
+
+
+
+      const qiu = goodsType + goodsCategory + itemName + weight + vol;
 
 		return (
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
@@ -132,7 +138,7 @@ class orderItemCell extends Component{
 										<Text style={styles.cuoheText}>有</Text>
 									</View>
 										{
-											qiu ? <View style={styles.goodBg}>
+												(qiu && qiu !== '') ? <View style={styles.goodBg}>
 												<Text style={styles.goodText}>{qiu}</Text>
 											</View> : null
 										}

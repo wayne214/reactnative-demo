@@ -261,14 +261,14 @@ class OrderList extends BaseComponent {
         // carrierCode: '1001',
         ctcNum: 0,
         tfcNum: 0,
-        // page: pageNum,
+        page: pageNum,
         // pageSize,
         // queryType: type,
     }, api, index);
   }
 
   _refreshList(){
-    this._updateListWithIndex(this.state.activeTab,1)
+    this._updateListWithIndex(this.state.activeTab, 1)
   }
 
   componentWillReceiveProps(nextProps){
@@ -356,7 +356,7 @@ class OrderList extends BaseComponent {
               tabLabel={'全部'}
               dataSource={orderAll}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderAll.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderAll.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -365,7 +365,7 @@ class OrderList extends BaseComponent {
               tabLabel={'装车'}
               dataSource={orderToInstall}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToInstall.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderToInstall.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -374,7 +374,7 @@ class OrderList extends BaseComponent {
               tabLabel={'交付'}
               dataSource={orderToDelivery}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToDelivery.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderToDelivery.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -383,7 +383,7 @@ class OrderList extends BaseComponent {
               tabLabel={'已完成'}
               dataSource={orderCanceled}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderCanceled.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderCanceled.get('pageNo')) + 1)
               }}/>
 
           </ScrollableTabView>
@@ -468,8 +468,8 @@ const mapDispatchToProps = (dispatch) => {
             success: (data) => {
                 dispatch(shouldOrderListRefreshAction(false));
                 data.orderType = tabIndex;
-                data.pageNo = params.page;
-                dispatch(receiveOrderList(data))
+                data.pageNo = params.page ;
+                dispatch(receiveOrderList(data));
                 console.log('data', data);
             },
             fail: (data) => {
