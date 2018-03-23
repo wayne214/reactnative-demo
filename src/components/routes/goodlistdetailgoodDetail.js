@@ -32,6 +32,7 @@ class goodlistdetailgoodDetail extends Component{
             endDate = '';
         }
 
+        // {item.businessType == '501' ? '撮合' : '自营'}
 
         return (
             <View style={styles.container}>
@@ -47,20 +48,24 @@ class goodlistdetailgoodDetail extends Component{
                         {moment(startDate).format('YYYY-MM-DD HH:mm')}
                     </Text>
                 </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                {
+                    this.props.businessType != '501' ? <View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
+                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
 
-                        {endDate != '' ? moment(endDate).format('YYYY-MM-DD HH:mm') : ''}
+                                    {endDate != '' ? moment(endDate).format('YYYY-MM-DD HH:mm') : ''}
 
-                    </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>温度要求：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                        {this.props.hot}
-                    </Text>
-                </View>
+                                </Text>
+                            </View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{width: 80,color: '#999'}}>温度要求：</Text>
+                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                                    {this.props.hot}
+                                </Text>
+                            </View>
+                        </View> : null
+                }
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Text style={{width: 80,color: '#999'}}>备        注：</Text>
                     <Text style={{width: width - 20 -20 -80, color: '#666'}}>
@@ -77,6 +82,7 @@ goodlistdetailgoodDetail.propTypes = {
     endTime:PropTypes.string.isRequired,
     hot:PropTypes.string.isRequired,
     remark:PropTypes.string.isRequired,
+    businessType: PropTypes.string.isRequired,
 };
 
 goodlistdetailgoodDetail.defaultProps = {
