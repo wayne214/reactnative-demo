@@ -37,7 +37,7 @@ import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
 import SplashScreen from 'react-native-splash-screen'
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE } from '../../constants/api';
+import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE, API_QUERY_COMPANY_INFO } from '../../constants/api';
 import { updateMsgList, dispatchRefreshMessageList } from '../../action/message';
 import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
@@ -53,7 +53,8 @@ import {
     setCompanyCodeAction,
     setOwnerNameAction,
     saveCompanyInfoAction,
-    setUserCarAction
+    setUserCarAction,
+    queryCompanyInfoAction
 } from '../../action/user';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
@@ -217,6 +218,9 @@ class MainContainer extends BaseComponent {
             maximumAge: 60 * 1000,
             enableHighAccuracy: false
         })
+
+
+        this.props._getCompanyInfoacion({busTel: global.phone});
     }
 
     _getCurrentPosition(){
@@ -550,7 +554,19 @@ const mapDispatchToProps = (dispatch) => {
         saveUserSetCarSuccess: (plateNumberObj) => {
             dispatch(setUserCarAction(plateNumberObj));
         },
-
+        _getCompanyInfoacion: (params) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API_QUERY_COMPANY_INFO,
+                success: (data) => {
+                    dispatch(queryCompanyInfoAction(data))
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }));
+        },
     }
 }
 

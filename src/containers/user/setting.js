@@ -15,11 +15,11 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import styles from '../../../assets/css/setting';
 import Button from '../../components/common/button';
 import User from '../../models/user';
-import {fetchData, receiverAlias, getHomePageCountAction} from '../../action/app';
+import {fetchData, receiverAlias, getHomePageCountAction, voiceSpeechAction} from '../../action/app';
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import JPushModule from 'jpush-react-native';
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import {DEBUG} from '../../constants/setting';
 import Storage from '../../utils/storage';
 // import { Switch } from 'react-native-switch';
@@ -40,18 +40,28 @@ class SettingContainer extends BaseComponent {
 		super(props);
 
 		this.state = {
-			isOpen: props.alias * 1 !== 2,
-			showLoading: false
+			isOpen: this.props.alias * 1 !== 2,
+			showLoading: false,
+      speechSwitch: this.props.speechSwitchStatus,
 		};
     this.title = props.navigation.state.params.title;
 	  this._logout = this._logout.bind(this);
 	  this._onValueChange = this._onValueChange.bind(this);
     this.loginOut = this.loginOut.bind(this);
+    this.speechValueChange = this.speechValueChange.bind(this);
 	}
 
 	componentDidMount(){
 		this.props.dispatch(appendLogToFile('设置','设置',0))
 	}
+
+    /*语音播报开关状态改变*/
+    speechValueChange(value) {
+        this.setState({
+            speechSwitch: value,
+        });
+        this.props.speechSwitchAction(value);
+    }
 
 	_onValueChange(value) {
 		const alias = value ? this.props.user.userId : '';
@@ -166,10 +176,42 @@ class SettingContainer extends BaseComponent {
 				<TouchableOpacity
 					style={ styles.cellContainer }
 					onPress={ () =>
-							this.props.currentStatus == 'personalOwner' && this.props.ownerStatus == '12' ?
-							this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL, params: {title: '电签印章(个体)', type: 3}}) :
-									(this.props.currentStatus == 'Enterpriseowner' && this.props.ownerStatus == '22') ? this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}}) : console.log('dianji')
-					}>
+					{
+						// 个人车主
+						if (this.props.currentStatus == 'personalOwner') {
+							if (this.props.ownerStatus == '12') {
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL,
+                      params: {title: '电签印章(个体)', type: 3}})
+							} else if (this.props.ownerStatus == '11') {
+								Toast.showShortCenter('认证中');
+							} else if (this.props.ownerStatus == '13') {
+                Toast.showShortCenter('认证驳回');
+              } else if (this.props.ownerStatus == '14') {
+                  Toast.showShortCenter('被禁用');
+              } else {
+                  Toast.showShortCenter('未认证');
+							}
+						}
+
+						//  企业车主
+						if (this.props.currentStatus == 'businessOwner') {
+							if(this.props.ownerStatus == '22') {
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO,
+                      params: {title: '电签印章(公司)', type: 3}})
+							}else if (this.props.ownerStatus == '21') {
+                  Toast.showShortCenter('认证中');
+              } else if (this.props.ownerStatus == '23') {
+                  Toast.showShortCenter('认证驳回');
+              } else if (this.props.ownerStatus == '24') {
+                  Toast.showShortCenter('被禁用');
+              } else {
+                  Toast.showShortCenter('未认证');
+              }
+
+						}
+
+					}
+						}>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>电子签章设置</Text>
 					</View>
@@ -198,8 +240,8 @@ class SettingContainer extends BaseComponent {
 					</View>
 					<View style={ [styles.rightAnd, { marginRight: 15 }] }>
 						<Switch
-							value={ this.state.isOpen }
-							onValueChange={ this._onValueChange  }
+							value={ this.state.speechSwitch }
+							onValueChange={ this.speechValueChange  }
 							style={ styles.switch }
 							onTintColor={'#0092FF'}
 						/>
@@ -290,13 +332,14 @@ class SettingContainer extends BaseComponent {
 function mapStateToProps (state) {
 	const { app, user } = state;
 	return {
-		user: app.get('user'),
+		user: user.get('userInfo'),
 		alias: app.get('alias'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
     currentStatus: user.get('currentStatus'),
-      ownerStatus: user.get('ownerStatus'),
+		ownerStatus: user.get('ownerStatus'),
+		speechSwitchStatus: user.get('speechSwitchStatus'),
 	};
 }
 
@@ -319,6 +362,9 @@ function mapDispatchToProps (dispatch) {
         getHomoPageCountAction: (response) => {
             dispatch(getHomePageCountAction(response));
         },
+      speechSwitchAction:(data)=>{
+          dispatch(voiceSpeechAction(data));
+      },
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer);
