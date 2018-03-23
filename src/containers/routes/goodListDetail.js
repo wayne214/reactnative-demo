@@ -374,7 +374,7 @@ class goodListDetail extends Component {
                                               Toast.show('请输入报价金额');
                                               return
                                           }
-                                    
+
 
                                           if (parseInt(this.state.money) < parseInt(this.state.result.priceMin)){
                                               Toast.show('报价金额不能少于最低标准运费');
