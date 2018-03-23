@@ -29,6 +29,7 @@ import * as API from '../../constants/api.js'
 // import Toast from '@remobile/react-native-toast';
 import Toast from '../../utils/toast';
 import * as RouteType from '../../constants/routeType'
+import TimePicker from 'react-native-picker-custom';
 
 
 
@@ -40,7 +41,6 @@ class goodListDetail extends Component {
         super(props);
         this.state = {
             type: 0,
-            modalVisiable: false,
             pickerDataType: '',
             pickerDateSource: [],
 
@@ -57,6 +57,7 @@ class goodListDetail extends Component {
         this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
         this.sendOrderFail = this.sendOrderFail.bind(this);
         this.sendPrice = this.sendPrice.bind(this);
+        this.showTimePick = this.showTimePick.bind(this);
 
     }
     componentDidMount() {
@@ -141,8 +142,9 @@ class goodListDetail extends Component {
         }
         this.setState({
             pickerDataType: type,
-            modalVisiable: true,
-        })
+        });
+
+        this.showTimePick();
     }
     _onPickerConfirm(data){
 
@@ -190,9 +192,6 @@ class goodListDetail extends Component {
 
     sendPrice(){
 
-
-
-
         Alert.alert(
             '提示',
             '确认此报价？',
@@ -217,6 +216,30 @@ class goodListDetail extends Component {
         );
     }
 
+
+    showTimePick(){
+        setTimeout(()=>{
+            TimePicker.init({
+                pickerConfirmBtnText: '确定',
+                pickerCancelBtnText: '取消',
+                pickerTitleText: '',
+                pickerData: this.state.pickerDateSource,
+                pickerFontSize: 22,
+                pickerBg: [225,225,225,1],
+                onPickerConfirm: data => {
+                    this._onPickerConfirm(data)
+
+                },
+                onPickerCancel: data => {
+
+                },
+                onPickerSelect: data => {
+
+                }
+            });
+            TimePicker.show();
+        },100);
+    }
 
 
     render() {
@@ -370,24 +393,7 @@ class goodListDetail extends Component {
                     </TouchableOpacity>
                 </ScrollView>
 
-                <Modal animationType={ "fade" } transparent={true} visible={this.state.modalVisiable} onRequestClose={()=>console.log('resolve warnning')} >
-                    <Picker data={this.state.pickerDateSource}
-                            onPickerConfirm={(data)=>{
-						this.setState({modalVisiable: false});
-						this._onPickerConfirm(data);
-
-
-					}}
-                            onPickerCancel={(data)=>{
-						this.setState({modalVisiable: false});
-					}}
-                            onPickerSelect={(data)=>{
-						console.log(" log onPickerSelect",data);
-
-
-					}}/>
-                </Modal>
-            </View>
+           </View>
         )
 
     }
