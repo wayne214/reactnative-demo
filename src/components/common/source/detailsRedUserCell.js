@@ -14,6 +14,7 @@ import Communications from 'react-native-communications';
 import * as StaticColor from '../../../constants/colors';
 import Contact from '../../../../assets/img/driverOrder/contact.png';
 import locationRedIcon from '../../../../assets/home/locationRed.png';
+import Toast from '@remobile/react-native-toast';
 
 const styles = StyleSheet.create({
     dressIconStyle: {
@@ -67,6 +68,10 @@ class DetailsUserCell extends Component {
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => {
+                                        if(!deliveryInfo.departurePhoneNum){
+                                            Toast.showShortCenter('配送信息不完善，无法联系对方');
+                                            return;
+                                        }
                                         Communications.phonecall(deliveryInfo.receivePhoneNum, true);
                                     }}
                                 >
