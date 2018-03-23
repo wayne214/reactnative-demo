@@ -27,6 +27,7 @@ import { fetchData, getInitStateFromDB, appendLogToFile } from '../../action/app
 import User from '../../models/user';
 import Regex from '../../utils/regex';
 import JPushModule from 'jpush-react-native';
+import {DEBUG} from "../../constants/setting";
 let startTime = 0
 class RegisterContainer extends BaseComponent {
 
@@ -275,13 +276,30 @@ function mapDispatchToProps (dispatch) {
 					});
 					user.save();
 					startTime = new Date().getTime()
-					JPushModule.setAlias(user.userId, () => {
-						console.log("Set alias succeed");
-						// dispatch(appendLogToFile('注册','设置推送别名成功', startTime))
-					}, () => {
-						console.warn("Set alias failed");
-						// dispatch(appendLogToFile('注册','设置推送别名失败', startTime))
-					});
+                    if (DEBUG) {
+                        JPushModule.setAlias('B' + user.phoneNumber, () => {
+                            console.log("Set alias succeed ! tag: ", user.phoneNumber);
+                            dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
+                        }, () => {
+                            console.warn("Set alias failed");
+                            dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
+                        });
+                    } else {
+                        JPushModule.setAlias('A' + user.phoneNumber, () => {
+                            console.log("Set alias succeed ! tag: ", user.phoneNumber);
+                            dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
+                        }, () => {
+                            console.warn("Set alias failed");
+                            dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
+                        });
+                    }
+					// JPushModule.setAlias(user.userId, () => {
+					// 	console.log("Set alias succeed");
+					// 	// dispatch(appendLogToFile('注册','设置推送别名成功', startTime))
+					// }, () => {
+					// 	console.warn("Set alias failed");
+					// 	// dispatch(appendLogToFile('注册','设置推送别名失败', startTime))
+					// });
 					dispatch(getInitStateFromDB());
 
 				}
