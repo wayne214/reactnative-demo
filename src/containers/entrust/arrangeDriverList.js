@@ -99,7 +99,6 @@ class arrangeDriverList extends Component {
                             driverPhone: driver.driverPhone, // 司机手机号
                             orderSource: 1, // 订单来源： 1.交易中心 2.调度中心
                             resourceCode: para.resourceCode, // 货源id
-                            freight: para.freight
                             }, callback, api);
                     }
                 }

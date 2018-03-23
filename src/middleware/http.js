@@ -39,6 +39,10 @@ export default store => next => action => {
     if (global.userId) {
         axios.defaults.headers.userId = global.userId
     }
+
+    if (global.phone) {
+        axios.defaults.headers.PhoneNum = global.phone
+    }
     // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
     axios.defaults.headers.post['Content-Type'] = 'application/json'
     axios.defaults.headers.deviceId = '11111111'
