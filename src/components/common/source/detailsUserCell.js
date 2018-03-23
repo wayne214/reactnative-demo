@@ -66,7 +66,7 @@ class DetailsUserCell extends Component {
                                     {deliveryInfo.departureContactName}
                                 </Text>
                                     {
-                                        deliveryInfo.departurePhoneNum ? <TouchableOpacity
+                                        deliveryInfo.departurePhoneNum && deliveryInfo.departurePhoneNum != '' ? <TouchableOpacity
                                             onPress={() => {
                                                 Communications.phonecall(deliveryInfo.departurePhoneNum, true);
                                             }}
