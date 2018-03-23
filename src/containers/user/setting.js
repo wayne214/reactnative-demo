@@ -19,7 +19,7 @@ import {fetchData, receiverAlias, getHomePageCountAction} from '../../action/app
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import JPushModule from 'jpush-react-native';
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import {DEBUG} from '../../constants/setting';
 import Storage from '../../utils/storage';
 // import { Switch } from 'react-native-switch';
@@ -166,10 +166,42 @@ class SettingContainer extends BaseComponent {
 				<TouchableOpacity
 					style={ styles.cellContainer }
 					onPress={ () =>
-							this.props.currentStatus == 'personalOwner' && this.props.ownerStatus == '12' ?
-							this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL, params: {title: '电签印章(个体)', type: 3}}) :
-									(this.props.currentStatus == 'Enterpriseowner' && this.props.ownerStatus == '22') ? this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO, params: {title: '电签印章(公司)', type: 3}}) : console.log('dianji')
-					}>
+					{
+						// 个人车主
+						if (this.props.currentStatus == 'personalOwner') {
+							if (this.props.ownerStatus == '12') {
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_ESIGN_INDIVIDUAL,
+                      params: {title: '电签印章(个体)', type: 3}})
+							} else if (this.props.ownerStatus == '11') {
+								Toast.showShortCenter('认证中');
+							} else if (this.props.ownerStatus == '13') {
+                Toast.showShortCenter('认证驳回');
+              } else if (this.props.ownerStatus == '14') {
+                  Toast.showShortCenter('被禁用');
+              } else {
+                  Toast.showShortCenter('未认证');
+							}
+						}
+
+						//  企业车主
+						if (this.props.currentStatus == 'Enterpriseowner') {
+							if(this.props.ownerStatus == '22') {
+                  this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO,
+                      params: {title: '电签印章(公司)', type: 3}})
+							}else if (this.props.ownerStatus == '21') {
+                  Toast.showShortCenter('认证中');
+              } else if (this.props.ownerStatus == '23') {
+                  Toast.showShortCenter('认证驳回');
+              } else if (this.props.ownerStatus == '24') {
+                  Toast.showShortCenter('被禁用');
+              } else {
+                  Toast.showShortCenter('未认证');
+              }
+
+						}
+
+					}
+						}>
 					<View style={ styles.leftAnd }>
 						<Text style={ styles.leftText }>电子签章设置</Text>
 					</View>
