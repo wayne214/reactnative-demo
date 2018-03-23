@@ -15,7 +15,7 @@ import NavigatorBar from '../../components/common/navigatorbar';
 import styles from '../../../assets/css/setting';
 import Button from '../../components/common/button';
 import User from '../../models/user';
-import {fetchData, receiverAlias, getHomePageCountAction} from '../../action/app';
+import {fetchData, receiverAlias, getHomePageCountAction, voiceSpeechAction} from '../../action/app';
 import { logout } from '../../action/app';
 import * as RouteType from '../../constants/routeType';
 import JPushModule from 'jpush-react-native';
@@ -40,18 +40,28 @@ class SettingContainer extends BaseComponent {
 		super(props);
 
 		this.state = {
-			isOpen: props.alias * 1 !== 2,
-			showLoading: false
+			isOpen: this.props.alias * 1 !== 2,
+			showLoading: false,
+      speechSwitch: this.props.speechSwitchStatus,
 		};
     this.title = props.navigation.state.params.title;
 	  this._logout = this._logout.bind(this);
 	  this._onValueChange = this._onValueChange.bind(this);
     this.loginOut = this.loginOut.bind(this);
+    this.speechValueChange = this.speechValueChange.bind(this);
 	}
 
 	componentDidMount(){
 		this.props.dispatch(appendLogToFile('设置','设置',0))
 	}
+
+    /*语音播报开关状态改变*/
+    speechValueChange(value) {
+        this.setState({
+            speechSwitch: value,
+        });
+        this.props.speechSwitchAction(value);
+    }
 
 	_onValueChange(value) {
 		const alias = value ? this.props.user.userId : '';
@@ -184,7 +194,7 @@ class SettingContainer extends BaseComponent {
 						}
 
 						//  企业车主
-						if (this.props.currentStatus == 'Enterpriseowner') {
+						if (this.props.currentStatus == 'businessOwner') {
 							if(this.props.ownerStatus == '22') {
                   this.props.navigation.dispatch({type: RouteType.ROUTE_UPDATE_ESIGN_INFO,
                       params: {title: '电签印章(公司)', type: 3}})
@@ -230,8 +240,8 @@ class SettingContainer extends BaseComponent {
 					</View>
 					<View style={ [styles.rightAnd, { marginRight: 15 }] }>
 						<Switch
-							value={ this.state.isOpen }
-							onValueChange={ this._onValueChange  }
+							value={ this.state.speechSwitch }
+							onValueChange={ this.speechValueChange  }
 							style={ styles.switch }
 							onTintColor={'#0092FF'}
 						/>
@@ -322,13 +332,14 @@ class SettingContainer extends BaseComponent {
 function mapStateToProps (state) {
 	const { app, user } = state;
 	return {
-		user: app.get('user'),
+		user: user.get('userInfo'),
 		alias: app.get('alias'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
     upgradeForceUrl: app.get('upgradeForceUrl'),
     currentStatus: user.get('currentStatus'),
-      ownerStatus: user.get('ownerStatus'),
+		ownerStatus: user.get('ownerStatus'),
+		speechSwitchStatus: user.get('speechSwitchStatus'),
 	};
 }
 
@@ -351,6 +362,9 @@ function mapDispatchToProps (dispatch) {
         getHomoPageCountAction: (response) => {
             dispatch(getHomePageCountAction(response));
         },
+      speechSwitchAction:(data)=>{
+          dispatch(voiceSpeechAction(data));
+      },
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer);

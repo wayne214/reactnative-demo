@@ -78,12 +78,12 @@ export function receiverAlias(value) {
 	}
 }
 
-function receiverAlias(value) {
-	return {
-		type: ActionTypes.ACTION_ALIAS,
-		payload: value
-	}
-}
+// function receiverAlias(value) {
+// 	return {
+// 		type: ActionTypes.ACTION_ALIAS,
+// 		payload: value
+// 	}
+// }
 
 
 function receiveStatus(str) {
