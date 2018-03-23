@@ -223,10 +223,11 @@ class goodListDetail extends Component {
         let goodName = '';
         this.state.result.supplyInfoList ? this.state.result.supplyInfoList.map((goods,index)=>{
                 if (index === this.state.result.supplyInfoList.length - 1){
-                    goodName+=goods.typeName;
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || '';
                 }else
-                    goodName+=goods.typeName+','
-            }) : null;
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || '' +' ';
+
+        }) : null;
 
         let qiuS = '';
         if (!this.state.result.carLength && !this.state.result.carType) {
@@ -265,7 +266,7 @@ class goodListDetail extends Component {
 
 
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
-                        <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
+                        <GoodsDetail goodDetail={'有 '+((goodName && goodName !== 'null' && goodName !== '') ? goodName : '货品')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
                                      endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
