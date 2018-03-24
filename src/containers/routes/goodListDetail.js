@@ -199,7 +199,7 @@ class goodListDetail extends Component {
                 { text: '确认', onPress: () => {
 
                     this.props.sendOrder({
-                        biddingPrice: this.state.money,
+                        biddingPrice: this.state.result.isLock == '1' ? this.state.result.configFreight : this.state.money,
                         carrierId: global.companyCode, // 承运商code
                         carrierName: global.ownerName, // 承运商名字
                         entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
@@ -316,7 +316,8 @@ class goodListDetail extends Component {
 
                                          this.setState({money});
                                      }}
-                                      businessType={this.state.result.businessType}/>
+                                      businessType={this.state.result.businessType}
+                                      isLocked={0}/>
 
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{

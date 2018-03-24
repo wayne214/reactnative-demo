@@ -262,8 +262,8 @@ class OrderList extends BaseComponent {
         // carrierCode: this.props.carrierCode,
         carrierCode: global.companyCode,
         // carrierCode: '1001',
-        ctcNum: 0,
-        tfcNum: pageNum === 1 ? 0 : this.state.tfcNum,
+        ctcNum: pageNum == '1' ? 0 : this.state.ctcNum,
+        tfcNum: pageNum == '1' ? 0 : this.state.tfcNum,
         page: pageNum,
         // pageSize,
         // queryType: type,
@@ -281,21 +281,25 @@ class OrderList extends BaseComponent {
           case 0:
               this.setState({
                   tfcNum: orderAll.get('tfcNum'),
+                  ctcNum: orderAll.get('ctcNum')
               });
               break;
           case 1:
               this.setState({
                   tfcNum: orderToInstall.get('tfcNum'),
+                  ctcNum: orderToInstall.get('ctcNum')
               });
               break;
           case 2:
               this.setState({
                   tfcNum: orderToDelivery.get('tfcNum'),
+                  ctcNum: orderToDelivery.get('ctcNum')
               });
               break;
           case 3:
               this.setState({
                   tfcNum: orderCanceled.get('tfcNum'),
+                  ctcNum: orderCanceled.get('ctcNum')
               });
               break;
       }

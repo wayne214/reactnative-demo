@@ -157,8 +157,7 @@ class orderDetailEntry extends BaseComponent {
 							{
 
 								if (!orderDetailData.templateUrl || orderDetailData.templateUrl === '') {
-									Toast.show('暂无协议模板');
-									return
+									Toast.show('暂无协议模板')
 								}
                   this.props.navigation.dispatch({
                       type: RouteType.ROUTE_CONTRACT_DETAIL,

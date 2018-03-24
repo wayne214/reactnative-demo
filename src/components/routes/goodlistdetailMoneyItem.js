@@ -47,7 +47,7 @@ class goodlistdetailMoneyItem extends Component{
                 <View style={{padding: 20, backgroundColor: 'white',flexDirection:'row'}}>
                     <View style={{borderColor: '#E6EAF2', borderWidth: 1,flex: 5,height: 40,flexDirection:'row',justifyContent: 'space-between',alignItems: 'center'}}>
                         <TextInput style={{flex: 5,height: 30, marginLeft: 10, marginRight: 10, padding: 0}}
-                                   value={this.state.money}
+                                   value={this.props.isLocked == '1' ? this.props.norMoney : this.state.money}
                                    onChangeText={(money)=>{
                                        this.setState({money});
                                        this.props.moneyChange(money);
@@ -55,6 +55,7 @@ class goodlistdetailMoneyItem extends Component{
                                    underlineColorAndroid="transparent"
                                    keyboardType='decimal-pad'
                                    onBlur={()=>{}}
+                                   editable={this.props.isLocked == '1'} // 0 不锁定 1 锁定
                         />
                         <Text style={{flex: 1, textAlign: 'center',color: '#999'}}>元</Text>
                     </View>

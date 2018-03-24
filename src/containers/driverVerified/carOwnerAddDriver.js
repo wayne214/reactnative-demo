@@ -61,6 +61,8 @@ const driverCardTrunRightImage = require('./images/driverTrunAdd.png');
 const handCardTrunLeftImage = require('./images/handPicAdd.png');
 const handCardTrunRightImage = require('./images/handPicModel.png');
 
+import * as RouteType from '../../constants/routeType';
+
 
 const selectedArr = ["拍照", "从手机相册选择"];
 
