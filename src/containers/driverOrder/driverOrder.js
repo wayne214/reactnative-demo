@@ -257,7 +257,7 @@ class driverOrder extends Component {
             if(errorInfo.code === 800){
                 Alert.alert('批量签收前请先完成收款');
             }else {
-                Toast.showShortCenter(errorInfo.message);
+                Toast.showShortCenter(errorInfo.result);
             }
         });
     }
