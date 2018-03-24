@@ -25,12 +25,20 @@ class goodlistdetailgoodDetail extends Component{
 
         let startDate = new Date();
         let endDate = new Date();
-        startDate.setTime(parseInt(this.props.beginTime));
+
+        if (this.props.beginTime != '') {
+            startDate.setTime(parseInt(this.props.beginTime));
+        } else {
+            startDate = '';
+        }
+
         if (this.props.endTime != '') {
             endDate.setTime(parseInt(this.props.endTime));
         } else {
             endDate = '';
         }
+
+        let loadTime = startDate + endDate;
 
         let arriveTime = this.props.arriveTime ? this.props.arriveTime : '';
 
@@ -47,7 +55,7 @@ class goodlistdetailgoodDetail extends Component{
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Text style={{width: 80,color: '#999'}}>装货时间：</Text>
                     <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                        {moment(startDate).format('YYYY-MM-DD HH:mm') + "-" + endDate}
+                        {loadTime != '' ? loadTime : ''}
                     </Text>
                 </View>
                 {
