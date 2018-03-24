@@ -181,6 +181,7 @@ class mine extends Component {
         this.mineListener = DeviceEventEmitter.addListener('refreshMine', () => {
             if (this.props.currentStatus == 'driver') {
                 this.verifiedState(this.getVerfiedStateSucCallback);
+                this.certificationState(this.certificationCallback);
             } else {
                 this.ownerVerifiedState(this.getOwnerVerifiedCallback);
             }

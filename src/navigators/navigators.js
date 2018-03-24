@@ -174,6 +174,8 @@ import DevicesUnBindSuccScreen from '../containers/mine/devicesUnBindSucc';
 import ArrangeCarList from '../containers/entrust/arrangeCarList';
 import ArrangeDriverList from '../containers/entrust/arrangeDriverList';
 
+import ShowZoomImageView from '../components/common/imageShow';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -1054,6 +1056,13 @@ export const AppNavigator = StackNavigator({
     },
     [RouteType.ROUTE_CAROWNER_CREAT_DRIVER]: {
         screen: CarOwnerCreatDriver,
+        navigationOptions: {
+            // title: '安排司机列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_SHOW_ZOOM_IMAGE]: {
+        screen: ShowZoomImageView,
         navigationOptions: {
             // title: '安排司机列表'
             header: null
