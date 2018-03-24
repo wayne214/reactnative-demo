@@ -68,7 +68,6 @@ public class MainApplication extends Application implements ReactApplication {
               new PermissionManagerPackage(),
               new NativePackage(),
               new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
-
       );
     }
   };

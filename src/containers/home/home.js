@@ -78,6 +78,8 @@ import dispatchIcon from '../../../assets/home/despatch_icon.png';
 import receiveIcon from '../../../assets/home/receive_icon.png';
 import roadIcon from '../../../assets/home/road_abnormality.png';
 
+import VoiceUtils from '../../utils/VoiceUtils';
+
 const images = [
     bannerImage1,
     bannerImage2,
@@ -892,12 +894,13 @@ class Home extends Component {
                 badgeText={homePageState === null ? 0 : homePageState.pendingCount}// 消息提示
                 renderImage={() => <Image source={receiptIcon}/>}// 图标
                 clickAction={() => { // 点击事件
-                    if (this.props.driverStatus == 2) {
-                        this.props._changeBottomTab('driverGoods');
-                        DeviceEventEmitter.emit('resetGood')
-                    } else {
-                        {/*DeviceEventEmitter.emit('certification');*/}
-                    }
+                    VoiceUtils.speak('方便接单，快速查看', 0);
+                    // if (this.props.driverStatus == 2) {
+                    //     this.props._changeBottomTab('driverGoods');
+                    //     DeviceEventEmitter.emit('resetGood')
+                    // } else {
+                    //     {/*DeviceEventEmitter.emit('certification');*/}
+                    // }
                 }}
             />
             <View style={styles.line}/>
