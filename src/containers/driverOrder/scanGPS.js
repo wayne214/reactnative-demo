@@ -482,7 +482,7 @@ const styles =StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.2)',
         alignSelf: 'center',
-        flex: 1,
+        // flex: 1,
         width,
     },
     fillView: {
@@ -511,6 +511,7 @@ const styles =StyleSheet.create({
             }
         }),
         backgroundColor: 'rgba(0,0,0,0.2)',
+        marginTop: 100,
     },
     bottomIcon: {
         alignSelf: 'center',
