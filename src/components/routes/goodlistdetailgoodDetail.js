@@ -32,6 +32,8 @@ class goodlistdetailgoodDetail extends Component{
             endDate = '';
         }
 
+        let arriveTime = this.props.arriveTime ? this.props.arriveTime : '';
+
         // {item.businessType == '501' ? '撮合' : '自营'}
 
         return (
@@ -45,7 +47,7 @@ class goodlistdetailgoodDetail extends Component{
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Text style={{width: 80,color: '#999'}}>装货时间：</Text>
                     <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                        {moment(startDate).format('YYYY-MM-DD HH:mm')}
+                        {moment(startDate).format('YYYY-MM-DD HH:mm') + "-" + endDate}
                     </Text>
                 </View>
                 {
@@ -54,7 +56,7 @@ class goodlistdetailgoodDetail extends Component{
                                 <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
                                 <Text style={{width: width - 20 -20 -80, color: '#666'}}>
 
-                                    {endDate != '' ? moment(endDate).format('YYYY-MM-DD HH:mm') : ''}
+                                    {arriveTime != '' ? moment(arriveTime).format('YYYY-MM-DD HH:mm') : ''}
 
                                 </Text>
                             </View>

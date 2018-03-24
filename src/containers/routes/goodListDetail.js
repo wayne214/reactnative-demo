@@ -292,10 +292,11 @@ class goodListDetail extends Component {
                         <GoodsDetail goodDetail={'有 '+((goodName && goodName !== 'null' && goodName !== '') ? goodName : '货品')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
-                                     endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
+                                     endTime={this.state.result.loadingEndTime ? this.state.result.loadingEndTime : ''}
                                      hot={hot}
                                      remark={this.state.result.remark || ''}
                                      businessType={this.state.result.businessType}
+                                     arriveTime={this.props.result.arrivalStartTime}
                         />
                     </View>
 
