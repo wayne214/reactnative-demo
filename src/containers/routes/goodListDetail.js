@@ -296,7 +296,7 @@ class goodListDetail extends Component {
                                      hot={hot}
                                      remark={this.state.result.remark || ''}
                                      businessType={this.state.result.businessType}
-                                     arriveTime={this.props.result.arrivalStartTime}
+                                     arriveTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
                         />
                     </View>
 
