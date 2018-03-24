@@ -23,17 +23,17 @@ class goodlistdetailgoodDetail extends Component{
     render() {
         console.log('new Date()= ', new Date());
 
-        let startDate = new Date();
-        let endDate = new Date();
+        let startDate = '';
+        let endDate = '';
 
         if (this.props.beginTime != '') {
-            startDate.setTime(parseInt(this.props.beginTime));
+            startDate = moment(this.props.beginTime).format('YYYY-MM-DD HH:mm');
         } else {
             startDate = '';
         }
 
         if (this.props.endTime != '') {
-            endDate.setTime(parseInt(this.props.endTime));
+            endDate = moment(this.props.endTime).format('YYYY-MM-DD HH:mm');
         } else {
             endDate = '';
         }

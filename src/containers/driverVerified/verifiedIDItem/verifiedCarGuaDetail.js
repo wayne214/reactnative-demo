@@ -7,6 +7,7 @@ import {
 
 import Line from './verifiedLineItem';
 import ImagesItem from './verifiedImagesItem';
+import HelpUtils from '../../../utils/helper';
 
 const styles = StyleSheet.create({
     container:{
@@ -89,7 +90,7 @@ class verifiedDriverCardItem extends Component{
                         车辆类别
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {''}
+                        {HelpUtils.getCarCategory(resultInfo.carCategory)}
                     </Text>
 
                 </View>
@@ -119,7 +120,7 @@ class verifiedDriverCardItem extends Component{
                         实载体积
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {''}
+                        {resultInfo.volumeSize}
                     </Text>
 
                 </View>
@@ -129,7 +130,7 @@ class verifiedDriverCardItem extends Component{
                         运输许可证号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {''}
+                        {resultInfo.transportationLicense}
                     </Text>
 
                 </View>
@@ -139,7 +140,7 @@ class verifiedDriverCardItem extends Component{
                         挂车牌号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {''}
+                        {resultInfo.gcarNo}
                     </Text>
 
                 </View>
