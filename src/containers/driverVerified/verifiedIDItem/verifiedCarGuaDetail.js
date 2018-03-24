@@ -89,7 +89,7 @@ class verifiedDriverCardItem extends Component{
                         车辆类别
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        没有返回
+                        {''}
                     </Text>
 
                 </View>
@@ -119,7 +119,7 @@ class verifiedDriverCardItem extends Component{
                         实载体积
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        没有返回
+                        {''}
                     </Text>
 
                 </View>
@@ -129,7 +129,7 @@ class verifiedDriverCardItem extends Component{
                         运输许可证号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        没有返回
+                        {''}
                     </Text>
 
                 </View>
@@ -139,7 +139,7 @@ class verifiedDriverCardItem extends Component{
                         挂车牌号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        没有返回
+                        {''}
                     </Text>
 
                 </View>

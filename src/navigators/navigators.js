@@ -883,6 +883,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CAR_DISABLE_PAGE]: {
         screen: CarDisableScreen,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_DEVICES_BIND]: {

@@ -36,6 +36,7 @@ const headerImageLoading = require('./images/verifieding.png');
 
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+import * as RouteType from '../../constants/routeType';
 
 let currentTime = 0;
 let lastTime = 0;
@@ -154,16 +155,15 @@ class certificationState extends Component{
     /*重新认证*/
     reloadVerified(){
         Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
-
             if (value){
-                this.props.navigation.navigate('CertificationPage', {
+                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
                     resultInfo: value,
-                });
+                } });
+
             }else {
-                this.props.navigation.navigate('CertificationPage', {
-                    resultInfo: this.state.resultInfo,
-                });
+                this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
             }
+
         });
     }
 
