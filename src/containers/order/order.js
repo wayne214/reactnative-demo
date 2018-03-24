@@ -212,7 +212,9 @@ class OrderList extends BaseComponent {
       showCoordination: false,
       coordinationResult: {},
       allSelected: false,
-      batchEditing: false
+      batchEditing: false,
+        ctcNum: 0,
+        tfcNum: 0,
     }
 
     this._updateListWithIndex = this._updateListWithIndex.bind(this)
@@ -227,6 +229,7 @@ class OrderList extends BaseComponent {
           this.getlistbyIndex(2, 1);
       });
   }
+
   _updateListWithIndex(activeTab = this.state.activeTab,pageNo){
     const {user} = this.props
 
@@ -260,7 +263,7 @@ class OrderList extends BaseComponent {
         carrierCode: global.companyCode,
         // carrierCode: '1001',
         ctcNum: 0,
-        tfcNum: 0,
+        tfcNum: pageNum === 1 ? 0 : this.state.tfcNum,
         page: pageNum,
         // pageSize,
         // queryType: type,
@@ -273,6 +276,31 @@ class OrderList extends BaseComponent {
 
   componentWillReceiveProps(nextProps){
     const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled} = nextProps
+
+      switch (this.state.activeTab) {
+          case 0:
+              this.setState({
+                  tfcNum: orderAll.get('tfcNum'),
+              });
+              break;
+          case 1:
+              this.setState({
+                  tfcNum: orderToInstall.get('tfcNum'),
+              });
+              break;
+          case 2:
+              this.setState({
+                  tfcNum: orderToDelivery.get('tfcNum'),
+              });
+              break;
+          case 3:
+              this.setState({
+                  tfcNum: orderCanceled.get('tfcNum'),
+              });
+              break;
+      }
+
+
     if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore')) {
 
       this._refreshList()
@@ -436,8 +464,8 @@ const mapStateToProps = (state) => {
     orderToInstall: order.get('orderToInstall'),
     orderToDelivery: order.get('orderToDelivery'),
     orderCanceled: order.get('orderCanceled'),
-    orderUnPay: order.get('orderUnPay'),
-    orderPaying: order.get('orderPaying'),
+    // orderUnPay: order.get('orderUnPay'),
+    // orderPaying: order.get('orderPaying'),
     activeTab: order.get('activeTab'),
     activeSubTab: order.get('activeSubTab'),
     shouldOrderListRefresh: app.get('shouldOrderListRefresh'),
