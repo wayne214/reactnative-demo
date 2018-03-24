@@ -158,7 +158,7 @@ class SettingCell extends Component {
                         </View>
                         {a}
                         {
-                            showCertificatesOverdue ? <Text style={{color: '#FF8500', fontSize:14, marginRight: 20,}}>证件过期</Text> : null
+                            showCertificatesOverdue ? <Text style={{color: '#FF8500', fontSize:14, marginRight: 20,}}>{showCertificatesOverdue}</Text> : null
                         }
                         {
                             hideArrowIcon ? <Text style={styles.version}>{versionName}</Text> : <Image style={styles.rightIcon} source={rightIcon}/>
