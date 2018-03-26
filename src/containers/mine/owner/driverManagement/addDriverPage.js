@@ -142,6 +142,7 @@ class AddDriverPage extends Component {
 
     //点击城市cell
     cityClicked(item) {
+
         console.log('item', item);
         // this.props.navigation.goBack();
         this.bindDriverToApp(item.id,item.driverPhone);
