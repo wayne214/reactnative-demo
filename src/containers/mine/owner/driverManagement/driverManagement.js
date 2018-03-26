@@ -333,7 +333,7 @@ class DriverManagement extends Component {
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params:{
                             qualifications: this.state.verifiedState,
-                            phone: global.phone
+                            phone: item.driverPhone
                         } });
                     }}>
 
