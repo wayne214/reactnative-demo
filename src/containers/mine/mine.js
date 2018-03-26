@@ -164,9 +164,9 @@ class mine extends Component {
             /*资质认证状态请求*/
             this.certificationState(this.certificationCallback);
 
-            // this.props.queryCardOverDueAction({
-            //     driverPhone: global.phone,     // 司机手机号
-            // },this.queryCardOverDueInfoCallback)
+            this.props.queryCardOverDueAction({
+                driverPhone: global.phone,     // 司机手机号
+            },this.queryCardOverDueInfoCallback)
         }
 
         /*实名认证提交成功，刷新状态*/
@@ -235,6 +235,39 @@ class mine extends Component {
 
     // 查询证件过期状态
     queryCardOverDueInfoCallback(result) {
+        console.log('证件过期校验', result);
+        if (result) {
+            if (result.driverLicenseValidityStatus === '有效' && result.idCardValidityStatus === '有效') {
+                this.setState({
+                    isOver: '有效'
+                })
+            } else {
+                if (result.driverLicenseValidityStatus === '过期') {
+                    // 驾驶证过期
+                    this.setState({
+                        isOver: '驾驶证过期'
+                    })
+                } else if (result.driverLicenseValidityStatus === '临期') {
+                    this.setState({
+                        isOver: '驾驶证临期'
+                    })
+                }
+
+                if (result.idCardValidityStatus === '过期') {
+                    // 驾驶证过期
+                    this.setState({
+                        isOver: '身份证过期'
+                    })
+                } else if (result.idCardValidityStatus === '临期') {
+                    this.setState({
+                        isOver: '身份证临期'
+                    })
+                }
+            }
+        }
+
+
+
        if (result) {
            this.setState({
                isOver: result
@@ -1007,7 +1040,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
-                api: API.API_QUERY_USER_AVATAR,
+                api: API.API_IDCARD_VALIDATE + 'driverPhone=' +params.driverPhone,
                 success: data => {
                     successCallback(data);
                 },

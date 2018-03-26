@@ -56,6 +56,31 @@ class MessageDetail extends BaseComponent {
 	componentWillUnmount() {
 		super.componentWillUnmount()
 	}
+
+    /**
+     * linked.id:------
+		 *
+     * 1:认证驳回，
+     * 2:修改价格，
+     * 3:匹配车辆，
+     * 4:订单驳回，
+     * 5:订单到达,
+     * 6:货源详情，
+     * 7:我的承运，
+     * 8:货源列表
+     *
+     */
+
+    // 货源列表----8
+    _goodsList() {
+        this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'goods' } })
+    }
+
+    // 我的承运----7
+    _goodsList() {
+        this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
+    }
+
 	_againAuth(){
 		this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO, params: {title:'公司认证'}});
 	}
@@ -324,7 +349,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: UPDATE_WEB_MSG,
+				api: UPDATE_WEB_MSG + '?messageIds=' + body.messageId,
 				success: (data) => {
 					dispatch(dispatchRefreshMessageList());
 				}
