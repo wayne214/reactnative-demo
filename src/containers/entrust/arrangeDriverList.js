@@ -48,6 +48,15 @@ class arrangeDriverList extends Component {
 
     getDriverListCallback(result) {
         console.log('arrangeDriverList', result);
+        if (!result || result.length === 0) {
+            Toast.showShortCenter('司机列表为空');
+            this.setState({
+                data: [],
+            });
+            result;
+        }
+
+
         this.setState({
             data: result,
         });
@@ -75,6 +84,12 @@ class arrangeDriverList extends Component {
     arrangeCar(driver, callback) {
         const {driverOption , para }= this.state;
         console.log('----para', para);
+        if (!driver || !driver.driverName) {
+            Toast.showShortCenter('暂无可用司机');
+            return;
+        }
+
+
         const api = para.orderState == '60' ? API.RE_DISPATCH_CAR : API.DISPATCH_CAR;
 
         Alert.alert('',
@@ -121,12 +136,12 @@ class arrangeDriverList extends Component {
                 <NavigatorBar
                     title={'司机列表'}
                     router={navigator}
-                    optTitle='添加司机'
-                    hiddenBackIcon={false}
-                    optTitleStyle={{fontSize: 15, color: '#666666'}}
-                    firstLevelClick={() => {
-                        this.props.navigation.dispatch({ type: RouteType.ROUTE_ADD_DRIVER2 });
-                    }}
+                    // optTitle='添加司机'
+                    // hiddenBackIcon={false}
+                    // optTitleStyle={{fontSize: 15, color: '#666666'}}
+                    // firstLevelClick={() => {
+                    //     this.props.navigation.dispatch({ type: RouteType.ROUTE_ADD_DRIVER2 });
+                    // }}
                 />
                 {
                     this.state.data.length > 0 ? <RadioList
