@@ -137,7 +137,7 @@ class UserInfoContainer extends BaseComponent {
           authStatusText = '认证中'
 			} else if (this.props.ownerStatus == 12 || this.props.ownerStatus == 22) {
           authStatusText = '已认证'
-			} else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 13) {
+			} else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 23) {
           authStatusText = '认证驳回'
 			} else if (this.props.ownerStatus == 14 || this.props.ownerStatus == 24) {
           authStatusText = '被禁用'

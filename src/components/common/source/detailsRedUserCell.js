@@ -14,6 +14,7 @@ import Communications from 'react-native-communications';
 import * as StaticColor from '../../../constants/colors';
 import Contact from '../../../../assets/img/driverOrder/contact.png';
 import locationRedIcon from '../../../../assets/home/locationRed.png';
+import Toast from '@remobile/react-native-toast';
 
 const styles = StyleSheet.create({
     dressIconStyle: {
@@ -65,20 +66,22 @@ class DetailsUserCell extends Component {
                                 >
                                     {deliveryInfo.receiveContactName}
                                 </Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        Communications.phonecall(deliveryInfo.receivePhoneNum, true);
-                                    }}
-                                >
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Image source={Contact} resizeMode='cover'/>
-                                        <Text style={{
-                                            fontSize: 15,
-                                            marginLeft: 8,
-                                            color: StaticColor.BLUE_CONTACT_COLOR,
-                                        }}>联系对方</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                {
+                                    deliveryInfo.receivePhoneNum && deliveryInfo.receivePhoneNum != '' ? <TouchableOpacity
+                                        onPress={() => {
+                                            Communications.phonecall(deliveryInfo.receivePhoneNum, true);
+                                        }}
+                                    >
+                                        <View style={{flexDirection: 'row'}}>
+                                            <Image source={Contact} resizeMode='cover'/>
+                                            <Text style={{
+                                                fontSize: 15,
+                                                marginLeft: 8,
+                                                color: StaticColor.BLUE_CONTACT_COLOR,
+                                            }}>联系对方</Text>
+                                        </View>
+                                    </TouchableOpacity> : null
+                                }
                             </View> : null
                         }
                         <TouchableOpacity

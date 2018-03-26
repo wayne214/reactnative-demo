@@ -50,6 +50,8 @@ class GoodsInfo extends Component{
 		const {configData = {}, startAddress, endAddress} = this.props;
 		console.log('--configData', configData);
 
+		const qty = configData.qty || configData.qty === '0';
+
 		const goodsType = configData.goodsType ? configData.goodsType : '';
 		const goodsCategory = configData.goodsCategory ? configData.goodsCategory : '';
 		const weight = configData.weight ? configData.weight : '';
@@ -65,7 +67,7 @@ class GoodsInfo extends Component{
 					{/*<MutilAddress lineStyle={{marginLeft: 0}} subcontainer= {{paddingLeft: 0, paddingRight: 10, paddingTop: 20, paddingBottom: 5}} address={['河南省郑州市高新区80号绿新区普惠路78号绿地','郑州市','河南省郑州市惠济区8号','高新区29号2层']}/>*/}
 
 					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物详情：{goodDetail }</Text>
+						<Text style={styles.goodsDetailMark}>货物详情：{ (goodDetail && goodDetail !== '') ? goodDetail : '货品' }</Text>
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 
@@ -86,22 +88,22 @@ class GoodsInfo extends Component{
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>应收：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeigh : configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>发运：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeigh : configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>签收：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.shipmentNums}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.signWeight : configData.signNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>拒签：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.denySignNum}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.denySignWeight : configData.denySignNum}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>

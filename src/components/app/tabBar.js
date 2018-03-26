@@ -120,6 +120,7 @@ class Tabar extends Component {
             { toValue: 1 }
         ).start(() => this.state.driverOrderAnimatedValue.setValue(0));
     } else if (tab === 'mine') {
+        DeviceEventEmitter.emit('refreshMine');
         Animated.timing(this.state.mineAnimatedValue,
             { toValue: 1 }
         ).start(() => this.state.mineAnimatedValue.setValue(0));

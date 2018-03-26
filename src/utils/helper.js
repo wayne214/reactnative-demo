@@ -385,6 +385,22 @@ class HelperUtil {
         }
     }
 
+    validityStatus(result) {
+    	if (result.idCardValidityStatus === '过期') {
+    		if (result.driverLicenseValidityStatus === '过期') {
+    			return '您的身份证和驾驶证已过期，请重新上传！';
+				} else {
+            return '您的身份证已过期，请重新上传！';
+				}
+			} else {
+          if (result.driverLicenseValidityStatus === '过期') {
+              return '您的驾驶证已过期，请重新上传！';
+          } else {
+              return '';
+          }
+			}
+    }
+
 }
 
 export default new HelperUtil();

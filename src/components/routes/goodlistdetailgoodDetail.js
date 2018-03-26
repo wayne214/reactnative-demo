@@ -23,15 +23,26 @@ class goodlistdetailgoodDetail extends Component{
     render() {
         console.log('new Date()= ', new Date());
 
-        let startDate = new Date();
-        let endDate = new Date();
-        startDate.setTime(parseInt(this.props.beginTime));
+        let startDate = '';
+        let endDate = '';
+
+        if (this.props.beginTime != '') {
+            startDate = moment(this.props.beginTime).format('YYYY-MM-DD HH:mm');
+        } else {
+            startDate = '';
+        }
+
         if (this.props.endTime != '') {
-            endDate.setTime(parseInt(this.props.endTime));
+            endDate = moment(this.props.endTime).format('YYYY-MM-DD HH:mm');
         } else {
             endDate = '';
         }
 
+        let loadTime = startDate + endDate;
+
+        let arriveTime = this.props.arriveTime ? this.props.arriveTime : '';
+
+        // {item.businessType == '501' ? '撮合' : '自营'}
 
         return (
             <View style={styles.container}>
@@ -44,23 +55,27 @@ class goodlistdetailgoodDetail extends Component{
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Text style={{width: 80,color: '#999'}}>装货时间：</Text>
                     <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                        {moment(startDate).format('YYYY-MM-DD HH:mm')}
+                        {loadTime != '' ? loadTime : ''}
                     </Text>
                 </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                {
+                    this.props.businessType != '501' ? <View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
+                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
 
-                        {endDate != '' ? moment(endDate).format('YYYY-MM-DD HH:mm') : ''}
+                                    {arriveTime != '' ? moment(arriveTime).format('YYYY-MM-DD HH:mm') : ''}
 
-                    </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>温度要求：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                        {this.props.hot}
-                    </Text>
-                </View>
+                                </Text>
+                            </View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{width: 80,color: '#999'}}>温度要求：</Text>
+                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                                    {this.props.hot}
+                                </Text>
+                            </View>
+                        </View> : null
+                }
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Text style={{width: 80,color: '#999'}}>备        注：</Text>
                     <Text style={{width: width - 20 -20 -80, color: '#666'}}>
@@ -77,6 +92,7 @@ goodlistdetailgoodDetail.propTypes = {
     endTime:PropTypes.string.isRequired,
     hot:PropTypes.string.isRequired,
     remark:PropTypes.string.isRequired,
+    businessType: PropTypes.string.isRequired,
 };
 
 goodlistdetailgoodDetail.defaultProps = {

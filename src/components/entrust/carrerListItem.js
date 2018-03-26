@@ -67,10 +67,12 @@ class carrerListItem extends Component{
         // 货品名称
         let goodName = '';
         rowData.supplyInfoList ? rowData.supplyInfoList.map((goods,index)=>{
+            let categoryName = (goods.categoryName && goods.categoryName != 'null') ? goods.categoryName : '';
+            let typeName = (goods.typeName && goods.typeName != 'null') ? goods.typeName : '';
             if (index === rowData.supplyInfoList.length - 1){
-                goodName+=goods.typeName;
+                goodName+=categoryName + typeName;
             }else
-                goodName+=goods.typeName+' , '
+                goodName+=categoryName + typeName+' , '
         }) : null;
 
         return (
@@ -115,9 +117,14 @@ class carrerListItem extends Component{
                                     <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10}}>
                                         <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                     </View>
-                                    <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
-                                        <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>{goodName}</Text>
-                                    </View>
+                                    {
+                                        goodName && goodName !== '' ?  <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
+                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>{goodName}</Text>
+                                        </View> :  <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
+                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>货品</Text>
+                                        </View>
+                                    }
+
                                 </View>
                                 <View style={{flexDirection: 'row',marginTop: 2}}>
 

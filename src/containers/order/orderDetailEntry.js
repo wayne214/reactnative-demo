@@ -71,7 +71,7 @@ class orderDetailEntry extends BaseComponent {
 
 			});
 
-      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.substr(0, 10) : '';
+      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime : '';
 
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
@@ -153,13 +153,22 @@ class orderDetailEntry extends BaseComponent {
 								<Text>运输协议</Text>
 							</View>
 
-							<TouchableOpacity onPress={()=> this.props.navigation.dispatch({
-                  type: RouteType.ROUTE_CONTRACT_DETAIL,
-                  params: {
-                      templateUrl: orderDetailData.templateUrl,
-                      title: '运输协议'
-                  }
-              })}>
+							<TouchableOpacity onPress={()=>
+							{
+
+								if (!orderDetailData.templateUrl || orderDetailData.templateUrl === '') {
+									Toast.show('暂无协议模板')
+										return;
+								}
+                  this.props.navigation.dispatch({
+                      type: RouteType.ROUTE_CONTRACT_DETAIL,
+                      params: {
+                          templateUrl: orderDetailData.templateUrl,
+                          title: '运输协议'
+                      }
+                  })
+							}
+							}>
 								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
 									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
 									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>

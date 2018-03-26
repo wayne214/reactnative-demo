@@ -5,7 +5,11 @@ export const PAGE_SIZE = 10;
 // 7rpCvcfAnSIotnBikrOoZG49B1tv3z9H
 export const TOKEN = DEBUG ? '8aaa85b2fb864ac19e65ae389160d1ec' : '7rpCvcfAnSIotnBikrOoZG49B1tv3z9H';
 
-export const HOST = DEBUG ? 'http://carrier-mproxy-test.xianyiscm.com/' : 'http://app-api.lenglianmajia.com/';
+const HOST_TEST = 'http://carrier-mproxy-test.xianyiscm.com/'; // test地址
+
+const HOST_BEAT = 'http://carrier-mproxy-beta.xianyiscm.com/'; // beta地址
+
+export const HOST = DEBUG ? HOST_BEAT : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.33.4:8882/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.29.54:8086/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.32.237:8083/' : 'http://app-api.lenglianmajia.com/';

@@ -29,6 +29,7 @@ import * as API from '../../constants/api.js'
 // import Toast from '@remobile/react-native-toast';
 import Toast from '../../utils/toast';
 import * as RouteType from '../../constants/routeType'
+import TimePicker from 'react-native-picker-custom';
 
 
 
@@ -40,7 +41,6 @@ class goodListDetail extends Component {
         super(props);
         this.state = {
             type: 0,
-            modalVisiable: false,
             pickerDataType: '',
             pickerDateSource: [],
 
@@ -57,10 +57,12 @@ class goodListDetail extends Component {
         this.sendOrderSuccess = this.sendOrderSuccess.bind(this);
         this.sendOrderFail = this.sendOrderFail.bind(this);
         this.sendPrice = this.sendPrice.bind(this);
+        this.showTimePick = this.showTimePick.bind(this);
 
     }
     componentDidMount() {
          const uri = API.RESOURCE_DETAIL + this.props.navigation.state.params.goodID;
+         // const uri = API.RESOURCE_DETAIL + 'WT180321000084';
         this.props.getGoodsDetail(uri,this.getDetailSuccess)
     }
     getDetailSuccess(result){
@@ -141,8 +143,9 @@ class goodListDetail extends Component {
         }
         this.setState({
             pickerDataType: type,
-            modalVisiable: true,
-        })
+        });
+
+        this.showTimePick();
     }
     _onPickerConfirm(data){
 
@@ -190,25 +193,34 @@ class goodListDetail extends Component {
 
     sendPrice(){
 
-
-
-
         Alert.alert(
             '提示',
             '确认此报价？',
             [
                 { text: '确认', onPress: () => {
 
-                    this.props.sendOrder({
-                        biddingPrice: this.state.money,
-                        carrierId: global.companyCode, // 承运商code
-                        carrierName: global.ownerName, // 承运商名字
-                        entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
-                        expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
-                        resourceCode: this.props.navigation.state.params.goodID, // 货源id
-                        type: this.props.navigation.state.params.type // 报价类型
-                    },this.sendOrderSuccess,this.sendOrderFail);
 
+                    if (this.props.navigation.state.params.type == '1') {
+                        this.props.sendOrder({
+                            biddingPrice: this.state.result.isLock == '1' ? this.state.result.configFreight : this.state.money,
+                            carrierId: global.companyCode, // 承运商code
+                            carrierName: global.ownerName, // 承运商名字
+                            entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
+                            expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
+                            resourceCode: this.props.navigation.state.params.goodID, // 货源id
+                            type: this.props.navigation.state.params.type // 报价类型
+                        },this.sendOrderSuccess,this.sendOrderFail);
+                    } else {
+                        this.props.sendOrder({
+                            biddingPrice: this.state.money,
+                            carrierId: global.companyCode, // 承运商code
+                            carrierName: global.ownerName, // 承运商名字
+                            entrustType: this.state.result.businessType == '501' ? 2 : 1, // 委托类型
+                            expectLoadingTime: this.state.installDateStart + ' ' + this.state.installTimeStart + ':00', // 时分秒
+                            resourceCode: this.props.navigation.state.params.goodID, // 货源id
+                            type: this.props.navigation.state.params.type // 报价类型
+                        },this.sendOrderSuccess,this.sendOrderFail);
+                    }
 
                     }
                 },
@@ -218,15 +230,40 @@ class goodListDetail extends Component {
     }
 
 
+    showTimePick(){
+        setTimeout(()=>{
+            TimePicker.init({
+                pickerConfirmBtnText: '确定',
+                pickerCancelBtnText: '取消',
+                pickerTitleText: '',
+                pickerData: this.state.pickerDateSource,
+                pickerFontSize: 22,
+                pickerBg: [225,225,225,1],
+                onPickerConfirm: data => {
+                    this._onPickerConfirm(data)
+
+                },
+                onPickerCancel: data => {
+
+                },
+                onPickerSelect: data => {
+
+                }
+            });
+            TimePicker.show();
+        },100);
+    }
+
 
     render() {
         let goodName = '';
         this.state.result.supplyInfoList ? this.state.result.supplyInfoList.map((goods,index)=>{
                 if (index === this.state.result.supplyInfoList.length - 1){
-                    goodName+=goods.typeName;
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || '';
                 }else
-                    goodName+=goods.typeName+','
-            }) : null;
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || '' +' ';
+
+        }) : null;
 
         let qiuS = '';
         if (!this.state.result.carLength && !this.state.result.carType) {
@@ -265,12 +302,14 @@ class goodListDetail extends Component {
 
 
                     <View style={{backgroundColor: 'white', marginTop: 10}}>
-                        <GoodsDetail goodDetail={'有 '+(goodName || '')+' ' +(this.state.result.goodsTotalWeight || "")+
+                        <GoodsDetail goodDetail={'有 '+((goodName && goodName !== 'null' && goodName !== '') ? goodName : '货品')+' ' +(this.state.result.goodsTotalWeight || "")+
                         '吨 '+(this.state.result.goodsTotalVolume || "")+'方'+qiuS}
                                      beginTime={this.state.result.loadingStartTime ? this.state.result.loadingStartTime : ''}
-                                     endTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
+                                     endTime={this.state.result.loadingEndTime ? this.state.result.loadingEndTime : ''}
                                      hot={hot}
                                      remark={this.state.result.remark || ''}
+                                     businessType={this.state.result.businessType}
+                                     arriveTime={this.state.result.arrivalStartTime ? this.state.result.arrivalStartTime : ''}
                         />
                     </View>
 
@@ -289,7 +328,9 @@ class goodListDetail extends Component {
                                       moneyChange={(money)=>{
 
                                          this.setState({money});
-                                     }}/>
+                                     }}
+                                      businessType={this.state.result.businessType}
+                                      isLocked={this.props.navigation.state.params.type == '1' ? this.state.result.isLock : '0'}/>
 
                     <TouchableOpacity style={{padding: 15, backgroundColor: '#0092FF',margin: 20, borderRadius: 3}}
                                       onPress={()=>{
@@ -349,6 +390,7 @@ class goodListDetail extends Component {
                                               return
                                           }
 
+
                                           if (parseInt(this.state.money) < parseInt(this.state.result.priceMin)){
                                               Toast.show('报价金额不能少于最低标准运费');
                                               return;
@@ -368,24 +410,7 @@ class goodListDetail extends Component {
                     </TouchableOpacity>
                 </ScrollView>
 
-                <Modal animationType={ "fade" } transparent={true} visible={this.state.modalVisiable} onRequestClose={()=>console.log('resolve warnning')} >
-                    <Picker data={this.state.pickerDateSource}
-                            onPickerConfirm={(data)=>{
-						this.setState({modalVisiable: false});
-						this._onPickerConfirm(data);
-
-
-					}}
-                            onPickerCancel={(data)=>{
-						this.setState({modalVisiable: false});
-					}}
-                            onPickerSelect={(data)=>{
-						console.log(" log onPickerSelect",data);
-
-
-					}}/>
-                </Modal>
-            </View>
+           </View>
         )
 
     }

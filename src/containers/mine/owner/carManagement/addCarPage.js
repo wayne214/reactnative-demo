@@ -384,18 +384,6 @@ class AddCarPage extends Component {
                                             }
 
                                         });
-
-                                    Storage.get(StorageKey.carOwnerAddCarInfo).then((value) => {
-                                        if (value){
-                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR, params: {
-                                                resultInfo: value,
-                                            } });
-
-                                        }else {
-                                            this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR });
-                                        }
-
-                                    });
                                 }}
                             >
                                 创建车辆

@@ -72,9 +72,9 @@ class MessageContainer extends BaseComponent {
 
 			}
 
-			if(user.currentUserRole === 1){
-				this.props._getUserInfo();
-			}
+		// 	if(user.currentUserRole === 1){
+		// 		this.props._getUserInfo();
+		// 	}
 		}
 		this.props.navigation.setParams({ navigatePress: this._change, text: this.state.rightTitle })
 

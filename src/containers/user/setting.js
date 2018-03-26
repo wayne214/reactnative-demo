@@ -105,9 +105,9 @@ class SettingContainer extends BaseComponent {
 					//if (DEBUG) this._logoutAction();
 				}, style: 'cancel' },
 				{ text: '退出', onPress: () => {
-					this.setState({
-						showLoading: true
-					})
+				// 	this.setState({
+				// 		showLoading: true
+				// 	})
 					startTime = new Date().getTime()
 
             this.loginOut();

@@ -12,7 +12,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderToInstall: {
 		list:[],
@@ -21,7 +23,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderToDelivery: {
 		list:[],
@@ -30,7 +34,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderUnPay: {
 		list:[],
@@ -42,7 +48,9 @@ const initState = Immutable.fromJS({
 		isBatchEditing: false,
 		allSelected: false,
 		showBatchBar: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderPaying: {
 		list:[],
@@ -51,7 +59,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderPayed: {
 		list:[],
@@ -60,7 +70,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderCanceled: {
 		list:[],
@@ -69,7 +81,9 @@ const initState = Immutable.fromJS({
 		hasMore: true,
 		pageNo: 1,
 		isRefreshing: false,
-		pages: 0
+		pages: 0,
+      ctcNum: 0,
+      tfcNum: 0,
 	},
 	orderDetail: null,//vehicleType
 	clearDetail: null
@@ -99,6 +113,8 @@ export default (state = initState, action) => {
         newState = newState.setIn([rootType,'hasMore'],payload.pageNo < payload.pages ? true : false);
         newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
         newState = newState.setIn([rootType,'total'],payload.total);
+        newState = newState.setIn([rootType,'ctcNum'],payload.ctcNum);
+        newState = newState.setIn([rootType,'tfcNum'],payload.tfcNum);
 
         if (payload.pageNo === 1) {
             // 第一页数据先清空原有数据

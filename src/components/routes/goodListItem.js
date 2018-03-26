@@ -24,14 +24,12 @@ class goodListItem extends Component{
         const {item} = this.props;
         let goodName = '';
         item.supplyInfoList ? item.supplyInfoList.map((goods,index)=>{
-                if (goods.categoryName){
-                    if (index === item.supplyInfoList.length - 1){
-                        goodName+=goods.categoryName + ' ';
-                    }else
-                        goodName+=goods.categoryName+' , '
-                }
-            }) : null;
+                if (index === item.supplyInfoList.length - 1){
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || '';
+                }else
+                    goodName+=goods.categoryName || '' + goods.typeName || '' + goods.goodsName || ''+' ';
 
+            }) : null;
 
         let haveDetail = '';
         if (item.goodsTotalWeight && item.goodsTotalVolume){
@@ -43,8 +41,11 @@ class goodListItem extends Component{
         }else
             haveDetail = '';
 
+        if (goodName == ''){
+            haveDetail = '货品 ' + haveDetail;
+        }else
+            haveDetail = goodName + haveDetail;
 
-        haveDetail = goodName + haveDetail;
 
 
         let needDetail = '';
@@ -95,7 +96,7 @@ class goodListItem extends Component{
                     <View style={{width: width - space*2 - 100,flexDirection: 'row'}}>
                         <Image style={{borderRadius: 18,width: 36, height: 36}} source={HeadIcon}/>
 
-                        <View>
+                        <View style={{width:width - space*2 - 170}}>
                             <View style={{flexDirection: 'row'}}>
 
                                 <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10}}>
@@ -149,7 +150,7 @@ class goodListItem extends Component{
                     item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
                         <View style={{padding: 10,backgroundColor: '#0092FF'}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                                我的报价{item.carrierPrice}
+                                { item.biddingState == '3' ? '抢单失败' : '我的报价' + item.carrierPrice }
                             </Text>
                         </View>
                     </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>

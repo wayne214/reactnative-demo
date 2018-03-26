@@ -135,6 +135,8 @@ class mine extends Component {
             certificationState: '1200', // 资质认证
             verifiedState: '1200', // 实名认证
             modalVisible: false,
+            isOver: false,
+            Validity: {},
         };
         this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
         this.certificationCallback = this.certificationCallback.bind(this);
@@ -149,6 +151,8 @@ class mine extends Component {
         this.selectPhoto = this.selectPhoto.bind(this);
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
+
+        this.queryCardOverDueInfoCallback = this.queryCardOverDueInfoCallback.bind(this);
     }
 
     componentDidMount() {
@@ -160,6 +164,10 @@ class mine extends Component {
             this.verifiedState(this.getVerfiedStateSucCallback);
             /*资质认证状态请求*/
             this.certificationState(this.certificationCallback);
+
+            this.props.queryCardOverDueAction({
+                driverPhone: global.phone,     // 司机手机号
+            },this.queryCardOverDueInfoCallback)
         }
 
         /*实名认证提交成功，刷新状态*/
@@ -181,6 +189,7 @@ class mine extends Component {
         this.mineListener = DeviceEventEmitter.addListener('refreshMine', () => {
             if (this.props.currentStatus == 'driver') {
                 this.verifiedState(this.getVerfiedStateSucCallback);
+                this.certificationState(this.certificationCallback);
             } else {
                 this.ownerVerifiedState(this.getOwnerVerifiedCallback);
             }
@@ -223,6 +232,31 @@ class mine extends Component {
         this.choosePhotoListener.remove();
         this.hideModuleListener.remove();
         this.imageCameralistener.remove();
+    }
+
+    // 查询证件过期状态
+    queryCardOverDueInfoCallback(result) {
+        console.log('证件过期校验', result);
+        if (result) {
+            if (result.driverLicenseValidityStatus === '有效' && result.idCardValidityStatus === '有效') {
+                this.setState({
+                    isOver: '有效'
+                })
+            } else {
+                this.setState({
+                    isOver: '证件过期',
+                    Validity: result
+                });
+            }
+        }
+
+
+
+       // if (result) {
+       //     this.setState({
+       //         isOver: result
+       //     })
+       // }
     }
 
     /*点击弹出菜单*/
@@ -788,12 +822,12 @@ class mine extends Component {
                                 }}
                             />
                             {
-                                this.state.verifiedState != '1202' ?
+                                this.state.verifiedState != '1202' || this.state.isOver !== '有效' ?
                                     <SettingCell
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
                                         content={'认证信息'}
-                                        showCertificatesOverdue={false}
+                                        showCertificatesOverdue={this.state.isOver}
                                         showBottomLine={false}
                                         clickAction={() => {
                                             if (this.state.verifiedState == '1200') {
@@ -816,7 +850,9 @@ class mine extends Component {
                                                     type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                                     params:{
                                                         qualifications: this.state.verifiedState,
-                                                        phone: global.phone,//global.phone
+                                                        phone: global.phone, // global.phone
+                                                        type: this.state.isOver,
+                                                        Validity: this.state.Validity
                                                     }
                                                 });
                                             }
@@ -980,6 +1016,17 @@ function mapDispatchToProps(dispatch) {
                 body: params,
                 method: 'POST',
                 api: API.API_QUERY_USER_AVATAR,
+                success: data => {
+                    successCallback(data);
+                },
+            }))
+        },
+        // 查询证件过期信息
+        queryCardOverDueAction: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_IDCARD_VALIDATE + 'driverPhone=' +params.driverPhone,
                 success: data => {
                     successCallback(data);
                 },

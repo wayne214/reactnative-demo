@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(cameraPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPr
     
   {
     //无权限
-    reject(@"500",@"请在iPhone的“设置-隐私-相机”选项中，允许鲜易通访问你的相机",nil);
+    reject(@"500",@"请在iPhone的“设置-隐私-相机”选项中，允许冷链马甲访问你的相机",nil);
    
   }else {
     // 有权限
@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(photoPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPro
   if (author == ALAuthorizationStatusRestricted || author ==ALAuthorizationStatusDenied)
   {
     //无权限
-    reject(@"500",@"请在iPhone的“设置-隐私-相册”选项中，允许鲜易通访问你的相册",nil);
+    reject(@"500",@"请在iPhone的“设置-隐私-相册”选项中，允许冷链马甲访问你的相册",nil);
     
   }else {
     // 有权限

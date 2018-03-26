@@ -103,6 +103,13 @@ class showESignInfoIndividual extends BaseComponent {
       const {eSignInfo,ownerInfo} = this.props;
 
       console.log('=====companyInfo',ownerInfo)
+
+			if (!ownerInfo.busTel || !(ownerInfo.rmcAnalysisAndContrast && ownerInfo.rmcAnalysisAndContrast.manualIdCard) ){
+      	alert('信息不完整，请联系系统管理员');
+      	return;
+			}
+
+
 			if (this.state.accountId) {
           this.props.editESignInfo({
               accountId: this.state.accountId, // e签宝账号id

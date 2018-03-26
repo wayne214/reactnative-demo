@@ -56,6 +56,31 @@ class MessageDetail extends BaseComponent {
 	componentWillUnmount() {
 		super.componentWillUnmount()
 	}
+
+    /**
+     * linked.id:------
+		 *
+     * 1:认证驳回，
+     * 2:修改价格，
+     * 3:匹配车辆，
+     * 4:订单驳回，
+     * 5:订单到达,
+     * 6:货源详情，
+     * 7:我的承运，
+     * 8:货源列表
+     *
+     */
+
+    // 货源列表----8
+    _goodsList() {
+        this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'goods' } })
+    }
+
+    // 我的承运----7
+    _goodsList() {
+        this.props.navigation.dispatch({ type: 'Main', mode: 'reset', params: { title: '', currentTab: 'route' } })
+    }
+
 	_againAuth(){
 		this.props.navigation.dispatch({type: RouteType.ROUTE_AUTH_INFO, params: {title:'公司认证'}});
 	}
@@ -284,9 +309,9 @@ class MessageDetail extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-	const { app, message } = state;
+	const { app, message, user } = state;
 	return {
-		user: app.get('user'),
+		user: user.get('userInfo'),
 		msg: message.get('msgDetail'),
 		upgrade: app.get('upgrade'),
 		upgradeForce: app.get('upgradeForce'),
@@ -314,7 +339,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: SYSTEM_READ_ORNOT,
+				api: SYSTEM_READ_ORNOT +'?userId=' + body.userId + '&noteId=' + body.noteId ,
 				success:() => {
 					dispatch(dispatchRefreshMessageList());
 				}
@@ -324,7 +349,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(fetchData({
 				body,
 				method: 'POST',
-				api: UPDATE_WEB_MSG,
+				api: UPDATE_WEB_MSG + '?messageIds=' + body.messageId,
 				success: (data) => {
 					dispatch(dispatchRefreshMessageList());
 				}

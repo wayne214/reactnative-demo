@@ -41,7 +41,7 @@ class takePhoto extends Component {
         const options = {jpegQuality: 50};
         this.camera.capture({options})
             .then((data) =>{
-                console.log(data);
+                console.log('takePicture===',data);
                 this.props.navigation.dispatch({
                     type: RouteType.ROUTE_TAKE_PHOTO_FINISHED_PAGE,
                     params: {
@@ -62,6 +62,7 @@ class takePhoto extends Component {
                         this.camera = cam;
                     }}
                     style={styles.cameraStyle}
+                    type={Camera.constants.Type.back}
                     captureTarget={Camera.constants.CaptureTarget.disk}
                     mirrorImage={false}
                     //"high" (default),"medium",  "low",  "photo", "1080p",  "720p",  "480p".

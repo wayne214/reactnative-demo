@@ -116,11 +116,13 @@ class uploadODO extends Component {
             orderCode: this.state.orderCode,
             userId: global.userId,
             userName: global.userName,
-        }, () => {
+        }, (result) => {
             Toast.showShortCenter('出库单上传成功!');
             this.props.dispatch(updateImages());
             DeviceEventEmitter.emit('refreshShippedDetails');
             this.props.navigation.dispatch({type: 'pop'});
+        }, (error) => {
+            Toast.showShortCenter(error.message);
         })
     }
 
@@ -470,7 +472,7 @@ function mapStateToProps(state){
 function mapDispatchToProps (dispatch){
     return {
         dispatch,
-        _uploadODO: (params, callBack) => {
+        _uploadODO: (params, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
@@ -481,6 +483,7 @@ function mapDispatchToProps (dispatch){
                 },
                 fail: error => {
                     console.log('???', error);
+                    failCallBack && failCallBack(error);
                 }
             }))
         }

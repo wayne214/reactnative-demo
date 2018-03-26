@@ -212,7 +212,9 @@ class OrderList extends BaseComponent {
       showCoordination: false,
       coordinationResult: {},
       allSelected: false,
-      batchEditing: false
+      batchEditing: false,
+        ctcNum: 0,
+        tfcNum: 0,
     }
 
     this._updateListWithIndex = this._updateListWithIndex.bind(this)
@@ -227,6 +229,7 @@ class OrderList extends BaseComponent {
           this.getlistbyIndex(2, 1);
       });
   }
+
   _updateListWithIndex(activeTab = this.state.activeTab,pageNo){
     const {user} = this.props
 
@@ -259,20 +262,49 @@ class OrderList extends BaseComponent {
         // carrierCode: this.props.carrierCode,
         carrierCode: global.companyCode,
         // carrierCode: '1001',
-        ctcNum: 0,
-        tfcNum: 0,
-        // page: pageNum,
+        ctcNum: pageNum == '1' ? 0 : this.state.ctcNum,
+        tfcNum: pageNum == '1' ? 0 : this.state.tfcNum,
+        page: pageNum,
         // pageSize,
         // queryType: type,
     }, api, index);
   }
 
   _refreshList(){
-    this._updateListWithIndex(this.state.activeTab,1)
+    this._updateListWithIndex(this.state.activeTab, 1)
   }
 
   componentWillReceiveProps(nextProps){
     const {shouldOrderListRefresh,orderAll,orderToInstall,orderToDelivery,orderCanceled} = nextProps
+
+      switch (this.state.activeTab) {
+          case 0:
+              this.setState({
+                  tfcNum: orderAll.get('tfcNum'),
+                  ctcNum: orderAll.get('ctcNum')
+              });
+              break;
+          case 1:
+              this.setState({
+                  tfcNum: orderToInstall.get('tfcNum'),
+                  ctcNum: orderToInstall.get('ctcNum')
+              });
+              break;
+          case 2:
+              this.setState({
+                  tfcNum: orderToDelivery.get('tfcNum'),
+                  ctcNum: orderToDelivery.get('ctcNum')
+              });
+              break;
+          case 3:
+              this.setState({
+                  tfcNum: orderCanceled.get('tfcNum'),
+                  ctcNum: orderCanceled.get('ctcNum')
+              });
+              break;
+      }
+
+
     if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore')) {
 
       this._refreshList()
@@ -356,7 +388,7 @@ class OrderList extends BaseComponent {
               tabLabel={'全部'}
               dataSource={orderAll}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderAll.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderAll.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -365,7 +397,7 @@ class OrderList extends BaseComponent {
               tabLabel={'装车'}
               dataSource={orderToInstall}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToInstall.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderToInstall.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -374,7 +406,7 @@ class OrderList extends BaseComponent {
               tabLabel={'交付'}
               dataSource={orderToDelivery}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderToDelivery.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderToDelivery.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -383,7 +415,7 @@ class OrderList extends BaseComponent {
               tabLabel={'已完成'}
               dataSource={orderCanceled}
               loadMoreAction={()=>{
-                this._updateListWithIndex(currentMenuIndex,activeTab,activeSubTab,parseInt(orderCanceled.get('pageNo')) + 1)
+                this._updateListWithIndex(activeTab,parseInt(orderCanceled.get('pageNo')) + 1)
               }}/>
 
           </ScrollableTabView>
@@ -436,8 +468,8 @@ const mapStateToProps = (state) => {
     orderToInstall: order.get('orderToInstall'),
     orderToDelivery: order.get('orderToDelivery'),
     orderCanceled: order.get('orderCanceled'),
-    orderUnPay: order.get('orderUnPay'),
-    orderPaying: order.get('orderPaying'),
+    // orderUnPay: order.get('orderUnPay'),
+    // orderPaying: order.get('orderPaying'),
     activeTab: order.get('activeTab'),
     activeSubTab: order.get('activeSubTab'),
     shouldOrderListRefresh: app.get('shouldOrderListRefresh'),
@@ -468,8 +500,8 @@ const mapDispatchToProps = (dispatch) => {
             success: (data) => {
                 dispatch(shouldOrderListRefreshAction(false));
                 data.orderType = tabIndex;
-                data.pageNo = params.page;
-                dispatch(receiveOrderList(data))
+                data.pageNo = params.page ;
+                dispatch(receiveOrderList(data));
                 console.log('data', data);
             },
             fail: (data) => {

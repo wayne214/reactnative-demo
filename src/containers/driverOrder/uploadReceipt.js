@@ -409,6 +409,8 @@ class UploadReceipt extends Component {
                                 let url = '';
                                 if (this.state.flag == 1) {
                                     formData.append('resourceCode', this.state.transCode);
+                                    formData.append('carrierUserName', global.ownerName);
+                                    formData.append('carrierUserId', global.companyId);
 
                                     url = API.API_NEW_UPLOAD_CTC_ORDER_MATCH;
                                 } else {

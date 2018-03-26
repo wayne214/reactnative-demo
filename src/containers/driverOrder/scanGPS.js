@@ -76,25 +76,10 @@ class scanGPS extends Component {
         });
         this.getCurrentPosition();
         this.timeout = setTimeout(() => {
-            if(Platform.OS === 'ios'){
-                PermissionsManager.cameraPermission().then(data => {
-                    this.setState({
-                        active: true,
-                        loading: false
-                    });
-                }).catch(err=>{
-                    this.setState({
-                        active: false,
-                        loading: false
-                    });
-                    Alert.alert(null,err.message)
-                });
-            }else {
-                this.setState({
-                    active: true,
-                    loading: false
-                });
-            }
+            this.setState({
+                active: true,
+                loading: false
+            });
         }, 1000);
         this.startAnimation();
         this.startTimer();
@@ -298,6 +283,26 @@ class scanGPS extends Component {
         } = this.state;
         return (
             <View style={styles.allContainer}>
+                <View style={styles.container}>
+                    <View style={styles.titleContainer}>
+                        <View style={styles.leftContainer}>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={this.goBack}
+                            >
+                                <View style={{width: 80}}>
+                                    <Image
+                                        style={styles.backImg}
+                                        source={scanBackIcon}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.leftTitle}>
+                            <Text style={styles.titleText}>扫描GPS设备</Text>
+                        </View>
+                    </View>
+                </View>
                 {(() => {
                     if (active) {
                         return (
@@ -314,26 +319,26 @@ class scanGPS extends Component {
                                 permissionDialogTitle={'访问相机权限'}
                                 permissionDialogMessage={'我们需要访问您的相机权限'}
                             >
-                                <View style={styles.container}>
-                                    <View style={styles.titleContainer}>
-                                        <View style={styles.leftContainer}>
-                                            <TouchableOpacity
-                                                activeOpacity={1}
-                                                onPress={this.goBack}
-                                            >
-                                                <View style={{width: 80}}>
-                                                    <Image
-                                                        style={styles.backImg}
-                                                        source={scanBackIcon}
-                                                    />
-                                                </View>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View style={styles.leftTitle}>
-                                            <Text style={styles.titleText}>扫描GPS设备</Text>
-                                        </View>
-                                    </View>
-                                </View>
+                                {/*<View style={styles.container}>*/}
+                                    {/*<View style={styles.titleContainer}>*/}
+                                        {/*<View style={styles.leftContainer}>*/}
+                                            {/*<TouchableOpacity*/}
+                                                {/*activeOpacity={1}*/}
+                                                {/*onPress={this.goBack}*/}
+                                            {/*>*/}
+                                                {/*<View style={{width: 80}}>*/}
+                                                    {/*<Image*/}
+                                                        {/*style={styles.backImg}*/}
+                                                        {/*source={scanBackIcon}*/}
+                                                    {/*/>*/}
+                                                {/*</View>*/}
+                                            {/*</TouchableOpacity>*/}
+                                        {/*</View>*/}
+                                        {/*<View style={styles.leftTitle}>*/}
+                                            {/*<Text style={styles.titleText}>扫描GPS设备</Text>*/}
+                                        {/*</View>*/}
+                                    {/*</View>*/}
+                                {/*</View>*/}
                                 <View style={styles.centerContainer}/>
                                 <View style={{flexDirection: 'row'}}>
                                     <View style={styles.fillView}/>
@@ -393,29 +398,6 @@ class scanGPS extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </RNCamera>
-                        );
-                    } else {
-                        return(
-                            <View style={styles.container}>
-                                <View style={styles.titleContainer}>
-                                    <View style={styles.leftContainer}>
-                                        <TouchableOpacity
-                                            activeOpacity={1}
-                                            onPress={this.goBack}
-                                        >
-                                            <View style={{width: 80}}>
-                                                <Image
-                                                    style={styles.backImg}
-                                                    source={scanBackIcon}
-                                                />
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={styles.leftTitle}>
-                                        <Text style={styles.titleText}>扫描GPS设备</Text>
-                                    </View>
-                                </View>
-                            </View>
                         );
                     }
                 })()}
@@ -500,7 +482,7 @@ const styles =StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.2)',
         alignSelf: 'center',
-        flex: 1,
+        // flex: 1,
         width,
     },
     fillView: {
@@ -529,6 +511,7 @@ const styles =StyleSheet.create({
             }
         }),
         backgroundColor: 'rgba(0,0,0,0.2)',
+        marginTop: 100,
     },
     bottomIcon: {
         alignSelf: 'center',

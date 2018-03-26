@@ -226,7 +226,7 @@ class PersonInfo extends Component {
             }
 
     }
-
+    // 点击查看大图
     onClickImage(imgIndex) {
         if (imgListTemp.length > 0) {
             if (imgIndex > imgListTemp.length) {
@@ -235,11 +235,21 @@ class PersonInfo extends Component {
             imgList = imgListTemp.map((i, index) => {
                 return {url: i ? i : ''};
             });
-            this.props.navigation.navigate('ImageShow',
-                {
+
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_SHOW_ZOOM_IMAGE,
+                params: {
                     image: imgList,
                     num: imgIndex,
-                });
+                }
+            });
+
+
+            // this.props.navigation.navigate('ImageShow',
+            //     {
+            //         image: imgList,
+            //         num: imgIndex,
+            //     });
         }
     }
     render() {
