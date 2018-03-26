@@ -525,3 +525,6 @@ export const API_QUERY_DRIVER_BID_CAR_LIST = 'app/goods/queryDriverBidCar';
 // 承运商上传回执单接口
 export const API_NEW_UPLOAD_CTC_ORDER_MATCH = `app/receiveMatch/uploadCtcOrderMatch`;
 
+// 身份证校验接口
+export const API_IDCARD_VALIDATE = 'app/IdCardValidate/validate?';
+

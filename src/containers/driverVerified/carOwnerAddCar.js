@@ -109,7 +109,7 @@ class certification extends Component {
                 carEngineNumber: result.engineNumber, // 发动机编号
                 carDate: result.driveValidity, // 行驶证有效期至
                 insuranceData: result.insuranceDate, // 强险有效期至
-                carVIN: result.carVIN,
+                vinCode: result.vinCode,
 
                 travelRightImage:  {uri: result.drivingLicenseThumbnail},
                 travelTrunRightImage: {
@@ -153,7 +153,7 @@ class certification extends Component {
                 carEngineNumber: '', // 发动机号码
                 insuranceData: '请选择有效期', // 交强险
                 appLoading: false,
-                carVIN: '',
+                vinCode: '',
 
                 vehicleLicenseHomepageNormalPhotoAddress: '', // 行驶证主页原图
                 vehicleLicenseHomepageThumbnailAddress: '', // 行驶证主页缩略图
@@ -475,7 +475,7 @@ class certification extends Component {
                                     carNumber: respones.result.plateNumber,
                                     carOwner: respones.result.owner,
                                     carEngineNumber: respones.result.engineNumber,
-                                    carVIN: respones.result.vin,
+                                    vinCode: respones.result.vin,
 
                                     analysisCarNum: respones.result.plateNumber, // 解析车牌号
                                     analysisHaverName:respones.result.owner, // 解析所有人
@@ -679,7 +679,7 @@ class certification extends Component {
             return;
         }
 
-        if (this.state.carVIN === '') {
+        if (this.state.vinCode === '') {
             Toast.showShortCenter('请输入VIN代码');
             return;
         }
@@ -772,7 +772,7 @@ class certification extends Component {
                 vehicleThumbnailAddress: this.state.vehicleThumbnailAddress,//车头照缩略图地址
                 vehicleNormalPhotoAddress: this.state.vehicleNormalPhotoAddress,//车头照原图地址
                 currentRole: shenfen,//当前角色
-                vinCode: this.state.carVIN,//车辆识别代码VIN
+                vinCode: this.state.vinCode,//车辆识别代码VIN
                 analysisVinCode: this.state.analysisVin,//解析的车辆识别代码VIN
 
 
@@ -830,7 +830,7 @@ class certification extends Component {
                 <VerifiedTravelInfoItem carNumber={this.state.carNumber}
                                         carOwner={this.state.carOwner}
                                         carEngineNumber={this.state.carEngineNumber}
-                                        carVin={this.state.carVIN}
+                                        carVin={this.state.vinCode}
                                         carNumberChange={(text)=>{
 
                                                  this.setState({
@@ -855,7 +855,7 @@ class certification extends Component {
 
                                         carVINChange={(text)=>{
                                             this.setState({
-                                                     carVIN: text,
+                                                     vinCode: text,
                                                  });
                                          }}
                                         textOnFocus={()=>{
@@ -884,7 +884,7 @@ class certification extends Component {
                             engineNumber: this.state.carEngineNumber, // 发动机编号
                             driveValidity: this.state.carDate, // 行驶证有效期至
                             insuranceDate: this.state.insuranceData, // 强险有效期至
-                            carVIN: this.state.carVIN,
+                            vinCode: this.state.vinCode,
 
                             drivingLicenseThumbnail: this.state.travelRightImage.uri ? this.state.travelRightImage.uri : '../navigationBar/travelCardHome_right.png',
                             drivingLicenseSecondaryThumbnail: this.state.travelTrunRightImage.uri ? this.state.travelTrunRightImage.uri : '../navigationBar/travelCard_right.png',

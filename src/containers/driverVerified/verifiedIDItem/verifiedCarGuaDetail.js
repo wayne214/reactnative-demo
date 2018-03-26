@@ -90,7 +90,7 @@ class verifiedDriverCardItem extends Component{
                         车辆类别
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {HelpUtils.getCarCategory(resultInfo.carCategory)}
+                        {HelpUtils.getCarType(resultInfo.carCategory)}
                     </Text>
 
                 </View>
@@ -120,7 +120,7 @@ class verifiedDriverCardItem extends Component{
                         实载体积
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.volumeSize}
+                        {resultInfo.volumeSize}方
                     </Text>
 
                 </View>
