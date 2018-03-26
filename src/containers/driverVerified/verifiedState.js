@@ -145,6 +145,10 @@ class verifiedState extends Component{
                     }
                     DeviceEventEmitter.emit('verifiedSuccess');
 
+                }else {
+                    Toast.showShortCenter(responseData.message);
+                    this.props.navigation.dispatch({type: 'pop'});
+
                 }
             },
             error: (errorInfo) => {
@@ -215,7 +219,7 @@ class verifiedState extends Component{
 
         const type = this.props.navigation.state.params.type;
         let headView;
-        if (type !== '有效') {
+        if (type && type !== '有效') {
             headView = <View style={styles.headStyle}>
 
                 <Image source={headerImageSuccess}/>
@@ -252,7 +256,7 @@ class verifiedState extends Component{
                 <VerifiedFailItem reason={this.state.resultInfo.certificationOpinion}/>
             </View> : null;
 
-        let bottomReloadView = (this.state.qualifications == '1203' || type !== '有效') ?
+        let bottomReloadView = (this.state.qualifications == '1203' || (type && type !== '有效')) ?
             <Image style={styles.bottomViewStyle} source ={BlueButtonArc}>
                 <Button
                     ref='button'
@@ -269,11 +273,19 @@ class verifiedState extends Component{
 
         const result = this.props.navigation.state.params.Validity;
 
-        const title = HelperUtils.validityStatus(result);
 
-        let titleView = title === '' ? null : <View style={{justifyContent: 'center', alignItems: 'center', height: 40, backgroundColor: '#FFFAF4'}}>
-            <Text style={{color: '#F77F4F', fontSize: 15}}>{title}</Text>
-        </View>
+        let titleView;
+
+        if (result){
+            const title = HelperUtils.validityStatus(result);
+
+            titleView = title === '' ? null : <View style={{justifyContent: 'center', alignItems: 'center', height: 40, backgroundColor: '#FFFAF4'}}>
+                    <Text style={{color: '#F77F4F', fontSize: 15}}>{title}</Text>
+                </View>
+        }else
+            titleView = null;
+
+
 
         return (
             <View style={styles.container}>

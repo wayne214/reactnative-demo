@@ -86,7 +86,7 @@ class orderDetailEntry extends BaseComponent {
 						<View style={{backgroundColor: '#ffffff', paddingTop: 15}}>
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装  货  点：'}</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.loadingPoint}</Text>
+								<Text style={styles.goodsDetailContent}>{fromAddress}</Text>
 							</View>
 
 							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center', paddingLeft: 10}}>

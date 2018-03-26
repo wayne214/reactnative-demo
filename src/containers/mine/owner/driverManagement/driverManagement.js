@@ -209,11 +209,10 @@ class DriverManagement extends Component {
             item.companyType == 1 ?
                 <TouchableOpacity onPress={()=>{
 
-
                     this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params: {
                                                 phone: item.driverPhone,
+                                                qualifications: item.certificationStatus,
                                             } })
-
 
 
 
@@ -331,9 +330,11 @@ class DriverManagement extends Component {
                     scroll={event => console.log('scroll event')}
                 >
                     <TouchableOpacity onPress={() => {
+                        console.log(item);
+
                         this.props.navigation.dispatch({ type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL, params:{
-                            qualifications: this.state.verifiedState,
-                            phone: global.phone
+                            qualifications: item.certificationStatus,
+                            phone: item.driverPhone
                         } });
                     }}>
 
