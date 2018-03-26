@@ -143,6 +143,13 @@ class SettingCell extends Component {
                     </View>
                 : null;
 
+                // 如果证件过期显示证件过期
+                const b = ( showCertificatesOverdue && showCertificatesOverdue != '有效') ? <View style={{
+                    marginRight: 20,
+                    flexDirection: 'row',
+                }}>
+                    <Text style={{color:'#FF8500',fontSize:14}}>{showCertificatesOverdue}</Text>
+                </View> : null;
 
         return (
             <TouchableOpacity
@@ -157,9 +164,7 @@ class SettingCell extends Component {
                             <Text style={styles.contentText}>{content}</Text>
                         </View>
                         {a}
-                        {
-                            showCertificatesOverdue ? <Text style={{color: '#FF8500', fontSize:14, marginRight: 20,}}>{showCertificatesOverdue}</Text> : null
-                        }
+                        {b}
                         {
                             hideArrowIcon ? <Text style={styles.version}>{versionName}</Text> : <Image style={styles.rightIcon} source={rightIcon}/>
                         }

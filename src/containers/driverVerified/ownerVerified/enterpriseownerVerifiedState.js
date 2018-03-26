@@ -144,8 +144,8 @@ class enterpriseownerVerifiedState extends Component {
 
     getDetailSuccess(result){
         lastTime = new Date().getTime();
-        ReadAndWriteFileUtil.appendFile('企业车主认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-            locationData.district, lastTime - currentTime, '企业车主认证详情页面');
+        // ReadAndWriteFileUtil.appendFile('企业车主认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+        //     locationData.district, lastTime - currentTime, '企业车主认证详情页面');
         if (result) {
             this.setState({
                 resultInfo: result,
