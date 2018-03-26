@@ -252,23 +252,15 @@ function mapDispatchToProps(dispatch) {
                         mode: 'reset',
                         params: {title: '', currentTab: 'route', insiteNotice: insiteNotice}
                     })
-                    if (DEBUG) {
-                        JPushModule.setAlias('B' + user.phoneNumber, () => {
-                            console.log("Set alias succeed ! tag: ", user.phoneNumber);
-                            dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
-                        }, () => {
-                            console.warn("Set alias failed");
-                            dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
-                        });
-                    } else {
-                        JPushModule.setAlias('A' + user.phoneNumber, () => {
-                            console.log("Set alias succeed ! tag: ", user.phoneNumber);
-                            dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
-                        }, () => {
-                            console.warn("Set alias failed");
-                            dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
-                        });
-                    }
+
+                    JPushModule.setAlias(user.phoneNumber, () => {
+                        console.log("Set alias succeed ! tag: ", user.phoneNumber);
+                        dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
+                    }, () => {
+                        console.warn("Set alias failed");
+                        dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
+                    });
+
                     // JPushModule.setAlias(user.userId, () => {
                     //     console.log("Set alias succeed");
                     // }, () => {
