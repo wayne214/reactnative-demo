@@ -80,7 +80,7 @@ class verifiedDriverCardItem extends Component{
                         车辆识别代码(VIN)
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        1234567890
+                        {resultInfo.vinCode}
                     </Text>
 
                 </View>
