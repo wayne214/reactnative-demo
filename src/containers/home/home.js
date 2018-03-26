@@ -1039,7 +1039,9 @@ class Home extends Component {
                     <TouchableOpacity
                         activeOpacity={1}
                         onPress={() => {
-                            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
+                            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }})
+
+                            // this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
                         }}
                     >
                         <View>

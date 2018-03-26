@@ -655,8 +655,9 @@ class mine extends Component {
                                                 <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity onPress={() => {
-                                this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
-                            }}>
+                                                this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }})
+
+                                            }}>
                                                 <View>
                                                     <Image
                                                         style={{
