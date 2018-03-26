@@ -50,7 +50,7 @@ class GoodsInfo extends Component{
 		const {configData = {}, startAddress, endAddress} = this.props;
 		console.log('--configData', configData);
 
-		const qty = configData.qty || configData.qty === '0';
+		const qty = !configData.qty || configData.qty === '0';
 
 		const goodsType = configData.goodsType ? configData.goodsType : '';
 		const goodsCategory = configData.goodsCategory ? configData.goodsCategory : '';
@@ -88,12 +88,12 @@ class GoodsInfo extends Component{
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>应收：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeigh : configData.shipmentNums}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>
 						<Text style={styles.goodsDetailMark}>发运：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeigh : configData.shipmentNums}</Text>
+						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
 					</View>
 
 					<View style={styles.goodsDetailItem}>

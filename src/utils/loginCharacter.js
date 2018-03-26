@@ -15,10 +15,18 @@ import {
 import {connect} from "react-redux";
 import * as RouteType from '../constants/routeType';
 import Toast from '@remobile/react-native-toast';
+import JPushModule from "jpush-react-native";
+import {appendLogToFile} from "../action/app";
 
 class LoginCharacter {
 
     setCharacter(props, result, type) {
+
+        JPushModule.setAlias(global.phone, () => {
+            console.log("Set alias succeed ! tag: ", global.phone);
+        }, () => {
+            console.warn("Set alias failed");
+        });
 
         console.log("------账号角色信息:", result);
         if (result) {
@@ -212,7 +220,6 @@ class LoginCharacter {
 
                 }
             }
-
             if(type === 'main'){
             }else {
                 props.navigation.dispatch({
@@ -220,6 +227,7 @@ class LoginCharacter {
                     mode: 'reset',
                     params: {title: '', currentTab: 'Home', insiteNotice: '123'}
                 })
+
             }
         }
 

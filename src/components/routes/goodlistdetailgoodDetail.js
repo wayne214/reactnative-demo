@@ -38,7 +38,12 @@ class goodlistdetailgoodDetail extends Component{
             endDate = '';
         }
 
-        let loadTime = startDate + endDate;
+        let loadTime = '';
+        if (startDate !== '' && endDate !== '') {
+            loadTime = startDate + '-' + endDate;
+        } else {
+            loadTime = startDate + endDate;
+        }
 
         let arriveTime = this.props.arriveTime ? this.props.arriveTime : '';
 

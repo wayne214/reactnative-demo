@@ -170,7 +170,7 @@ class orderItemCell extends Component{
 								}
 
 								{
-										(rowData.businessType && rowData.businessType == '501') && rowData.state == '20' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+										(rowData.businessType && rowData.businessType == '501') && rowData.state == '32' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																	textStyle={{fontSize: 14,color: '#333333'}}
 																	onPress={()=>{
                                       console.log("------ 上传回执单",rowData);
