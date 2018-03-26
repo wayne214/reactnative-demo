@@ -22,6 +22,14 @@ class LoginCharacter {
 
     setCharacter(props, result, type) {
 
+        JPushModule.setAlias(global.phone, () => {
+            console.log("Set alias succeed ! tag: ", user.phoneNumber);
+            dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
+        }, () => {
+            console.warn("Set alias failed");
+            dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
+        });
+
         console.log("------账号角色信息:", result);
         if (result) {
             if (result.length == 0) {
@@ -214,18 +222,8 @@ class LoginCharacter {
 
                 }
             }
-
             if(type === 'main'){
             }else {
-
-                JPushModule.setAlias(global.phone, () => {
-                    console.log("Set alias succeed ! tag: ", user.phoneNumber);
-                    dispatch(appendLogToFile('登录', '设置推送别名成功', startTime))
-                }, () => {
-                    console.warn("Set alias failed");
-                    dispatch(appendLogToFile('登录', '设置推送别名失败', startTime))
-                });
-
                 props.navigation.dispatch({
                     type: 'Main',
                     mode: 'reset',
