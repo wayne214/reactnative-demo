@@ -918,7 +918,7 @@ class carOwnerAddDriver extends Component {
                 idName: this.state.IDName,
                 idNum: this.state.IDCard,
                 idValidUntil: date,
-                motorcycleType: this.state.motoercycleType,
+                motorcycleType: this.state.motorcycleType,
                 phoneNum: this.state.enterPhone,
                 userId: userID,
                 userName: this.state.IDName,
