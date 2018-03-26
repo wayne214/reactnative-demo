@@ -182,6 +182,7 @@ class verifiedState extends Component{
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
                     resultInfo: this.state.resultInfo,
+                    type: this.props.navigation.state.params.type
                 }
             });
         }
