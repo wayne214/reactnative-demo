@@ -105,7 +105,7 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [
-            JPUSH_APPKEY: "fca499d00bccff3bcf99906b", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
+            JPUSH_APPKEY: "7964a2eff4441fb2d9133955", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
             APP_CHANNEL: "Android_CHANNEL"    //应用渠道号
         ]
     }
