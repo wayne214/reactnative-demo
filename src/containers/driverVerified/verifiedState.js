@@ -32,6 +32,8 @@ const headerImageSuccess = require('./images/verifiedSuccess.png');
 const headerImageLoading = require('./images/verifieding.png');
 const BlueButtonArc = require('../../../assets/img/button/blueButtonArc.png');
 
+import HelperUtils from '../../utils/helper';
+
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
@@ -211,27 +213,38 @@ class verifiedState extends Component{
     render() {
         // 1201  认证中   1202 认证通过  1203 认证驳回
 
-        let headView = this.state.qualifications == '1201' ?
-            <View style={styles.headStyle}>
+        const type = this.props.navigation.state.params.type;
+        let headView;
+        if (type !== '有效') {
+            headView = <View style={styles.headStyle}>
 
-                <Image source={headerImageLoading}/>
+                <Image source={headerImageSuccess}/>
 
-                <Text style={styles.textStyle}>认证中</Text>
-            </View>
-            : this.state.qualifications == '1202' ?
+                <Text style={styles.textStyle}>认证通过</Text>
+            </View>;
+        } else {
+             headView = this.state.qualifications == '1201' ?
                 <View style={styles.headStyle}>
 
-                    <Image source={headerImageSuccess}/>
+                    <Image source={headerImageLoading}/>
 
-                    <Text style={styles.textStyle}>认证通过</Text>
+                    <Text style={styles.textStyle}>认证中</Text>
                 </View>
-                :
-                <View style={styles.headStyle}>
+                : this.state.qualifications == '1202' ?
+                    <View style={styles.headStyle}>
 
-                    <Image source={headerImageFail}/>
+                        <Image source={headerImageSuccess}/>
 
-                    <Text style={styles.textStyle}>认证驳回</Text>
-                </View>;
+                        <Text style={styles.textStyle}>认证通过</Text>
+                    </View>
+                    :
+                    <View style={styles.headStyle}>
+
+                        <Image source={headerImageFail}/>
+
+                        <Text style={styles.textStyle}>认证驳回</Text>
+                    </View>;
+        }
 
         let bottomView = this.state.qualifications == '1203' ?
             <View>
@@ -239,7 +252,7 @@ class verifiedState extends Component{
                 <VerifiedFailItem reason={this.state.resultInfo.certificationOpinion}/>
             </View> : null;
 
-        let bottomReloadView = this.state.qualifications == '1203' ?
+        let bottomReloadView = (this.state.qualifications == '1203' || type !== '有效') ?
             <Image style={styles.bottomViewStyle} source ={BlueButtonArc}>
                 <Button
                     ref='button'
@@ -254,6 +267,14 @@ class verifiedState extends Component{
                 </Button>
             </Image>: null;
 
+        const result = this.props.navigation.state.params.Validity;
+
+        const title = HelperUtils.validityStatus(result);
+
+        let titleView = title === '' ? null : <View style={{justifyContent: 'center', alignItems: 'center', height: 40, backgroundColor: '#FFFAF4'}}>
+            <Text style={{color: '#F77F4F', fontSize: 15}}>{title}</Text>
+        </View>
+
         return (
             <View style={styles.container}>
                 <NavigatorBar
@@ -263,7 +284,7 @@ class verifiedState extends Component{
                 />
                 <ScrollView
                     bounces={false}>
-
+                    {titleView}
                     {headView}
 
                     <VerifiedGrayTitleItem title="身份证"/>

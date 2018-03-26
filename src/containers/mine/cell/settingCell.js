@@ -148,7 +148,7 @@ class SettingCell extends Component {
                     marginRight: 20,
                     flexDirection: 'row',
                 }}>
-                    <Text style={{color:'#1B82D1',fontSize:14}}>{showCertificatesOverdue}</Text>
+                    <Text style={{color:'#FF8500',fontSize:14}}>{showCertificatesOverdue}</Text>
                 </View> : null;
 
         return (

@@ -135,7 +135,8 @@ class mine extends Component {
             certificationState: '1200', // 资质认证
             verifiedState: '1200', // 实名认证
             modalVisible: false,
-            isOver: false
+            isOver: false,
+            Validity: {},
         };
         this.getVerfiedStateSucCallback = this.getVerfiedStateSucCallback.bind(this);
         this.certificationCallback = this.certificationCallback.bind(this);
@@ -242,37 +243,20 @@ class mine extends Component {
                     isOver: '有效'
                 })
             } else {
-                if (result.driverLicenseValidityStatus === '过期') {
-                    // 驾驶证过期
-                    this.setState({
-                        isOver: '驾驶证过期'
-                    })
-                } else if (result.driverLicenseValidityStatus === '临期') {
-                    this.setState({
-                        isOver: '驾驶证临期'
-                    })
-                }
-
-                if (result.idCardValidityStatus === '过期') {
-                    // 驾驶证过期
-                    this.setState({
-                        isOver: '身份证过期'
-                    })
-                } else if (result.idCardValidityStatus === '临期') {
-                    this.setState({
-                        isOver: '身份证临期'
-                    })
-                }
+                this.setState({
+                    isOver: '证件过期',
+                    Validity: result
+                });
             }
         }
 
 
 
-       if (result) {
-           this.setState({
-               isOver: result
-           })
-       }
+       // if (result) {
+       //     this.setState({
+       //         isOver: result
+       //     })
+       // }
     }
 
     /*点击弹出菜单*/
@@ -838,7 +822,7 @@ class mine extends Component {
                                 }}
                             />
                             {
-                                this.state.verifiedState != '1202' ?
+                                this.state.verifiedState != '1202' || this.state.isOver !== '有效' ?
                                     <SettingCell
                                         leftIconImage={VertifyInfoIcon}
                                         leftIconImageStyle={{width: 16, height: 19}}
@@ -866,7 +850,9 @@ class mine extends Component {
                                                     type: RouteType.ROUTE_DRIVER_VERIFIED_DETAIL,
                                                     params:{
                                                         qualifications: this.state.verifiedState,
-                                                        phone: global.phone,//global.phone
+                                                        phone: global.phone, // global.phone
+                                                        type: this.state.isOver,
+                                                        Validity: this.state.Validity
                                                     }
                                                 });
                                             }

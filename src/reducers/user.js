@@ -86,7 +86,7 @@ export default (state = initState, action) => {
             global.userInfo = {};
             global.plateNumber = '';
             global.companyCode = '';
-            global.userInfo = {carNum: '', carStatus: 0};
+            global.plateNumberObj = {carNum: '', carStatus: 0};
 
             Storage.remove(StorageKey.USER_INFO);
             Storage.remove(StorageKey.TOKEN);
