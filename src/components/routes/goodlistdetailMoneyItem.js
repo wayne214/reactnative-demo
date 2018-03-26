@@ -5,7 +5,8 @@ import {
     Text,
     Dimensions,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Keyboard
 } from 'react-native';
 import * as COLOR from '../../constants/colors'
 const {width, height} = Dimensions.get('window');
@@ -23,6 +24,20 @@ class goodlistdetailMoneyItem extends Component{
         this.state = {
             money: '',
         }
+        this._keyboardDidHide = this._keyboardDidHide.bind(this);
+
+    }
+
+    componentWillMount() {
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidHideListener.remove();
+    }
+
+    _keyboardDidHide() {
+        this.refs.textInput && this.refs.textInput.blur();
     }
 
 
@@ -48,7 +63,9 @@ class goodlistdetailMoneyItem extends Component{
 
                 <View style={{padding: 20, backgroundColor: 'white',flexDirection:'row'}}>
                     <View style={{borderColor: '#E6EAF2', borderWidth: 1,flex: 5,height: 40,flexDirection:'row',justifyContent: 'space-between',alignItems: 'center'}}>
-                        <TextInput style={{flex: 5,height: 30, marginLeft: 10, marginRight: 10, padding: 0}}
+                        <TextInput
+                            ref="textInput"
+                            style={{flex: 5,height: 30, marginLeft: 10, marginRight: 10, padding: 0}}
                                    value={this.props.isLocked == '1' ? this.props.norMoney + '' : this.state.money}
                                    onChangeText={(money)=>{
                                        this.setState({money});
