@@ -83,6 +83,11 @@ class orderDetailEntry extends BaseComponent {
           temperature = ''
 			}
 
+			let pointList = [];
+			if (orderDetailData.loadingPoint) {
+      	pointList = orderDetailData.loadingPoint.split(',');
+			}
+
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
 						<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
@@ -96,8 +101,16 @@ class orderDetailEntry extends BaseComponent {
 						<View style={{backgroundColor: '#ffffff', paddingTop: 15}}>
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装  货  点：'}</Text>
-								<Text style={styles.goodsDetailContent}>{fromAddress}</Text>
+								{/*<Text style={styles.goodsDetailContent}>{fromAddress}</Text>*/}
 							</View>
+								{
+                    pointList.length > 0 ? pointList.map((item, index) => {
+												return (
+													<View style={styles.goodsDetailItem} key={index}>
+														<Text style={styles.goodsDetailContent}>{item}</Text>
+												</View>)
+										}) : null
+								}
 
 							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center', paddingLeft: 10}}>
 								<Text>货品信息</Text>
@@ -105,7 +118,6 @@ class orderDetailEntry extends BaseComponent {
 							{
                   goodInfo
 							}
-						{/*<GoodsInfo startAddress={fromAddress} endAddress={endAddress}/>*/}
 
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>{'装货时间：'}</Text>
@@ -158,8 +170,8 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							)
 						}}/>
-						<View style={{backgroundColor: '#ffffff', paddingHorizontal: 10}}>
-							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center'}}>
+						<View style={{backgroundColor: '#ffffff'}}>
+							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center',paddingHorizontal: 10}}>
 								<Text>运输协议</Text>
 							</View>
 
@@ -179,7 +191,7 @@ class orderDetailEntry extends BaseComponent {
                   })
 							}
 							}>
-								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
+								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
 									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
 									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>
 								</View>
