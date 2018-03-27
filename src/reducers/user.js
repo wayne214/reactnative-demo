@@ -126,6 +126,7 @@ export default (state = initState, action) => {
             newState = newState.set('driverStatus', '0');
             newState = newState.set('ownerStatus', '0');
             newState = newState.set('currentStatus', '');
+            newState = newState.set('userTypeInfo', {});
 
 
             return newState;
