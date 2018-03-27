@@ -80,7 +80,7 @@ class verifiedRealNameItem extends Component{
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast? resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity.replace(/-/g,'/') : ''}
+                        {(resultInfo.rmcAnalysisAndContrast && resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity) ? resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity.replace(/-/g,'/') : ''}
                     </Text>
 
                 </View>
