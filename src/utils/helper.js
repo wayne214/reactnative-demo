@@ -401,6 +401,40 @@ class HelperUtil {
 			}
     }
 
+    consignorPrice(dealPrices, modeState, freights) {
+        let price, unit
+        if (dealPrices && modeState !== 2) {
+            const dealPrice = dealPrices + '';
+            if (dealPrice.includes('.')) {
+                const dealPrices = dealPrice.split('.');
+                price = dealPrices[0];
+                if (dealPrices[1].length === 2) {
+                    unit = '.' + dealPrices[1];
+                } else {
+                    unit = '.' + dealPrices[1] + '0'
+                }
+            } else {
+                price = dealPrice;
+                unit = '.00';
+            }
+        } else {
+            const freight = freights + '';
+            if (freight.includes('.')) {
+                const freights = freight.split('.');
+                price = freights[0];
+                if (freights[1].length === 2) {
+                    unit = '.' + freights[1];
+                } else {
+                    unit = '.' + freights[1] + '0'
+                }
+            } else {
+                price = freight;
+                unit = '.00';
+            }
+        }
+        return { price, unit }
+    }
+
 }
 
 export default new HelperUtil();

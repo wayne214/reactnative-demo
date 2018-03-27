@@ -168,7 +168,7 @@ class OrderListItemClear extends Component {
           if (obj.i == obj.from) {return}
           if (setSubActiveTab) {setSubActiveTab(obj.i)};
         }}
-        tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 44,marginLeft:(width*0.5-44)*0.5 }}
+        tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 3,width: 44,marginLeft:(width*0.5-44)*0.5 }}
         tabBarActiveTextColor={COLOR.APP_THEME}
         tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
         tabBarTextStyle={{fontSize:15}}>
