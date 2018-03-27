@@ -57,6 +57,7 @@ import UserInfoScreen from '../containers/user/userInfo';
 import PwdStepOneScreen from '../containers/user/pwdStepOne';
 import PwdStepTwoScreen from '../containers/user/pwdStepTwo';
 import CustomServiceScreen from '../containers/user/customService';
+import MessageSYSDetail from '../containers/message/messageSYSDetail'
 
 
 // 货源列表
@@ -1065,6 +1066,13 @@ export const AppNavigator = StackNavigator({
         screen: ShowZoomImageView,
         navigationOptions: {
             // title: '安排司机列表'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_MESSAGE_DETAIL_MAIN]: {
+        screen: MessageSYSDetail,
+        navigationOptions: {
+            // title: '消息详情'
             header: null
         }
     },
