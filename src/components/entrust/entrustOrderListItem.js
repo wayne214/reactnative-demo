@@ -80,7 +80,7 @@ export default class EntrustOrderListItem extends Component {
 		const {dataSource,type} = this.props
 		return (
 			<FlatList
-				style={{flex:1}}
+				style={{flex:1, marginTop: 10}}
 				onRefresh={()=>{
 					this.props.dispatch(changeEntrustOrderListIsRefreshing(type, true))//刷新货源列表
 					this.props.refreshList && this.props.refreshList()

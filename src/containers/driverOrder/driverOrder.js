@@ -6,6 +6,7 @@ import {
     StyleSheet,
     DeviceEventEmitter,
     Alert,
+    Dimensions
 } from 'react-native';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import Toast from '@remobile/react-native-toast';
@@ -21,6 +22,7 @@ import {
 import {fetchData} from '../../action/app';
 import * as API from '../../constants/api';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {

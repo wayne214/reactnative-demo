@@ -141,9 +141,9 @@ class EntrustOrderList extends BaseComponent {
 												firstLevelClick={ () => this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }}) }
 					/>
 					<ScrollableTabView
-						style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
+						style={{flex: 1, backgroundColor: COLOR.COLOR_VIEW_BACKGROUND}}
 						renderTabBar={() =>
-							<DefaultTabBar style={{height: 40,borderWidth:1,borderBottomColor: '#e6eaf2', backgroundColor: 'white'}}
+							<DefaultTabBar style={{height: 44, borderBottomColor: '#E6EAF2', borderBottomWidth: 1}}
 								tabStyle={{paddingBottom: 2}}/>
 						}
 						onChangeTab={(obj)=>{
@@ -153,24 +153,25 @@ class EntrustOrderList extends BaseComponent {
 							this.setState({activeTab: obj.i})
 							if (obj.i == 0) {
 								this.props._getEntrustOrderList({
-                    companyCode: global.companyCode,
-                    num: 1,
-                    resourceCode: '',
-                    size: 10,
-								},true)
-							}else if (obj.i == 1) {
-								this.props._getEntrustOrderUndispatch({
-                    ctcNum: 0,
-                    dpcNum: 0,
-                    carrierCode: global.companyCode
-                    // carrierCode: '1001'
+									companyCode: global.companyCode,
+									num: 1,
+									resourceCode: '',
+									size: 10,
+												},true)
+											}else if (obj.i == 1) {
+												this.props._getEntrustOrderUndispatch({
+									ctcNum: 0,
+									dpcNum: 0,
+									carrierCode: global.companyCode
+									// carrierCode: '1001'
 								},true)
 							}
 						}}
-						tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 44,marginLeft:(width*0.5-44)*0.5 }}
-						tabBarActiveTextColor={COLOR.APP_THEME}
-						tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
-						tabBarTextStyle={{fontSize:15}}>
+						tabBarBackgroundColor={COLOR.WHITE_COLOR}
+						tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 2, width: 25, marginLeft:(width*0.5-25)*0.5 }}
+						tabBarActiveTextColor={COLOR.BLUE_BACKGROUND_COLOR}
+						tabBarInactiveTextColor={COLOR.GRAY_TEXT_COLOR}
+						tabBarTextStyle={{fontSize: 15}}>
 						<View tabLabel={'接单'} style={{flex: 1}}>
 								{
 										this.state.showAlert ? <View style={{height: 65, backgroundColor: '#FFFAF4', justifyContent: 'center', paddingHorizontal: 15}}>
