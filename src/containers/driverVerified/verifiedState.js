@@ -182,7 +182,7 @@ class verifiedState extends Component{
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
                 params: {
                     resultInfo: this.state.resultInfo,
-                    type: this.props.navigation.state.params.type
+                    saveType: '1'
                 }
             });
         }
@@ -279,6 +279,7 @@ class verifiedState extends Component{
 
         if (result){
             const title = HelperUtils.validityStatus(result);
+
 
             titleView = title === '' ? null : <View style={{justifyContent: 'center', alignItems: 'center', height: 40, backgroundColor: '#FFFAF4'}}>
                     <Text style={{color: '#F77F4F', fontSize: 15}}>{title}</Text>
