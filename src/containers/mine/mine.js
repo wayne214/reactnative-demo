@@ -83,15 +83,14 @@ const styles = StyleSheet.create({
     },
     headerView: {
         alignItems: 'center',
-        backgroundColor: StaticColor.WHITE_COLOR,
     },
     iconOutView: {
         marginBottom: 10,
-        borderRadius: 45,
-        borderWidth: 3,
-        borderColor: 'rgba(255,255,255,0.2)',
-        overflow: 'hidden',
-        backgroundColor: StaticColor.BLUE_CONTACT_COLOR,
+        // borderRadius: 50,
+        // borderWidth: 3,
+        // borderColor: 'rgba(255,255,255,0.2)',
+        // overflow: 'hidden',
+        // backgroundColor: StaticColor.BLUE_CONTACT_COLOR,
     },
     driverIcon: {
         width: 90,
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
     titleContainer: {
         height: 32 + ConstValue.StatusBar_Height,
         paddingTop: ConstValue.StatusBar_Height,
-        backgroundColor: StaticColor.WHITE_COLOR,
     },
     subTitleContainer: {
         flexDirection: 'row',

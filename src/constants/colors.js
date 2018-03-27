@@ -60,7 +60,7 @@ export const BLUE_CONTACT_COLOR = '#0071FF';
 
 export const COLOR_CONTACT_ICON_COLOR = '#B2B2B2';
 
-export const READ_NUMBER_COLOR = '#FA5741';
+export const READ_NUMBER_COLOR = '#FF8500';
 
 export const READ_UNIT_COLOR = '#2A2A2A';
 

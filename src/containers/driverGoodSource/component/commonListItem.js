@@ -27,17 +27,17 @@ const styles = StyleSheet.create({
         borderBottomColor: StaticColor.COLOR_SEPARATE_LINE
     },
     timeText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.GRAY_TEXT_COLOR,
         marginTop: 8,
     },
     transCodeText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.GRAY_TEXT_COLOR,
     },
     arriveAndGoodsText: {
         fontSize: 16,
-        color: StaticColor.READ_NUMBER_COLOR,
+        color: StaticColor.ORANGE_ICON_COLOR,
     },
     separateLine: {
         height: 0.5,

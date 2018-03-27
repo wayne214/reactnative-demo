@@ -22,7 +22,7 @@ import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
 import SegmentTabBar from '../../components/order/segmentTab'
 import OrderCell from '../../components/order/orderCell'
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view'
+import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import Coordination from '../../components/order/coordinatation'
 import { dispatchDefaultCar } from '../../action/travel';
 import {fetchData, appendLogToFile} from '../../action/app'
@@ -113,7 +113,7 @@ class OrderListItem extends Component {
     const {dataSource,haveBatch, batchHandle,activeTab,activeSubTab} = this.props
       console.log('datasoure', dataSource);
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1, marginTop: 10}}>
         <FlatList
           style={{flex:1}}
           data={ dataSource.get('list').toJS() || [] }
@@ -168,7 +168,7 @@ class OrderListItemClear extends Component {
           if (obj.i == obj.from) {return}
           if (setSubActiveTab) {setSubActiveTab(obj.i)};
         }}
-        tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2,width: 44,marginLeft:(width*0.5-44)*0.5 }}
+        tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 3,width: 44,marginLeft:(width*0.5-44)*0.5 }}
         tabBarActiveTextColor={COLOR.APP_THEME}
         tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
         tabBarTextStyle={{fontSize:15}}>
@@ -350,14 +350,10 @@ class OrderList extends BaseComponent {
           <ScrollableTabView
             // page={activeTab}
             // initialPage={0}
-            style={{backgroundColor: COLOR.APP_CONTENT_BACKBG}}
+              style={{flex: 1, backgroundColor: COLOR.COLOR_VIEW_BACKGROUND}}
             renderTabBar={() =>
-                <ScrollableTabBar
-                    tabStyle={{paddingLeft: 5,
-                        paddingRight: 5,
-                        paddingBottom: 0,
-                        }}
-                />
+                <DefaultTabBar style={{height: 44,borderBottomColor: '#E6EAF2', borderBottomWidth:1}}
+                               tabStyle={{paddingBottom: 2}}/>
             }
             onChangeTab={(obj)=>{
               // if (obj.i == obj.from) {
@@ -378,9 +374,10 @@ class OrderList extends BaseComponent {
                 }
               // };
             }}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.APP_THEME,height: 2, }}
-            tabBarActiveTextColor={COLOR.APP_THEME}
-            tabBarInactiveTextColor={COLOR.TEXT_NORMAL}
+            tabBarBackgroundColor={COLOR.WHITE_COLOR}
+            tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 2, width: 20, marginLeft:(width/4-20) * 0.5}}
+            tabBarActiveTextColor={COLOR.BLUE_BACKGROUND_COLOR}
+            tabBarInactiveTextColor={COLOR.GRAY_TEXT_COLOR}
             tabBarTextStyle={{fontSize:15}}>
             <OrderListItem
               refreshList={this._refreshList}
@@ -428,7 +425,7 @@ class OrderList extends BaseComponent {
 const styles =StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLOR.APP_CONTENT_BACKBG
+    backgroundColor: COLOR.COLOR_VIEW_BACKGROUND
   },
   navBar:{
     width,

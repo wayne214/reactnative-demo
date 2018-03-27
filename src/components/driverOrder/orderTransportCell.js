@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     },
     textSizeNum: {
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
-        fontSize: 14,
+        fontSize: 15,
     },
     textSizeWeight: {
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
-        fontSize: 14,
+        fontSize: 15,
         marginLeft: 35,
     },
     orderDeatailAll: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         paddingLeft: 11,
     },
     addressText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
         marginLeft: 10,
         marginRight: 15,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 10,
         color: StaticColor.GRAY_TEXT_COLOR,
-        fontSize: 12
+        fontSize: 13
     },
     buttonText: {
         fontSize: 17,

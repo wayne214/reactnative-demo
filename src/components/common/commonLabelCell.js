@@ -9,7 +9,7 @@ import * as StaticColor from '../../constants/colors';
 const styles = StyleSheet.create({
     container: {
         backgroundColor: StaticColor.ORANGE_TYPE_COLOR,
-        borderRadius: 3,
+        borderRadius: 1,
         paddingTop: 2,
         paddingBottom: 2,
         paddingLeft: 5,
@@ -18,8 +18,9 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     contentStyle: {
-        fontSize: 12,
+        fontSize: 13,
         color: StaticColor.ORANGE_TYPE_TEXT_COLOR,
+        lineHeight: 14,
     }
 });
 

@@ -11,6 +11,7 @@ import {
     Dimensions
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Helper from '../../utils/helper';
 import AddressItem from './goodlistAddressItem';
 import HeadIcon from '../../../assets/img/mine/login_avatar.png'
 const {height, width} = Dimensions.get('window');
@@ -70,7 +71,7 @@ class goodListItem extends Component{
 
                 <AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
-                <View style={{flexDirection: 'row',marginTop: 12,marginLeft: 20}}>
+                <View style={{flexDirection: 'row',marginTop: 10,marginLeft: 20}}>
 
                     {
                         item.loadingAreaVOList && item.loadingAreaVOList.length !== 0 ?
@@ -89,17 +90,17 @@ class goodListItem extends Component{
 
 
                 </View>
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
+                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 10}}/>
 
 
                 <View style={{marginTop: 10, flexDirection: 'row'}}>
-                    <View style={{width: width - space*2 - 100,flexDirection: 'row'}}>
+                    <View style={{width: width - space*2 - 140,flexDirection: 'row'}}>
                         <Image style={{borderRadius: 18,width: 36, height: 36}} source={HeadIcon}/>
 
-                        <View style={{width:width - space*2 - 170}}>
+                        <View style={{width:width - space*2 - 140}}>
                             <View style={{flexDirection: 'row'}}>
 
-                                <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10}}>
+                                <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10,borderRadius: 1}}>
                                     <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                 </View>
                                 {
@@ -114,15 +115,26 @@ class goodListItem extends Component{
 
                             </View>
                             <View style={{flexDirection: 'row',marginTop: 2}}>
-
-                                <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
-                                    <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
-                                </View>
+                                {
+                                    needDetail !== '' && <View style={{
+                                        width: 16,
+                                        height: 16,
+                                        backgroundColor: '#0092FF',
+                                        marginLeft: 10,
+                                        borderRadius: 1
+                                    }}>
+                                        <Text style={{
+                                            textAlign: 'center',
+                                            padding: 2,
+                                            fontSize: 10,
+                                            color: 'white'
+                                        }}>求</Text>
+                                    </View>
+                                }
                                 {
                                     needDetail !== '' && <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
                                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF',paddingHorizontal: 4}}>
                                             {needDetail}
-
                                         </Text>
                                     </View>
                                 }
@@ -130,45 +142,38 @@ class goodListItem extends Component{
                         </View>
                     </View>
                     {
-                        item.configFreight ? <View style={{width: 100,flexDirection: 'row'}}>
-                            <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
-                            <View style={{justifyContent: 'center',width: 80}}>
-                                <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>
-                                    {item.configFreight}
+                        item.configFreight ? <View style={{width: 140,flexDirection: 'row',}}>
+                            <View style={{width: 1, height: 37, backgroundColor: '#E6EAF2'}}/>
+                            <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'flex-end',flex: 1}}>
+                                <Text style={{fontSize: 21,color: '#FF8500',fontWeight: 'bold'}}>
+                                    {Helper.consignorPrice(null,null,item.configFreight).price}
                                 </Text>
-                            </View>
-                            <View style={{marginLeft: 5,justifyContent: 'center',width: 15}}>
-                                <Text style={{}}>元</Text>
+                                <Text style={{fontSize: 12,color: '#FF8500',fontWeight: 'bold',alignItems: 'flex-end',paddingTop: 6}}>
+                                    {Helper.consignorPrice(null,null,item.configFreight).unit}
+                                </Text>
+                                <Text style={{marginLeft: 5,}}>元</Text>
                             </View>
                         </View> : null
                     }
 
 
                 </View>
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
+                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 10}}/>
                 {
-                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
-                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
+                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8}}>
+                        <View style={{padding: 9,backgroundColor: '#0092FF',borderRadius: 1}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 { item.biddingState == '3' ? '抢单失败' : '我的报价' + item.carrierPrice }
                             </Text>
                         </View>
-                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>
-                        <View style={{padding: 10,backgroundColor: '#0092FF'}}>
-                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8}}>
+                        <View style={{padding: 9,backgroundColor: '#0092FF',borderRadius: 1}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 16,}}>
                                 我要抢单
                             </Text>
                         </View>
                     </View>
                 }
-                {/*<View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 10}}>*/}
-                    {/*<View style={{padding: 10,backgroundColor: '#0092FF'}}>*/}
-                        {/*<Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>*/}
-                           {/*我要抢单*/}
-                        {/*</Text>*/}
-                    {/*</View>*/}
-                {/*</View>*/}
-
             </TouchableOpacity>
         )
     }
@@ -176,7 +181,10 @@ class goodListItem extends Component{
 const styles = StyleSheet.create({
     container:{
         backgroundColor: 'white',
-        padding: space
+        paddingTop: 12,
+        paddingBottom: 8,
+        paddingLeft: space,
+        paddingRight: space
     },
 
 })
