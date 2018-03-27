@@ -1008,7 +1008,7 @@ class Home extends Component {
                         <View>
                             <Image
                                 style={{
-                                    marginLeft: 10,
+                                    marginLeft: 15,
                                     marginTop: 10,
                                 }}
                                 source={
@@ -1047,7 +1047,7 @@ class Home extends Component {
                         <View>
                             <Image
                                 style={{
-                                    marginRight: 10,
+                                    marginRight: 15,
                                     marginTop: 10,
                                 }}
                                 source={

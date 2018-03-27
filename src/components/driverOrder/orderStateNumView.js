@@ -12,12 +12,12 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: StaticColor.GRAY_TEXT_COLOR,
-        fontSize: 14,
+        fontSize: 15,
         alignSelf:'center',
     },
     numberStyle: {
-        color: StaticColor.READ_NUMBER_COLOR,
-        fontSize: 14,
+        color: StaticColor.ORANGE_ICON_COLOR,
+        fontSize: 15,
         alignSelf:'center',
     },
 });

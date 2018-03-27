@@ -146,6 +146,11 @@ class enterpriseownerVerifiedState extends Component {
         lastTime = new Date().getTime();
         // ReadAndWriteFileUtil.appendFile('企业车主认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
         //     locationData.district, lastTime - currentTime, '企业车主认证详情页面');
+        this.setState({
+            appLoading: false,
+        });
+
+        console.log('---result**',result);
         if (result) {
             this.setState({
                 resultInfo: result,
@@ -201,10 +206,11 @@ class enterpriseownerVerifiedState extends Component {
             //}
             DeviceEventEmitter.emit('verifiedSuccess');
 
+
         }
-        this.setState({
-            appLoading: false,
-        });
+
+
+
     }
     getDetailFail(){
         Toast.showShortCenter('获取详情失败');
@@ -261,6 +267,7 @@ class enterpriseownerVerifiedState extends Component {
 
     render() {
         const navigator = this.props.navigation;
+
 
         // 21  企业车主认证中   22 企业车主认证通过  23 企业车主认证驳回
 
@@ -363,13 +370,13 @@ class enterpriseownerVerifiedState extends Component {
                                       if (index === 0){
                                           if (this.state.resultInfo.rmcPicAddress.legalPersonPositiveCardAddress){
                                               this.showBigImage([this.state.resultInfo.rmcPicAddress.legalPersonPositiveCardAddress], 0);
-                                          }else 
+                                          }else
                                               Toast.showShortCenter('暂无图片');
                                       }
                                       if (index === 1){
                                           if (this.state.resultInfo.rmcPicAddress.legalPersonOppositeCardAddress){
                                               this.showBigImage([this.state.resultInfo.rmcPicAddress.legalPersonOppositeCardAddress], 0);
-                                          }else 
+                                          }else
                                               Toast.showShortCenter('暂无图片');
                                       }
                                       // if (index === 2){

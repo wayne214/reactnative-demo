@@ -77,6 +77,7 @@ class verifiedBusinessLicenseItem extends Component{
     }
     render() {
         const {resultInfo} = this.props;
+
         const businessLicenceImagePath = resultInfo.rmcPicAddress ? (resultInfo.rmcPicAddress.businessLicenceThumbnailAddress ? resultInfo.rmcPicAddress.businessLicenceThumbnailAddress : '') : '';
         let firstImageObj;
         if (businessLicenceImagePath){
@@ -137,7 +138,7 @@ class verifiedBusinessLicenseItem extends Component{
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.manualBusinessValidity.replace(/-/g,'/') : ''}
+                        {(resultInfo.rmcAnalysisAndContrast && resultInfo.rmcAnalysisAndContrast.manualBusinessValidity) ? resultInfo.rmcAnalysisAndContrast.manualBusinessValidity.replace(/-/g,'/') : ''}
                     </Text>
 
                 </View>
