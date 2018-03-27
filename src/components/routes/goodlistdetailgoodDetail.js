@@ -52,38 +52,39 @@ class goodlistdetailgoodDetail extends Component{
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{width: 80,color: '#999'}}>货物详情：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                    <Text style={{width: 80,color: '#999',fontSize: 15}}>货物详情：</Text>
+                    <Text style={{width: width - 20 -20 -80, color: '#666',fontSize: 15}}>
                         {this.props.goodDetail}
                     </Text>
                 </View>
                 <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>装货时间：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                    <Text style={{width: 80,color: '#999',fontSize: 15}}>装货时间：</Text>
+                    <Text style={{width: width - 20 -20 -80, color: '#666',fontSize: 15}}>
                         {loadTime != '' ? loadTime : ''}
                     </Text>
                 </View>
                 {
                     this.props.businessType != '501' ? <View>
                             <View style={{flexDirection: 'row', marginTop: 10}}>
-                                <Text style={{width: 80,color: '#999'}}>到货时间：</Text>
-                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                                <Text style={{width: 80,color: '#999',fontSize: 15}}>到货时间：</Text>
+                                <Text style={{width: width - 20 -20 -80, color: '#666',fontSize: 15}}>
 
                                     {arriveTime != '' ? moment(arriveTime).format('YYYY-MM-DD HH:mm') : ''}
 
                                 </Text>
                             </View>
-                            <View style={{flexDirection: 'row', marginTop: 10}}>
-                                <Text style={{width: 80,color: '#999'}}>温度要求：</Text>
-                                <Text style={{width: width - 20 -20 -80, color: '#666'}}>
-                                    {this.props.hot}
-                                </Text>
-                            </View>
+
                         </View> : null
                 }
                 <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={{width: 80,color: '#999'}}>备        注：</Text>
-                    <Text style={{width: width - 20 -20 -80, color: '#666'}}>
+                    <Text style={{width: 80,color: '#999',fontSize: 15}}>温度要求：</Text>
+                    <Text style={{width: width - 20 -20 -80, color: '#666',fontSize: 15}}>
+                        {this.props.hot}
+                    </Text>
+                </View>
+                <View style={{flexDirection: 'row', marginTop: 10}}>
+                    <Text style={{width: 80,color: '#999',fontSize: 15}}>备        注：</Text>
+                    <Text style={{width: width - 20 -20 -80, color: '#666',fontSize: 15}}>
                         {this.props.remark}
                     </Text>
                 </View>

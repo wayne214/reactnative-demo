@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
-        fontSize: 14,
+        fontSize: 15,
         marginTop: 10,
     },
     subContainer: {
@@ -189,8 +189,14 @@ class PersonInfo extends Component {
                 personInfo: null,
             });
         }
+        this.setState({
+            loading: false
+        })
     }
     getPersonInfoSuccessCallback(result) {
+        this.setState({
+            loading: false
+        })
         lastTime = new Date().getTime();
         // ReadAndWriteFileUtil.appendFile('实名认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
         //     locationData.district, lastTime - currentTime, '个人信息页面');
@@ -218,6 +224,10 @@ class PersonInfo extends Component {
         }
     }
     fetchData(getPersonInfoSuccessCallback,getPersonInfoFailCallback) {
+        this.setState({
+            loading: true
+        })
+
             if (global.phone) {
                 currentTime = new Date().getTime();
                 this.props.getPersonInfo({

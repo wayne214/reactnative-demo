@@ -111,7 +111,7 @@ class orderItemCell extends Component{
 					<View style={styles.subContainer}>
 						<Text style={styles.orderCodeText}>运单编号：{rowData.deliveryno}</Text>
 						<View style={{flexDirection: 'row'}}>
-							<Text style={{fontSize: 14, color: '#0092FF', marginLeft: 5}}>{HelperUtils.getTransOrderStatus(rowData.state)}</Text>
+							<Text style={{fontSize: 15, color: '#0092FF', marginLeft: 5}}>{HelperUtils.getTransOrderStatus(rowData.state)}</Text>
 						</View>
 					</View>
 
@@ -121,6 +121,8 @@ class orderItemCell extends Component{
 						<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
 						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
+
+						<View style={styles.separateLine}/>
 
               {
                   rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
@@ -255,7 +257,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
 			padding: 2,
 			fontSize: 10,
-			color: 'white'
+			color: 'white',
+		borderRadius: 2
 	},
 	separateLine: {
       height: 1,
@@ -267,7 +270,8 @@ const styles = StyleSheet.create({
       borderRadius: 18,
 			backgroundColor: 'red',
 			width: 35,
-			height: 35
+			height: 35,
+		marginBottom: 10
 	},
 		goodBg: {
         borderColor: '#999',

@@ -1,4 +1,4 @@
-export const APP_THEME = '#17A9DF';
+export const APP_THEME = '#0092FF';
 
 export const APP_CONTENT_BACKBG = '#f0f2f5';
 

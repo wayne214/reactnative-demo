@@ -196,10 +196,10 @@ export default StyleSheet.create({
 		width: width - 40,
 		height: 44,
 		borderColor: '#17a9df',
-		backgroundColor: '#17a9df', 
+		backgroundColor: '#0092FF',
 	},
 	btnText: {
-		fontSize: 14,
+		fontSize: 17,
 		color: 'white'
 	},
 	carLength:{

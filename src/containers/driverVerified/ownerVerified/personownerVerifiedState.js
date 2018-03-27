@@ -156,12 +156,24 @@ class personownerVerifiedState extends Component{
                 lastTime = new Date().getTime();
                 // ReadAndWriteFileUtil.appendFile('获取实名认证详情', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 //     locationData.district, lastTime - currentTime, '实名认证详情页面');
+
                 if(responseData.result){
 
+                    let manualIdCardName = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualIdCardName) ? responseData.result.rmcAnalysisAndContrast.manualIdCardName : '';
+                    let manualIdCard = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualIdCard) ? responseData.result.rmcAnalysisAndContrast.manualIdCard : '';
+                    let manualIdCardValidity = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualIdCardValidity) ? responseData.result.rmcAnalysisAndContrast.manualIdCardValidity : '';
+                    let manualCarNum = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualCarNum) ? responseData.result.rmcAnalysisAndContrast.manualCarNum : '';
+                    let manualHaverName = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualHaverName) ? responseData.result.rmcAnalysisAndContrast.manualHaverName : '';
+                    let manualEngineNum = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualEngineNum) ? responseData.result.rmcAnalysisAndContrast.manualEngineNum : '';
+                    let manualVin = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.manualVin) ? responseData.result.rmcAnalysisAndContrast.manualVin : '';
+                    let drivingValidity = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.drivingValidity) ? responseData.result.rmcAnalysisAndContrast.drivingValidity : '';
+                    let vin = (responseData.result.rmcAnalysisAndContrast && responseData.result.rmcAnalysisAndContrast.vin) ? responseData.result.rmcAnalysisAndContrast.vin : '';
+
+
                     let obj = {
-                        IDName: responseData.result.rmcAnalysisAndContrast.manualIdCardName,
-                        IDCard: responseData.result.rmcAnalysisAndContrast.manualIdCard,
-                        IDDate: responseData.result.rmcAnalysisAndContrast.manualIdCardValidity,
+                        IDName: manualIdCardName,
+                        IDCard: manualIdCard,
+                        IDDate: manualIdCardValidity,
 
                         idCardImage: responseData.result.rmcPicAddress.positiveCardThumbnailAddress ,
                         idCardTrunImage: responseData.result.rmcPicAddress.oppositeCardThumbnailAddress ,
@@ -173,14 +185,14 @@ class personownerVerifiedState extends Component{
                         idBackSideThumbnailAddress: responseData.result.oppositeCardThumbnail, // 身份证反面缩略图
 
 
-                        carNumber: responseData.result.rmcAnalysisAndContrast.manualCarNum,
-                        carOwner: responseData.result.rmcAnalysisAndContrast.manualHaverName,
-                        carEngineNumber: responseData.result.rmcAnalysisAndContrast.manualEngineNum,
-                        carVin: responseData.result.rmcAnalysisAndContrast.manualVin,
+                        carNumber: manualCarNum,
+                        carOwner: manualHaverName,
+                        carEngineNumber: manualEngineNum,
+                        carVin: manualVin,
 
                         travelRightImage: responseData.result.rmcPicAddress.drivingCardHomePageThumbnailAddress ,
                         travelTrunRightImage:  responseData.result.rmcPicAddress.drivingPermitSubPageThumbnailAddress,
-                        drivingLicenseValidUntil: responseData.result.rmcAnalysisAndContrast.drivingValidity, // 行驶证有效期
+                        drivingLicenseValidUntil: drivingValidity, // 行驶证有效期
 
                         vehicleLicenseHomepageNormalPhotoAddress: responseData.result.drivingCardHomePage, // 行驶证主页原图
                         vehicleLicenseHomepageThumbnailAddress: responseData.result.drivingCardHomePageThumbnail, // 行驶证主页缩略图
@@ -204,7 +216,7 @@ class personownerVerifiedState extends Component{
                         moRenhaverName: responseData.result.haverName, // 所有人
                         moRenengineNum: responseData.result.engineNum, // 发动机号码
                         moRendrivingValidsity: responseData.result.drivingValidity, // 行驶证有效期
-                        manualVin: responseData.result.rmcAnalysisAndContrast.vin,
+                        manualVin: vin,
                     };
 
 

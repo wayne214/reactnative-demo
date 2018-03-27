@@ -29,9 +29,7 @@ export default StyleSheet.create({
 		width,
 		height: 50,
 		flexDirection: 'row',
-		borderBottomWidth: 1,
-		borderBottomColor: LINE_COLOR,
-		backgroundColor: 'white'
+
 	},
 	cell: {
 		flex: 1,

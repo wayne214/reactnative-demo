@@ -75,6 +75,28 @@ class carrerListItem extends Component{
                 goodName+=categoryName + typeName+' , '
         }) : null;
 
+
+
+            let fromProvinceName = rowData.fromProvinceName ? rowData.fromProvinceName : '';
+            let fromCityName = rowData.fromCityName ? rowData.fromCityName : '';
+            let fromAreaName = rowData.fromAreaName ? rowData.fromAreaName : '';
+            let fromTownName = rowData.fromTownName ? rowData.fromTownName : '';
+            let fromAddress1 = rowData.fromAddress ? rowData.fromAddress : '';
+
+        let fromAddress = fromProvinceName +fromCityName +fromAreaName +fromTownName + fromAddress1
+
+
+
+        let toProvinceName = rowData.toProvinceName ? rowData.toProvinceName : '';
+        let toCityName = rowData.toCityName ? rowData.toCityName : '';
+        let toAreaName = rowData.toAreaName ? rowData.toAreaName : '';
+        let toTownName = rowData.toTownName ? rowData.toTownName : '';
+        let toAddress = rowData.toAddress ? rowData.toAddress : '';
+
+        let endAddress = toProvinceName+toCityName +toAreaName +toTownName+toAddress
+
+
+
         return (
             <TouchableOpacity style={styles.container} onPress={()=>{
                 if (itemClick) {itemClick(rowData)};
@@ -92,13 +114,13 @@ class carrerListItem extends Component{
                     </View>
                 }
 
-                <AddressItem startAddress={rowData.from} endAddress={rowData.to}/>
+                <AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
                 {rowData.orderStateStr == '待调度' && <View style={{marginLeft: 20}}>
                     {
                         loadStartTime != '' ? <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime}</Text> : null
                     }
-                    <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10}}>
+                    <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10,borderRadius: 2,backgroundColor: '#FFF9F9'}}>
                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '501' ? '撮合' : '自营'}</Text>
                     </View>
                 </View>}
@@ -179,20 +201,20 @@ class carrerListItem extends Component{
                     </View> : <View/>}
                     {
                         rowData.orderStateStr == '待确认' ? (
-                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => console.log('点击')}>
+                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => console.log('点击')}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                     我的报价{rowData.carrierPrice}
                                 </Text>
-                            </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
+                            </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                     我要抢单
                                 </Text>
                             </TouchableOpacity>
-                        ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 重新调车
                             </Text>
-                        </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF'}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 立即调车
                             </Text>
@@ -210,7 +232,8 @@ class carrerListItem extends Component{
 const styles = StyleSheet.create({
     container:{
         backgroundColor: 'white',
-        padding: space
+        padding: space,
+        paddingBottom: 8
     },
     time: {
         paddingHorizontal: 2,
