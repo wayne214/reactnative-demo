@@ -172,6 +172,9 @@ class mine extends Component {
         this.verlistener = DeviceEventEmitter.addListener('verifiedSuccess', () => {
             if (this.props.currentStatus == 'driver') {
                 this.verifiedState(this.getVerfiedStateSucCallback);
+                this.props.queryCardOverDueAction({
+                    driverPhone: global.phone,     // 司机手机号
+                },this.queryCardOverDueInfoCallback)
             } else {
                 this.ownerVerifiedState(this.getOwnerVerifiedCallback);
             }
@@ -238,7 +241,8 @@ class mine extends Component {
         if (result) {
             if (result.driverLicenseValidityStatus === '有效' && result.idCardValidityStatus === '有效') {
                 this.setState({
-                    isOver: '有效'
+                    isOver: '有效',
+                    Validity: {}
                 })
             } else {
                 this.setState({
