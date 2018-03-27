@@ -110,7 +110,7 @@ class SettingCell extends Component {
                             color: '#f6bd0e',
                             fontSize: 15,
                             marginTop:3,
-                        }}>&#xe630;</Text>
+                        }}>&#xe69c;</Text>
                     </View>
                     <View style={{height: 40, justifyContent: 'center'}}>
 
