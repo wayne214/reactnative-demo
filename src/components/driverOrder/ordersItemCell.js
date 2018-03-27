@@ -28,17 +28,17 @@ const styles = StyleSheet.create({
         borderBottomColor: StaticColor.COLOR_SEPARATE_LINE,
     },
     timeText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.GRAY_TEXT_COLOR,
         marginTop: 8,
     },
     transCodeText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.GRAY_TEXT_COLOR,
     },
     arriveAndGoodsText: {
-        fontSize: 16,
-        color: StaticColor.READ_NUMBER_COLOR,
+        fontSize: 17,
+        color: StaticColor.ORANGE_ICON_COLOR,
     },
     separateLine: {
         height: 0.5,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         top: 14,
         right: 2,
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
         transform: [{rotateZ: '45deg'}],
     },
@@ -102,15 +102,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     dispatchLineStyle: {
-        fontSize: 17,
+        fontSize: 18,
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
     },
     arriveTimeStyle: {
-        fontSize: 12,
+        fontSize: 13,
         color: StaticColor.GRAY_TEXT_COLOR,
     },
     stateText: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.BLUE_CONTACT_COLOR,
         textAlign: 'right',
     },
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     carrierText: {
         marginLeft: 5,
         marginRight: 5,
-        fontSize: 13,
+        fontSize: 14,
         color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
         paddingBottom: 12,
         paddingTop: 12,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: StaticColor.WHITE_COLOR,
-        fontSize: 15,
+        fontSize: 16,
         backgroundColor: StaticColor.BLUE_BACKGROUND_COLOR,
         paddingTop: 10,
         paddingBottom: 10,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         alignItems: 'flex-end',
-        marginRight: 15,
+        marginRight: 16,
         marginTop: 8,
         marginBottom: 8,
     }
@@ -301,19 +301,19 @@ class OrdersItemCell extends Component {
                                     <CommonLabelCell
                                         content={`订单${transCodeNum}单`}
                                         containerStyle={{backgroundColor: StaticColor.BLUE_ORDER_NUMBER_COLOR}}
-                                        textStyle={{color: StaticColor.BLUE_ORDER_TEXT_COLOR}}
+                                        textStyle={{color: StaticColor.BLUE_ORDER_TEXT_COLOR,lineHeight: 15}}
                                     />
                                     <CommonLabelCell
                                         content={`配送点${distributionPoint}`}
                                         containerStyle={{backgroundColor: StaticColor.GREEN_POINTER_COLOR}}
-                                        textStyle={{color: StaticColor.GREEN_POINTER_TEXT_COLOR}}
+                                        textStyle={{color: StaticColor.GREEN_POINTER_TEXT_COLOR,lineHeight: 15}}
                                     />
                                     {
                                         temperature ?
                                             <CommonLabelCell
                                                 content={`车厢温度${temperature}`}
                                                 containerStyle={{backgroundColor: StaticColor.PINK_TEMPER_COLOR}}
-                                                textStyle={{color: StaticColor.PINK_TEMPER_TEXT_COLOR}}
+                                                textStyle={{color: StaticColor.PINK_TEMPER_TEXT_COLOR,lineHeight: 15}}
                                             /> : null
                                     }
                                 </View>

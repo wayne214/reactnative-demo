@@ -305,7 +305,7 @@ class driverOrder extends Component {
                     tabBarUnderlineStyle={styles.tabBarUnderLine}
                     tabBarActiveTextColor={StaticColor.BLUE_CONTACT_COLOR}
                     tabBarInactiveTextColor={StaticColor.LIGHT_BLACK_TEXT_COLOR}
-                    tabBarTextStyle={{fontSize: 14}}
+                    tabBarTextStyle={{fontSize: 15}}
                     tabBarBackgroundColor={StaticColor.WHITE_COLOR}
                     // locked={true}
                     renderTabBar={() =>

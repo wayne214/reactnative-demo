@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     redStyle: {
         fontSize: 16,
-        color: StaticColor.RED_GOODS_TOTAL_TEXT_COLOR,
+        color: StaticColor.ORANGE_ICON_COLOR,
         marginRight: 5
     },
 });
