@@ -156,15 +156,16 @@ export default StyleSheet.create({
 		marginRight: 10,
 	},
 	saveBtn: {
-		width: width - 80,
+		width: width - 40,
 		marginTop: 40,
-		marginLeft: 40,
-		marginRight: 40,
+		marginLeft: 20,
+		marginRight: 30,
 		height: 45,
 		flexDirection: 'row',
-		backgroundColor: '#17a9df',
+		backgroundColor: '#0092FF',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		borderRadius: 4
 	},
 	btn: {
 		fontSize: 17,

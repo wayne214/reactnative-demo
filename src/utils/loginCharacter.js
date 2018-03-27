@@ -29,6 +29,8 @@ class LoginCharacter {
         });
 
         console.log("------账号角色信息:", result);
+
+
         if (result) {
             if (result.length == 0) {
                 props.navigation.dispatch({
@@ -221,6 +223,8 @@ class LoginCharacter {
 
                 }
             }
+
+
             if(type === 'main'){
             }else {
                 props.navigation.dispatch({

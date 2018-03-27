@@ -68,7 +68,12 @@ class goodListDetail extends Component {
     getDetailSuccess(result){
         this.setState({
             result
-        })
+        });
+
+        if (this.props.navigation.state.params.type == '1'){
+            this.setState({money: result.configFreight});
+        }
+
     }
 
     // 抢单成功

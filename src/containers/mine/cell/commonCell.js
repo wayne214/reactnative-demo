@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     itemName: {
-        fontSize: 16,
+        fontSize: 17,
         color: '#666666',
     },
     contentText: {
-        fontSize: 16,
+        fontSize: 17,
         color: '#333333',
     },
     separateLine: {

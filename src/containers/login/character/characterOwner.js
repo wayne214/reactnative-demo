@@ -66,20 +66,22 @@ class CharacterOwner extends Component {
                         onClick={() => {
                             console.log('选择个人车主')
                             Storage.get(StorageKey.personownerInfoResult).then((value) => {
-                                if (value) {
-                                    this.props.navigation.dispatch({
-                                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
-                                        params: {
-                                            resultInfo: value,
-                                            type: 'login'
-                                        }}
-                                    )
-                                } else {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,params:{
-                                        type: 'login'
-                                    } })
-                                }
-                            });
+
+                                                if (value) {
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
+                                                        params: {
+                                                            resultInfo: value,
+                                                            type: 'login'
+                                                        }}
+                                                    )
+                                                } else {
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
+                                                     params:{
+                                                        type: 'login'
+                                                     }})
+                                                }
+                                            });
                         }}
                     />
 
@@ -90,20 +92,21 @@ class CharacterOwner extends Component {
                             console.log('选择企业车主')
 
                             Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
-                                if (value) {
-                                    this.props.navigation.dispatch({
-                                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
-                                        params: {
-                                            resultInfo: value,
-                                            type: 'login'
-                                        }}
-                                    )
-                                } else {
-                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,params:{
-                                        type: 'login'
-                                    } })
-                                }
-                            });
+                                                if (value) {
+                                                    this.props.navigation.dispatch({
+                                                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
+                                                        params: {
+                                                            resultInfo: value,
+                                                            type: 'login'
+                                                        }}
+                                                    )
+                                                } else {
+                                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                                                     params:{
+                                                        type: 'login'
+                                                     }})
+                                                }
+                                            });
                         }}
                     />
 

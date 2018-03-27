@@ -47,7 +47,6 @@ class goodlistdetailMoneyItem extends Component{
         if (this.props.minPrice && this.props.maxPrice){
             price = String(this.props.minPrice)+'元' + '~' + String(this.props.maxPrice)+'元';
         }
-        //price = '110'+'元' + ' ~ ' + '550'+'元';
 
 
         console.log('this.props.isLoc', this.props.isLocked, this.props.isLocked == '1', this.props.norMoney);
@@ -55,9 +54,7 @@ class goodlistdetailMoneyItem extends Component{
             <View style={styles.container}>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 20}}>我要报价</Text>
-                    <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,paddingVertical: 20,color: 'red',fontSize: 12}}>
-                        {price}
-                    </Text>
+
 
                 </View>
 
@@ -95,8 +92,8 @@ class goodlistdetailMoneyItem extends Component{
                 </TouchableOpacity>
                 </View>
                 {
-                    this.props.businessType === '501' ? null : <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 20}}>
-                        <Text style={{backgroundColor: '#FFF9F9',paddingVertical: 5,color: 'red'}}>
+                    this.props.businessType === '501' ? null : <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 15}}>
+                        <Text style={{paddingVertical: 5,color: 'red'}}>
                             注：报价范围应该在 {price} 之间
                         </Text>
                     </View>

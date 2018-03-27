@@ -67,7 +67,7 @@ class orderDetailEntry extends BaseComponent {
 
       const goodInfo = orderDetailData.transportDetailDtoList && orderDetailData.transportDetailDtoList.map((item, index)=> {
       	console.log('--goodInfo', item);
-      	return (<GoodsInfo configData={item}/>)
+      	return (<GoodsInfo configData={item} businessType={orderDetailData.businessType}/>)
 
 			});
 
@@ -87,6 +87,7 @@ class orderDetailEntry extends BaseComponent {
 			if (orderDetailData.loadingPoint) {
       	pointList = orderDetailData.loadingPoint.split(',');
 			}
+
 
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
@@ -170,12 +171,13 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							)
 						}}/>
-						<View style={{backgroundColor: '#ffffff'}}>
-							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center',paddingHorizontal: 10}}>
-								<Text>运输协议</Text>
-							</View>
+						{
+							orderDetailData.businessType !== '501' ? <View style={{backgroundColor: '#ffffff'}}>
+									<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center',paddingHorizontal: 10}}>
+										<Text>运输协议</Text>
+									</View>
 
-							<TouchableOpacity onPress={()=>
+									<TouchableOpacity onPress={()=>
 							{
 
 								if (!orderDetailData.templateUrl || orderDetailData.templateUrl === '') {
@@ -191,12 +193,13 @@ class orderDetailEntry extends BaseComponent {
                   })
 							}
 							}>
-								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
-									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
-									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
+										<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
+											<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
+											<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>
+										</View>
+									</TouchableOpacity>
+								</View> : null
+						}
 							{
                   orderDetailData.businessType && orderDetailData.businessType == '501' ? null :  <FoldView title={'司机信息'} openHeight={3 * 44} renderContent={()=>{
                       return (

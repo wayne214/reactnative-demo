@@ -47,6 +47,7 @@ import {
     saveUserTypeInfoAction,
     saveCompanyInfoAction,
     setCompanyCodeAction,
+    setDriverCharacterAction
 } from '../../action/user';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import * as RouteType from '../../constants/routeType';
@@ -657,7 +658,7 @@ class companyCarOwnerAuth extends Component {
             return;
         }
         if (!this.state.companyCode){
-            Toast.showShortCenter('请输入社会编码');
+            Toast.showShortCenter('请输入统一社会信用代码');
             return;
         }
         if (!this.state.businessLicenseValidUntil){

@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     textInputStyle: {
         flex: 1,
         marginLeft: 5,
-        fontSize: 16,
+        fontSize: 13,
         color: '#666666',
         ...Platform.select({
             ios: {},
@@ -228,7 +228,7 @@ class DriverManagement extends Component {
                                 <Image
                                     style={{height: 36, width: 36}}
                                     source={DriverAvatar}/>
-                                <Text style={{marginLeft: 10, color: '#333333', fontSize: 14}}>{item.driverName}</Text>
+                                <Text style={{marginLeft: 10, color: '#333333', fontSize: 16}}>{item.driverName}</Text>
                             </View>
                             <View style={{
                             justifyContent: 'center',
@@ -236,23 +236,23 @@ class DriverManagement extends Component {
                             alignItems: 'center',
                         }}>
                                 {item.status == 10 ?
-                                    <Text style={{fontSize: 14, color: '#FA5741'}}>
+                                    <Text style={{fontSize: 16, color: '#FA5741'}}>
                                         禁用
                                     </Text> :
                                     item.certificationStatus == '1202' ?
-                                        <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                        <Text style={{fontSize: 16, color: '#0071FF'}}>
                                             认证通过
                                         </Text>
                                         : item.certificationStatus == '1201' ?
-                                            <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                            <Text style={{fontSize: 16, color: '#0071FF'}}>
                                                 认证中
                                             </Text>
                                             : item.certificationStatus == '1203' ?
-                                                <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                                <Text style={{fontSize: 16, color: '#0071FF'}}>
                                                     认证驳回
                                                 </Text>
                                                 :
-                                                <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                                <Text style={{fontSize: 16, color: '#0071FF'}}>
                                                     未认证
                                                 </Text>
                                 }
@@ -261,12 +261,12 @@ class DriverManagement extends Component {
                         <View style={{marginLeft: 45}}>
                             {this.state.line && this.state.clickLine == index ?
                                 <Text
-                                    style={{fontSize: 14, lineHeight: 24, color: '#3F3F3F'}}
+                                    style={{fontSize: 15, lineHeight: 24, color: '#3F3F3F'}}
                                 >
                                     关联车辆：{carContent}</Text>
                                 : <Text
                                     numberOfLines={1}
-                                    style={{fontSize: 14, lineHeight: 24, color: '#3F3F3F'}}>关联车辆：{carContent}</Text>
+                                    style={{fontSize: 15, lineHeight: 24, color: '#3F3F3F'}}>关联车辆：{carContent}</Text>
                             }
 
                             {carContent.length * (10 * width / 375) < (width - 95) ? null : this.state.line && this.state.clickLine == index ?
@@ -275,7 +275,7 @@ class DriverManagement extends Component {
                                     clickLine: 'a',
                                 })
                             }}>
-                                        <Text style={{color: '#008AFF', fontSize: 12, lineHeight: 24}}>收起</Text>
+                                        <Text style={{color: '#008AFF', fontSize: 13, lineHeight: 24}}>收起</Text>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity onPress={() => {
@@ -283,7 +283,7 @@ class DriverManagement extends Component {
                                     clickLine: index,
                                 })
                             }}>
-                                        <Text style={{color: '#008AFF', fontSize: 12, lineHeight: 24}}>全部</Text>
+                                        <Text style={{color: '#008AFF', fontSize: 13, lineHeight: 24}}>全部</Text>
                                     </TouchableOpacity>
 
                             }
@@ -352,7 +352,7 @@ class DriverManagement extends Component {
                                     <Text style={{
                                         marginLeft: 10,
                                         color: '#333333',
-                                        fontSize: 14
+                                        fontSize: 16
                                     }}>{item.driverName}</Text>
                                 </View>
                                 <View style={{
@@ -361,23 +361,23 @@ class DriverManagement extends Component {
                                     alignItems: 'center',
                                 }}>
                                     {item.status == 10 ?
-                                        <Text style={{fontSize: 14, color: '#FA5741'}}>
+                                        <Text style={{fontSize: 15, color: '#FA5741'}}>
                                             禁用
                                         </Text> :
                                         item.certificationStatus == '1202' ?
-                                            <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                            <Text style={{fontSize: 15, color: '#0071FF'}}>
                                                 认证通过
                                             </Text>
                                             : item.certificationStatus == '1201' ?
-                                            <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                            <Text style={{fontSize: 15, color: '#0071FF'}}>
                                                 认证中
                                             </Text>
                                             : item.certificationStatus == '1203' ?
-                                                <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                                <Text style={{fontSize: 15, color: '#0071FF'}}>
                                                     认证驳回
                                                 </Text>
                                                 :
-                                                <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                                <Text style={{fontSize: 15, color: '#0071FF'}}>
                                                     未认证
                                                 </Text>
                                     }
@@ -387,14 +387,14 @@ class DriverManagement extends Component {
 
                                 {this.state.line && this.state.clickLine == index ?
                                     <Text
-                                        style={{fontSize: 14, lineHeight: 24, color: '#3F3F3F'}}
+                                        style={{fontSize: 15, lineHeight: 24, color: '#3F3F3F'}}
                                     >
                                         关联车辆：{carContent}</Text>
                                     : <Text
                                         numberOfLines={1}
                                         onLayout={this._onTextLayout.bind(this)}
                                         style={{
-                                            fontSize: 14,
+                                            fontSize: 15,
                                             lineHeight: 24,
                                             color: '#3F3F3F'
                                         }}>关联车辆：{carContent}</Text>
@@ -407,7 +407,7 @@ class DriverManagement extends Component {
                                             clickLine: 'a',
                                         })
                                     }}>
-                                        <Text style={{color: '#008AFF', fontSize: 12, lineHeight: 24}}>收起</Text>
+                                        <Text style={{color: '#008AFF', fontSize: 13, lineHeight: 24}}>收起</Text>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity onPress={() => {
@@ -415,7 +415,7 @@ class DriverManagement extends Component {
                                             clickLine: index,
                                         })
                                     }}>
-                                        <Text style={{color: '#008AFF', fontSize: 12, lineHeight: 24}}>全部</Text>
+                                        <Text style={{color: '#008AFF', fontSize: 13, lineHeight: 24}}>全部</Text>
                                     </TouchableOpacity>
 
                                 }

@@ -73,7 +73,7 @@ class verifiedCompanyItem extends Component{
     }
     /*统一社会信用代码*/
     companyCodeValueChange(text){
-        this.props.companyAddressValueChange(text);
+        this.props.companyCodeValueChange(text);
     }
     /*获得焦点*/
     textOnFocus(y){

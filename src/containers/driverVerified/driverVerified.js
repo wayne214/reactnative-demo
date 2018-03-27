@@ -885,6 +885,7 @@ class Verified extends Component {
             driverLicenseValidateRecognition: Validator.timeTrunToDateString(this.state.driverLicenseValidateRecognition),  // 识别驾驶证有效期
 
             isUpdate: this.props.navigation.state.params.type ? 1 : 0
+
         };
 
         console.log('司机认证 = ',params);

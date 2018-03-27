@@ -47,7 +47,7 @@ class GoodsInfo extends Component{
 	}
 
 	render() {
-		const {configData = {}, startAddress, endAddress} = this.props;
+		const {configData = {}, startAddress, endAddress, businessType} = this.props;
 		console.log('--configData', configData);
 
 		const qty = !configData.qty || configData.qty === '0';
@@ -86,30 +86,34 @@ class GoodsInfo extends Component{
 						<Text style={styles.goodsDetailContent}>{configData.uom}</Text>
 					</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>应收：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
-					</View>
+					{
+						businessType !== '501' ? <View>
+								<View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>应收：</Text>
+									<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
+								</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>发运：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
-					</View>
+								<View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>发运：</Text>
+									<Text style={styles.goodsDetailContent}>{qty ? configData.shipmentWeight : configData.shipmentNums}</Text>
+								</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>签收：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.signWeight : configData.signNum}</Text>
-					</View>
+								<View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>签收：</Text>
+									<Text style={styles.goodsDetailContent}>{qty ? configData.signWeight : configData.signNum}</Text>
+								</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>拒签：</Text>
-						<Text style={styles.goodsDetailContent}>{qty ? configData.denySignWeight : configData.denySignNum}</Text>
-					</View>
+								<View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>拒签：</Text>
+									<Text style={styles.goodsDetailContent}>{qty ? configData.denySignWeight : configData.denySignNum}</Text>
+								</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>拒签原因：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.refuseSignReason}</Text>
-					</View>
+								<View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>拒签原因：</Text>
+									<Text style={styles.goodsDetailContent}>{configData.refuseSignReason}</Text>
+								</View>
+							</View> : null
+					}
 
 					{/*<View style={styles.goodsDetailItem}>*/}
 						{/*<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>*/}

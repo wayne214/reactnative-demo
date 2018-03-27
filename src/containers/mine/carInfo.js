@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     Button: {
-        backgroundColor: 'transparent',
+        backgroundColor: '#0092FF',
         marginLeft: 10,
         marginRight: 10,
         borderWidth: 0,
         height: 40,
-        borderRadius: 5,
+        borderRadius: 2,
         marginBottom: 0,
     },
     ButtonText: {

@@ -24,8 +24,8 @@ class goodlistAddressItem extends Component{
                 <View style={{flexDirection: 'row'}}>
                     <Image source={ItemIcon} style={{marginTop: 5}}/>
                     <View style={{marginLeft: 10}}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold'}}>{this.props.startAddress}</Text>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 10}}>{this.props.endAddress}</Text>
+                        <Text style={{fontSize: 17, fontWeight: 'bold'}}>{this.props.startAddress}</Text>
+                        <Text style={{fontSize: 17, fontWeight: 'bold', marginTop: 10}}>{this.props.endAddress}</Text>
                     </View>
                 </View>
             </View>

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     textInputStyle: {
         flex: 1,
         marginLeft: 5,
-        fontSize: 16,
+        fontSize: 13,
         color: '#666666',
         ...Platform.select({
             ios: {},
@@ -190,7 +190,7 @@ class AddCarPage extends Component {
                             <Text style={{
                                 marginLeft: 10,
                                 color: '#333333',
-                                fontSize: 16,
+                                fontSize: 17,
                                 height: 24,
                             }}>{item.carNum}</Text>
 

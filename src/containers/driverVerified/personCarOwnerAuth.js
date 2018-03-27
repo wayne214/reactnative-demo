@@ -48,6 +48,7 @@ import {
     saveUserTypeInfoAction,
     saveCompanyInfoAction,
     setCompanyCodeAction,
+    setDriverCharacterAction
 } from '../../action/user';
 
 
@@ -1054,6 +1055,7 @@ function mapDispatchToProps (dispatch){
             }))
         },
         setDriverCharacterAction: (result) => {
+
             dispatch(setDriverCharacterAction(result));
         },
         setCompanyCodeAction: (result) => {

@@ -317,7 +317,7 @@ class SettingContainer extends BaseComponent {
 				<View style={ styles.loginBtn }>
 					<Button
 						title='退出'
-						style={ styles.btn }
+						style={ [styles.btn, {borderWidth: 1, borderColor: '#DEDEDE'}] }
 						textStyle={ styles.btnText }
 						onPress={ this._logout }/>
 				</View>

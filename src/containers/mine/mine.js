@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     subTitleContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         alignItems: 'center',
         height: 32
     },
@@ -661,7 +661,7 @@ class mine extends Component {
                                                 <View>
                                                     <Image
                                                         style={{
-                                            marginRight: 10,
+                                            marginRight: 0,
                                             marginTop: 10,
                                         }}
                                                         source={
@@ -678,7 +678,7 @@ class mine extends Component {
                             <TouchableOpacity onPress={() => {
                                 this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})
                             }}>
-                                <Text style={{fontSize: 20, color: '#333333'}}>会员信息</Text>
+                                <Text style={{fontSize: 16, color: '#333333'}}>会员信息</Text>
                             </TouchableOpacity>
                         </View>
                     }
@@ -954,7 +954,7 @@ class mine extends Component {
                 }
                 </ScrollView>
                 <Modal
-                    animationType={"slide"}
+                    animationType={"fade"}
                     transparent={true}
                     visible={this.state.modalVisible}>
                     <AlertSheetItem ref="choose"/>

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         height: 44,
         backgroundColor: StaticColor.BLUE_BUTTON_COLOR,
         alignSelf: 'center',
-        borderRadius: 5
+        borderRadius: 2
     },
     buttonText: {
         fontSize: 17,

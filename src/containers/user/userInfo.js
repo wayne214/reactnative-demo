@@ -145,8 +145,12 @@ class UserInfoContainer extends BaseComponent {
           authStatusText = '未认证'
 			}
 
+			/*
+			* borderBottomWidth: 1,
+			 borderBottomColor: LINE_COLOR,
+			 backgroundColor: 'white'*/
 		return (
-			<View style={ styles.container }>
+			<View style={ [styles.container, {backgroundColor: 'white'}] }>
 				{/*<View style={ styles.topContainer }>*/}
 					{/*{*/}
 						{/*(() => {*/}
@@ -174,7 +178,7 @@ class UserInfoContainer extends BaseComponent {
 					{/*</View>*/}
 				{/*</View>*/}
 				<TouchableHighlight
-					underlayColor='#e6eaf2'>
+					>
 					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>公司名称</Text>
@@ -186,7 +190,7 @@ class UserInfoContainer extends BaseComponent {
 				</TouchableHighlight>
 
 				<TouchableHighlight
-					underlayColor='#e6eaf2'>
+					>
 					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>手机号码</Text>
@@ -197,29 +201,28 @@ class UserInfoContainer extends BaseComponent {
 					</View>
 				</TouchableHighlight>
 
-				{
-					true &&
-						<TouchableHighlight
-							underlayColor='#e6eaf2'
-							onPress={ this._authOrInfo }>
-							<View style={ styles.cellContainer }>
-								<View style={ styles.cell }>
-									<Text style={ styles.leftText }>认证信息</Text>
-								</View>
-								<View style={ styles.rightCell }>
-									<Text style={ [styles.authText, { color: '#999999' }] }>{ authStatusText }</Text>
-								</View>
-							</View>
-						</TouchableHighlight>
-				}
 
 				<TouchableHighlight
-					underlayColor='#e6eaf2'
+
+					onPress={ this._authOrInfo }>
+					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }]}>
+						<View style={ styles.cell }>
+							<Text style={ styles.leftText }>认证信息</Text>
+						</View>
+						<View style={ styles.rightCell }>
+							<Text style={ [styles.authText, { color: '#999999' }] }>{ authStatusText }</Text>
+						</View>
+					</View>
+				</TouchableHighlight>
+
+
+				<TouchableHighlight
+
 					 onPress={ () =>
 							 // this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}})
                this.props.navigation.dispatch({ type: RouteType.ROUTE_MODIFY_PWD })
 					 }>
-					<View style={ styles.cellContainer }>
+					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2',borderBottomWidth: 1, borderBottomColor: '#e6eaf2' }] }>
 						<View style={ styles.cell }>
 							<Text style={ styles.leftText }>修改登录密码</Text>
 						</View>

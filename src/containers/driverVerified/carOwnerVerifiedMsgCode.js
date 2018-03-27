@@ -118,7 +118,7 @@ class carOwnerVerifiedMsgCode extends Component {
         result.phoneNumber = this.state.carOwnerTel;//车主电话
         result.userName= this.state.carOwnerName;// 车主姓名
         result.plateNumber = this.state.carNumber; // 车牌号
-debugger
+
         let carCategoryInt = 0;
         switch (result.carCategory){
             case '厢式货车':

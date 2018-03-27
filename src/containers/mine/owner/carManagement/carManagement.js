@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     textInputStyle: {
         flex: 1,
         marginLeft: 5,
-        fontSize: 16,
+        fontSize: 13,
         color: '#666666',
         ...Platform.select({
             ios: {},
@@ -267,7 +267,7 @@ class CarManagement extends Component {
                                     <Image
                                         style={{height: 36, width: 36}}
                                         source={CarAvatar}/>
-                                    <Text style={{marginLeft: 10, color: '#333333', fontSize: 14}}>{item.carNum}</Text>
+                                    <Text style={{marginLeft: 10, color: '#333333', fontSize: 16}}>{item.carNum}</Text>
                                 </View>
                                 <View style={{
                                     justifyContent: 'center',
@@ -276,25 +276,25 @@ class CarManagement extends Component {
                                     marginLeft: width - 230,
                                 }}>
                                     {item.carStatus == 10 ?
-                                        <Text style={{fontSize: 14, color: '#FA5741'}}>
+                                        <Text style={{fontSize: 16, color: '#FA5741'}}>
                                             禁用
                                         </Text> :
                                         item.certificationStatus == '1202' ?
-                                            <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                            <Text style={{fontSize: 16, color: '#0071FF'}}>
 
                                                 认证通过
                                             </Text>
                                             : item.certificationStatus == '1201' ?
-                                            <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                            <Text style={{fontSize: 16, color: '#0071FF'}}>
                                                 认证中
                                             </Text>
                                             : item.certificationStatus == '1203' ?
-                                                <Text style={{fontSize: 14, color: '#0071FF'}}>
+                                                <Text style={{fontSize: 16, color: '#0071FF'}}>
 
                                                     认证驳回
                                                 </Text>
                                                 :
-                                                <Text style={{fontSize: 14, color: '#FA5741'}}>
+                                                <Text style={{fontSize: 16, color: '#FA5741'}}>
                                                     禁用
                                                 </Text>
                                     }
@@ -304,13 +304,13 @@ class CarManagement extends Component {
                         <View style={{marginLeft: 45}}>
                             {this.state.line && this.state.clickLine == index ?
                                 <Text
-                                    style={{fontSize: 14, lineHeight: 24, color: '#3F3F3F'}}
+                                    style={{fontSize: 16, lineHeight: 24, color: '#3F3F3F'}}
                                 >
                                     关联司机：{driverContent}</Text>
                                 : <Text
                                     numberOfLines={1}
                                     style={{
-                                        fontSize: 14,
+                                        fontSize: 15,
                                         lineHeight: 24,
                                         color: '#3F3F3F'
                                     }}>关联司机：{driverContent}</Text>
