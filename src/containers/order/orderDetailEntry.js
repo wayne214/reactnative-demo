@@ -73,6 +73,16 @@ class orderDetailEntry extends BaseComponent {
 
       const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime : '';
 
+      const temperatureMin = orderDetailData.temperatureMin ? orderDetailData.temperatureMin : '';
+      const temperatureMax = orderDetailData.temperatureMax ? orderDetailData.temperatureMax : '';
+
+      let temperature;
+      if (temperatureMax !== '' && temperatureMin != '') {
+          temperature = temperatureMin + "℃-" + temperatureMax + '℃'
+			} else {
+          temperature = ''
+			}
+
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
 						<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
@@ -112,7 +122,7 @@ class orderDetailEntry extends BaseComponent {
 								}
 							<View style={styles.goodsDetailItem}>
 								<Text style={styles.goodsDetailMark}>温度要求：</Text>
-								<Text style={styles.goodsDetailContent}>{orderDetailData.temperatureMin + "℃-" + orderDetailData.temperatureMax + '℃'}</Text>
+								<Text style={styles.goodsDetailContent}>{temperature}</Text>
 							</View>
 						</View>
 
