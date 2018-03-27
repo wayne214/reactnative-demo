@@ -148,7 +148,7 @@ class goodListItem extends Component{
                                 <Text style={{fontSize: 21,color: '#FF8500',fontWeight: 'bold'}}>
                                     {Helper.consignorPrice(null,null,item.configFreight).price}
                                 </Text>
-                                <Text style={{fontSize: 12,color: '#FF8500',fontWeight: 'bold',alignItems: 'flex-end',paddingTop: 6}}>
+                                <Text style={{fontSize: 12,color: '#FF8500',fontWeight: 'bold',alignItems: 'flex-end',width: 20,paddingTop:6}}>
                                     {Helper.consignorPrice(null,null,item.configFreight).unit}
                                 </Text>
                                 <Text style={{marginLeft: 5,}}>元</Text>

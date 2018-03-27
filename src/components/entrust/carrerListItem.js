@@ -13,6 +13,7 @@ import AddressItem from './../routes/goodlistAddressItem';
 import moment from 'moment';
 import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
 import CountDownReact from '../../components/order/countDownReact';
+import Helper from '../../utils/helper';
 
 const {height, width} = Dimensions.get('window');
 const space = 15;
@@ -201,9 +202,15 @@ class carrerListItem extends Component{
                     </View> : <View/>}
                     {
                         rowData.orderStateStr == '待确认' ? (
-                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => console.log('点击')}>
+                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2,flexDirection: 'row'}} onPress={() => console.log('点击')}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                                    我的报价{rowData.carrierPrice}
+                                    我的报价
+                                </Text>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                    {Helper.consignorPrice(rowData.carrierPrice).price}
+                                </Text>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17,width: 30}}>
+                                    {Helper.consignorPrice(rowData.carrierPrice).unit}
                                 </Text>
                             </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
