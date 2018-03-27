@@ -260,10 +260,8 @@ class GoodsList extends Component {
                    autoplayInterval={3000}
                    removeClippedSubviews={false}
                />
-
                :
                <View>
-
                    <GoodListIten item={item.item} itemClick={()=>{
                                 // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
                                 if (!item.item.biddingState) {
@@ -276,10 +274,7 @@ class GoodsList extends Component {
                                     })
                                 }else {
                                     Toast.show('已经报价成功，请勿重复报价');
-
                                 }
-
-
                      }}/>
                </View>
         )
@@ -541,7 +536,7 @@ class GoodsList extends Component {
                           <View>
                               <Image
                                   style={{
-                                      marginLeft: 10,
+                                      marginLeft: 15,
                                       marginTop: 10,
                                   }}
                                   source={
@@ -569,7 +564,7 @@ class GoodsList extends Component {
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'flex-end',
-                      paddingRight: 10,
+                      paddingRight: 15,
                   }}>
                       <TouchableOpacity
                           activeOpacity={1}
@@ -579,7 +574,7 @@ class GoodsList extends Component {
                           }}
                       >
                           <View>
-                              <Text style={{fontFamily: 'iconfont', fontSize: 20, color: '#5C5C68'}}>&#xe63f;</Text>
+                              <Text style={{fontFamily: 'iconfont', fontSize: 20, color: '#5C5C68',paddingTop: 5}}>&#xe63f;</Text>
                           </View>
                       </TouchableOpacity>
                       <TouchableOpacity
@@ -590,7 +585,7 @@ class GoodsList extends Component {
                           }}
                       >
                           <View style={{marginLeft: 10}}>
-                              <Text style={{fontFamily: 'iconfont', fontSize: 20, color: '#5C5C68'}}>&#xe640;</Text>
+                              <Text style={{fontFamily: 'iconfont', fontSize: 20, color: '#5C5C68',paddingTop: 6}}>&#xe640;</Text>
                           </View>
                       </TouchableOpacity>
                   </View>
@@ -607,9 +602,6 @@ class GoodsList extends Component {
                   onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
                   ListFooterComponent={this.listFooterComponent}
               />
-
-
-
 
               {
                   this.state.show ?
