@@ -170,8 +170,8 @@ class orderDetailEntry extends BaseComponent {
 								</View>
 							)
 						}}/>
-						<View style={{backgroundColor: '#ffffff', paddingHorizontal: 10}}>
-							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center'}}>
+						<View style={{backgroundColor: '#ffffff'}}>
+							<View style={{backgroundColor: '#f0f2f5', height: 44, justifyContent: 'center',paddingHorizontal: 10}}>
 								<Text>运输协议</Text>
 							</View>
 
@@ -191,7 +191,7 @@ class orderDetailEntry extends BaseComponent {
                   })
 							}
 							}>
-								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
+								<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
 									<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
 									<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>
 								</View>
