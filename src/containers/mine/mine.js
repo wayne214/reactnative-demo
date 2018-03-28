@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     },
     separateView: {
         height: 10,
-        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+        backgroundColor: '#F5F5F5',
     },
     headerView: {
         alignItems: 'center',
@@ -753,7 +753,7 @@ class mine extends Component {
                 <ScrollView>
                 {
                     this.props.currentStatus == 'driver' ?
-                        <View>
+                        <View style={{backgroundColor: '#FFFFFF'}}>
                             <SettingCell
                                 leftIconImage={PersonInfoIcon}
                                 content={'个人信息'}
@@ -897,7 +897,7 @@ class mine extends Component {
                                 }}
                             />
 
-                        </View> : <View>
+                        </View> : <View style={{backgroundColor: '#FFFFFF'}}>
                             <SettingCell
                                 leftIconImage={driverManagerIcon}
                                 content={'司机管理'}
