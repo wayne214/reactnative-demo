@@ -31,7 +31,7 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
 
     if (global.token) {
         headers.Authorization = `Bearer ${global.token}`;
-        headers.deviceId = DeviceInfo.getDeviceId();
+        headers.DeviceId = DeviceInfo.getDeviceId();
         headers.PhoneNum = global.phone;
     }
     // console.log('%c HTTP Request', 'color:blue');

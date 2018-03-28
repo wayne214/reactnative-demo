@@ -82,7 +82,7 @@ const postRequest = (
     console.log('global.token===', global.token);
     if (global.token) {
         headers.Authorization = `Bearer ${global.token}`;
-        headers.deviceId = DeviceInfo.getDeviceId();
+        headers.DeviceId = DeviceInfo.getDeviceId();
         headers.PhoneNum = global.phone;
     }
     //body.deviceId = global.UDID

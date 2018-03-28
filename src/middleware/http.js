@@ -50,7 +50,7 @@ export default store => next => action => {
     }
     // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
     axios.defaults.headers.post['Content-Type'] = 'application/json'
-    axios.defaults.headers.deviceId = DeviceInfo.getDeviceId()
+    axios.defaults.headers.DeviceId = DeviceInfo.getDeviceId()
     axios.defaults.headers.platform = Platform.OS === 'ios' ? 1 : 2
     console.log('headers', axios.defaults.headers)
     if (showLoading) InteractionManager.runAfterInteractions(() => next({
