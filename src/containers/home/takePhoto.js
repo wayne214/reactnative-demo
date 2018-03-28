@@ -12,12 +12,14 @@ import {
     TouchableOpacity,
     Image,
     Platform,
+    Alert
 } from 'react-native';
 import Camera from 'react-native-camera';
 import * as StaticColor from '../../constants/colors';
 import * as RouteType from '../../constants/routeType';
 import hollowCircle from '../../../assets/home/hollowCircle.png';
 import solidCircle from '../../../assets/home/solidCircle.png';
+import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 
 const {width, height} = Dimensions.get('window');
 
@@ -88,7 +90,16 @@ class takePhoto extends Component {
                                 <TouchableOpacity
                                     activeOpacity={0.75}
                                     onPress={() => {
-                                        this.takePicture();
+                                        if(Platform.OS === 'ios') {
+                                            this.takePicture();
+                                        }else {
+                                            PermissionsManagerAndroid.photoPermission().then(data=>{
+                                                this.takePicture();
+                                            }).catch(err=>{
+                                                // Toast.showShortCenter(err.message);
+                                                Alert.alert(null,'请到设置-应用-授权管理设置读写权限')
+                                            });
+                                        }
                                     }}
                                 >
                                     <Image

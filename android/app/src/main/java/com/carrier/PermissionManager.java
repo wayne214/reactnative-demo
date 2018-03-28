@@ -70,12 +70,12 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         if (hasPermission == PackageManager.PERMISSION_GRANTED) {
             promise.resolve(READ_EXTERNAL_STORAGE);
         } else {
-
             List<String> permList = new ArrayList<>();
             permList.add(READ_EXTERNAL_STORAGE);
             requestPermission(permList, currentActivity,REQUEST_EXTERNAL_CODE, promise);
         }
     }
+
     @ReactMethod
     public void cameraPermission(final Promise promise) {
         Activity currentActivity = getCurrentActivity();
