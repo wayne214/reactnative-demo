@@ -226,8 +226,8 @@ const styles = StyleSheet.create({
 	container:{
       backgroundColor: 'white',
       paddingTop: 15,
-			paddingLeft: 15,
-			paddingRight: 15,
+		// 	paddingLeft: 15,
+		// 	paddingRight: 15,
 	},
 	buttonBg: {
       backgroundColor: '#FFFFFF',
@@ -240,7 +240,8 @@ const styles = StyleSheet.create({
 	subContainer: {
       flexDirection: 'row',
 			justifyContent: 'space-between',
-			alignItems: 'center'
+			alignItems: 'center',
+			paddingHorizontal: 15,
 	},
 	orderCodeText: {
       fontSize: 15,
@@ -270,11 +271,11 @@ const styles = StyleSheet.create({
 			backgroundColor: 'red',
 			width: 35,
 			height: 35,
-		marginBottom: 10
+		// marginBottom: 10
 	},
 		goodBg: {
         borderColor: '#999',
-				borderWidth: 1,
+				borderWidth: 0.5,
 				marginLeft: 5,
 				padding: 2,
 				alignItems: 'center',

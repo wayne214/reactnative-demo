@@ -126,7 +126,7 @@ class carrerListItem extends Component{
                     </View>
                 </View>}
 
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
+                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width,marginTop: 12}}/>
 
 
                 {
