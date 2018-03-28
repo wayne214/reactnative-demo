@@ -37,6 +37,8 @@ import {
     saveUserTypeInfoAction
 } from '../../action/user';
 
+import {appendLogToFile} from '../../action/app';
+
 // import * as StaticColor from '../../constants/staticColor';
 import LoginBackground from '../../../assets/img/login/loginBg.png';
 import * as API from '../../constants/api';

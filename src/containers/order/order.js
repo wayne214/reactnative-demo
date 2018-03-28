@@ -352,7 +352,7 @@ class OrderList extends BaseComponent {
             // initialPage={0}
               style={{flex: 1, backgroundColor: COLOR.COLOR_VIEW_BACKGROUND}}
             renderTabBar={() =>
-                <DefaultTabBar style={{height: 44,borderBottomColor: '#E6EAF2', borderBottomWidth:1}}
+                <DefaultTabBar style={{height: 44,borderBottomColor: '#E6EAF2', borderBottomWidth: 0.5}}
                                tabStyle={{paddingBottom: 2}}/>
             }
             onChangeTab={(obj)=>{

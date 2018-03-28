@@ -94,7 +94,7 @@ class orderDetailEntry extends BaseComponent {
 							<Text style={{fontSize: 14, color: '#999999', marginLeft: 15}}>{`订单编号：${orderDetailData.orderCode}`}</Text>
 						</View>
 						<View style={{width: 200, height: 1, backgroundColor: '#E6EAF2'}}/>
-						<View style={{paddingHorizontal: 15, backgroundColor: '#ffffff'}}>
+						<View style={{ backgroundColor: '#ffffff'}}>
 							<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 						</View>
 
