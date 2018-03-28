@@ -135,7 +135,7 @@ class uploadODO extends Component {
                         i.uri = 'file://' + i.uri;
                     }
                 }
-                let file = {uri: i.uri, type: 'multipart/form-data', name: i.id + '.jpg'};
+                let file = {uri: i.uri, type: 'multipart/form-data', name: i.id};
                 console.log('filePath===',file.uri);
                 formData.append('photo', file);
             });
@@ -205,7 +205,9 @@ class uploadODO extends Component {
             this.setState({
                 data: arr.map(i => {
                     console.log('received image', i);
-                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: new Date().getTime()};
+                    let arr = i.path.split('/');
+                    let id = arr[arr.length - 1];
+                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: id};
                 }),
             });
             console.log('-----------',this.state.data.length);
