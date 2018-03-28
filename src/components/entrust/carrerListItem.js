@@ -13,6 +13,7 @@ import AddressItem from './../routes/goodlistAddressItem';
 import moment from 'moment';
 import LoginAvatar from '../../../assets/img/mine/login_avatar.png';
 import CountDownReact from '../../components/order/countDownReact';
+import Helper from '../../utils/helper';
 
 const {height, width} = Dimensions.get('window');
 const space = 15;
@@ -105,10 +106,11 @@ class carrerListItem extends Component{
                     rowData.orderStateStr == '待调度' && <View
                         style={{justifyContent: 'center',
                         borderBottomColor: '#f5f5f5',
-                        borderBottomWidth: 1,
+                        borderBottomWidth: 0.5,
                         backgroundColor: '#fff',
                         paddingBottom: 10,
-                        marginBottom: 10
+                        marginBottom: 10,
+                            paddingHorizontal: 20
                         }}>
                         <Text style={{color: '#999999', fontSize: 14}}>订单编号：{rowData.resourceCode}</Text>
                     </View>
@@ -116,31 +118,31 @@ class carrerListItem extends Component{
 
                 <AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
-                {rowData.orderStateStr == '待调度' && <View style={{marginLeft: 20}}>
+                {rowData.orderStateStr == '待调度' && <View style={{marginLeft: 40}}>
                     {
                         loadStartTime != '' ? <Text style={{marginTop: 10,color: '#999'}}>装车时间：{loadStartTime}</Text> : null
                     }
-                    <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10,borderRadius: 2,backgroundColor: '#FFF9F9'}}>
+                    <View style={{borderColor: '#FF6B6B',borderWidth: 1,width: 30, marginTop: 10,backgroundColor: '#FFF9F9'}}>
                         <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#FF6B6B'}}>{rowData.businessType == '501' ? '撮合' : '自营'}</Text>
                     </View>
                 </View>}
 
-                <View style={{height: 1,backgroundColor: '#E6EAF2',width: width - space*2,marginTop: 12}}/>
+                <View style={{height: 0.5,backgroundColor: '#E6EAF2',width: width,marginTop: 12}}/>
 
 
                 {
-                    rowData.orderStateStr == '待确认' && <View style={{marginTop: 10, flexDirection: 'row'}}>
+                    rowData.orderStateStr == '待确认' && <View style={{marginTop: 10, flexDirection: 'row', paddingLeft: 15}}>
                         <View style={{width: width - space*2 - 100,flexDirection: 'row'}}>
-                            <Image style={{borderRadius: 18,backgroundColor: 'red',width: 36, height: 36}} source={LoginAvatar}/>
+                            <Image style={{borderRadius: 18, width: 36, height: 36}} source={LoginAvatar}/>
 
-                            <View>
+                            <View style={{justifyContent: 'center'}}>
                                 <View style={{flexDirection: 'row'}}>
 
                                     <View style={{width: 16, height: 16,backgroundColor: '#999',marginLeft: 10}}>
                                         <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>有</Text>
                                     </View>
                                     {
-                                        goodName && goodName !== '' ?  <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
+                                        goodName && goodName !== '' ?  <View style={{borderColor: '#999',borderWidth: 0.5,marginLeft: 5}}>
                                             <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>{goodName}</Text>
                                         </View> :  <View style={{borderColor: '#999',borderWidth: 1,marginLeft: 5}}>
                                             <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#999'}}>货品</Text>
@@ -148,22 +150,24 @@ class carrerListItem extends Component{
                                     }
 
                                 </View>
-                                <View style={{flexDirection: 'row',marginTop: 2}}>
+                                {
+                                    (rowData.carLength && rowData.carLength !== '') || (rowData.carType && rowData.carType !== '') ? <View style={{flexDirection: 'row',marginTop: 2}}>
+                                        <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
+                                            <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
+                                        </View>
+                                        {
+                                            rowData.carLength ? <View style={{borderColor: '#0092FF',borderWidth: 0.5,marginLeft: 5}}>
+                                                <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carLength}</Text>
+                                            </View> : null
+                                        }
+                                        {
+                                            rowData.carType ? <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
+                                                <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carType}</Text>
+                                            </View> : null
+                                        }
+                                    </View> : null
+                                }
 
-                                    <View style={{width: 16, height: 16,backgroundColor: '#0092FF',marginLeft: 10}}>
-                                        <Text style={{textAlign: 'center',padding: 2,fontSize: 10,color: 'white'}}>求</Text>
-                                    </View>
-                                    {
-                                        rowData.carLength ? <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carLength}</Text>
-                                        </View> : null
-                                    }
-                                    {
-                                        rowData.carType ? <View style={{borderColor: '#0092FF',borderWidth: 1,marginLeft: 5}}>
-                                            <Text style={{textAlign: 'center',padding:2,fontSize: 10,color: '#0092FF'}}>{rowData.carType}</Text>
-                                        </View> : null
-                                    }
-                                </View>
                             </View>
                         </View>
                         {
@@ -192,7 +196,7 @@ class carrerListItem extends Component{
                             </View>
                         </View> : null
                     }
-                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {rowData.orderStateStr == '待确认' &&  seconds > 0 ? <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15}}>
                         <Text style={{color: '#666666', fontSize: 14}}>优先抢单倒计时</Text>
                         {/*<Text style={{color: '#003700', fontSize: 14}}>{0}’{0}’</Text>*/}
                         {
@@ -201,20 +205,26 @@ class carrerListItem extends Component{
                     </View> : <View/>}
                     {
                         rowData.orderStateStr == '待确认' ? (
-                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => console.log('点击')}>
+                            rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2,flexDirection: 'row', marginRight: 15}} onPress={() => console.log('点击')}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
-                                    我的报价{rowData.carrierPrice}
+                                    我的报价
                                 </Text>
-                            </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                    {Helper.consignorPrice(rowData.carrierPrice).price}
+                                </Text>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17,width: 30}}>
+                                    {Helper.consignorPrice(rowData.carrierPrice).unit}
+                                </Text>
+                            </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
                                 <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                     我要抢单
                                 </Text>
                             </TouchableOpacity>
-                        ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 重新调车
                             </Text>
-                        </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
+                        </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
                                 立即调车
                             </Text>
@@ -232,7 +242,8 @@ class carrerListItem extends Component{
 const styles = StyleSheet.create({
     container:{
         backgroundColor: 'white',
-        padding: space,
+        // padding: space,
+        paddingTop: 15,
         paddingBottom: 8
     },
     time: {

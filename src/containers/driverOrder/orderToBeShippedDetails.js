@@ -25,7 +25,7 @@ import TaskBackground from '../../../assets/img/driverGood/taskBackground.png';
 const space = 10;
 const topSpace = 10;
 const topHeight = 40;
-const bottomViewHeight = 58;
+const bottomViewHeight = 44;
 let carrierViewHeight = 0;
 const screenWidth = Dimensions.get('window').width - space * 2;
 const screenHeight = Dimensions.get('window').height;
@@ -244,7 +244,7 @@ export default class OrderDetails extends Component {
                                 resizeMode='stretch'>
                                 <View style={styles.constantStyle}>
                                     <Text style={styles.constantIcon}>&#xe68b;</Text>
-                                    <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
+                                    <Text style={{fontSize: 18, fontWeight: 'bold', marginLeft: 10,}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>
                                 </View>
@@ -261,7 +261,7 @@ export default class OrderDetails extends Component {
                             <View>
                                 <View style={[styles.constantStyle, {marginLeft: 5}]}>
                                     <Text style={styles.constantIcon}>&#xe68b;</Text>
-                                    <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10}}>
+                                    <Text style={{fontSize: 18, fontWeight: 'bold', marginLeft: 10}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>
                                 </View>

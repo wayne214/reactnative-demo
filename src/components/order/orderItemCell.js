@@ -120,21 +120,20 @@ class orderItemCell extends Component{
 					<View style={{paddingTop: 10}}>
 						<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
-						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
-
-						<View style={styles.separateLine}/>
+						<Text style={[styles.orderCodeText, {marginLeft: 40, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
 
               {
-                  rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
-										<Text style={{fontSize: 10, color: '#0092FF'}}>撮合</Text>
+                  rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 40, marginTop: 5}}>
+										<Text style={{fontSize: 10, color: '#0092FF', padding: 2}}>撮合</Text>
 									</View> : null
               }
+						<View style={styles.separateLine}/>
 
-						<View style={[styles.subContainer, {marginTop: 20}]}>
+						<View style={[styles.subContainer, {marginTop: 8}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
-								<View style={{flexDirection: 'row'}}>
+								<View style={{flexDirection: 'row', alignItems: 'center'}}>
 
 									<View style={[styles.cuoheBg, {width: 16}]}>
 										<Text style={styles.cuoheText}>有</Text>
@@ -227,12 +226,12 @@ const styles = StyleSheet.create({
 	container:{
       backgroundColor: 'white',
       paddingTop: 15,
-			paddingLeft: 15,
-			paddingRight: 15,
+		// 	paddingLeft: 15,
+		// 	paddingRight: 15,
 	},
 	buttonBg: {
       backgroundColor: '#FFFFFF',
-      borderWidth: 1,
+      borderWidth: 0.5,
       borderRadius: 2,
 			borderColor: '#CCCCCC',
       height: 35,
@@ -241,7 +240,8 @@ const styles = StyleSheet.create({
 	subContainer: {
       flexDirection: 'row',
 			justifyContent: 'space-between',
-			alignItems: 'center'
+			alignItems: 'center',
+			paddingHorizontal: 15,
 	},
 	orderCodeText: {
       fontSize: 15,
@@ -258,10 +258,10 @@ const styles = StyleSheet.create({
 			padding: 2,
 			fontSize: 10,
 			color: 'white',
-		borderRadius: 2
+			borderRadius: 2
 	},
 	separateLine: {
-      height: 1,
+      height: 0.5,
 			backgroundColor: '#E6EAF2',
 			width: width,
 			marginTop: 12
@@ -271,11 +271,11 @@ const styles = StyleSheet.create({
 			backgroundColor: 'red',
 			width: 35,
 			height: 35,
-		marginBottom: 10
+		// marginBottom: 10
 	},
 		goodBg: {
         borderColor: '#999',
-				borderWidth: 1,
+				borderWidth: 0.5,
 				marginLeft: 5,
 				padding: 2,
 				alignItems: 'center',

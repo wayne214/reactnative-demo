@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     priceStyle: {
-        fontSize: 15,
+        fontSize: 17,
         color: '#FF6600',
     },
     separateLineStyle: {
@@ -78,7 +78,7 @@ class DetailsOrdersCell extends Component {
 
                 {/*<View style={styles.separateLineStyle} />*/}
 
-                <View style={{paddingTop: 15}}>
+                <View style={{paddingTop: 10}}>
                     {/*{goodsView}*/}
                     {/*{freightView}*/}
                     {/*{payView}*/}

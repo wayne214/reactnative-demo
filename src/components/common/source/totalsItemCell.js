@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     normalStyle: {
-        fontSize: 16,
+        fontSize: 17,
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
         flex: 1,
     },
     redStyle: {
-        fontSize: 16,
+        fontSize: 17,
         color: StaticColor.ORANGE_ICON_COLOR,
         marginRight: 5
     },

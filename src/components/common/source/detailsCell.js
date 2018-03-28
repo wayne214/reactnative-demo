@@ -13,11 +13,11 @@ import * as StaticColor from '../../../constants/colors';
 
 const styles = StyleSheet.create({
     transportNo: {
-        fontSize: 16,
+        fontSize: 17,
         color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
     },
     transportTime: {
-        fontSize: 13,
+        fontSize: 14,
         marginTop: 5,
         color: StaticColor.GRAY_TEXT_COLOR,
     },

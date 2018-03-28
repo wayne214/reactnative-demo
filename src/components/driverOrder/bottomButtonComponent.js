@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     tip:{
         color: StaticColor.WHITE_COLOR,
-        fontSize: 17,
+        fontSize: 18,
     }
 });
 export default class BottomButton extends Component {

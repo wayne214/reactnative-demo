@@ -18,12 +18,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        fontSize: 15,
+        fontSize: 16,
         color: StaticColor.COLOR_LIGHT_GRAY_TEXT,
 
     },
     content: {
-        fontSize: 15,
+        fontSize: 16,
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
         marginRight: -20
     },

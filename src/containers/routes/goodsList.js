@@ -24,8 +24,8 @@ import GoodListIten from '../../components/routes/goodListItem';
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
 import { receiveInSiteNotice } from '../../action/app.js'
-import { fetchData, appendLogToFile, changeTab } from '../../action/app.js'
-import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
+import { fetchData, appendLogToFile, changeTab,updateVersionAction} from '../../action/app'
+import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import Toast from '../../utils/toast';
@@ -41,10 +41,11 @@ function wp(percentage) {
 const slideWidth = wp(75);
 const itemHorizontalMargin = 28;
 const itemWidth = slideWidth + itemHorizontalMargin * 2;
-const itemHeight = 150 * itemWidth / 335;
+const itemHeight = 154 * itemWidth / 325;
 
-import bannerImage1 from '../../../assets/home/banner1.png';
-import bannerImage2 from '../../../assets/home/banner2.png';
+import bannerImage1 from '../../../assets/img/routes/chengyunfangTopimage.png';
+import bannerImage2 from '../../../assets/img/routes/chengyunfangTopimage1.png';
+
 import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
 import StorageKey from '../../constants/storageKeys';
 import Storage from '../../utils/storage';
@@ -85,11 +86,12 @@ const images = [
 
 import { resetADFlag } from '../../action/app'
 import * as COLOR from '../../constants/colors'
+import DeviceInfo from 'react-native-device-info';
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 let startTime = 0;
 let page = 0;
-let goodArray = ['占位符'];
+let goodArray = [];
 
 class GoodsList extends Component {
   constructor(props) {
@@ -112,6 +114,8 @@ class GoodsList extends Component {
     this.getGoodListFail = this.getGoodListFail.bind(this)
     this.refresh = this.refresh.bind(this)
     this.listFooterComponent = this.listFooterComponent.bind(this)
+    this.ListHeaderComponent = this.ListHeaderComponent.bind(this)
+      this.compareVersion = this.compareVersion.bind(this);
 
 
       this.searchDriverState = this.searchDriverState.bind(this);
@@ -121,12 +125,11 @@ class GoodsList extends Component {
       this.ownerVerifiedHomeFailCallBack = this.ownerVerifiedHomeFailCallBack.bind(this);
   }
   componentDidMount() {
+      this.compareVersion();
+
       this.setState({
           refreshing: true
       });
-
-
-
       setTimeout(()=>{
           this.refresh();
       },500);
@@ -135,6 +138,17 @@ class GoodsList extends Component {
           this.refresh();
       });
   }
+
+    compareVersion() {
+        this.props.compareVersionAction({
+            version: DeviceInfo.getVersion(),
+            platform: Platform.OS === 'ios' ? '1': '2',
+        }, (result)=>{
+            if (result) {
+                 // this.props.updateVersion(result);
+            }
+        });
+    }
 
     componentWillUnmount() {
         goodArray = null;
@@ -145,8 +159,6 @@ class GoodsList extends Component {
           this.setState({
               appLoading: true,
           })
-
-
           this.props._getNormalGoodsList({
               companyCode: global.companyCode,
               num: page,
@@ -157,7 +169,7 @@ class GoodsList extends Component {
   }
   getGoodListSuccess(data){
     if (page === 0){
-        goodArray = ['占位符'];
+        goodArray = [];
     }
 
      goodArray = goodArray.concat(data.list);
@@ -188,7 +200,7 @@ class GoodsList extends Component {
   // 下拉刷新
     refresh(){
 
-        goodArray = ['占位符'];
+        goodArray = [];
         page = 0;
         this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
     }
@@ -239,30 +251,34 @@ class GoodsList extends Component {
             <View style={styles.separatorLine}/>
         );
     };
+    ListHeaderComponent(){
+        return (
+            <Carousel
+                data={images}
+                renderItem={this.renderImg}
+                sliderWidth={width}
+                itemWidth={itemWidth}
+                hasParallaxImages={true}
+                firstItem={1}
+                inactiveSlideScale={0.94}
+                inactiveSlideOpacity={0.8}
+                enableMomentum={true}
+                loop={true}
+                loopClonesPerSide={2}
+                autoplay={true}
+                autoplayDelay={500}
+                autoplayInterval={3000}
+                removeClippedSubviews={false}
+            />
+        )
+    }
+
+
+
     renderItem = (item) => {
 
         return (
-           item.index === 0 ?
-               <Carousel
-                   data={images}
-                   renderItem={this.renderImg}
-                   sliderWidth={width}
-                   itemWidth={itemWidth}
-                   hasParallaxImages={true}
-                   firstItem={1}
-                   inactiveSlideScale={0.94}
-                   inactiveSlideOpacity={0.8}
-                   enableMomentum={true}
-                   loop={true}
-                   loopClonesPerSide={2}
-                   autoplay={true}
-                   autoplayDelay={500}
-                   autoplayInterval={3000}
-                   removeClippedSubviews={false}
-               />
-               :
-               <View>
-                   <GoodListIten item={item.item} itemClick={()=>{
+            <GoodListIten item={item.item} itemClick={()=>{
                                 // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
                                 if (!item.item.biddingState) {
                                     this.props.navigation.dispatch({
@@ -276,7 +292,6 @@ class GoodsList extends Component {
                                     Toast.show('已经报价成功，请勿重复报价');
                                 }
                      }}/>
-               </View>
         )
     };
 
@@ -557,6 +572,7 @@ class GoodsList extends Component {
                           color: LIGHT_BLACK_TEXT_COLOR,
                           fontSize: 18,
                           marginTop: 10,
+                          fontWeight: 'bold'
                       }}>货源</Text>
                   </View>
                   <View style={{
@@ -584,7 +600,7 @@ class GoodsList extends Component {
                               this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }})
                           }}
                       >
-                          <View style={{marginLeft: 10}}>
+                          <View style={{marginLeft: 15}}>
                               <Text style={{fontFamily: 'iconfont', fontSize: 20, color: '#5C5C68',paddingTop: 6}}>&#xe640;</Text>
                           </View>
                       </TouchableOpacity>
@@ -593,6 +609,7 @@ class GoodsList extends Component {
 
 
               <FlatList
+                  style={{paddingTop: 10}}
                   extraData={this.state}
                   keyExtractor={ () => Math.random(2) }
                   data={this.state.goodList}
@@ -601,6 +618,7 @@ class GoodsList extends Component {
                   refreshing={this.state.refreshing} // 是否刷新 ，自带刷新控件
                   onRefresh={this.refresh} // 刷新方法,写了此方法，下拉才会出现  刷新控件，使用此方法必须写 refreshing
                   ListFooterComponent={this.listFooterComponent}
+                  ListHeaderComponent={this.ListHeaderComponent}
               />
 
               {
@@ -766,6 +784,26 @@ const mapDispatchToProps = (dispatch) => {
       },
       saveCompanyInfoAction: (result) => {
           dispatch(saveCompanyInfoAction(result));
+      },
+      updateVersion: (data) => {
+          dispatch(updateVersionAction(data));
+      },
+      compareVersionAction: (params, compareSuccessCallBack, compareFailCallBack) => {
+          dispatch(fetchData({
+              api: API.API_COMPARE_VERSION,
+              body: {
+                  version: params.version,
+                  platform: params.platform,
+              },
+              success: (data) => {
+                  console.log('compare version success', data);
+                  compareSuccessCallBack && compareSuccessCallBack(data);
+              },
+              fail: (err) => {
+                  console.log('???', err);
+                  compareFailCallBack && compareFailCallBack(err);
+              },
+          }));
       },
   }
 }

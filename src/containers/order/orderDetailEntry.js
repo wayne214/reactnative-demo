@@ -34,7 +34,7 @@ import * as ConstValue from '../../constants/constValue';
 import * as StaticColor from '../../constants/colors';
 const topSpace = 10;
 const topHeight = 40;
-const bottomViewHeight = 58;
+const bottomViewHeight = 44;
 const screenHeight = Dimensions.get('window').height;
 
 class orderDetailEntry extends BaseComponent {
@@ -71,7 +71,7 @@ class orderDetailEntry extends BaseComponent {
 
 			});
 
-      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime : '';
+      const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.split(' ')[0] : '';
 
       const temperatureMin = orderDetailData.temperatureMin ? orderDetailData.temperatureMin : '';
       const temperatureMax = orderDetailData.temperatureMax ? orderDetailData.temperatureMax : '';
@@ -85,9 +85,8 @@ class orderDetailEntry extends BaseComponent {
 
 			let pointList = [];
 			if (orderDetailData.loadingPoint) {
-      	pointList = orderDetailData.loadingPoint.split(',');
+      			pointList = orderDetailData.loadingPoint.split(',');
 			}
-
 
 		return <View style={styles.container}>
 					<ScrollView style={styles.scrollView} showsHorizontalScrollIndicator={false}>
@@ -95,7 +94,7 @@ class orderDetailEntry extends BaseComponent {
 							<Text style={{fontSize: 14, color: '#999999', marginLeft: 15}}>{`订单编号：${orderDetailData.orderCode}`}</Text>
 						</View>
 						<View style={{width: 200, height: 1, backgroundColor: '#E6EAF2'}}/>
-						<View style={{paddingHorizontal: 15, backgroundColor: '#ffffff'}}>
+						<View style={{ backgroundColor: '#ffffff'}}>
 							<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 						</View>
 
@@ -129,7 +128,7 @@ class orderDetailEntry extends BaseComponent {
 										orderDetailData.deliveryTime ?
 											<View style={styles.goodsDetailItem}>
 												<Text style={styles.goodsDetailMark}>送达时间：</Text>
-												<Text style={styles.goodsDetailContent}>{orderDetailData.deliveryTime}</Text>
+												<Text style={styles.goodsDetailContent}>{orderDetailData.deliveryTime.split(' ')[0]}</Text>
 											</View>
 												: null
 								}
@@ -222,22 +221,22 @@ class orderDetailEntry extends BaseComponent {
 							}
 					</ScrollView>
 				{
-            orderDetailData.businessType && orderDetailData.businessType == '501' ? null : <View>
-							<TouchableOpacity
-								onPress={() => {
-                    if(!orderDetailData.orderCode) {
-                        Toast.show('订单号为空');
-                        return;
-                    }
-                    this.props.navigation.dispatch({
-                        type: RouteType.ROUTE_LADING_BILL,
-                        params: {
-                            title: '出库单',
-                            orderNoBase: orderDetailData.orderCode,
-                            images: []
-                        }
-                    })
-                }}
+					orderDetailData.businessType && orderDetailData.businessType == '501' ? null : <View>
+									<TouchableOpacity
+										onPress={() => {
+							if(!orderDetailData.orderCode) {
+								Toast.show('订单号为空');
+								return;
+							}
+							this.props.navigation.dispatch({
+								type: RouteType.ROUTE_LADING_BILL,
+								params: {
+									title: '出库单',
+									orderNoBase: orderDetailData.orderCode,
+									images: []
+								}
+							})
+						}}
 							>
 								<View style={styles.button}>
 									<Text style={styles.buttonText}>查看出库单</Text>
@@ -282,12 +281,12 @@ const styles =StyleSheet.create({
 	container: {
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
 		width: width,
-    overflow: 'hidden',
+    	overflow: 'hidden',
 		alignItems: 'center',
-      ...Platform.select({
-          ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomViewHeight},
-          android:{height: screenHeight - topHeight - 73 - bottomViewHeight}
-      }),
+		  ...Platform.select({
+			  ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomViewHeight},
+			  android:{height: screenHeight - topHeight - 73 - bottomViewHeight}
+		  }),
 	},
 	scrollView:{
 		backgroundColor: COLOR.APP_CONTENT_BACKBG,
@@ -383,7 +382,7 @@ const styles =StyleSheet.create({
         height: 44,
         backgroundColor: StaticColor.BLUE_BUTTON_COLOR,
         alignSelf: 'center',
-        borderRadius: 5
+        // borderRadius: 5
     },
     buttonText: {
         fontSize: 17,

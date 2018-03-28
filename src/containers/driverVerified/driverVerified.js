@@ -884,7 +884,7 @@ class Verified extends Component {
             quasiCarTypeRecognition: this.state.quasiCarTypeRecognition, // 识别准驾车型
             driverLicenseValidateRecognition: Validator.timeTrunToDateString(this.state.driverLicenseValidateRecognition),  // 识别驾驶证有效期
 
-            isUpdate: this.props.navigation.state.params.type ? 1 : 0
+            isUpdate: this.props.navigation.state.params.saveType ? 1 : 0
 
         };
 

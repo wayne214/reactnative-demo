@@ -484,7 +484,8 @@ export const API_WEBSOCKET = `${WEB_SOCKET}webSocket/`;
 /** *****************************************************限行接口******************************************************/
 // 限号接口
 export const API_VEHICLE_LIMIT = `app/vehicleLimit/`;
-
+// 版本比较接口
+export const API_COMPARE_VERSION = `app/version/`
 // 查询绑定的车辆信息
 export const API_QUERY_ALL_BIND_CAR_BY_PHONE = `app/rmc/rmcCar/queryAllBindCarByPhone/v2.1.0`;
 // 用户绑定车辆

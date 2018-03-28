@@ -57,6 +57,12 @@ class GoodsInfo extends Component{
 		const weight = configData.weight ? configData.weight : '';
 		const uom = configData.uom ? configData.uom : '';
 		const goodDetail = goodsType + goodsCategory + weight + uom;
+
+		let standard;
+
+		if (weight !== '' && uom !== '') {
+			standard = weight + '吨' + uom + '方';
+		}
 		return (
 			<View style={styles.goodsContent}>
 
@@ -71,20 +77,29 @@ class GoodsInfo extends Component{
 						<Text style={styles.goodsDetailContent}>{''}</Text>
 					</View>
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物名称：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.itemName}</Text>
-					</View>
+						{
+								(configData.itemName && businessType !== '501') ? <View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>货物名称：</Text>
+									<Text style={styles.goodsDetailContent}>{configData.itemName}</Text>
+								</View> : null
+						}
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物规格：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.standard}</Text>
-					</View>
+						{
+								(configData.standard && businessType !== '501') ? <View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>货物规格：</Text>
+									<Text style={styles.goodsDetailContent}>{configData.standard}</Text>
+								</View> : <View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>货物规格：</Text>
+									<Text style={styles.goodsDetailContent}>{standard}</Text>
+								</View>
+						}
 
-					<View style={styles.goodsDetailItem}>
-						<Text style={styles.goodsDetailMark}>货物单位：</Text>
-						<Text style={styles.goodsDetailContent}>{configData.uom}</Text>
-					</View>
+						{
+								(configData.uom && businessType !== '501') ? <View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>货物单位：</Text>
+									<Text style={styles.goodsDetailContent}>{configData.uom}</Text>
+								</View> : null
+						}
 
 					{
 						businessType !== '501' ? <View>
@@ -114,29 +129,6 @@ class GoodsInfo extends Component{
 								</View>
 							</View> : null
 					}
-
-					{/*<View style={styles.goodsDetailItem}>*/}
-						{/*<Text style={styles.goodsDetailMark}>{configData.goodsType == 1 ? '装货时间：' : '出发时间：'}</Text>*/}
-						{/*<Text style={styles.goodsDetailContent}>{configData.goodsType == 1 ? configData.installDate : configData.carBanDate}</Text>*/}
-					{/*</View>*/}
-
-					{
-						// configData.arrivalDate ?
-						// 	<View style={styles.goodsDetailItem}>
-						// 		<Text style={styles.goodsDetailMark}>送达时间：</Text>
-						// 		<Text style={styles.goodsDetailContent}>{configData.arrivalDate}</Text>
-						// 	</View>
-						// : null
-					}
-					{/*<View style={styles.goodsDetailItem}>*/}
-						{/*<Text style={styles.goodsDetailMark}>温度要求：</Text>*/}
-						{/*<Text style={styles.goodsDetailContent}>{configData.temperatureStr}</Text>*/}
-					{/*</View>*/}
-					{/*<View style={styles.goodsDetailItem}>*/}
-						{/*<Text style={[styles.goodsInfoIcon,{alignSelf:'flex-start'}]}>&#xe626;</Text>*/}
-						{/*<Text style={[styles.goodsDetailMark,{alignSelf:'flex-start'}]}>备注：</Text>*/}
-						{/*<Text style={[styles.goodsDetailContent,{marginLeft: 30}]}>{configData.remark}</Text>*/}
-					{/*</View>*/}
 				</View>
 			</View>
 		)
@@ -199,7 +191,7 @@ const styles = StyleSheet.create({
 	},
 	goodsDetailContent: {
 		flex:1,
-		color: COLOR.TEXT_BLACK,
+		color: COLOR.TEXT_NORMAL,
 		fontSize: 14
 	},
 	contactShipper:{
