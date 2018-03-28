@@ -136,6 +136,12 @@ class MainContainer extends BaseComponent {
     }
 
     async componentDidMount () {
+        this.Listener = DeviceEventEmitter.addListener('restToLoginPage', (message) => {
+            this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+        });
+
+
+
         await Storage.get(StorageKey.USER_INFO).then((userInfo) => {
             console.log('-main-userinfo', userInfo);
             if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)){
@@ -223,6 +229,10 @@ class MainContainer extends BaseComponent {
 
 
         this.props._getCompanyInfoacion({busTel: global.phone});
+    }
+
+    componentWillUnmount() {
+        this.Listener.remove();
     }
 
     componentDidUpdate() {

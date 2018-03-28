@@ -80,6 +80,7 @@ class goodListDetail extends Component {
     sendOrderSuccess(){
         Toast.show('抢单成功');
         DeviceEventEmitter.emit('resetCarrierGoods');
+        DeviceEventEmitter.emit('reloadDispatchList');
         this.props.navigation.dispatch({type: 'pop'})
     }
     sendOrderFail(data){
