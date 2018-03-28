@@ -14,7 +14,7 @@ global.Pixel_Ratio = PixelRatio.get();
 // 最小线宽
 global.MINI_LINE = 1 / Pixel_Ratio;
 // 所有接口
-global.API = API
+// global.API = API
 // 所有色值
 global.COLOR = COLOR
 
