@@ -122,14 +122,12 @@ class orderItemCell extends Component{
 
 						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
 
-						<View style={styles.separateLine}/>
-
               {
                   rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
 										<Text style={{fontSize: 10, color: '#0092FF'}}>撮合</Text>
 									</View> : null
               }
-
+						<View style={styles.separateLine}/>
 						<View style={[styles.subContainer, {marginTop: 20}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -261,7 +259,7 @@ const styles = StyleSheet.create({
 		borderRadius: 2
 	},
 	separateLine: {
-      height: 1,
+      height: 0.5,
 			backgroundColor: '#E6EAF2',
 			width: width,
 			marginTop: 12
