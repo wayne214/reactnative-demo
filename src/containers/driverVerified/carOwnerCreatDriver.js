@@ -30,6 +30,7 @@ import * as StaticColor from '../../constants/colors';
 import {
     setUserCarAction,
 } from '../../action/user';
+import DeviceInfo from "react-native-device-info";
 
 
 const {Swidth, height} = Dimensions.get('window');
@@ -181,7 +182,7 @@ class carOwnerCreatDriver extends Component {
 
                                     if (Regex.test('mobile', this.state.carOwnerTel)) {
                                         this.props._getVCodeCode({
-                                            deviceId: '1',
+                                            deviceId: DeviceInfo.getDeviceId(),
                                             phoneNum: this.state.carOwnerTel,
                                             type: '0', // 0新增车辆，1绑定已有车辆
                                         }, this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting),this.getNormalCode);

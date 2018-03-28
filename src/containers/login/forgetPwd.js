@@ -36,6 +36,7 @@ import BlueButtonArc from '../../../assets/button/blueButtonArc.png';
 import {registeredIdentityCodeAction} from "../../action/register";
 import {fetchData} from "../../action/app";
 import * as RouteType from "../../constants/routeType";
+import DeviceInfo from "react-native-device-info";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -118,7 +119,7 @@ class forgetPWD extends Component {
     getForgetVCode(shouldStartCountting) {
         //todo uuid
         this.props.getForgetVCodeAction({
-            deviceId: '2333-1',
+            deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.state.phoneNo,
         },shouldStartCountting)
     }

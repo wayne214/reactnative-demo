@@ -43,6 +43,7 @@ import {fetchData, loadUser} from "../../action/app";
 import {registeredIdentityCodeAction} from "../../action/register";
 import {connect} from "react-redux";
 import * as RouteType from "../../constants/routeType";
+import DeviceInfo from "react-native-device-info";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -191,7 +192,7 @@ class RegisterStepOne extends Component {
     registeredIdentityCode(shouldStartCountting) {
         //todo uuid
         this.props.registeredIdentityCodeAction({
-            deviceId: '2333-1',
+            deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.state.phoneNum,
         }, shouldStartCountting);
     }
