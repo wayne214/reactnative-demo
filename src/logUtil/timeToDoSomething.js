@@ -12,7 +12,7 @@ import {
 import {upLoadImageManager} from './upLoadImageToVerified.js';
 import ReadAndWriteFileUtil from './readAndWriteFileUtil';
 import * as API from '../constants/api';
-import {XYT_HOST, HOST_TEST , HOST_BEAT } from '../constants/setting'
+import {XYT_HOST, HOST_TEST , HOST_BEAT, HOST } from '../constants/setting'
 
 /*向原生发送消息*/
 const sendMsgToNative = () => {
@@ -42,7 +42,7 @@ const uploadAction = () => {
             let file = {uri: ReadAndWriteFileUtil.getPath(), type: 'multipart/form-data', name: 'logger.txt'};
             formData.append('logFile', file);
             console.log('日志文件', file);
-            const url = HOST_TEST + API.API_COLLECT_LOG;
+            const url = HOST + API.API_COLLECT_LOG;
             ReadAndWriteFileUtil.isFilePathExists((exist)=>{
                 if (exist) {
                     upLoadImageManager(url,
