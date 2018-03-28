@@ -3,6 +3,7 @@ import {Platform, InteractionManager} from 'react-native'
 import * as ActionTypes from '../constants/actionType'
 import {DEBUG, HOST, HTTP_TIMEOUT} from '../constants/setting'
 import Toast from '../utils/toast'
+import DeviceInfo from "react-native-device-info";
 
 /**
  * [description]
@@ -45,7 +46,7 @@ export default store => next => action => {
     }
     // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
     axios.defaults.headers.post['Content-Type'] = 'application/json'
-    axios.defaults.headers.deviceId = '11111111'
+    axios.defaults.headers.deviceId = DeviceInfo.getDeviceId()
     axios.defaults.headers.platform = Platform.OS === 'ios' ? 1 : 2
     console.log('headers', axios.defaults.headers)
     if (showLoading) InteractionManager.runAfterInteractions(() => next({

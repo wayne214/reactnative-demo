@@ -53,6 +53,7 @@ import Regex from '../../utils/regex';
 // import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 import * as RouteType from '../../constants/routeType';
 import LoginCharacter from '../../utils/loginCharacter';
+import DeviceInfo from "react-native-device-info";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -242,7 +243,7 @@ class Login extends BaseComponent {
     login(secretPassWord, loginSucCallback) {
         this.props.login({
             platform: Platform.OS === 'ios' ? 1 : 2,
-            deviceId: '1',
+            deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.state.phoneNumber,
             password: secretPassWord
         }, loginSucCallback);

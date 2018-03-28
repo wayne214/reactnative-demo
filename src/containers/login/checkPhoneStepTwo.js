@@ -49,6 +49,7 @@ import {
 import {fetchData} from "../../action/app";
 import * as RouteType from "../../constants/routeType";
 import LoginCharacter from "../../utils/loginCharacter";
+import DeviceInfo from "react-native-device-info";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -134,7 +135,7 @@ class CheckPhoneStepTwo extends Component {
         this.props.bindDeviceAction({
             identifyCode: this.state.pwdCode,
             phoneNum: this.phoneNo,
-            deviceId: '2333-1',
+            deviceId: DeviceInfo.getDeviceId(),
             platform: '1',
             loginSite: 1
         }, bindDeviceSucCallBack)
@@ -183,7 +184,7 @@ class CheckPhoneStepTwo extends Component {
     // todo uuid
     requestVCodeForLogin(shouldStartCountting) {
         this.props.requestVCodeForLoginAction({
-            deviceId: '2333' + '-1',
+            deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.phoneNo,
         }, shouldStartCountting)
     }
