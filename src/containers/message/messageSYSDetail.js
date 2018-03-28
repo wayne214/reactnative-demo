@@ -75,7 +75,7 @@ class MessageSYSDetailContainer extends BaseComponent {
                     <Text style={{fontSize: 20, color: '#333333', marginTop: 27,marginLeft: 20, marginRight: 20}}>{this.contentTitle}</Text>
                     <Text style={{fontSize: 14, color: '#999999', marginTop: 13,marginLeft: 20, marginRight: 20}}>{this.publishTime}</Text>
                     <Text style={{fontSize: 14, color: '#666666', marginTop: 25, lineHeight: 26,marginLeft: 20, marginRight: 20}}>{this.content}</Text>
-                    
+
                 </ScrollView>
 
 
