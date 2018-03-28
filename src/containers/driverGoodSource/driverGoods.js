@@ -358,7 +358,7 @@ class driverGoods extends Component {
                         this.props.navigation.navigate('GoodsPreferencePage');
                     }}
                 >
-                    <View style={{backgroundColor: StaticColor.COLOR_SEPARATE_LINE, height: 1}}/>
+                    <View style={{backgroundColor: '#e6eaf2', height: 0.5}}/>
                         <FlatList
                             style={styles.listView}
                             onRefresh={()=>{

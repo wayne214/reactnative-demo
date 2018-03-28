@@ -1005,6 +1005,7 @@ class Home extends Component {
                 }),
                 flexDirection: 'row',
                 alignItems: 'center',
+                backgroundColor: '#ffffff'
 
             }}>
                 <View style={{
@@ -1074,6 +1075,7 @@ class Home extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
+            <View style={{backgroundColor: '#e6eaf2', height: 0.5}}/>
             {stateView}
             <ScrollView>
                 <View style={styles.locationStyle}>
@@ -1171,7 +1173,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     line: {
-        backgroundColor: DEVIDE_LINE_COLOR,
+        backgroundColor: '#e6eaf2',
         height: 0.5,
         marginLeft: 50,
     },
