@@ -27,7 +27,7 @@ import TaskBackground from '../../../assets/img/driverGood/taskBackground.png';
 const space = 10;
 const topSpace = 10;
 const topHeight = 40;
-const bottomSpace = 13;
+const bottomSpace = 0;
 const screenWidth = Dimensions.get('window').width - space * 2;
 const screenHeight = Dimensions.get('window').height;
 
@@ -117,7 +117,7 @@ class orderToBeSureDetail extends Component {
                     marginTop: topSpace,
                     ...Platform.select({
                         ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomSpace},
-                        android:{height: screenHeight - topHeight - (this.props.currentStatus == 'driver' ? 73 : 110) - bottomSpace}
+                        android:{height: screenHeight - topHeight - 73 - bottomSpace}
                     }),
                 }}
             >
@@ -127,7 +127,7 @@ class orderToBeSureDetail extends Component {
                         backgroundColor: StaticColor.WHITE_COLOR,
                         ...Platform.select({
                             ios:{height: screenHeight - topHeight - ConstValue.NavigationBar_StatusBar_Height - bottomSpace},
-                            android:{height: screenHeight - topHeight - (this.props.currentStatus == 'driver' ? 73 : 110)- bottomSpace}
+                            android:{height: screenHeight - topHeight - 73- bottomSpace}
                         }),
                         borderColor: StaticColor.WHITE_COLOR,
                         borderWidth: 1,

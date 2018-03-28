@@ -24,8 +24,8 @@ import GoodListIten from '../../components/routes/goodListItem';
 import * as RouteType from '../../constants/routeType'
 import { receiveGoodsList,receiveBetterGoodsList,changeGoodsListLoadingMore } from '../../action/goods'
 import { receiveInSiteNotice } from '../../action/app.js'
-import { fetchData, appendLogToFile, changeTab } from '../../action/app.js'
-import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods.js'
+import { fetchData, appendLogToFile, changeTab,updateVersionAction} from '../../action/app'
+import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
 import Toast from '../../utils/toast';
@@ -86,6 +86,7 @@ const images = [
 
 import { resetADFlag } from '../../action/app'
 import * as COLOR from '../../constants/colors'
+import DeviceInfo from 'react-native-device-info';
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 let startTime = 0;
@@ -114,6 +115,7 @@ class GoodsList extends Component {
     this.refresh = this.refresh.bind(this)
     this.listFooterComponent = this.listFooterComponent.bind(this)
     this.ListHeaderComponent = this.ListHeaderComponent.bind(this)
+      this.compareVersion = this.compareVersion.bind(this);
 
 
       this.searchDriverState = this.searchDriverState.bind(this);
@@ -123,12 +125,11 @@ class GoodsList extends Component {
       this.ownerVerifiedHomeFailCallBack = this.ownerVerifiedHomeFailCallBack.bind(this);
   }
   componentDidMount() {
+      this.compareVersion();
+
       this.setState({
           refreshing: true
       });
-
-
-
       setTimeout(()=>{
           this.refresh();
       },500);
@@ -137,6 +138,17 @@ class GoodsList extends Component {
           this.refresh();
       });
   }
+
+    compareVersion() {
+        this.props.compareVersionAction({
+            version: DeviceInfo.getVersion(),
+            platform: Platform.OS === 'ios' ? '1': '2',
+        }, (result)=>{
+            if (result) {
+                 // this.props.updateVersion(result);
+            }
+        });
+    }
 
     componentWillUnmount() {
         goodArray = null;
@@ -147,8 +159,6 @@ class GoodsList extends Component {
           this.setState({
               appLoading: true,
           })
-
-
           this.props._getNormalGoodsList({
               companyCode: global.companyCode,
               num: page,
@@ -774,6 +784,26 @@ const mapDispatchToProps = (dispatch) => {
       },
       saveCompanyInfoAction: (result) => {
           dispatch(saveCompanyInfoAction(result));
+      },
+      updateVersion: (data) => {
+          dispatch(updateVersionAction(data));
+      },
+      compareVersionAction: (params, compareSuccessCallBack, compareFailCallBack) => {
+          dispatch(fetchData({
+              api: API.API_COMPARE_VERSION,
+              body: {
+                  version: params.version,
+                  platform: params.platform,
+              },
+              success: (data) => {
+                  console.log('compare version success', data);
+                  compareSuccessCallBack && compareSuccessCallBack(data);
+              },
+              fail: (err) => {
+                  console.log('???', err);
+                  compareFailCallBack && compareFailCallBack(err);
+              },
+          }));
       },
   }
 }

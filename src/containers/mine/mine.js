@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 15,
         alignItems: 'center',
-        height: 32
+        height: 44
     },
     editContainer: {
         width: 32, height: 32,
@@ -652,14 +652,14 @@ class mine extends Component {
                                 {
                                     this.state.verifiedState == '1202' &&  this.props.userCarList.length  > 1 ? <View style={styles.subTitleContainer}>
                                             <TouchableOpacity onPress={()=> {
-                                this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_CHOOSE_CAR,
-                                    params: {
-                                    carList: this.props.userCarList,
-                                    flag: false
-                                } })
-                            }}>
-                                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}>关联车辆</Text>
+                                                this.props.navigation.dispatch({
+                                                    type: RouteType.ROUTE_CHOOSE_CAR,
+                                                    params: {
+                                                    carList: this.props.userCarList,
+                                                    flag: false
+                                                } })
+                                            }}>
+                                                <Text style={{fontSize: 16, color: StaticColor.LIGHT_BLACK_TEXT_COLOR, backgroundColor:'transparent'}}>关联车辆</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity onPress={() => {
                                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }})
@@ -667,13 +667,7 @@ class mine extends Component {
                                             }}>
                                                 <View>
                                                     <Image
-                                                        style={{
-                                            marginRight: 0,
-                                            marginTop: 10,
-                                        }}
-                                                        source={
-                                            this.props.jpushIcon === true ? MessageNewMine : MessageMine
-                                        }
+                                                        source={this.props.jpushIcon === true ? MessageNewMine : MessageMine}
                                                     />
                                                 </View>
                                             </TouchableOpacity>
@@ -685,7 +679,7 @@ class mine extends Component {
                             <TouchableOpacity onPress={() => {
                                 this.props.navigation.dispatch({type: RouteType.ROUTE_USER_INFO, params: {title: '会员信息'}})
                             }}>
-                                <Text style={{fontSize: 16, color: '#333333'}}>会员信息</Text>
+                                <Text style={{fontSize: 16, color: '#333333', backgroundColor:'transparent'}}>会员信息</Text>
                             </TouchableOpacity>
                         </View>
                     }
@@ -761,7 +755,6 @@ class mine extends Component {
                     this.props.currentStatus == 'driver' ?
                         <View>
                             <SettingCell
-                                style={{height: 36}}
                                 leftIconImage={PersonInfoIcon}
                                 content={'个人信息'}
                                 authenticationStatus={this.state.verifiedState}
@@ -791,7 +784,7 @@ class mine extends Component {
                                 leftIconImage={CarInfoIcon}
                                 leftIconImageStyle={{width: 18.5, height: 17.5}}
                                 content={'车辆信息'}
-                                showBottomLine={true}
+                                showBottomLine={false}
                                 clickAction={() => {
                                     ClickUtil.resetLastTime();
                                     if (ClickUtil.onMultiClick()) {
@@ -943,7 +936,7 @@ class mine extends Component {
                             <SettingCell
                                 leftIconImage={commonLineIcon}
                                 content={'常用线路设置'}
-                                showBottomLine={true}
+                                showBottomLine={false}
                                 clickAction={() => {
                                     this.props.navigation.dispatch({type:RouteType.ROUTE_MY_ROUTE, params: {title: '我的路线'}})
                                 }}

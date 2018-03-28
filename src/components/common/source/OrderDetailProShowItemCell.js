@@ -18,13 +18,13 @@ import GoodInfoCell from './goodInfoCell';
 const style = StyleSheet.create({
     // 名称style
     titleStyle: {
-        fontSize: 15,
+        fontSize: 16,
         color: COLOR_LIGHT_GRAY_TEXT,
         marginTop: 15,
         fontWeight: 'bold',
     },
     subTitleStyle: {
-        fontSize: 15,
+        fontSize: 16,
         color: COLOR_LIGHT_GRAY_TEXT,
     },
     subViewStyle: {
@@ -41,13 +41,13 @@ const style = StyleSheet.create({
     },
     text: {
         justifyContent: 'center',
-        fontSize: 15,
+        fontSize: 16,
         color: COLOR_LIGHT_GRAY_TEXT,
         marginTop: 15,
     },
     shipText: {
         justifyContent: 'flex-start',
-        fontSize: 15,
+        fontSize: 16,
         color: COLOR_LIGHT_GRAY_TEXT,
     },
     containerView: {
@@ -70,7 +70,7 @@ class OrderDetailProShowItemCell extends Component {
         return (
             <View style={style.containerView}>
                 <Text style={style.subTitleStyle}>拒签原因</Text>
-                <Text style={{fontSize: 15, marginRight: -20, color: LIGHT_BLACK_TEXT_COLOR}}>{orderInfo.refuseReason ? orderInfo.refuseReason : '无'}</Text>
+                <Text style={{fontSize: 16, marginRight: -20, color: LIGHT_BLACK_TEXT_COLOR}}>{orderInfo.refuseReason ? orderInfo.refuseReason : '无'}</Text>
             </View>
         );
     }
@@ -104,11 +104,11 @@ class OrderDetailProShowItemCell extends Component {
                 <View style={{marginHorizontal: 20}}>
                     <View style={style.subViewStyle}>
                         <Text style={style.subTitleStyle}>名称</Text>
-                        <Text style={{fontSize: 15, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{orderInfo.goodsName}</Text>
+                        <Text style={{fontSize: 16, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{orderInfo.goodsName}</Text>
                     </View>
                     <View style={style.subViewStyle}>
                         <Text style={style.subTitleStyle}>规格</Text>
-                        <Text style={{fontSize: 15, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{orderInfo.goodsSpce ? orderInfo.goodsSpce : '/'}</Text>
+                        <Text style={{fontSize: 16, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{orderInfo.goodsSpce ? orderInfo.goodsSpce : '/'}</Text>
                     </View>
                     <View style={{marginTop: 10}}>
                         {
