@@ -192,10 +192,11 @@ export default class orderToBeSignInDetail extends Component {
                                             }
                                         }),
                                     }
-                                ]}                                resizeMode='stretch'>
+                                ]}
+                                resizeMode='stretch'>
                                 <View style={styles.constantStyle}>
                                     <Text style={styles.constantIcon}>&#xe68b;</Text>
-                                    <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
+                                    <Text style={{fontSize: 18, fontWeight: 'bold', marginLeft: 10,}}>
                                         {deliveryInfo.receiveContact}
                                     </Text>
                                 </View>
@@ -270,7 +271,6 @@ export default class orderToBeSignInDetail extends Component {
                         dispatchTimeAgain={dispatchTimeAgain}
                     />
                 </ScrollView>
-                <View style={{backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND, height: 13,}} />
             </View>
                 {buttonView}
             </View>

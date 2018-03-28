@@ -35,7 +35,7 @@ const style = StyleSheet.create({
     },
     // 名称style
     titleStyle: {
-        fontSize: 15,
+        fontSize: 16,
         color: COLOR_LIGHT_GRAY_TEXT,
         marginTop: 15,
         marginLeft: 10,
@@ -43,7 +43,7 @@ const style = StyleSheet.create({
     },
     // 名称style
     subTitleStyle: {
-        fontSize: 15,
+        fontSize: 16,
         color: GRAY_TEXT_COLOR,
     },
     chooseNumStyle: {
@@ -151,7 +151,7 @@ export default class orderProductItemInfo extends Component {
     chooseNumView() {
         return (
             <View style={{flexDirection: 'row', marginBottom: 10, alignItems:'center', justifyContent: 'space-between'}}>
-                <Text style={{fontSize: 15, color: GRAY_TEXT_COLOR}}>发运</Text>
+                <Text style={{fontSize: 16, color: GRAY_TEXT_COLOR}}>发运</Text>
                 <View style={style.chooseNumStyle}>
                     <TouchableOpacity
                         disabled={this.props.disabled}
@@ -176,7 +176,7 @@ export default class orderProductItemInfo extends Component {
                                     textAlign: 'center',
                                 },
                             }),
-                            fontSize: 15,
+                            fontSize: 16,
                             color: LIGHT_BLACK_TEXT_COLOR,
                         }}
                         underlineColorAndroid={'transparent'}
@@ -244,15 +244,15 @@ export default class orderProductItemInfo extends Component {
             <View style={{marginHorizontal: 20}}>
                 <View style={style.subViewStyle}>
                     <Text style={style.subTitleStyle}>名称</Text>
-                    <Text style={{fontSize: 15, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{title}</Text>
+                    <Text style={{fontSize: 16, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{title}</Text>
                 </View>
                 <View style={style.subViewStyle}>
                     <Text style={style.subTitleStyle}>规格</Text>
-                    <Text style={{fontSize: 15, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{Specifications ? Specifications : '/'}</Text>
+                    <Text style={{fontSize: 16, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{Specifications ? Specifications : '/'}</Text>
                 </View>
                 <View style={style.subViewStyle}>
                     <Text style={style.subTitleStyle}>应收</Text>
-                    <Text style={{fontSize: 15, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{receiveNum}{unit}</Text>
+                    <Text style={{fontSize: 16, color: LIGHT_BLACK_TEXT_COLOR, marginLeft: 20}}>{receiveNum}{unit}</Text>
 
                 </View>
                 {this.chooseNumView()}

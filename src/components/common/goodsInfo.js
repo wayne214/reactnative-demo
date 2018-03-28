@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
 	},
 	goodsDetailContent: {
 		flex:1,
-		color: COLOR.TEXT_BLACK,
+		color: COLOR.TEXT_NORMAL,
 		fontSize: 14
 	},
 	contactShipper:{

@@ -120,16 +120,16 @@ class orderItemCell extends Component{
 					<View style={{paddingTop: 10}}>
 						<AddressItem startAddress={fromAddress} endAddress={endAddress}/>
 
-						<Text style={[styles.orderCodeText, {marginLeft: 18, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
+						<Text style={[styles.orderCodeText, {marginLeft: 40, marginTop: 10}]}>装车时间：{loadStartTime}</Text>
 
               {
-                  rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 18, marginTop: 5}}>
-										<Text style={{fontSize: 10, color: '#0092FF'}}>撮合</Text>
+                  rowData.businessType && rowData.businessType == '501' ?  <View style={{backgroundColor: '#E7F2FF', borderWidth: 1, borderColor: '#0092FF', justifyContent: 'center', alignItems: 'center', width: 30, marginLeft: 40, marginTop: 5}}>
+										<Text style={{fontSize: 10, color: '#0092FF', padding: 2}}>撮合</Text>
 									</View> : null
               }
 						<View style={styles.separateLine}/>
 
-						<View style={[styles.subContainer, {marginTop: 20}]}>
+						<View style={[styles.subContainer, {marginTop: 8}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
 	},
 	buttonBg: {
       backgroundColor: '#FFFFFF',
-      borderWidth: 1,
+      borderWidth: 0.5,
       borderRadius: 2,
 			borderColor: '#CCCCCC',
       height: 35,
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
 			padding: 2,
 			fontSize: 10,
 			color: 'white',
-		borderRadius: 2
+			borderRadius: 2
 	},
 	separateLine: {
       height: 0.5,

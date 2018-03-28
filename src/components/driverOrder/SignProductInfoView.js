@@ -29,7 +29,7 @@ const style = StyleSheet.create({
     },
     // 分类名称style
     subTitleStyle: {
-        fontSize: 16,
+        fontSize: 17,
         color: LIGHT_BLACK_TEXT_COLOR,
     },
     // 中间规格、单位、应收ViewStyle
@@ -39,7 +39,7 @@ const style = StyleSheet.create({
         alignItems: 'center'
     },
     subContentStyle: {
-        fontSize: 14,
+        fontSize: 15,
         color: COLOR_LIGHT_GRAY_TEXT,
     },
 

@@ -25,7 +25,7 @@ export default class Help extends React.Component {
 
 	render () {
 		const { tabs } = this.props;
-		const lineWidth = (width / tabs.length) - 30;
+		const lineWidth = 25;
 		const items = tabs.map((item, index) => {
 			return (
 				<TouchableOpacity

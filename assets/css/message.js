@@ -19,7 +19,7 @@ export default StyleSheet.create({
 		// height: 75,
 		backgroundColor: 'white',
 		borderColor: '#e6eaf2',
-		borderWidth: 1
+		borderWidth: 0.5
 	},
 	contentContainer: {
 		height: 74,
@@ -40,7 +40,7 @@ export default StyleSheet.create({
 		borderRadius: 17,
 		alignItems: 'center',
 		backgroundColor: '#eee',
-		justifyContent: 'center',		
+		justifyContent: 'center',
 	},
 	rightContainer: {
 		flex: 1,
