@@ -93,7 +93,7 @@ export default store => next => action => {
         } else {
             if (data.data.code == '504') {
                 Storage.save(StorageKey.TOKEN, '');
-                global.token = '';
+                // global.token = '';
                 Storage.remove(StorageKey.USER_INFO);
                 Storage.remove(StorageKey.CarSuccessFlag);
                 Storage.remove(StorageKey.PlateNumber);
