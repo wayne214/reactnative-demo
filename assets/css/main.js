@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f4f4'
   },
   titleStyle: {
-    marginBottom: 4,
+    marginBottom: 6,
     fontWeight: 'bold'
   },
   selectedTitleStyle: {
-    color: '#17a9df',
+    color: '#0092FF',
     fontWeight: 'bold'
   },
   badgeBg: {

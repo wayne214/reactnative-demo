@@ -9,7 +9,8 @@ import ItemIcon from '../../../assets/home/goodlistitem_icon.png';
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1
+        flex: 1,
+        marginLeft: 20
     },
 });
 
@@ -21,11 +22,11 @@ class goodlistAddressItem extends Component{
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row',marginTop:10}}>
                     <Image source={ItemIcon} style={{marginTop: 5}}/>
                     <View style={{marginLeft: 10}}>
-                        <Text style={{fontSize: 17, fontWeight: 'bold'}}>{this.props.startAddress}</Text>
-                        <Text style={{fontSize: 17, fontWeight: 'bold', marginTop: 10}}>{this.props.endAddress}</Text>
+                        <Text style={{fontSize: 15, fontWeight: 'bold',color: '#333'}}>{this.props.startAddress}</Text>
+                        <Text style={{fontSize: 15, fontWeight: 'bold', marginTop: 8,color: '#333'}}>{this.props.endAddress}</Text>
                     </View>
                 </View>
             </View>
