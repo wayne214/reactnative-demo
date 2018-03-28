@@ -50,7 +50,6 @@ import {
 // import PermissionsAndroid from '../../utils/permissionManagerAndroid';
 import * as RouteType from '../../constants/routeType'
 import LoginCharacter from "../../utils/loginCharacter";
-import DeviceInfo from 'react-native-device-info';
 
 const {width, height} = Dimensions.get('window');
 import DeviceInfo from "react-native-device-info";
