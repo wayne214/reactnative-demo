@@ -68,10 +68,10 @@ class CharacterChooseCell extends Component {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}>
-                            <Text style={{fontFamily: 'iconfont', fontSize: 16, color: '#333333'}}>
+                            <Text style={{fontFamily: 'iconfont', fontSize: 17, color: '#333333'}}>
                                 &#xe687;
                             </Text>
-                            <Text style={{marginLeft: 10, fontSize: 16, color: '#333333'}}>
+                            <Text style={{marginLeft: 10, fontSize: 17, color: '#333333'}}>
                                 车主
                             </Text>
                         </View>
@@ -89,10 +89,10 @@ class CharacterChooseCell extends Component {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                            <Text style={{fontFamily: 'iconfont', fontSize: 16, color: '#333333'}}>
+                            <Text style={{fontFamily: 'iconfont', fontSize: 17, color: '#333333'}}>
                                 &#xe696;
                             </Text>
-                            <Text style={{marginLeft: 10, fontSize: 16, color: '#333333'}}>
+                            <Text style={{marginLeft: 10, fontSize: 17, color: '#333333'}}>
                                 司机
                             </Text>
                         </View>

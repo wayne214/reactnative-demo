@@ -269,7 +269,6 @@ class orderToBeWaitSureDetail extends Component {
                         />
 
                     </ScrollView>
-                    <View style={{backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND, height: 13}} />
                 </View>
                 {buttonView}
             </View>
