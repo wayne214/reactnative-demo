@@ -2,7 +2,7 @@ import axios from 'axios'
 import {Platform, InteractionManager} from 'react-native'
 import * as ActionTypes from '../constants/actionType'
 import {DEBUG, HOST, HTTP_TIMEOUT} from '../constants/setting'
-import Toast from '../utils/toast'
+import Toast from '@remobile/react-native-toast'
 import DeviceInfo from "react-native-device-info";
 import Storage from './../utils/storage';
 import StorageKey from '../constants/storageKeys';
@@ -92,6 +92,7 @@ export default store => next => action => {
                 success(data.data.result);
         } else {
             if (data.data.code == '504') {
+                Toast.showShortCenter(data.data.message);
                 Storage.save(StorageKey.TOKEN, '');
                 // global.token = '';
                 Storage.remove(StorageKey.USER_INFO);
@@ -99,7 +100,6 @@ export default store => next => action => {
                 Storage.remove(StorageKey.PlateNumber);
                 resetToLoginEmit.restToLogin(data.data.message);
                 JPushModule.setAlias('', ()=>{}, ()=>{});
-                Toast.showShortCenter(data.data.message);
             } else if (data.data.code == '800'){} else {
                 Toast.showShortCenter(data.data.message);
             }
