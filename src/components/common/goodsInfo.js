@@ -57,11 +57,12 @@ class GoodsInfo extends Component{
 		const weight = configData.weight ? configData.weight : '';
 		const uom = configData.uom ? configData.uom : '';
 		const goodDetail = goodsType + goodsCategory + weight + uom;
+    const volume = configData.volume ? configData.volume : '';
 
 		let standard;
 
-		if (weight !== '' && uom !== '') {
-			standard = weight + '吨' + uom + '方';
+		if (weight !== '' && volume !== '') {
+			standard = weight + '吨' + volume + '方';
 		}
 		return (
 			<View style={styles.goodsContent}>
