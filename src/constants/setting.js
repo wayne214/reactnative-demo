@@ -9,7 +9,7 @@ export const HOST_TEST = 'http://carrier-mproxy-test.xianyiscm.com/'; // test地
 
 export const HOST_BEAT = 'http://carrier-mproxy-beta.xianyiscm.com/'; // beta地址
 
-export const HOST = DEBUG ? HOST_BEAT : 'http://app-api.lenglianmajia.com/';
+export const HOST = DEBUG ? HOST_BEAT : 'http://carrier-mproxy.xianyiscm.com/';
 // export const HOST = DEBUG ? 'http://192.168.33.4:8882/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.29.54:8086/' : 'http://app-api.lenglianmajia.com/';
 // export const HOST = DEBUG ? 'http://192.168.32.237:8083/' : 'http://app-api.lenglianmajia.com/';

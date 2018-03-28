@@ -129,7 +129,7 @@ class orderItemCell extends Component{
               }
 						<View style={styles.separateLine}/>
 
-						<View style={[styles.subContainer, {marginTop: 8}]}>
+						<View style={[styles.subContainer, {marginTop: 8, marginBottom: 8}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
@@ -147,6 +147,7 @@ class orderItemCell extends Component{
 										}
 								</View>
 							</View>
+							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								{
 									rowData.state == '10' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																												textStyle={{fontSize: 14,color: '#333333'}}
@@ -213,6 +214,7 @@ class orderItemCell extends Component{
 											查看提货单
 										</Button>
                 }
+							</View>
 						</View>
 					</View>
 
@@ -234,8 +236,10 @@ const styles = StyleSheet.create({
       borderWidth: 0.5,
       borderRadius: 2,
 			borderColor: '#CCCCCC',
-      height: 35,
+      height: 30,
       width: buttonWidth,
+			marginTop: 5,
+			alignSelf: 'center'
 	},
 	subContainer: {
       flexDirection: 'row',
@@ -268,7 +272,6 @@ const styles = StyleSheet.create({
 	},
 	avatarImage: {
       borderRadius: 18,
-			backgroundColor: 'red',
 			width: 35,
 			height: 35,
 		// marginBottom: 10

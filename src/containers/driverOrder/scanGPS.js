@@ -18,7 +18,7 @@ import {
     Platform,
     Alert,
 } from 'react-native';
-import {RNCamera} from 'react-native-camera';
+import Camera from 'react-native-camera';
 import * as API from '../../constants/api';
 import ViewFinder from '../../components/driverOrder/viewFinder';
 import Loading from '../../utils/loading';
@@ -306,7 +306,7 @@ class scanGPS extends Component {
                 {(() => {
                     if (active) {
                         return (
-                            <RNCamera
+                            <Camera
                                 ref={(cam) => {
                                     this.camera = cam;
                                 }}
@@ -315,9 +315,10 @@ class scanGPS extends Component {
                                 onBarCodeRead={
                                     this.barcodeReceived
                                 }
-                                flashMode={openFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-                                permissionDialogTitle={'访问相机权限'}
-                                permissionDialogMessage={'我们需要访问您的相机权限'}
+                                torchMode={openFlash ? 'on' : 'off'}
+                                // flashMode={openFlash ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                                // permissionDialogTitle={'访问相机权限'}
+                                // permissionDialogMessage={'我们需要访问您的相机权限'}
                             >
                                 {/*<View style={styles.container}>*/}
                                     {/*<View style={styles.titleContainer}>*/}
@@ -397,7 +398,7 @@ class scanGPS extends Component {
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                            </RNCamera>
+                            </Camera>
                         );
                     }
                 })()}
@@ -482,7 +483,7 @@ const styles =StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.2)',
         alignSelf: 'center',
-        // flex: 1,
+        flex: 1,
         width,
     },
     fillView: {
@@ -511,7 +512,7 @@ const styles =StyleSheet.create({
             }
         }),
         backgroundColor: 'rgba(0,0,0,0.2)',
-        marginTop: 100,
+        marginBottom: 80,
     },
     bottomIcon: {
         alignSelf: 'center',
