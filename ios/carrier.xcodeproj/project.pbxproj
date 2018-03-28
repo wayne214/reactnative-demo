@@ -2106,7 +2106,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "0aefef53-ca97-440f-8399-4d64d734b93a";
+				PROVISIONING_PROFILE = "022af4e7-f7f7-41d6-b749-cd5c2da5ee52";
 				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2122,7 +2122,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: xiao chen (4GQ54CCFW2)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DF7D3DZVHK;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2161,7 +2161,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "211676dc-8782-4c2a-8ff0-e1c942013561";
+				PROVISIONING_PROFILE = "022af4e7-f7f7-41d6-b749-cd5c2da5ee52";
 				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

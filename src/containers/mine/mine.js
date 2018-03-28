@@ -244,6 +244,11 @@ class mine extends Component {
                     isOver: '有效',
                     Validity: {}
                 })
+            } else if (result.driverLicenseValidityStatus === '临期' || result.idCardValidityStatus === '临期'){
+                this.setState({
+                    isOver: '证件临期',
+                    Validity: result
+                });
             } else {
                 this.setState({
                     isOver: '证件过期',
