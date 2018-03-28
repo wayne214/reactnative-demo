@@ -198,6 +198,7 @@ android {
 }
 
 dependencies {
+    compile project(':@remobile/react-native-toast')
     compile project(':react-native-camera')
     compile project(':react-native-toast')
     compile project(':jcore-react-native')
