@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
 		fontSize: 12
 	},
 	goodsInfo: {
-		margin: 15,
+		// margin: 15,
 	},
 	goodsInfoIcon:{
 		fontFamily: 'iconfont',
@@ -179,10 +179,10 @@ const styles = StyleSheet.create({
 	},
 	goodsDetailItem: {
 		flexDirection: 'row',
-		marginTop: 2,
+		marginTop: 5,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 2,
+		marginBottom: 5,
 	},
 	goodsDetailMark: {
 		marginRight: 5,

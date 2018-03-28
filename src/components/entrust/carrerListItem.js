@@ -172,7 +172,7 @@ class carrerListItem extends Component{
                         </View>
                         {
                             rowData.configFreight ? <View style={{width: 100,flexDirection: 'row'}}>
-                                <View style={{width: 1, height: 36, backgroundColor: '#999'}}/>
+                                <View style={{width: 0.5, height: 36, backgroundColor: '#E6EAF2'}}/>
                                 <View style={{justifyContent: 'center',width: 80}}>
                                     <Text style={{textAlign: 'right',fontSize: 20,color: '#FF8500',fontWeight: 'bold'}}>{rowData.configFreight}</Text>
                                 </View>
@@ -183,7 +183,7 @@ class carrerListItem extends Component{
                         }
                     </View>
                 }
-
+                <View style={{height: 0.5,backgroundColor: '#E6EAF2',width: width,marginTop: 8}}/>
 
                 <View style={{flexDirection: 'row',justifyContent: 'space-between', marginTop: 10}}>
                     {
@@ -206,26 +206,26 @@ class carrerListItem extends Component{
                     {
                         rowData.orderStateStr == '待确认' ? (
                             rowData.carrierPrice ?  <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2,flexDirection: 'row', marginRight: 15}} onPress={() => console.log('点击')}>
-                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14}}>
                                     我的报价
                                 </Text>
-                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14}}>
                                     {Helper.consignorPrice(rowData.carrierPrice).price}
                                 </Text>
-                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17,width: 30}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14,width: 30}}>
                                     {Helper.consignorPrice(rowData.carrierPrice).unit}
                                 </Text>
                             </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (bindOrder) {bindOrder(rowData)}}}>
-                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                                <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14}}>
                                     我要抢单
                                 </Text>
                             </TouchableOpacity>
                         ) : (rowData.orderState == '60' ? <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
-                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14}}>
                                 重新调车
                             </Text>
                         </TouchableOpacity> : <TouchableOpacity style={{padding: 10,backgroundColor: '#0092FF',borderRadius: 2, marginRight: 15}} onPress={() => {if (dispatchCar){dispatchCar(rowData)}}}>
-                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 17}}>
+                            <Text style={{color: 'white',fontWeight: 'bold',fontSize: 14}}>
                                 立即调车
                             </Text>
                         </TouchableOpacity>
