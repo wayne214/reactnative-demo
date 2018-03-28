@@ -194,7 +194,7 @@ class orderDetailEntry extends BaseComponent {
 							}>
 										<View style={{flexDirection: 'row', height: 44, alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
 											<Text style={{color: '#0092FF', fontSize: 14}}>冷链马甲平台运输协议</Text>
-											<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe63d;</Text>
+											<Text style={{fontSize: 14, fontFamily: 'iconfont', color: '#000000'}}>&#xe649;</Text>
 										</View>
 									</TouchableOpacity>
 								</View> : null

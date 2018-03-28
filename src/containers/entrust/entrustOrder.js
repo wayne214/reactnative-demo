@@ -175,7 +175,7 @@ class EntrustOrderList extends BaseComponent {
 						<View tabLabel={'接单'} style={{flex: 1}}>
 								{
 										this.state.showAlert ? <View style={{height: 65, backgroundColor: '#FFFAF4', justifyContent: 'center', paddingHorizontal: 15}}>
-											<Text style={{fontSize: 14, color: '#FF8500'}}>
+											<Text style={{fontSize: 14, color: '#FF8500', lineHeight: 20}}>
 											优先抢单倒计时结束后，该订单将被所有承运商看到，即时您将失去优先抢单的机会，要抓紧时间哦
 										</Text>
 										</View> : null
