@@ -58,6 +58,8 @@ import {
 } from '../../action/user';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast'
+import Communications from 'react-native-communications';
+import Dialog from '../../components/home/dialog';
 import Button from '../../components/common/button'
 import Geolocation from 'Geolocation'
 import codePush from 'react-native-code-push'
@@ -89,7 +91,7 @@ class MainContainer extends BaseComponent {
         this._routeTab = this._routeTab.bind(this)
         this._changeTab = this._changeTab.bind(this)
         this.handleBack = this.handleBack.bind(this)
-        this.openControlPanel = this.openControlPanel.bind(this)
+        // this.openControlPanel = this.openControlPanel.bind(this)
         this._handleAppStateChange = this._handleAppStateChange.bind(this)
         this._pushToMessageList = this._pushToMessageList.bind(this)
         this.codePushStatusDidChange = this.codePushStatusDidChange.bind(this)
@@ -203,7 +205,7 @@ class MainContainer extends BaseComponent {
             }
         }
         this._routeTab();
-        this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: 2 })
+        // this.props.navigation.setParams({ _openControlPanel: this.openControlPanel, currentRole: 2 })
         this.uploadLoglistener = DeviceEventEmitter.addListener('nativeSendMsgToRN', (data) => {
             this._getCurrentPosition();
         })
@@ -221,6 +223,12 @@ class MainContainer extends BaseComponent {
 
 
         this.props._getCompanyInfoacion({busTel: global.phone});
+    }
+
+    componentDidUpdate() {
+        if (this.props.versionUrl !== '') {
+            this.refs.dialog.show('提示', '版本过低，需要升级到最新版本，否则可能影响使用');
+        }
     }
 
     _getCurrentPosition(){
@@ -327,6 +335,11 @@ class MainContainer extends BaseComponent {
         return true
     }
 
+    // 版本升级方法
+    dialogOkCallBack(){
+        Communications.web(this.props.versionUrl);
+    }
+
     codePushStatusDidChange (status) {
         switch(status) {
             case codePush.SyncStatus.DOWNLOADING_PACKAGE:
@@ -376,26 +389,26 @@ class MainContainer extends BaseComponent {
         this.props.navigation.setParams({ currentTab: tab, title: '' })
     }
 
-    openControlPanel () {
-        this._drawer.open();
-        // get user detail info
-        let opts;
-        if (this.props.user.currentUserRole === 1) {
-            opts = {};
-        } else {
-            opts = {
-                carrierId: this.props.user.carrierId,
-                driverId: this.props.user.userId
-            };
-        }
-
-        this.props._getUserInfo(opts, this.props.user.currentUserRole);
-        // game url
-        this.props.getUrl({
-            phone: this.props.user.phoneNumber
-        });
-        this.props.dispatch(appendLogToFile('我的行程','查看个人中心',0))
-    }
+    // openControlPanel () {
+    //     this._drawer.open();
+    //     // get user detail info
+    //     let opts;
+    //     if (this.props.user.currentUserRole === 1) {
+    //         opts = {};
+    //     } else {
+    //         opts = {
+    //             carrierId: this.props.user.carrierId,
+    //             driverId: this.props.user.userId
+    //         };
+    //     }
+    //
+    //     this.props._getUserInfo(opts, this.props.user.currentUserRole);
+    //     // game url
+    //     this.props.getUrl({
+    //         phone: this.props.user.phoneNumber
+    //     });
+    //     this.props.dispatch(appendLogToFile('我的行程','查看个人中心',0))
+    // }
 
     _routeTab () {
         Animated.timing(this.state.rotateValue,
@@ -411,17 +424,17 @@ class MainContainer extends BaseComponent {
     render() {
         const { upgrade } = this.props;
         return (
-            <Drawer
-                tapToClose={ true }
-                tweenDuration={ 200 }
-                content={ <ControlPanel { ...this.props } drawer={this._drawer}/> }
-                style={ styles.container }
-                openDrawerOffset={ 100 }
-                ref={ (ref) => this._drawer = ref }
-                tweenHandler={(ratio) => ({
-          main: { opacity: (2-ratio) / 2 }
-        })}>
-
+            <View style={styles.container}>
+            {/*<Drawer*/}
+                {/*tapToClose={ true }*/}
+                {/*tweenDuration={ 200 }*/}
+                {/*content={ <ControlPanel { ...this.props } drawer={this._drawer}/> }*/}
+                {/*style={ styles.container }*/}
+                {/*openDrawerOffset={ 100 }*/}
+                {/*ref={ (ref) => this._drawer = ref }*/}
+                {/*tweenHandler={(ratio) => ({*/}
+                {/*main: { opacity: (2-ratio) / 2 }*/}
+            {/*})}>*/}
                 <Tabar
                     { ...this.props }
                     note={this.insiteNotice}
@@ -429,8 +442,9 @@ class MainContainer extends BaseComponent {
                     openControlPanel={ this.openControlPanel } />
 
                 { this._renderUpgrade(this.props) }
-
-            </Drawer>
+                <Dialog ref="dialog" callback={this.dialogOkCallBack.bind(this)}/>
+            {/*</Drawer>*/}
+            </View>
         );
     }
 
@@ -452,7 +466,8 @@ const mapStateToProps = (state) => {
         upgradeForceUrl: app.get('upgradeForceUrl'),
         showFloatDialog: app.get('showFloatDialog'),
         openNotification: app.get('openNotification'),
-        userTypeInfo: user.get('userTypeInfo')
+        userTypeInfo: user.get('userTypeInfo'),
+        versionUrl: app.get('versionUrl'),
     };
 }
 

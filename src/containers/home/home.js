@@ -35,6 +35,7 @@ import {
     fetchData,
     getHomePageCountAction,
     changeTab,
+    updateVersionAction,
 } from '../../action/app';
 import {
     changeOrderTabAction,
@@ -54,6 +55,7 @@ import {
 import WeatherCell from '../../components/home/weatherCell';
 import CharacterChooseCell from '../../../src/components/login/characterChooseCell';
 import Toast from '../../utils/toast';
+
 import JPushModule from 'jpush-react-native';
 import LittleButtonCell from '../../components/home/littleButtonCell';
 import Storage from '../../utils/storage';
@@ -62,6 +64,7 @@ import {Geolocation} from 'react-native-baidu-map-xzx';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 import {width, height} from '../../constants/dimen';
 import NavigatorBar from '../../components/common/navigatorbar';
+import DeviceInfo from 'react-native-device-info';
 
 import DriverUp from '../../../assets/img/character/driverUp.png';
 import DriverDown from '../../../assets/img/character/driverDown.png';
@@ -129,6 +132,7 @@ class Home extends Component {
         this.saveUserCarList = this.saveUserCarList.bind(this);
         this.setUserCar = this.setUserCar.bind(this);
         this.setUserCarSuccessCallBack = this.setUserCarSuccessCallBack.bind(this);
+        this.compareVersion = this.compareVersion.bind(this);
 
     }
 
@@ -141,18 +145,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        // if (this.state.CarOwnerState) {
-        //     this.props.setCurrentCharacterAction('owner');
-        //     this.setState({
-        //         bubbleSwitch: false,
-        //         show: false,
-        //     })
-        // }
-
-
         this.getCurrentPosition(0);
         if (this.props.currentStatus == 'driver') {
-            this.setData();
+            this.compareVersion();
             this.queryEnterpriseNature();
         }
         // if (Platform.OS === 'android') {
@@ -411,6 +406,25 @@ class Home extends Component {
         // this.notifyCertificationListener.remove();
         // this.logListener.remove();
         // this.getUserCarMineListener.remove();
+    }
+
+    compareVersion() {
+        currentTime = new Date().getTime();
+        this.props.compareVersionAction({
+            version: DeviceInfo.getVersion(),
+            platform: Platform.OS === 'ios' ? '1': '2',
+        }, (result)=>{
+            lastTime = new Date().getTime();
+            ReadAndWriteFileUtil.appendFile('版本对比', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+                locationData.district, lastTime - currentTime, '首页');
+            if (result) {
+                this.props.updateVersion(result);
+            }else {
+                this.setData();
+            }
+        }, ()=>{
+            this.setData();
+        });
     }
 
     // 获取当前位置
@@ -1510,6 +1524,26 @@ const mapDispatchToProps = dispatch => {
         },
         saveCompanyInfoAction: (result) => {
             dispatch(saveCompanyInfoAction(result));
+        },
+        updateVersion: (data) => {
+            dispatch(updateVersionAction(data));
+        },
+        compareVersionAction: (params, compareSuccessCallBack, compareFailCallBack) => {
+            dispatch(fetchData({
+                api: API.API_COMPARE_VERSION,
+                body: {
+                    version: params.version,
+                    platform: params.platform,
+                },
+                success: (data) => {
+                    console.log('compare version success', data);
+                    compareSuccessCallBack && compareSuccessCallBack(data);
+                },
+                fail: (err) => {
+                    console.log('???', err);
+                    compareFailCallBack && compareFailCallBack(err);
+                },
+            }));
         },
     };
 }
