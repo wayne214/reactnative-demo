@@ -352,7 +352,7 @@ class OrderList extends BaseComponent {
             // initialPage={0}
               style={{flex: 1, backgroundColor: COLOR.COLOR_VIEW_BACKGROUND}}
             renderTabBar={() =>
-                <DefaultTabBar style={{height: 44,borderBottomColor: '#E6EAF2', borderBottomWidth: 0.5}}
+                <DefaultTabBar style={{height: 44,borderBottomColor: '#E6EAF2', borderBottomWidth:1}}
                                tabStyle={{paddingBottom: 2}}/>
             }
             onChangeTab={(obj)=>{
@@ -375,7 +375,7 @@ class OrderList extends BaseComponent {
               // };
             }}
             tabBarBackgroundColor={COLOR.WHITE_COLOR}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 3, width: 20, marginLeft:(width/4-20) * 0.5}}
+            tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 2, width: 20, marginLeft:(width/4-20) * 0.5}}
             tabBarActiveTextColor={COLOR.BLUE_BACKGROUND_COLOR}
             tabBarInactiveTextColor={COLOR.GRAY_TEXT_COLOR}
             tabBarTextStyle={{fontSize:15}}>
