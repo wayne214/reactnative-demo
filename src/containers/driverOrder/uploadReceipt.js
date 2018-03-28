@@ -165,7 +165,6 @@ class UploadReceipt extends Component {
                     }).catch(err=>{
                         // Toast.showShortCenter(err.message);
                         Alert.alert(null,err.message)
-
                     });
                 }else{
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
