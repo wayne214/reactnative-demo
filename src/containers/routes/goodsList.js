@@ -90,7 +90,7 @@ import DeviceInfo from 'react-native-device-info';
 import SearchGoodsFilterView from '../../components/routes/goodsFilterView'
 // import ScrollAD from '../../components/common/scrollAD.js'
 let startTime = 0;
-let page = 0;
+let page = 1;
 let goodArray = [];
 
 class GoodsList extends Component {
@@ -168,7 +168,7 @@ class GoodsList extends Component {
 
   }
   getGoodListSuccess(data){
-    if (page === 0){
+    if (page === 1){
         goodArray = [];
     }
 
@@ -201,7 +201,7 @@ class GoodsList extends Component {
     refresh(){
 
         goodArray = [];
-        page = 0;
+        page = 1;
         this._refreshList(this.getGoodListSuccess,this.getGoodListFail)
     }
 
