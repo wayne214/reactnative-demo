@@ -53,6 +53,7 @@ import LoginCharacter from "../../utils/loginCharacter";
 import DeviceInfo from 'react-native-device-info';
 
 const {width, height} = Dimensions.get('window');
+import DeviceInfo from "react-native-device-info";
 
 let currentTime = 0;
 let lastTime = 0;
@@ -261,7 +262,7 @@ class LoginSms extends BaseComponent {
     /*获取登录验证码*/
     requestVCodeForLogin(sendVCodeCallback, sendFailCallback) {
         this.props._getVCodeCode({
-            deviceId: '1',
+            deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.state.phoneNumber
         }, sendVCodeCallback, sendFailCallback);
     }
