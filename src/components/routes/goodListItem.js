@@ -42,11 +42,12 @@ class goodListItem extends Component{
         }else
             haveDetail = '';
 
+        goodName = goodName.replace('null', '');
+
         if (goodName == ''){
             haveDetail = '货品 ' + haveDetail;
         }else
             haveDetail = goodName + haveDetail;
-
 
 
         let needDetail = '';
@@ -143,15 +144,15 @@ class goodListItem extends Component{
                     </View>
                     {
                         item.configFreight ? <View style={{width: 140,flexDirection: 'row',}}>
-                            <View style={{width: 0.5, height: 37, backgroundColor: '#E6EAF2',marginLeft: 20}}/>
-                            <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'flex-end',flex: 1}}>
+                            <View style={{width: 0.5, height: 37, backgroundColor: '#E6EAF2',marginLeft: 10}}/>
+                            <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'flex-end',flex: 1,marginRight: 10}}>
                                 <Text style={{fontSize: 22,color: '#FF8500',fontWeight: 'bold'}}>
                                     {Helper.consignorPrice(null,null,item.configFreight).price}
                                 </Text>
-                                <Text style={{fontSize: 12,color: '#FF8500',fontWeight: 'bold',alignItems: 'flex-end',width: 20,paddingTop:6}}>
+                                <Text style={{fontSize: 12,color: '#FF8500',fontWeight: 'bold',alignItems: 'flex-end',width: 25,paddingTop:6}}>
                                     {Helper.consignorPrice(null,null,item.configFreight).unit}
                                 </Text>
-                                <Text style={{marginLeft: 5,}}>元</Text>
+                                <Text style={{color: '#666'}}>元</Text>
                             </View>
                         </View> : null
                     }
@@ -160,13 +161,13 @@ class goodListItem extends Component{
                 </View>
                 <View style={{height: 0.5,backgroundColor: '#E6EAF2',width: width,marginTop: 8}}/>
                 {
-                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 10}}>
+                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 20}}>
                         <View style={{padding: 9,backgroundColor: '#0092FF',borderRadius: 1}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 15,paddingHorizontal: 5}}>
                                 { item.biddingState == '3' ? '抢单失败' : '我的报价' + item.carrierPrice }
                             </Text>
                         </View>
-                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 10}}>
+                    </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 20}}>
                         <View style={{padding: 9,backgroundColor: '#0092FF',borderRadius: 1}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 15,paddingHorizontal: 5}}>
                                 我要抢单

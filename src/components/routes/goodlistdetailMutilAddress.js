@@ -67,7 +67,7 @@ class goodlistdetailMutilAddress extends Component{
                             {
                                 addresses.map((item,index)=>{
                                     return(
-                                        <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#666',fontSize: 15}}>
+                                        <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#666',fontSize: 14}}>
                                             {item.provinceName + item.cityName + item.areaName + item.address}
                                         </Text>
 

@@ -295,7 +295,7 @@ class goodListDetail extends Component {
                 <ScrollView keyboardDismissMode={'on-drag'}>
 
                     <ItemTop price={this.state.result.configFreight}/>
-                    <View style={{backgroundColor: 'white', marginTop: 10,padding: 20}}>
+                    <View style={{paddingTop: 12,paddingBottom: 8,backgroundColor: 'white'}}>
                         <AddressItem startAddress={fromAddress}
                                      endAddress={endAddress}/>
                     </View>

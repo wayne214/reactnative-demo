@@ -53,13 +53,13 @@ class goodlistdetailMoneyItem extends Component{
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 20}}>我要报价</Text>
+                    <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 15, fontWeight: 'bold',color: '#333'}}>我要报价</Text>
 
 
                 </View>
 
                 <View style={{padding: 20, backgroundColor: 'white',flexDirection:'row'}}>
-                    <View style={{borderColor: '#E6EAF2', borderWidth: 1,flex: 5,height: 40,flexDirection:'row',justifyContent: 'space-between',alignItems: 'center'}}>
+                    <View style={{borderColor: '#D8D8D8', borderWidth: 0.5,flex: 8,height: 40,flexDirection:'row',justifyContent: 'space-between',alignItems: 'center'}}>
                         <TextInput
                             ref="textInput"
                             style={{flex: 5,height: 30, marginLeft: 10, marginRight: 10, padding: 0}}
@@ -93,7 +93,7 @@ class goodlistdetailMoneyItem extends Component{
                 </View>
                 {
                     this.props.businessType === '501' ? null : <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 15}}>
-                        <Text style={{paddingVertical: 5,color: 'red'}}>
+                        <Text style={{paddingVertical: 5,color: 'red',backgroundColor:'#FFF9F9'}}>
                             注：报价范围应该在 {price} 之间
                         </Text>
                     </View>

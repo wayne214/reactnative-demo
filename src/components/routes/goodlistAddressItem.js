@@ -10,7 +10,7 @@ import ItemIcon from '../../../assets/home/goodlistitem_icon.png';
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        marginLeft: 20
+        marginLeft: 20,
     },
 });
 
