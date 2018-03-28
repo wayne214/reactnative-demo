@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import styles from '../../../assets/css/main';
 import Tabar from '../../components/app/tabBar';
 import {
@@ -30,15 +30,22 @@ import {
     fetchData,
     getInitStateFromDB,
 } from '../../action/app';
-import { changeOrderTopTab } from '../../action/order';
+import {changeOrderTopTab} from '../../action/order';
 import Drawer from 'react-native-drawer';
 import Linking from '../../utils/linking';
 import ControlPanel from '../../components/app/controlPanel';
 import Upgrade from '../../components/app/upgrade';
 import SplashScreen from 'react-native-splash-screen'
 import ICON_ROUTE from '../../../assets/img/app/icon_route.png';
-import { CARRIER_DETAIL_INFO, CAR_DETAIL_INFO, CITY_COUNTRY, GAME_ADDRESS, INSITE_NOTICE, API_QUERY_COMPANY_INFO } from '../../constants/api';
-import { updateMsgList, dispatchRefreshMessageList } from '../../action/message';
+import {
+    CARRIER_DETAIL_INFO,
+    CAR_DETAIL_INFO,
+    CITY_COUNTRY,
+    GAME_ADDRESS,
+    INSITE_NOTICE,
+    API_QUERY_COMPANY_INFO
+} from '../../constants/api';
+import {updateMsgList, dispatchRefreshMessageList} from '../../action/message';
 import BaseComponent from '../../components/common/baseComponent'
 import User from '../../models/user';
 import Storage from '../../utils/storage';
@@ -67,7 +74,7 @@ import TimeToDoSomething from '../../logUtil/timeToDoSomething.js'
 import ReadAndWriteFileUtil from '../../logUtil/readAndWriteFileUtil.js'
 import ObjectUitls from '../../utils/objectUitls';
 import LoginCharacter from '../../utils/loginCharacter';
-import {getAddressWithLocation,getAMapLocation} from '../../logUtil/geolocation.js'
+import {getAddressWithLocation, getAMapLocation} from '../../logUtil/geolocation.js'
 import StorageKey from '../../constants/storageKeys';
 
 const receiveCustomMsgEvent = "receivePushMsg";
@@ -110,60 +117,65 @@ class MainContainer extends BaseComponent {
         upgrade: PropTypes.object
     }
 
-    _doSomethingAfterReceiveNotification(map){
+    _doSomethingAfterReceiveNotification(map) {
 
         console.log(" === push ", map);
         if (this.state.appState == 'background') {
             this._pushToMessageList(map)//map.messsageType || map.messageType
-        }else if(this.state.appState == 'active') {
+        } else if (this.state.appState == 'active') {
             const alertTitle = map.messsageType == 2 ? '您有新的系统公告' : '收到一条新消息'//messageType 1=站内信 2=系统公告
-            Alert.alert('温馨提示',alertTitle,[
+            Alert.alert('温馨提示', alertTitle, [
                 {
                     text: '忽略',
-                    onPress:()=>{}
+                    onPress: () => {
+                    }
                 },
                 {
                     text: '查看',
-                    onPress:()=>{
+                    onPress: () => {
                         this._pushToMessageList(map)
                     }
                 }
             ])
         }
     }
+
     componentWillMount() {
         if (Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.handleBack);
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
         this.Listener = DeviceEventEmitter.addListener('restToLoginPage', (message) => {
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
+                mode: 'reset',
+                params: {title: ''}
+            })
         });
-
 
 
         await Storage.get(StorageKey.USER_INFO).then((userInfo) => {
             console.log('-main-userinfo', userInfo);
-            if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)){
+            if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)) {
                 // 发送Action,全局赋值用户信息
                 this.props.sendLoginSuccessAction(userInfo);
             }
         });
         await Storage.get(StorageKey.USER_CURRENT_STATE).then((status) => {
             console.log('-main-status', status);
-            if(status){
+            if (status) {
                 this.props.setCurrentCharacterAction(status);
             }
         });
         await Storage.get(StorageKey.USER_TYPE_INFO).then((userTypeInfo) => {
             console.log('-main-usertypeInfo', userTypeInfo);
-            if (userTypeInfo){
+            if (userTypeInfo) {
                 this.props.saveUserTypeInfoAction(userTypeInfo);
             }
         });
 
         await Storage.get(StorageKey.PlateNumberObj).then((result) => {
-            if (result && !ObjectUitls.isOwnEmpty(result)){
+            if (result && !ObjectUitls.isOwnEmpty(result)) {
                 // 发送Action,全局赋值车辆信息
                 this.props.saveUserSetCarSuccess(result);
             }
@@ -184,7 +196,8 @@ class MainContainer extends BaseComponent {
             JPushModule.addReceiveOpenNotificationListener(this._pushToMessageList);
             if (NativeModules.NativeModule.IOS_OS_VERSION < 10) {
                 JPushModule.addReceiveNotificationListener(this._doSomethingAfterReceiveNotification);
-            };
+            }
+            ;
         } else {
             JPushModule.addReceiveOpenNotificationListener(this._pushToMessageList);
         }
@@ -202,11 +215,15 @@ class MainContainer extends BaseComponent {
             // show float dialog
             this.timer = setTimeout(() => this.props.dispatch(showFloatDialog(true)), 2000);
         }
-        const { user } = this.props;
+        const {user} = this.props;
         if (!user || !user.userId) {
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
-        }else {
-            if(this.props.userTypeInfo) {
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
+                mode: 'reset',
+                params: {title: ''}
+            })
+        } else {
+            if (this.props.userTypeInfo) {
                 LoginCharacter.setCharacter(this.props, this.props.userTypeInfo, 'main');
             }
         }
@@ -227,8 +244,9 @@ class MainContainer extends BaseComponent {
             enableHighAccuracy: false
         })
 
-
-        this.props._getCompanyInfoacion({busTel: global.phone});
+        if (global.phone) {
+            this.props._getCompanyInfoacion({busTel: global.phone});
+        }
     }
 
     componentWillUnmount() {
@@ -241,7 +259,7 @@ class MainContainer extends BaseComponent {
         }
     }
 
-    _getCurrentPosition(){
+    _getCurrentPosition() {
         // console.log(" -- main getcurrent this",this);
         const {user} = this.props
         if (!(user && user.userId)) {
@@ -262,6 +280,7 @@ class MainContainer extends BaseComponent {
             enableHighAccuracy: false
         })
     }
+
     _handleAppStateChange(appState) {
         const previousAppStates = this.state.appState
         // console.log(" ====== previousAppStates appState = ",previousAppStates,appState);
@@ -275,12 +294,16 @@ class MainContainer extends BaseComponent {
         if (props && !props.legalAccount) {
             new User().delete();
             props.dispatch(logout());
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE,
+                mode: 'reset',
+                params: {title: ''}
+            })
         }
     }
 
-    _pushToMessageList(message){// messageType 1=站内信 2=系统公告
-        if (message && message.extras && IS_ANDROID){
+    _pushToMessageList(message) {// messageType 1=站内信 2=系统公告
+        if (message && message.extras && IS_ANDROID) {
             const extras = JSON.parse(message.extras)
             message.messageType = extras.messsageType
         }
@@ -288,7 +311,7 @@ class MainContainer extends BaseComponent {
         if (messageType == 1) {
             // 站内信
             this._pushToMessageListWithType(1)
-        }else{
+        } else {
             // 公告
             Storage.get('user').then(result => {
                 if (result && result.userId) {
@@ -297,16 +320,21 @@ class MainContainer extends BaseComponent {
             });
         }
     }
-    _pushToMessageListWithType(messageType){
+
+    _pushToMessageListWithType(messageType) {
         const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
         if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
             this.props.dispatch(dispatchRefreshMessageList())
         } else if (currentRoute.key === RouteType.ROUTE_MESSAGE_DETAIL) {
-            this.props.navigation.dispatch({ type: 'pop' })
+            this.props.navigation.dispatch({type: 'pop'})
         } else {
-            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST,params: { title: '消息', currentTab: parseInt(messageType) -1} })
+            this.props.navigation.dispatch({
+                type: RouteType.ROUTE_MESSAGE_LIST,
+                params: {title: '消息', currentTab: parseInt(messageType) - 1}
+            })
         }
     }
+
     componentWillUnmount() {
         AppState.removeEventListener('change', this._handleAppStateChange);
         this.timer && clearTimeout(this.timer)
@@ -316,21 +344,21 @@ class MainContainer extends BaseComponent {
             BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
             JPushModule.removeReceiveCustomMsgListener();
             JPushModule.removeReceiveNotificationListener();
-        }else{
+        } else {
             JPushModule.removeReceiveOpenNotificationListener(this._pushToMessageList);
             JPushModule.removeReceiveNotificationListener(this._doSomethingAfterReceiveNotification)
         }
     }
 
-    handleBack () {
-        let routeName = this.props.nav.routes.length>0?this.props.nav.routes[this.props.nav.index].routeName:'';
+    handleBack() {
+        let routeName = this.props.nav.routes.length > 0 ? this.props.nav.routes[this.props.nav.index].routeName : '';
         if (routeName === 'ROUTE_LOGIN' || routeName === 'ROUTE_CAR_LOGIN') {
             return true;
         }
 
 
         if (this.props.nav.routes.length > 1) {
-            this.props.navigation.dispatch({ type: 'pop' })
+            this.props.navigation.dispatch({type: 'pop'})
             return true
         }
 
@@ -346,12 +374,12 @@ class MainContainer extends BaseComponent {
     }
 
     // 版本升级方法
-    dialogOkCallBack(){
+    dialogOkCallBack() {
         Communications.web(this.props.versionUrl);
     }
 
-    codePushStatusDidChange (status) {
-        switch(status) {
+    codePushStatusDidChange(status) {
+        switch (status) {
             case codePush.SyncStatus.DOWNLOADING_PACKAGE:
                 this.props.dispatch(upgrade({
                     text: '正在下载更新内容',
@@ -376,7 +404,7 @@ class MainContainer extends BaseComponent {
         }
     }
 
-    codePushDownloadDidProgress (progress) {
+    codePushDownloadDidProgress(progress) {
         this.props.dispatch(upgrade({
             busy: true,
             progress: parseInt((progress.receivedBytes / progress.totalBytes) * 100) + '%' ///*+ '--' + receive + '/' + total*/
@@ -388,15 +416,15 @@ class MainContainer extends BaseComponent {
             return null;
         }
         return (
-            <Image style={ styles.badgeBg } source={ require('../../../assets/img/app/message_num_bg.png') }>
-                <Text style={ styles.badgeText }>{ badgeCount }</Text>
+            <Image style={styles.badgeBg} source={require('../../../assets/img/app/message_num_bg.png')}>
+                <Text style={styles.badgeText}>{badgeCount}</Text>
             </Image>
         );
     }
 
     _changeTab(tab) {
         this.props.dispatch(changeTab(tab))
-        this.props.navigation.setParams({ currentTab: tab, title: '' })
+        this.props.navigation.setParams({currentTab: tab, title: ''})
     }
 
     // openControlPanel () {
@@ -420,22 +448,22 @@ class MainContainer extends BaseComponent {
     //     this.props.dispatch(appendLogToFile('我的行程','查看个人中心',0))
     // }
 
-    _routeTab () {
+    _routeTab() {
         Animated.timing(this.state.rotateValue,
             {
                 toValue: 1
             }
         ).start(() => this.state.rotateValue.setValue(0));
-        console.log('currentStatus=',global.currentStatus);
-        
+        console.log('currentStatus=', global.currentStatus);
+
         this.props.dispatch(changeTab(global.currentStatus == 'driver' ? 'Home' : 'goods'));
     }
 
     render() {
-        const { upgrade } = this.props;
+        const {upgrade} = this.props;
         return (
             <View style={styles.container}>
-            {/*<Drawer*/}
+                {/*<Drawer*/}
                 {/*tapToClose={ true }*/}
                 {/*tweenDuration={ 200 }*/}
                 {/*content={ <ControlPanel { ...this.props } drawer={this._drawer}/> }*/}
@@ -444,16 +472,16 @@ class MainContainer extends BaseComponent {
                 {/*ref={ (ref) => this._drawer = ref }*/}
                 {/*tweenHandler={(ratio) => ({*/}
                 {/*main: { opacity: (2-ratio) / 2 }*/}
-            {/*})}>*/}
+                {/*})}>*/}
                 <Tabar
-                    { ...this.props }
+                    {...this.props}
                     note={this.insiteNotice}
-                    changeTab={ this._changeTab }
-                    openControlPanel={ this.openControlPanel } />
+                    changeTab={this._changeTab}
+                    openControlPanel={this.openControlPanel}/>
 
-                { this._renderUpgrade(this.props) }
+                {this._renderUpgrade(this.props)}
                 <Dialog ref="dialog" callback={this.dialogOkCallBack.bind(this)}/>
-            {/*</Drawer>*/}
+                {/*</Drawer>*/}
             </View>
         );
     }
@@ -461,7 +489,7 @@ class MainContainer extends BaseComponent {
 }
 
 const mapStateToProps = (state) => {
-    const { app, nav, user } = state;
+    const {app, nav, user} = state;
     return {
         nav,
         user: user.get('userInfo'),
@@ -519,9 +547,9 @@ const mapDispatchToProps = (dispatch) => {
                 }
             }));
         },
-        _changeOrderTopTab:(activeTab,activeSubTab)=>{
+        _changeOrderTopTab: (activeTab, activeSubTab) => {
             dispatch(changeTab('order'))
-            dispatch(changeOrderTopTab(activeTab,activeSubTab))
+            dispatch(changeOrderTopTab(activeTab, activeSubTab))
         },
         getUrl: (body) => {
             dispatch(fetchData({
@@ -533,7 +561,7 @@ const mapDispatchToProps = (dispatch) => {
                 },
             }));
         },
-        getNotice: ()=>{
+        getNotice: () => {
             //// 承运方 1 委托方2
             dispatch(fetchData({
                 body: {
@@ -544,15 +572,16 @@ const mapDispatchToProps = (dispatch) => {
                 success: (data) => {
                     let noticeContent = ''
                     if (data && data.length > 0) {
-                        data.forEach((item,index,array)=>{
+                        data.forEach((item, index, array) => {
                             noticeContent = noticeContent + (index == 0 ? '' : '            ') + item.noteContent
                         })
-                    };
+                    }
+                    ;
                     dispatch(receiveInSiteNotice(noticeContent))
                 },
             }));
         },
-        saveUserTypeInfoAction:(result)=>{
+        saveUserTypeInfoAction: (result) => {
             dispatch(saveUserTypeInfoAction(result));
         },
         sendLoginSuccessAction: (result) => {
@@ -571,7 +600,7 @@ const mapDispatchToProps = (dispatch) => {
         setCompanyCodeAction: (result) => {
             dispatch(setCompanyCodeAction(result));
         },
-        setOwnerNameAction:(data)=>{
+        setOwnerNameAction: (data) => {
             dispatch(setOwnerNameAction(data));
         },
         saveCompanyInfoAction: (result) => {
