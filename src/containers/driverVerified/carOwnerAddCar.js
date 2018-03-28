@@ -257,8 +257,8 @@ class certification extends Component {
     }
 
     componentWillUnmount() {
-        // if (this.listener)
-        //     this.listener.remove();
+         if (this.listener)
+             this.listener.remove();
     }
 
     // 获取当前位置
