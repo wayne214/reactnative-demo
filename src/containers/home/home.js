@@ -375,11 +375,6 @@ class Home extends Component {
         //     }
         // });
 
-        // this.Listener = DeviceEventEmitter.addListener('restToLoginPage', (message) => {
-        //     Toast.showShortCenter(message);
-        //     this.resetTo(0, 'Login');
-        // });
-
         // this.bindCarListener = DeviceEventEmitter.addListener('bindUserCar', (value) => {
         //     if (value) {
         //         this.setUserCar(value);

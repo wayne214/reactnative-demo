@@ -153,7 +153,7 @@ class chooseCar extends Component {
                 this.saveUserCarInfo(item.item);
                 Storage.remove('carInfoResult');
                 if (this.state.flag){
-                    {/*this.resetTo(0, 'Main');*/}
+                    DeviceEventEmitter.emit('refreshHome');
                     this.props.navigation.dispatch({type: 'pop'});
                 } else {
                     this.props._refreshOrderList(0);
