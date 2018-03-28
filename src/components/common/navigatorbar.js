@@ -318,12 +318,12 @@ const styles = StyleSheet.create({
 		paddingTop: 2,
 	},
 	secondLevelView: {
-		marginRight: 10,
+		marginRight: 15,
 		paddingTop: 2,
 	},
 	optIcon: {
 		fontSize: 20,
-		color: '#8f8f8f',
+		color: '#5C5C68',
 		fontFamily: 'iconfont',
 	},
 	optTitle: {

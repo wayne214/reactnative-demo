@@ -128,11 +128,12 @@ class orderItemCell extends Component{
 									</View> : null
               }
 						<View style={styles.separateLine}/>
+
 						<View style={[styles.subContainer, {marginTop: 20}]}>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
-								<View style={{flexDirection: 'row'}}>
+								<View style={{flexDirection: 'row', alignItems: 'center'}}>
 
 									<View style={[styles.cuoheBg, {width: 16}]}>
 										<Text style={styles.cuoheText}>有</Text>

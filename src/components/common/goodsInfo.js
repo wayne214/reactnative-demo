@@ -57,6 +57,12 @@ class GoodsInfo extends Component{
 		const weight = configData.weight ? configData.weight : '';
 		const uom = configData.uom ? configData.uom : '';
 		const goodDetail = goodsType + goodsCategory + weight + uom;
+
+		let standard;
+
+		if (weight !== '' && uom !== '') {
+			standard = weight + '吨' + uom + '方';
+		}
 		return (
 			<View style={styles.goodsContent}>
 
@@ -72,21 +78,24 @@ class GoodsInfo extends Component{
 					</View>
 
 						{
-                configData.itemName ? <View style={styles.goodsDetailItem}>
+								(configData.itemName && businessType !== '501') ? <View style={styles.goodsDetailItem}>
 									<Text style={styles.goodsDetailMark}>货物名称：</Text>
 									<Text style={styles.goodsDetailContent}>{configData.itemName}</Text>
 								</View> : null
 						}
 
 						{
-                configData.standard ? <View style={styles.goodsDetailItem}>
+								(configData.standard && businessType !== '501') ? <View style={styles.goodsDetailItem}>
 									<Text style={styles.goodsDetailMark}>货物规格：</Text>
 									<Text style={styles.goodsDetailContent}>{configData.standard}</Text>
-								</View> : null
+								</View> : <View style={styles.goodsDetailItem}>
+									<Text style={styles.goodsDetailMark}>货物规格：</Text>
+									<Text style={styles.goodsDetailContent}>{standard}</Text>
+								</View>
 						}
 
 						{
-                configData.uom ? <View style={styles.goodsDetailItem}>
+								(configData.uom && businessType !== '501') ? <View style={styles.goodsDetailItem}>
 									<Text style={styles.goodsDetailMark}>货物单位：</Text>
 									<Text style={styles.goodsDetailContent}>{configData.uom}</Text>
 								</View> : null
