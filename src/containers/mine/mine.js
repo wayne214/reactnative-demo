@@ -48,6 +48,17 @@ import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
 import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
 import MessageMine from '../../../assets/img/oldMine/message.png';
 
+import {
+    saveUserCarList,
+    setUserCarAction,
+    setCurrentCharacterAction,
+    queryEnterpriseNatureSuccessAction,
+    setOwnerCharacterAction,
+    setCompanyCodeAction,
+    saveCompanyInfoAction,
+    setDriverCharacterAction
+} from '../../action/user';
+
 
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
@@ -1032,7 +1043,13 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                 },
             }))
-        }
+        },
+        setDriverCharacterAction: (result) => {
+            dispatch(setDriverCharacterAction(result));
+        },
+        setOwnerCharacterAction: (result) => {
+            dispatch(setOwnerCharacterAction(result));
+        },
     };
 }
 
