@@ -73,7 +73,6 @@ export default (state = initState, action) => {
 
             newState = newState.set('plateNumber', action.payload.carNum);
             newState = newState.set('plateNumberObj', action.payload);
-
             return newState;
 
         case ActionTypes.ACTION_USER_CLEAR:

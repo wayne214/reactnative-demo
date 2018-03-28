@@ -348,10 +348,14 @@ class Home extends Component {
         // }
         // -----------jpush  ios end
 
-        this.listener = DeviceEventEmitter.addListener('refreshHome', () => {
-            if (this.props.plateNumber) {
-                const {userInfo} = this.props;
-                this.getHomePageCount(this.props.plateNumber, userInfo.phone)
+        this.listener = DeviceEventEmitter.addListener('refreshHome', (data) => {
+            const {userInfo} = this.props;
+            if(data){
+                this.getHomePageCount(data, userInfo.phone)
+            }else {
+                if (this.props.plateNumber) {
+                    this.getHomePageCount(this.props.plateNumber, userInfo.phone)
+                }
             }
         });
         // this.getUserCarListener = DeviceEventEmitter.addListener('getUserCar', () => {
@@ -393,7 +397,7 @@ class Home extends Component {
     }
 
     componentWillUnmount() {
-        // this.listener.remove();
+        this.listener.remove();
         // this.getUserCarListener.remove();
         // this.Listener.remove();
         // this.bindCarListener.remove();
