@@ -153,8 +153,8 @@ class chooseCar extends Component {
                 this.saveUserCarInfo(item.item);
                 Storage.remove('carInfoResult');
                 if (this.state.flag){
-                    {/*this.resetTo(0, 'Main');*/}
                     this.props.navigation.dispatch({type: 'pop'});
+                    DeviceEventEmitter.emit('refreshHome',item.item.carNum);
                 } else {
                     this.props._refreshOrderList(0);
                     this.props._refreshOrderList(1);
@@ -221,7 +221,6 @@ class chooseCar extends Component {
     // }
     // 保存车牌号对象
     saveUserCarInfo(plateNumberObj) {
-
         this.props.saveUserSetCarSuccess(plateNumberObj);
     }
 
