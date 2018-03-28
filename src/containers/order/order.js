@@ -375,7 +375,7 @@ class OrderList extends BaseComponent {
               // };
             }}
             tabBarBackgroundColor={COLOR.WHITE_COLOR}
-            tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 2, width: 20, marginLeft:(width/4-20) * 0.5}}
+            tabBarUnderlineStyle={{backgroundColor: COLOR.BLUE_BACKGROUND_COLOR, height: 3, width: 20, marginLeft:(width/4-20) * 0.5}}
             tabBarActiveTextColor={COLOR.BLUE_BACKGROUND_COLOR}
             tabBarInactiveTextColor={COLOR.GRAY_TEXT_COLOR}
             tabBarTextStyle={{fontSize:15}}>
