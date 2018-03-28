@@ -79,7 +79,7 @@ export default class NavigatorBar extends React.Component {
 					activeOpacity={ 1 }
 					onPress={ this._forward }
 					style={ styles.backIconView }>
-					<Text style={ styles.backIcon }>&#xe69f;</Text>
+					<Text style={ styles.backIcon }>&#xe646;</Text>
 				</TouchableOpacity>
 			);
 		} else {

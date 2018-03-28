@@ -28,14 +28,14 @@ class goodlistdetailsetTimeItem extends Component{
         const Etime = endTime === '' ? '选择时间' : endTime;
         return (
             <View style={styles.container}>
-                <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 20}}>预计装货时间</Text>
+                <Text style={{backgroundColor: COLOR.APP_CONTENT_BACKBG,padding: 15, fontWeight: 'bold',color: '#333'}}>预计装货时间</Text>
                 <View style={{backgroundColor: 'white',padding: 20,flexDirection: 'row',flex:1 }}>
                     <View style={{flex: 1}}>
                         <TouchableOpacity style={{
                              alignItems: 'center',
                              marginRight: 5,
                              height: 40,
-                             borderWidth: 1,
+                             borderWidth: 0.5,
                              borderColor: '#D8D8D8',
                              justifyContent: 'space-between',
                              flexDirection: 'row'
@@ -43,8 +43,8 @@ class goodlistdetailsetTimeItem extends Component{
                             this.props.startaTimeClick();
                         }}>
                             <Text style={{marginLeft: 5,color: Stime.length === 4 ? '#CCCCCC' : '#666'}}>{Stime}</Text>
-                            <Text style={{marginRight: 5,fontFamily: 'iconfont',color: '#999999'}}>
-                                &#xe63d;
+                            <Text style={{marginRight: 5,fontFamily: 'iconfont',color: '#999999',fontSize :8}}>
+                                &#xe674;
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -53,7 +53,7 @@ class goodlistdetailsetTimeItem extends Component{
                             alignItems: 'center',
                             marginLeft: 5,
                             height: 40,
-                            borderWidth: 1,
+                            borderWidth: 0.5,
                             borderColor: '#D8D8D8',
                             justifyContent: 'space-between',
                             flexDirection: 'row'
@@ -61,14 +61,14 @@ class goodlistdetailsetTimeItem extends Component{
                             this.props.endTimeClick();
                         }}>
                             <Text style={{marginLeft: 5,color: Etime.length === 4 ? '#CCCCCC' : '#666'}}>{Etime}</Text>
-                            <Text style={{marginRight: 5,fontFamily: 'iconfont',color: '#999999'}}>
-                                &#xe63d;
+                            <Text style={{marginRight: 5,fontFamily: 'iconfont',color: '#999999',fontSize :8}}>
+                                &#xe674;
                             </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{backgroundColor: 'white',paddingHorizontal: 20, paddingBottom: 15}}>
-                    <Text style={{paddingVertical: 5,color: 'red'}}>
+                    <Text style={{paddingVertical: 5,color: 'red',backgroundColor:'#FFF9F9',textAlign: 'center'}}>
                         注：装货时间应该在24小时内，避免造成额外损失
                     </Text>
                 </View>
