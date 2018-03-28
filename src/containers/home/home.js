@@ -418,7 +418,8 @@ class Home extends Component {
             ReadAndWriteFileUtil.appendFile('版本对比', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '首页');
             if (result) {
-                this.props.updateVersion(result);
+                // this.props.updateVersion(result);
+                this.setData();
             }else {
                 this.setData();
             }
@@ -1041,8 +1042,9 @@ class Home extends Component {
                     <Text style={{
                         textAlign: 'center',
                         color: LIGHT_BLACK_TEXT_COLOR,
-                        fontSize: 18,
+                        fontSize: 19,
                         marginTop: 10,
+                        fontWeight: 'bold'
                     }}>首页</Text>
                 </View>
                 <View style={{

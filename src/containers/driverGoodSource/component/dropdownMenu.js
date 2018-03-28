@@ -286,7 +286,8 @@ export default class DropdownMenu extends Component {
                                     <Text
                                         style={{
                                             color: this.props.tintColor ? this.props.tintColor : this.defaultConfig.tintColor,
-                                            fontSize: 18,
+                                            fontSize: 19,
+                                            fontWeight: 'bold'
                                         }}
                                     >{rows[this.state.selectIndex[index]]}</Text>
                                     {this.renderDropDownArrow(index)}
