@@ -309,7 +309,7 @@ class MessageContainer extends BaseComponent {
                         </Animated.View>
                         <View style={styles.iconContainer}>
                             <View style={styles.iconBg}>
-                                <Text style={[styles.iconFont, {color: '#666', fontSize: 13}]}>&#xe633;</Text>
+                                <Text style={[styles.iconFont, {color: '#666', fontSize: 13}]}>&#xe61d;</Text>
                                 {
                                     !rowData.isRead &&
                                     <Text style={[styles.iconFont, styles.unreading]}>&#xe630;</Text>
