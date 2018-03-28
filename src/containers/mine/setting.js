@@ -202,19 +202,19 @@ class setting extends Component {
                     />
                 </View>
                 <View style={styles.separateLine}/>
-                <View style={styles.contentItemView}>
-                    <Text style={styles.contentItemText}>
-                        语音播报
-                    </Text>
-                    <Switch
-                        onTintColor={'#0083FF'}
-                        onValueChange={(value) => {
-                            this.speechValueChange(value);
-                        }}
-                        style={{marginBottom: 10, marginTop: 10}}
-                        value={this.state.speechSwitch}
-                    />
-                </View>
+                {/*<View style={styles.contentItemView}>*/}
+                    {/*<Text style={styles.contentItemText}>*/}
+                        {/*语音播报*/}
+                    {/*</Text>*/}
+                    {/*<Switch*/}
+                        {/*onTintColor={'#0083FF'}*/}
+                        {/*onValueChange={(value) => {*/}
+                            {/*this.speechValueChange(value);*/}
+                        {/*}}*/}
+                        {/*style={{marginBottom: 10, marginTop: 10}}*/}
+                        {/*value={this.state.speechSwitch}*/}
+                    {/*/>*/}
+                {/*</View>*/}
                 <TouchableOpacity
                     onPress={() => {
                         this.press();

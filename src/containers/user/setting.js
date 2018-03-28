@@ -234,19 +234,19 @@ class SettingContainer extends BaseComponent {
 					    />
 					</View>
 				</View>
-				<View style={ styles.cellContainer }>
-					<View style={ styles.leftAnd }>
-						<Text style={ styles.leftText }>语音播报</Text>
-					</View>
-					<View style={ [styles.rightAnd, { marginRight: 15 }] }>
-						<Switch
-							value={ this.state.speechSwitch }
-							onValueChange={ this.speechValueChange  }
-							style={ styles.switch }
-							onTintColor={'#0092FF'}
-						/>
-					</View>
-				</View>
+				{/*<View style={ styles.cellContainer }>*/}
+					{/*<View style={ styles.leftAnd }>*/}
+						{/*<Text style={ styles.leftText }>语音播报</Text>*/}
+					{/*</View>*/}
+					{/*<View style={ [styles.rightAnd, { marginRight: 15 }] }>*/}
+						{/*<Switch*/}
+							{/*value={ this.state.speechSwitch }*/}
+							{/*onValueChange={ this.speechValueChange  }*/}
+							{/*style={ styles.switch }*/}
+							{/*onTintColor={'#0092FF'}*/}
+						{/*/>*/}
+					{/*</View>*/}
+				{/*</View>*/}
 
 				{/*<TouchableOpacity*/}
 					{/*style={ styles.cellContainer }*/}
