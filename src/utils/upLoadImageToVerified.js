@@ -1,7 +1,8 @@
 /**
  * Created by mymac on 2017/7/3.
  */
-import {HOST} from '../constants/setting'
+import {HOST} from '../constants/setting';
+import DeviceInfo from "react-native-device-info";
 
 const headers = {
     "Content-Type": "multipart/form-data",
@@ -31,7 +32,7 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
 
     if (global.token) {
         headers.Authorization = `Bearer ${global.token}`;
-        headers.DeviceId = global.UDID;
+        headers.deviceId = DeviceInfo.getDeviceId();
         headers.PhoneNum = global.phone;
     }
     console.log('%c HTTP Request', 'color:blue');

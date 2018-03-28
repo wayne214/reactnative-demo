@@ -145,7 +145,7 @@ class GoodsList extends Component {
             platform: Platform.OS === 'ios' ? '1': '2',
         }, (result)=>{
             if (result) {
-                 // this.props.updateVersion(result);
+                 this.props.updateVersion(result);
             }
         });
     }

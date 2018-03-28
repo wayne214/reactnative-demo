@@ -2,7 +2,8 @@ import Storage from './storage';
 import StorageKey from '../constants/storageKeys';
 import JPushModule from 'jpush-react-native';
 import Toast from '@remobile/react-native-toast';
-import {HOST} from '../constants/setting'
+import {HOST} from '../constants/setting';
+import DeviceInfo from "react-native-device-info";
 
 const headers = {
     "Accept": "application/json",
@@ -81,7 +82,7 @@ const postRequest = (
     console.log('global.token===', global.token);
     if (global.token) {
         headers.Authorization = `Bearer ${global.token}`;
-        headers.DeviceId = global.UDID;
+        headers.deviceId = DeviceInfo.getDeviceId();
         headers.PhoneNum = global.phone;
     }
     //body.deviceId = global.UDID

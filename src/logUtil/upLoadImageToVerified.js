@@ -6,6 +6,7 @@ const headers = {
     "Content-Type": "multipart/form-data",
 };
 const timeOut = 60000;
+import DeviceInfo from "react-native-device-info";
 
 const _fetch = (fetch_promise, timeout = timeOut) => {
     let abort_fn = null;
@@ -30,7 +31,7 @@ const upLoadImageManager = (url, data, loadingCallBack, successCallBack, failCal
 
     if (global.token) {
         headers.Authorization = `Bearer ${global.token}`;
-        headers.DeviceId = global.UDID;
+        headers.deviceId = DeviceInfo.getDeviceId();
         headers.PhoneNum = global.phone;
     }
     // console.log('%c HTTP Request', 'color:blue');

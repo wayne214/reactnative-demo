@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 import {fetchData, loadUser} from "../../action/app";
 import BaseComponent from '../../components/common/baseComponent';
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Button from 'apsl-react-native-button';
 import {
@@ -352,7 +352,7 @@ class Login extends BaseComponent {
                                     if (Regex.test('mobile',phoneNumber)) {
                                         this.loginSecretCode(this.getSecretCodeCallback);
                                     } else {
-                                        Toast.show('手机号码输入有误，请重新输入');
+                                        Toast.showShortCenter('手机号码输入有误，请重新输入');
                                     }
                                 }}
                             >
@@ -454,7 +454,7 @@ function mapDispatchToProps(dispatch) {
                     successCallback(data);
                 },
                 fail: (error) => {
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },
@@ -469,7 +469,7 @@ function mapDispatchToProps(dispatch) {
                     dispatch(loadUser(data));
                 },
                 fail: (error) => {
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },

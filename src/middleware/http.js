@@ -4,6 +4,10 @@ import * as ActionTypes from '../constants/actionType'
 import {DEBUG, HOST, HTTP_TIMEOUT} from '../constants/setting'
 import Toast from '../utils/toast'
 import DeviceInfo from "react-native-device-info";
+import Storage from './../utils/storage';
+import StorageKey from '../constants/storageKeys';
+import JPushModule from 'jpush-react-native';
+import resetToLoginEmit from '../containers/home/receiveRestToLogin'
 
 /**
  * [description]
@@ -82,14 +86,49 @@ export default store => next => action => {
         //     global.token = data.headers.get('newtoken');
         //     // Storage.save(StorageKey.TOKEN, response.headers.get('newtoken'));
         // }
-        if (data.status === 200 && data.data.code * 1 === 200) {
-          if (successToast) Toast.show(msg)
-          success(data.data.result)
+
+        if (data.data.code == '200') {
+            if (success)
+                success(data.data.result);
+        } else {
+            if (data.data.code == '504') {
+                Storage.save(StorageKey.TOKEN, '');
+                global.token = '';
+                Storage.remove(StorageKey.USER_INFO);
+                Storage.remove(StorageKey.CarSuccessFlag);
+                Storage.remove(StorageKey.PlateNumber);
+                resetToLoginEmit.restToLogin(data.data.message);
+                JPushModule.setAlias('', ()=>{}, ()=>{});
+                Toast.showShortCenter(data.data.message);
+            } else if (data.data.code == '800'){} else {
+                Toast.showShortCenter(data.data.message);
+            }
+
+
+            if (fail)
+                fail(data.data);
         }
-        if (data.status === 200 && data.data.code !== 200) {
-          if (failToast) Toast.show(data.data.message)
-          fail(data.data)
-        }
+
+
+        // if (data.status === 200 && data.data.code * 1 === 200) {
+        //   if (successToast) Toast.show(msg)
+        //   success(data.data.result)
+        // }
+        //
+        // if(data.status === 200 && data.data.code === '504') {
+        //     Storage.save(StorageKey.TOKEN, '');
+        //     global.token = '';
+        //     Storage.remove(StorageKey.USER_INFO);
+        //     Storage.remove(StorageKey.CarSuccessFlag);
+        //     Storage.remove(StorageKey.PlateNumber);
+        //     resetToLoginEmit.restToLogin(responseData.message);
+        //     JPushModule.setAlias('', ()=>{}, ()=>{});
+        //     Toast.showShortCenter(responseData.message);
+        // }
+        // if (data.status === 200 && data.data.code !== 200) {
+        //   if (failToast) Toast.show(data.data.message)
+        //   fail(data.data)
+        // }
     }, error => {
         Toast.show('请求超时，请重试!')
         if (DEBUG) console.log('error:', error)

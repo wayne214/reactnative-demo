@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>CodePushDeploymentKey</key>
 	<string>$(CODEPUSH_KEY)</string>
 	<key>LSApplicationCategoryType</key>
@@ -52,7 +52,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>根据您当前位置，为您精准推送您期望的信息</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>请允许使用您的麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请允许访问您的相册，以获取您相册中的图片</string>
 	<key>UIAppFonts</key>
