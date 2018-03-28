@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
 		fontSize: 12
 	},
 	goodsInfo: {
-		// margin: 15,
+		 marginLeft: 15,
+		 marginRight: 15,
 	},
 	goodsInfoIcon:{
 		fontFamily: 'iconfont',
