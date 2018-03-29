@@ -236,20 +236,35 @@ class enterpriseownerVerifiedState extends Component {
     /*重新认证*/
     reloadVerified() {
         Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
+            if (this.props.navigation.state.params && this.props.navigation.state.params.comeFrom) {
+                if (value) {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                        params: {resultInfo: value,type: 'login'}
+                    });
+                } else {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                        params: {type: 'login'}
+                    })
 
-            if (value) {
-                this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
-                    params: {resultInfo: value}
-                });
-            } else {
-                this.props.navigation.dispatch({
-                    type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH
-                })
-                // this.props.navigation.navigate('CompanyCarOwnerAuth', {
-                //     resultInfo: this.state.resultInfo,
-                // });
+                }
+            }else {
+                if (value) {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH,
+                        params: {resultInfo: value}
+                    });
+                } else {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH
+                    })
+
+                }
             }
+
+
+
         });
     }
 

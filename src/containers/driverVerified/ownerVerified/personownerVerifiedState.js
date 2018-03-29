@@ -252,6 +252,21 @@ class personownerVerifiedState extends Component{
 
         Storage.get(StorageKey.personownerInfoResult).then((value) => {
 
+            if (this.props.navigation.state.params && this.props.navigation.state.params.comeFrom){
+                if (value){
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
+                        params: {resultInfo: value, type: 'login'}
+                    })
+
+                }else {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
+                        params: {type: 'login'}
+
+                    })
+                }
+            }else {}
             if (value){
                 this.props.navigation.dispatch({
                     type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
@@ -263,6 +278,9 @@ class personownerVerifiedState extends Component{
                     type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH,
                 })
             }
+
+
+
         });
 
     }

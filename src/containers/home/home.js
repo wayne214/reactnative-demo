@@ -652,6 +652,9 @@ class Home extends Component {
                         this.props.setOwnerCharacterAction('13');
                         this.props.navigation.dispatch({
                             type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
+                            params: {
+                                comeFrom: 'home'
+                            }
                         });
                         // this.props.navigation.navigate('PersonownerVerifiedStatePage');
                         this.setState({
@@ -692,6 +695,9 @@ class Home extends Component {
                             this.props.setOwnerCharacterAction('23');
                             this.props.navigation.dispatch({
                                 type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL,
+                                params: {
+                                    comeFrom: 'home'
+                                }
                             });
                             // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
                             this.setState({
