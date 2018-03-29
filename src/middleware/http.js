@@ -88,7 +88,7 @@ export default store => next => action => {
         // }
 
         if (data.data.code == '200') {
-            if (success)
+            if (success)gjit
                 success(data.data.result);
         } else {
             if (data.data.code == '504') {

@@ -143,7 +143,8 @@ class LoginCharacter {
                     }
 
                     if (result[1].status == 10) {
-                        props.saveCompanyInfoAction(result[1]);
+                        props.saveCompanyInfoAction(result[0]);
+                        props.setCompanyCodeAction(result[0].companyCode);
                         if (result[0].companyNature == '个人') {
                             props.setCurrentCharacterAction('personalOwner');
                             props.setOwnerNameAction(result[0].name);
@@ -208,6 +209,7 @@ class LoginCharacter {
 
                     if (result[0].status == 10) {
                         props.saveCompanyInfoAction(result[1]);
+                        props.setCompanyCodeAction(result[1].companyCode);
                         if (result[1].companyNature == '个人') {
                             props.setOwnerNameAction(result[1].name);
                             props.setCurrentCharacterAction('personalOwner');
