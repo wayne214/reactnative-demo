@@ -41,7 +41,10 @@ const uploadAction = () => {
             let formData = new FormData();
             let file = {uri: ReadAndWriteFileUtil.getPath(), type: 'multipart/form-data', name: 'logger.txt'};
             formData.append('logFile', file);
-            console.log('日志文件', file);
+            // console.log('日志文件', file);
+            // ReadAndWriteFileUtil.readFile((result) => {
+            //     console.log('fileContent',result, result.length);
+            // }, (err) => { console.log('文件不存在', err); });
             const url = HOST + API.API_COLLECT_LOG;
             ReadAndWriteFileUtil.isFilePathExists((exist)=>{
                 if (exist) {

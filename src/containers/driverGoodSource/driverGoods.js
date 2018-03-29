@@ -24,7 +24,8 @@ import CommonListItem from './component/commonListItem';
 import * as RouteType from '../../constants/routeType';
 import UniqueUtil from '../../utils/unique';
 import emptyList from '../../../assets/img/emptyView/nodata.png';
-import LoadMoreFooter from '../../components/common/loadMoreFooter'
+import LoadMoreFooter from '../../components/common/loadMoreFooter';
+import {Geolocation} from 'react-native-baidu-map-xzx';
 
 let pageNO = 1; // 第一页
 const pageSize = 10; // 每页显示的数量
@@ -35,6 +36,8 @@ const screenHeight = Dimensions.get('window').height;
 let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
+import {appendLogToFile} from '../../action/app';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 
 const styles = StyleSheet.create({
     container:{
@@ -83,7 +86,7 @@ class driverGoods extends Component {
     }
 
     componentDidMount() {
-        // this.getCurrentPosition();
+        this.getCurrentPosition();
         this.resetParams();
         pageNO = 1;
         if (pageNO === 1) {
@@ -101,6 +104,15 @@ class driverGoods extends Component {
     }
     componentWillUnmount() {
         this.listener.remove();
+    }
+    // 获取当前位置
+    getCurrentPosition() {
+        Geolocation.getCurrentPosition().then((data) => {
+            console.log('position =', JSON.stringify(data));
+            locationData = data;
+        }).catch((e) => {
+            console.log(e, 'error');
+        });
     }
     // 收到监听后进行网络请求
     receiveEventAndFetchData() {
@@ -158,8 +170,8 @@ class driverGoods extends Component {
     getDataSuccessCallBack(result) {
         console.log('=goodResult',result);
         lastTime = new Date().getTime();
-        // ReadAndWriteFileUtil.appendFile('根据时间查询调度单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-        //     locationData.district, lastTime - currentTime, '货源页面');
+        ReadAndWriteFileUtil.appendFile('根据时间查询调度单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+            locationData.district, lastTime - currentTime, '货源页面');
         startRow = result.startRow + pageSize;
         console.log('....startRow', startRow, result.list.length);
         if (result.total <= startRow || result.total === 0) {
@@ -390,6 +402,7 @@ function mapDispatchToProps(dispatch) {
     return {
         dispatch,
         _getData: (params, successCallback, failCallback) => {
+            let startTime = new Date().getTime();
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
@@ -397,6 +410,7 @@ function mapDispatchToProps(dispatch) {
                 api: API.API_NEW_GET_SOURCE_BY_DATE,
                 success: data => {
                     console.log('-login_data', data);
+                    // dispatch(appendLogToFile('根据时间查询调度单', '司机货源列表', startTime));
                     successCallback(data);
                 },
                 fail: () => {

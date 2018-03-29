@@ -52,6 +52,12 @@ import DeviceInfo from 'react-native-device-info';
 import OrderItemCell from '../../components/order/orderItemCell';
 import Linking from '../../utils/linking'
 
+import {Geolocation} from 'react-native-baidu-map-xzx';
+import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
+let currentTime = 0;
+let lastTime = 0;
+let locationData = '';
+
 
 const { height,width } = Dimensions.get('window')
 let startTime = 0
@@ -223,12 +229,23 @@ class OrderList extends BaseComponent {
   }
   componentDidMount() {
     super.componentDidMount()
+      this.getCurrentPosition();
     const {user} = this.props
       this.getlistbyIndex(0, 1);
       DeviceEventEmitter.addListener('refreshCarrierOrderList', () => {
           this.getlistbyIndex(2, 1);
       });
   }
+
+    // 获取当前位置
+    getCurrentPosition() {
+        Geolocation.getCurrentPosition().then((data) => {
+            console.log('position =', JSON.stringify(data));
+            locationData = data;
+        }).catch((e) => {
+            console.log(e, 'error');
+        });
+    }
 
   _updateListWithIndex(activeTab = this.state.activeTab,pageNo){
     const {user} = this.props
@@ -258,6 +275,7 @@ class OrderList extends BaseComponent {
     }
 
   getDataList(api, pageNum, index) {
+      currentTime = new Date().getTime();
     this.props._getTransportOrderList({
         // carrierCode: this.props.carrierCode,
         carrierCode: global.companyCode,
@@ -268,6 +286,9 @@ class OrderList extends BaseComponent {
         // pageSize,
         // queryType: type,
     }, api, index);
+      lastTime = new Date().getTime();
+      ReadAndWriteFileUtil.appendFile('运单列表', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
+          locationData.district, lastTime - currentTime, '承运商运单');
   }
 
   _refreshList(){

@@ -59,6 +59,7 @@ let currentTime = 0;
 let lastTime = 0;
 let locationData = '';
 const {width, height} = Dimensions.get('window');
+let startTime = 0;
 
 const styles = StyleSheet.create({
     container: {
@@ -459,6 +460,7 @@ function mapDispatchToProps(dispatch) {
             }))
         },
         login: (params, successCallback) => {
+            startTime = new Date().getTime();
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
@@ -467,6 +469,7 @@ function mapDispatchToProps(dispatch) {
                 success: data => {
                     successCallback(data);
                     dispatch(loadUser(data));
+                    // dispatch(appendLogToFile('登录', '用户登录-承运商登录', startTime))
                 },
                 fail: (error) => {
                     Toast.showShortCenter(error.message);
