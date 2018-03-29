@@ -145,208 +145,14 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentPosition(0);
-        if (this.props.currentStatus == 'driver') {
-            this.compareVersion();
-            this.queryEnterpriseNature();
+        const {userInfo} = this.props;
+        if (userInfo && userInfo.userId) {
+            this.getCurrentPosition(0);
+            if (this.props.currentStatus == 'driver') {
+                this.compareVersion();
+                this.queryEnterpriseNature();
+            }
         }
-        // if (Platform.OS === 'android') {
-        //     JPushModule.notifyJSDidLoad((resultCode) => {
-        //         if (resultCode === 0) {
-        //         }
-        //     });
-        //     // 收到自定义消息后触发
-        //     JPushModule.addReceiveCustomMsgListener((message) => {
-        //         console.log(message);
-        //     });
-        //     // 收到推送时将会触发此事件
-        //     JPushModule.addReceiveNotificationListener((message) => {
-        //         console.log('home,ANreceive notification: ', message);
-        //
-        //         this.props.setMessageListIcon(true);
-        //         this.saveMessage(message.alertContent);
-        //         if (message.alertContent.indexOf('认证') < 0) {
-        //             this.speechContent(message.alertContent, 0);
-        //         }
-        //         if (message.alertContent.indexOf('新货源') > -1) {
-        //             Alert.alert('提示', '您有新的订单，是否进入货源界面', [
-        //                 {
-        //                     text: '确定',
-        //                     onPress: () => {
-        //                         DeviceEventEmitter.emit('resetGood');
-        //                         this.props.navigation.navigate('GoodsSource');
-        //                     },
-        //                 },
-        //                 {text: '取消'},
-        //             ], {cancelable: false});
-        //         }
-        //
-        //         if (message.alertContent.indexOf('快来竞拍吧') > -1) {
-        //             Alert.alert('提示', '您有新的货源可以竞拍', [
-        //                 {
-        //                     text: '确定',
-        //                     onPress: () => {
-        //                         this.props.navigation.navigate('Order');
-        //                         this.changeOrderTab(1);
-        //                         DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //                     },
-        //                 },
-        //                 {text: '取消'},
-        //             ], {cancelable: false});
-        //         }
-        //
-        //         if (message.alertContent.indexOf('竞价成功') > -1) {
-        //             Alert.alert('提示', '恭喜您，竞价成功, 是否进入订单页面', [
-        //                 {
-        //                     text: '确定',
-        //                     onPress: () => {
-        //                         this.props.navigation.navigate('Order');
-        //                         this.changeOrderTab(1);
-        //                         DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //                     },
-        //                 },
-        //                 {text: '取消'},
-        //             ], {cancelable: false});
-        //         }
-        //
-        //         if (message.alertContent.indexOf('竞拍失败') > -1) {
-        //
-        //         }
-        //
-        //         if (message.alertContent.indexOf('实名认证>已认证通过') > -1) {
-        //
-        //         }
-        //
-        //         if (message.alertContent.indexOf('实名认证>已认证驳回') > -1) {
-        //
-        //         }
-        //
-        //         if (message.alertContent.indexOf('资质认证>已认证通过') > -1) {
-        //
-        //         }
-        //
-        //         if (message.alertContent.indexOf('资质认证>已认证驳回') > -1) {
-        //
-        //         }
-        //
-        //
-        //     });
-        //     // 点击通知后，将会触发此事件
-        //     JPushModule.addReceiveOpenNotificationListener((map) => {
-        //         console.log('home,ANOpening notification!', map);
-        //
-        //         this.props.setMessageListIcon(true);
-        //         this.saveMessage(map.alertContent);
-        //         if (map.alertContent.indexOf('竞价成功') > -1) {
-        //             this.props.navigation.navigate('Order');
-        //             this.changeOrderTab(1);
-        //             DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //         }
-        //         if (map.alertContent.indexOf('新货源') > -1) {
-        //             DeviceEventEmitter.emit('resetGood');
-        //             this.props.navigation.navigate('GoodsSource');
-        //         }
-        //     });
-        // }
-        // -----------jpush  ios start
-        // if (Platform.OS === 'ios') {
-        //     NativeAppEventEmitter.addListener(
-        //         'OpenNotification',
-        //         (notification) => {
-        //             console.log('打开推送', notification);
-        //
-        //             this.props.setMessageListIcon(true);
-        //             this.saveMessage(notification.aps.alert);
-        //             if (notification.aps.alert.indexOf('竞价成功') > -1) {
-        //                 this.props.navigation.navigate('Order');
-        //                 this.changeOrderTab(1);
-        //                 DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //             }
-        //             if (notification.aps.alert.indexOf('新货源') > -1) {
-        //                 DeviceEventEmitter.emit('resetGood');
-        //                 this.props.navigation.navigate('GoodsSource');
-        //             }
-        //         },
-        //     );
-        //     NativeAppEventEmitter.addListener(
-        //         'ReceiveNotification',
-        //         (notification) => {
-        //             console.log('-------------------收到推送----------------', notification);
-        //
-        //             this.props.setMessageListIcon(true);
-        //             this.saveMessage(notification.aps.alert);
-        //             if (notification.aps.alert.indexOf('认证') < 0) {
-        //                 this.speechContent(notification.aps.alert, 0);
-        //             }
-        //             if (notification.aps.alert.indexOf('新货源') > -1) {
-        //                 Alert.alert('提示', '您有新的订单，是否进入货源界面', [
-        //                     {
-        //                         text: '确定',
-        //                         onPress: () => {
-        //                             // this.props.navigator.popToTop();
-        //                             DeviceEventEmitter.emit('resetGood');
-        //                             this.props.navigation.navigate('GoodsSource');
-        //                         },
-        //                     },
-        //                     {text: '取消'},
-        //                 ], {cancelable: false});
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('快来竞拍吧') > -1) {
-        //                 Alert.alert('提示', '您有新的货源可以竞拍', [
-        //                     {
-        //                         text: '确定',
-        //                         onPress: () => {
-        //                             this.props.navigation.navigate('Order');
-        //                             this.changeOrderTab(1);
-        //                             DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //                         },
-        //                     },
-        //                     {text: '取消'},
-        //                 ], {cancelable: false});
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('竞价成功') > -1) {
-        //                 Alert.alert('提示', '恭喜您，竞价成功, 是否进入订单页面', [
-        //                     {
-        //                         text: '确定',
-        //                         onPress: () => {
-        //                             this.props.navigation.navigate('Order');
-        //                             this.changeOrderTab(1);
-        //                             DeviceEventEmitter.emit('changeOrderTabPage', 1);
-        //                         },
-        //                     },
-        //                     {text: '取消'},
-        //                 ], {cancelable: false});
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('竞拍失败') > -1) {
-        //
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('实名认证>已认证通过') > -1) {
-        //
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('实名认证>已认证驳回') > -1) {
-        //
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('资质认证>已认证通过') > -1) {
-        //
-        //             }
-        //
-        //             if (notification.aps.alert.indexOf('资质认证>已认证驳回') > -1) {
-        //
-        //             }
-        //
-        //
-        //         },
-        //     );
-        //
-        //
-        // }
-        // -----------jpush  ios end
 
         this.listener = DeviceEventEmitter.addListener('refreshHome', (data) => {
             const {userInfo} = this.props;
@@ -358,53 +164,11 @@ class Home extends Component {
                 }
             }
         });
-        // this.getUserCarListener = DeviceEventEmitter.addListener('getUserCar', () => {
-        //     this.getUserCar();
-        // });
 
-
-        // this.notifyCertificationListener = DeviceEventEmitter.addListener('certification', () => {
-        //     if (this.props.currentStatus == 'driver') {
-        //         if (this.props.driverStatus == 1) {
-        //             Alert.alert('提示', '认证资料正在审核中');
-        //         } else if (this.props.driverStatus == 3) {
-        //             Alert.alert('提示', '认证资料已驳回，请重新上传资料');
-        //         }
-        //     } else {
-        //         if (this.props.ownerStatus == 11 || this.props.ownerStatus == 21) {
-        //             Alert.alert('提示', '认证资料正在审核中');
-        //         } else if (this.props.ownerStatus == 13 || this.props.ownerStatus == 23) {
-        //             Alert.alert('提示', '认证资料已驳回，请重新上传资料');
-        //         }
-        //     }
-        // });
-
-        // this.bindCarListener = DeviceEventEmitter.addListener('bindUserCar', (value) => {
-        //     if (value) {
-        //         this.setUserCar(value);
-        //     }
-        // });
-
-        // // 上传日志功能
-        // // TimeToDoSomething.sendMsgToNative();
-        // this.logListener = NativeAppEventEmitter.addListener('nativeSendMsgToRN', (data) => {
-        //     this.getCurrentPosition(1);
-        // });
-        // 我的界面车辆列表监听
-        // this.getUserCarMineListener = DeviceEventEmitter.addListener('getUserCarMine', (data) => {
-        //     this.getUserCarMine();
-        // });
     }
 
     componentWillUnmount() {
         this.listener.remove();
-        // this.getUserCarListener.remove();
-        // this.Listener.remove();
-        // this.bindCarListener.remove();
-        // this.notifyCarStatusListener.remove();
-        // this.notifyCertificationListener.remove();
-        // this.logListener.remove();
-        // this.getUserCarMineListener.remove();
     }
 
     compareVersion() {

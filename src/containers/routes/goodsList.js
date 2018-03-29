@@ -125,14 +125,17 @@ class GoodsList extends Component {
       this.ownerVerifiedHomeFailCallBack = this.ownerVerifiedHomeFailCallBack.bind(this);
   }
   componentDidMount() {
-      this.compareVersion();
+      const {user} = this.props;
+      if (user && user.userId) {
+          this.compareVersion();
 
-      this.setState({
-          refreshing: true
-      });
-      setTimeout(()=>{
-          this.refresh();
-      },500);
+          this.setState({
+              refreshing: true
+          });
+          setTimeout(()=>{
+              this.refresh();
+          },500);
+      }
 
       this.resetCarrierGoodslistener = DeviceEventEmitter.addListener('resetCarrierGoods', () => {
           this.refresh();
@@ -692,10 +695,10 @@ const styles =StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const {goods,app} = state
+  const {goods,app ,user} = state
   return {
     insiteNotice: app.get('insiteNotice'),
-    user: app.get('user'),
+    user: user.get('userInfo'),
     goodsSource: goods.get('goodsSource'),
     betterGoodsSource: goods.get('betterGoodsSource'),
     hotLine: app.get('hotLine'),
