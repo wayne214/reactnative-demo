@@ -159,11 +159,14 @@ class GoodsList extends Component {
           this.setState({
               appLoading: true,
           })
+      if (global.companyCode) {
           this.props._getNormalGoodsList({
               companyCode: global.companyCode,
               num: page,
               size: 20
           },getGoodListSuccess,getGoodListFail)
+      }
+
       //}
 
   }
