@@ -106,6 +106,9 @@ class driverOrder extends Component {
 
     _refreshList(tabIndex = this.state.tabIndex) {
         console.log('do something to refresh list ', tabIndex);
+        if (!global.phone) {
+            return
+        }
         switch (tabIndex) {
             case 0:
                 console.log('订单全部界面', tabIndex);
