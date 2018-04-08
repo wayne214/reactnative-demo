@@ -21,6 +21,7 @@ import * as StaticColor from '../../constants/colors';
 import Toast from '@remobile/react-native-toast';
 import * as RouteType from '../../constants/routeType';
 import PermissionsManager from '../../utils/permissionManager';
+import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 
 let currentTime = 0;
 let lastTime = 0;
@@ -89,9 +90,13 @@ class driverOrderListItem extends Component {
                             Alert.alert(null,err.message)
                         });
                     }else {
-                        this.props.navigation.dispatch({
-                            type: RouteType.ROUTE_SCAN_GPS_PAGE,
-                        })
+                        PermissionsManagerAndroid.cameraPermission().then(data => {
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_SCAN_GPS_PAGE,
+                            })
+                        }).catch(err=>{
+                            Alert.alert('提示','请到设置-应用-授权管理设置相机权限')
+                        });
                     }
                 }}
                 checkGPS={() =>{
