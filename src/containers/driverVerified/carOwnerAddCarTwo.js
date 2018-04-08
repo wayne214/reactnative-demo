@@ -375,6 +375,7 @@ class certification extends Component {
             (respones) => {
                 console.log(respones);
 
+
                 if (respones.code === 200) {
                     switch (selectType) {
                         case 0:
@@ -388,8 +389,8 @@ class certification extends Component {
                                 // analysisHaverName:respones.result.owner, // 解析所有人
                                 // analysisEngineNum:respones.result.engineNumber, //  解析发动机号
 
-                                vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
-                                vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
+                                vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseVicePageNormalPhotoAddress,
+                                vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseVicePageThumbnailAddress,
                             });
 
                             this.setState({
@@ -568,10 +569,23 @@ class certification extends Component {
         result.volumeSize= this.state.carVolume;//实载体积
         result.transportationLicense= this.state.carAllowNumber;//运输许可证号
         result.gcarNo= this.state.carNumber;//挂车牌号
-        result.goperateLicenseUrlAddress = this.state.vehicleLicenseHomepageNormalPhotoAddress;//挂车营运证原图路径
-        result.goperateLicenseUrlThumbnailAddress = this.state.vehicleLicenseHomepageThumbnailAddress;//挂车营运证缩略图路径
-        result.gdrivingLicenseUrlAddress = this.state.vehicleLicenseVicePageNormalPhotoAddress;//挂车行驶证原图路径
-        result.gdrivingLicenseUrlThumbnailAddress = this.state.vehicleLicenseVicePageThumbnailAddress;//挂车行驶证缩略图路径
+
+
+        // result.goperateLicenseUrlAddress = this.state.vehicleLicenseHomepageNormalPhotoAddress;//挂车营运证原图路径
+        // result.goperateLicenseUrlThumbnailAddress = this.state.vehicleLicenseHomepageThumbnailAddress;//挂车营运证缩略图路径
+        //
+        //
+        // result.gdrivingLicenseUrlAddress = this.state.vehicleLicenseVicePageNormalPhotoAddress;//挂车行驶证原图路径
+        // result.gdrivingLicenseUrlThumbnailAddress = this.state.vehicleLicenseVicePageThumbnailAddress;//挂车行驶证缩略图路径
+
+
+        result.goperateLicenseUrlAddress = this.state.vehicleLicenseVicePageNormalPhotoAddress;//挂车营运证原图路径
+        result.goperateLicenseUrlThumbnailAddress = this.state.vehicleLicenseVicePageThumbnailAddress;//挂车营运证缩略图路径
+
+
+        result.gdrivingLicenseUrlAddress = this.state.vehicleLicenseHomepageNormalPhotoAddress;//挂车行驶证原图路径
+        result.gdrivingLicenseUrlThumbnailAddress = this.state.vehicleLicenseHomepageThumbnailAddress;//挂车行驶证缩略图路径
+
 
 
         // this.props.navigation.dispatch({ type: RouteType.ROUTE_CAR_OWNER_ADD_CAR_THREE, params:{
