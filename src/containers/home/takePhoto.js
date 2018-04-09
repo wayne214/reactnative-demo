@@ -41,7 +41,7 @@ class takePhoto extends Component {
     takePicture() {
         // jpegQuality 1-100, 压缩图片
         const options = {jpegQuality: 80};
-        this.camera.capture({options})
+        this.camera.capture({})
             .then((data) =>{
                 console.log('takePicture===',data);
                 this.props.navigation.dispatch({
