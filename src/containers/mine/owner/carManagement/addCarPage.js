@@ -337,10 +337,10 @@ class AddCarPage extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                {this.state.haveDate ?
-                <View style={{backgroundColor: '#F4F4F4', height: 45, justifyContent: 'center',}}>
-                    <Text style={{color: '#666666', fontSize: 15, marginLeft: 10}}>添加车辆</Text>
-                </View> : null}
+                {/*{this.state.haveDate ?*/}
+                {/*<View style={{backgroundColor: '#F4F4F4', height: 45, justifyContent: 'center',}}>*/}
+                    {/*<Text style={{color: '#666666', fontSize: 15, marginLeft: 10}}>添加车辆</Text>*/}
+                {/*</View> : null}*/}
                 {
                     this.state.haveDate ?
                         <FlatList
