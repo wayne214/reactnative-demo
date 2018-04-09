@@ -160,7 +160,7 @@ class certification extends Component {
                         isChooseTravelRightImage: true,
                         isFirst: false
                     });
-                    this.upLoadImage(API.API_GET_TRAVEL_INFO, formData);
+                    this.upLoadImage(API.API_GET_TRAVEL_TRUN_INFO, formData);
 
                     break;
                 case 1:
