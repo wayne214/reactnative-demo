@@ -139,7 +139,7 @@ class certification extends Component {
         userPhone = global.phone;
 
 
-        this.listener = DeviceEventEmitter.addListener('endSureCameraPhotoEnd', (imagePath) => {
+        this.listener = DeviceEventEmitter.addListener('endSureCameraPhotoEndStepTwo', (imagePath) => {
 
             imagePath = 'file://' + imagePath;
 
@@ -280,7 +280,9 @@ class certification extends Component {
     /*选择相机*/
     selectCamera() {
 
-        if (selectType < 2) {
+        Storage.save('stepTwo', 'YES');
+
+        if (selectType < 1) {
 
             this.props.navigation.dispatch({ type: RouteType.ROUTE_TAKE_CAMEAR,
                 params: {

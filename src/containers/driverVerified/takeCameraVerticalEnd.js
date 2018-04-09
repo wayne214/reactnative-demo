@@ -12,6 +12,7 @@ import {
     DeviceEventEmitter,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import Storage from '../../utils/storage';
 
 const TakeBold = require('./images/takeCameraBord.png');
 const TakeVBack = require('./images/takeCameraBackV.png');
@@ -163,8 +164,17 @@ class takeCameraVerticalEnd extends Component {
      * */
     next() {
 
+        Storage.get('stepTwo').then((value)=>{
 
-        DeviceEventEmitter.emit('endSureCameraPhotoEnd',this.props.navigation.state.params.imagePath);
+          if (value === 'YES'){
+              DeviceEventEmitter.emit('endSureCameraPhotoEndStepTwo',this.props.navigation.state.params.imagePath);
+              Storage.save('stepTwo', 'NO');
+          }else {
+              DeviceEventEmitter.emit('endSureCameraPhotoEnd',this.props.navigation.state.params.imagePath);
+
+          }
+        })
+
 
         /*
         const resetAction = NavigationActions.reset({

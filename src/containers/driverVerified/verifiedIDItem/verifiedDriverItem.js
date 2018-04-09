@@ -119,17 +119,19 @@ class verifiedDriverItem extends Component{
 
                 <ImagesItem firstName ="驾驶证主页"
                             secondName="驾驶证副页"
-                            firstImagePath={resultInfo.drivingLicenseHomepageThumbnailAddress ?
-                            resultInfo.drivingLicenseHomepageThumbnailAddress : resultInfo.drivingLicenceHomePage ?
-                            resultInfo.drivingLicenceHomePage : ''}
-                            secondImagePath={resultInfo.drivingLicenseVicePageThumbnailAddress ?
-                            resultInfo.drivingLicenseVicePageThumbnailAddress : resultInfo.drivingLicenceSubPage ?
-                            resultInfo.drivingLicenceSubPage : ''}
+                            firstImagePath={resultInfo.drivingLicenceHomePage ?
+                            resultInfo.drivingLicenceHomePage : resultInfo.drivingLicenseHomepageThumbnailAddress ?
+                            resultInfo.drivingLicenseHomepageThumbnailAddress : ''}
+                            secondImagePath={resultInfo.drivingLicenceSubPage ?
+                            resultInfo.drivingLicenceSubPage : resultInfo.drivingLicenseVicePageThumbnailAddress ?
+                            resultInfo.drivingLicenseVicePageThumbnailAddress : ''}
                             imageClick={(index)=>{
                                 this.imageClick(index);
                             }}/>
             </View>
+
         )
+
     }
 }
 

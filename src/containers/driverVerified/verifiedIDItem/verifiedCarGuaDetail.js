@@ -154,8 +154,8 @@ class verifiedDriverCardItem extends Component{
 
                 <ImagesItem firstName ="挂车行驶证"
                             secondName="挂车营运证"
-                            firstImagePath=''
-                            secondImagePath=''
+                            firstImagePath={resultInfo.gdrivingLicenseUrlThumbnail || ''}
+                            secondImagePath={resultInfo.goperateLicenseUrlThumbnail || ''}
                             imageClick={(index)=>{
                                 this.imageClick(index);
                             }}/>

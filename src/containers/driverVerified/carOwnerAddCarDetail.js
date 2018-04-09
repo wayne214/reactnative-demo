@@ -252,9 +252,17 @@ class certificationState extends Component{
 
                                       if (index === 0){
                                           // 挂车行驶证
+                                          if (this.state.resultInfo.gdrivingLicenseUrl){
+                                              this.showBigImage([this.state.resultInfo.gdrivingLicenseUrl], 0);
+                                          }else
+                                              Toast.showShortCenter('暂无图片');
                                       }
                                       if (index === 1){
                                           // 挂车运营证
+                                           if (this.state.resultInfo.goperateLicenseUrl){
+                                              this.showBigImage([this.state.resultInfo.goperateLicenseUrl], 0);
+                                          }else
+                                              Toast.showShortCenter('暂无图片');
                                       }
 
 

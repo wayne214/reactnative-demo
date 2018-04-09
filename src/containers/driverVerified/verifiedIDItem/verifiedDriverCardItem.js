@@ -116,15 +116,9 @@ class verifiedDriverCardItem extends Component{
                 <ImagesItem firstName ="行驶证主页"
                             secondName="行驶证副页"
                             thirdName="车头照"
-                            firstImagePath={resultInfo.drivingLicenseThumbnail ?
-                            resultInfo.drivingLicenseThumbnail : resultInfo.drivingLicensePic ?
-                            resultInfo.drivingLicensePic : ''}
-                            secondImagePath={resultInfo.drivingLicenseSecondaryThumbnail ?
-                            resultInfo.drivingLicenseSecondaryThumbnail : resultInfo.drivingLicenseSecondaryPic?
-                            resultInfo.drivingLicenseSecondaryPic : ''}
-                            thirdImagePath={resultInfo.carHeadThumbnail ?
-                            resultInfo.carHeadThumbnail : resultInfo.carHeadPic ?
-                            resultInfo.carHeadPic : ''}
+                            firstImagePath={resultInfo.drivingLicenseThumbnail || ''}
+                            secondImagePath={resultInfo.drivingLicenseSecondaryThumbnail || ''}
+                            thirdImagePath={resultInfo.carHeadThumbnail || ''}
                             imageClick={(index)=>{
                                 this.imageClick(index);
                             }}/>

@@ -106,15 +106,15 @@ class verifiedRealNameItem extends Component{
                 <ImagesItem firstName ="身份证正面"
                             secondName="身份证反面"
                             thirdName="半身照"
-                            firstImagePath={resultInfo.idFaceSideThumbnailAddress ?
-                            resultInfo.idFaceSideThumbnailAddress : resultInfo.positiveCard ?
-                            resultInfo.positiveCard : ''}
-                            secondImagePath={resultInfo.idBackSideThumbnailAddress ?
-                            resultInfo.idBackSideThumbnailAddress : resultInfo.oppositeCard ?
-                            resultInfo.oppositeCard : ''}
-                            thirdImagePath={resultInfo.handleIdThumbnailAddress ?
-                            resultInfo.handleIdThumbnailAddress : resultInfo.headPortrait ?
-                            resultInfo.headPortrait : ''}
+                            firstImagePath={resultInfo.positiveCard ?
+                            resultInfo.positiveCard : resultInfo.idFaceSideThumbnailAddress ?
+                            resultInfo.idFaceSideThumbnailAddress : ''}
+                            secondImagePath={resultInfo.oppositeCard ?
+                            resultInfo.oppositeCard : resultInfo.idBackSideThumbnailAddress ?
+                            resultInfo.idBackSideThumbnailAddress : ''}
+                            thirdImagePath={resultInfo.headPortrait ?
+                            resultInfo.headPortrait : resultInfo.handleIdThumbnailAddress ?
+                            resultInfo.handleIdThumbnailAddress : ''}
                             imageClick={(index)=>{
                                 this.imageClick(index);
                             }}

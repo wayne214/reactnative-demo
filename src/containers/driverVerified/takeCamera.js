@@ -225,14 +225,10 @@ export default class takeCamera extends Component {
 
         }
 
-
-
         this.state={
             cameraType: this.props.navigation.state.params.cameraType,
             showTitle: showTitle,
         }
-
-
 
     }
 
