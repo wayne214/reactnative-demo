@@ -62,7 +62,7 @@ class GoodsInfo extends Component{
 		let standard;
 
 		if (weight !== '' && volume !== '') {
-			standard = weight + '吨' + volume + '方';
+			standard = weight + 'KG' + volume + '方';
 		}
 		return (
 			<View style={styles.goodsContent}>
