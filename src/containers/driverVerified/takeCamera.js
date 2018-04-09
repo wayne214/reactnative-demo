@@ -243,7 +243,7 @@ export default class takeCamera extends Component {
     takePicture() {
 
         //jpegQuality 1-100, 压缩图片
-        const options = {jpegQuality: 10};
+        const options = {jpegQuality: 100};
 
         this.camera.capture({})
 
