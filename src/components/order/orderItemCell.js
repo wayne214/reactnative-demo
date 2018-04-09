@@ -86,7 +86,7 @@ class orderItemCell extends Component{
 
       const endAddress = toProvince + toCity + toDistrict + toCustomerAddress;
 
-      const weight = (rowData.weight && rowData.weight !== 'null') ? rowData.weight + '吨' : '';
+      const weight = (rowData.weight && rowData.weight !== 'null') ? rowData.weight + 'KG' : '';
       const vol = (rowData.volume && rowData.volume !== 'null') ? rowData.volume + '方' : '';
 
 
