@@ -181,7 +181,7 @@ export default class takeCameraV extends Component {
     takePicture() {
         Toast.showShortCenter('正在处理');
         //jpegQuality 1-100, 压缩图片
-        const options = {jpegQuality: 50};
+        const options = {jpegQuality: 80};
 
         this.camera.capture({options})
 
