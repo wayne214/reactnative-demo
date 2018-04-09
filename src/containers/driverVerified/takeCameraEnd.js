@@ -12,6 +12,7 @@ import {
     DeviceEventEmitter,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import Storage from '../../utils/storage';
 
 const TakeBold = require('./images/takeCameraBord.png');
 const TakeBack = require('./images/takeCameraBack.png');
@@ -163,7 +164,18 @@ class takeCameraEnd extends Component {
      * 确定图片
      * */
     next() {
-        DeviceEventEmitter.emit('endSureCameraPhotoEnd',this.props.navigation.state.params.imagePath);
+
+        Storage.get('stepTwo').then((value)=>{
+
+            if (value === 'YES'){
+                DeviceEventEmitter.emit('endSureCameraPhotoEndStepTwo',this.props.navigation.state.params.imagePath);
+                Storage.save('stepTwo', 'NO');
+            }else {
+                DeviceEventEmitter.emit('endSureCameraPhotoEnd',this.props.navigation.state.params.imagePath);
+
+            }
+        })
+
         /*
         if (this.props.navigation.state.params.verifiedType === 1){
             // 实名认证页面

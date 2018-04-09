@@ -279,8 +279,8 @@ class certification extends Component {
 
     /*选择相机*/
     selectCamera() {
-
         Storage.save('stepTwo', 'YES');
+
 
         if (selectType < 1) {
 
