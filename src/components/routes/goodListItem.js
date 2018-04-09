@@ -34,9 +34,9 @@ class goodListItem extends Component{
 
         let haveDetail = '';
         if (item.goodsTotalWeight && item.goodsTotalVolume){
-            haveDetail = item.goodsTotalWeight+'吨' + ' , '+ item.goodsTotalVolume+'方'
+            haveDetail = item.goodsTotalWeight+'KG' + ' , '+ item.goodsTotalVolume+'方'
         }else if (item.goodsTotalWeight && !item.goodsTotalVolume){
-            haveDetail = item.goodsTotalWeight+'吨'
+            haveDetail = item.goodsTotalWeight+'KG'
         }else if (!item.goodsTotalWeight && item.goodsTotalVolume){
             haveDetail = item.goodsTotalVolume+'方'
         }else
