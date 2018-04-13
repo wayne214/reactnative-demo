@@ -19,3 +19,24 @@ export function travelInfoDone() {
 		type: ActionTypes.ACTION_TRAVEL_DONE
 	}
 }
+
+export function getTravelCarList(data) {
+    return {
+        type: ActionTypes.ACTION_GET_CAR_TRAVER_LIST,
+        payload: data
+    };
+}
+
+export function refreshTravelCarList(data) {
+    return {
+        type: ActionTypes.ACTION_REFRESH_CAR_TRAVER_LIST,
+        payload: data
+    };
+}
+
+export function queryTrasportCarList(data) {
+    return {
+        type: ActionTypes.ACTION_QUERY_TRANSPORT_LIST,
+        payload: data
+    };
+}

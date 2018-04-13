@@ -529,3 +529,8 @@ export const API_NEW_UPLOAD_CTC_ORDER_MATCH = `app/receiveMatch/uploadCtcOrderMa
 // 身份证校验接口
 export const API_IDCARD_VALIDATE = 'app/IdCardValidate/validate?';
 
+/** ********************行程信息******************/
+// 行程车辆列表
+export const API_CARRIERS_TRIP_LIST = 'app/transportInfo/carriersTripList';
+// 运输轨迹列表
+export const API_QUERY_TRANSPORT_LIST = 'app/transportInfo/queryTransportList/';
