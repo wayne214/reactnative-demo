@@ -17,6 +17,7 @@ import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
 import {getTravelCarList, refreshTravelCarList, queryTrasportCarList} from '../../action/travel'
 import Toast from '../../utils/toast.js';
+import TrailMutilStatus from '../../components/travel/traillMutilStatus';
 
 class travelDetail extends BaseComponent {
 
@@ -50,7 +51,7 @@ class travelDetail extends BaseComponent {
           <NavigatorBar router={navigation} title={ '运输轨迹' } backViewClick={()=>{
               this.props.navigation.dispatch({type: 'pop'})
           }}/>
-            <TransPortList/>
+            <TrailMutilStatus />
       </View>
     );
   }
