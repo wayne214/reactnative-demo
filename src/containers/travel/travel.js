@@ -18,7 +18,7 @@ const { height,width } = Dimensions.get('window');
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
-import {getTravelCarList, refreshTravelCarList} from '../../action/travel'
+import {getTravelCarList, refreshTravelCarList} from '../../action/travel';
 import Toast from '../../utils/toast.js';
 
 class travel extends BaseComponent {
@@ -99,14 +99,18 @@ class travel extends BaseComponent {
                 loadMoreAction={()=> {
 
                 }}
-                onItemClick={() => {
-
+                onItemClick={(carNumber) => {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_CAR_TRANSPORT_INFO, params: {
+                            carNo: carNumber
+                        }
+                    })
                 }}
             />
 
             <TravelCarList
                 tabLabel={'空闲车辆'}
-                carType={2}
+                carType={0}
                 dataSource={freeCarListData}
                 refreshList={()=> {
                     // 刷新

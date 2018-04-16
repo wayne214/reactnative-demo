@@ -14,6 +14,9 @@ import rightArrow from '../../../assets/img/arrow/rightarrow.png';
 export default class travelCarList extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showDetails: false
+        }
     }
     _renderRow(rowData,SectionId,rowID) {
         const {onItemClick} = this.props;
@@ -31,6 +34,34 @@ export default class travelCarList extends Component {
             </TouchableOpacity>
         )
     }
+
+    _renderItem(rowData,SectionId,rowID) {
+        const {onItemClick} = this.props;
+        return (
+            <View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Image style={{height: 31, width: 31, backgroundColor: 'blue'}}/>
+                        <Text style={{color: '#333333', fontSize: 16}}>京A123456</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                            showDetails: !this.state.showDetails
+                        })
+                    }}>
+                        <Image source={rightArrow}/>
+                    </TouchableOpacity>
+                </View>
+                {
+                    this.state.showDetails ? <View>
+                        <Text>司机：{'张三'}</Text>
+                        <Text>随车电话：{'18611908428'}</Text>
+                    </View> : null
+                }
+            </View>
+        )
+    }
+
     // 设置item的key,提高效率
     _keyExtractor = (item, index) => index;
 
@@ -75,7 +106,7 @@ export default class travelCarList extends Component {
         )
     }
     render() {
-        const {refreshList, dataSource} = this.props;
+        const {refreshList, dataSource, carType} = this.props;
         return (
             <FlatList
                 style={{flex:1, marginTop: 10}}
@@ -85,7 +116,7 @@ export default class travelCarList extends Component {
                 }}
                 refreshing={dataSource.get('isRefreshing')}
                 data={dataSource.get('list').toJS() || []}
-                renderItem={this._renderRow.bind(this)}
+                renderItem={carType === 1 ? this._renderRow.bind(this) : this._renderItem.bind(this)}
                 keyExtractor={this._keyExtractor}
                 extraData={this.state}
                 onEndReachedThreshold={100}

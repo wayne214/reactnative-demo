@@ -177,6 +177,8 @@ import ArrangeDriverList from '../containers/entrust/arrangeDriverList';
 
 import ShowZoomImageView from '../components/common/imageShow';
 
+import TravelDetailScreen from '../containers/travel/travelDetail';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -1073,6 +1075,13 @@ export const AppNavigator = StackNavigator({
         screen: MessageSYSDetail,
         navigationOptions: {
             // title: '消息详情'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CAR_TRANSPORT_INFO]: {
+        screen: TravelDetailScreen,
+        navigationOptions: {
+            // title: '运输在途信息监控'
             header: null
         }
     },

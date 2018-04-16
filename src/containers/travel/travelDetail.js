@@ -18,6 +18,7 @@ import * as API from '../../constants/api';
 import {getTravelCarList, refreshTravelCarList, queryTrasportCarList} from '../../action/travel'
 import Toast from '../../utils/toast.js';
 import TrailMutilStatus from '../../components/travel/traillMutilStatus';
+import OrderAndCarInfo from '../../components/travel/orderAndCarInfo';
 
 class travelDetail extends BaseComponent {
 
@@ -48,10 +49,11 @@ class travelDetail extends BaseComponent {
       const {navigation} = this.props
     return (
       <View style={ styles.container }>
-          <NavigatorBar router={navigation} title={ '运输轨迹' } backViewClick={()=>{
+          <NavigatorBar router={navigation} title={ '运输在途信息监控' } backViewClick={()=>{
               this.props.navigation.dispatch({type: 'pop'})
           }}/>
             <TrailMutilStatus />
+            <OrderAndCarInfo/>
       </View>
     );
   }
