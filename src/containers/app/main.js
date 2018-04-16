@@ -271,7 +271,7 @@ class MainContainer extends BaseComponent {
             global.locationData = locationData
             // console.log("定位信息",global.locationData);
             //todo 上传日志开关
-            TimeToDoSomething.uploadDataFromLocalMsg();
+            // TimeToDoSomething.uploadDataFromLocalMsg();
         }, fail => {
             // console.log('-------fail:', fail)
         }, {

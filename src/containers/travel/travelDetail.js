@@ -11,7 +11,6 @@ import NavigatorBar from '../../components/common/navigatorbar'
 import BaseComponent from '../../components/common/baseComponent'
 import styles from '../../../assets/css/home'
 import * as RouteType from '../../constants/routeType';
-import TransPortList from '../../components/travel/transportList';
 const { height,width } = Dimensions.get('window');
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';

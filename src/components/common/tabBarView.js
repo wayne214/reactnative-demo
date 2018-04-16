@@ -95,12 +95,13 @@ const styles = StyleSheet.create({
 	selectBg: {
 		backgroundColor: 'white',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	normalBg: {
 		backgroundColor: 'white',
-		transparent: true,
+		// transparent: true,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+    opacity: 1
 	}
 });
