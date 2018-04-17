@@ -209,7 +209,7 @@ class verifiedTravelInfoItem extends Component{
                 <Line/>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        运输许可证号(非必填)
+                        运输许可证号
                     </Text>
                     <TextInput style={styles.textInputStyle}
                                onChangeText={(text) => {
@@ -229,7 +229,7 @@ class verifiedTravelInfoItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        挂车牌号(非必填)
+                        挂车牌号
                     </Text>
                     <TextInput style={styles.textInputStyle}
                                maxLength={10}
