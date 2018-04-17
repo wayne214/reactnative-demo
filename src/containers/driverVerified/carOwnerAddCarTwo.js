@@ -313,7 +313,7 @@ class certification extends Component {
             }
         };
 
-        ImagePicker.launchImageLibrary(options, (response) => {
+        ImagePicker.g(options, (response) => {
             console.log('Response = ', response);
 
             if (response.didCancel) {
