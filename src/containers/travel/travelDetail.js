@@ -25,7 +25,8 @@ class travelDetail extends BaseComponent {
     super(props)
     this.title = '行程';
     this.state = {
-      dataSource: ['京A12345', '京A12355', '京A22345']
+      dataSource: ['京A12345', '京A12355', '京A22345'],
+        carNum: this.props.navigation.state.params.carNo
     };
   }
 
@@ -37,7 +38,9 @@ class travelDetail extends BaseComponent {
   componentDidMount() {
     super.componentDidMount()
     this.getCarList(1, 0);
-    this.props._queryTransportList({})
+    this.props._queryTransportList({
+        carNo: this.state.carNum
+    })
   }
 
   componentWillUnmount() {

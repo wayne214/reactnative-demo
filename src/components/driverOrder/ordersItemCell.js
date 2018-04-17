@@ -304,7 +304,7 @@ class OrdersItemCell extends Component {
                                         textStyle={{color: StaticColor.BLUE_ORDER_TEXT_COLOR,lineHeight: 15}}
                                     />
                                     <CommonLabelCell
-                                        content={`卸货点${distributionPoint}`}
+                                        content={`配送点${distributionPoint}`}
                                         containerStyle={{backgroundColor: StaticColor.GREEN_POINTER_COLOR}}
                                         textStyle={{color: StaticColor.GREEN_POINTER_TEXT_COLOR,lineHeight: 15}}
                                     />

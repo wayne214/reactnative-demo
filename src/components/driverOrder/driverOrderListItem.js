@@ -163,7 +163,7 @@ class driverOrderListItem extends Component {
     }
     renderRowItem(data) {
         const dataRow = data.item;
-        if ( dataRow.transCodeNum !== 0) {
+        if ( dataRow.transports.length !== 0) {
             return (
                 <OrderTransportCell
                     receiveContact={dataRow.receiveContact ? dataRow.receiveContact : ''}
