@@ -50,8 +50,10 @@ export default (state = initState, action) => {
 			newState = newState.set('isNeedRefreshTravel', false);
 			return newState
 		case ActionTypes.ACTION_GET_CAR_TRAVER_LIST:
+
+		    console.log('payload', payload)
         let rootType = '';
-        switch (payload.orderType) {
+        switch (payload.carType) {
             case 0:
                 rootType = 'travelCarListData';
                 break;

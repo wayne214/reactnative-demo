@@ -7,8 +7,10 @@ import {
     TouchableOpacity
 } from 'react-native';
 import emptyList from '../../../assets/img/order/empty_order_list.png'
+import TransCarIcon from '../../../assets/img/travel/transCarIcon.png'
 import LoadMoreFooter from '../common/loadMoreFooter';
 import rightArrow from '../../../assets/img/arrow/rightarrow.png';
+
 
 
 export default class travelCarList extends Component {
@@ -22,12 +24,12 @@ export default class travelCarList extends Component {
         const {onItemClick} = this.props;
          return (
             <TouchableOpacity onPress={() => {
-                onItemClick && onItemClick()
+                onItemClick && onItemClick(rowData.item.carNum)
             }}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white'}}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Image style={{height: 31, width: 31, backgroundColor: 'blue'}}/>
-                        <Text style={{color: '#333333', fontSize: 16}}>京A123456</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', height: 55, alignItems: 'center', paddingHorizontal: 15}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', }}>
+                        <Image style={{height: 31, width: 31}} source={TransCarIcon}/>
+                        <Text style={{color: '#333333', fontSize: 16, marginLeft: 15}}>{rowData.item.carNum}</Text>
                     </View>
                     <Image source={rightArrow}/>
                 </View>
@@ -39,10 +41,10 @@ export default class travelCarList extends Component {
         const {onItemClick} = this.props;
         return (
             <View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', height: 55, alignItems: 'center', paddingHorizontal: 15}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Image style={{height: 31, width: 31, backgroundColor: 'blue'}}/>
-                        <Text style={{color: '#333333', fontSize: 16}}>京A123456</Text>
+                        <Image style={{height: 31, width: 31}} source={TransCarIcon}/>
+                        <Text style={{color: '#333333', fontSize: 16, marginLeft: 15}}>{rowData.item.carNum}</Text>
                     </View>
                     <TouchableOpacity onPress={() => {
                         this.setState({
@@ -53,9 +55,9 @@ export default class travelCarList extends Component {
                     </TouchableOpacity>
                 </View>
                 {
-                    this.state.showDetails ? <View>
-                        <Text>司机：{'张三'}</Text>
-                        <Text>随车电话：{'18611908428'}</Text>
+                    this.state.showDetails ? <View style={{paddingHorizontal: 15}}>
+                        <Text style={{color: '#333333', fontSize: 14}}>司机：{'张三'}</Text>
+                        <Text style={{marginTop: 5, color: '#333333', fontSize: 14}}>随车电话：{rowData.item.carrierPhone ? rowData.item.carrierPhone : ''}</Text>
                     </View> : null
                 }
             </View>

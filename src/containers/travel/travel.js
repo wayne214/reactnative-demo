@@ -43,8 +43,12 @@ class travel extends BaseComponent {
 
     getCarList(type, tabIndx) {
       this.props._getTravelCarList({
-          carrierPhone: global.companyPhone,
+          // carrierPhone: global.companyPhone,
+          carNum: '',
+          carrierPhone: '15801351018',
           transferStatus: type, // 0=空闲，1=运输中，null=全查
+          pageNum: 1,
+          pageSize: 50,
           }, true, tabIndx)
     }
 
@@ -100,6 +104,7 @@ class travel extends BaseComponent {
 
                 }}
                 onItemClick={(carNumber) => {
+                    console.log('carNumber', carNumber)
                     this.props.navigation.dispatch({
                         type: RouteType.ROUTE_CAR_TRANSPORT_INFO, params: {
                             carNo: carNumber
@@ -158,7 +163,7 @@ const mapDispatchToProps = dispatch => {
               success: (data)=>{
                   // dispatch(entrustListShouldRefresh(false))
                   data.carType = carType
-                  data.pageNo = params.num
+                  data.pageNo = params.pageNum
 
 
                   dispatch(getTravelCarList(data))

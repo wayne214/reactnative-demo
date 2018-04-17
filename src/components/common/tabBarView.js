@@ -96,12 +96,14 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		justifyContent: 'center',
 		alignItems: 'center',
+		width: 100,
 	},
 	normalBg: {
 		backgroundColor: 'white',
 		// transparent: true,
 		justifyContent: 'center',
 		alignItems: 'center',
-    opacity: 1
+    opacity: 1,
+    width: 100,
 	}
 });

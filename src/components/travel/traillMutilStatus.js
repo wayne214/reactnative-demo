@@ -57,10 +57,18 @@ class traillMutilStatus extends Component{
                                 addresses.map((item,index)=>{
                                     return(
                                         <View>
-                                            <Text>{}</Text>
-                                            <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#666',fontSize: 14}}>
-                                                {}
-                                            </Text>
+                                            {
+                                                index === 0 ? <Text style={{fontSize: 15, color: '#0092FF'}}>{'运输中'}</Text> :
+                                                    <Text style={{fontSize: 15, color: '#999999'}}>{"已签收"}</Text>
+                                            }
+                                            {
+                                                index === 0 ? <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#0092FF',fontSize: 14}}>
+                                                {'订单已创建 操作人: 杨柳 操作单位: 鲜易尽快就是'}
+                                                </Text> : <Text style={{height: itemHeight, marginLeft: 5, width: width - 20 - 10 - 5 - 20 - 10,color: '#999999',fontSize: 14}}>
+                                                    {'订单已创建 操作人: 杨柳 操作单位: 鲜易尽快就是'}
+                                                </Text>
+                                            }
+
                                         </View>
 
                                     )

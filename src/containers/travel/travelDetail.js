@@ -37,7 +37,6 @@ class travelDetail extends BaseComponent {
 
   componentDidMount() {
     super.componentDidMount()
-    this.getCarList(1, 0);
     this.props._queryTransportList({
         carNo: this.state.carNum
     })
@@ -54,8 +53,8 @@ class travelDetail extends BaseComponent {
           <NavigatorBar router={navigation} title={ '运输在途信息监控' } backViewClick={()=>{
               this.props.navigation.dispatch({type: 'pop'})
           }}/>
-            <TrailMutilStatus />
-            <OrderAndCarInfo/>
+            <TrailMutilStatus address={[]}/>
+            <OrderAndCarInfo address={[]}/>
       </View>
     );
   }
@@ -75,7 +74,7 @@ const mapDispatchToProps = dispatch => {
       _queryTransportList: (params, showLoading, carType)=> {
           // dispatch(changeEntrustOrderListLoadingMore(0));
           dispatch(fetchData({
-              api: API.API_QUERY_TRANSPORT_LIST,
+              api: API.API_QUERY_TRANSPORT_LIST + params.carNo,
               method: 'POST',
               body: params,
               showLoading,
