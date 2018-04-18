@@ -16,9 +16,6 @@ import rightArrow from '../../../assets/img/arrow/rightarrow.png';
 export default class travelCarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showDetails: false
-        }
     }
     _renderRow(rowData,SectionId,rowID) {
         const {onItemClick} = this.props;
@@ -38,28 +35,18 @@ export default class travelCarList extends Component {
     }
 
     _renderItem(rowData,SectionId,rowID) {
-        const {onItemClick} = this.props;
         return (
-            <View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', height: 55, alignItems: 'center', paddingHorizontal: 15}}>
+            <View style={{backgroundColor: 'white', height: 80, justifyContent: 'center'}}>
+                <View style={{ paddingHorizontal: 15}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Image style={{height: 31, width: 31}} source={TransCarIcon}/>
                         <Text style={{color: '#333333', fontSize: 16, marginLeft: 15}}>{rowData.item.carNum}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => {
-                        this.setState({
-                            showDetails: !this.state.showDetails
-                        })
-                    }}>
-                        <Image source={rightArrow}/>
-                    </TouchableOpacity>
                 </View>
-                {
-                    this.state.showDetails ? <View style={{paddingHorizontal: 15}}>
-                        <Text style={{color: '#333333', fontSize: 14}}>司机：{'张三'}</Text>
-                        <Text style={{marginTop: 5, color: '#333333', fontSize: 14}}>随车电话：{rowData.item.carrierPhone ? rowData.item.carrierPhone : ''}</Text>
-                    </View> : null
-                }
+                 <View style={{paddingHorizontal: 61, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                    <Text style={{color: '#333333', fontSize: 14}}>司机：{'张三'}</Text>
+                    <Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.carrierPhone ? rowData.item.carrierPhone : ''}</Text>
+                 </View>
             </View>
         )
     }

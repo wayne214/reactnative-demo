@@ -102,14 +102,15 @@ const styles = StyleSheet.create({
     },
     loginBackground: {
         width: width - 20,
-        marginTop: 15,
+        marginTop: 30,
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 0,
         height: 44,
-        resizeMode: 'stretch',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#0092FF',
+        borderRadius: 2,
     },
     loginButton: {
         backgroundColor: '#00000000',
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     },
     screenEndViewText: {
         fontSize: 15,
-        color: BLUE_CONTACT_COLOR,
+        color: '#0092FF',
     },
     separateLine: {
         height: 1,
@@ -326,9 +327,9 @@ class RegisterStepOne extends Component {
                                 }}
                             />
                         </View>
-
+                        <View style={styles.separateLine}/>
                     </View>
-                    <Image style={styles.loginBackground} source={BlueButtonArc}>
+                    <View style={styles.loginBackground}>
                         <Button
                             isDisabled={!(phoneNum && messageCode)}
                             style={styles.loginButton}
@@ -339,7 +340,7 @@ class RegisterStepOne extends Component {
                         >
                             立即注册
                         </Button>
-                    </Image>
+                    </View>
                     <View style={styles.screenEndView}>
                         <CheckBox isChecked={this.state.checkBox} checkedFun={()=>{
                             this.setState({

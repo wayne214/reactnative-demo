@@ -416,7 +416,7 @@ class LoginSms extends BaseComponent {
                                 }}
                             />
                         </View>
-                        <View style={{backgroundColor: '#0092FF', marginTop: 20, marginHorizontal: 10, borderRadius: 5}} >
+                        <View style={{backgroundColor: '#0092FF', marginTop: 20, marginHorizontal: 10, borderRadius: 2}} >
                             <Button
                                 isDisabled={!(phoneNumber && smsCode)}
                                 style={styles.loginButton}

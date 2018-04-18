@@ -215,7 +215,7 @@ class ForgetPwdStepTwo extends Component {
                         this.finish();
                     }}
                 >
-                    <Image
+                    <View
                         style={{
                             width: width - 20,
                             marginTop: 15,
@@ -223,11 +223,11 @@ class ForgetPwdStepTwo extends Component {
                             marginRight: 10,
                             marginBottom: 0,
                             height: 44,
-                            resizeMode: 'stretch',
                             alignItems: 'center',
-                            justifyContent:'center'
+                            justifyContent:'center',
+                            backgroundColor: '#0092FF',
+                            borderRadius: 2
                         }}
-                        source={BlueButtonArc}
                     >
 
                         <Text
@@ -240,7 +240,7 @@ class ForgetPwdStepTwo extends Component {
                         >
                             确认
                         </Text>
-                    </Image>
+                    </View>
                 </TouchableOpacity>
                 {
                     this.state.loading ? <Loading /> : null
