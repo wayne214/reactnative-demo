@@ -22,7 +22,7 @@ const initState = Immutable.fromJS({
         isLoadingMore: false,
         isRefreshing: false
 		},
-    transportListData:{},
+    transportListData:'',
 });
 
 export default (state = initState, action) => {

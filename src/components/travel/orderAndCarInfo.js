@@ -35,7 +35,7 @@ class orderAndCarInfo extends Component{
                 <Text style={{color: '#ffffff', fontSize: 14}}>{'沪EB7357'}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10,}}>
-                <Text style={{color: '#ffffff', fontSize: 14}}>司    机：</Text>
+                <Text style={{color: '#ffffff', fontSize: 14}}>司        机：</Text>
                 <Text style={{color: '#ffffff', fontSize: 14}}>{'张三'}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10}}>

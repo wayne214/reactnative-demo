@@ -12,23 +12,21 @@ import { connect } from 'react-redux'
 import NavigatorBar from '../../components/common/navigatorbar'
 import BaseComponent from '../../components/common/baseComponent'
 import styles from '../../../assets/css/home'
-import * as RouteType from '../../constants/routeType';
 const { height,width } = Dimensions.get('window');
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
-import {getTravelCarList, refreshTravelCarList, queryTrasportCarList} from '../../action/travel'
+import { queryTrasportCarList} from '../../action/travel'
 import Toast from '../../utils/toast.js';
 import TrailMutilStatus from '../../components/travel/traillMutilStatus';
 import OrderAndCarInfo from '../../components/travel/orderAndCarInfo';
 import Linking from '../../utils/linking'
+import EmptyView from '../../components/common/emptyView';
 
 class travelDetail extends BaseComponent {
 
   constructor(props) {
     super(props)
-    this.title = '行程';
     this.state = {
-      dataSource: ['京A12345', '京A12355', '京A22345'],
         carNum: this.props.navigation.state.params.carNo
     };
   }
@@ -50,24 +48,31 @@ class travelDetail extends BaseComponent {
     super.componentWillUnmount()
   }
 
+
+
   render() {
-      const {navigation} = this.props
+      const {navigation, transportListData} = this.props;
     return (
       <View style={ styles.container }>
           <NavigatorBar router={navigation} title={ '运输在途信息监控' } backViewClick={()=>{
               this.props.navigation.dispatch({type: 'pop'})
           }}/>
-          <View style={{backgroundColor: '#FFFFFF', flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 15, paddingTop: 15, paddingBottom: 15}}>
-              <TouchableOpacity onPress={()=> {
-                  Linking.link('tel:13568246609');
-              }}>
-                  <View style={{backgroundColor: '#0092FF', flexDirection: 'row', height: 29, width: 104, alignItems: 'center', justifyContent: 'center', borderRadius: 24.5}}>
-                      <Text style={{color: '#FFFFFF', fontSize: 14}}>随车电话</Text>
+
+          {
+              transportListData ? <View>
+                  <View style={{backgroundColor: '#FFFFFF', flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 15, paddingTop: 15, paddingBottom: 15}}>
+                      <TouchableOpacity onPress={()=> {
+                          Linking.link('tel:13568246609');
+                      }}>
+                          <View style={{backgroundColor: '#0092FF', flexDirection: 'row', height: 29, width: 104, alignItems: 'center', justifyContent: 'center', borderRadius: 24.5}}>
+                              <Text style={{color: '#FFFFFF', fontSize: 14}}>随车电话</Text>
+                          </View>
+                      </TouchableOpacity>
                   </View>
-              </TouchableOpacity>
-          </View>
-            <TrailMutilStatus address={[]}/>
-            <OrderAndCarInfo address={[]}/>
+                  <TrailMutilStatus address={[]}/>
+                  <OrderAndCarInfo address={[]}/>
+              </View> : <EmptyView/>
+          }
       </View>
     );
   }
