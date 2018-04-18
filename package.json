@@ -29,6 +29,7 @@
     "@remobile/react-native-toast": "^1.0.7",
     "apsl-react-native-button": "^3.1.0",
     "axios": "^0.18.0",
+    "babel-preset-react-native": "2.1.0",
     "coordtransform": "^2.1.2",
     "immutable": "^3.8.2",
     "jcore-react-native": "^1.2.5",
@@ -70,7 +71,6 @@
   },
   "devDependencies": {
     "babel-jest": "20.0.3",
-    "babel-preset-react-native": "3.0.2",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12",
     "redux-logger": "^3.0.6"
