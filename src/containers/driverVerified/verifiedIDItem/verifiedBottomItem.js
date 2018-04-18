@@ -49,17 +49,18 @@ class verifiedBottomItem extends Component{
                 <TouchableOpacity style={styles.bottomStyle} onPress={()=>{
                     this.click();
                 }}>
-                    <ImageBackground
-                        resizeMode='stretch'
+                    <View
                         style={{
                             width: width - 20,
                             height: 40,
+                            backgroundColor: '#0092FF',
+                            borderRadius: 2,
                         }}
-                        source={BlueButtonArc}>
+                        >
                         <Text style={styles.textStyle}>
                             {btnTitle}
                         </Text>
-                    </ImageBackground>
+                    </View>
                 </TouchableOpacity>
 
             </View>

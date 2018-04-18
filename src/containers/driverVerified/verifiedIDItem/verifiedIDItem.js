@@ -192,7 +192,7 @@ class verifiedIDItem extends Component{
                         <TouchableOpacity onPress={()=>{
                             this.upLoadClick();
                         }}>
-                            <Text style={[styles.TextStyle, {color: '#0071FF'}]}>点此上传</Text>
+                            <Text style={[styles.TextStyle, {color: '#0092FF'}]}>点此上传</Text>
                         </TouchableOpacity>
 
                     </View>
