@@ -96,6 +96,7 @@ class travel extends BaseComponent {
                 dataSource={travelCarList}
                 refreshList={()=> {
                     // 刷新
+                    this.getCarList(1, 0);
                 }}
                 loadMoreAction={()=> {
 
@@ -116,6 +117,7 @@ class travel extends BaseComponent {
                 dataSource={freeCarListData}
                 refreshList={()=> {
                     // 刷新
+                    this.getCarList(0, 1);
                 }}
                 loadMoreAction={()=> {
 
