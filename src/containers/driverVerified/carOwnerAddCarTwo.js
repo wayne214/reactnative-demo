@@ -98,8 +98,8 @@ class certification extends Component {
 
                 carNumber: '', // 车牌号
                 carVolume: '', // 车辆体积
-                carType: '', // 车辆类型
-                carTypeTwo: '', // 车辆类别
+                carType: '冷藏车', // 车辆类型
+                carTypeTwo: '厢式挂车', // 车辆类别
                 carLength: '', // 车长
                 carWeight: '', // 载重
                 carAllowNumber: '', // 运输许可证号
@@ -313,7 +313,7 @@ class certification extends Component {
             }
         };
 
-        ImagePicker.launchImageLibrary(options, (response) => {
+        ImagePicker.g(options, (response) => {
             console.log('Response = ', response);
 
             if (response.didCancel) {
@@ -665,13 +665,13 @@ class certification extends Component {
                                                 }}
                                                 carTypeClick={()=>{
 
-                                                     selectDatePickerType = 2;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
+                                                     //selectDatePickerType = 2;
+                                                     //this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
                                                 }}
                                                 carTypeTwoClick={()=>{
 
-                                                     selectDatePickerType = 4;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
+                                                     //selectDatePickerType = 4;
+                                                     //this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
                                                 }}
                                                 carLengthClick={()=>{
 

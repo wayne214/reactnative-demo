@@ -679,24 +679,24 @@ class certification extends Component {
             return;
         }
 
-        if (this.state.vinCode === '') {
-            Toast.showShortCenter('请输入VIN代码');
-            return;
-        }
+        // if (this.state.vinCode === '') {
+        //     Toast.showShortCenter('请输入VIN代码');
+        //     return;
+        // }
 
-        if (this.state.carEngineNumber === '') {
-            Toast.showShortCenter('请输入发动机号码');
-            return;
-        }
-        if (this.state.insuranceData === '' || this.state.insuranceData === '请选择有效期') {
-            Toast.showShortCenter('请选择强险有效期');
-            return;
-        }
-
-        if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDNormalPhotoAddress === '') {
-            Toast.showShortCenter('请上传强险照片');
-            return;
-        }
+        // if (this.state.carEngineNumber === '') {
+        //     Toast.showShortCenter('请输入发动机号码');
+        //     return;
+        // }
+        // if (this.state.insuranceData === '' || this.state.insuranceData === '请选择有效期') {
+        //     Toast.showShortCenter('请选择强险有效期');
+        //     return;
+        // }
+        //
+        // if (this.state.handleIDNormalPhotoAddress === '' && this.state.handleIDNormalPhotoAddress === '') {
+        //     Toast.showShortCenter('请上传强险照片');
+        //     return;
+        // }
         if (this.state.vehicleNormalPhotoAddress === '' && this.state.vehicleThumbnailAddress === '') {
             Toast.showShortCenter('请上传车头照片');
             return;
@@ -708,11 +708,11 @@ class certification extends Component {
             return;
         }
 
-        if (!this.isRightData(this.state.insuranceData)) {
-            Toast.showShortCenter('所选择的强险有效期应大于今天，请重新选择');
-
-            return;
-        }
+        // if (!this.isRightData(this.state.insuranceData)) {
+        //     Toast.showShortCenter('所选择的强险有效期应大于今天，请重新选择');
+        //
+        //     return;
+        // }
 
 
         console.log('车牌号：', this.state.carNumber);
@@ -965,30 +965,8 @@ class certification extends Component {
                     {travelInfo}
 
                     <VerifiedSpaceItem />
-                    <VerifiedIDTitleItem title="交强险"/>
 
-                    <View style={{height: 15, backgroundColor: 'white'}}>
-                        <Text
-                            style={{ height: 1, marginTop: 14, marginLeft: 10, marginRight: 0, backgroundColor: '#f5f5f5',}}/>
-                    </View>
 
-                    <VerifiedIDDateItem IDDate={this.state.insuranceData}
-                                        clickDataPick={()=>{
-                                            if (Platform.OS === 'ios'){
-                                                this.refs.scrollView.scrollTo({x: 0, y: 560, animated: true});
-                                            }
-                                            selectDatePickerType = 1;
-                                            this.showDatePick(false, VerifiedDateSources.createDateData(), 'Date');
-                                        }}
-                    />
-                    <VerifiedTravelPaperItem showTitle="驾驶证号要清晰"
-                                             leftImage={qiangxianLeftImage}
-                                             rightImage={this.state.qiangxianRightImage}
-                                             click={()=> {
-                                                selectType=2;
-                                                this.showAlertSelected();
-                                        }}
-                    />
 
                     <VerifiedGrayTitleItem title="车头照"/>
                     <VerifiedIDItemView showTitle="车头要清晰，头部完整"
