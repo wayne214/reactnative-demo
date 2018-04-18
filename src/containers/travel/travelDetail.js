@@ -3,7 +3,9 @@ import {
   Text,
   View,
   Alert,
-  Dimensions
+  Dimensions,
+    TouchableOpacity,
+    StyleSheet
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -18,6 +20,7 @@ import {getTravelCarList, refreshTravelCarList, queryTrasportCarList} from '../.
 import Toast from '../../utils/toast.js';
 import TrailMutilStatus from '../../components/travel/traillMutilStatus';
 import OrderAndCarInfo from '../../components/travel/orderAndCarInfo';
+import Linking from '../../utils/linking'
 
 class travelDetail extends BaseComponent {
 
@@ -53,6 +56,15 @@ class travelDetail extends BaseComponent {
           <NavigatorBar router={navigation} title={ '运输在途信息监控' } backViewClick={()=>{
               this.props.navigation.dispatch({type: 'pop'})
           }}/>
+          <View style={{backgroundColor: '#FFFFFF', flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 15, paddingTop: 15, paddingBottom: 15}}>
+              <TouchableOpacity onPress={()=> {
+                  Linking.link('tel:13568246609');
+              }}>
+                  <View style={{backgroundColor: '#0092FF', flexDirection: 'row', height: 29, width: 104, alignItems: 'center', justifyContent: 'center', borderRadius: 24.5}}>
+                      <Text style={{color: '#FFFFFF', fontSize: 14}}>随车电话</Text>
+                  </View>
+              </TouchableOpacity>
+          </View>
             <TrailMutilStatus address={[]}/>
             <OrderAndCarInfo address={[]}/>
       </View>

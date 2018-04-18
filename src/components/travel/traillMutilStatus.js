@@ -33,7 +33,7 @@ class traillMutilStatus extends Component{
 
         return (
             <View style={styles.container}>
-                <View style={[{height: 1,backgroundColor: '#E6EAF2',width: width - 20*2,marginLeft: 20}, lineStyle]}/>
+                {/*<View style={[{height: 1,backgroundColor: '#E6EAF2',width: width - 20*2,marginLeft: 20}, lineStyle]}/>*/}
 
                 <View style={[{padding: 20}, subcontainer]}>
                     {addresses.length > 0 ? <Text style={{color: '#999'}}>卸货点</Text> : null}

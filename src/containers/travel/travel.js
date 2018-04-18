@@ -26,9 +26,6 @@ class travel extends BaseComponent {
   constructor(props) {
     super(props)
     this.title = '行程';
-    this.state = {
-      dataSource: ['京A12345', '京A12355', '京A22345']
-    };
   }
 
   static propTypes = {

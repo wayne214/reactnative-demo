@@ -25,15 +25,14 @@ export default class Help extends React.Component {
 
 	render () {
 		const { tabs } = this.props;
-		const lineWidth = 25;
 		const items = tabs.map((item, index) => {
 			return (
 				<TouchableOpacity
+					activeOpacity={0.85}
 					key={ index }
-					style={ styles.tabViewCell }
 					onPress={ this._tabChange.bind(this, index) }>
 					<View style={this.state.currentTab === index ? styles.selectBg : styles.normalBg}>
-						<Text style={ this.state.currentTab === index ? styles.curTipText : styles.tipText }>{ item }</Text>
+						<Text style={ this.state.currentTab === index ? styles.tipText : styles.curTipText }>{ item }</Text>
 					</View>
 				</TouchableOpacity>
 			);
@@ -53,22 +52,19 @@ const styles = StyleSheet.create({
 		width,
 		height: 50,
 		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: 'white',
-		borderBottomColor: '#e6eaf2',
-		borderBottomWidth: 1
+		backgroundColor: 'transparent',
 	},
 	tabViewContainer: {
 		width,
 		height: 50,
 		flexDirection: 'row',
-		backgroundColor: 'white'
+		backgroundColor: 'transparent',
+			alignItems: 'center'
 	},
 	tabViewCell: {
-		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	curTipText: {
 		fontSize: 15,
@@ -76,7 +72,7 @@ const styles = StyleSheet.create({
 	},
 	tipText: {
 		fontSize: 15,
-		color: '#999999'		
+		color: '#ffffff'
 	},	
 	line: {
 		width: 110,
@@ -93,17 +89,25 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white'
 	},
 	selectBg: {
-		backgroundColor: 'white',
+		backgroundColor: 'rgba(255, 255, 255, 0.3)',
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 100,
+		width: 80,
+		height: 29,
+		borderWidth: 1,
+		borderRadius: 40,
+		marginLeft: 5,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
 	},
 	normalBg: {
-		backgroundColor: 'white',
-		// transparent: true,
+		backgroundColor: '#ffffff',
 		justifyContent: 'center',
 		alignItems: 'center',
-    opacity: 1,
-    width: 100,
+    width: 80,
+		height: 29,
+    borderWidth: 1,
+		borderRadius: 40,
+    borderColor: '#ffffff',
+    marginLeft: 5
 	}
 });

@@ -93,6 +93,7 @@ export default (state = initState, action) => {
 			let selectedCarLengthArr = [];
 			let _carIds = [];
 			let carLength = action.payload.split(",");
+			console.log('--carLength', carLength);
 			function contains(carLength, index){
 				let i = carLength.length;
 				while (i--) { 
@@ -103,6 +104,7 @@ export default (state = initState, action) => {
 				return false;
 			}
 			CAR_VEHICLE.map(item => {
+          console.log('--item.key', item.key);
 				let flag = contains(carLength,item.key);
 				if(flag){
 					_carIds.push(item.key);
