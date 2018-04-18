@@ -1,6 +1,6 @@
 /**
  * @author:  xizhixin
- * @description: 待签收列表item
+ * @description: 待回单列表item
  */
 import React, {Component} from 'react';
 import {
@@ -166,19 +166,21 @@ const styles = StyleSheet.create({
     }
 });
 
-class OrdersItemCell extends Component {
+class orderReceiptCell extends Component {
 
     static propTypes = {
         style: View.propTypes.style,
         receiveContact: React.PropTypes.string,
         receiveAddress: React.PropTypes.string,
         receiveContactName: React.PropTypes.string,
-        ordersNum: React.PropTypes.number,
+        receiptTotalNumber: React.PropTypes.number,
+        notReceiptNumber: React.PropTypes.number,
         phoneNum: React.PropTypes.string,
         transCodeList: React.PropTypes.array,
-        onSelect: React.PropTypes.func,
+        onSelected: React.PropTypes.func,
         onButton: React.PropTypes.func,
-        isBatchSign: React.PropTypes.bool,
+        isBatchReceipt: React.PropTypes.bool,
+        isZp: React.PropTypes.string,
     };
 
     // 构造
@@ -220,41 +222,30 @@ class OrdersItemCell extends Component {
             receiveContact,
             receiveAddress,
             receiveContactName,
-            onSelect,
+            onSelected,
             phoneNum,
             transCodeList,
-            ordersNum,
-            isBatchSign,
+            notReceiptNumber,
+            isBatchReceipt,
             onButton,
-            orderSignNum,
+            receiptTotalNumber,
+            isZp
         } = this.props;
         let transport = transCodeList[0];
         let transport1;
-        if(ordersNum > 1){
+        if(receiptTotalNumber > 1){
             transport1 = transCodeList[1];
         }
-        const batchSignView = <View>
+        const batchReceiptView = <View>
                 <View style={{height: 0.5, backgroundColor: StaticColor.DEVIDE_LINE_COLOR}}/>
                 <View style={styles.batchSignContainer}>
                     <TouchableOpacity
                         onPress={() => {
-                            Alert.alert('您确认要批量签收吗？', '如果批量签收则不能做异常签收',
-                                [
-                                    {
-                                        text: '取消',
-                                        onPress: () => {},
-                                    },
-                                    {
-                                        text: '确认',
-                                        onPress: () => {
-                                            onButton();
-                                        },
-                                    },
-                                ], {cancelable: false});
+                            onButton();
                         }}
                     >
                         <View style={styles.batchSignView}>
-                            <Text style={styles.buttonText}>批量签收</Text>
+                            <Text style={styles.buttonText}>批量回单</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -335,7 +326,7 @@ class OrdersItemCell extends Component {
                 <TouchableOpacity
                     underlayColor={StaticColor.COLOR_SEPARATE_LINE}
                     onPress={() => {
-                        onSelect();
+                        onSelected();
                     }}
                 >
                     <View>
@@ -347,13 +338,13 @@ class OrdersItemCell extends Component {
                             <View style={styles.orderNumView}>
                                 <OrderStateNumView
                                     fontText={'共'}
-                                    num={ordersNum}
+                                    num={receiptTotalNumber}
                                     unit={'单'}
                                 />
                                 <OrderStateNumView
                                     style={{marginLeft: 5}}
-                                    fontText={'已签'}
-                                    num={orderSignNum}
+                                    fontText={'待回'}
+                                    num={notReceiptNumber}
                                     unit={'单'}
                                 />
                             </View>
@@ -365,7 +356,7 @@ class OrdersItemCell extends Component {
                                 {receiveAddress}
                             </Text>
                         </View>
-                        {ordersNum > 1 ? transOrderViews : transOrderView}
+                        {receiptTotalNumber > 1 ? transOrderViews : transOrderView}
                         <View style={styles.subContainer}>
                             <Text style={styles.contactView}>联系人: {receiveContactName}</Text>
                             <TouchableOpacity
@@ -384,7 +375,7 @@ class OrdersItemCell extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    {isBatchSign ? batchSignView : null}
+                    {isBatchReceipt && isZp === 'Y' ? batchReceiptView : null}
                 </TouchableOpacity>
                 <View style={styles.divideLine} />
             </View>
@@ -392,4 +383,4 @@ class OrdersItemCell extends Component {
     }
 }
 
-export default OrdersItemCell;
+export default orderReceiptCell;

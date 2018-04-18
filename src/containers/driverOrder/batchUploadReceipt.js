@@ -39,6 +39,7 @@ import {
     updateImages,
     refreshDriverOrderList,
 } from '../../action/driverOrder';
+import {fetchData} from '../../action/app';
 import * as API from '../../constants/api';
 import Loading from '../../utils/loading';
 import Storage from '../../utils/storage';
@@ -69,13 +70,10 @@ const styles =StyleSheet.create({
     imageView: {
         flexDirection: 'row',
         backgroundColor: StaticColor.WHITE_COLOR,
-        paddingBottom: 10,
-    },
-    imageTitle: {
-        marginTop: 10,
+        paddingBottom: 15,
     },
     imageBorder: {
-        marginTop: 10,
+        marginTop: 15,
         marginLeft: 10,
         width: ImageWH,
         height: ImageWH,
@@ -112,6 +110,10 @@ const styles =StyleSheet.create({
         height: 44,
         backgroundColor: StaticColor.BLUE_BACKGROUND_COLOR
     },
+    rightButton: {
+        fontSize: 16,
+        color: StaticColor.BLUE_BACKGROUND_COLOR,
+    }
 });
 
 class batchUploadReceipt extends Component {
@@ -120,10 +122,10 @@ class batchUploadReceipt extends Component {
         const params = this.props.navigation.state.params;
         this.state = {
             data:[],
-            transCode: params.transCode,
-            receiptWay: params.receiptWay,
+            transCodes: params.transCode,
+            imgNum: 0,
             loading: false,
-            flag: params.flag
+            flag: params.flag,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -132,9 +134,11 @@ class batchUploadReceipt extends Component {
         this.takePhoto = this.takePhoto.bind(this);
         this.clickImage = this.clickImage.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-
+        this.getUploadImage = this.getUploadImage.bind(this);
+        this.uploadFinished = this.uploadFinished.bind(this);
     }
     componentDidMount() {
+        this.getUploadImage();
         this.getCurrentPosition();
         Storage.get(StorageKey.USER_INFO).then((userInfo) => {
             if(userInfo) {
@@ -156,6 +160,14 @@ class batchUploadReceipt extends Component {
             locationData = data;
         }).catch(e =>{
             console.log(e, 'error');
+        });
+    }
+
+    getUploadImage(){
+        this.props._getImageNum(this.state.transCodes, (result)=>{
+            this.setState({
+                imgNum: result
+            })
         });
     }
 
@@ -262,6 +274,26 @@ class batchUploadReceipt extends Component {
         });
     }
 
+    uploadFinished(){
+        this.props._uploadImageFinished({
+            transportNos: this.state.transCodes,
+            userId: userID,
+            userName : userName,
+        },(result) => {
+            if(this.state.flag === 'sign'){
+                this.props._refreshOrderList(2);
+            }else {
+                this.props._refreshOrderList(3);
+            }
+            this.props.navigation.dispatch({
+                type: 'pop',
+            });
+        },(error) => {
+            console.log('error==',error);
+            Toast.showShortCenter(error);
+        })
+    }
+
     uploadImage(url, data){
         upLoadImageManager(url,
             data,
@@ -277,21 +309,20 @@ class batchUploadReceipt extends Component {
                     loading: false,
                 });
                 if (response.code === 200){
-
                     lastTime = new Date().getTime();
-                    // ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
-                    //     locationData.district, lastTime - currentTime, '上传回单页面');
-                    Toast.showShortCenter('上传回单成功');
-
-                    if(this.state.flag != '1') {
-                        this.props._refreshOrderList(0);
-                        this.props._refreshOrderList(2);
-                        this.props._refreshOrderList(3);
-                    }
-                    DeviceEventEmitter.emit('refreshCarrierOrderList');
-                    this.props.navigation.dispatch({type: 'pop', key: 'Main'});
-
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_RECEIPT_SUCCESS_PAGE,
+                        params: {
+                            transportNos: this.state.transCodes,
+                            flag: this.state.flag,
+                            callBack:() => {
+                                this.props.dispatch(updateImages());
+                                this.getUploadImage();
+                            }
+                        }
+                    })
                 }else {
+                    console.log('uploadError===',response.message);
                     Toast.showShortCenter('图片上传失败，请重新上传');
                 }
             },
@@ -351,12 +382,16 @@ class batchUploadReceipt extends Component {
                     router={navigator}
                     hiddenBackIcon={false}
                     backViewClick={() => {
-                        const routes = this.props.routes;
-                        if(routes[routes.length - 2].routeName === RouteType.ROUTE_SIGN_SUCCESS_PAGE) {
+                        if(this.state.flag === 'sign'){
                             this.props._refreshOrderList(2);
-                            navigator.dispatch({type: 'pop', key: 'Main'});
-                        }else {
-                            navigator.dispatch({type: 'pop'});
+                        }
+                        navigator.dispatch({type: 'pop'});
+                    }}
+                    optTitle={this.props.imageList.size > 0 ? '' : this.state.imgNum == 0 ? '' : '回单完成'}
+                    optTitleStyle={styles.rightButton}
+                    firstLevelClick={() => {
+                        if(this.state.imgNum > 0){
+                            this.uploadFinished();
                         }
                     }}
                 />
@@ -375,6 +410,14 @@ class batchUploadReceipt extends Component {
                             {imagesViewThird}
                             {this.createAddItem(3)}
                         </View>
+                    </View>
+                    <View style={{backgroundColor: StaticColor.LINE_COLOR, height: 1,marginLeft: 15}}/>
+                    <View>
+                        <Text style={{fontSize: 14, padding: 15}}>
+                            <Text style={{color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}>累计上传成功</Text>
+                            <Text style={{color: StaticColor.RED_TEXT_COLOR}}>{this.state.imgNum ? this.state.imgNum : 0}</Text>
+                            <Text style={{color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}>张</Text>
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.buttonBackground}>
@@ -400,24 +443,12 @@ class batchUploadReceipt extends Component {
                                     console.log('filePath===',file.uri);
                                     formData.append('photo', file);
                                 });
+                                console.log('arr.join=', this.state.transCodes.join());
 
-
-                                let url = '';
-                                if (this.state.flag == 1) {
-                                    formData.append('resourceCode', this.state.transCode);
-                                    formData.append('carrierUserName', global.ownerName);
-                                    formData.append('carrierUserId', global.companyId);
-
-                                    url = API.API_NEW_UPLOAD_CTC_ORDER_MATCH;
-                                } else {
-                                    formData.append('userId', userID);
-                                    formData.append('userName', userName);
-                                    formData.append('transCode', this.state.transCode);
-                                    formData.append('receiptType', this.state.receiptWay);
-                                    url = API.API_NEW_UPLOAD_RECEIPT;
-                                }
-
-
+                                formData.append('userId', userID);
+                                formData.append('userName', userName);
+                                formData.append('transCode', this.state.transCodes.join());
+                                let url = API.API_BATCH_UPLOAD_RECEIPT;
                                 this.uploadImage(url, formData);
                             }
                         }}
@@ -447,7 +478,36 @@ function mapDispatchToProps (dispatch){
         dispatch,
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
-        }
+        },
+        _getImageNum: (params, callBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_GET_UPLOAD_RECEIPT_IMAGE,
+                success: data => {
+                    console.log('get image num success ',data);
+                    callBack && callBack(data);
+                },
+                fail: error => {
+                    console.log('???', error);
+                }
+            }))
+        },
+        _uploadImageFinished: (params, callBack, failCallBack) => {
+            dispatch(fetchData({
+                body: params,
+                showLoading: true,
+                api: API.API_UPLOAD_RECEIPT_IMAGE_FINISHED,
+                success: data => {
+                    console.log('upload finished success ',data);
+                    callBack && callBack(data);
+                },
+                fail: error => {
+                    console.log('???', error);
+                    failCallBack && failCallBack(error);
+                }
+            }))
+        },
     };
 }
 
