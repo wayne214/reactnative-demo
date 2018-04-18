@@ -41,7 +41,8 @@ class travelDetail extends BaseComponent {
   componentDidMount() {
     super.componentDidMount()
     this.props._queryTransportList({
-        carNo: this.state.carNum
+        // carNo: this.state.carNum
+        carNo: '冀D100RB'
     })
   }
 
