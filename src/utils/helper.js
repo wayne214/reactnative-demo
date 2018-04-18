@@ -381,7 +381,7 @@ class HelperUtil {
             case '1':
                 return '已取消';
             default:
-                return '';
+                return '未调度';
         }
     }
 

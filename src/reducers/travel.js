@@ -84,7 +84,7 @@ export default (state = initState, action) => {
           newState = newState.setIn(['carListData', 'isRefreshing'], true);
           return newState
       case ActionTypes.ACTION_QUERY_TRANSPORT_LIST:
-          newState = newState.setIn('transportListData', payload);
+          newState = newState.set('transportListData', payload);
           return newState
 		default:
 			return newState;

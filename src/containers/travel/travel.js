@@ -40,9 +40,9 @@ class travel extends BaseComponent {
 
     getCarList(type, tabIndx) {
       this.props._getTravelCarList({
-          // carrierPhone: global.companyPhone,
+          carrierPhone: global.companyPhone,
           carNum: '',
-          carrierPhone: '15801351018',
+          // carrierPhone: '15801351018',
           transferStatus: type, // 0=空闲，1=运输中，null=全查
           pageNum: 1,
           pageSize: 50,
