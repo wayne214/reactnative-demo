@@ -130,7 +130,7 @@ export default store => next => action => {
         //   fail(data.data)
         // }
     }, error => {
-        Toast.show('请求超时，请重试!')
+        Toast.showShortCenter('请求超时，请重试!');
         if (DEBUG) console.log('error:', error)
     }).finally(() => {
 

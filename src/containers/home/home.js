@@ -156,9 +156,9 @@ class Home extends Component {
 
         this.listener = DeviceEventEmitter.addListener('refreshHome', (data) => {
             const {userInfo} = this.props;
-            if(data){
+            if (data) {
                 this.getHomePageCount(data, userInfo.phone)
-            }else {
+            } else {
                 if (this.props.plateNumber) {
                     this.getHomePageCount(this.props.plateNumber, userInfo.phone)
                 }
@@ -175,18 +175,18 @@ class Home extends Component {
         currentTime = new Date().getTime();
         this.props.compareVersionAction({
             version: DeviceInfo.getVersion(),
-            platform: Platform.OS === 'ios' ? '1': '2',
-        }, (result)=>{
+            platform: Platform.OS === 'ios' ? '1' : '2',
+        }, (result) => {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('版本对比', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '首页');
             if (result) {
                 this.props.updateVersion(result); // 升级正式的时候放开
                 // this.setData();
-            }else {
+            } else {
                 this.setData();
             }
-        }, ()=>{
+        }, () => {
             this.setData();
         });
     }
@@ -391,53 +391,11 @@ class Home extends Component {
                 Toast.show('个人车主身份被禁用');
                 return
             } else {
-                // 确认个人车主
-                if (result.certificationStatus == '1201') {
-                    this.props.setOwnerCharacterAction('11');
-                    this.props.setCurrentCharacterAction('personalOwner');
-                    this.props.dispatch(changeTab('goods'));
-
-                    this.setState({
-                        bubbleSwitch: false,
-                        show: false,
-                    })
-                } else {
-                    if (result.certificationStatus == '1202') {
-                        this.props.setCompanyCodeAction(result.companyCode);
-                        this.props.saveCompanyInfoAction(result);
-                        this.props.setOwnerCharacterAction('12');
-                        this.props.setCurrentCharacterAction('personalOwner');
-                        this.props.dispatch(changeTab('goods'));
-                        this.setState({
-                            bubbleSwitch: false,
-                            show: false,
-                        })
-                    } else {
-                        this.props.setOwnerCharacterAction('13');
-                        this.props.navigation.dispatch({
-                            type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
-                            params: {
-                                comeFrom: 'home'
-                            }
-                        });
-                        // this.props.navigation.navigate('PersonownerVerifiedStatePage');
-                        this.setState({
-                            show: false,
-                        })
-                    }
-                }
-            }
-
-        } else {
-            if (result.companyNature == '企业') {
-                if (result.status == '10') {
-                    Toast.show('企业车主身份被禁用');
-                    return
-                } else {
-                    // 确认企业车主
+                if (result.isOrNotApp == 1) {
+                    // 确认个人车主
                     if (result.certificationStatus == '1201') {
-                        this.props.setOwnerCharacterAction('21');
-                        this.props.setCurrentCharacterAction('businessOwner');
+                        this.props.setOwnerCharacterAction('11');
+                        this.props.setCurrentCharacterAction('personalOwner');
                         this.props.dispatch(changeTab('goods'));
 
                         this.setState({
@@ -448,26 +406,76 @@ class Home extends Component {
                         if (result.certificationStatus == '1202') {
                             this.props.setCompanyCodeAction(result.companyCode);
                             this.props.saveCompanyInfoAction(result);
-                            this.props.setOwnerCharacterAction('22');
-                            this.props.setCurrentCharacterAction('businessOwner');
+                            this.props.setOwnerCharacterAction('12');
+                            this.props.setCurrentCharacterAction('personalOwner');
                             this.props.dispatch(changeTab('goods'));
                             this.setState({
                                 bubbleSwitch: false,
                                 show: false,
                             })
                         } else {
-                            this.props.setOwnerCharacterAction('23');
+                            this.props.setOwnerCharacterAction('13');
                             this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL,
+                                type: RouteType.ROUTE_PERSON_OWNER_VERIFIED,
                                 params: {
                                     comeFrom: 'home'
                                 }
                             });
-                            // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
+                            // this.props.navigation.navigate('PersonownerVerifiedStatePage');
                             this.setState({
                                 show: false,
                             })
                         }
+                    }
+                } else {
+                    Toast.show('车主身份尚未开通，请联系运营人员；');
+                }
+            }
+
+        } else {
+            if (result.companyNature == '企业') {
+                if (result.status == '10') {
+                    Toast.show('企业车主身份被禁用');
+                    return
+                } else {
+                    if (result.isOrNotApp == 1) {
+                        // 确认企业车主
+                        if (result.certificationStatus == '1201') {
+                            this.props.setOwnerCharacterAction('21');
+                            this.props.setCurrentCharacterAction('businessOwner');
+                            this.props.dispatch(changeTab('goods'));
+
+                            this.setState({
+                                bubbleSwitch: false,
+                                show: false,
+                            })
+                        } else {
+                            if (result.certificationStatus == '1202') {
+                                this.props.setCompanyCodeAction(result.companyCode);
+                                this.props.saveCompanyInfoAction(result);
+                                this.props.setOwnerCharacterAction('22');
+                                this.props.setCurrentCharacterAction('businessOwner');
+                                this.props.dispatch(changeTab('goods'));
+                                this.setState({
+                                    bubbleSwitch: false,
+                                    show: false,
+                                })
+                            } else {
+                                this.props.setOwnerCharacterAction('23');
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL,
+                                    params: {
+                                        comeFrom: 'home'
+                                    }
+                                });
+                                // this.props.navigation.navigate('EnterpriseownerVerifiedStatePage');
+                                this.setState({
+                                    show: false,
+                                })
+                            }
+                        }
+                    } else {
+                        Toast.show('车主身份尚未开通，请联系运营人员；');
                     }
                 }
             } else {
@@ -521,13 +529,15 @@ class Home extends Component {
                     Storage.get(StorageKey.changePersonInfoResult).then((value) => {
                         if (value) {
                             this.props.navigation.dispatch({
-                               type: RouteType.ROUTE_DRIVER_VERIFIED,
-                               params: {resultInfo: value, commitSuccess: () => {
-                                   this.setState({
-                                       bubbleSwitch: false,
-                                       show: false,
-                                   })
-                               }}
+                                type: RouteType.ROUTE_DRIVER_VERIFIED,
+                                params: {
+                                    resultInfo: value, commitSuccess: () => {
+                                        this.setState({
+                                            bubbleSwitch: false,
+                                            show: false,
+                                        })
+                                    }
+                                }
                             });
                             // this.props.navigation.navigate('VerifiedPage', {
                             //     resultInfo: value,
@@ -541,12 +551,14 @@ class Home extends Component {
                         } else {
                             this.props.navigation.dispatch({
                                 type: RouteType.ROUTE_DRIVER_VERIFIED,
-                                params: { commitSuccess: () => {
-                                    this.setState({
-                                        bubbleSwitch: false,
-                                        show: false,
-                                    })
-                                }}
+                                params: {
+                                    commitSuccess: () => {
+                                        this.setState({
+                                            bubbleSwitch: false,
+                                            show: false,
+                                        })
+                                    }
+                                }
                             });
                             // this.props.navigation.navigate('VerifiedPage', {
                             //     commitSuccess: () => {
@@ -575,12 +587,14 @@ class Home extends Component {
         } else {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_DRIVER_VERIFIED,
-                params: { commitSuccess: () => {
-                    this.setState({
-                        bubbleSwitch: false,
-                        show: false,
-                    })
-                }}
+                params: {
+                    commitSuccess: () => {
+                        this.setState({
+                            bubbleSwitch: false,
+                            show: false,
+                        })
+                    }
+                }
             });
             // this.props.navigation.navigate('VerifiedPage', {
             //     commitSuccess: () => {
@@ -632,7 +646,7 @@ class Home extends Component {
 
     render() {
         const {homePageState} = this.props;
-        const limitView =  1==1 ?
+        const limitView = 1 == 1 ?
             <View style={styles.limitViewStyle}>
                 <Text style={{
                     fontSize: 14,
@@ -646,7 +660,13 @@ class Home extends Component {
             switch (this.props.driverStatus) {
                 case '1' || 1:
                     stateView =
-                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{
+                            backgroundColor: '#FFFAF4',
+                            height: 35,
+                            width,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证中</Text>
                         </View>
                     break;
@@ -655,7 +675,13 @@ class Home extends Component {
                     break;
                 case '3' || 3:
                     stateView =
-                        <View style={{backgroundColor: '#FFFAF4', height: 35, width, justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{
+                            backgroundColor: '#FFFAF4',
+                            height: 35,
+                            width,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{color: '#F77F4F', fontSize: 15}}>您的当前状态：认证驳回</Text>
                         </View>
                     break;
@@ -680,7 +706,8 @@ class Home extends Component {
                         this.props._changeBottomTab('driverGoods');
                         DeviceEventEmitter.emit('resetGood')
                     } else {
-                        {/*DeviceEventEmitter.emit('certification');*/}
+                        {/*DeviceEventEmitter.emit('certification');*/
+                        }
                     }
                 }}
             />
@@ -699,7 +726,8 @@ class Home extends Component {
                         this.changeOrderTab(1);
                         this.props._refreshOrderList(1);
                     } else {
-                        {/*DeviceEventEmitter.emit('certification');*/}
+                        {/*DeviceEventEmitter.emit('certification');*/
+                        }
                     }
                 }}
             />
@@ -718,7 +746,8 @@ class Home extends Component {
                         this.changeOrderTab(2);
                         this.props._refreshOrderList(2);
                     } else {
-                        {/*DeviceEventEmitter.emit('certification');*/}
+                        {/*DeviceEventEmitter.emit('certification');*/
+                        }
                     }
                 }}
             />
@@ -737,7 +766,8 @@ class Home extends Component {
                         this.changeOrderTab(3);
                         this.props._refreshOrderList(3);
                     } else {
-                        {/*DeviceEventEmitter.emit('certification');*/}
+                        {/*DeviceEventEmitter.emit('certification');*/
+                        }
                     }
                 }}
             />
@@ -751,7 +781,7 @@ class Home extends Component {
                 badgeText={0}
                 renderImage={() => <Image source={roadIcon}/>}
                 clickAction={() => {
-                    if(this.props.driverStatus == 2) {
+                    if (this.props.driverStatus == 2) {
                         this.props.navigation.dispatch({
                             type: RouteType.ROUTE_UPLOAD_ABNORMAL_PAGE,
                         });
@@ -825,7 +855,10 @@ class Home extends Component {
                     <TouchableOpacity
                         activeOpacity={1}
                         onPress={() => {
-                            this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST, params: {title: '我的消息', currentTab: 0 }})
+                            this.props.navigation.dispatch({
+                                type: RouteType.ROUTE_MESSAGE_LIST,
+                                params: {title: '我的消息', currentTab: 0}
+                            })
 
                             // this.props.navigation.dispatch({ type: RouteType.ROUTE_MESSAGE_LIST_PAGE})
                         }}
@@ -1183,7 +1216,7 @@ const mapDispatchToProps = dispatch => {
                 }
             }));
         },
-        vehicleLimit: (params,callBack) => {
+        vehicleLimit: (params, callBack) => {
             dispatch(fetchData({
                 body: params,
                 method: 'POST',
@@ -1271,7 +1304,7 @@ const mapDispatchToProps = dispatch => {
                 method: 'POST',
                 api: API.API_QUERY_ENTERPRISE_NATURE + params.phone,
                 success: (data) => {
-                    if(data){
+                    if (data) {
                         dispatch(queryEnterpriseNatureSuccessAction(data));
                     }
                 },

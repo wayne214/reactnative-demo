@@ -17,6 +17,7 @@ import UniqueUtil from '../../utils/unique';
 import emptyList from '../../../assets/img/emptyView/nodata.png';
 import OrdersItemCell from '../../components/driverOrder/ordersItemCell';
 import OrderTransportCell from '../../components/driverOrder/orderTransportCell';
+import OrderReceiptCell from '../../components/driverOrder/orderReceiptCell';
 import * as StaticColor from '../../constants/colors';
 import Toast from '@remobile/react-native-toast';
 import * as RouteType from '../../constants/routeType';
@@ -32,12 +33,14 @@ class driverOrderListItem extends Component {
         super(props);
         this.renderRow = this.renderRow.bind(this);
         this.renderRowItem = this.renderRowItem.bind(this);
+        this.renderItem = this.renderItem.bind(this);
         this.transportsList = this.transportsList.bind(this);
 
     }
     componentDidMount() {
 
     }
+    // 待发运及全部item
     renderRow(data){
         const dataRow = data.item;
         const pushTime = dataRow.time ? dataRow.time.replace(/-/g,'/').substring(0, dataRow.time.length - 3) : '';
@@ -161,6 +164,45 @@ class driverOrderListItem extends Component {
             />
         );
     }
+    // 待回单item
+    renderItem(data) {
+        const dataRow = data.item;
+        if ( dataRow.transports.length !== 0) {
+            return (
+                <OrderReceiptCell
+                    receiveContact={dataRow.receiveContact ? dataRow.receiveContact : ''}
+                    transCodeList={dataRow.transports}
+                    receiptTotalNumber={dataRow.receiptTotalNumber}
+                    receiveAddress={dataRow.receiveAddress}
+                    receiveContactName={dataRow.receiveContactName ? dataRow.receiveContactName : ''}
+                    phoneNum={dataRow.phoneNum}
+                    isBatchReceipt={dataRow.transports.length > 1}
+                    notReceiptNumber={dataRow.notReceiptNumber}
+                    isZp={dataRow.isZp}
+                    onSelected={() => {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
+                            params: {
+                                transOrderList: this.transportsList(dataRow),
+                            }
+                        });
+                    }}
+                    onButton={() => {
+                        this.props.navigation.dispatch({
+                            type: RouteType.ROUTE_BATCH_UPLOAD_RECEIPT_PAGE,
+                            params: {
+                                transCode: this.transportsList(dataRow),
+                                flag: 'receipt'
+                            }
+                        })
+                    }}
+                />
+            );
+        }else {
+            return null;
+        }
+    }
+    // 待签收item
     renderRowItem(data) {
         const dataRow = data.item;
         if ( dataRow.transports.length !== 0) {
@@ -254,7 +296,7 @@ class driverOrderListItem extends Component {
                     }}
                     refreshing={dataSource.get('isRefreshing')}
                     data={dataSource.get('list').toJS() || []}
-                    renderItem={type === 2 ? this.renderRowItem : this.renderRow}
+                    renderItem={type === 2 ? this.renderRowItem : type === 3 ? this.renderItem : this.renderRow}
                     keyExtractor={this._keyExtractor}
                     extraData={this.state}
                     onEndReachedThreshold={0.1}

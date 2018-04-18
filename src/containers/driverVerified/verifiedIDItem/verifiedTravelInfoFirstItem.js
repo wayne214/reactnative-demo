@@ -134,49 +134,60 @@ class verifiedTravelInfoItem extends Component{
 
                     />
                 </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车辆识别代码(VIN)
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        carVin: text,
-                                    });
-                                    this.carVINChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus();
-                               }}
-                               underlineColorAndroid={'transparent'}
-                               value={this.state.carVin}
-                               placeholder={'请输入代码（VIN）'}
-                    />
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        发动机号码
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        engineNumber: text,
-                                    });
-                                    this.codeValueChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus();
-                               }}
-                               underlineColorAndroid={'transparent'}
-                               value={this.state.engineNumber}
-                               placeholder={'请输入发动机编号'}
-                    />
-                </View>
+
             </View>
         )
     }
 }
 
 export default verifiedTravelInfoItem;
+/*
+*
+* <View style={{flexDirection: 'row'}}>
+ <Text style={styles.titleStyle}>
+ 车辆识别代码(VIN)
+ </Text>
+ <TextInput style={styles.textInputStyle}
+ onChangeText={(text) => {
+ this.setState({
+ carVin: text,
+ });
+ this.carVINChange(text);
+ }}
+ onFocus={()=>{
+ this.textOnFocus();
+ }}
+ underlineColorAndroid={'transparent'}
+ value={this.state.carVin}
+ placeholder={'请输入代码（VIN）'}
+ />
+ </View>
+ <Line />
+
+
+
+
+
+
+ <Line />
+
+ <View style={{flexDirection: 'row'}}>
+ <Text style={styles.titleStyle}>
+ 发动机号码
+ </Text>
+ <TextInput style={styles.textInputStyle}
+ onChangeText={(text) => {
+ this.setState({
+ engineNumber: text,
+ });
+ this.codeValueChange(text);
+ }}
+ onFocus={()=>{
+ this.textOnFocus();
+ }}
+ underlineColorAndroid={'transparent'}
+ value={this.state.engineNumber}
+ placeholder={'请输入发动机编号'}
+ />
+ </View>
+* */

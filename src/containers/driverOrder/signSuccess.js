@@ -32,21 +32,23 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
     buttonContainer: {
-        padding: 5,
-        width: 112,
-        marginRight: 15,
-        marginLeft: 15,
+        marginRight: 12,
+        marginLeft: 12,
+        flex: 1,
+        justifyContent:'center',
+        alignItems:'center'
     },
     buttonView: {
-        borderRadius: 5,
+        borderRadius: 1,
         borderColor: StaticColor.GRAY_TEXT_COLOR,
         borderWidth: 0.5,
-        height: 32,
-        paddingTop: 8,
-        paddingBottom: 8,
+        paddingTop: 11,
+        paddingBottom: 11,
+        paddingLeft: 22,
+        paddingRight: 22,
     },
     textSize: {
-        fontSize: 14,
+        fontSize: 15,
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
         textAlign: 'center',
     }
@@ -66,7 +68,7 @@ class signSuccess extends Component {
 
       render() {
           const navigator = this.props.navigation;
-          const buttonView = <View style={{flexDirection:'row',marginTop: 50}}>
+          const buttonView = <View style={{flexDirection:'row',marginTop: 45}}>
               {
                   this.state.receiptWay === '不回单' ? null :
                   <View style={styles.buttonContainer}>

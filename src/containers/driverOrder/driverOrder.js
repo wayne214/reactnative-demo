@@ -21,6 +21,7 @@ import {
 } from '../../action/driverOrder';
 import {fetchData} from '../../action/app';
 import * as API from '../../constants/api';
+import * as RouteType from '../../constants/routeType';
 import ReadAndWriteFileUtil from '../../utils/readAndWriteFileUtil';
 const {width} = Dimensions.get('window');
 
@@ -255,8 +256,32 @@ class driverOrder extends Component {
             lastTime = new Date().getTime();
             ReadAndWriteFileUtil.appendFile('批量签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                 locationData.district, lastTime - currentTime, '订单页面');
-            Toast.showShortCenter('批量签收成功');
-            this._refreshList(2);
+            if(dataRow.isZp === 'Y'){
+                Alert.alert('提示', '是否立即批量上传回单？',
+                    [
+                        {
+                            text: '取消',
+                            onPress: () => {
+                                this._refreshList(2);
+                            },
+                        },
+                        {
+                            text: '确认',
+                            onPress: () => {
+                                this.props.navigation.dispatch({
+                                    type: RouteType.ROUTE_BATCH_UPLOAD_RECEIPT_PAGE,
+                                    params: {
+                                       transCode: this.transportsList(dataRow),
+                                        flag: 'sign'
+                                    }
+                                })
+                            },
+                        },
+                    ], {cancelable: false});
+            }else {
+                Toast.showShortCenter('批量签收成功');
+                this._refreshList(2);
+            }
         },(errorInfo) => {
             console.log('errorInfo=', errorInfo);
             if(errorInfo.code === 800){

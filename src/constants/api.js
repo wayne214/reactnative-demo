@@ -346,9 +346,9 @@ export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificatio
 // 订单列表（全部，待发运）分页查询调度单
 export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';
 // 订单列表（待回单）
-export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV4';
+export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV5';
 // 运输中
-export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportList`;
+export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportListV1`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
 // 绑定GPS设备接口
@@ -371,6 +371,12 @@ export const API_NEW_SIGN = 'app/transport/sign';
 export const API_TRANSPORT_BATCH_SIGN = 'app/transport/batchSign/v3.0';
 // 回单接口
 export const API_NEW_UPLOAD_RECEIPT = `app/transport/returnTransportOrder/v2.1`;
+// 批量回单接口
+export const API_BATCH_UPLOAD_RECEIPT = `app/transport/batchUploadTransportOrder`;
+// 获取上传回单照片数量接口
+export const API_GET_UPLOAD_RECEIPT_IMAGE = `app/transport/getReceiptPicNumber`;
+// 上传回单完成接口
+export const API_UPLOAD_RECEIPT_IMAGE_FINISHED = `app/transport/batchUploadTransportOrderSuccess`;
 // 回单照片展示接口
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口

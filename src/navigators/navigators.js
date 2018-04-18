@@ -103,7 +103,9 @@ import PayTypesScreen from '../containers/driverOrder/payTypes';
 import WeChatPaymentScreen from '../containers/driverOrder/weChatPayment';
 import SignInScreen from '../containers/driverOrder/signPage';
 import SignSuccessScreen from '../containers/driverOrder/signSuccess';
+import ReceiptSuccessScreen from '../containers/driverOrder/receiptSuccess';
 import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
+import BatchUploadReceiptScreen from '../containers/driverOrder/batchUploadReceipt';
 import BaiduMapScreen from '../containers/map/baiduMap';
 import PhotoShowScreen from '../containers/driverOrder/imageViewer';
 
@@ -703,8 +705,20 @@ export const AppNavigator = StackNavigator({
             header: null
         }
     },
+    [RouteType.ROUTE_RECEIPT_SUCCESS_PAGE]: {
+        screen: ReceiptSuccessScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     [RouteType.ROUTE_UPLOAD_RECEIPT_PAGE]: {
         screen: UploadReceiptScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_BATCH_UPLOAD_RECEIPT_PAGE]: {
+        screen: BatchUploadReceiptScreen,
         navigationOptions: {
             header: null
         }
