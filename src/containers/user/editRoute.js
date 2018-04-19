@@ -90,7 +90,7 @@ class EditRouterContainer extends BaseComponent {
 
 		this.props.editRoute({
 		// 	carrierId: this.props.user.userId,
-			carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+			carrierId: global.companyId, // 承运商id
 			id: this.data.id, // 线路id
 			fromProvinceCode: (fpid ? fpid : '') || this.filterData(this.data.fromProvinceCode),
 			fromCityCode: (fcid ? fcid : '') || this.filterData(this.data.fromCityCode) ,
