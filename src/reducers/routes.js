@@ -97,15 +97,15 @@ export default (state = initState, action) => {
 			function contains(carLength, index){
 				let i = carLength.length;
 				while (i--) { 
-					if(carLength[i] == index){
+					if(carLength[i]+'米' === index){
 						return true;
 					}
 				}
 				return false;
 			}
 			CAR_VEHICLE.map(item => {
-          console.log('--item.key', item.key);
-				let flag = contains(carLength,item.key);
+          console.log('--item.key', item.value);
+				let flag = contains(carLength,item.value);
 				if(flag){
 					_carIds.push(item.key);
 				}

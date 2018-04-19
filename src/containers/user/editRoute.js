@@ -43,8 +43,9 @@ class EditRouterContainer extends BaseComponent {
 	}
 	componentDidMount() {
 		super.componentDidMount();
+		console.log('carLength', this.data);
 		if(this.data.carLength){
-			this.props.dispatch(selectedCarLength(this.data.carLength));			
+			this.props.dispatch(selectedCarLength(this.data.carLength));
 		}else{
 			this.props.dispatch(getCarLength());
 		}
