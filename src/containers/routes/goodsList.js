@@ -28,7 +28,8 @@ import { fetchData, appendLogToFile, changeTab,updateVersionAction} from '../../
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
-import Toast from '../../utils/toast';
+// import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import LoadingView from '../../utils/loading';
 
 
@@ -288,7 +289,7 @@ class GoodsList extends Component {
                 // 承运商在货源市场抢自营订单时，限制仅有企业类型承运商可以进行抢单竞价，个体承运商无法抢单竞价。
                 // 如个体承运商点击自营订单抢单按钮时，提示【非常抱歉！该订单目前仅支持企业类型承运商抢单】
                 if (item.item.businessType !== '501' && this.props.currentStatus === 'personalOwner') {
-                    alert('非常抱歉！该订单目前仅支持企业类型承运商抢单');
+                    Toast.showLongCenter('非常抱歉！该订单目前仅支持企业类型承运商抢单');
                     return
                 }
 

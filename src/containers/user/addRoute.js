@@ -23,7 +23,7 @@ class AddRouteContainer extends BaseComponent {
 	constructor(props) {
 		super(props);
     this.title = props.navigation.state.params.title;
-    AddressHandler.set(AddressJson);
+    // AddressHandler.set(AddressJson);
 		this.state = {
 			toProvince: '',
 			toCity: '',

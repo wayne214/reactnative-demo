@@ -23,7 +23,7 @@ class EditRouterContainer extends BaseComponent {
 		super(props);
 
     this.title = props.navigation.state.params.title;
-    AddressHandler.set(AddressJson);
+    // AddressHandler.set(AddressJson);
 		this.state = {
 			toProvince: '',
 			toCity: '',
