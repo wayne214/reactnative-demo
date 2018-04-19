@@ -160,10 +160,10 @@ const styles =StyleSheet.create({
     },
     icon: {
         alignSelf: 'center',
-        marginTop: 40,
+        marginTop: 70,
     },
     inputView: {
-        marginTop: 65,
+        marginTop: 35,
         alignSelf: 'center'
     },
     tip: {
