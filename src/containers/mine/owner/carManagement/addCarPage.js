@@ -265,6 +265,11 @@ class AddCarPage extends Component {
                     }}>
                     <TouchableOpacity
                         onPress={()=>{
+                            console.log('---routes', this.props.routes);
+                            const routes = this.props.routes;
+                            if(routes[routes.length - 2].routeName === 'ROUTE_ARRANGE_CAR_LIST') {
+                                DeviceEventEmitter.emit('refreshArrangeCarList')
+                            }
                             navigator.goBack();
                     }}>
                     <Text
@@ -401,7 +406,9 @@ class AddCarPage extends Component {
 }
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        routes: state.nav.routes,
+    };
 }
 
 function mapDispatchToProps(dispatch) {

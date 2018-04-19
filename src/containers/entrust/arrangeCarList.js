@@ -8,6 +8,7 @@ import {
     View,
     StyleSheet,
     Alert,
+    DeviceEventEmitter
 } from 'react-native';
 
 import * as StaticColor from '../../constants/colors';
@@ -33,11 +34,17 @@ class arrangeCarList extends Component {
     }
     componentDidMount() {
         this.getCarList(this.getCarListCallback);
+        this.refreshCarListener = DeviceEventEmitter.addListener('refreshArrangeCarList', ()=> {
+            this.setState({data: []}, () => {
+                this.getCarList(this.getCarListCallback);
+            });
+        })
     }
 
     componentWillUnmount() {
         selected = null;
         selectedArr = [];
+        this.refreshCarListener && this.refreshCarListener.remove()
     }
     getCarListCallback(result) {
         console.log('arrangeCarList', result);
