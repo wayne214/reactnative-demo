@@ -35,6 +35,20 @@ export default class travelCarList extends Component {
     }
 
     _renderItem(rowData,SectionId,rowID) {
+        const driverList = rowData.item.driverArray ? rowData.item.driverArray : [];
+        let drivers = '';
+        if (driverList.length > 0) {
+            for (let i = 0; i < driverList.length; i++) {
+                if(i < driverList.length - 1) {
+                    drivers = drivers.concat(driverList[i] + ',')
+                } else {
+                    drivers = drivers.concat(driverList[i])
+                }
+            }
+        } else {
+            drivers = ''
+        }
+
         return (
             <View style={{backgroundColor: 'white', height: 80, justifyContent: 'center'}}>
                 <View style={{ paddingHorizontal: 15}}>
@@ -44,7 +58,7 @@ export default class travelCarList extends Component {
                     </View>
                 </View>
                  <View style={{paddingHorizontal: 61, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
-                    <Text style={{color: '#333333', fontSize: 14}}>司机：{'张三'}</Text>
+                    <Text style={{color: '#333333', fontSize: 14}}>司机：{drivers}</Text>
                     <Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.carrierPhone ? rowData.item.carrierPhone : ''}</Text>
                  </View>
             </View>
