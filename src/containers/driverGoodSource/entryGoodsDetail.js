@@ -215,11 +215,10 @@ class entryGoodsDetail extends Component {
         if (this.props.navigation.state.params.getOrderSuccess) {
             this.props.navigation.state.params.getOrderSuccess();
         }
-        this.props._refreshOrderList(1);
         this.props.navigation.dispatch({type: 'pop'});
         this.props._refreshOrderList(1);
-        // this.props._changeBottomTab('driverOrder');
-        // this.props._changeOrderTab(1);
+        this.props._changeBottomTab('driverOrder');
+        this.props._changeOrderTab(1);
     }
 
     // 获取数据失败回调
