@@ -61,7 +61,7 @@ class orderAndCarInfo extends Component{
             </View>
             <View style={{flexDirection: 'row', marginTop: 10,}}>
                 <Text style={{color: '#ffffff', fontSize: 14}}>业务类型：</Text>
-                <Text style={{color: '#ffffff', fontSize: 14}}>{infoData.billType}</Text>
+                <Text style={{color: '#ffffff', fontSize: 14}}>{infoData.billType === '501' ? '撮合' : '自营'}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10,}}>
                 <View style={{flexDirection: 'row', }}>
