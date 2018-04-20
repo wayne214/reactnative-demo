@@ -282,10 +282,10 @@ class OrderList extends BaseComponent {
         // carrierCode: '1001',
         ctcNum: pageNum == '1' ? 0 : this.state.ctcNum,
         tfcNum: pageNum == '1' ? 0 : this.state.tfcNum,
-        page: pageNum,
+        // page: pageNum,
         // pageSize,
         // queryType: type,
-    }, api, index);
+    }, api, pageNum, index);
       lastTime = new Date().getTime();
       ReadAndWriteFileUtil.appendFile('运单列表', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
           locationData.district, lastTime - currentTime, '承运商运单');
@@ -509,7 +509,7 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-    _getTransportOrderList: (params, api, tabIndex) =>{
+    _getTransportOrderList: (params, api, pageNum,tabIndex) =>{
         startTime = new Date().getTime();
         dispatch(fetchData({
             body: params,
@@ -518,7 +518,7 @@ const mapDispatchToProps = (dispatch) => {
             success: (data) => {
                 dispatch(shouldOrderListRefreshAction(false));
                 data.orderType = tabIndex;
-                data.pageNo = params.page ;
+                data.pageNo = pageNum;
                 dispatch(receiveOrderList(data));
                 console.log('data', data);
             },
