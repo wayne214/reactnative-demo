@@ -28,7 +28,8 @@ import { fetchData, appendLogToFile, changeTab,updateVersionAction} from '../../
 import {betterGoodsSourceEndCount, receiveGoodsDetail} from '../../action/goods'
 import * as API from '../../constants/api.js'
 import driver_limit from '../../../assets/img/app/driver_limit.png'
-import Toast from '../../utils/toast';
+// import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 import LoadingView from '../../utils/loading';
 
 
@@ -285,18 +286,26 @@ class GoodsList extends Component {
 
         return (
             <GoodListIten item={item.item} itemClick={()=>{
-                                // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
-                                if (!item.item.biddingState) {
-                                    this.props.navigation.dispatch({
-                                        type: RouteType.ROUTE_GOOD_LIST_DETAIL,
-                                        params: {
-                                            goodID: item.item.resourceCode,
-                                            type: '2'
-                                        }
-                                    })
-                                }else {
-                                    Toast.show('已经报价成功，请勿重复报价');
-                                }
+                // 承运商在货源市场抢自营订单时，限制仅有企业类型承运商可以进行抢单竞价，个体承运商无法抢单竞价。
+                // 如个体承运商点击自营订单抢单按钮时，提示【非常抱歉！该订单目前仅支持企业类型承运商抢单】
+                if (item.item.businessType !== '501' && this.props.currentStatus === 'personalOwner') {
+                    Toast.showLongCenter('非常抱歉！该订单目前仅支持企业类型承运商抢单');
+                    return
+                }
+
+
+                // 报价状态（报价状态0.暂未出价1.带接收2.已接收3.已拒绝）
+                if (!item.item.biddingState) {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                        params: {
+                            goodID: item.item.resourceCode,
+                            type: '2'
+                        }
+                    })
+                }else {
+                    Toast.show('已经报价成功，请勿重复报价');
+                }
                      }}/>
         )
     };

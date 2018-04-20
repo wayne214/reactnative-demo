@@ -428,8 +428,8 @@ class companyCarOwnerAuth extends Component {
         //  相册选项
         const options = {
             quality: 1.0,
-            maxWidth: 500,
-            maxHeight: 500,
+            maxWidth: 1280,
+            maxHeight: 1280,
             storageOptions: {
                 skipBackup: true
             }

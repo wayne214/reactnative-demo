@@ -301,3 +301,11 @@ export const ACTION_VOICE_SWITCH = 'ACTION_VOICE_SWITCH'; // 语音播报
 export const ACTION_CLEAR_ALL_MESSAGE = 'ACTION_CLEAR_ALL_MESSAGE';
 
 export const ACTION_QUERY_COMPANY_INFO = 'ACTION_QUERY_COMPANY_INFO';
+
+/*******************************行程*******************************/
+// 获取行程车辆列表
+export const ACTION_GET_CAR_TRAVER_LIST = 'ACTION_GET_CAR_TRAVER_LIST';
+// 刷新行程车辆列表
+export const ACTION_REFRESH_CAR_TRAVER_LIST = 'ACTION_REFRESH_CAR_TRAVER_LIST';
+// 获取运输轨迹列表
+export const ACTION_QUERY_TRANSPORT_LIST = 'ACTION_QUERY_TRANSPORT_LIST';

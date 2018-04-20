@@ -289,7 +289,7 @@ class forgetPWD extends Component {
                 </View>
 
                 <TouchableOpacity onPress={() => this.nextStep()}>
-                    <Image
+                    <View
                         style={{
                             width: width - 20,
                             marginTop: 15,
@@ -297,11 +297,11 @@ class forgetPWD extends Component {
                             marginRight: 10,
                             marginBottom: 0,
                             height: 44,
-                            resizeMode: 'stretch',
                             alignItems: 'center',
-                            justifyContent:'center'
+                            justifyContent:'center',
+                            backgroundColor: '#0092FF',
+                            borderRadius: 2
                         }}
-                        source={BlueButtonArc}
                     >
 
                         <Text
@@ -315,7 +315,7 @@ class forgetPWD extends Component {
                             下一步
                         </Text>
 
-                    </Image>
+                    </View>
                 </TouchableOpacity>
 
                 {

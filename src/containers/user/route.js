@@ -104,10 +104,10 @@ class RouteContainer extends BaseComponent {
   	if(rowData && rowData.carLength){
 	  	number =(rowData.carLength+'').split(",");
 	  	const carLengths = (number.map( (item,index) => {
-	  		perM = HelperUtil.getCarLength(parseInt(number[index]));
+	  	// 	perM = HelperUtil.getCarLength(parseInt(number[index]));
 	  		return (
 					<View key={index} style={ [styles.backView, {marginTop:10, backgroundColor: '#F5F5F5', height: 19, width: 60}] }>
-						<Text style={ styles.mText }>{ perM }</Text>
+						<Text style={ styles.mText }>{ item }米</Text>
 					</View>
 	  		)
 	  	}))

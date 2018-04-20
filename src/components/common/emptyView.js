@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         marginTop: 14,
     },
     subViewStyle: {
-        marginVertical: height / 4,
+        marginVertical: height / 5,
     },
     button: {
 

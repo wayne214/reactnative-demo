@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
     screenEndViewText: {
         fontSize: 15,
-        color: '#0071FF',
+        color: '#0092FF',
     },
 });
 
@@ -341,7 +341,7 @@ class Login extends BaseComponent {
                                 value={password}/>
                         </View>
 
-                        <View style={{backgroundColor: '#0092FF', marginTop: 20, marginHorizontal: 10, borderRadius: 5}}>
+                        <View style={{backgroundColor: '#0092FF', marginTop: 20, marginHorizontal: 10, borderRadius: 2}}>
                             <Button
                                 ref='button'
                                 isDisabled={!(phoneNumber && password)}

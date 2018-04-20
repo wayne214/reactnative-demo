@@ -43,7 +43,8 @@ import {
     CITY_COUNTRY,
     GAME_ADDRESS,
     INSITE_NOTICE,
-    API_QUERY_COMPANY_INFO
+    API_QUERY_COMPANY_INFO,
+    CITY_COUNTRY_JSON
 } from '../../constants/api';
 import {updateMsgList, dispatchRefreshMessageList} from '../../action/message';
 import BaseComponent from '../../components/common/baseComponent'
@@ -80,6 +81,8 @@ import StorageKey from '../../constants/storageKeys';
 const receiveCustomMsgEvent = "receivePushMsg";
 const receiveNotificationEvent = "receiveNotification";
 const getRegistrationIdEvent = "getRegistrationId";
+
+import AddressHandler from '../../utils/address';
 
 class MainContainer extends BaseComponent {
 
@@ -247,6 +250,20 @@ class MainContainer extends BaseComponent {
         if (global.phone) {
             this.props._getCompanyInfoacion({busTel: global.phone});
         }
+
+
+        await Storage.get('cityData').then((citydata) => {
+            if (citydata) {
+                console.log('---000data',citydata);
+                AddressHandler.set(citydata)
+            } else {
+                this.props._getCityOfCountry({}, (data)=> {
+                    console.log('city-data',data);
+                    Storage.save('cityData', data);
+                    AddressHandler.set(data)
+                })
+            }
+        });
     }
 
     componentWillUnmount() {
@@ -257,6 +274,8 @@ class MainContainer extends BaseComponent {
         if (this.props.versionUrl !== '') {
             this.refs.dialog.show('提示', '版本过低，需要升级到最新版本，否则可能影响使用');
         }
+
+
     }
 
     _getCurrentPosition() {
@@ -271,7 +290,7 @@ class MainContainer extends BaseComponent {
             global.locationData = locationData
             // console.log("定位信息",global.locationData);
             //todo 上传日志开关
-            TimeToDoSomething.uploadDataFromLocalMsg();
+            // TimeToDoSomething.uploadDataFromLocalMsg();
         }, fail => {
             // console.log('-------fail:', fail)
         }, {
@@ -512,12 +531,18 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         dispatch,
-        _getCityOfCountry: () => {
+        _getCityOfCountry: (params, callback) => {
             dispatch(fetchData({
-                api: CITY_COUNTRY,
-                method: 'GET',
-                cache: true,
-                cacheType: 'city'
+                api: CITY_COUNTRY_JSON,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    // dispatch(queryCompanyInfoAction(data))
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
             }));
         },
         _getUserInfo: (body, role) => {

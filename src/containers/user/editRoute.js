@@ -23,7 +23,7 @@ class EditRouterContainer extends BaseComponent {
 		super(props);
 
     this.title = props.navigation.state.params.title;
-    AddressHandler.set(AddressJson);
+    // AddressHandler.set(AddressJson);
 		this.state = {
 			toProvince: '',
 			toCity: '',
@@ -43,8 +43,9 @@ class EditRouterContainer extends BaseComponent {
 	}
 	componentDidMount() {
 		super.componentDidMount();
+		console.log('carLength', this.data);
 		if(this.data.carLength){
-			this.props.dispatch(selectedCarLength(this.data.carLength));			
+			this.props.dispatch(selectedCarLength(this.data.carLength));
 		}else{
 			this.props.dispatch(getCarLength());
 		}
@@ -90,7 +91,7 @@ class EditRouterContainer extends BaseComponent {
 
 		this.props.editRoute({
 		// 	carrierId: this.props.user.userId,
-			carrierId: '7809a999d12642a6b38415d401335813', // 承运商id
+			carrierId: global.companyId, // 承运商id
 			id: this.data.id, // 线路id
 			fromProvinceCode: (fpid ? fpid : '') || this.filterData(this.data.fromProvinceCode),
 			fromCityCode: (fcid ? fcid : '') || this.filterData(this.data.fromCityCode) ,

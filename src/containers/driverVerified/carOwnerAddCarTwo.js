@@ -692,7 +692,7 @@ class certification extends Component {
 
 
 
-                    <VerifiedIDTitleItem title="挂车行驶证"/>
+                    <VerifiedIDTitleItem title="挂车行驶证(非必填)"/>
                     <View style={{height: 15, backgroundColor: 'white'}}>
                         <Text
                             style={{ height: 1, marginTop: 14, marginLeft: 10, marginRight: 0, backgroundColor: '#f5f5f5',}}/>
@@ -712,7 +712,7 @@ class certification extends Component {
                     <VerifiedLineItem />
 
 
-                    <VerifiedIDTitleItem title="挂车营运证"/>
+                    <VerifiedIDTitleItem title="挂车营运证(非必填)"/>
                     <VerifiedIDItemView showTitle="证件要清晰，拍摄完整"
                                         leftImage={travelTrunLeftImage}
                                         rightImage={this.state.travelTrunRightImage}
