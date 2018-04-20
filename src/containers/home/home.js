@@ -164,11 +164,16 @@ class Home extends Component {
                 }
             }
         });
+        // 点击我的请求车辆列表
+        this.mineListener = DeviceEventEmitter.addListener('refreshMine', () => {
+            this.getUserCarMine();
+        });
 
     }
 
     componentWillUnmount() {
         this.listener.remove();
+        this.mineListener.remove();
     }
 
     compareVersion() {
