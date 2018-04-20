@@ -151,7 +151,7 @@ class certification extends Component {
                 carOwner: '', // 所有人
                 carDate: '请选择有效期', // 有效期
                 carEngineNumber: '', // 发动机号码
-                insuranceData: '请选择有效期', // 交强险
+                insuranceData: '', // 交强险
                 appLoading: false,
                 vinCode: '',
 
