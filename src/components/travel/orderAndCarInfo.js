@@ -56,7 +56,7 @@ class orderAndCarInfo extends Component{
                 <Text style={{color: '#ffffff', fontSize: 14}}>{infoData.createTime ? infoData.createTime : ''}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10}}>
-                <Text style={{color: '#ffffff', fontSize: 14}}>发车时间：</Text>
+                <Text style={{color: '#ffffff', fontSize: 14}}>发车日期：</Text>
                 <Text style={{color: '#ffffff', fontSize: 14}}>{infoData.outboundTime ? infoData.outboundTime : ''}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10,}}>

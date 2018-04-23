@@ -91,7 +91,7 @@ class travel extends BaseComponent {
             tabBarInactiveTextColor={COLOR.GRAY_TEXT_COLOR}
             tabBarTextStyle={{fontSize: 15}}>
             <TravelCarList
-                tabLabel={'运输中的车辆'}
+                tabLabel={'运输中车辆行程'}
                 carType={1}
                 dataSource={travelCarList}
                 refreshList={()=> {
