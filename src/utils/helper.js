@@ -65,7 +65,7 @@ class HelperUtil {
 			case 4:
 				return '箱式挂车';
 			default:
-				return '';
+				return '箱式挂车';
 		}
 	}
 
