@@ -62,7 +62,7 @@ class traillMutilStatus extends Component{
                                     const discribe = item.discribe ? item.discribe : '无';
                                     const operator = item.operator ? item.operator : '';
                                     const operatorUnitName = item.operatorUnitName ? item.operatorUnitName : '';
-                                    const discribeContent = discribe + '    操作人：' + operator + '    操作单位：' + operatorUnitName;
+                                    const discribeContent = discribe + '    操作人：' + operator;
                                     return(
                                         <View key={index} >
                                             {

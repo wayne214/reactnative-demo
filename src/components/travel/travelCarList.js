@@ -4,14 +4,15 @@ import {
     Text,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import emptyList from '../../../assets/img/order/empty_order_list.png'
 import TransCarIcon from '../../../assets/img/travel/transCarIcon.png'
 import LoadMoreFooter from '../common/loadMoreFooter';
 import rightArrow from '../../../assets/img/arrow/rightarrow.png';
 
-
+const {width} = Dimensions.get('window');
 
 export default class travelCarList extends Component {
     constructor(props) {
@@ -50,16 +51,16 @@ export default class travelCarList extends Component {
         }
 
         return (
-            <View style={{backgroundColor: 'white', height: 80, justifyContent: 'center'}}>
+            <View style={{backgroundColor: 'white', height: 80, justifyContent: 'center', width}}>
                 <View style={{ paddingHorizontal: 15}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Image style={{height: 31, width: 31}} source={TransCarIcon}/>
                         <Text style={{color: '#333333', fontSize: 16, marginLeft: 15}}>{rowData.item.carNum}</Text>
                     </View>
                 </View>
-                 <View style={{paddingHorizontal: 61, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                 <View style={{paddingHorizontal: 61, flexDirection: 'row', alignItems: 'center', marginTop: 10, flexWrap: 'wrap'}}>
                     <Text style={{color: '#333333', fontSize: 14}}>司机：{drivers}</Text>
-                    <Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.carrierPhone ? rowData.item.carrierPhone : ''}</Text>
+                    <Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.accessoryPhone ? rowData.item.accessoryPhone : ''}</Text>
                  </View>
             </View>
         )
