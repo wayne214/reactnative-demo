@@ -54,7 +54,10 @@ class travelDetail extends BaseComponent {
   render() {
       const {navigation, transportListData} = this.props;
       console.log('transportListData', transportListData);
-      const tel = transportListData.deliveryVehicleInfoDto ? transportListData.deliveryVehicleInfoDto.tel : ''
+      const deliveryVehicleInfoDto = (transportListData && transportListData.deliveryVehicleInfoDto) ? transportListData.deliveryVehicleInfoDto : {};
+      const logisticInfoResDtoList = (transportListData && transportListData.logisticInfoResDtoList) ? transportListData.logisticInfoResDtoList : [];
+      const tel = (transportListData && transportListData.deliveryVehicleInfoDto) ? transportListData.deliveryVehicleInfoDto.tel : '';
+
     return (
       <View style={ styles.container }>
           <NavigatorBar router={navigation} title={ '运输在途信息监控' } backViewClick={()=>{
@@ -76,8 +79,8 @@ class travelDetail extends BaseComponent {
                           </View>
                       </TouchableOpacity>
                   </View>
-                  <TrailMutilStatus container={{height: height - (width * 324 / 710) - ConstValue.NavigationBar_StatusBar_Height - 60, backgroundColor: '#ffffff' }} addresses={transportListData.logisticInfoResDtoList}/>
-                  <OrderAndCarInfo infoData={transportListData.deliveryVehicleInfoDto}/>
+                  <TrailMutilStatus container={{height: height - (width * 324 / 710) - ConstValue.NavigationBar_StatusBar_Height - 60, backgroundColor: '#ffffff' }} addresses={logisticInfoResDtoList}/>
+                  <OrderAndCarInfo infoData={deliveryVehicleInfoDto}/>
               </View> : <EmptyView/>
           }
       </View>
