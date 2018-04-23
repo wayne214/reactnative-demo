@@ -19,7 +19,7 @@ import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view
 import {fetchData} from "../../action/app";
 import * as API from '../../constants/api';
 import {getTravelCarList, refreshTravelCarList} from '../../action/travel';
-import Toast from '../../utils/toast.js';
+import Toast from '@remobile/react-native-toast';
 
 class travel extends BaseComponent {
 
@@ -169,7 +169,9 @@ const mapDispatchToProps = dispatch => {
                   // dispatch(appendLogToFile('我的承运','获取我的承运-待确认列表',startTime))
               },
               fail: (data)=>{
-                  Toast.show(data.message);
+                  data.carType = carType
+                  dispatch(getTravelCarList(data))
+                  Toast.showShortCenter(data.message);
               }
           }))
       },

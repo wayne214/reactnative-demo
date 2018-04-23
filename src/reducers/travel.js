@@ -50,7 +50,6 @@ export default (state = initState, action) => {
 			newState = newState.set('isNeedRefreshTravel', false);
 			return newState
 		case ActionTypes.ACTION_GET_CAR_TRAVER_LIST:
-
 		    console.log('payload', payload)
         let rootType = '';
         switch (payload.carType) {
@@ -61,6 +60,13 @@ export default (state = initState, action) => {
                 rootType = 'freeCarListData';
                 break;
         }
+
+        if (payload.code === 500) {
+            newState = newState.setIn([rootType,'list'], []);
+            newState = newState.setIn([rootType,'list'], Immutable.fromJS([]));
+            return newState
+        }
+
         newState = newState.setIn([rootType,'isLoadingMore'],false);
         newState = newState.setIn([rootType,'isRefreshing'],false);
         newState = newState.setIn([rootType,'hasMore'],payload.pageNum < payload.pages ? true : false);
