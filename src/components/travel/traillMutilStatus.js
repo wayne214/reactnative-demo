@@ -59,7 +59,7 @@ class traillMutilStatus extends Component{
                             {
                                 addresses.map((item,index)=>{
                                     console.log('item-data', item);
-                                    const discribe = item.discribe ? item.discribe : '无';
+                                    const discribe = item.discribe ? item.discribe : '未调度';
                                     const operator = item.operator ? item.operator : '';
                                     const operatorUnitName = item.operatorUnitName ? item.operatorUnitName : '';
                                     const discribeContent = discribe + '    操作人：' + operator;

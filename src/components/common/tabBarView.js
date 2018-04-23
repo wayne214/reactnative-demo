@@ -31,8 +31,8 @@ export default class Help extends React.Component {
 					activeOpacity={0.85}
 					key={ index }
 					onPress={ this._tabChange.bind(this, index) }>
-					<View style={this.state.currentTab === index ? styles.selectBg : styles.normalBg}>
-						<Text style={ this.state.currentTab === index ? styles.tipText : styles.curTipText }>{ item }</Text>
+					<View style={this.state.currentTab === index ? styles.normalBg : styles.selectBg}>
+						<Text style={ this.state.currentTab === index ? styles.curTipText : styles.tipText }>{ item }</Text>
 					</View>
 				</TouchableOpacity>
 			);

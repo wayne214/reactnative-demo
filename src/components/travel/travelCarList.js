@@ -50,6 +50,9 @@ export default class travelCarList extends Component {
             drivers = ''
         }
 
+        const accessoryPhone = rowData.item.accessoryPhone ? rowData.item.accessoryPhone : '';
+        const content = '司机：' + drivers + '     随车电话：' + accessoryPhone
+
         return (
             <View style={{backgroundColor: 'white', height: 80, justifyContent: 'center', width}}>
                 <View style={{ paddingHorizontal: 15}}>
@@ -58,9 +61,9 @@ export default class travelCarList extends Component {
                         <Text style={{color: '#333333', fontSize: 16, marginLeft: 15}}>{rowData.item.carNum}</Text>
                     </View>
                 </View>
-                 <View style={{paddingHorizontal: 61, flexDirection: 'row', alignItems: 'center', marginTop: 10, flexWrap: 'wrap'}}>
-                    <Text style={{color: '#333333', fontSize: 14}}>司机：{drivers}</Text>
-                    <Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.accessoryPhone ? rowData.item.accessoryPhone : ''}</Text>
+                 <View style={{paddingLeft: 61, paddingRight: 15, flexDirection: 'row', alignItems: 'center', marginTop: 10, width}}>
+                    <Text style={{color: '#333333', fontSize: 14, lineHeight: 18}}>{content}</Text>
+                    {/*<Text style={{color: '#333333', fontSize: 14, marginLeft: 20}}>随车电话：{rowData.item.accessoryPhone ? rowData.item.accessoryPhone : ''}</Text>*/}
                  </View>
             </View>
         )
