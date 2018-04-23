@@ -59,6 +59,10 @@ class traillMutilStatus extends Component{
                             {
                                 addresses.map((item,index)=>{
                                     console.log('item-data', item);
+                                    const discribe = item.discribe ? item.discribe : '无';
+                                    const operator = item.operator ? item.operator : '';
+                                    const operatorUnitName = item.operatorUnitName ? item.operatorUnitName : '';
+                                    const discribeContent = discribe + '    操作人：' + operator + '    操作单位：' + operatorUnitName;
                                     return(
                                         <View key={index} >
                                             {
@@ -74,9 +78,9 @@ class traillMutilStatus extends Component{
                                             }
                                             {
                                                 index === 0 ? <Text style={{height: itemHeight, marginTop: 10, color: '#0092FF',fontSize: 14}}>
-                                                {item.discribe ? item.discribe : '无'}
+                                                {discribeContent}
                                                 </Text> : <Text style={{height: itemHeight, marginTop: 10, color: '#999999',fontSize: 14}}>
-                                                    {item.discribe ? item.discribe : '无'}
+                                                    {discribeContent}
                                                 </Text>
                                             }
 
