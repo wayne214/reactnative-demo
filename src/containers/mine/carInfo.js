@@ -508,26 +508,26 @@ class CarInfo extends Component {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={styles.separatorLine}/>
-                                <View style={styles.imgArea}>
-                                    <Text style={styles.textStyle}>保险照片</Text>
-                                    <View style={[styles.itemSeparatorLine, {marginLeft: 40}]}/>
-                                    <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                                        showInsurancePic ? this.onClickImage(3) : Toast.showShortCenter('暂无图片');
-                                    }}
-                                        style={styles.imgAreaSubContainer}
-                                    >
-                                        {
-                                            showInsurancePic ?
-                                                <Image
-                                                    style={styles.imgStyle}
-                                                    resizeMode="cover"
-                                                    source={{uri: aCar.insuranceThumbnail ? aCar.insuranceThumbnail : aCar.insurancePic}}
-                                                /> :
-                                                <Image style={styles.imgStyle} source={NoImage}/>
-                                        }
-                                    </TouchableOpacity>
-                                </View>
+                                {/*<View style={styles.separatorLine}/>*/}
+                                {/*<View style={styles.imgArea}>*/}
+                                    {/*<Text style={styles.textStyle}>保险照片</Text>*/}
+                                    {/*<View style={[styles.itemSeparatorLine, {marginLeft: 40}]}/>*/}
+                                    {/*<TouchableOpacity activeOpacity={0.8} onPress={() => {*/}
+                                        {/*showInsurancePic ? this.onClickImage(3) : Toast.showShortCenter('暂无图片');*/}
+                                    {/*}}*/}
+                                        {/*style={styles.imgAreaSubContainer}*/}
+                                    {/*>*/}
+                                        {/*{*/}
+                                            {/*showInsurancePic ?*/}
+                                                {/*<Image*/}
+                                                    {/*style={styles.imgStyle}*/}
+                                                    {/*resizeMode="cover"*/}
+                                                    {/*source={{uri: aCar.insuranceThumbnail ? aCar.insuranceThumbnail : aCar.insurancePic}}*/}
+                                                {/*/> :*/}
+                                                {/*<Image style={styles.imgStyle} source={NoImage}/>*/}
+                                        {/*}*/}
+                                    {/*</TouchableOpacity>*/}
+                                {/*</View>*/}
                             </View>
                         </ScrollView>
                 }
