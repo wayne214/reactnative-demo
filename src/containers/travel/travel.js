@@ -171,7 +171,7 @@ const mapDispatchToProps = dispatch => {
               fail: (data)=>{
                   data.carType = carType
                   dispatch(getTravelCarList(data))
-                  Toast.showShortCenter(data.message);
+                  // Toast.showShortCenter(data.message);
               }
           }))
       },
