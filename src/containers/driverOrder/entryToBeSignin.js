@@ -9,6 +9,7 @@ import {
     Dimensions,
     DeviceEventEmitter,
     Alert,
+    Modal
 } from 'react-native';
 
 import NavigationBar from '../../components/common/navigatorbar';
@@ -94,6 +95,8 @@ class entryToBeSignin extends Component {
             showImages: [],
             carrierName: params.carrierName,
             carrierPlateNum: params.carrierPlateNum,
+            currentImageIndex: 0,
+            currentImageIndexFlag: false,
         };
         this.onScrollEnd = this.onScrollEnd.bind(this);
         this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
@@ -276,7 +279,6 @@ class entryToBeSignin extends Component {
             locationData.district, lastTime - currentTime, '回单照片页面');
         if (result) {
             if (result.urlList && result.urlList.length !== 0) {
-
                 this.setState({
                     showImages : result.urlList.map(i => {
                         console.log('received image', i);
@@ -457,27 +459,67 @@ class entryToBeSignin extends Component {
                 >
                     {subOrderPage}
                 </ScrollView>
+                <Modal visible={this.state.showImages && this.state.showImages.length !==0} transparent={true}>
+                    <View style={{backgroundColor:'#000',flex: 1,}}>
                 {
-                    this.state.showImages && this.state.showImages.length !==0 ?
+                    this.state.showImages && this.state.showImages.length !==0 && this.state.currentImageIndexFlag === false ?
                         <ImageViewer
                             style={{position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight}}
                             imageUrls={this.state.showImages}
                             enableImageZoom={true}
-                            index={0}
+                            index={this.state.currentImageIndex}
                             renderIndicator={(currentIndex, allSize) => {
                                 return React.createElement(View, { style: styles.count }, React.createElement(Text, { style: styles.countText }, allSize + '-' + currentIndex));
                             }}
                             onChange={(index) => {
+                                console.log('index1==',index);
+                                if(index === 30){
+                                    this.setState({
+                                        currentImageIndexFlag: true,
+                                        currentImageIndex: index
+                                    })
+                                }
                             }}
                             onClick={() => {
                                 this.setState({
                                     showImages : [],
+                                    currentImageIndexFlag: false,
+                                    currentImageIndex: 0
                                 });
                             }}
                             saveToLocalByLongPress={false}
                         /> : null
                 }
-
+                {
+                    this.state.showImages && this.state.showImages.length !==0 && this.state.currentImageIndexFlag ?
+                        <ImageViewer
+                            style={{position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight}}
+                            imageUrls={this.state.showImages}
+                            enableImageZoom={true}
+                            index={30}
+                            renderIndicator={(currentIndex, allSize) => {
+                                return React.createElement(View, { style: styles.count }, React.createElement(Text, { style: styles.countText }, allSize + '-' + currentIndex));
+                            }}
+                            onChange={(index) => {
+                                if(index === 30){
+                                    this.setState({
+                                        currentImageIndexFlag: false,
+                                        currentImageIndex: index
+                                    })
+                                }
+                            }}
+                            onClick={() => {
+                                this.setState({
+                                    showImages : [],
+                                    currentImageIndexFlag: false,
+                                    currentImageIndex: 0
+                                });
+                            }}
+                            saveToLocalByLongPress={false}
+                        /> : null
+                }
+                    </View>
+                </Modal>
             </View>
         );
     }

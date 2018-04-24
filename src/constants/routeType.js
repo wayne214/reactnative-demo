@@ -172,6 +172,9 @@ export const ROUTE_TAKE_PHOTO_FINISHED_PAGE = 'ROUTE_TAKE_PHOTO_FINISHED_PAGE';
 // 照片预览及删除
 export const ROUTE_PHOTO_SHOW_PAGE = 'ROUTE_PHOTO_SHOW_PAGE';
 
+export const ROUTE_RECEIPT_PHOTO = 'ROUTE_RECEIPT_PHOTO';
+
+
 /************************** 司机订单end ******************************/
 
 // 我的页面

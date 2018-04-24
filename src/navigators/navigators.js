@@ -108,6 +108,7 @@ import UploadReceiptScreen from '../containers/driverOrder/uploadReceipt';
 import BatchUploadReceiptScreen from '../containers/driverOrder/batchUploadReceipt';
 import BaiduMapScreen from '../containers/map/baiduMap';
 import PhotoShowScreen from '../containers/driverOrder/imageViewer';
+import ReceiptPhotoScreen from '../containers/driverOrder/receiptPhoto';
 
 // 我的页面---承运商和司机公用
 import MineScreen from '../containers/mine/mine';
@@ -1096,6 +1097,12 @@ export const AppNavigator = StackNavigator({
         screen: TravelDetailScreen,
         navigationOptions: {
             // title: '运输在途信息监控'
+            header: null
+        }
+    },
+    [RouteType.ROUTE_RECEIPT_PHOTO]: {
+        screen: ReceiptPhotoScreen,
+        navigationOptions: {
             header: null
         }
     },
