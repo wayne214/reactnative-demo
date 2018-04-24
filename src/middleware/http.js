@@ -101,6 +101,7 @@ export default store => next => action => {
                 resetToLoginEmit.restToLogin(data.data.message);
                 JPushModule.setAlias('', ()=>{}, ()=>{});
             } else if (data.data.code == '800'){} else {
+                console.log('打印了吗',data.data.message);
                 Toast.showShortCenter(data.data.message);
             }
 
