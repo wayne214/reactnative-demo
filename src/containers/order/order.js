@@ -276,16 +276,33 @@ class OrderList extends BaseComponent {
 
   getDataList(api, pageNum, index) {
       currentTime = new Date().getTime();
-    this.props._getTransportOrderList({
-        // carrierCode: this.props.carrierCode,
-        carrierCode: global.companyCode,
-        // carrierCode: '1001',
-        ctcNum: pageNum == '1' ? 0 : this.state.ctcNum,
-        tfcNum: pageNum == '1' ? 0 : this.state.tfcNum,
-        // page: pageNum,
-        // pageSize,
-        // queryType: type,
-    }, api, pageNum, index);
+      console.log('this.state.ctcnum,tfcNum',this.state.ctcNum, this.state.tfcNum);
+      if (pageNum == '1') {
+          this.props._getTransportOrderList({
+              // carrierCode: this.props.carrierCode,
+              carrierCode: global.companyCode,
+              // carrierCode: '1001',
+              ctcNum: 0,
+              tfcNum: 0,
+              // page: pageNum,
+              // pageSize,
+              // queryType: type,
+          }, api, pageNum, index);
+      } else {
+          if (this.state.ctcNum !== null && this.state.tfcNum !== null) {
+              this.props._getTransportOrderList({
+                  // carrierCode: this.props.carrierCode,
+                  carrierCode: global.companyCode,
+                  // carrierCode: '1001',
+                  ctcNum: this.state.ctcNum,
+                  tfcNum: this.state.tfcNum,
+                  // page: pageNum,
+                  // pageSize,
+                  // queryType: type,
+              }, api, pageNum, index);
+          }
+      }
+
       lastTime = new Date().getTime();
       ReadAndWriteFileUtil.appendFile('运单列表', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
           locationData.district, lastTime - currentTime, '承运商运单');
@@ -327,7 +344,7 @@ class OrderList extends BaseComponent {
 
 
     if (shouldOrderListRefresh && !orderAll.get('isLoadingMore') && !orderToInstall.get('isLoadingMore') && !orderToDelivery.get('isLoadingMore') && !orderCanceled.get('isLoadingMore')) {
-
+        console.log('refresh');
       this._refreshList()
     }
   }
