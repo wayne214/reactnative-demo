@@ -79,12 +79,14 @@ class gpsDetails extends Component {
                     <CommonCell itemName="开启/关闭:" content={data.onOff == 0 ? '开启': '关闭'} hideBottomLine={true}/>
                     <CommonCell itemName="当前电量:" content={data.eleValue ? `${data.eleValue}%` : '0%'} hideBottomLine={true}/>
                 </View>
-                <BottomButton
-                    onClick={() => {
-                        this.unbindGPS();
-                    }}
-                    text="解除绑定"
-                />
+                {
+                    data.deviceVersion === 'MOBILE_VERSION' ? <BottomButton
+                        onClick={() => {
+                            this.unbindGPS();
+                        }}
+                        text="解除绑定"
+                    /> : null
+                }
             </View>
         );
     }

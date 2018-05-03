@@ -343,12 +343,14 @@ export const API_LENGTH_AND_WEIGHT_COMMIT = `app/rmc/rmcCar/queryVehicleLengthAn
 export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificationQualification`;
 
 /********************************司机订单API*************************************/
-// 订单列表（全部，待发运）分页查询调度单
-export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';
+// 订单列表（全部）分页查询调度单
+export const API_QUERY_DRIVER_ORDER_ALL = 'app/driverTransportOrder/queryDriverOrderAll';
+// 订单列表（待发运）分页查询调度单
+export const API_QUERY_DRIVER_ORDER_SHIPPING = 'app/driverTransportOrder/queryDriverOrderShipping';
 // 订单列表（待回单）
-export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV5';
-// 运输中
-export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportListV1`;
+export const API_QUERY_DRIVER_ORDER_RECEIPT = 'app/driverTransportOrder/queryDriverOrderReceipt';
+// 订单列表（待签收）
+export const API_QUERY_DRIVER_ORDER_SIGN= `app/driverTransportOrder/queryDriverOrderSign`;
 
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
 // 绑定GPS设备接口
