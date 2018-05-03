@@ -185,6 +185,8 @@ import ChangePhoneNo from '../containers/mine/changePhoneNo';
 import ChangePhoneNoStepOne from '../containers/mine/changePhoneNoStepOne';
 import ChangePhoneNoStepTwo from '../containers/mine/changePhoneNoStepTwo';
 
+import HistoryOrderListScreen from '../containers/order/historyOrders/searchHistoryOrder';
+
 export const AppNavigator = StackNavigator({
     Splash: {
         screen: SplashScreen,
@@ -1125,6 +1127,13 @@ export const AppNavigator = StackNavigator({
         screen: ChangePhoneNoStepTwo,// 更改手机号码 第二步
         navigationOptions: {
 
+        }
+    },
+    [RouteType.ROUTE_HISTORY_ORDER]: {
+        screen: HistoryOrderListScreen,// 更改手机号码 第二步
+        navigationOptions: {
+            // title: '历史订单'
+            header: null
         }
     },
 

@@ -103,3 +103,10 @@ export const changeOrderurgedWithOrderNo = (orderNo) => {
 		}
 	}
 }
+
+export const getHistoryOrderList = (data) => {
+    return {
+        type: ActionTypes.ACTION_ORDER_HISTORY_LIST,
+        payload: data
+    }
+}
