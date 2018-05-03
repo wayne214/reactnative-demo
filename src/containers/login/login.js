@@ -18,7 +18,9 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    ImageBackground
+    ImageBackground,
+    NativeModules,
+    ToastAndroid
 } from 'react-native';
 import {fetchData, loadUser} from "../../action/app";
 import BaseComponent from '../../components/common/baseComponent';

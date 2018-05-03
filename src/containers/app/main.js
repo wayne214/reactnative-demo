@@ -257,11 +257,13 @@ class MainContainer extends BaseComponent {
                 console.log('---000data',citydata);
                 AddressHandler.set(citydata)
             } else {
-                this.props._getCityOfCountry({}, (data)=> {
-                    console.log('city-data',data);
-                    Storage.save('cityData', data);
-                    AddressHandler.set(data)
-                })
+                if (global.phone) {
+                    this.props._getCityOfCountry({}, (data)=> {
+                        console.log('city-data',data);
+                        Storage.save('cityData', data);
+                        AddressHandler.set(data)
+                    })
+                }
             }
         });
     }

@@ -85,6 +85,17 @@ const initState = Immutable.fromJS({
       ctcNum: 0,
       tfcNum: 0,
 	},
+    orderHistory: {
+        list:[],
+        total: 0,
+        isLoadingMore: false,
+        hasMore: true,
+        pageNo: 1,
+        isRefreshing: false,
+        pages: 0,
+        ctcNum: 0,
+        tfcNum: 0,
+    },
 	orderDetail: null,//vehicleType
 	clearDetail: null
 });
@@ -110,7 +121,7 @@ export default (state = initState, action) => {
         let rootType = statusArr[payload.orderType];
         newState = newState.setIn([rootType,'isLoadingMore'],false);
         newState = newState.setIn([rootType,'isRefreshing'],false);
-        newState = newState.setIn([rootType,'hasMore'],payload.pageNo < payload.pages ? true : false);
+        newState = newState.setIn([rootType,'hasMore'],payload.pageNo < payload.pages);
         newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
         newState = newState.setIn([rootType,'total'],payload.total);
         newState = newState.setIn([rootType,'ctcNum'],payload.ctcNum);
@@ -183,6 +194,27 @@ export default (state = initState, action) => {
 		// 		newState = newState.setIn([rootTypeList,'hasMore'],false)
 		// 	}
 		// 	return newState;
+      case ActionTypes.ACTION_ORDER_HISTORY_LIST:
+          newState = newState.setIn(['orderHistory','isLoadingMore'],false);
+          newState = newState.setIn(['orderHistory','isRefreshing'],false);
+          newState = newState.setIn(['orderHistory','hasMore'],payload.pageNo < payload.pages);
+          newState = newState.setIn(['orderHistory','pageNo'],payload.pageNo);
+          newState = newState.setIn(['orderHistory','total'],payload.total);
+          newState = newState.setIn(['orderHistory','ctcNum'],payload.ctcNum);
+          newState = newState.setIn(['orderHistory','tfcNum'],payload.tfcNum);
+
+          if (payload.pageNo === 1) {
+              // 第一页数据先清空原有数据
+              newState = newState.setIn(['orderHistory','list'],[]);
+              newArray = Immutable.fromJS(payload.list);
+              newState = newState.setIn(['orderHistory','list'], newArray);
+          }else {
+              newArray = newState.getIn(['orderHistory','list']);
+              newArray = newArray.concat(payload.list);
+              newState = newState.setIn(['orderHistory','list'],Immutable.fromJS(newArray));
+          }
+
+      	return newState;
 		case ActionTypes.ACTION_RECEIVE_ORDER_DETAIL:
 		// 	if (payload) {
 		// 		payload.goodsInfoData = {

@@ -181,6 +181,11 @@ import ArrangeDriverList from '../containers/entrust/arrangeDriverList';
 import ShowZoomImageView from '../components/common/imageShow';
 
 import TravelDetailScreen from '../containers/travel/travelDetail';
+import ChangePhoneNo from '../containers/mine/changePhoneNo';
+import ChangePhoneNoStepOne from '../containers/mine/changePhoneNoStepOne';
+import ChangePhoneNoStepTwo from '../containers/mine/changePhoneNoStepTwo';
+
+import HistoryOrderListScreen from '../containers/order/historyOrders/searchHistoryOrder';
 
 export const AppNavigator = StackNavigator({
     Splash: {
@@ -1103,6 +1108,31 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_RECEIPT_PHOTO]: {
         screen: ReceiptPhotoScreen,
         navigationOptions: {
+            header: null
+        }
+    },
+    [RouteType.ROUTE_CHANGE_PHONE_NO]: {
+        screen: ChangePhoneNo,// 更改手机号码
+        navigationOptions: {
+
+        }
+    },
+    [RouteType.ROUTE_CHANGE_PHONE_NO_STEP_ONE]: {
+        screen: ChangePhoneNoStepOne,// 更改手机号码 第一步
+        navigationOptions: {
+
+        }
+    },
+    [RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO]: {
+        screen: ChangePhoneNoStepTwo,// 更改手机号码 第二步
+        navigationOptions: {
+
+        }
+    },
+    [RouteType.ROUTE_HISTORY_ORDER]: {
+        screen: HistoryOrderListScreen,// 更改手机号码 第二步
+        navigationOptions: {
+            // title: '历史订单'
             header: null
         }
     },
