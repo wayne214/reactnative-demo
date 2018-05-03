@@ -83,6 +83,7 @@ class driverOrderListItem extends Component {
                 carrierPlateNum={dataRow.carrierPlateNum}
                 isBindGps={dataRow.isBindGps}
                 gpsType={dataRow.gpsType}
+                orderType={dataRow.orderSource}
                 bindGPS={() => {
                     if(Platform.OS === 'ios'){
                         PermissionsManager.cameraPermission().then(data => {
@@ -261,7 +262,7 @@ class driverOrderListItem extends Component {
         if (dataSource.get('isLoadingMore')){
             console.log("------ 正在加载中");
             return;
-        }else if(dataSource.get('list').size >= dataSource.get('total')) {
+        }else if(!dataSource.get('hasMore')) {
             console.log("------ 已加载全部");
             return;
         }
