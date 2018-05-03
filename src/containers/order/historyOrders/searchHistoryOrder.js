@@ -18,7 +18,9 @@ import NavigatorBar from '../../../components/common/navigatorbar';
 import * as RouteType from '../../../constants/routeType';
 import * as StaticColor from '../../../constants/colors';
 import TimePicker from 'react-native-picker-custom';
-import DateHandler from '../../../utils/dateHandler'
+import DateHandler from '../../../utils/dateHandler';
+
+const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
