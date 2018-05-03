@@ -105,7 +105,10 @@ class changePhoneNoStepTwo extends Component {
                         style={{
                             fontSize:14,
                             color:'#cccccc',
+                            width:width-120
                         }}
+                        placeholderTextColor="#cccccc"
+                        underlineColorAndroid={'transparent'}
                         placeholder="请输入新的手机号码"
                         onChangeText={(phoneNumber) => {
                             this.setState({phoneNumber});

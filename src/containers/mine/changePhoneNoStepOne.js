@@ -87,14 +87,17 @@ class changePhoneNoStepOne extends Component {
                     <Text
                         style={{
                             fontSize: 14,
-                            color: '#666666'
+                            color: '#666666',
+                            width:70,
                         }}>登录密码</Text>
                     <TextInput
                         style={{
                             fontSize:14,
                             color:'#cccccc',
-                            marginLeft:20,
+                            width:width-100
                         }}
+                        underlineColorAndroid={'transparent'}
+                        placeholderTextColor="#cccccc"
                         placeholder="请输入登录密码"
                         onChangeText={(loginPWD) => {
                             this.setState({loginPWD});

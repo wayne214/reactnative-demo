@@ -48,6 +48,7 @@ import carrierSettingIcon from '../../../assets/img/mine/carrierSettingIcon.png'
 import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
 import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
 import MessageMine from '../../../assets/img/oldMine/message.png';
+import OwnerPhoneIcon from '../../../assets/img/login/ownerPhoneIcon.png';
 
 import {
     saveUserCarList,
@@ -964,6 +965,15 @@ class mine extends Component {
                                 }}
                             />
                             <View style={styles.separateView}/>
+                            <SettingCell
+                                leftIconImage={OwnerPhoneIcon}
+                                content={'更换手机号码'}
+                                showBottomLine={true}
+                                clickAction={() => {
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO })
+                                }}
+                            />
+
                             <SettingCell
                                 leftIconImage={carrierSettingIcon}
                                 content={'服务与设置'}
