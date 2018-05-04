@@ -97,6 +97,7 @@ class changePhoneNo extends Component {
                         this.setState({
                             modalVisible: !this.state.modalVisible
                         })
+                        // 校验一个月中是否已经修改过了
                     }}
                 >
                     变更手机号码
@@ -190,7 +191,21 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        checkModifyMonth: (params, callback) => {
+            dispatch(fetchData({
+                api: '',
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNo);
