@@ -14,6 +14,8 @@ import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
 import phonePicture from '../../../assets/img/login/phonePicture.png'
 import * as RouteType from "../../constants/routeType";
+import {fetchData} from "../../action/app";
+import Toast from '@remobile/react-native-toast';
 
 const {width, height} = Dimensions.get('window');
 
@@ -44,6 +46,7 @@ class changePhoneNoStepOne extends Component {
             loginPWD: ''
         };
 
+        this.nextStep = this.nextStep.bind(this);
     }
 
     static navigationOptions = ({navigation}) => {
@@ -63,6 +66,14 @@ class changePhoneNoStepOne extends Component {
 
     }
 
+    nextStep() {
+        const {loginPWD} = this.state;
+        if(loginPWD === '') {
+            Toast.showShortCenter('登录密码不能为空');
+            return
+        }
+        this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO})
+    }
 
     render() {
         const {loginPWD} = this.state;
@@ -110,7 +121,8 @@ class changePhoneNoStepOne extends Component {
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
-                        this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO})
+                        this.nextStep();
+
                     }}
                 >
                     下一步
@@ -125,7 +137,21 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        checkLoginPwd: (params, callback) => {
+            dispatch(fetchData({
+                api: '',
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNoStepOne);

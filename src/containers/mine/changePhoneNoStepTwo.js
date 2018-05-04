@@ -18,6 +18,7 @@ import Regex from "../../utils/regex";
 import CountDownButton from '../../components/common/timerButton';
 import * as StaticColor from "../../constants/colors";
 import * as RouteType from "../../constants/routeType";
+import {fetchData} from "../../action/app";
 
 
 const {width, height} = Dimensions.get('window');
@@ -182,7 +183,35 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        getIdentfiCode: (params, callback) => {
+            dispatch(fetchData({
+                api: '',
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+        updateNewPhone: (params, callback) => {
+            dispatch(fetchData({
+                api: '',
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNoStepTwo);
