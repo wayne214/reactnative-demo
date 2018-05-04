@@ -151,7 +151,7 @@ class changePhoneNo extends Component {
                                     lineHeight: 22,
                                     fontSize: 15,
                                 }}>
-                                    修改后须使用新手机号码登录；只支持修改到未注册的手机号码；一个自然月最多修改三次。
+                                    修改后须使用新手机号码登录；只支持修改到未注册的手机号码；一个自然月最多修改一次。
                                 </Text>
                             </View>
                             <View style={{
