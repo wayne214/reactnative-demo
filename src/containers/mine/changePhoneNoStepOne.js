@@ -8,7 +8,8 @@ import {
     Dimensions,
     Modal,
     Image,
-    TextInput
+    TextInput,
+    Platform
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
@@ -16,6 +17,9 @@ import phonePicture from '../../../assets/img/login/phonePicture.png'
 import * as RouteType from "../../constants/routeType";
 import {fetchData} from "../../action/app";
 import Toast from '@remobile/react-native-toast';
+import * as API from '../../constants/api';
+import DeviceInfo from "react-native-device-info";
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -72,7 +76,19 @@ class changePhoneNoStepOne extends Component {
             Toast.showShortCenter('登录密码不能为空');
             return
         }
-        this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO})
+        this.props.checkLoginPwd({
+            deviceId: DeviceInfo.getDeviceId(),
+            password: this.state.loginPWD,
+            phoneNum: global.phone,
+            platform: Platform.OS === 'ios' ? 1 : 2
+        }, (result)=> {
+            if (result) {
+                this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO});
+            } else {
+                Toast.showShortCenter('登录密码错误');
+            }
+        });
+
     }
 
     render() {
@@ -140,7 +156,7 @@ function mapDispatchToProps(dispatch) {
     return {
         checkLoginPwd: (params, callback) => {
             dispatch(fetchData({
-                api: '',
+                api: API.API_CHECK_PASSWORD,
                 body: params,
                 method: 'POST',
                 success: (data) => {
