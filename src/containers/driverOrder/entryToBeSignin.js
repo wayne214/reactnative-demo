@@ -162,11 +162,11 @@ class entryToBeSignin extends Component {
     }
 
     renderTitle (index, array) {
-        if (array[index].transOrderStatsu === '5' && array[index].isEndDistribution === 'Y'){
+        if (array[index].transOrderStatsu === '5' && array[index].isEndDistribution === 'Y'
             // || (array[index].isEndDistribution === 'N' && array[index].statusCode === '32')
             // || (array[index].isEndDistribution === 'N' && array[index].statusCode === '34')
             // || (array[index].isEndDistribution === 'N' && array[index].statusCode === '38')
-            // || (array[index].isEndDistribution === 'N' && array[index].statusCode === '40')) {
+            || (this.state.orderSource === 1 && array[index].statusCode === '90')) {
             this.setState({
                 isShowRightButton: true
             });
@@ -233,6 +233,7 @@ class entryToBeSignin extends Component {
                     this.setState({
                         datas: responseData,
                     });
+                    this.renderTitle(0, responseData);
                 },(error) => {
                     this.sendOderFailCallBack(error);
                 })
@@ -290,27 +291,50 @@ class entryToBeSignin extends Component {
             transCode = transCode.split('-')[0];
         }
         console.log('transCode==',transCode);
-        this.props._getOrderPictureInfo({
-            refNo: transCode,
-        }, (result) => {
-            this.getOrderPictureSuccessCallBack(result);
-        })
+        if(this.state.orderSource === 1){
+            this.props._getOrderPictureInfo({},
+            API.API_QUERY_RECEIPT_PICTURE + transCode,
+            (result) => {
+                this.getOrderPictureSuccessCallBack(result);
+            })
+        }else {
+            this.props._getOrderPictureInfo({
+                refNo: transCode,
+            },
+            API.API_ORDER_PICTURE_SHOW,
+            (result) => {
+                this.getOrderPictureSuccessCallBack(result);
+            })
+        }
     }
 
     getOrderPictureSuccessCallBack(result) {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('获取回单照片',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '回单照片页面');
-        if (result) {
-            if (result.urlList && result.urlList.length !== 0) {
+        if(this.state.orderSource === 1){
+            if(result && result.length !== 0){
                 this.setState({
-                    showImages : result.urlList.map(i => {
+                    showImages : result.map(i => {
                         console.log('received image', i);
                         return {url: i ? i : ''};
                     }),
                 });
-            }else{
+            } else {
                 Toast.showShortCenter('暂无回单照片');
+            }
+        }else {
+            if (result) {
+                if (result.urlList && result.urlList.length !== 0) {
+                    this.setState({
+                        showImages : result.urlList.map(i => {
+                            console.log('received image', i);
+                            return {url: i ? i : ''};
+                        }),
+                    });
+                }else{
+                    Toast.showShortCenter('暂无回单照片');
+                }
             }
         }
     }
@@ -611,11 +635,11 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        _getOrderPictureInfo: (params, callBack) => {
+        _getOrderPictureInfo: (params, api, callBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_ORDER_PICTURE_SHOW,
+                api: api,
                 success: data => {
                     console.log('get receipt img success ',data);
                     callBack && callBack(data)
