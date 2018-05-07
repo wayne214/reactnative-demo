@@ -322,6 +322,7 @@ class entryToBeSignin extends Component {
         const subOrderPage = this.state.datas.map((item, index) => {
             if (item.transOrderStatsu === '5' && item.isEndDistribution === 'Y'
                 || (item.isEndDistribution === 'N' && item.arriveFlag === true)
+                || this.state.orderSource === 1 && item.statusCode == '85' // 待回单审核
                 || this.state.orderSource === 1 && item.statusCode == '90') { // 已回单5
                 return (
                     <EntryToBeSure
@@ -356,7 +357,8 @@ class entryToBeSignin extends Component {
             }
 
             if (item.transOrderStatsu === '4' && item.isEndDistribution === 'Y'
-            || this.state.orderSource === 1 && item.statusCode == '80') { // 待回单4
+                || this.state.orderSource === 1 && item.statusCode == '87' // 待回单驳回
+                || this.state.orderSource === 1 && item.statusCode == '80') { // 待回单4
                 return (
                     <EntryToBeWaitSure
                         {...this.props}
@@ -380,6 +382,7 @@ class entryToBeSignin extends Component {
                         dispatchTime={item.dispatchTime}
                         dispatchTimeAgain={item.twoDispatchTime}
                         isEndDistribution={item.isEndDistribution}
+                        statusCode={item.statusCode}
                         index={index}
                         orderSource={this.state.orderSource}
                         addressMapSelect={(indexRow, type) => {
