@@ -76,6 +76,7 @@ class changePhoneNoStepOne extends Component {
             Toast.showShortCenter('登录密码不能为空');
             return
         }
+        // this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO});
         this.props.checkLoginPwd({
             deviceId: DeviceInfo.getDeviceId(),
             password: this.state.loginPWD,
@@ -120,7 +121,7 @@ class changePhoneNoStepOne extends Component {
                     <TextInput
                         style={{
                             fontSize:14,
-                            color:'#cccccc',
+                            color:'#333333',
                             width:width-100
                         }}
                         underlineColorAndroid={'transparent'}
