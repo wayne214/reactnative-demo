@@ -387,6 +387,8 @@ export const API_GET_UPLOAD_RECEIPT_IMAGE = `app/transport/getReceiptPicNumber`;
 export const API_UPLOAD_RECEIPT_IMAGE_FINISHED = `app/transport/batchUploadTransportOrderSuccess`;
 // 回单照片展示接口
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
+// 撮合回单照片展示接口
+export const API_QUERY_RECEIPT_PICTURE = `app/receiveMatch/queryReceivePic/`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
 // 撮合订单发运接口

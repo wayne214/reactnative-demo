@@ -411,6 +411,7 @@ class UploadReceipt extends Component {
 
                                 let url = '';
                                 if(this.state.orderSource === 1){
+                                    formData.append('driverId', userID);
                                     formData.append('driverName', userName);
                                     formData.append('resourceCode', this.state.transCode);
                                     url = API.API_MATCH_UPLOAD_RECEIPT;

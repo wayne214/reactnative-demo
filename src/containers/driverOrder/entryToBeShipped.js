@@ -319,7 +319,7 @@ class entryToBeShipped extends Component {
                 resourceCode: this.state.scheduleCode,
                 driverName: userName,
                 driverId: userID,
-                plateNumber: global.plateNumber,
+                carNo: global.plateNumber,
                 },
             API.API_MATCH_DESPATCH,
             (result) => {
