@@ -116,13 +116,13 @@ class driverOrder extends Component {
                 if (this.props.currentStatus == 'driver') {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: 1,
+                            driverId: global.userId,
+                            ctcNum: 0,
+                            tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'AAA'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_ALL, tabIndex);
                     // }
                 }
                 break;
@@ -131,13 +131,13 @@ class driverOrder extends Component {
                 if (this.props.currentStatus == 'driver') {
                     // if(global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: 1,
+                            driverId: global.userId,
+                            ctcNum: 0,
+                            tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'BBB'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_SHIPPING, tabIndex);
                     // }
                 }
                 break;
@@ -146,13 +146,13 @@ class driverOrder extends Component {
                 if(this.props.currentStatus == 'driver') {
                     // if(global.plateNumber){
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            pageNum: 1,
+                            driverId: global.userId,
+                            ctcNum: 0,
+                            tfcNum: 1,
                             pageSize: 10,
-                            phoneNum: global.phone,
+                            phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: ''
-                        }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_SIGN, tabIndex);
                     // }
                 }
                 break;
@@ -161,13 +161,13 @@ class driverOrder extends Component {
                 if(this.props.currentStatus == 'driver') {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: 1,
+                            driverId: global.userId,
+                            ctcNum: 0,
+                            tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'DDD'
-                        }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_RECEIPT, tabIndex);
                     // }
                 }
                 break;
@@ -184,13 +184,13 @@ class driverOrder extends Component {
                 if (this.props.currentStatus == 'driver') {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: target.get('pageNum') + 1,
+                            driverId: global.userId,
+                            ctcNum: target.get('ctcNum'),
+                            tfcNum: target.get('tfcNum'),
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'AAA'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_ALL, tabIndex);
                     // }
                 }
                 break;
@@ -199,13 +199,13 @@ class driverOrder extends Component {
                 if (this.props.currentStatus == 'driver') {
                     // if(global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: target.get('pageNum') + 1,
+                            driverId: global.userId,
+                            ctcNum: target.get('ctcNum'),
+                            tfcNum: target.get('tfcNum'),
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'BBB'
-                        }, API.API_NEW_DISPATCH_DOC_WITH_PAGE, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_SHIPPING, tabIndex);
                     // }
                 }
                 break;
@@ -214,11 +214,13 @@ class driverOrder extends Component {
                 if(this.props.currentStatus == 'driver') {
                     // if(global.plateNumber){
                         this.props._requestDriverOrderList({
-                            pageNum: target.get('pageNum') + 1,
+                            driverId: global.userId,
+                            ctcNum: target.get('ctcNum'),
+                            tfcNum: target.get('tfcNum'),
                             pageSize: 10,
-                            phoneNum: global.phone,
+                            phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                        }, API.API_NEW_GET_ORDER_LIST_TRANSPORT, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_SIGN, tabIndex);
                     // }
                 }
                 break;
@@ -227,13 +229,13 @@ class driverOrder extends Component {
                 if(this.props.currentStatus == 'driver') {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
-                            carrierCode: '',
-                            page: target.get('pageNum') + 1,
+                            driverId: global.userId,
+                            ctcNum: target.get('ctcNum'),
+                            tfcNum: target.get('tfcNum'),
                             pageSize: 10,
                             phone: global.phone,
                             plateNumber: this.props.plateNumber,
-                            queryType: 'DDD'
-                        }, API.API_NEW_GET_RECEIVE_ORDER_LIST, tabIndex);
+                        }, API.API_QUERY_DRIVER_ORDER_RECEIPT, tabIndex);
                     // }
                 }
                 break;

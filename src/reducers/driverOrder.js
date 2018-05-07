@@ -9,6 +9,8 @@ const initState = Immutable.fromJS({
         total: 0,
         hasMore: false,
         pageNum: 0,//默认值0 使用时 +1
+        ctcNum: 0,
+        tfcNum: 0,
         isLoadingMore: false,
         isRefreshing: false
     },
@@ -17,6 +19,8 @@ const initState = Immutable.fromJS({
         total: 0,
         hasMore: false,
         pageNum: 0,
+        ctcNum: 0,
+        tfcNum: 0,
         isLoadingMore: false,
         isRefreshing: false
     },
@@ -25,6 +29,8 @@ const initState = Immutable.fromJS({
         total: 0,
         hasMore: false,
         pageNum: 0,
+        ctcNum: 0,
+        tfcNum: 0,
         isLoadingMore: false,
         isRefreshing: false
     },
@@ -33,6 +39,8 @@ const initState = Immutable.fromJS({
         total: 0,
         hasMore: false,
         pageNum: 0,
+        ctcNum: 0,
+        tfcNum: 0,
         isLoadingMore: false,
         isRefreshing: false
     },
@@ -67,16 +75,20 @@ export default (state = initState, action) => {
                     rootType = 'receiptListData';
                     break;
             }
+            console.log('payload.hasNextPage=',payload.hasNextPage);
+
             newState = newState.setIn([rootType,'isLoadingMore'],false);
             newState = newState.setIn([rootType,'isRefreshing'],false);
-            newState = newState.setIn([rootType,'hasMore'],payload.pageNum < payload.pages ? true : false);
+            newState = newState.setIn([rootType,'hasMore'],payload.hasNextPage);
+            newState = newState.setIn([rootType,'ctcNum'],payload.ctcNum);
+            newState = newState.setIn([rootType,'tfcNum'],payload.tfcNum);
             newState = newState.setIn([rootType,'pageNum'],payload.pageNum);
-            newState = newState.setIn([rootType,'total'],payload.total);
             console.log('payload.pageNum=',payload.pageNum);
-            if(payload.pageNum === 0) {
-                newState = newState.setIn([rootType,'list'], []);
-                newState = newState.setIn([rootType,'list'], Immutable.fromJS(payload.list));
-            } else if (payload.pageNum === 1) {
+            if(payload.list === null || payload.list === []) {
+                newState = newState.setIn([rootType, 'list'], []);
+                newState = newState.setIn([rootType, 'list'], Immutable.fromJS(payload.list));
+            }
+            if (payload.pageNum === 1) {
                 // 第一页数据先清空原有数据
                 newState = newState.setIn([rootType,'list'],[]);
                 newArray = Immutable.fromJS(payload.list);

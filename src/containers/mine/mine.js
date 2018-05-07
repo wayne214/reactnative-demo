@@ -38,6 +38,7 @@ import VertifyInfoIcon from '../../../assets/img/mine/vertifyInfo.png';
 import ModifyPwdIcon from '../../../assets/img/mine/modifyPwd.png';
 import SettingIcon from '../../../assets/img/mine/setting.png';
 import aboutUsIcon from '../../../assets/img/mine/aboutUsIcon.png';
+import changePhoneNO from '../../../assets/img/mine/changePhoneNO.png';
 // 承运方
 import driverManagerIcon from '../../../assets/img/mine/driverManagerIcon.png';
 import carManagerIcon from '../../../assets/img/mine/carManagerIcon.png';
@@ -47,6 +48,7 @@ import carrierSettingIcon from '../../../assets/img/mine/carrierSettingIcon.png'
 import mineHeaderBg from '../../../assets/img/mine/mineHeaderBg.png';
 import MessageNewMine from '../../../assets/img/oldMine/newMessage.png';
 import MessageMine from '../../../assets/img/oldMine/message.png';
+import OwnerPhoneIcon from '../../../assets/img/login/ownerPhoneIcon.png';
 
 import {
     saveUserCarList,
@@ -884,6 +886,16 @@ class mine extends Component {
                                     }
                                 }}
                             />
+
+                            <SettingCell
+                                leftIconImage={changePhoneNO}
+                                leftIconImageStyle={{width: 15.5, height: 17.5}}
+                                content={'更换手机号码'}
+                                showBottomLine={false}
+                                clickAction={() => {
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO })
+                                }}
+                            />
                             <View style={styles.separateView}/>
                             <SettingCell
                                 leftIconImage={SettingIcon}
@@ -953,6 +965,15 @@ class mine extends Component {
                                 }}
                             />
                             <View style={styles.separateView}/>
+                            <SettingCell
+                                leftIconImage={OwnerPhoneIcon}
+                                content={'更换手机号码'}
+                                showBottomLine={true}
+                                clickAction={() => {
+                                    this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO })
+                                }}
+                            />
+
                             <SettingCell
                                 leftIconImage={carrierSettingIcon}
                                 content={'服务与设置'}

@@ -97,6 +97,7 @@ class entryToBeSignin extends Component {
             carrierPlateNum: params.carrierPlateNum,
             currentImageIndex: 0,
             currentImageIndexFlag: false,
+            orderSource: params.orderSource,
         };
         this.onScrollEnd = this.onScrollEnd.bind(this);
         this.getOrderDetailInfo = this.getOrderDetailInfo.bind(this);
@@ -187,7 +188,9 @@ class entryToBeSignin extends Component {
             lan: locationData.latitude ? locationData.latitude : '',
             lon: locationData.longitude ? locationData.longitude : '',
             realTimeAddress: locationData.address ? locationData.address : ''
-        }, (responseData) => {
+        },
+        API.API_NEW_SIGN,
+        (responseData) => {
             this.getSignInSuccessCallBack(responseData.result);
         }, (error) => {
             Toast.showShortCenter(error.message);
@@ -199,6 +202,7 @@ class entryToBeSignin extends Component {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('签收', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '签收页面');
+        Toast.showShortCenter('签收成功！')
         this.props._refreshOrderList(0);
         this.props._refreshOrderList(2);
         this.props.navigation.dispatch({type: 'pop'});
@@ -207,13 +211,33 @@ class entryToBeSignin extends Component {
     // 获取列表详情调用接口
     getOrderDetailInfo() {
         currentTime = new Date().getTime();
-        this.props._getOrderDetail({
-            transCodeList: this.state.transOrderList,
-            // plateNumber: '京LPL001'
-            plateNumber: this.props.plateNumber
-        }, (responseData) => {
-            this.sendOderSuccessCallBack(responseData);
-        })
+        if (this.state.orderSource === 2) {
+            this.props._getOrderDetail({
+                transCodeList: this.state.transOrderList,
+                plateNumber: this.props.plateNumber
+            },
+            API.API_NEW_GET_GOODS_SOURCE,
+            (responseData) => {
+                this.sendOderSuccessCallBack(responseData);
+            },(error) => {
+                this.sendOderFailCallBack(error);
+            })
+        } else { // 撮合订单
+            this.props._getOrderDetail({
+                    transCodeList: this.state.transOrderList,
+                    plateNumber: this.props.plateNumber,
+                    orderSource: this.state.orderSource
+                },
+                API.API_GET_GOODS_SOURCE_INFO,
+                (responseData) => {
+                    this.setState({
+                        datas: responseData,
+                    });
+                },(error) => {
+                    this.sendOderFailCallBack(error);
+                })
+        }
+
     }
     // 获取数据成功回调
     sendOderSuccessCallBack(result) {
@@ -231,7 +255,7 @@ class entryToBeSignin extends Component {
         this.renderTitle(0, array);
     }
     // 获取数据失败回调
-    sendOderFailCallBack() {
+    sendOderFailCallBack(error) {
         Toast.showShortCenter('获取订单详情失败!');
     }
 
@@ -297,7 +321,8 @@ class entryToBeSignin extends Component {
         console.log('this.state.datas=====',this.state.datas);
         const subOrderPage = this.state.datas.map((item, index) => {
             if (item.transOrderStatsu === '5' && item.isEndDistribution === 'Y'
-                || (item.isEndDistribution === 'N' && item.arriveFlag === true)) { // 已回单5
+                || (item.isEndDistribution === 'N' && item.arriveFlag === true)
+                || this.state.orderSource === 1 && item.statusCode == '90') { // 已回单5
                 return (
                     <EntryToBeSure
                         key={index}
@@ -314,6 +339,7 @@ class entryToBeSignin extends Component {
                         weight={item.weight}
                         num={item.qty}
                         signer={item.signer}
+                        orderSource={this.state.orderSource}
                         signTime={item.signTime}
                         scheduleTime={item.scheduleTime}
                         scheduleTimeAgain={item.twoScheduleTime}
@@ -329,7 +355,8 @@ class entryToBeSignin extends Component {
                 );
             }
 
-            if (item.transOrderStatsu === '4' && item.isEndDistribution === 'Y') { // 待回单4
+            if (item.transOrderStatsu === '4' && item.isEndDistribution === 'Y'
+            || this.state.orderSource === 1 && item.statusCode == '80') { // 待回单4
                 return (
                     <EntryToBeWaitSure
                         {...this.props}
@@ -354,6 +381,7 @@ class entryToBeSignin extends Component {
                         dispatchTimeAgain={item.twoDispatchTime}
                         isEndDistribution={item.isEndDistribution}
                         index={index}
+                        orderSource={this.state.orderSource}
                         addressMapSelect={(indexRow, type) => {
                             this.jumpAddressPage(indexRow, type, item);
                         }}
@@ -365,7 +393,9 @@ class entryToBeSignin extends Component {
             }
 
             if (item.transOrderStatsu === '3' && item.isEndDistribution === 'Y'
-            || (item.isEndDistribution === 'N' && item.arriveFlag === false)) { // 待签收3
+            || (item.isEndDistribution === 'N' && item.arriveFlag === false)
+                // 撮合
+            || this.state.orderSource === 1 && item.statusCode == '70') { // 待签收3
                 return (
                     <EntryToBeSignIn
                         key={index}
@@ -391,28 +421,42 @@ class entryToBeSignin extends Component {
                         payState={item.payState} // 付款状态：0 未付款 1 已付款
                         amount={item.amount}
                         index={index}
+                        orderSource={this.state.orderSource}
                         currentStatus={this.props.currentStatus}
                         addressMapSelect={(indexRow, type) => {
                             this.jumpAddressPage(indexRow, type, item);
                         }}
                         signIn={() => {
-                            if(item.taskInfo) {
-                                if(item.goodsInfo.length === 0){
-                                    Toast.showShortCenter('运输单尚未完善，请稍后签收');
-                                    return;
-                                }
-                                // 跳转到具体的签收页面
-                                this.props.navigation.dispatch({
-                                    type: RouteType.ROUTE_SIGN_IN_PAGE,
-                                    params: {
-                                        transCode: item.transCode,
-                                        orderCode: item.orderCode,
-                                        goodsInfoList: item.goodsInfo,
-                                        taskInfo: item.taskInfo,
-                                    }
+                            if (this.state.orderSource === 1) { // 撮合
+                                this.props._signIn({
+                                    driverName: userName,
+                                    resourceCode: item.transCode
+                                },
+                                API.API_MATCH_SIGN,
+                                (responseData) => {
+                                    this.getSignInSuccessCallBack(responseData.result);
+                                }, (error) => {
+                                    Toast.showShortCenter(error.message);
                                 })
-                            }else {
-                                this.getSignIn(item.transCode,item.orderCode);
+                            }else { // 运输中心订单
+                                if(item.taskInfo) {
+                                    if(item.goodsInfo.length === 0){
+                                        Toast.showShortCenter('运输单尚未完善，请稍后签收');
+                                        return;
+                                    }
+                                    // 跳转到具体的签收页面
+                                    this.props.navigation.dispatch({
+                                        type: RouteType.ROUTE_SIGN_IN_PAGE,
+                                        params: {
+                                            transCode: item.transCode,
+                                            orderCode: item.orderCode,
+                                            goodsInfoList: item.goodsInfo,
+                                            taskInfo: item.taskInfo,
+                                        }
+                                    })
+                                }else {
+                                    this.getSignIn(item.transCode,item.orderCode);
+                                }
                             }
                         }}
                         payment={() => {
@@ -534,25 +578,26 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         // 获取订单详情
-        _getOrderDetail: (params, callBack) => {
+        _getOrderDetail: (params, api, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_NEW_GET_GOODS_SOURCE,
+                api: api,
                 success: data => {
                     console.log('get order details success ',data);
                     callBack && callBack(data)
                 },
                 fail: error => {
                     console.log('???', error)
+                    failCallBack && failCallBack(error)
                 }
             }))
         },
-        _signIn: (params, callBack, failCallBack) => {
+        _signIn: (params, api, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_NEW_SIGN,
+                api: api,
                 success: data => {
                     console.log('sign in success ',data);
                     callBack && callBack(data)

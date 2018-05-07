@@ -44,22 +44,26 @@ class bindGPS extends Component {
         },(responseData) => {
             if(responseData) {
                 let data = responseData;
-                if(data.isDisabled == 0){
-                    if(data.eleValue && parseInt(data.eleValue) > 20) {
-                        this.bindGPS();
-                    }else {
-                        Alert.alert('提示', '设备当前电量已不足20%，您确认要使用此设备？', [
-                            {
-                                text: '确定',
-                                onPress: () => {
-                                    this.bindGPS();
+                if(data.deviceVersion === 'MOBILE_VERSION') { // 是移动版
+                    if(data.isDisabled == 0){ // 设备开启
+                        if(data.eleValue && parseInt(data.eleValue) > 20) { // 电量大于20%
+                            this.bindGPS();
+                        }else { // 电量不足20%
+                            Alert.alert('提示', '设备当前电量已不足20%，您确认要使用此设备？', [
+                                {
+                                    text: '确定',
+                                    onPress: () => {
+                                        this.bindGPS();
+                                    },
                                 },
-                            },
-                            {text: '取消'},
-                        ], {cancelable: false});
+                                {text: '取消'},
+                            ], {cancelable: false});
+                        }
+                    }else { // 设备禁用
+                        Toast.showShortCenter('设备已被禁用，请选择其他设备');
                     }
-                }else {
-                    Toast.showShortCenter('该设备已禁用，不能进行绑定');
+                } else { // 不是移动版
+                    Toast.showShortCenter('此设备不是移动版，不支持绑定');
                 }
             } else {
                 Toast.showShortCenter('该设备不存在，不能进行绑定');

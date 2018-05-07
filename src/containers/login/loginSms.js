@@ -210,7 +210,6 @@ class LoginSms extends BaseComponent {
         this.login = this.login.bind(this);
         this.requestVCodeForLogin = this.requestVCodeForLogin.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
-        this.requestVCodeForLogin = this.requestVCodeForLogin.bind(this);
         this.login = this.login.bind(this);
         this.loginSucCallback = this.loginSucCallback.bind(this);
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);

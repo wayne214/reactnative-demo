@@ -343,14 +343,18 @@ export const API_LENGTH_AND_WEIGHT_COMMIT = `app/rmc/rmcCar/queryVehicleLengthAn
 export const API_AUTH_QUALIFICATIONS_COMMIT = `app/rmc/rmcCar/createCertificationQualification`;
 
 /********************************司机订单API*************************************/
-// 订单列表（全部，待发运）分页查询调度单
-export const API_NEW_DISPATCH_DOC_WITH_PAGE = 'app/transport/queryDeleveryWithPageV4';
+// 订单列表（全部）分页查询调度单
+export const API_QUERY_DRIVER_ORDER_ALL = 'app/driverTransportOrder/queryDriverOrderAll';
+// 订单列表（待发运）分页查询调度单
+export const API_QUERY_DRIVER_ORDER_SHIPPING = 'app/driverTransportOrder/queryDriverOrderShipping';
 // 订单列表（待回单）
-export const API_NEW_GET_RECEIVE_ORDER_LIST = 'app/transport/queryDelReceiptWithPageV5';
-// 运输中
-export const API_NEW_GET_ORDER_LIST_TRANSPORT = `app/transport/queryTransportListV1`;
-
+export const API_QUERY_DRIVER_ORDER_RECEIPT = 'app/driverTransportOrder/queryDriverOrderReceipt';
+// 订单列表（待签收）
+export const API_QUERY_DRIVER_ORDER_SIGN= `app/driverTransportOrder/queryDriverOrderSign`;
+// 订单详情
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
+// 撮合订单详情
+export const API_GET_GOODS_SOURCE_INFO = `app/driverTransportOrder/goodsSourceInfo`;
 // 绑定GPS设备接口
 export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
 // 获取gps设备信息
@@ -367,10 +371,14 @@ export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
 export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
 // 签收接口
 export const API_NEW_SIGN = 'app/transport/sign';
+// 撮合签收接口
+export const API_MATCH_SIGN = 'app/driverTransportOrder/matchSign';
 // 批量签收
 export const API_TRANSPORT_BATCH_SIGN = 'app/transport/batchSign/v3.0';
 // 回单接口
 export const API_NEW_UPLOAD_RECEIPT = `app/transport/returnTransportOrder/v2.1`;
+// 撮合回单接口
+export const API_MATCH_UPLOAD_RECEIPT = `app/driverTransportOrder/matchInfoReceipt`;
 // 批量回单接口
 export const API_BATCH_UPLOAD_RECEIPT = `app/transport/batchUploadTransportOrder`;
 // 获取上传回单照片数量接口
@@ -381,6 +389,8 @@ export const API_UPLOAD_RECEIPT_IMAGE_FINISHED = `app/transport/batchUploadTrans
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
+// 撮合订单发运接口
+export const API_MATCH_DESPATCH = `app/driverTransportOrder/matchDespatch`;
 // 上传出库单
 export const API_UPLOAD_OUT_BOUND_ORDER = 'app/transport/uploadOutBoundOrder';
 
@@ -431,6 +441,18 @@ export const API_CHANGE_USER_AVATAR = `app/uam/changeUserAvatarNew`;
 export const API_UPLOAD_FILE = 'app/uam/uploadFile';
 // 道路异常-上传视频附件
 export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
+
+
+// 校验本月是否能够修改手机号接口
+export const API_CHECK_IS_FIX_PHONE = 'app/uam/checkIsFixPhone/';
+// 修改手机号判断登录密码是否正确
+export const API_CHECK_PASSWORD = 'app/uam/checkPassword';
+// 修改手机号发送短信验证码接口
+export const API_FIX_PHONE_SEND_VERIFICATION = 'app/uam/fixPhoneSendVerification';
+// 修改手机号判断是否已经注册接口 （true：已注册 false：未注册）
+export const API_CHECK_PHONE_REGISTER = 'app/uam/checkPhoneRegister/';
+// 修改手机号
+export const API_MODIFY_USER_MOBILE_PHONE = 'app/uam/modifyUserMobile';
 
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息

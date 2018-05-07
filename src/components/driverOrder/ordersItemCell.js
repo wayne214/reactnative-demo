@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         flex: 1,
         marginLeft: 20,
-        marginRight: 20,
+        marginRight: 15,
     },
     itemFlag: {
         position: 'absolute',
@@ -211,23 +211,24 @@ class OrdersItemCell extends Component {
             bindGPS,
             checkGPS,
             gpsType,
-            isBindGps
+            isBindGps,
+            orderType
         } = this.props;
         const goodIcon = goodKindsNames && goodKindsNames.length === 1 ? goodKindsNames[0] : '其他';
         const statusView = <Text style={styles.stateText}>{stateName}</Text>;
-        const orderNumView = <View style={styles.orderNumView}>
-            <OrderStateNumView
-                fontText={'待回'}
-                num={waitBeSureOrderNum}
-                unit={'单'}
-            />
-            <OrderStateNumView
-                style={{marginLeft: 5}}
-                fontText={'已回'}
-                num={beSureOrderNum}
-                unit={'单'}
-            />
-        </View>;
+        // const orderNumView = <View style={styles.orderNumView}>
+        //     <OrderStateNumView
+        //         fontText={'待回'}
+        //         num={waitBeSureOrderNum}
+        //         unit={'单'}
+        //     />
+        //     <OrderStateNumView
+        //         style={{marginLeft: 5}}
+        //         fontText={'已回'}
+        //         num={beSureOrderNum}
+        //         unit={'单'}
+        //     />
+        // </View>;
         const bindGPSView = isBindGps && gpsType ? <View>
             <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
             <View style={styles.buttonView}>
@@ -264,7 +265,7 @@ class OrdersItemCell extends Component {
                                     <View style={styles.stateView}>
                                         {this.state.showStatus === 0 ? statusView : null}
                                         {/*{this.state.showStatus === 2 ? signNumView : null}*/}
-                                        {this.state.showStatus === 3 ? orderNumView : null}
+                                        {/*{this.state.showStatus === 3 ? orderNumView : null}*/}
                                     </View>
                                     <View style={styles.separateLine} />
                                 </View>
@@ -282,11 +283,13 @@ class OrdersItemCell extends Component {
                                             style={styles.dispatchLineStyle}
                                             numberOfLines={2}
                                         >
-                                            {scheduleRoutes ? scheduleRoutes : ''}
+                                            {orderType == 1 ? `到仓时间: ${arrivalTime}` : scheduleRoutes ? scheduleRoutes : ''}
                                         </Text>
                                     </View>
                                 </View>
-                                <Text style={[styles.arriveTimeStyle, {marginTop: 8}]}>到仓时间: {arrivalTime}</Text>
+                                {
+                                    orderType == 1 ? null : <Text style={[styles.arriveTimeStyle, {marginTop: 8}]}>到仓时间: {arrivalTime}</Text>
+                                }
                                 <View style={styles.wrapView}>
                                     {
                                         goodKindsNames ? goodKindsNames.map((item, index) => {
@@ -333,7 +336,9 @@ class OrdersItemCell extends Component {
                         <View style={styles.separateLine} />
                         <View style={styles.text}>
                             <Text style={styles.transCodeText}>调度单号：{scheduleCode}</Text>
-                            <Text style={styles.timeText}>调度时间：{time}</Text>
+                            {
+                                orderType == 1 ? null : <Text style={styles.timeText}>调度时间：{time}</Text>
+                            }
                         </View>
                         {
                             stateName === '待发运' ? bindGPSView : null

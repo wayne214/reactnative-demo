@@ -23,6 +23,7 @@ public class NativePackage implements ReactPackage {
         list.add(new OssModule(reactContext));
         list.add(new UmengAnalyticsModule(reactContext));
         list.add(new TimeLogModule(reactContext));
+        list.add(new SayReactMoudle(reactContext));
         return list;
     }
 
@@ -32,8 +33,8 @@ public class NativePackage implements ReactPackage {
     }
 
 //    @Override
-//    public List<Class<? extends JavaScriptModule>> createJSModules() {
-//        return Collections.emptyList();
-//    }
+    public List<Class<? extends JavaScriptModule>> createJSModules() {
+        return Collections.emptyList();
+    }
 
 }
