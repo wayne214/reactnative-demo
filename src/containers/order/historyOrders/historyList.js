@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     itemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        paddingHorizontal: 15,
     },
     timeText: {
         color: '#999999',
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
     arrow: {
         fontFamily: 'iconfont',
         fontSize: 20,
-        color: '#999999'
+        color: '#999999',
+        marginLeft: 15,
     },
     orderCode: {
         fontSize: 14,

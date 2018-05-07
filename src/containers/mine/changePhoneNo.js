@@ -13,6 +13,9 @@ import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
 import phonePicture from '../../../assets/img/login/phonePicture.png'
 import * as RouteType from "../../constants/routeType";
+import * as API from '../../constants/api';
+import {fetchData} from "../../action/app";
+import Toast from '@remobile/react-native-toast';
 
 const {width, height} = Dimensions.get('window');
 
@@ -46,6 +49,8 @@ class changePhoneNo extends Component {
 
         };
 
+        this.checkIsFixPhone = this.checkIsFixPhone.bind(this);
+
     }
 
     static navigationOptions = ({navigation}) => {
@@ -65,7 +70,17 @@ class changePhoneNo extends Component {
 
     }
 
-
+    checkIsFixPhone() {
+        this.props.checkModifyMonth({}, (result)=> {
+            if (result) {
+                this.setState({
+                    modalVisible: !this.state.modalVisible
+                })
+            } else {
+                Toast.showShortCenter('本月修改手机号码次数已达到1次，如须修改请等到下一个月')
+            }
+        });
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -97,6 +112,8 @@ class changePhoneNo extends Component {
                         this.setState({
                             modalVisible: !this.state.modalVisible
                         })
+                        // 校验一个月中是否已经修改过了
+                        this.checkIsFixPhone();
                     }}
                 >
                     变更手机号码
@@ -151,7 +168,7 @@ class changePhoneNo extends Component {
                                     lineHeight: 22,
                                     fontSize: 15,
                                 }}>
-                                    修改后须使用新手机号码登录；只支持修改到未注册的手机号码；一个自然月最多修改三次。
+                                    修改后须使用新手机号码登录；只支持修改到未注册的手机号码；一个自然月最多修改一次。
                                 </Text>
                             </View>
                             <View style={{
@@ -190,7 +207,21 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        checkModifyMonth: (params, callback) => {
+            dispatch(fetchData({
+                api: API.API_CHECK_IS_FIX_PHONE + global.phone,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNo);

@@ -8,12 +8,18 @@ import {
     Dimensions,
     Modal,
     Image,
-    TextInput
+    TextInput,
+    Platform
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
 import phonePicture from '../../../assets/img/login/phonePicture.png'
 import * as RouteType from "../../constants/routeType";
+import {fetchData} from "../../action/app";
+import Toast from '@remobile/react-native-toast';
+import * as API from '../../constants/api';
+import DeviceInfo from "react-native-device-info";
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -44,6 +50,7 @@ class changePhoneNoStepOne extends Component {
             loginPWD: ''
         };
 
+        this.nextStep = this.nextStep.bind(this);
     }
 
     static navigationOptions = ({navigation}) => {
@@ -63,6 +70,26 @@ class changePhoneNoStepOne extends Component {
 
     }
 
+    nextStep() {
+        const {loginPWD} = this.state;
+        if(loginPWD === '') {
+            Toast.showShortCenter('登录密码不能为空');
+            return
+        }
+        this.props.checkLoginPwd({
+            deviceId: DeviceInfo.getDeviceId(),
+            password: this.state.loginPWD,
+            phoneNum: global.phone,
+            platform: Platform.OS === 'ios' ? 1 : 2
+        }, (result)=> {
+            if (result) {
+                this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO});
+            } else {
+                Toast.showShortCenter('登录密码错误');
+            }
+        });
+
+    }
 
     render() {
         const {loginPWD} = this.state;
@@ -87,14 +114,17 @@ class changePhoneNoStepOne extends Component {
                     <Text
                         style={{
                             fontSize: 14,
-                            color: '#666666'
+                            color: '#666666',
+                            width:70,
                         }}>登录密码</Text>
                     <TextInput
                         style={{
                             fontSize:14,
                             color:'#cccccc',
-                            marginLeft:20,
+                            width:width-100
                         }}
+                        underlineColorAndroid={'transparent'}
+                        placeholderTextColor="#cccccc"
                         placeholder="请输入登录密码"
                         onChangeText={(loginPWD) => {
                             this.setState({loginPWD});
@@ -107,7 +137,8 @@ class changePhoneNoStepOne extends Component {
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
-                        this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO})
+                        this.nextStep();
+
                     }}
                 >
                     下一步
@@ -122,7 +153,21 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        checkLoginPwd: (params, callback) => {
+            dispatch(fetchData({
+                api: API.API_CHECK_PASSWORD,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    console.log(error);
+                }
+            }))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNoStepOne);

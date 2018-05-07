@@ -442,6 +442,18 @@ export const API_UPLOAD_FILE = 'app/uam/uploadFile';
 // 道路异常-上传视频附件
 export const API_UPLOAD_VIDEO_FILE = `app/uam/uploadVideoFile`;
 
+
+// 校验本月是否能够修改手机号接口
+export const API_CHECK_IS_FIX_PHONE = 'app/uam/checkIsFixPhone/';
+// 修改手机号判断登录密码是否正确
+export const API_CHECK_PASSWORD = 'app/uam/checkPassword';
+// 修改手机号发送短信验证码接口
+export const API_FIX_PHONE_SEND_VERIFICATION = 'app/uam/fixPhoneSendVerification';
+// 修改手机号判断是否已经注册接口 （true：已注册 false：未注册）
+export const API_CHECK_PHONE_REGISTER = 'app/uam/checkPhoneRegister/';
+// 修改手机号
+export const API_MODIFY_USER_MOBILE_PHONE = 'app/uam/modifyUserMobile';
+
 /********************************司机伙伴资源中心API*************************************/
 // 根据手机号查询账号角色信息
 export const API_INQUIRE_ACCOUNT_ROLE = 'app/rmc/company/queryAppRoleInfoByBusTel/';

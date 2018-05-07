@@ -13,11 +13,18 @@ import {
 import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
 import phonePicture from '../../../assets/img/login/phonePicture.png'
-import Toast from "../../utils/toast";
+import Toast from "@remobile/react-native-toast";
 import Regex from "../../utils/regex";
 import CountDownButton from '../../components/common/timerButton';
 import * as StaticColor from "../../constants/colors";
 import * as RouteType from "../../constants/routeType";
+import {fetchData, getHomePageCountAction} from "../../action/app";
+import DeviceInfo from "react-native-device-info";
+import * as API from '../../constants/api';
+import {
+    refreshDriverOrderList
+} from '../../action/driverOrder';
+import JPushModule from 'jpush-react-native';
 
 
 const {width, height} = Dimensions.get('window');
@@ -61,7 +68,12 @@ class changePhoneNoStepTwo extends Component {
             phoneNumber: '',
             smsCode: ''
         };
+        this.getIdentfiCode = this.getIdentfiCode.bind(this);
+        this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
+        this.sendFailCallback = this.sendFailCallback.bind(this);
 
+        this.fixPhone = this.fixPhone.bind(this);
+        this.loginOut = this.loginOut.bind(this);
     }
 
     static navigationOptions = ({navigation}) => {
@@ -80,8 +92,51 @@ class changePhoneNoStepTwo extends Component {
     componentWillUnmount() {
 
     }
+    sendVCodeCallback(shouldStartCountting) {
+        shouldStartCountting(true);
+    }
+    sendFailCallback(shouldStartCountting) {
+        shouldStartCountting(false);
+    }
+    /*获取登录验证码*/
+    getIdentfiCode(sendVCodeCallback, sendFailCallback) {
+        this.props._getVCodeCode({
+            deviceId: DeviceInfo.getDeviceId(),
+            phoneNum: this.state.phoneNumber
+        }, sendVCodeCallback, sendFailCallback);
+    }
+    // 修改成功后退出登录
+    loginOut() {
+        this.props.getHomoPageCountAction({});
+        console.log('homePageState=',this.props.homePageState);
+        this.props.loginOut({});
+        this.props._refreshOrderList(0);
+        this.props._refreshOrderList(1);
+        this.props._refreshOrderList(2);
+        this.props._refreshOrderList(3);
+        this.props.removeUserInfoAction();
+        // ImageCache.get().clear();
 
+        // 清空存储数据
+        // Storage.clear();
+        JPushModule.setAlias('', ()=>{}, ()=>{});
+        this.props.navigation.dispatch({ type: RouteType.ROUTE_LOGIN_WITH_PWD_PAGE, mode: 'reset', params: { title: '' } })
 
+    }
+
+    fixPhone() {
+        this.props.updateNewPhone({
+            deviceId: DeviceInfo.getDeviceId(),
+            loginName: global.userName,
+            mobilePhone: global.phone,
+            updateMobilePhone: this.state.phoneNumber,
+            verificationCode: this.state.smsCode
+        }, (result)=> {
+            if(result) {
+                this.loginOut();
+            }
+        })
+    }
     render() {
         const {phoneNumber} = this.state;
         return (
@@ -105,10 +160,23 @@ class changePhoneNoStepTwo extends Component {
                         style={{
                             fontSize:14,
                             color:'#cccccc',
+                            width:width-120
                         }}
+                        placeholderTextColor="#cccccc"
+                        underlineColorAndroid={'transparent'}
                         placeholder="请输入新的手机号码"
                         onChangeText={(phoneNumber) => {
                             this.setState({phoneNumber});
+                        }}
+                        onEndEditing={(value) => {
+                            console.log('--value',value);
+                            this.props.checkNewPhoneIsRegister({
+                                phone: value
+                            }, (result)=> {
+                              if (result) {
+                                  Toast.showShortCenter('该手机号已经注册了');
+                              }
+                            })
                         }}
                         value={phoneNumber}
                     />
@@ -151,7 +219,7 @@ class changePhoneNoStepTwo extends Component {
                         timerCount={60}
                         onClick={(shouldStartCountting) => {
                             if (Regex.test('mobile', phoneNumber)) {
-                                this.requestVCodeForLogin(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
+                                this.getIdentfiCode(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
                             } else {
                                 Toast.show('手机号输入有误，请重新输入');
                                 shouldStartCountting(false);
@@ -164,7 +232,7 @@ class changePhoneNoStepTwo extends Component {
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
-
+                        this.fixPhone();
                     }}
                 >
                     确定
@@ -179,7 +247,65 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        checkNewPhoneIsRegister: (params, callback) => {
+            dispatch(fetchData({
+                api: API.API_CHECK_PHONE_REGISTER + params.phone,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    // console.log(error);
+                }
+            }))
+        },
+        getIdentfiCode: (params, succCallback, failCallback) => {
+            dispatch(fetchData({
+                api: API.API_FIX_PHONE_SEND_VERIFICATION,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    succCallback(data)
+                },
+                fail: (error) => {
+                    failCallback();
+                    // console.log(error);
+                }
+            }))
+        },
+        updateNewPhone: (params, callback) => {
+            dispatch(fetchData({
+                api: API.API_MODIFY_USER_MOBILE_PHONE,
+                body: params,
+                method: 'POST',
+                success: (data) => {
+                    callback(data)
+                },
+                fail: (error) => {
+                    Toast.showShortCenter(error.message);
+                }
+            }))
+        },
+        loginOut: (params) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'post',
+                api: API.API_USER_LOGOUT + global.phone,
+                success: data => {
+                },
+                fail: error => {
+                }
+            }))
+        },
+        getHomoPageCountAction: (response) => {
+            dispatch(getHomePageCountAction(response));
+        },
+        _refreshOrderList: (data) => {
+            dispatch(refreshDriverOrderList(data));
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(changePhoneNoStepTwo);
