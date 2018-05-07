@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Dimensions,
     Modal,
-    Image
+    Image,
+    NativeModules
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
