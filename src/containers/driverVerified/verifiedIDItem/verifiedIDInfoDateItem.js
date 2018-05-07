@@ -47,9 +47,9 @@ class verifiedIDInfoDateItem extends Component{
     }
 
     render() {
-        const {IDDate} = this.props;
+        const {IDDate, type} = this.props;
 
-        let date='请选择有效期';
+        let date= type === 'personOwn' ? '请选择发证日期' : type === 'companyOwn' ? '公司营业期限终止日期' : '请选择有效期';
         let color = {color: '#666666'};
 
         if (IDDate && IDDate !== '请选择有效期') {
@@ -68,7 +68,7 @@ class verifiedIDInfoDateItem extends Component{
             //     date = date.replace('月', '');
             // }
         }else {
-            date = '请选择有效期';
+            date= type === 'personOwn' ? '请选择发证日期' : type === 'companyOwn' ? '请选择公司营业期限终止日期' : '请选择有效期';
             color = {color: '#666666'};
         }
         return (
@@ -76,7 +76,11 @@ class verifiedIDInfoDateItem extends Component{
 
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        有效期至
+
+                        {
+                            type === 'personOwn' ? '发证日期' : type === 'companyOwn' ? '营业期限终止日期' : '有效期至'
+                        }
+
                     </Text>
                     <TouchableOpacity style={styles.touchStyle}
                                       onPress={()=>{

@@ -415,12 +415,12 @@ class carOwnerAddCarThree extends Component{
                                                     })
                                             }}
                                             carTypeClick={()=>{
-                                                     selectDatePickerType = 2;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
+                                                     //selectDatePickerType = 2;
+                                                     //this.showDatePick(false, VerifiedDateSources.createCarTypeDate(), 'carType');
                                             }}
                                             carTypeTwoClick={()=>{
-                                                     selectDatePickerType = 4;
-                                                     this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
+                                                     //selectDatePickerType = 4;
+                                                     //this.showDatePick(false, VerifiedDateSources.createCarTypeTwoDate(), 'carTwoType');
                                             }}
                                             carLengthClick={()=>{
 

@@ -585,16 +585,16 @@ class personCarOwnerAuth extends Component {
                                 this.setState({
                                     carNumber: respones.result.plateNumber === 'FailInRecognition' ? '' : respones.result.plateNumber,
                                     carOwner: respones.result.owner === 'FailInRecognition' ? '' : respones.result.owner,
-                                    carEngineNumber: respones.result.engineNumber === 'FailInRecognition' ? '' : respones.result.engineNumber,
+                                    carEngineNumber: '',
                                     vehicleLicenseHomepageNormalPhotoAddress: respones.result.vehicleLicenseHomepageNormalPhotoAddress,
                                     vehicleLicenseHomepageThumbnailAddress: respones.result.vehicleLicenseHomepageThumbnailAddress,
                                     isShowDriverInfo: true,
-                                    carVin:respones.result.vin,
+                                    carVin:'',
 
                                     moRencarNum: respones.result.plateNumber, // 车牌号
                                     moRenhaverName: respones.result.owner, // 所有人
-                                    moRenengineNum: respones.result.engineNumber, // 发动机号码
-                                    manualVin: respones.result.vin, // vin
+                                    moRenengineNum: '', // 发动机号码
+                                    manualVin: '', // vin
 
                                 });
                             } else
@@ -681,7 +681,7 @@ class personCarOwnerAuth extends Component {
             return;
         }
         if (!this.state.drivingLicenseValidUntil){
-            Toast.showShortCenter('请选择行驶证有效期');
+            Toast.showShortCenter('请选择行驶证发证日期');
             return;
         }
         if (!this.state.carVin){

@@ -120,7 +120,7 @@ class carOwnerVerifiedMsgCode extends Component {
         result.userName= this.state.carOwnerName;// 车主姓名
         result.plateNumber = this.state.carNumber; // 车牌号
 
-        let carCategoryInt = 0;
+        let carCategoryInt = 1;
         switch (result.carCategory){
             case '厢式货车':
                 carCategoryInt = 1;
@@ -131,9 +131,11 @@ class carOwnerVerifiedMsgCode extends Component {
             case '集装箱车':
                 carCategoryInt = 3;
                 break;
-            case '箱式挂车':
+            case '厢式挂车':
                 carCategoryInt = 4;
                 break;
+            default:
+                carCategoryInt = 1;
         }
 
         result.carCategory = carCategoryInt;
