@@ -34,14 +34,15 @@ class taskInfoCell extends Component {
         itemName: PropTypes.string,
         hideBottomLine: PropTypes.bool,
         contentColorStyle: Text.propTypes.style,
+        titleColorStyle: Text.propTypes.style,
     };
 
     render() {
-        const {itemName, content, contentColorStyle} = this.props;
+        const {itemName, content, contentColorStyle, titleColorStyle} = this.props;
         return (
             <View>
                 <View style={styles.container}>
-                    <Text style={styles.itemName}>{itemName}</Text>
+                    <Text style={[styles.itemName, titleColorStyle]}>{itemName}</Text>
                     <Text style={[styles.contentText, contentColorStyle]}>{content}</Text>
                 </View>
             </View>

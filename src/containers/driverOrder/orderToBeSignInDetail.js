@@ -27,6 +27,8 @@ import * as StaticColor from '../../constants/colors';
 import * as ConstValue from '../../constants/constValue';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import TaskBackground from '../../../assets/img/driverGood/taskBackground.png';
+import TaskInfoCell from '../driverGoodSource/component/taskInfoCell';
+import CommonCell from '../mine/cell/commonCell';
 
 const space = 10;
 const topSpace = 10;
@@ -69,6 +71,11 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
     },
+    taskInfoDivideLine: {
+        height: 1,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+        marginBottom: 15,
+    }
 });
 
 export default class orderToBeSignInDetail extends Component {
@@ -76,6 +83,19 @@ export default class orderToBeSignInDetail extends Component {
     static propTypes = {
         signIn: PropTypes.func,
         payment: PropTypes.func,
+        taskInfo: PropTypes.object,
+        orderSource: PropTypes.number,
+        time: PropTypes.string,
+        deliveryInfo: PropTypes.object,
+        chooseResult: PropTypes.func,
+        transCode: PropTypes.string,
+        vol: PropTypes.number,
+        weight: PropTypes.number,
+        transOrderType: React.PropTypes.string,
+        transOrderStatus: React.PropTypes.string,
+        goodsInfoList: React.PropTypes.array,
+        addressMapSelect: React.PropTypes.func,
+        index: React.PropTypes.number,
     };
 
     constructor(props) {
@@ -124,10 +144,11 @@ export default class orderToBeSignInDetail extends Component {
             settleMethod,
             amount,
             currentStatus,
-            num
+            num,
+            orderSource,
         } = this.props;
 
-        const  buttonView = settlementMode === '20' || (isEndDistribution === 'N' && transOrderType === '606') || payState === '1' || settleMethod !== '20' || amount === '0.00' ?
+        const  buttonView = orderSource === 1 || settlementMode === '20' || (isEndDistribution === 'N' && transOrderType === '606') || payState === '1' || settleMethod !== '20' || amount === '0.00' ?
             <BottomButton
                 text={'签收'}
                 onClick={() => {
@@ -177,7 +198,28 @@ export default class orderToBeSignInDetail extends Component {
                     }}
                 >
                     {
-                        taskInfo ?
+                        taskInfo && orderSource === 1 ?
+                            <View>
+                                <TitlesCell title="任务信息123"/>
+                                <View style={{marginLeft: 20}}>
+                                    <View style={styles.taskInfoDivideLine}/>
+                                    <TaskInfoCell itemName="是否签单返回: " content={taskInfo.receiptWay}
+                                                  titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                  contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                    />
+                                    <View style={[styles.taskInfoDivideLine, {marginTop: 5}]}/>
+                                    <TaskInfoCell itemName="是否需要代收款项:  " content={'不需要'}
+                                                  titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                  contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                    />
+                                    <View style={[styles.taskInfoDivideLine, {marginTop: 5}]}/>
+                                    <TaskInfoCell itemName="要求到达时间:  " content={taskInfo.committedArrivalTime ? taskInfo.committedArrivalTime.replace(/-/g, '/') : ''}
+                                                  titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                  contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                    />
+                                </View>
+                                <View style={styles.divideLine}/>
+                            </View> : taskInfo && orderSource === 2 ?
                             <ImageBackground
                                 source={TaskBackground}
                                 style={[
@@ -245,7 +287,16 @@ export default class orderToBeSignInDetail extends Component {
                                     }
                                 }}/>
                     {
-                        this.state.showGoodList ? goodsInfoList.map((item, indexRow) => {
+                        this.state.showGoodList && orderSource === 1 ?
+                            goodsInfoList.map((item, indexRow) => {
+                                return(
+                                    <View style={{marginLeft: 5, marginRight: 5}}>
+                                        <CommonCell titleColorStyle={{fontSize: 15}} contentColorStyle={{fontSize: 15}}
+                                                    itemName={item.categoryName} content={item.typeName} hideBottomLine={'true'}/>
+                                    </View>
+                                );
+                            }) : this.state.showGoodList && orderSource === 2 ?
+                            goodsInfoList.map((item, indexRow) => {
                                 return (
                                     <ProductShowItem
                                         key={indexRow}

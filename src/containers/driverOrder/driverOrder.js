@@ -117,7 +117,7 @@ class driverOrder extends Component {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             driverId: global.userId,
-                            ctcNum: 1,
+                            ctcNum: 0,
                             tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
@@ -132,7 +132,7 @@ class driverOrder extends Component {
                     // if(global.plateNumber) {
                         this.props._requestDriverOrderList({
                             driverId: global.userId,
-                            ctcNum: 1,
+                            ctcNum: 0,
                             tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
@@ -147,7 +147,7 @@ class driverOrder extends Component {
                     // if(global.plateNumber){
                         this.props._requestDriverOrderList({
                             driverId: global.userId,
-                            ctcNum: 1,
+                            ctcNum: 0,
                             tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,
@@ -162,7 +162,7 @@ class driverOrder extends Component {
                     // if (global.plateNumber) {
                         this.props._requestDriverOrderList({
                             driverId: global.userId,
-                            ctcNum: 1,
+                            ctcNum: 0,
                             tfcNum: 1,
                             pageSize: 10,
                             phone: global.phone,

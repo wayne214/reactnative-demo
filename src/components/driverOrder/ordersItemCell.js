@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         flex: 1,
         marginLeft: 20,
-        marginRight: 20,
+        marginRight: 15,
     },
     itemFlag: {
         position: 'absolute',
@@ -216,19 +216,19 @@ class OrdersItemCell extends Component {
         } = this.props;
         const goodIcon = goodKindsNames && goodKindsNames.length === 1 ? goodKindsNames[0] : '其他';
         const statusView = <Text style={styles.stateText}>{stateName}</Text>;
-        const orderNumView = <View style={styles.orderNumView}>
-            <OrderStateNumView
-                fontText={'待回'}
-                num={waitBeSureOrderNum}
-                unit={'单'}
-            />
-            <OrderStateNumView
-                style={{marginLeft: 5}}
-                fontText={'已回'}
-                num={beSureOrderNum}
-                unit={'单'}
-            />
-        </View>;
+        // const orderNumView = <View style={styles.orderNumView}>
+        //     <OrderStateNumView
+        //         fontText={'待回'}
+        //         num={waitBeSureOrderNum}
+        //         unit={'单'}
+        //     />
+        //     <OrderStateNumView
+        //         style={{marginLeft: 5}}
+        //         fontText={'已回'}
+        //         num={beSureOrderNum}
+        //         unit={'单'}
+        //     />
+        // </View>;
         const bindGPSView = isBindGps && gpsType ? <View>
             <View style={{height: 0.7, backgroundColor:StaticColor.DEVIDE_LINE_COLOR}} />
             <View style={styles.buttonView}>
@@ -265,7 +265,7 @@ class OrdersItemCell extends Component {
                                     <View style={styles.stateView}>
                                         {this.state.showStatus === 0 ? statusView : null}
                                         {/*{this.state.showStatus === 2 ? signNumView : null}*/}
-                                        {this.state.showStatus === 3 ? orderNumView : null}
+                                        {/*{this.state.showStatus === 3 ? orderNumView : null}*/}
                                     </View>
                                     <View style={styles.separateLine} />
                                 </View>
