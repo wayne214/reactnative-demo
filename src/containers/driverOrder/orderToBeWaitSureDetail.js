@@ -31,6 +31,8 @@ import StorageKey from '../../constants/storageKeys';
 import BottomButton from '../../components/driverOrder/bottomButtonComponent';
 import TaskBackground from '../../../assets/img/driverGood/taskBackground.png';
 import * as RouteType from '../../constants/routeType';
+import TaskInfoCell from '../driverGoodSource/component/taskInfoCell';
+import CommonCell from '../mine/cell/commonCell';
 
 const space = 10;
 const topSpace = 10;
@@ -99,7 +101,8 @@ class orderToBeWaitSureDetail extends Component {
             type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
             params: {
                 transCode: this.props.transCode,
-                receiptWay: this.props.taskInfo.receiptWay
+                receiptWay: this.props.taskInfo.receiptWay,
+                orderSource: this.props.orderSource
             }
         });
     }
@@ -128,7 +131,8 @@ class orderToBeWaitSureDetail extends Component {
             customerCode,
             dispatchTimeAgain,
             scheduleTimeAgain,
-            num
+            num,
+            orderSource
         } = this.props;
 
         const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
@@ -176,7 +180,28 @@ class orderToBeWaitSureDetail extends Component {
                         }}
                     >
                         {
-                            taskInfo ?
+                            taskInfo && orderSource === 1 ?
+                                <View>
+                                    <TitlesCell title="任务信息"/>
+                                    <View style={{marginLeft: 20}}>
+                                        <View style={styles.taskInfoDivideLine}/>
+                                        <TaskInfoCell itemName="是否签单返回: " content={taskInfo.receiptWay}
+                                                      titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                      contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                        />
+                                        <View style={[styles.taskInfoDivideLine, {marginTop: 5}]}/>
+                                        <TaskInfoCell itemName="是否需要代收款项:  " content={'不需要'}
+                                                      titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                      contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                        />
+                                        <View style={[styles.taskInfoDivideLine, {marginTop: 5}]}/>
+                                        <TaskInfoCell itemName="要求到达时间:  " content={taskInfo.committedArrivalTime ? taskInfo.committedArrivalTime.replace(/-/g, '/') : ''}
+                                                      titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
+                                                      contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
+                                        />
+                                    </View>
+                                    <View style={styles.divideLine}/>
+                                </View> : taskInfo && orderSource === 2 ?
                                 <ImageBackground
                                     source={TaskBackground}
                                     style={[
@@ -191,7 +216,8 @@ class orderToBeWaitSureDetail extends Component {
                                                 }
                                             }),
                                         }
-                                    ]}                                    resizeMode='stretch'>
+                                    ]}
+                                    resizeMode='stretch'>
                                     <View style={styles.constantStyle}>
                                         <Text style={styles.constantIcon}>&#xe68b;</Text>
                                         <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10,}}>
@@ -242,7 +268,16 @@ class orderToBeWaitSureDetail extends Component {
                                     }}
                         />
                         {
-                            this.state.showGoodList ? goodsInfoList.map((item, indexRow) => {
+                            this.state.showGoodList && orderSource === 1 ?
+                                goodsInfoList.map((item, indexRow) => {
+                                    return(
+                                        <View style={{marginLeft: 5, marginRight: 5}}>
+                                            <CommonCell titleColorStyle={{fontSize: 15}} contentColorStyle={{fontSize: 15}}
+                                                        itemName={item.categoryName} content={item.typeName} hideBottomLine={true}/>
+                                        </View>
+                                    );
+                                }) : this.state.showGoodList && orderSource === 2 ?
+                                goodsInfoList.map((item, indexRow) => {
                                 return (
                                     <ProductShowItem
                                         key={indexRow}

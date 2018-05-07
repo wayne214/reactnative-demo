@@ -133,48 +133,7 @@ class verifiedTravelInfoItemOne extends Component{
 
                     />
                 </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        车辆识别代码(VIN)
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        carVin: text,
-                                    });
-                                    this.carVinValueChange(text);
 
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus(1000);
-                               }}
-                               value={this.state.carVin}
-                               placeholder={'请输入车辆识别代码'}
-                               underlineColorAndroid={'transparent'}
-
-                    />
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-                        发动机号码
-                    </Text>
-                    <TextInput style={styles.textInputStyle}
-                               onChangeText={(text) => {
-                                    this.setState({
-                                        engineNumber: text,
-                                    });
-                                    this.codeValueChange(text);
-                               }}
-                               onFocus={()=>{
-                                   this.textOnFocus(1000);
-                               }}
-                               underlineColorAndroid={'transparent'}
-                               value={this.state.engineNumber}
-                               placeholder={'请输入发动机编号'}
-                    />
-                </View>
             </View>
         )
     }

@@ -44,7 +44,7 @@ class driverOrderListItem extends Component {
     renderRow(data){
         const dataRow = data.item;
         const pushTime = dataRow.time ? dataRow.time.replace(/-/g,'/').substring(0, dataRow.time.length - 3) : '';
-        const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, dataRow.arrivalTime.length - 5) : '';
+        const arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, 16) : '';
         // 货品类型
         const orderDetailTypeList = dataRow.ofcOrderDetailTypeDtoList;
         let goodTepesTemp = [];
@@ -123,7 +123,8 @@ class driverOrderListItem extends Component {
                                     scheduleCode: dataRow.scheduleCode,
                                     carrierName: dataRow.carrierName,
                                     carrierPlateNum: dataRow.carrierPlateNum,
-                                    isCompany: dataRow.isCompany
+                                    isCompany: dataRow.isCompany,
+                                    orderSource: dataRow.orderSource
                                 }
                             });
                         } else {
@@ -134,6 +135,7 @@ class driverOrderListItem extends Component {
                                     transOrderList: dataRow.transOrderList,
                                     carrierName: dataRow.carrierName,
                                     carrierPlateNum: dataRow.carrierPlateNum,
+                                    orderSource: dataRow.orderSource
                                 }
                             });
                         }
@@ -147,7 +149,8 @@ class driverOrderListItem extends Component {
                                 scheduleCode: dataRow.scheduleCode,
                                 carrierName: dataRow.carrierName,
                                 carrierPlateNum: dataRow.carrierPlateNum,
-                                isCompany: dataRow.isCompany
+                                isCompany: dataRow.isCompany,
+                                orderSource: dataRow.orderSource
                             }
                         });
                     } else {
@@ -158,6 +161,7 @@ class driverOrderListItem extends Component {
                                 transOrderList: dataRow.transOrderList,
                                 carrierName: dataRow.carrierName,
                                 carrierPlateNum: dataRow.carrierPlateNum,
+                                orderSource: dataRow.orderSource
                             }
                         });
                     }
@@ -185,6 +189,7 @@ class driverOrderListItem extends Component {
                             type: RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
                             params: {
                                 transOrderList: this.transportsList(dataRow),
+                                orderSource: dataRow.orderSource
                             }
                         });
                     }}
@@ -222,6 +227,7 @@ class driverOrderListItem extends Component {
                             type:RouteType.ROUTE_ORDER_SIGN_IN_PAGE,
                             params: {
                                 transOrderList: this.transportsList(dataRow),
+                                orderSource: dataRow.orderSource
                             }
                         });
                     }}

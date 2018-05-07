@@ -82,6 +82,7 @@ class entryToBeShipped extends Component {
             carrierPlateNum: params.carrierPlateNum,
             isCompany: params.isCompany,
             isUploadOdoFlag: true,
+            orderSource: params.orderSource
         };
 
         this.onScrollEnd = this.onScrollEnd.bind(this);
@@ -157,14 +158,36 @@ class entryToBeShipped extends Component {
      */
     getOrderDetailInfo() {
         currentTime = new Date().getTime();
-        this.props._getOrderDetail({
-            transCodeList: this.state.transOrderList,
-            plateNumber: this.props.plateNumber
-        }, (responseData) => {
-            this.getOrderDetailInfoSuccessCallBack(responseData);
-        }, () => {
-            this.getOrderDetailInfoFailCallBack();
-        })
+        if(this.state.orderSource == 2){ // 运输中心订单
+            this.props._getOrderDetail({
+                transCodeList: this.state.transOrderList,
+                plateNumber: this.props.plateNumber
+            },
+            API.API_NEW_GET_GOODS_SOURCE,
+            (responseData) => {
+                this.getOrderDetailInfoSuccessCallBack(responseData);
+            }, () => {
+                this.getOrderDetailInfoFailCallBack();
+            })
+        }else { // 撮合订单
+            this.props._getOrderDetail({
+                transCodeList: this.state.transOrderList,
+                plateNumber: this.props.plateNumber,
+                orderSource: this.state.orderSource
+            },
+            API.API_GET_GOODS_SOURCE_INFO,
+            (responseData) => {
+                this.setState({
+                    datas: responseData,
+                    isShowEmptyView: false,
+                });
+            }, () => {
+                Toast.showShortCenter('获取订单详情失败!');
+                this.setState({
+                    isShowEmptyView: true,
+                });
+            })
+        }
     }
 
     // 获取数据成功回调
@@ -254,39 +277,65 @@ class entryToBeShipped extends Component {
     // 点击发运调用接口
     sendOrder() {
         currentTime = new Date().getTime();
-        for(let k = 0; k < this.state.datas.length; k++) {
-            let orderFrom = this.state.datas[k].orderFrom;
-            if(orderFrom === '20') {
-                for(let j = 0; j < transOrderInfo.length; j++) {
-                    let goodInfo = transOrderInfo[j].goodsInfo;
-                    if(goodInfo.length > 0) {
-                        for (let i = 0; i < goodInfo.length; i++){
-                            let obj = goodInfo[i];
-                            if (!obj.shipmentNums || obj.shipmentNums === '') {
-                                Toast.showShortCenter('发运数量不能为空');
-                                return;
+        if (this.state.orderSource === 2) { // 运输中心订单
+            for(let k = 0; k < this.state.datas.length; k++) {
+                let orderFrom = this.state.datas[k].orderFrom;
+                if(orderFrom === '20') {
+                    for(let j = 0; j < transOrderInfo.length; j++) {
+                        let goodInfo = transOrderInfo[j].goodsInfo;
+                        if(goodInfo.length > 0) {
+                            for (let i = 0; i < goodInfo.length; i++){
+                                let obj = goodInfo[i];
+                                if (!obj.shipmentNums || obj.shipmentNums === '') {
+                                    Toast.showShortCenter('发运数量不能为空');
+                                    return;
+                                }
                             }
                         }
                     }
                 }
             }
+            // 传递参数
+            this.props._sendOrderAction({
+                userId: userID,
+                userName,
+                scheduleCode: this.state.scheduleCode,
+                transOrderInfo,
+                plateNum: global.plateNumber,
+            },
+            API.API_NEW_DESPATCH,
+            (result) => {
+                if(result == 1){
+                    this.sendOderSuccessCallBack(result);
+                }else {
+                    Toast.showShortCenter('发运失败!');
+                }
+            }, (error) => {
+                this.sendOderFailCallBack(error);
+            })
+        } else { // 撮合订单
+            // 传递参数
+            this.props._sendOrderAction({
+                resourceCode: this.state.scheduleCode,
+                driverName: userName,
+                driverId: userID,
+                plateNumber: global.plateNumber,
+                },
+            API.API_MATCH_DESPATCH,
+            (result) => {
+                if(result){
+                    this.sendOderSuccessCallBack(result);
+                } else {
+                    Toast.showShortCenter('发运失败!');
+                }
+            }, (error) => {
+                this.sendOderFailCallBack(error);
+            })
         }
-        // 传递参数
-        this.props._sendOrderAction({
-            userId: userID,
-            userName,
-            scheduleCode: this.state.scheduleCode,
-            transOrderInfo,
-            plateNum: global.plateNumber,
-        },(result) => {
-            this.sendOderSuccessCallBack(result);
-        }, (error) => {
-            this.sendOderFailCallBack(error);
-        })
     }
 
     // 获取数据成功回调
-    sendOderSuccessCallBack() {
+    sendOderSuccessCallBack(result) {
         lastTime = new Date().getTime();
         ReadAndWriteFileUtil.appendFile('发运',locationData.city, locationData.latitude, locationData.longitude, locationData.province,
             locationData.district, lastTime - currentTime, '待发运订单详情页面');
@@ -413,7 +462,7 @@ class entryToBeShipped extends Component {
         const dispatchView = this.state.datas.map((item, index) => {
             return (
                 <EntryTest
-                    key={index}
+                    key={index + item.transCode}
                     style={{ overflow: 'hidden' }}
                     deliveryInfo={item.deliveryInfo}
                     goodsInfoList={item.goodsInfo}
@@ -430,6 +479,7 @@ class entryToBeShipped extends Component {
                     weight={item.weight}
                     num={item.qty}
                     index={index}
+                    orderSource={this.state.orderSource}
                     currentStatus={this.props.currentStatus}
                     addressMapSelect={(indexRow, type) => {
                         this.jumpAddressPage(indexRow, type, item);
@@ -490,9 +540,9 @@ class entryToBeShipped extends Component {
                     title={'订单详情'}
                     router={navigator}
                     hiddenBackIcon={false}
-                    optTitle={this.state.isCompany && this.state.isCompany == '1' ? null : '取消接单'}
+                    optTitle={this.state.isCompany && this.state.isCompany == '1' || this.state.orderSource === 1 ? null : '取消接单'}
                     optTitleStyle={styles.rightButton}
-                    firstLevelClick={this.state.isCompany && this.state.isCompany == '1' ? {} :
+                    firstLevelClick={this.state.isCompany && this.state.isCompany == '1' || this.state.orderSource === 1 ? {} :
                         () => {
                         this.cancelOrder();
                     }}
@@ -540,11 +590,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         // 获取订单详情
-        _getOrderDetail: (params, callBack, failCallBack) => {
+        _getOrderDetail: (params, api, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_NEW_GET_GOODS_SOURCE,
+                api: api,
                 success: data => {
                     console.log('get order details success ',data);
                     callBack && callBack(data)
@@ -570,11 +620,11 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        _sendOrderAction: (params, callBack, failCallBack) => {
+        _sendOrderAction: (params, api, callBack, failCallBack) => {
             dispatch(fetchData({
                 body: params,
                 showLoading: true,
-                api: API.API_NEW_DESPATCH,
+                api: api,
                 success: data => {
                     console.log('send order success ',data);
                     callBack && callBack(data)

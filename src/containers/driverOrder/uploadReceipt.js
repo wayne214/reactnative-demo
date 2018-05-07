@@ -120,7 +120,8 @@ class UploadReceipt extends Component {
             transCode: params.transCode,
             receiptWay: params.receiptWay,
             loading: false,
-            flag: params.flag
+            flag: params.flag,
+            orderSource: params.orderSource,
         };
         this.showAlertSelected = this.showAlertSelected.bind(this);
         this.callbackSelected = this.callbackSelected.bind(this);
@@ -274,21 +275,24 @@ class UploadReceipt extends Component {
                     loading: false,
                 });
                 if (response.code === 200){
-
                     lastTime = new Date().getTime();
                     // ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                     //     locationData.district, lastTime - currentTime, '上传回单页面');
-                    Toast.showShortCenter('上传回单成功');
+                    if(response.result){
+                        Toast.showShortCenter('上传回单成功');
 
-                    if(this.state.flag != '1') {
-                        this.props._refreshOrderList(0);
-                        this.props._refreshOrderList(2);
-                        this.props._refreshOrderList(3);
+                        if(this.state.flag != '1') {
+                            this.props._refreshOrderList(0);
+                            this.props._refreshOrderList(2);
+                            this.props._refreshOrderList(3);
+                        }
+                        DeviceEventEmitter.emit('refreshCarrierOrderList');
+                        this.props.navigation.dispatch({type: 'pop', key: 'Main'});
+                    }else {
+                        Toast.showShortCenter('上传回单失败');
                     }
-                    DeviceEventEmitter.emit('refreshCarrierOrderList');
-                    this.props.navigation.dispatch({type: 'pop', key: 'Main'});
-
                 }else {
+                    console.log('uploadError===',response.message);
                     Toast.showShortCenter('图片上传失败，请重新上传');
                 }
             },
@@ -406,21 +410,24 @@ class UploadReceipt extends Component {
 
 
                                 let url = '';
-                                if (this.state.flag == 1) {
+                                if(this.state.orderSource === 1){
+                                    formData.append('driverName', userName);
                                     formData.append('resourceCode', this.state.transCode);
-                                    formData.append('carrierUserName', global.ownerName);
-                                    formData.append('carrierUserId', global.companyId);
-
-                                    url = API.API_NEW_UPLOAD_CTC_ORDER_MATCH;
-                                } else {
-                                    formData.append('userId', userID);
-                                    formData.append('userName', userName);
-                                    formData.append('transCode', this.state.transCode);
-                                    formData.append('receiptType', this.state.receiptWay);
-                                    url = API.API_NEW_UPLOAD_RECEIPT;
+                                    url = API.API_MATCH_UPLOAD_RECEIPT;
+                                }else {
+                                    if (this.state.flag == 1) {
+                                        formData.append('resourceCode', this.state.transCode);
+                                        formData.append('carrierUserName', global.ownerName);
+                                        formData.append('carrierUserId', global.companyId);
+                                        url = API.API_NEW_UPLOAD_CTC_ORDER_MATCH;
+                                    } else {
+                                        formData.append('userId', userID);
+                                        formData.append('userName', userName);
+                                        formData.append('transCode', this.state.transCode);
+                                        formData.append('receiptType', this.state.receiptWay);
+                                        url = API.API_NEW_UPLOAD_RECEIPT;
+                                    }
                                 }
-
-
                                 this.uploadImage(url, formData);
                             }
                         }}

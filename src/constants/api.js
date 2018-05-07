@@ -351,8 +351,10 @@ export const API_QUERY_DRIVER_ORDER_SHIPPING = 'app/driverTransportOrder/queryDr
 export const API_QUERY_DRIVER_ORDER_RECEIPT = 'app/driverTransportOrder/queryDriverOrderReceipt';
 // 订单列表（待签收）
 export const API_QUERY_DRIVER_ORDER_SIGN= `app/driverTransportOrder/queryDriverOrderSign`;
-
+// 订单详情
 export const API_NEW_GET_GOODS_SOURCE = `app/transport/goodsSource`;
+// 撮合订单详情
+export const API_GET_GOODS_SOURCE_INFO = `app/driverTransportOrder/goodsSourceInfo`;
 // 绑定GPS设备接口
 export const API_BIND_OR_RELIEVE_GPS = `app/rmc/rmcCar/bindOrRelieveCarBarCode`;
 // 获取gps设备信息
@@ -369,10 +371,14 @@ export const API_AC_GET_SETTLE_AMOUNT = `app/ac/getSettleAmount/`;
 export const API_AC_GET_SETTLE_STATE= `app/ac/queryStatusByOrderCode/`;
 // 签收接口
 export const API_NEW_SIGN = 'app/transport/sign';
+// 撮合签收接口
+export const API_MATCH_SIGN = 'app/driverTransportOrder/matchSign';
 // 批量签收
 export const API_TRANSPORT_BATCH_SIGN = 'app/transport/batchSign/v3.0';
 // 回单接口
 export const API_NEW_UPLOAD_RECEIPT = `app/transport/returnTransportOrder/v2.1`;
+// 撮合回单接口
+export const API_MATCH_UPLOAD_RECEIPT = `app/driverTransportOrder/matchInfoReceipt`;
 // 批量回单接口
 export const API_BATCH_UPLOAD_RECEIPT = `app/transport/batchUploadTransportOrder`;
 // 获取上传回单照片数量接口
@@ -383,6 +389,8 @@ export const API_UPLOAD_RECEIPT_IMAGE_FINISHED = `app/transport/batchUploadTrans
 export const API_ORDER_PICTURE_SHOW = `app/transport/pictureList`;
 // 发运接口
 export const API_NEW_DESPATCH = `app/transport/despatch`;
+// 撮合订单发运接口
+export const API_MATCH_DESPATCH = `app/driverTransportOrder/matchDespatch`;
 // 上传出库单
 export const API_UPLOAD_OUT_BOUND_ORDER = 'app/transport/uploadOutBoundOrder';
 
