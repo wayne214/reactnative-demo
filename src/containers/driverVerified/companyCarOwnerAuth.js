@@ -621,7 +621,7 @@ class companyCarOwnerAuth extends Component {
         console.log('默认解析的统一社会信用代码',this.state.unifiedSocialCreditCode);
         console.log('默认营业执照有效期',this.state.manualBusinessValidity);
 
-        if (!this.state.legalPersonPositiveCard){
+        if (!this.state.legalPersonPositiveCard){ // 135 1346 7256
             Toast.showShortCenter('请上传经办人身份证正面');
             return;
         }
@@ -680,19 +680,19 @@ class companyCarOwnerAuth extends Component {
             businessLicence: this.state.businessLicence, // 营业执照图片原图地址
             businessLicenceThumbnail: this.state.businessCardPhotoThumb, // 营业执照图片缩略图地址
 
-            legalPersonPositiveCard: this.state.legalPersonPositiveCard, // 经办人身份证正面原图地址
-            legalPersonPositiveCardThumbnail: this.state.legalPersonPositiveCardThumbnail, // 经办人身份证正面缩略图地址
+            agentPositiveCard: this.state.legalPersonPositiveCard, // 经办人身份证正面原图地址
+            agentPositiveCardThumbnail: this.state.legalPersonPositiveCardThumbnail, // 经办人身份证正面缩略图地址
 
-            legalPersonOppositeCard: this.state.legalPersonOppositeCard, // 经办人身份证反面原图地址
-            legalPersonOppositeCardThumbnail: this.state.legalPersonOppositeCardThumbnail, // 经办人身份证反面缩略图地址
+            agentOppositeCard: this.state.legalPersonOppositeCard, // 经办人身份证反面原图地址
+            agentOppositeCardThumbnail: this.state.legalPersonOppositeCardThumbnail, // 经办人身份证反面缩略图地址
 
             // 图片解析信息
             rmcAnalysisAndContrastQo: {
 
                 // 手动修改
-                manualLegalIdCardName: this.state.IDName, // 经办人姓名
-                manualLegalIdCard: this.state.IDCard, // 经办人身份证号
-                manualLegalIdCardValidity: this.state.IDDate, //法 人身份证有效期至
+                manualAgentIdCardName: this.state.IDName, // 经办人姓名
+                manualAgentIdCard: this.state.IDCard, // 经办人身份证号
+                manualAgentIdCardValidity: this.state.IDDate, //经办人身份证有效期至
                 manualComName: this.state.companyName, // 解析的公司名称
                 manualPerson: this.state.companyOwnerName, // 解析的经办人名称
                 manualComAddress: this.state.companyAddress, // 解析的公司地址
@@ -701,9 +701,9 @@ class companyCarOwnerAuth extends Component {
 
 
                 // 解析
-                legalIdCardName: this.state.leadPersonName, // 编辑的姓名
-                legalIdCard: this.state.leadPersonCardCode, // 编辑的姓名经办人身份证号
-                legalIdCardValidity: this.state.leadPersonCardCodeTime, // 修改经办人身份证有效期
+                agentIdCardName: this.state.leadPersonName, // 编辑的姓名
+                agentIdCard: this.state.leadPersonCardCode, // 编辑的姓名经办人身份证号
+                agentIdCardValidity: this.state.leadPersonCardCodeTime, // 修改经办人身份证有效期
                 comName: this.state.comName, // 修改的公司名称
                 person: this.state.person, // 修改的经办人名称
                 comAddress: this.state.comAddress, // 修改的公司地址
@@ -711,6 +711,7 @@ class companyCarOwnerAuth extends Component {
                 businessValidity: this.state.manualBusinessValidity, // 修改的营业执照有效期
             }
         };
+
 
         HTTPRequest({
             url: API.API_COMPANY_CERTIFICATION,

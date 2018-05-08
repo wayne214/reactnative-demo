@@ -676,18 +676,18 @@ class personCarOwnerAuth extends Component {
             return;
         }
 
-        if (!this.state.carEngineNumber){
-            Toast.showShortCenter('请输入发动机编号');
-            return;
-        }
+        // if (!this.state.carEngineNumber){
+        //     Toast.showShortCenter('请输入发动机编号');
+        //     return;
+        // }
         if (!this.state.drivingLicenseValidUntil){
             Toast.showShortCenter('请选择行驶证发证日期');
             return;
         }
-        if (!this.state.carVin){
-            Toast.showShortCenter('请输入车辆识别代码');
-            return;
-        }
+        // if (!this.state.carVin){
+        //     Toast.showShortCenter('请输入车辆识别代码');
+        //     return;
+        // }
 
 
             let obj = {
