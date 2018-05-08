@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
         backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
         marginLeft: 10,
         marginRight: 10
+    },
+    divideLine: {
+        height: 1,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+    },
+    taskInfoDivideLine: {
+        height: 1,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+        marginBottom: 15,
     }
 });
 
@@ -210,7 +219,7 @@ class orderToBeWaitSureDetail extends Component {
                                                       contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                         />
                                     </View>
-                                    <View style={styles.divideLine}/>
+                                    <View style={[styles.divideLine, {marginTop: 5}]}/>
                                 </View> : taskInfo && orderSource === 2 ?
                                 <ImageBackground
                                     source={TaskBackground}
