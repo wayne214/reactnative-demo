@@ -133,10 +133,19 @@ class orderToBeWaitSureDetail extends Component {
             scheduleTimeAgain,
             num,
             orderSource,
-            statusCode
+            statusCode,
+            getReceiptImage
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
+        const buttonView = orderSource === 1 && statusCode === '85' ?
+            <BottomButton
+                text={'查看回单'}
+                onClick={() => {
+                    getReceiptImage();
+                }}
+                buttonDisabled={this.state.buttonDisabled}
+            /> :
+            taskInfo && taskInfo.receiptWay === '不回单' ?
             null :
             <BottomButton
                 text={'回单'}

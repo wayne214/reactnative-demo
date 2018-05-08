@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     orderNumView: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginRight: 10
+        marginRight: 10,
+        marginTop: 10,
     },
     titleView: {
         flexDirection: 'row',
@@ -163,7 +164,12 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         textAlign: 'center'
-    }
+    },
+    stateText: {
+        fontSize: 15,
+        color: StaticColor.BLUE_CONTACT_COLOR,
+        marginRight: 15,
+    },
 });
 
 class orderReceiptCell extends Component {
@@ -229,12 +235,21 @@ class orderReceiptCell extends Component {
             isBatchReceipt,
             onButton,
             receiptTotalNumber,
-            isZp
+            isZp,
+            status
         } = this.props;
         let transport = transCodeList[0];
         let transport1;
         if(receiptTotalNumber > 1){
             transport1 = transCodeList[1];
+        }
+        let stateName;
+        if(status === '85'){ // 待回单审核
+            stateName = '审核中';
+        }else if(status === '87'){ // 审核驳回
+            stateName = '审核驳回';
+        }else {
+            stateName = '';
         }
         const batchReceiptView = <View>
                 <View style={{height: 0.5, backgroundColor: StaticColor.DEVIDE_LINE_COLOR}}/>
@@ -331,23 +346,26 @@ class orderReceiptCell extends Component {
                 >
                     <View>
                         <View style={styles.titleView}>
-                            <View style={styles.flexDirection}>
-                                <Text style={styles.titleIcon}>&#xe68b;</Text>
-                                <Text style={styles.titleText}>{receiveContact}</Text>
+                            <View>
+                                <View style={styles.flexDirection}>
+                                    <Text style={styles.titleIcon}>&#xe68b;</Text>
+                                    <Text style={styles.titleText}>{receiveContact}</Text>
+                                </View>
+                                <View style={styles.orderNumView}>
+                                    <OrderStateNumView
+                                        fontText={'共'}
+                                        num={receiptTotalNumber}
+                                        unit={'单'}
+                                    />
+                                    <OrderStateNumView
+                                        style={{marginLeft: 5}}
+                                        fontText={'待回'}
+                                        num={notReceiptNumber}
+                                        unit={'单'}
+                                    />
+                                </View>
                             </View>
-                            <View style={styles.orderNumView}>
-                                <OrderStateNumView
-                                    fontText={'共'}
-                                    num={receiptTotalNumber}
-                                    unit={'单'}
-                                />
-                                <OrderStateNumView
-                                    style={{marginLeft: 5}}
-                                    fontText={'待回'}
-                                    num={notReceiptNumber}
-                                    unit={'单'}
-                                />
-                            </View>
+                            <Text style={styles.stateText}>{stateName}</Text>
                         </View>
                         <View style={styles.separateLine}/>
                         <View style={styles.addressView}>
