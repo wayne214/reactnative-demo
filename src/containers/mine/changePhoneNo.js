@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Dimensions,
     Modal,
-    Image
+    Image,
+    NativeModules
 } from 'react-native';
 import NavigatorBar from '../../components/common/navigatorbar'
 import Button from 'apsl-react-native-button';
@@ -109,9 +110,6 @@ class changePhoneNo extends Component {
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
-                        this.setState({
-                            modalVisible: !this.state.modalVisible
-                        })
                         // 校验一个月中是否已经修改过了
                         this.checkIsFixPhone();
                     }}
@@ -178,7 +176,7 @@ class changePhoneNo extends Component {
                             <TouchableOpacity onPress={() => {
                                 this.setState({
                                     modalVisible: !this.state.modalVisible
-                                })
+                                });
                                 this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO_STEP_ONE })
                             }}>
                                 <View style={{

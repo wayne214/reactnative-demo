@@ -295,7 +295,7 @@ class LoginSms extends BaseComponent {
         }
     }
     /*验证码登录*/
-    login(loginSucCallback) {
+    login() {
         this.props._login({
             platform: Platform.OS === 'ios' ? 1 : 2,
             deviceId: DeviceInfo.getDeviceId(),

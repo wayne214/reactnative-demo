@@ -25,6 +25,9 @@ import {
     refreshDriverOrderList
 } from '../../action/driverOrder';
 import JPushModule from 'jpush-react-native';
+import {
+    clearUser,
+} from '../../action/user';
 
 
 const {width, height} = Dimensions.get('window');
@@ -66,7 +69,7 @@ class changePhoneNoStepTwo extends Component {
         super(props);
         this.state = {
             phoneNumber: '',
-            smsCode: ''
+            smsCode: '',
         };
         this.getIdentfiCode = this.getIdentfiCode.bind(this);
         this.sendVCodeCallback = this.sendVCodeCallback.bind(this);
@@ -100,7 +103,7 @@ class changePhoneNoStepTwo extends Component {
     }
     /*获取登录验证码*/
     getIdentfiCode(sendVCodeCallback, sendFailCallback) {
-        this.props._getVCodeCode({
+        this.props.getIdentfiCode({
             deviceId: DeviceInfo.getDeviceId(),
             phoneNum: this.state.phoneNumber
         }, sendVCodeCallback, sendFailCallback);
@@ -133,6 +136,7 @@ class changePhoneNoStepTwo extends Component {
             verificationCode: this.state.smsCode
         }, (result)=> {
             if(result) {
+                Toast.showShortCenter('修改成功');
                 this.loginOut();
             }
         })
@@ -159,24 +163,14 @@ class changePhoneNoStepTwo extends Component {
                     <TextInput
                         style={{
                             fontSize:14,
-                            color:'#cccccc',
-                            width:width-120
+                            width:width-120,
+                            color:'#333333'
                         }}
                         placeholderTextColor="#cccccc"
                         underlineColorAndroid={'transparent'}
                         placeholder="请输入新的手机号码"
                         onChangeText={(phoneNumber) => {
                             this.setState({phoneNumber});
-                        }}
-                        onEndEditing={(value) => {
-                            console.log('--value',value);
-                            this.props.checkNewPhoneIsRegister({
-                                phone: value
-                            }, (result)=> {
-                              if (result) {
-                                  Toast.showShortCenter('该手机号已经注册了');
-                              }
-                            })
                         }}
                         value={phoneNumber}
                     />
@@ -200,7 +194,7 @@ class changePhoneNoStepTwo extends Component {
                         underlineColorAndroid={'transparent'}
                         style={{width:width-200,
                         fontSize:14,
-                            color:'#cccccc'
+                            color:'#333333'
                         }}
                         value={this.state.smsCode}
                         onChangeText={(smsCode) => {
@@ -219,7 +213,16 @@ class changePhoneNoStepTwo extends Component {
                         timerCount={60}
                         onClick={(shouldStartCountting) => {
                             if (Regex.test('mobile', phoneNumber)) {
-                                this.getIdentfiCode(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
+                                this.props.checkNewPhoneIsRegister({
+                                    phone: this.state.phoneNumber
+                                }, (result)=> {
+                                    if (result) {
+                                        shouldStartCountting(false);
+                                        Toast.showShortCenter('该手机号已经注册了');
+                                    } else {
+                                        this.getIdentfiCode(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
+                                    }
+                                })
                             } else {
                                 Toast.show('手机号输入有误，请重新输入');
                                 shouldStartCountting(false);
@@ -304,6 +307,9 @@ function mapDispatchToProps(dispatch) {
         },
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
+        },
+        removeUserInfoAction:()=>{
+            dispatch(clearUser());
         },
     };
 }

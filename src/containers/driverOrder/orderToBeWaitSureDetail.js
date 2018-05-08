@@ -132,10 +132,20 @@ class orderToBeWaitSureDetail extends Component {
             dispatchTimeAgain,
             scheduleTimeAgain,
             num,
-            orderSource
+            orderSource,
+            statusCode,
+            getReceiptImage
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
+        const buttonView = orderSource === 1 && statusCode === '85' ?
+            <BottomButton
+                text={'查看回单'}
+                onClick={() => {
+                    getReceiptImage();
+                }}
+                buttonDisabled={this.state.buttonDisabled}
+            /> :
+            taskInfo && taskInfo.receiptWay === '不回单' ?
             null :
             <BottomButton
                 text={'回单'}
@@ -271,7 +281,7 @@ class orderToBeWaitSureDetail extends Component {
                             this.state.showGoodList && orderSource === 1 ?
                                 goodsInfoList.map((item, indexRow) => {
                                     return(
-                                        <View style={{marginLeft: 5, marginRight: 5}}>
+                                        <View style={{marginLeft: 5, marginRight: 5}} key={indexRow}>
                                             <CommonCell titleColorStyle={{fontSize: 15}} contentColorStyle={{fontSize: 15}}
                                                         itemName={item.categoryName} content={item.typeName} hideBottomLine={true}/>
                                         </View>

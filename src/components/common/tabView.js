@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 	curTipText: {
 		fontSize: 15,
-		color: '#17a9df'
+		color: '#0071FF'
 	},
 	tipText: {
 		fontSize: 15,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 		height: 2,
 		bottom: 0,
 		position: 'absolute',
-		backgroundColor: '#17a9df'
+		backgroundColor: '#0071FF'
 	},
 	hiddenLine: {
 		width: 110,

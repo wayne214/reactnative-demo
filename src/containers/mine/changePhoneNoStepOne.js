@@ -19,6 +19,7 @@ import {fetchData} from "../../action/app";
 import Toast from '@remobile/react-native-toast';
 import * as API from '../../constants/api';
 import DeviceInfo from "react-native-device-info";
+import XeEncrypt from '../../utils/XeEncrypt';
 
 
 const {width, height} = Dimensions.get('window');
@@ -51,6 +52,8 @@ class changePhoneNoStepOne extends Component {
         };
 
         this.nextStep = this.nextStep.bind(this);
+        this.loginSecretCode = this.loginSecretCode.bind(this);
+        this.getSecretCodeCallback = this.getSecretCodeCallback.bind(this);
     }
 
     static navigationOptions = ({navigation}) => {
@@ -69,16 +72,29 @@ class changePhoneNoStepOne extends Component {
     componentWillUnmount() {
 
     }
+// 获取加密秘钥
+    loginSecretCode(getSecretCodeCallback) {
+        this.props.getSecretCode({}, getSecretCodeCallback);
+    }
+    // 获取秘钥成功
+    getSecretCodeCallback(result) {
+        if (result) {
+            const secretCode = result;
+            const secretPassWord = XeEncrypt.aesEncrypt(this.state.loginPWD, secretCode, secretCode);
+            this.nextStep(secretPassWord);
+        }
 
-    nextStep() {
+    }
+    nextStep(passWord) {
         const {loginPWD} = this.state;
         if(loginPWD === '') {
             Toast.showShortCenter('登录密码不能为空');
             return
         }
+        // this.props.navigation.dispatch({type:RouteType.ROUTE_CHANGE_PHONE_NO_STEP_TWO});
         this.props.checkLoginPwd({
             deviceId: DeviceInfo.getDeviceId(),
-            password: this.state.loginPWD,
+            password: passWord,
             phoneNum: global.phone,
             platform: Platform.OS === 'ios' ? 1 : 2
         }, (result)=> {
@@ -120,7 +136,7 @@ class changePhoneNoStepOne extends Component {
                     <TextInput
                         style={{
                             fontSize:14,
-                            color:'#cccccc',
+                            color:'#333333',
                             width:width-100
                         }}
                         underlineColorAndroid={'transparent'}
@@ -137,7 +153,7 @@ class changePhoneNoStepOne extends Component {
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
-                        this.nextStep();
+                        this.loginSecretCode(this.getSecretCodeCallback);
 
                     }}
                 >
@@ -164,6 +180,19 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: (error) => {
                     console.log(error);
+                }
+            }))
+        },
+        getSecretCode: (params, successCallback) => {
+            dispatch(fetchData({
+                body: params,
+                method: 'POST',
+                api: API.API_GET_SEC_TOKEN,
+                success: data => {
+                    successCallback(data);
+                },
+                fail: (error) => {
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },

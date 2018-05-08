@@ -197,7 +197,7 @@ function mapDispatchToProps (dispatch){
                     callback(data);
                 },
                 fail: (error)=>{
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },
@@ -214,7 +214,7 @@ function mapDispatchToProps (dispatch){
                     // dispatch(appendLogToFile('调度车辆','获取可调度车辆列表',startTime))
                 },
                 fail: (error) => {
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },
