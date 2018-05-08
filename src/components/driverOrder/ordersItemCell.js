@@ -341,7 +341,7 @@ class OrdersItemCell extends Component {
                             }
                         </View>
                         {
-                            stateName === '待发运' ? bindGPSView : null
+                            stateName === '待发运' && orderType === 2 ? bindGPSView : null
                         }
                     </View>
                 </TouchableOpacity>
