@@ -25,6 +25,9 @@ import {
     refreshDriverOrderList
 } from '../../action/driverOrder';
 import JPushModule from 'jpush-react-native';
+import {
+    clearUser,
+} from '../../action/user';
 
 
 const {width, height} = Dimensions.get('window');
@@ -304,6 +307,9 @@ function mapDispatchToProps(dispatch) {
         },
         _refreshOrderList: (data) => {
             dispatch(refreshDriverOrderList(data));
+        },
+        removeUserInfoAction:()=>{
+            dispatch(clearUser());
         },
     };
 }
