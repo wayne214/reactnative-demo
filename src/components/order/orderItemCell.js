@@ -129,9 +129,9 @@ class orderItemCell extends Component{
               }
 						<View style={styles.separateLine}/>
 
-						<View style={[styles.subContainer, {marginTop: 8, marginBottom: 8}]}>
+						<View style={[styles.subContainer, {marginTop: 8, marginBottom: 8, }]}>
 
-							<View style={{flexDirection: 'row', alignItems: 'center'}}>
+							<View style={{flexDirection: 'row', alignItems: 'center', width: width - 200}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
 								<View style={{flexDirection: 'row', alignItems: 'center'}}>
 
@@ -140,7 +140,7 @@ class orderItemCell extends Component{
 									</View>
 										{
 												(qiu && qiu !== '') ? <View style={styles.goodBg}>
-												<Text style={styles.goodText}>{qiu}</Text>
+												<Text style={styles.goodText} numberOfLines={1}>{qiu}</Text>
 											</View> : <View style={styles.goodBg}>
 													<Text style={styles.goodText}>货品</Text>
 												</View>
