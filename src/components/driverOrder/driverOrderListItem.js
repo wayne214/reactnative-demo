@@ -184,6 +184,7 @@ class driverOrderListItem extends Component {
                     isBatchReceipt={dataRow.transports.length > 1}
                     notReceiptNumber={dataRow.notReceiptNumber}
                     isZp={dataRow.isZp}
+                    status={dataRow.status}
                     onSelected={() => {
                         this.props.navigation.dispatch({
                             type: RouteType.ROUTE_ORDER_SIGN_IN_PAGE,

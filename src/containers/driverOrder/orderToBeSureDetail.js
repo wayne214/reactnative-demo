@@ -163,7 +163,7 @@ class orderToBeSureDetail extends Component {
                                                   contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                     />
                                 </View>
-                                <View style={styles.divideLine}/>
+                                <View style={[styles.divideLine, {marginTop: 5}]}/>
                             </View> : taskInfo && orderSource === 2 ?
                             <ImageBackground
                                 source={TaskBackground}

@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
         backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
         marginLeft: 10,
         marginRight: 10
+    },
+    divideLine: {
+        height: 1,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+    },
+    taskInfoDivideLine: {
+        height: 1,
+        backgroundColor: StaticColor.COLOR_VIEW_BACKGROUND,
+        marginBottom: 15,
     }
 });
 
@@ -133,10 +142,19 @@ class orderToBeWaitSureDetail extends Component {
             scheduleTimeAgain,
             num,
             orderSource,
-            statusCode
+            statusCode,
+            getReceiptImage
         } = this.props;
 
-        const buttonView = taskInfo && taskInfo.receiptWay === '不回单' ?
+        const buttonView = orderSource === 1 && statusCode === '85' ?
+            <BottomButton
+                text={'查看回单'}
+                onClick={() => {
+                    getReceiptImage();
+                }}
+                buttonDisabled={this.state.buttonDisabled}
+            /> :
+            taskInfo && taskInfo.receiptWay === '不回单' ?
             null :
             <BottomButton
                 text={'回单'}
@@ -201,7 +219,7 @@ class orderToBeWaitSureDetail extends Component {
                                                       contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                         />
                                     </View>
-                                    <View style={styles.divideLine}/>
+                                    <View style={[styles.divideLine, {marginTop: 5}]}/>
                                 </View> : taskInfo && orderSource === 2 ?
                                 <ImageBackground
                                     source={TaskBackground}

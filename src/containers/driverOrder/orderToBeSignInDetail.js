@@ -200,7 +200,7 @@ export default class orderToBeSignInDetail extends Component {
                     {
                         taskInfo && orderSource === 1 ?
                             <View>
-                                <TitlesCell title="任务信息123"/>
+                                <TitlesCell title="任务信息"/>
                                 <View style={{marginLeft: 20}}>
                                     <View style={styles.taskInfoDivideLine}/>
                                     <TaskInfoCell itemName="是否签单返回: " content={taskInfo.receiptWay}
@@ -218,7 +218,7 @@ export default class orderToBeSignInDetail extends Component {
                                                   contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                     />
                                 </View>
-                                <View style={styles.divideLine}/>
+                                <View style={[styles.divideLine, {marginTop: 5}]}/>
                             </View> : taskInfo && orderSource === 2 ?
                             <ImageBackground
                                 source={TaskBackground}
