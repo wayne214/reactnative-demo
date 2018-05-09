@@ -77,7 +77,7 @@ class OrderListItem extends Component {
 
   _renderFooter(){
     const { dataSource } = this.props;
-    if (dataSource.get('list').size > 1) {
+    if (dataSource.get('list').toJS().length > 1) {
       if (dataSource.get('hasMore')) {
         return <LoadMoreFooter />
       }else{
@@ -93,7 +93,7 @@ class OrderListItem extends Component {
       if (dataSource.get('isLoadingMore')){
         console.log("------ 正在加载中");
         return;
-      }else if(dataSource.get('list').size >= dataSource.get('total') || dataSource.get('pageNo') == dataSource.get('pages')) {
+      }else if(!dataSource.get('hasMore') ) {
         console.log("------ 已加载全部");
         return;
       }
@@ -425,7 +425,7 @@ class OrderList extends BaseComponent {
               tabLabel={'全部'}
               dataSource={orderAll}
               loadMoreAction={()=>{
-                this._updateListWithIndex(activeTab,parseInt(orderAll.get('pageNo')) + 1)
+                this._updateListWithIndex(0,parseInt(orderAll.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -434,7 +434,7 @@ class OrderList extends BaseComponent {
               tabLabel={'装车'}
               dataSource={orderToInstall}
               loadMoreAction={()=>{
-                this._updateListWithIndex(activeTab,parseInt(orderToInstall.get('pageNo')) + 1)
+                this._updateListWithIndex(1,parseInt(orderToInstall.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -443,7 +443,7 @@ class OrderList extends BaseComponent {
               tabLabel={'交付'}
               dataSource={orderToDelivery}
               loadMoreAction={()=>{
-                this._updateListWithIndex(activeTab,parseInt(orderToDelivery.get('pageNo')) + 1)
+                this._updateListWithIndex(2,parseInt(orderToDelivery.get('pageNo')) + 1)
               }}/>
 
             <OrderListItem
@@ -452,7 +452,7 @@ class OrderList extends BaseComponent {
               tabLabel={'已完成'}
               dataSource={orderCanceled}
               loadMoreAction={()=>{
-                this._updateListWithIndex(activeTab,parseInt(orderCanceled.get('pageNo')) + 1)
+                this._updateListWithIndex(3,parseInt(orderCanceled.get('pageNo')) + 1)
               }}/>
 
           </ScrollableTabView>
