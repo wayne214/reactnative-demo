@@ -102,7 +102,7 @@ class orderItemCell extends Component{
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
           this.props.navigation.dispatch({
               type: RouteType.ROUTE_ORDER_DETAIL,
-              params: {deliveryno: rowData.deliveryno, orderSource: rowData.state == '10' ? 2 : rowData.orderSource, orderStatus: rowData.state},
+              params: {deliveryno: rowData.deliveryno, orderSource: rowData.orderSource, orderStatus: rowData.state},
 
           })
 			}}>
@@ -149,7 +149,7 @@ class orderItemCell extends Component{
 							</View>
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								{
-									rowData.state == '10' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+									rowData.state == '10' && rowData.businessType !== '501' ? <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																												textStyle={{fontSize: 14,color: '#333333'}}
 																												onPress={()=>{
                                                             console.log("------ 查看出库单",rowData);
@@ -168,7 +168,7 @@ class orderItemCell extends Component{
                                                             })
                                                         }}>
 										查看出库单
-									</Button>
+									</Button> :null
 								}
 
 								{
