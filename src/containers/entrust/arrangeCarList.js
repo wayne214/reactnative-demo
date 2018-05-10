@@ -115,7 +115,10 @@ class arrangeCarList extends Component {
                             //     dispatchCode: this.state.dispatchCode,
                             // });
                         }else {
-                            Alert.alert('提示','请选择承运的车辆');
+                            Alert.alert('提示','请选择承运的车辆',
+                                [
+                                    {text: '好', onPress: ()=> console.log('确定')}
+                                ]);
                         }
                     }}
                 />

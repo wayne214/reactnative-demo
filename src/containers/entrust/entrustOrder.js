@@ -278,7 +278,7 @@ class EntrustOrderList extends BaseComponent {
 							dispatchCar={(data)=>{
 								console.log('dispatchCar', data.carNo);
 								   if (data.carNo) {
-								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改掉其他车辆？',
+								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改调其他车辆？',
 												[
 														{text: '取消',onPress: () => {
 															console.log('取消');

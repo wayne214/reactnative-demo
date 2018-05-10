@@ -27,13 +27,13 @@ class goodlistdetailgoodDetail extends Component{
         let endDate = '';
 
         if (this.props.beginTime != '' && this.props.beginTime) {
-            startDate = moment(this.props.beginTime).format('YYYY-MM-DD HH:mm');
+            startDate = moment(this.props.beginTime).format('YYYY-MM-DD');
         } else {
             startDate = '';
         }
 
         if (this.props.endTime != '' && this.props.endTime) {
-            endDate = moment(this.props.endTime).format('YYYY-MM-DD HH:mm');
+            endDate = moment(this.props.endTime).format('YYYY-MM-DD');
         } else {
             endDate = '';
         }
