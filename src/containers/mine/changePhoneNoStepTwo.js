@@ -139,10 +139,14 @@ class changePhoneNoStepTwo extends Component {
                 Toast.showShortCenter('修改成功');
                 this.loginOut();
             }
+        }, ()=> {
+            this.setState({
+                smsCode: ''
+            })
         })
     }
     render() {
-        const {phoneNumber} = this.state;
+        const {phoneNumber, smsCode} = this.state;
         return (
             <View style={styles.container}>
 
@@ -172,7 +176,9 @@ class changePhoneNoStepTwo extends Component {
                         onChangeText={(phoneNumber) => {
                             this.setState({phoneNumber});
                         }}
+                        keyboardType="numeric"
                         value={phoneNumber}
+                        maxLength={11}
                     />
                 </View>
                 <View style={{
@@ -204,7 +210,8 @@ class changePhoneNoStepTwo extends Component {
                         keyboardType="numeric"
                         placeholderTextColor="#cccccc"
                         textAlign="left"
-                        returnKeyType='done'/>
+                        returnKeyType='done'
+                        maxLength={4}/>
 
                     <CountDownButton
                         enable={phoneNumber.length}
@@ -231,7 +238,7 @@ class changePhoneNoStepTwo extends Component {
                     />
                 </View>
                 <Button
-                    isDisabled={false}
+                    isDisabled={!(phoneNumber && smsCode)}
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
@@ -278,7 +285,7 @@ function mapDispatchToProps(dispatch) {
                 }
             }))
         },
-        updateNewPhone: (params, callback) => {
+        updateNewPhone: (params, callback, failCallback) => {
             dispatch(fetchData({
                 api: API.API_MODIFY_USER_MOBILE_PHONE,
                 body: params,
@@ -287,6 +294,7 @@ function mapDispatchToProps(dispatch) {
                     callback(data)
                 },
                 fail: (error) => {
+                    failCallback()
                     Toast.showShortCenter(error.message);
                 }
             }))
