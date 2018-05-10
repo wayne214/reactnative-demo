@@ -249,7 +249,7 @@ export default class OrderDetails extends Component {
                                                   contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                     />
                                     <View style={[styles.taskInfoDivideLine, {marginTop: 5}]}/>
-                                    <TaskInfoCell itemName="要求到达时间:  " content={taskInfo.committedArrivalTime ? taskInfo.committedArrivalTime.replace(/-/g, '/') : ''}
+                                    <TaskInfoCell itemName="要求到达时间:  " content={taskInfo.committedArrivalTime ? taskInfo.committedArrivalTime.replace(/-/g, '/').substring(0, 10) : ''}
                                                   titleColorStyle={{fontSize: 15,color: StaticColor.COLOR_LIGHT_GRAY_TEXT}}
                                                   contentColorStyle={{fontSize: 15,color: StaticColor.LIGHT_BLACK_TEXT_COLOR}}
                                     />
