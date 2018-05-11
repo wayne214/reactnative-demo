@@ -135,7 +135,7 @@ class verifiedCompanyItem extends Component{
                         公司地址
                     </Text>
                     <TextInput style={styles.textInputStyle}
-                               maxLength={18}
+                               // maxLength={18}
                                underlineColorAndroid={'transparent'}
                                onChangeText={(text) => {
                                     this.setState({
