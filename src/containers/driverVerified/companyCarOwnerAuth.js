@@ -365,6 +365,18 @@ class companyCarOwnerAuth extends Component {
 
     /*选择 拍照  相册*/
     callbackSelected(i) {
+        if(selectType===2){
+            this.setState({
+                isShowCompanyInfo: false,
+            });
+        }
+        if(selectType===0){
+            this.setState({
+                isShowCardInfo: false,
+            });
+        }
+
+
         switch (i) {
             case 0:
                 // 拍照
@@ -931,10 +943,6 @@ class companyCarOwnerAuth extends Component {
                                             selectType=2;
                                             this.showAlertSelected();
 
-                                            this.setState({
-                                                isShowCompanyInfo: false,
-                                            });
-
                                         }}
                     />
 
@@ -951,9 +959,7 @@ class companyCarOwnerAuth extends Component {
                                             selectType=0;
                                             this.showAlertSelected();
 
-                                            this.setState({
-                                                isShowCardInfo: false
-                                            });
+
 
                                         }}
                     />
