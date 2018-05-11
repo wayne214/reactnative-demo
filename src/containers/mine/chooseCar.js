@@ -14,7 +14,8 @@ import {
     FlatList,
     TouchableOpacity,
     Text,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import {Geolocation} from 'react-native-baidu-map-xzx';
 import {NavigationActions} from 'react-navigation';
@@ -27,12 +28,8 @@ import {
     refreshDriverOrderList,
 } from '../../action/driverOrder';
 
-// import {
-//     getHomePageCountAction,
-// } from '../../action/app';
-
 import NavigatorBar from '../../components/common/navigatorbar';
-import * as ConstValue from '../../constants/constValue';
+import * as RouteType from '../../constants/routeType';
 import * as StaticColor from '../../constants/colors';
 import * as API from '../../constants/api';
 import CarIcon from '../../../assets/img/mine/carIcon.png';
@@ -104,34 +101,32 @@ class chooseCar extends Component {
         };
         // this.setUserCar = this.setUserCar.bind(this);
         this.saveUserCarInfo = this.saveUserCarInfo.bind(this);
+        this.handleBack = this.handleBack.bind(this)
         // this.setUserCarSuccessCallBack = this.setUserCarSuccessCallBack.bind(this);
         // this.clearHomePageCount = this.clearHomePageCount.bind(this);
     }
 
-    static navigationOptions = ({navigation}) => {
-        const {state, setParams} = navigation
-        return {
-            tabBarLabel: '选择车辆',
-            header: <NavigatorBar title='选择车辆' hiddenBackIcon={false} router={navigation}/>,
-        }
-    };
+    // static navigationOptions = ({navigation}) => {
+    //     const {state, setParams} = navigation
+    //     return {
+    //         tabBarLabel: '选择车辆',
+    //         header: <NavigatorBar title='选择车辆' hiddenBackIcon={false} router={navigation}/>,
+    //     }
+    // };
     componentDidMount() {
         this.getCurrentPosition();
-        BackHandler.addEventListener('hardwareBackPress', this.handleBack);
+        if (Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.handleBack);
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
+        if (Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
     }
 
     handleBack = () => {
-        // const current = this.props.navigation.state;
-        // if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1) {
-        //     if (current.key === RouteType.CHOOSE_CAR_PAGE) {
-        //         return true;
-        //     }
-        // }
-        // return false;
+        if (this.state.flag === false) {
+            return false;
+        }
+        return true;
     };
 
     // 获取当前位置
@@ -236,6 +231,11 @@ class chooseCar extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <NavigatorBar
+                    title={'选择车辆'}
+                    router={this.props.navigation}
+                    hiddenBackIcon={this.state.flag ? true : false}
+                />
                 <View style={styles.content}>
                     <FlatList
                         keyExtractor={ () => Math.random(2) }
@@ -252,6 +252,7 @@ class chooseCar extends Component {
 function mapStateToProps(state) {
     return {
         userInfo: state.user.get('userInfo'),
+        routes: state.nav.routes,
     };
 }
 
