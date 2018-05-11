@@ -142,6 +142,7 @@ class changePhoneNoStepOne extends Component {
                         underlineColorAndroid={'transparent'}
                         placeholderTextColor="#cccccc"
                         placeholder="请输入登录密码"
+                        secureTextEntry={true}
                         onChangeText={(loginPWD) => {
                             this.setState({loginPWD});
                         }}

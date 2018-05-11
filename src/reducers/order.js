@@ -121,7 +121,7 @@ export default (state = initState, action) => {
         let rootType = statusArr[payload.orderType];
         newState = newState.setIn([rootType,'isLoadingMore'],false);
         newState = newState.setIn([rootType,'isRefreshing'],false);
-        newState = newState.setIn([rootType,'hasMore'],payload.pageNo < payload.pages);
+        newState = newState.setIn([rootType,'hasMore'],payload.list.length > 0);
         newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
         newState = newState.setIn([rootType,'total'],payload.total);
         newState = newState.setIn([rootType,'ctcNum'],payload.ctcNum);

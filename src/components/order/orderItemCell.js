@@ -102,7 +102,7 @@ class orderItemCell extends Component{
 			<TouchableOpacity activeOpacity={0.8} onPress={()=>{
           this.props.navigation.dispatch({
               type: RouteType.ROUTE_ORDER_DETAIL,
-              params: {deliveryno: rowData.deliveryno, orderSource: rowData.state == '10' ? 2 : rowData.orderSource, orderStatus: rowData.state},
+              params: {deliveryno: rowData.deliveryno, orderSource: rowData.orderSource, orderStatus: rowData.state},
 
           })
 			}}>
@@ -129,9 +129,9 @@ class orderItemCell extends Component{
               }
 						<View style={styles.separateLine}/>
 
-						<View style={[styles.subContainer, {marginTop: 8, marginBottom: 8}]}>
+						<View style={[styles.subContainer, {marginTop: 8, marginBottom: 8, }]}>
 
-							<View style={{flexDirection: 'row', alignItems: 'center'}}>
+							<View style={{flexDirection: 'row', alignItems: 'center', width: width - 200}}>
 								<Image style={styles.avatarImage} source={LoginAvatar}/>
 								<View style={{flexDirection: 'row', alignItems: 'center'}}>
 
@@ -140,7 +140,7 @@ class orderItemCell extends Component{
 									</View>
 										{
 												(qiu && qiu !== '') ? <View style={styles.goodBg}>
-												<Text style={styles.goodText}>{qiu}</Text>
+												<Text style={styles.goodText} numberOfLines={1}>{qiu}</Text>
 											</View> : <View style={styles.goodBg}>
 													<Text style={styles.goodText}>货品</Text>
 												</View>
@@ -149,7 +149,7 @@ class orderItemCell extends Component{
 							</View>
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								{
-									rowData.state == '10' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
+									rowData.state == '10' && rowData.businessType !== '501' ? <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																												textStyle={{fontSize: 14,color: '#333333'}}
 																												onPress={()=>{
                                                             console.log("------ 查看出库单",rowData);
@@ -168,35 +168,35 @@ class orderItemCell extends Component{
                                                             })
                                                         }}>
 										查看出库单
-									</Button>
+									</Button> :null
 								}
 
-								{
-										(rowData.businessType && rowData.businessType == '501') && rowData.state == '20' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
-																	textStyle={{fontSize: 14,color: '#333333'}}
-																	onPress={()=>{
-                                      console.log("------ 上传回执单",rowData);
-                                      this.props.navigation.dispatch({
-                                          type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
-                                          params: {
-                                              transCode: rowData.deliveryno,
-																							flag: '1'
-                                          }
-                                      });
-                                      // this.props.navigation.dispatch({
-                                      //     type: RouteType.ROUTE_UPLOAD_IMAGES,
-                                      //     params: {
-                                      //         title: '上传回执单',
-                                      //         entrustType: rowData.entrustType,
-                                      //         orderNo: rowData.orderNo,
-                                      //         uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-                                      //         remark: ''
-                                      //     }
-                                      // })
-                                  }}>
-										上传回执单
-									</Button>
-								}
+								{/*{*/}
+										{/*(rowData.businessType && rowData.businessType == '501') && rowData.state == '32' && <Button activeOpacity={0.8} style={[styles.buttonBg]}*/}
+																	{/*textStyle={{fontSize: 14,color: '#333333'}}*/}
+																	{/*onPress={()=>{*/}
+                                      {/*console.log("------ 上传回执单",rowData);*/}
+                                      {/*this.props.navigation.dispatch({*/}
+                                          {/*type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,*/}
+                                          {/*params: {*/}
+                                              {/*transCode: rowData.deliveryno,*/}
+																							{/*flag: '1'*/}
+                                          {/*}*/}
+                                      {/*});*/}
+                                      {/*// this.props.navigation.dispatch({*/}
+                                      {/*//     type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+                                      {/*//     params: {*/}
+                                      {/*//         title: '上传回执单',*/}
+                                      {/*//         entrustType: rowData.entrustType,*/}
+                                      {/*//         orderNo: rowData.orderNo,*/}
+                                      {/*//         uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+                                      {/*//         remark: ''*/}
+                                      {/*//     }*/}
+                                      {/*// })*/}
+                                  {/*}}>*/}
+										{/*上传回执单*/}
+									{/*</Button>*/}
+								{/*}*/}
                 {
                     rowData.state == '30' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																																								 textStyle={{fontSize: 14,color: '#333333'}}

@@ -826,6 +826,7 @@ export const AppNavigator = StackNavigator({
     [RouteType.ROUTE_CHOOSE_CAR]: {
         screen: ChooseCarScreen,
         navigationOptions: {
+            header: null
         }
     },
     [RouteType.ROUTE_PERSON_CAR_OWNER_AUTH]: {

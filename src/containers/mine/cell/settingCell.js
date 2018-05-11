@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     version: {
         marginRight: 10,
         color: '#999999',
-        fontSize: 16
+        fontSize: 14
     },
 });
 
@@ -97,7 +97,8 @@ class SettingCell extends Component {
     render() {
         const {
             style, leftIcon, content, clickAction, showBottomLine, authenticationStatus,
-            rightIcon = rightArrow, hideArrowIcon, versionName, iconFontColor, showCertificatesOverdue
+            rightIcon = rightArrow, hideArrowIcon, versionName, iconFontColor, showCertificatesOverdue,
+            showPhone
         } = this.props;
 
         const a =
@@ -165,6 +166,9 @@ class SettingCell extends Component {
                         </View>
                         {a}
                         {b}
+                        {
+                            showPhone ? <Text style={styles.version}>{versionName}</Text> : null
+                        }
                         {
                             hideArrowIcon ? <Text style={styles.version}>{versionName}</Text> : <Image style={styles.rightIcon} source={rightIcon}/>
                         }

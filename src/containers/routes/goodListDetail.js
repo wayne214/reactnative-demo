@@ -95,7 +95,7 @@ class goodListDetail extends Component {
                 this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
             }
         }else {
-            Toast.show(data.message);
+            // Toast.show(data.message);
         }
 
 

@@ -55,7 +55,7 @@ export default class EntrustOrderListItem extends Component {
 			if (dataSource.get('isLoadingMore')){
 				console.log("------ 正在加载中");
 				return;
-			}else if(dataSource.get('list').size >= dataSource.get('total')) {
+			}else if(!dataSource.get('hasMore')) {
 				console.log("------ 已加载全部");
 				return;
 			}
@@ -90,7 +90,7 @@ export default class EntrustOrderListItem extends Component {
 				renderItem={this._renderRow.bind(this)}
 				keyExtractor={this._keyExtractor}
 				extraData={this.state}
-				onEndReachedThreshold={100}
+				onEndReachedThreshold={0.1}
 				enableEmptySections={true}
 				ItemSeparatorComponent={this.separatorComponent}
 				onEndReached={ this._toEnd.bind(this) }

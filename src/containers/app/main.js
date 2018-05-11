@@ -158,20 +158,17 @@ class MainContainer extends BaseComponent {
 
 
         await Storage.get(StorageKey.USER_INFO).then((userInfo) => {
-            console.log('-main-userinfo', userInfo);
             if (userInfo && !ObjectUitls.isOwnEmpty(userInfo)) {
                 // 发送Action,全局赋值用户信息
                 this.props.sendLoginSuccessAction(userInfo);
             }
         });
         await Storage.get(StorageKey.USER_CURRENT_STATE).then((status) => {
-            console.log('-main-status', status);
             if (status) {
                 this.props.setCurrentCharacterAction(status);
             }
         });
         await Storage.get(StorageKey.USER_TYPE_INFO).then((userTypeInfo) => {
-            console.log('-main-usertypeInfo', userTypeInfo);
             if (userTypeInfo) {
                 this.props.saveUserTypeInfoAction(userTypeInfo);
             }
@@ -254,7 +251,6 @@ class MainContainer extends BaseComponent {
 
         await Storage.get('cityData').then((citydata) => {
             if (citydata) {
-                console.log('---000data',citydata);
                 AddressHandler.set(citydata)
             } else {
                 if (global.phone) {

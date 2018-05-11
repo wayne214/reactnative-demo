@@ -891,6 +891,8 @@ class mine extends Component {
                                 leftIconImage={changePhoneNO}
                                 leftIconImageStyle={{width: 15.5, height: 17.5}}
                                 content={'更换手机号码'}
+                                showPhone={true}
+                                versionName={Validator.newPhone(global.phone)}
                                 showBottomLine={false}
                                 clickAction={() => {
                                     this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO })
@@ -969,6 +971,8 @@ class mine extends Component {
                                 leftIconImage={OwnerPhoneIcon}
                                 content={'更换手机号码'}
                                 showBottomLine={true}
+                                showPhone={true}
+                                versionName={Validator.newPhone(global.phone)}
                                 clickAction={() => {
                                     this.props.navigation.dispatch({ type: RouteType.ROUTE_CHANGE_PHONE_NO })
                                 }}

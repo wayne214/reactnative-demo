@@ -24,7 +24,9 @@ const initState = Immutable.fromJS({
 		isLoadingMore: false,
 		hasMore: true,
 		pageNo: 1,
-		isRefreshing: false
+		isRefreshing: false,
+      ctcNum: 0,
+      dpcNum: 0,
 	},
 	freeCarList: {
 		list: [],
@@ -39,6 +41,7 @@ const initState = Immutable.fromJS({
 
 export default (state = initState, action) => {
 	let newState = state;
+	let newArray = [];
 	const payload = action.payload
 	switch (action.type) {
 		case ActionTypes.ACTION_CHANGE_ENTRUST_ORDER_LIST_LOADING_MORE:
@@ -52,15 +55,24 @@ export default (state = initState, action) => {
 			let rootType = 'entrustOrderUnconfirmed'
 			if (payload.entrustOrderType == 0) {//0 派单中  1 待调度
 				rootType = 'entrustOrderUnconfirmed'
+          newState = newState.setIn([rootType,'isRefreshing'],false);
+          newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
+          newState = newState.setIn([rootType,'isLoadingMore'],false);
+          newState = newState.setIn([rootType,'hasMore'],payload.list.length > 0);
+          newState = newState.setIn([rootType,'total'],payload.total);
 			}else if (payload.entrustOrderType == 1) {
 				rootType = 'entrustOrderUndispatch'
+          newState = newState.setIn([rootType,'ctcNum'],payload.ctcNum);
+          newState = newState.setIn([rootType,'dpcNum'],payload.dpcNum);
+          newState = newState.setIn([rootType,'isRefreshing'],false);
+          newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
+          newState = newState.setIn([rootType,'isLoadingMore'],false);
+          newState = newState.setIn([rootType,'hasMore'],payload.list.length > 0);
+          newState = newState.setIn([rootType,'total'],payload.total);
 			}
-			newState = newState.setIn([rootType,'isRefreshing'],false);
-			newState = newState.setIn([rootType,'pageNo'],payload.pageNo);
-			newState = newState.setIn([rootType,'isLoadingMore'],false);
-			newState = newState.setIn([rootType,'total'],payload.total);
+
 			if (payload.pageNo === 1) {
-			  newState = newState.setIn([rootType,'list'],Immutable.fromJS([]));
+			  	newState = newState.setIn([rootType,'list'],Immutable.fromJS([]));
 			}
 			if (payload.list) {
 				const newArr = payload.list.map((item)=>{
@@ -69,19 +81,19 @@ export default (state = initState, action) => {
 					item.from = from
 					item.to = to
 					item.orderType = 'ENTRUST'
-					if (item.goodsType == 1) {
-						const startDate = item.loadingStartDate.split(' ')[0]
-						// const endDate = item.loadingEndDate.split(' ')[0]
-						item.installDate = startDate//`从${startDate}到${endDate}`
-					}else if (item.goodsType == 2) {
-						item.installDate = item.startDate
-					}
-					if (item.goodsType == 1) {
-						item.goodsTypeStr = '干线'
-					}else if(item.goodsType == 2){
-						item.goodsTypeStr = '卡班'
-						item.carBanDate = `${item.startDate.split(' ')[0]} ${item.startTimeHourMin}:${item.startTimeMinuteMin}`//-${item.startTimeHourMax}:${item.startTimeMinuteMax}`
-					}
+				// 	if (item.goodsType == 1) {
+				// 		const startDate = item.loadingStartDate.split(' ')[0]
+				// 		// const endDate = item.loadingEndDate.split(' ')[0]
+				// 		item.installDate = startDate//`从${startDate}到${endDate}`
+				// 	}else if (item.goodsType == 2) {
+				// 		item.installDate = item.startDate
+				// 	}
+				// 	if (item.goodsType == 1) {
+				// 		item.goodsTypeStr = '干线'
+				// 	}else if(item.goodsType == 2){
+				// 		item.goodsTypeStr = '卡班'
+				// 		item.carBanDate = `${item.startDate.split(' ')[0]} ${item.startTimeHourMin}:${item.startTimeMinuteMin}`//-${item.startTimeHourMax}:${item.startTimeMinuteMax}`
+				// 	}
 					item.carLength = HelperUtil.getCarLength(parseInt(item.carType))
 					item.goodsNameStr = HelperUtil.getGoodsName(item.goodsName)
 					item.goodsSKU = (item.cargoSpecTon ? (item.cargoSpecTon + '吨') : '') + (item.cargoSpecTon && item.cargoSpecSquare ? '/' : '') + (item.cargoSpecSquare ? (item.cargoSpecSquare + '方') : '')
@@ -91,11 +103,11 @@ export default (state = initState, action) => {
 						item.entrustOrderStatus = 1//标记为待确认
 					}else if (payload.entrustOrderType == 1) {
 						let str = '待调度'
-						switch(item.resourceStatus){
-							case 2: str = '已关闭';break;
-							case 3: str = '已取消';break;
-							case 4: str = '已删除';break;
-						}
+						// switch(item.resourceStatus){
+						// 	case 2: str = '已关闭';break;
+						// 	case 3: str = '已取消';break;
+						// 	case 4: str = '已删除';break;
+						// }
 						item.orderStateStr = str
 						item.entrustOrderStatus = 2//标记为待调度
 					}
@@ -103,7 +115,7 @@ export default (state = initState, action) => {
 				})
 				newState = newState.setIn([rootType,'list'],newState.getIn([rootType,'list']).concat(newArr));
 			};
-			newState = newState.setIn([rootType,'hasMore'],newState.getIn([rootType,'list']).size < payload.total)
+		// 	newState = newState.setIn([rootType,'hasMore'],newState.getIn([rootType,'list']).size < payload.total)
 			return newState;
 
 		case ActionTypes.ACTION_GET_FREE_CAR_LIST:

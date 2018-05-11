@@ -20,7 +20,7 @@ import {
 import {fetchData, loadUser} from "../../action/app";
 import LoginBackground from '../../../assets/img/login/loginBg.png';
 import Button from 'apsl-react-native-button';
-import Toast from '../../utils/toast';
+import Toast from '@remobile/react-native-toast';
 // import JPushModule from 'jpush-react-native';
 // import {Geolocation} from 'react-native-baidu-map-xzx';
 import { NavigationActions } from 'react-navigation';
@@ -409,7 +409,7 @@ class LoginSms extends BaseComponent {
                                     if (Regex.test('mobile', phoneNumber)) {
                                         this.requestVCodeForLogin(this.sendVCodeCallback(shouldStartCountting), this.sendFailCallback(shouldStartCountting));
                                     } else {
-                                        Toast.show('手机号输入有误，请重新输入');
+                                        Toast.showShortCenter('手机号输入有误，请重新输入');
                                         shouldStartCountting(false);
                                     }
                                 }}
@@ -545,7 +545,7 @@ function mapDispatchToProps(dispatch) {
                 },
                 fail: error => {
                     console.log('-------error', error);
-                    Toast.show(error.message);
+                    Toast.showShortCenter(error.message);
                 }
             }))
         },

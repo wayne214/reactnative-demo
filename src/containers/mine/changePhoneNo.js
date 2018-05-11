@@ -152,8 +152,6 @@ class changePhoneNo extends Component {
                             width: 270,
                             height: 157,
                         }}>
-
-
                             <View style={{
                                 justifyContent: 'center',
                                 alignItems: 'center',
@@ -166,7 +164,21 @@ class changePhoneNo extends Component {
                                     lineHeight: 22,
                                     fontSize: 15,
                                 }}>
-                                    修改后须使用新手机号码登录；只支持修改到未注册的手机号码；一个自然月最多修改一次。
+                                    修改后须使用新手机号码登录；
+                                </Text>
+                                <Text style={{
+                                    color: '#333333',
+                                    lineHeight: 22,
+                                    fontSize: 15,
+                                }}>
+                                    只支持修改到未注册的手机号码；
+                                </Text>
+                                <Text style={{
+                                    color: '#333333',
+                                    lineHeight: 22,
+                                    fontSize: 15,
+                                }}>
+                                    一个自然月最多修改一次。
                                 </Text>
                             </View>
                             <View style={{

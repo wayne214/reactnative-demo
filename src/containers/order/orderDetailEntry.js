@@ -73,8 +73,8 @@ class orderDetailEntry extends BaseComponent {
 
       const loaddingTime = orderDetailData.loadingTime ? orderDetailData.loadingTime.split(' ')[0] : '';
 
-      const temperatureMin = orderDetailData.temperatureMin ? orderDetailData.temperatureMin : '';
-      const temperatureMax = orderDetailData.temperatureMax ? orderDetailData.temperatureMax : '';
+      const temperatureMin = String(orderDetailData.temperatureMin) ? orderDetailData.temperatureMin : '';
+      const temperatureMax = String(orderDetailData.temperatureMax) ? orderDetailData.temperatureMax : '';
 
       let temperature;
       if (temperatureMax !== '' && temperatureMin != '') {

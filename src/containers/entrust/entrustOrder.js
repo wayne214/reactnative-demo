@@ -38,6 +38,8 @@ class EntrustOrderList extends BaseComponent {
 	  this.state = {
 	  	activeTab: 0,
       showAlert: true,
+			ctcNum: 0,
+      dpcNum: 0,
 	  }
 	}
 	componentDidMount() {
@@ -80,21 +82,24 @@ class EntrustOrderList extends BaseComponent {
 	}
 
 	componentWillReceiveProps(nextProps){
+      const {entrustOrderUnconfirmed,entrustOrderUndispatch} = nextProps;
+      const {activeTab} = this.state
+      if (activeTab == 0) {
+          // this.props._getEntrustOrderList({
+          //     companyCode: global.companyCode,
+          //     num: 1,
+          //     resourceCode: '',
+          //     size: 10
+          // })
+      }else if (activeTab == 1) {
+          this.setState({
+              ctcNum: entrustOrderUndispatch.get('ctcNum'),
+              dpcNum: entrustOrderUndispatch.get('dpcNum')
+          });
+      }
+
 		if (nextProps.shouldEntrustOrderListRefresh && !nextProps.entrustOrderUnconfirmed.get('isLoadingMore') && !nextProps.entrustOrderUndispatch.get('isLoadingMore')) {
 			this._refreshList();
-			// const {activeTab} = this.state
-			// if (activeTab == 0) {
-			// 	this.props._getEntrustOrderList({
-			// 		pageNo: 1,
-			// 		companyId: nextProps.user.userId,
-			// 		state: 1
-			// 	})
-			// }else if (activeTab == 1) {
-			// 	this.props._getEntrustOrderUndispatch({
-			// 		pageNo: 1,
-			// 		companyId: nextProps.user.userId,
-			// 	})
-			// }
 		}
 	}
 	render() {
@@ -239,12 +244,12 @@ class EntrustOrderList extends BaseComponent {
 								this.props._removeOverTimeOrder(resourceId)
 							}}
 							loadMoreAction={()=>{
-								// this.props._getEntrustOrderList({
-                 //    companyCode: global.companyCode,
-                 //    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
-                 //    resourceCode: '',
-                 //    size: 10,
-								// })
+								this.props._getEntrustOrderList({
+                    companyCode: global.companyCode,
+                    num: parseInt(entrustOrderUnconfirmed.get('pageNo')) + 1,
+                    resourceCode: '',
+                    size: 10,
+								})
 							}}/>
 						</View>
 						<EntrustOrderListItem
@@ -273,7 +278,7 @@ class EntrustOrderList extends BaseComponent {
 							dispatchCar={(data)=>{
 								console.log('dispatchCar', data.carNo);
 								   if (data.carNo) {
-								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改掉其他车辆？',
+								   	Alert.alert('温馨提示', '您确定取消'+ `${data.carNo}`+ '车牌的运输任务，并改调其他车辆？',
 												[
 														{text: '取消',onPress: () => {
 															console.log('取消');
@@ -305,12 +310,12 @@ class EntrustOrderList extends BaseComponent {
 						// 		this.props._deleteOrderUndispatch(goodsId)
 						// 	}}
 							loadMoreAction={()=>{
-								// this.props._getEntrustOrderUndispatch({
-								// // 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
-								// 	ctcNum: 0,
-								// 	dpcNum: 0,
-								// 	carrierCode: global.companyCode
-								// })
+								this.props._getEntrustOrderUndispatch({
+								// 	pageNo: parseInt(entrustOrderUndispatch.get('pageNo')) + 1,
+									ctcNum: this.state.ctcNum,
+									dpcNum: this.state.dpcNum,
+									carrierCode: global.companyCode
+								})
 							}}/>
 
 					</ScrollableTabView>

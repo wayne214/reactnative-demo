@@ -303,7 +303,15 @@ class GoodsList extends Component {
                             type: '2'
                         }
                     })
-                }else {
+                }else if (item.item.biddingState === 3) {
+                    this.props.navigation.dispatch({
+                        type: RouteType.ROUTE_GOOD_LIST_DETAIL,
+                        params: {
+                            goodID: item.item.resourceCode,
+                            type: '2'
+                        }
+                    })
+                } else {
                     Toast.show('已经报价成功，请勿重复报价');
                 }
                      }}/>
