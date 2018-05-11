@@ -247,7 +247,7 @@ class orderReceiptCell extends Component {
         if(status === '85'){ // 待回单审核
             stateName = '待回单审核';
         }else if(status === '87'){ // 审核驳回
-            stateName = '审核驳回';
+            stateName = '回单驳回';
         }else {
             stateName = '';
         }
