@@ -366,22 +366,67 @@ class HelperUtil {
         }
     }
 
-    getTransOrderStatus(status) {
+    getCtcOrderStatus(status) {
         switch(status) {
             case '10':
-                return '未发车';
+                return '待分派';
             case '20':
-                return '待确认收货';
+                return '派单中';
             case '30':
-                return '已到站';
-            case '32':
-                return '待上传回执单';
+                return '抢单中';
             case '40':
+                return '抢单超时';
+            case '45':
+                return '抢单失败';
+            case '50':
+                return '待调度';
+            case '60':
+                return '待发运';
+            case '65':
+                return '重新调车中';
+            case '70':
+                return '待签收';
+            case '80':
+                return '待回单';
+            case '85':
+                return '待回单审核';
+            case '87':
+                return '回单驳回';
+            case '90':
                 return '已完成';
-            case '1':
+            case '95':
                 return '已取消';
             default:
+                return "";
+        }
+    }
+
+    getTransOrderStatus(status) {
+        switch(status) {
+            case '0':
                 return '未调度';
+            case '10':
+                return '已调度';
+            case '20':
+                return '已发运';
+            case '30':
+                return '已到达';
+            case '32':
+                return '中转入';
+            case '34':
+                return '再调度';
+            case '36':
+                return '异常';
+            case '38':
+                return '中转出';
+            case '40':
+                return '已签收';
+            case '41':
+                return '取消签收';
+            case '50':
+                return '已回单';
+            default:
+                return '';
         }
     }
 

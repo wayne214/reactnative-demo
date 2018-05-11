@@ -148,7 +148,7 @@ class OrderDetail extends BaseComponent {
 		return <View style={styles.container}>
 			<View style={{backgroundColor: '#ffffff', height: 44, flexDirection: 'row', alignItems: 'center'}}>
 				<View style={{backgroundColor: '#0092FF', height: 16, width: 4}}/>
-				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{HelperUtils.getTransOrderStatus(this.state.orderStatus)}</Text>
+				<Text style={{fontSize: 16, color: '#0092FF', marginLeft: 10}}>{this.state.orderSource == '1' ? HelperUtils.getCtcOrderStatus(this.state.orderStatus) : HelperUtils.getTransOrderStatus(this.state.orderStatus)}</Text>
 			</View>
 			<View style={{justifyContent: 'center', alignItems: 'center', height: 44}}>
 				<Text style={{textAlign: 'center', fontSize: 16, color: '#666666', }}>

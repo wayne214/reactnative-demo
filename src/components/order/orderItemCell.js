@@ -111,7 +111,7 @@ class orderItemCell extends Component{
 					<View style={styles.subContainer}>
 						<Text style={styles.orderCodeText}>运单编号：{rowData.deliveryno}</Text>
 						<View style={{flexDirection: 'row'}}>
-							<Text style={{fontSize: 15, color: '#0092FF', marginLeft: 5}}>{HelperUtils.getTransOrderStatus(rowData.state)}</Text>
+							<Text style={{fontSize: 15, color: '#0092FF', marginLeft: 5}}>{rowData.orderSource == '1' ? HelperUtils.getCtcOrderStatus(rowData.state) : HelperUtils.getTransOrderStatus(rowData.state)}</Text>
 						</View>
 					</View>
 
