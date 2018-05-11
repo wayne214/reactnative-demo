@@ -375,7 +375,7 @@ class enterpriseownerVerifiedState extends Component {
                                              }
                                          }}/>
                     <View style={{height: 10, width: width, backgroundColor: '#f5f5f5'}}/>
-                    <VerifiedGrayTitleItem title='法人身份证'/>
+                    <VerifiedGrayTitleItem title='经办人身份证'/>
                     <Line/>
                     <RealNameItem resultInfo={this.state.resultInfo}
                                   imageClick={(index)=>{
