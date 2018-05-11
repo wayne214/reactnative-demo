@@ -201,7 +201,7 @@ class RegisterStepOne extends Component {
     /*注册*/
     registerAccount(phoneNum,messageCode,againPWD) {
 
-        if (!Validator.isNewPassword((this.state.password + '').trim())) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
+        if (!Validator.isNewPassword((this.state.againPWD))) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
 
         if (!this.state.checkBox) {
             Toast.showShortCenter("请阅读并同意《冷链马甲服务协议》");
