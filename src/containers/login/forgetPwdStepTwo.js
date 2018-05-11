@@ -31,6 +31,8 @@ import Loading from '../../utils/loading';
 import {fetchData} from "../../action/app";
 import * as RouteType from "../../constants/routeType";
 const {width, height} = Dimensions.get('window');
+import Validator from '../../utils/validator';
+
 
 let currentTime = 0;
 let lastTime = 0;
@@ -131,6 +133,9 @@ class ForgetPwdStepTwo extends Component {
     }
 
     finish() {
+        if (!Validator.isNewPassword((this.state.newPWD))) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
+        if (!Validator.isNewPassword((this.state.newPWDagain))) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
+
         if (this.state.newPWD === '' && this.state.newPWDagain === '') {
             Toast.showShortCenter('密码不能为空');
         } else if (this.state.newPWD !== this.state.newPWDagain) {
