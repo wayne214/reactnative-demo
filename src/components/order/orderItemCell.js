@@ -171,32 +171,32 @@ class orderItemCell extends Component{
 									</Button> :null
 								}
 
-								{
-										(rowData.businessType && rowData.businessType == '501') && rowData.state == '20' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
-																	textStyle={{fontSize: 14,color: '#333333'}}
-																	onPress={()=>{
-                                      console.log("------ 上传回执单",rowData);
-                                      this.props.navigation.dispatch({
-                                          type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,
-                                          params: {
-                                              transCode: rowData.deliveryno,
-																							flag: '1'
-                                          }
-                                      });
-                                      // this.props.navigation.dispatch({
-                                      //     type: RouteType.ROUTE_UPLOAD_IMAGES,
-                                      //     params: {
-                                      //         title: '上传回执单',
-                                      //         entrustType: rowData.entrustType,
-                                      //         orderNo: rowData.orderNo,
-                                      //         uploadType: 'UPLOAD_BILL_BACK_IMAGE',
-                                      //         remark: ''
-                                      //     }
-                                      // })
-                                  }}>
-										上传回执单
-									</Button>
-								}
+								{/*{*/}
+										{/*(rowData.businessType && rowData.businessType == '501') && rowData.state == '32' && <Button activeOpacity={0.8} style={[styles.buttonBg]}*/}
+																	{/*textStyle={{fontSize: 14,color: '#333333'}}*/}
+																	{/*onPress={()=>{*/}
+                                      {/*console.log("------ 上传回执单",rowData);*/}
+                                      {/*this.props.navigation.dispatch({*/}
+                                          {/*type: RouteType.ROUTE_UPLOAD_RECEIPT_PAGE,*/}
+                                          {/*params: {*/}
+                                              {/*transCode: rowData.deliveryno,*/}
+																							{/*flag: '1'*/}
+                                          {/*}*/}
+                                      {/*});*/}
+                                      {/*// this.props.navigation.dispatch({*/}
+                                      {/*//     type: RouteType.ROUTE_UPLOAD_IMAGES,*/}
+                                      {/*//     params: {*/}
+                                      {/*//         title: '上传回执单',*/}
+                                      {/*//         entrustType: rowData.entrustType,*/}
+                                      {/*//         orderNo: rowData.orderNo,*/}
+                                      {/*//         uploadType: 'UPLOAD_BILL_BACK_IMAGE',*/}
+                                      {/*//         remark: ''*/}
+                                      {/*//     }*/}
+                                      {/*// })*/}
+                                  {/*}}>*/}
+										{/*上传回执单*/}
+									{/*</Button>*/}
+								{/*}*/}
                 {
                     rowData.state == '30' && <Button activeOpacity={0.8} style={[styles.buttonBg]}
 																																								 textStyle={{fontSize: 14,color: '#333333'}}
