@@ -387,6 +387,18 @@ class personCarOwnerAuth extends Component {
 
     /*选择 拍照  相册*/
     callbackSelected(i) {
+        if (selectType===0){
+            this.setState({
+                isShowCardInfo: false,
+            });
+        }
+        if (selectType===2){
+            this.setState({
+                isShowDriverInfo: false,
+            });
+        }
+
+
         switch (i) {
             case 0:
                 // 拍照
@@ -941,9 +953,7 @@ class personCarOwnerAuth extends Component {
                                             selectType=0;
                                             this.showAlertSelected();
 
-                                            this.setState({
-                                                isShowCardInfo: false,
-                                            });
+
                                         }}
                     />
                     <VerifiedLineItem />
