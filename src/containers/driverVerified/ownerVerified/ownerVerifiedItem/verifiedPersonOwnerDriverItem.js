@@ -91,17 +91,6 @@ class verifiedDriverItem extends Component{
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
 
-                        发动机号
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.manualEngineNum : ''}
-                    </Text>
-
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
-
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>

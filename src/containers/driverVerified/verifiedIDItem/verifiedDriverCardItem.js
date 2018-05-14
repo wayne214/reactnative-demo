@@ -87,16 +87,6 @@ class verifiedDriverCardItem extends Component{
                 <Line />
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.titleStyle}>
-                        发动机号码
-                    </Text>
-                    <Text style={styles.textInputStyle}>
-                        {resultInfo.engineNumber}
-                    </Text>
-
-                </View>
-                <Line />
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleStyle}>
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>

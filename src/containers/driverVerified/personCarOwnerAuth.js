@@ -209,6 +209,8 @@ class personCarOwnerAuth extends Component {
         this.upDataToHttp = this.upDataToHttp.bind(this);
         this.getCurrentPosition = this.getCurrentPosition.bind(this);
         this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
+        this.formatterTime = this.formatterTime.bind(this);
+        this.isRightData = this.isRightData.bind(this);
 
     }
 
@@ -644,7 +646,27 @@ class personCarOwnerAuth extends Component {
                 });
             });
     }
+    formatterTime(date){
+        date = date.replace('年', '-');
+        date = date.replace('月', '-');
+        date = date.replace('日', '');
+        date = date.replace('', ' ');
 
+        return date;
+    }
+    isRightData (date){
+        date = this.formatterTime(date);
+
+        const todayTimestamp = new Date().getTime();
+        const selectTimestamp = new Date(date).getTime().toString();
+
+        if (parseFloat(selectTimestamp) <= parseFloat(todayTimestamp)) {
+            return false;
+        }
+
+        return true;
+
+    }
     upDataToHttp(){
         currentTime = new Date().getTime();
 
@@ -668,6 +690,11 @@ class personCarOwnerAuth extends Component {
         }
         if (!this.state.IDDate){
             Toast.showShortCenter('请选择身份证有效期');
+            return;
+        }
+        if (!this.isRightData(this.state.IDDate)){
+            Toast.showShortCenter('所选择的身份证有效期应大于今天，请重新选择');
+
             return;
         }
 
@@ -694,6 +721,11 @@ class personCarOwnerAuth extends Component {
         // }
         if (!this.state.drivingLicenseValidUntil){
             Toast.showShortCenter('请选择行驶证发证日期');
+            return;
+        }
+        if (!this.isRightData(this.state.drivingLicenseValidUntil)){
+            Toast.showShortCenter('所选择的行驶证发证日期应大于今天，请重新选择');
+
             return;
         }
         // if (!this.state.carVin){

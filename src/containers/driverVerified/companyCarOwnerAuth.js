@@ -192,7 +192,8 @@ class companyCarOwnerAuth extends Component {
         this.uploadData = this.uploadData.bind(this);
         this.getCurrentPosition = this.getCurrentPosition.bind(this);
         this.quaryAccountRoleCallback = this.quaryAccountRoleCallback.bind(this);
-
+        this.formatterTime = this.formatterTime.bind(this);
+        this.isRightData = this.isRightData.bind(this);
     }
 
     componentWillUnmount() {
@@ -606,7 +607,27 @@ class companyCarOwnerAuth extends Component {
                 });
             });
     }
+    formatterTime(date){
+        date = date.replace('年', '-');
+        date = date.replace('月', '-');
+        date = date.replace('日', '');
+        date = date.replace('', ' ');
 
+        return date;
+    }
+    isRightData (date){
+        date = this.formatterTime(date);
+
+        const todayTimestamp = new Date().getTime();
+        const selectTimestamp = new Date(date).getTime().toString();
+
+        if (parseFloat(selectTimestamp) <= parseFloat(todayTimestamp)) {
+            return false;
+        }
+
+        return true;
+
+    }
     uploadData(){
 
         currentTime = new Date().getTime();
@@ -633,26 +654,6 @@ class companyCarOwnerAuth extends Component {
         console.log('默认解析的统一社会信用代码',this.state.unifiedSocialCreditCode);
         console.log('默认营业执照有效期',this.state.manualBusinessValidity);
 
-        if (!this.state.legalPersonPositiveCard){ // 135 1346 7256
-            Toast.showShortCenter('请上传经办人身份证正面');
-            return;
-        }
-        if (!this.state.legalPersonOppositeCard){
-            Toast.showShortCenter('请上传经办人身份证反面');
-            return;
-        }
-        if (!this.state.IDName){
-            Toast.showShortCenter('请输入经办人身份证名字');
-            return;
-        }
-        if (!this.state.IDCard){
-            Toast.showShortCenter('请输入经办人身份证号');
-            return;
-        }
-        if (!this.state.IDDate){
-            Toast.showShortCenter('请选择经办人身份证有效期');
-            return;
-        }
 
         if (!this.state.businessLicence){
             Toast.showShortCenter('请上传营业执照');
@@ -678,8 +679,36 @@ class companyCarOwnerAuth extends Component {
             Toast.showShortCenter('请选择营业执照有效期');
             return;
         }
+        if (!this.isRightData(this.state.businessValidity)){
+            Toast.showShortCenter('所选择的营业执照有效期应大于今天，请重新选择');
 
+            return;
+        }
+        if (!this.state.legalPersonPositiveCard){ // 135 1346 7256
+            Toast.showShortCenter('请上传经办人身份证正面');
+            return;
+        }
+        if (!this.state.legalPersonOppositeCard){
+            Toast.showShortCenter('请上传经办人身份证反面');
+            return;
+        }
+        if (!this.state.IDName){
+            Toast.showShortCenter('请输入经办人身份证名字');
+            return;
+        }
+        if (!this.state.IDCard){
+            Toast.showShortCenter('请输入经办人身份证号');
+            return;
+        }
+        if (!this.state.IDDate){
+            Toast.showShortCenter('请选择经办人身份证有效期');
+            return;
+        }
+        if (!this.isRightData(this.state.IDDate)){
+            Toast.showShortCenter('所选择的经办人身份证有效期应大于今天，请重新选择');
 
+            return;
+        }
 
 
         //     个人            企业

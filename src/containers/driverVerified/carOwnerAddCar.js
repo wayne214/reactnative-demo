@@ -751,6 +751,7 @@ class certification extends Component {
         if (this.props.currentStatus === 'businessOwner'){
             shenfen = 'Enterpriseowner';
         }
+
         const result = {
                 userId: userID,
                 userName: this.state.carOwner,

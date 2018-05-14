@@ -48,9 +48,44 @@ class verifiedRealNameItem extends Component{
         this.props.imageClick(index);
     }
     render() {
-        const {resultInfo} = this.props;
+        const {resultInfo, type} = this.props;
         console.log('resultInfo:=',this.props.resultInfo);
 
+        let name;
+        let cardID;
+        let cardTime;
+
+        if (resultInfo.rmcAnalysisAndContrast){
+            if (type === "companyOwner" ){
+                name =  resultInfo.rmcAnalysisAndContrast.agentIdCardName;
+                cardID= resultInfo.rmcAnalysisAndContrast.agentIdCard;
+                cardTime = resultInfo.rmcAnalysisAndContrast.agentIdCardValidity.replace(/-/g,'/')
+            }else {
+                name = resultInfo.rmcAnalysisAndContrast.manualLegalIdCardName;
+                cardID = resultInfo.rmcAnalysisAndContrast.manualLegalIdCard;
+                cardTime = resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity.replace(/-/g,'/')
+            }
+        }
+
+
+        let image1 = '';
+        let image2 = '';
+        if (type === 'companyOwner'){
+            image1 = resultInfo.rmcPicAddress ?
+                (resultInfo.rmcPicAddress.agentPositiveCardThumbnailAddress ? resultInfo.rmcPicAddress.agentPositiveCardThumbnailAddress : '') :  ''
+        }else {
+            image1 = resultInfo.rmcPicAddress ?
+                (resultInfo.rmcPicAddress.legalPersonPositiveCardThumbnailAddress ? resultInfo.rmcPicAddress.legalPersonPositiveCardThumbnailAddress : '') :  ''
+        }
+        if (type === 'companyOwner'){
+            image2 = resultInfo.rmcPicAddress ?
+                (resultInfo.rmcPicAddress.agentOppositeCardThumbnailAddress ? resultInfo.rmcPicAddress.agentOppositeCardThumbnailAddress : '')
+                : ''
+        }else {
+            image2 = resultInfo.rmcPicAddress ?
+                (resultInfo.rmcPicAddress.legalPersonOppositeCardThumbnailAddress ? resultInfo.rmcPicAddress.legalPersonOppositeCardThumbnailAddress : '')
+                : ''
+        }
         return (
             <View style={styles.container}>
 
@@ -59,7 +94,7 @@ class verifiedRealNameItem extends Component{
                         姓名
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.manualLegalIdCardName : ''}
+                        {name}
                     </Text>
 
                 </View>
@@ -69,7 +104,7 @@ class verifiedRealNameItem extends Component{
                         身份证号
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {resultInfo.rmcAnalysisAndContrast ? resultInfo.rmcAnalysisAndContrast.manualLegalIdCard : '' }
+                        {cardID}
                     </Text>
 
                 </View>
@@ -80,7 +115,7 @@ class verifiedRealNameItem extends Component{
                         有效期至
                     </Text>
                     <Text style={styles.textInputStyle}>
-                        {(resultInfo.rmcAnalysisAndContrast && resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity) ? resultInfo.rmcAnalysisAndContrast.manualLegalIdCardValidity.replace(/-/g,'/') : ''}
+                        {cardTime}
                     </Text>
 
                 </View>
@@ -96,11 +131,8 @@ class verifiedRealNameItem extends Component{
                 <ImagesItem firstName ="身份证正面"
                             secondName="身份证反面"
                             // thirdName="半身照"
-                            firstImagePath={resultInfo.rmcPicAddress ?
-                            (resultInfo.rmcPicAddress.legalPersonPositiveCardThumbnailAddress ? resultInfo.rmcPicAddress.legalPersonPositiveCardThumbnailAddress : '') :  ''}
-                            secondImagePath={resultInfo.rmcPicAddress ?
-                            (resultInfo.rmcPicAddress.legalPersonOppositeCardThumbnailAddress ? resultInfo.rmcPicAddress.legalPersonOppositeCardThumbnailAddress : '')
-                                : ''}
+                            firstImagePath={image1}
+                            secondImagePath={image2}
                             // thirdImagePath={resultInfo.handleIdThumbnailAddress ?
                             // resultInfo.handleIdThumbnailAddress : resultInfo.headPortrait ?
                             // resultInfo.headPortrait : ''}
