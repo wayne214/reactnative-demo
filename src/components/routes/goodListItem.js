@@ -161,10 +161,15 @@ class goodListItem extends Component{
                 </View>
                 <View style={{height: 0.5,backgroundColor: '#E6EAF2',width: width,marginTop: 8}}/>
                 {
-                    item.carrierPrice ? <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 20}}>
+                    item.carrierPrice ? <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 8,borderRadius: 2,marginRight: 20}}>
+                        <View style={{marginLeft: 11, padding: 9}}>
+                            <Text style={{color: '#999999',fontSize: 13}}>
+                            { item.biddingState == '3' ? `${item.carrierPrice}元报价失败，剩余${item.grabCount ? item.grabCount : 0}次` : '' }
+                        </Text>
+                        </View>
                         <View style={{padding: 9,backgroundColor: '#0092FF',borderRadius: 1}}>
                             <Text style={{color: 'white',fontWeight: 'bold',fontSize: 15,paddingHorizontal: 5}}>
-                                { item.biddingState == '3' ? '抢单失败' : '我的报价' + item.carrierPrice }
+                                { item.biddingState == '3' ? '重新抢单' : '我的报价' + item.carrierPrice }
                             </Text>
                         </View>
                     </View> : <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginTop: 8,borderRadius: 2,marginRight: 20}}>
