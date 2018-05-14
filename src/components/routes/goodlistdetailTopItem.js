@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component,} from 'react';
 import {
     View,
     StyleSheet,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import topImg from '../../../assets/img/routes/goodlistdetailtop.png';
 const { height,width } = Dimensions.get('window');
-
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
     container:{

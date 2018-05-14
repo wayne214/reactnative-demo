@@ -46,9 +46,9 @@ class driverOrderListItem extends Component {
         const pushTime = dataRow.time ? dataRow.time.replace(/-/g,'/').substring(0, dataRow.time.length - 3) : '';
         let arrivalTime = '';
         if(dataRow.orderSource === 1){
-            arrivalTime = dataRow.arrivalTime.replace(/-/g,'/').substring(0, 10);
+            arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, 10) : '';
         }else {
-            arrivalTime = dataRow.arrivalTime.replace(/-/g,'/').substring(0, 16);
+            arrivalTime = dataRow.arrivalTime ? dataRow.arrivalTime.replace(/-/g,'/').substring(0, 16) : '';
         }
         // 货品类型
         const orderDetailTypeList = dataRow.ofcOrderDetailTypeDtoList;

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {
     View,
     StyleSheet,
@@ -6,6 +6,7 @@ import {
     Text
 } from 'react-native';
 import ItemIcon from '../../../assets/home/goodlistitem_icon.png';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
     container:{

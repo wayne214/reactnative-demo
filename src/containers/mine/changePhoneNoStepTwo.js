@@ -28,6 +28,7 @@ import JPushModule from 'jpush-react-native';
 import {
     clearUser,
 } from '../../action/user';
+import Validator from '../../utils/validator';
 
 
 const {width, height} = Dimensions.get('window');
@@ -128,6 +129,12 @@ class changePhoneNoStepTwo extends Component {
     }
 
     fixPhone() {
+        if (!Validator.isInteger(this.state.phoneNumber)) {
+            return Toast.showShortCenter('请输入正确手机号');
+        }
+        if (!Validator.isInteger(this.state.smsCode)) {
+            return Toast.showShortCenter('请输入正确验证码');
+        }
         this.props.updateNewPhone({
             deviceId: DeviceInfo.getDeviceId(),
             loginName: global.userName,
@@ -174,7 +181,8 @@ class changePhoneNoStepTwo extends Component {
                         underlineColorAndroid={'transparent'}
                         placeholder="请输入新的手机号码"
                         onChangeText={(phoneNumber) => {
-                            this.setState({phoneNumber});
+                            const newText = phoneNumber.replace(/[^\d]+/, '');
+                            this.setState({phoneNumber: newText});
                         }}
                         keyboardType="numeric"
                         value={phoneNumber}
@@ -204,7 +212,8 @@ class changePhoneNoStepTwo extends Component {
                         }}
                         value={this.state.smsCode}
                         onChangeText={(smsCode) => {
-                            this.setState({smsCode});
+                            const newText = smsCode.replace(/[^\d]+/, '');
+                            this.setState({smsCode: newText});
                         }}
                         placeholder="请输入验证码"
                         keyboardType="numeric"
@@ -238,7 +247,7 @@ class changePhoneNoStepTwo extends Component {
                     />
                 </View>
                 <Button
-                    isDisabled={!(phoneNumber && smsCode)}
+                    isDisabled={!((phoneNumber && phoneNumber.length > 10)  && (smsCode && smsCode.length > 3))}
                     style={styles.loginButton}
                     textStyle={{color: 'white', fontSize: 18}}
                     onPress={() => {
