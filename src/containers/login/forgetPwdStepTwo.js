@@ -133,8 +133,8 @@ class ForgetPwdStepTwo extends Component {
     }
 
     finish() {
-        if (!Validator.isNewPassword((this.state.newPWD))) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
-        if (!Validator.isNewPassword((this.state.newPWDagain))) return Toast.showShortCenter('密码格式不正确，密码应为（6-14位）数字+英文字母组合');
+        if (!Validator.isNewPassword((this.state.newPWD))) return Toast.showShortCenter('请设置6-14位字母+数字');
+        if (!Validator.isNewPassword((this.state.newPWDagain))) return Toast.showShortCenter('请设置6-14位字母+数字');
 
         if (this.state.newPWD === '' && this.state.newPWDagain === '') {
             Toast.showShortCenter('密码不能为空');
