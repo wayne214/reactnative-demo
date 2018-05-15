@@ -210,10 +210,10 @@ class ModifyPassword extends React.Component {
                                     if (Validator.isNewPassword(this.state.confirmNewPwd)) {
                                         this.loginSecretCode();
                                     } else {
-                                        Toast.show('新密码不可包含特殊字符,总长度应为6至14位,需包含英文和数字');
+                                        Toast.show('请设置6-14位字母+数字');
                                     }
                                 } else {
-                                    Toast.show('新密码不可包含特殊字符,总长度应为6至14位,需包含英文和数字');
+                                    Toast.show('请设置6-14位字母+数字');
                                 }
                             }}
                         >

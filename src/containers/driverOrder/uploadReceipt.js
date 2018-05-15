@@ -278,22 +278,17 @@ class UploadReceipt extends Component {
                     lastTime = new Date().getTime();
                     // ReadAndWriteFileUtil.appendFile('上传回单', locationData.city, locationData.latitude, locationData.longitude, locationData.province,
                     //     locationData.district, lastTime - currentTime, '上传回单页面');
-                    if(response.result){
-                        Toast.showShortCenter('上传回单成功');
-
-                        if(this.state.flag != '1') {
-                            this.props._refreshOrderList(0);
-                            this.props._refreshOrderList(2);
-                            this.props._refreshOrderList(3);
-                        }
-                        DeviceEventEmitter.emit('refreshCarrierOrderList');
-                        this.props.navigation.dispatch({type: 'pop', key: 'Main'});
-                    }else {
-                        Toast.showShortCenter('上传回单失败');
+                    Toast.showShortCenter('上传回单成功');
+                    if(this.state.flag != '1') {
+                        this.props._refreshOrderList(0);
+                        this.props._refreshOrderList(2);
+                        this.props._refreshOrderList(3);
                     }
+                    DeviceEventEmitter.emit('refreshCarrierOrderList');
+                    this.props.navigation.dispatch({type: 'pop', key: 'Main'});
                 }else {
                     console.log('uploadError===',response.message);
-                    Toast.showShortCenter('图片上传失败，请重新上传');
+                    Toast.showShortCenter(response.message);
                 }
             },
             (error)=>{
