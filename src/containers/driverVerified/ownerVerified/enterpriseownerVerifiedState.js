@@ -383,14 +383,14 @@ class enterpriseownerVerifiedState extends Component {
                                         return;
 
                                       if (index === 0){
-                                          if (this.state.resultInfo.rmcPicAddress.legalPersonPositiveCardAddress){
-                                              this.showBigImage([this.state.resultInfo.rmcPicAddress.legalPersonPositiveCardAddress], 0);
+                                          if (this.state.resultInfo.rmcPicAddress.agentPositiveCardAddress){
+                                              this.showBigImage([this.state.resultInfo.rmcPicAddress.agentPositiveCardAddress], 0);
                                           }else
                                               Toast.showShortCenter('暂无图片');
                                       }
                                       if (index === 1){
-                                          if (this.state.resultInfo.rmcPicAddress.legalPersonOppositeCardAddress){
-                                              this.showBigImage([this.state.resultInfo.rmcPicAddress.legalPersonOppositeCardAddress], 0);
+                                          if (this.state.resultInfo.rmcPicAddress.agentOppositeCardAddress){
+                                              this.showBigImage([this.state.resultInfo.rmcPicAddress.agentOppositeCardAddress], 0);
                                           }else
                                               Toast.showShortCenter('暂无图片');
                                       }
