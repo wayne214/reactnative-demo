@@ -191,49 +191,50 @@ android {
             }
             def outputFile = output.outputFile
             if (variant.buildType.name.equals('release')) {
-               def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
+                def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             } else if (variant.buildType.name.equals('staging')) {
 //                def fileName = "carrier-staging-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
 //                output.outputFile = new File(outputFile.parent, fileName)
 //            }
+            }
         }
     }
-}
 
-dependencies {
-    compile project(':react-native-camera')
-    compile project(':react-native-toast')
-    compile project(':jcore-react-native')
-    compile project(':jpush-react-native')
-    compile project(':react-native-baidu-map-xzx')
-    compile project(':react-native-picker-custom')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-device-info')
-    compile project(':react-native-fs')
-    compile project(':react-native-code-push')
-    compile project(':react-native-fetch-blob')
-    compile project(':react-native-pdf')
-    compile project(':react-native-photo-view')
-    compile project(':react-native-image-crop-picker')
-    //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile "com.android.support:appcompat-v7:23.0.1"
-    compile 'com.facebook.react:react-native:+'
-    // From node_modules
-    compile 'com.facebook.fresco:animated-gif:0.13.0'
-    // From node_modules
-    compile files('libs/aliyun-oss-sdk-android-2.0.1.1.jar')
-    compile files('libs/okhttp-2.6.0.jar')
-    compile 'com.lijunhuayc.downloader:easyfiledownloader:1.1.5'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.amap.api:location:latest.integration'
-    compile files('libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar')
-}
+    dependencies {
+        compile project(':react-native-camera')
+        compile project(':react-native-toast')
+        compile project(':jcore-react-native')
+        compile project(':jpush-react-native')
+        compile project(':react-native-baidu-map-xzx')
+        compile project(':react-native-picker-custom')
+        compile project(':react-native-image-picker')
+        compile project(':react-native-splash-screen')
+        compile project(':react-native-device-info')
+        compile project(':react-native-fs')
+        compile project(':react-native-code-push')
+        compile project(':react-native-fetch-blob')
+        compile project(':react-native-pdf')
+        compile project(':react-native-photo-view')
+        compile project(':react-native-image-crop-picker')
+        //    compile fileTree(include: ['*.jar'], dir: 'libs')
+        //    compile "com.android.support:appcompat-v7:23.0.1"
+        compile 'com.facebook.react:react-native:+'
+        // From node_modules
+        compile 'com.facebook.fresco:animated-gif:0.13.0'
+        // From node_modules
+        compile files('libs/aliyun-oss-sdk-android-2.0.1.1.jar')
+        compile files('libs/okhttp-2.6.0.jar')
+        compile 'com.lijunhuayc.downloader:easyfiledownloader:1.1.5'
+        compile 'com.umeng.analytics:analytics:latest.integration'
+        compile 'com.amap.api:location:latest.integration'
+        compile files('libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar')
+    }
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
-task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
-    into 'libs'
+    task copyDownloadableDepsToLibs(type: Copy) {
+        from configurations.compile
+        into 'libs'
+    }
 }

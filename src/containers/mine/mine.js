@@ -990,6 +990,7 @@ class mine extends Component {
                 }
                 </ScrollView>
                 <Modal
+                    onRequestClose={()=> console.log('ignore warining')}
                     animationType={"fade"}
                     transparent={true}
                     visible={this.state.modalVisible}>

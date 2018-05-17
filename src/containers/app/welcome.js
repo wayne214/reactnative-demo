@@ -114,20 +114,13 @@ class WelcomeContainer extends React.Component {
                     </Image>
                 </View>
                 <View style={styles.slide}>
+                    <TouchableOpacity onPress={() => {
+                        this._toMain()
+                    }}>
                     <Image style={styles.image} source={require('../../../assets/img/guide/guide2.png')}
                            resizeMode={'stretch'}>
-
-                        <TouchableOpacity onPress={() => {
-                            this._toMain()
-                        }}>
-                            <View style={{
-                                height:100,
-                                width,
-                                marginTop:height-100,
-                            }}/>
-
-                        </TouchableOpacity>
                     </Image>
+                    </TouchableOpacity>
                 </View>
             </Swiper>
         );
