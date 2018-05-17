@@ -194,9 +194,8 @@ android {
                 def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             } else if (variant.buildType.name.equals('staging')) {
-//                def fileName = "carrier-staging-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
-//                output.outputFile = new File(outputFile.parent, fileName)
-//            }
+                def fileName = "carrier-staging-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
