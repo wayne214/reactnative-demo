@@ -102,8 +102,8 @@ android {
         applicationId "com.carrier"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 21
-        versionName "1.8.3"
+        versionCode 22
+        versionName "1.8.4"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -189,11 +189,11 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-//            def outputFile = output.outputFile
-//            if (variant.buildType.name.equals('release')) {
-//                def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
-//                output.outputFile = new File(outputFile.parent, fileName)
-//            } else if (variant.buildType.name.equals('staging')) {
+            def outputFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+               def fileName = "carrier-release-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            } else if (variant.buildType.name.equals('staging')) {
 //                def fileName = "carrier-staging-${variant.productFlavors[0].name}-${defaultConfig.versionName}.apk"
 //                output.outputFile = new File(outputFile.parent, fileName)
 //            }
