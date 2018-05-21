@@ -130,12 +130,12 @@ class GoodsList extends Component {
       if (user && user.userId) {
           this.compareVersion();
 
-          this.setState({
-              refreshing: true
-          });
-          setTimeout(()=>{
-              this.refresh();
-          },500);
+          // setTimeout(()=>{
+          //     this.setState({
+          //         refreshing: true
+          //     });
+          //     this.refresh();
+          // },1000);
       }
 
       this.resetCarrierGoodslistener = DeviceEventEmitter.addListener('resetCarrierGoods', () => {
@@ -163,6 +163,7 @@ class GoodsList extends Component {
           this.setState({
               appLoading: true,
           })
+      console.log('global.companyCode',global.companyCode)
       if (global.companyCode) {
           this.props._getNormalGoodsList({
               companyCode: global.companyCode,
