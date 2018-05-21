@@ -771,7 +771,7 @@ class companyCarOwnerAuth extends Component {
                 this.props.setOwnerCharacterAction('21');
 
                 this.props.setOwnerNameAction(this.state.companyName);
-                this.props.setCurrentCharacterAction('owner');
+                this.props.setCurrentCharacterAction('businessOwner');
                 DeviceEventEmitter.emit('verifiedSuccess');
 
 
