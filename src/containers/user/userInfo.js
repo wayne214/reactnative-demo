@@ -18,6 +18,7 @@ import BaseComponent from '../../components/common/baseComponent';
 import GeCompanyIcon from '../../../assets/img/user/ge_compony_icon.png';
 import Storage from '../../utils/storage';
 import StorageKey from '../../constants/storageKeys';
+import Toast from '@remobile/react-native-toast';
 
 class UserInfoContainer extends BaseComponent {
 
@@ -41,50 +42,23 @@ class UserInfoContainer extends BaseComponent {
         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
 
 		if (currentStatus === 'personalOwner'){
-                if (ownerStatus == 11 || ownerStatus == 12 || ownerStatus == 13){
+                if (ownerStatus != 14){
                     // 详情
                     this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_OWNER_VERIFIED })
 
-                }
-                if (ownerStatus != 11 && ownerStatus != 12 && ownerStatus != 13 && ownerStatus != 14){
-                	// 认证
-                    Storage.get(StorageKey.personownerInfoResult).then((value) => {
-                        if (value) {
-                            this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH ,
-                                params: {
-                                    resultInfo: value,
-                                }}
-                            )
-                        } else {
-                            this.props.navigation.dispatch({ type: RouteType.ROUTE_PERSON_CAR_OWNER_AUTH })
-                        }
-                    });
-				}
+                } else {
+                    Toast.showShortCenter('个人车主身份被禁用');
+								}
 
 		}
         if (currentStatus === 'businessOwner'){
-                if (ownerStatus == 21 || ownerStatus == 22 || ownerStatus == 23){
+                if (ownerStatus != 24){
                     // 详情
                     this.props.navigation.dispatch({ type: RouteType.ROUTE_ENTERPRISE_OWNER_VERIFIED_DETAIL })
 
-                }
-            if (ownerStatus != 21 && ownerStatus != 22 && ownerStatus != 23 && ownerStatus != 24){
-
-                // 认证
-                    Storage.get(StorageKey.enterpriseownerInfoResult).then((value) => {
-                        if (value) {
-                            this.props.navigation.dispatch({
-                                type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH ,
-                                params: {
-                                    resultInfo: value,
-                                }}
-                            )
-                        } else {
-                            this.props.navigation.dispatch({ type: RouteType.ROUTE_COMPANY_CAR_OWNER_AUTH })
-                        }
-                    });
-                }
+                } else {
+                    Toast.showShortCenter('企业车主身份被禁用');
+								}
 
         }
 

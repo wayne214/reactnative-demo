@@ -135,7 +135,7 @@ class personCarOwnerAuth extends Component {
                 isChooseVehicleLicenseViceTrunImage: result.isChooseVehicleLicenseViceTrunImage,
 
                 isShowCardInfo: result.IDCard ? true : false,
-                isShowDriverInfo: result.carEngineNumber ? true : false,
+                isShowDriverInfo: result.carNumber ? true : false,
 
                 // 默认
                 moRenidCardName: result.moRenidCardName, // 身份证解析姓名
@@ -720,11 +720,11 @@ class personCarOwnerAuth extends Component {
         //     return;
         // }
         if (!this.state.drivingLicenseValidUntil){
-            Toast.showShortCenter('请选择行驶证发证日期');
+            Toast.showShortCenter('请选择行驶证有效期');
             return;
         }
         if (!this.isRightData(this.state.drivingLicenseValidUntil)){
-            Toast.showShortCenter('所选择的行驶证发证日期应大于今天，请重新选择');
+            Toast.showShortCenter('所选择的行驶证有效期应大于今天，请重新选择');
 
             return;
         }
