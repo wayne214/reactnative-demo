@@ -324,25 +324,28 @@ class MainContainer extends BaseComponent {
             const extras = JSON.parse(message.extras)
             message.messageType = extras.messsageType
         }
-        const messageType = message.messsageType || 1;
+        const messageType = message.messsageType;
         if (messageType == 1) {
             // 站内信
-            this._pushToMessageListWithType(1)
+            this._pushToMessageListWithType(0)
+            console.log('通知消息')
         } else {
             // 公告
             //Storage.get('user').then(result => {
               //  if (result && result.userId) {
-                    this._pushToMessageListWithType(2);
-                //}
+                    this._pushToMessageListWithType(1);
+            console.log('系统公告')
+
+            //}
         //    });
         }
     }
 
     _pushToMessageListWithType(messageType) {
-        const currentRoute = this.props.nav.routes[this.props.nav.index].routeName
+        const currentRoute = this.props.nav.routes[this.props.nav.index].routeName;
         if (currentRoute === RouteType.ROUTE_MESSAGE_LIST) {
             this.props.dispatch(dispatchRefreshMessageList())
-        } else if (currentRoute.key === RouteType.ROUTE_MESSAGE_DETAIL) {
+        } else if (currentRoute === RouteType.ROUTE_MESSAGE_DETAIL) {
             this.props.navigation.dispatch({type: 'pop'})
         } else {
             this.props.navigation.dispatch({
