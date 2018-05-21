@@ -45,7 +45,7 @@ const initState = Immutable.fromJS({
         isRefreshing: false
     },
     imageList: Immutable.List(),
-    maxNum: 9, // 照片最大张数
+    maxNum: 9,
     tabIndex: 0,
     isUploadOdoFlag: true,
 });
@@ -125,7 +125,6 @@ export default (state = initState, action) => {
             });
             newState = newState.set('imageList', imageList);
             newState = newState.set('maxNum', maxNum);
-            console.log('maxNum=', maxNum);
             return newState;
 
         case ActionTypes.DELETE_IMAGE:
@@ -135,7 +134,6 @@ export default (state = initState, action) => {
             maxNum += 1;
             newState = newState.set('imageList', imageList);
             newState = newState.set('maxNum', maxNum);
-            console.log('maxNum=', maxNum);
             return newState;
 
         case ActionTypes.UPDATE_IMAGES:
