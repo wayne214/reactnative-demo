@@ -324,17 +324,17 @@ class MainContainer extends BaseComponent {
             const extras = JSON.parse(message.extras)
             message.messageType = extras.messsageType
         }
-        const messageType = message.messsageType || message.messageType || 1
+        const messageType = message.messsageType || 1;
         if (messageType == 1) {
             // 站内信
             this._pushToMessageListWithType(1)
         } else {
             // 公告
-            Storage.get('user').then(result => {
-                if (result && result.userId) {
-                    this._pushToMessageListWithType(2)
-                }
-            });
+            //Storage.get('user').then(result => {
+              //  if (result && result.userId) {
+                    this._pushToMessageListWithType(2);
+                //}
+        //    });
         }
     }
 
@@ -347,7 +347,7 @@ class MainContainer extends BaseComponent {
         } else {
             this.props.navigation.dispatch({
                 type: RouteType.ROUTE_MESSAGE_LIST,
-                params: {title: '消息', currentTab: parseInt(messageType) - 1}
+                params: {title: '消息', currentTab: messageType}
             })
         }
     }
