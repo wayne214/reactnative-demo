@@ -796,7 +796,7 @@ class personCarOwnerAuth extends Component {
 
                 this.props.setOwnerCharacterAction('11');
                 this.props.setOwnerNameAction(this.state.IDName);
-                this.props.setCurrentCharacterAction('owner');
+                this.props.setCurrentCharacterAction('personalOwner');
 
 
                 if (this.props.navigation.state.params && this.props.navigation.state.params.type){
