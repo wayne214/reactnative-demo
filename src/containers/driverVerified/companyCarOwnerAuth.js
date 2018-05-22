@@ -792,6 +792,7 @@ class companyCarOwnerAuth extends Component {
                 });
             }
         });
+
     }
     quaryAccountRoleCallback(result) {
         console.log("------账号角色信息",result);

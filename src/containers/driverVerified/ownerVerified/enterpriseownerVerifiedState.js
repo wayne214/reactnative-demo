@@ -166,11 +166,12 @@ class enterpriseownerVerifiedState extends Component {
                 idCardImage: result.rmcPicAddress.agentPositiveCardThumbnailAddress,
                 idCardTrunImage: result.rmcPicAddress.agentOppositeCardThumbnailAddress,
 
-                legalPersonPositiveCard: result.rmcPicAddress.agentPositiveCardAddress, // 身份证正面原图
-                legalPersonPositiveCardThumbnail: result.rmcPicAddress.agentPositiveCardThumbnailAddress, // 身份证正面缩略图
 
-                legalPersonOppositeCard: result.rmcPicAddress.agentOppositeCardAddress, // 身份证反面原图
-                legalPersonOppositeCardThumbnail: result.rmcPicAddress.agentOppositeCardThumbnailAddress, // 身份证反面缩略图
+                legalPersonPositiveCard: result.agentPositiveCard, // 身份证正面原图
+                legalPersonPositiveCardThumbnail: result.agentPositiveCardThumbnail, // 身份证正面缩略图
+
+                legalPersonOppositeCard: result.agentOppositeCard, // 身份证反面原图
+                legalPersonOppositeCardThumbnail: result.agentOppositeCardThumbnail, // 身份证反面缩略图
 
 
                 companyName: result.rmcAnalysisAndContrast.manualComName,
