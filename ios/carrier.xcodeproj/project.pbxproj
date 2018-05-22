@@ -2105,7 +2105,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.llmj.carrier;
 				PRODUCT_NAME = carrier;
-				PROVISIONING_PROFILE = "211676dc-8782-4c2a-8ff0-e1c942013561";
+				PROVISIONING_PROFILE = "a73bad38-45ad-4f82-9f8c-b471a35d16d2";
 				PROVISIONING_PROFILE_SPECIFIER = llmjcarrier_dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
