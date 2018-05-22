@@ -159,18 +159,18 @@ class enterpriseownerVerifiedState extends Component {
 
             let obj = {
 
-                IDName: result.rmcAnalysisAndContrast.manualLegalIdCardName,
-                IDCard: result.rmcAnalysisAndContrast.manualLegalIdCard,
-                IDDate: result.rmcAnalysisAndContrast.manualLegalIdCardValidity,
+                IDName: result.rmcAnalysisAndContrast.agentIdCardName,
+                IDCard: result.rmcAnalysisAndContrast.agentIdCard,
+                IDDate: result.rmcAnalysisAndContrast.agentIdCardValidity,
 
-                idCardImage: result.rmcPicAddress.legalPersonPositiveCardThumbnailAddress,
-                idCardTrunImage: result.rmcPicAddress.legalPersonOppositeCardThumbnailAddress,
+                idCardImage: result.rmcPicAddress.agentPositiveCardThumbnailAddress,
+                idCardTrunImage: result.rmcPicAddress.agentOppositeCardThumbnailAddress,
 
-                legalPersonPositiveCard: result.legalPersonPositiveCard, // 身份证正面原图
-                legalPersonPositiveCardThumbnail: result.legalPersonPositiveCardThumbnail, // 身份证正面缩略图
+                legalPersonPositiveCard: result.rmcPicAddress.agentPositiveCardAddress, // 身份证正面原图
+                legalPersonPositiveCardThumbnail: result.rmcPicAddress.agentPositiveCardThumbnailAddress, // 身份证正面缩略图
 
-                legalPersonOppositeCard: result.legalPersonOppositeCard, // 身份证反面原图
-                legalPersonOppositeCardThumbnail: result.legalPersonOppositeCardThumbnail, // 身份证反面缩略图
+                legalPersonOppositeCard: result.rmcPicAddress.agentOppositeCardAddress, // 身份证反面原图
+                legalPersonOppositeCardThumbnail: result.rmcPicAddress.agentOppositeCardThumbnailAddress, // 身份证反面缩略图
 
 
                 companyName: result.rmcAnalysisAndContrast.manualComName,
@@ -188,14 +188,14 @@ class enterpriseownerVerifiedState extends Component {
                 isChooseBusinessLicenseValidTrunImage: false,
 
                 // 默认
-                leadPersonName: result.person, // 法人姓名
-                leadPersonCardCode: result.legalIdCard, // 法人身份证号
-                leadPersonCardCodeTime: result.legalIdCardValidity, //法 人身份证有效期至
-                comName: result.comName, // 解析的公司名称
-                person: result.legalIdCardName, // 解析的法人名称
-                comAddress: result.comAddress, // 解析的公司地址
-                unifiedSocialCreditCode: result.unifiedSocialCreditCode, // 解析的统一社会信用代码
-                businessValidity: result.businessValidity, // 营业执照有效期
+                leadPersonName: result.rmcAnalysisAndContrast.idCardName, // 法人姓名
+                leadPersonCardCode: result.rmcAnalysisAndContrast.idCard, // 法人身份证号
+                leadPersonCardCodeTime: result.rmcAnalysisAndContrast.idCardValidity, //法 人身份证有效期至
+                comName: result.rmcAnalysisAndContrast.comName, // 解析的公司名称
+                person: result.rmcAnalysisAndContrast.person, // 解析的法人名称
+                comAddress: result.rmcAnalysisAndContrast.comAddress, // 解析的公司地址
+                unifiedSocialCreditCode: result.rmcAnalysisAndContrast.unifiedSocialCreditCode, // 解析的统一社会信用代码
+                businessValidity: result.rmcAnalysisAndContrast.businessValidity, // 营业执照有效期
 
                 isShowCardInfo: true,
                 isShowCompanyInfo: true

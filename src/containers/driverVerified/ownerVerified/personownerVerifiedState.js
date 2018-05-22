@@ -142,7 +142,6 @@ class personownerVerifiedState extends Component{
         currentTime = new Date().getTime();
         HTTPRequest({
             url: API.API_QUERY_COMPANY_INFO,
-            //url: 'http://192.168.32.83:8899/app/rmc/company/queryCompanyInfoByBusTel',
             params: {
                 busTel: userPhone,
                 companyNature: '个人'
