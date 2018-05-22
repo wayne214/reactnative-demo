@@ -325,7 +325,7 @@ class MainContainer extends BaseComponent {
             message.messageType = extras.messsageType
         }
         console.log('_pushToMessageList: ', message)
-
+        Alert.alert('',message);
         const messageType = message.messageType;
         if (messageType == 1) {
             // 站内信
