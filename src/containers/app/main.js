@@ -324,7 +324,9 @@ class MainContainer extends BaseComponent {
             const extras = JSON.parse(message.extras)
             message.messageType = extras.messsageType
         }
-        const messageType = message.messsageType;
+        console.log('_pushToMessageList: ', message)
+
+        const messageType = message.messageType;
         if (messageType == 1) {
             // 站内信
             this._pushToMessageListWithType(0)
@@ -642,6 +644,7 @@ const mapDispatchToProps = (dispatch) => {
                 api: API_QUERY_COMPANY_INFO,
                 success: (data) => {
                     dispatch(queryCompanyInfoAction(data))
+                    DeviceEventEmitter.emit('resetCarrierGoods');
                 },
                 fail: (error) => {
                     console.log(error);
