@@ -91,7 +91,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginLeft: 10,
         marginRight: 10,
-        paddingBottom: 5,
+        ...Platform.select({
+            ios:{
+                paddingBottom: 5,
+            },
+        }),
     },
     textLeft: {
         width: 80,
@@ -99,17 +103,31 @@ const styles = StyleSheet.create({
         color: '#333333',
         alignItems: 'center',
         paddingLeft: 15,
-        marginTop: 30,
-
+        ...Platform.select({
+            ios:{
+                marginTop: 30,
+            },
+            android: {
+                marginTop: 20,
+            }
+        }),
     },
     textInput: {
         flex: 1,
         fontSize: 16,
         color: '#333333',
         alignItems: 'center',
+        padding: 0,
         paddingRight: 15,
         paddingLeft: 15,
-        marginTop: 9,
+        ...Platform.select({
+            ios: {
+                marginTop: 8,
+            },
+            android: {
+                marginTop: 3,
+            }
+        })
     },
     lineUnderInput: {
         height: 2,
@@ -217,6 +235,7 @@ class Login extends BaseComponent {
 
     componentDidMount() {
         console.log('height', height);
+        // Toast.showLongCenter('手机厂商:'+DeviceInfo.getBrand());
         // if (Platform.OS === 'ios') {
         //     // this.getCurrentPosition();
         // } else {
@@ -299,7 +318,7 @@ class Login extends BaseComponent {
             <ScrollView
                 ref = 'scrollViewLogin'
                 style={styles.container}>
-                <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
+                <ImageBackground style={{width: width, height: width * 667 / 375}} source={LoginBackground}>
                 <KeyboardAwareScrollView
                     scrollOffset = {50}
                     alwaysBounceVertical={height < 667}
