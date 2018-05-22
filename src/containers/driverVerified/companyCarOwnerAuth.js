@@ -91,7 +91,6 @@ class companyCarOwnerAuth extends Component {
         if (this.props.navigation.state.params && this.props.navigation.state.params.resultInfo) {
             const result = this.props.navigation.state.params.resultInfo;
 
-
             this.state = {
                 appLoading: false,
 
@@ -684,7 +683,7 @@ class companyCarOwnerAuth extends Component {
 
             return;
         }
-        if (!this.state.legalPersonPositiveCard){ // 135 1346 7256
+        if (!this.state.legalPersonPositiveCard){
             Toast.showShortCenter('请上传经办人身份证正面');
             return;
         }
@@ -776,19 +775,12 @@ class companyCarOwnerAuth extends Component {
 
 
 
-                if (this.props.navigation.state.params && this.props.navigation.state.params.type){
-
-
-                    // this.props.navigation.dispatch({
-                    //     type: 'Main',
-                    //     mode: 'reset',
-                    //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
-                    // })
-
-                    this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
-
-                }else
-                    this.props.navigation.dispatch({type: 'pop',key: 'Main'});
+                setTimeout(()=>{
+                    if (this.props.navigation.state.params && this.props.navigation.state.params.type){
+                        this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
+                    }else
+                        this.props.navigation.dispatch({type: 'pop',key: 'Main'});
+                },500)
 
 
             },

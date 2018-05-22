@@ -41,6 +41,7 @@ class UserInfoContainer extends BaseComponent {
 
         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
 
+
 		if (currentStatus === 'personalOwner'){
                 if (ownerStatus != 14){
                     // 详情
@@ -59,7 +60,6 @@ class UserInfoContainer extends BaseComponent {
                 } else {
                     Toast.showShortCenter('企业车主身份被禁用');
 								}
-
         }
 
 
