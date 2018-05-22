@@ -79,7 +79,14 @@ const styles = StyleSheet.create({
     leftText: {
         paddingLeft: 15,
         justifyContent: 'center',
-        marginTop: 30,
+        ...Platform.select({
+            ios:{
+                marginTop: 30,
+            },
+            android: {
+                marginTop: 20,
+            }
+        }),
     },
     leftTextString: {
         color: StaticColor.LIGHT_BLACK_TEXT_COLOR,
@@ -92,12 +99,14 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginLeft: 10,
         marginRight: 10,
-        paddingBottom: 5,
+        ...Platform.select({
+            ios:{
+                paddingBottom: 5,
+            },
+        }),
     },
     cellContainer2: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         borderBottomColor: '#e8e8e8',
         borderBottomWidth: 1,
         marginLeft: 10,
@@ -115,8 +124,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333333',
         alignItems: 'center',
+        padding: 0,
         paddingLeft: 15,
-        marginTop: 9,
+        paddingRight: 15,
+        ...Platform.select({
+            ios: {
+                marginTop: 8,
+            },
+            android: {
+                marginTop: 3,
+            }
+        })
     },
     separateLine: {
         height: 0.5,
@@ -316,7 +334,7 @@ class LoginSms extends BaseComponent {
         // console.log('lqq-render--smsCode--',smsCode);
         return (
             <View style={styles.container}>
-                <ImageBackground style={{width: width, height: height}} source={LoginBackground}>
+                <ImageBackground style={{width: width, height: width * 667 / 375}} source={LoginBackground}>
                 <KeyboardAwareScrollView style={{width: width, height: height}}
                                          alwaysBounceVertical={height < 667}
                                          automaticallyAdjustContentInsets={false}>
@@ -360,7 +378,7 @@ class LoginSms extends BaseComponent {
                             {/*}*/}
                         </View>
                         <View style={styles.cellContainer2}>
-                            <View>
+                            <View style={{flex: 1}}>
                                 <View style={styles.leftText}>
                                     <Text style={styles.leftTextString}>
                                         验证码
