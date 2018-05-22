@@ -322,11 +322,10 @@ class MainContainer extends BaseComponent {
     _pushToMessageList(message) {// messageType 1=站内信 2=系统公告
         if (message && message.extras && IS_ANDROID) {
             const extras = JSON.parse(message.extras)
-            message.messageType = extras.messsageType
+            message.messsageType = extras.messsageType
         }
-        console.log('_pushToMessageList: ', message)
-        Alert.alert('',message);
-        const messageType = message.messageType;
+        console.log('_pushToMessageList: ', message);
+        const messageType = message.messsageType;
         if (messageType == 1) {
             // 站内信
             this._pushToMessageListWithType(0)
