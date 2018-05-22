@@ -1,6 +1,4 @@
 rootProject.name = 'carrier'
-include ':@remobile/react-native-toast'
-project(':@remobile/react-native-toast').projectDir = new File(rootProject.projectDir, '../node_modules/@remobile/react-native-toast/android')
 include ':react-native-syan-image-picker'
 project(':react-native-syan-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-syan-image-picker/android')
 include ':jcore-react-native'
@@ -29,8 +27,6 @@ include ':react-native-pdf'
 project(':react-native-pdf').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pdf/android')
 include ':react-native-photo-view'
 project(':react-native-photo-view').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-photo-view/android')
-include ':react-native-image-crop-picker'
-project(':react-native-image-crop-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-crop-picker/android')
 include ':react-native-toast'
 project(':react-native-toast').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-toast/android')
 include ':app'
