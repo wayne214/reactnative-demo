@@ -21,7 +21,7 @@ import * as RouteType from '../../constants/routeType';
 import PermissionsManager from '../../utils/permissionManager';
 import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
 import DialogSelected from '../../components/common/alertSelected';
-import ImagePicker from 'react-native-image-crop-picker';
+import SyanImagePicker from 'react-native-syan-image-picker';
 import Toast from '@remobile/react-native-toast';
 import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
 import {fetchData} from '../../action/app';
@@ -36,7 +36,6 @@ import {
 const {width, height} = Dimensions.get('window');
 const selectedArr = ["拍照", "从手机相册选择"];
 const ImageWH = (width - 70) / 4;
-let maxNum = 9;
 
 
 class uploadODO extends Component {
@@ -186,16 +185,16 @@ class uploadODO extends Component {
     }
     // 选择照片
     pickMultiple() {
-        ImagePicker.openPicker({
-            multiple: true,
-            waitAnimationEnd: false,
-            hideBottomControls: true,
-            enableRotationGesture: true,
-            maxFiles: this.props.maxNum,
-            compressImageMaxWidth: 500,
-            compressImageMaxHeight: 500,
-            mediaType: 'photo',
-        }).then(images => {
+        SyanImagePicker.showImagePicker({
+            imageCount: this.props.maxNum,
+            isCamera: false,
+            quality: 100,
+        }, (err, images) => {
+            if (err) {
+                // 取消选择
+                return;
+            }
+            // 选择成功，渲染图片
             let totalLen = this.props.imageList.size + images.length;
             let arr = images;
             if (totalLen > 9) {
@@ -205,16 +204,16 @@ class uploadODO extends Component {
             this.setState({
                 data: arr.map(i => {
                     console.log('received image', i);
-                    let arr = i.path.split('/');
+                    let arr = i.uri.split('/');
                     let id = arr[arr.length - 1];
-                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: id};
+                    return {uri: i.uri, width: i.width, height: i.height, size: i.size, id: id};
                 }),
             });
             console.log('-----------',this.state.data.length);
             this.props.dispatch(addImage(this.state.data));
             // maxNum = this.props.maxNum;
             console.log('maxNum', this.props.maxNum);
-        }).catch(e => console.log(e));
+        });
     }
 
     // 打开相机

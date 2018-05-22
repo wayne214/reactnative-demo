@@ -51,7 +51,7 @@ class MessageContainer extends BaseComponent {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
             }),
-            currentTab: props.navigation.state.params.currentTab || 0,
+            currentTab: props.navigation.state.params.currentTab,
             isActive: false,
             focusedAnim: new Animated.Value(0),
             rightTitle: '编辑'

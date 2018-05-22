@@ -3,7 +3,7 @@ import {
 	View,
 	Image,
 	Text,
-	TouchableHighlight
+	TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavigatorBar from '../../components/common/navigatorbar';
@@ -41,6 +41,7 @@ class UserInfoContainer extends BaseComponent {
 
         // currentStatus ： driver 司机  personalOwner 个人车主 businessOwner 企业车主
 
+
 		if (currentStatus === 'personalOwner'){
                 if (ownerStatus != 14){
                     // 详情
@@ -59,7 +60,6 @@ class UserInfoContainer extends BaseComponent {
                 } else {
                     Toast.showShortCenter('企业车主身份被禁用');
 								}
-
         }
 
 
@@ -151,7 +151,7 @@ class UserInfoContainer extends BaseComponent {
 					{/*}*/}
 					{/*</View>*/}
 				{/*</View>*/}
-				<TouchableHighlight
+				<TouchableOpacity
 					>
 					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
 						<View style={ styles.cell }>
@@ -161,9 +161,9 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.rightText }>{ this.props.ownerName ? this.props.ownerName : '' }</Text>
 						</View>
 					</View>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
-				<TouchableHighlight
+				<TouchableOpacity
 					>
 					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }] }>
 						<View style={ styles.cell }>
@@ -173,10 +173,10 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.rightText }>{ global.phone ? (global.phone.substr(0, 3) + '****' + global.phone.substr(7, 4)) : '' }</Text>
 						</View>
 					</View>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 
-				<TouchableHighlight
+				<TouchableOpacity
 
 					onPress={ this._authOrInfo }>
 					<View style={ [styles.cellContainer, { borderTopWidth: 1, borderTopColor: '#e6eaf2' }]}>
@@ -187,10 +187,10 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ [styles.authText, { color: '#999999' }] }>{ authStatusText }</Text>
 						</View>
 					</View>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 
-				<TouchableHighlight
+				<TouchableOpacity
 
 					 onPress={ () =>
 							 // this.props.navigation.dispatch({type: RouteType.ROUTE_PASSWORD_PAGE, params: {title: '修改登录密码'}})
@@ -204,7 +204,7 @@ class UserInfoContainer extends BaseComponent {
 							<Text style={ styles.iconFont }>&#xe63d;</Text>
 						</View>
 					</View>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 				{/*<TouchableHighlight*/}
 					{/*underlayColor='#e6eaf2'*/}

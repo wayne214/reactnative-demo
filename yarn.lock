@@ -3539,7 +3539,7 @@ prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.6.0:
+prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -3824,6 +3824,10 @@ react-native-swiper@^1.5.10:
 react-native-switch@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/react-native-switch/download/react-native-switch-1.1.0.tgz#4dd6e0dc458668a14a69ec1370e0eb7905c77236"
+
+react-native-syan-image-picker@^0.1.6:
+  version "0.1.6"
+  resolved "http://registry.npm.taobao.org/react-native-syan-image-picker/download/react-native-syan-image-picker-0.1.6.tgz#d3979caa099c5127ce9dbab3f7765972494b102e"
 
 react-native-tab-navigator@^0.3.4:
   version "0.3.4"

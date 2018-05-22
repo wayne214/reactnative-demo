@@ -796,22 +796,15 @@ class personCarOwnerAuth extends Component {
 
                 this.props.setOwnerCharacterAction('11');
                 this.props.setOwnerNameAction(this.state.IDName);
-                this.props.setCurrentCharacterAction('owner');
+                this.props.setCurrentCharacterAction('personalOwner');
 
 
-                if (this.props.navigation.state.params && this.props.navigation.state.params.type){
-
-
-                    // this.props.navigation.dispatch({
-                    //     type: 'Main',
-                    //     mode: 'reset',
-                    //     params: {title: '', currentTab: 'route', insiteNotice: '123'}
-                    // })
-
-                    this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
-
-                }else
-                    this.props.navigation.dispatch({type: 'pop',key: 'Main'});
+                setTimeout(()=>{
+                    if (this.props.navigation.state.params && this.props.navigation.state.params.type){
+                        this.props.quaryAccountRole(global.phone,this.quaryAccountRoleCallback);
+                    }else
+                        this.props.navigation.dispatch({type: 'pop',key: 'Main'});
+                },500)
 
 
             },

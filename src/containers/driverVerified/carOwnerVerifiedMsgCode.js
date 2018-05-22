@@ -150,6 +150,8 @@ class carOwnerVerifiedMsgCode extends Component {
     }
 
     carSuccess(data){
+        Toast.show('添加车辆成功');
+
         DeviceEventEmitter.emit('certificationSuccess');
         this.props.saveUserSetCarSuccess({carNum: this.state.carNumber, carStatus: 0});
 

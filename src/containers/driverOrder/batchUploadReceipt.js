@@ -22,8 +22,8 @@ import {
 
 import NavigationBar from '../../components/common/navigatorbar';
 import CommonCell from "../../containers/mine/cell/commonCell";
+import SyanImagePicker from 'react-native-syan-image-picker';
 import DialogSelected from '../../components/common/alertSelected';
-import ImagePicker from 'react-native-image-crop-picker';
 import Button from 'apsl-react-native-button';
 import ClickUtil from '../../utils/prventMultiClickUtil';
 import Toast from '@remobile/react-native-toast';
@@ -206,16 +206,16 @@ class batchUploadReceipt extends Component {
     }
     // 选择照片
     pickMultiple() {
-        ImagePicker.openPicker({
-            multiple: true,
-            waitAnimationEnd: false,
-            hideBottomControls: true,
-            enableRotationGesture: true,
-            maxFiles: this.props.maxNum,
-            compressImageMaxWidth: 500,
-            compressImageMaxHeight: 500,
-            mediaType: 'photo',
-        }).then(images => {
+        SyanImagePicker.showImagePicker({
+            imageCount: this.props.maxNum,
+            isCamera: false,
+            quality: 100,
+        }, (err, images) => {
+            if (err) {
+                // 取消选择
+                return;
+            }
+            // 选择成功，渲染图片
             let totalLen = this.props.imageList.size + images.length;
             let arr = images;
             if (totalLen > 9) {
@@ -225,16 +225,16 @@ class batchUploadReceipt extends Component {
             this.setState({
                 data: arr.map(i => {
                     console.log('received image', i);
-                    let arr = i.path.split('/');
+                    let arr = i.uri.split('/');
                     let id = arr[arr.length - 1];
-                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime, id: id};
+                    return {uri: i.uri, width: i.width, height: i.height, size: i.size, id: id};
                 }),
             });
             console.log('-----------',this.state.data.length);
             this.props.dispatch(addImage(this.state.data));
             // maxNum = this.props.maxNum;
             console.log('maxNum', this.props.maxNum);
-        }).catch(e => console.log(e));
+        });
     }
 
     // 打开相机
