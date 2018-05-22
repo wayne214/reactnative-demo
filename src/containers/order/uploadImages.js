@@ -22,7 +22,7 @@ import {changeOrderToStateWithOrderNo,configBillOutImage} from '../../action/ord
 import { HOST, OSS_ORDER } from '../../constants/setting';
 import { OOS_CONFIG, ADD_COMPANY_AUTH } from '../../constants/api';
 import {shouldOrderListRefreshAction} from '../../action/order.js'
-import CommonImagePicker from '../../components/common/commonImagePicker'
+// import CommonImagePicker from '../../components/common/commonImagePicker'
 import upload_add from '../../../assets/img/order/upload_add.png'
 import upload_del from '../../../assets/img/order/upload_del.png'
 const { height,width } = Dimensions.get('window')
@@ -224,16 +224,16 @@ class ClassName extends BaseComponent {
 			<View style={styles.viewContent}>
 				{this._renderImages()}
 			</View>
-			<CommonImagePicker
-				show={showImagePicker}
-				configData={{maxFiles: 10,multiple: true}}
-				actionBack={(result) =>{
-					this._updateImages(result)
-					console.log("====== images ",result);
-				}}
-				cancleAction={()=>{
-					this.setState({showImagePicker: false})
-				}}/>
+			{/*<CommonImagePicker*/}
+				{/*show={showImagePicker}*/}
+				{/*configData={{maxFiles: 10,multiple: true}}*/}
+				{/*actionBack={(result) =>{*/}
+					{/*this._updateImages(result)*/}
+					{/*console.log("====== images ",result);*/}
+				{/*}}*/}
+				{/*cancleAction={()=>{*/}
+					{/*this.setState({showImagePicker: false})*/}
+				{/*}}/>*/}
 			<ImagePreview
 				activeIndex={activeIndex}
 				imagePathes={imagePathes}

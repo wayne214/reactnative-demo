@@ -30,7 +30,7 @@ import * as RouteType from '../../constants/routeType';
 import { HOST, OSS_CARRIER_AUTH } from '../../constants/setting';
 import { fetchData, getInitStateFromDB, mergeUser, updateOSSConfig } from '../../action/app';
 import { OOS_CONFIG, ADD_COMPANY_AUTH,GET_AUTHINFO_DETAIL } from '../../constants/api';
-import CommonImagePicker from '../../components/common/commonImagePicker';
+// import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/org_code.png';
 import ExampleImageYY from '../../../assets/img/auth/business_licence.png';
 import ExampleImageC from '../../../assets/img/auth/transport_licence.png';
@@ -435,32 +435,32 @@ class CompanyAuthContainer extends BaseComponent {
 				<ImagePreview show={this.state.showPhoto} activeIndex={this.state.activeIndex} imagePathes={this.state.imagePathes} hide={()=>{
 					this.setState({ showPhoto: false })}}/>
 
-				<CommonImagePicker
-					type={ this.state.type }
-					show={ this.state.showImagePicker }
-					configData={{}}
-					cameraAction={ image => {}}
-					actionBack={ image => {
-						if (image[0].type === 'comBineImg') this.setState({ combineImgSource: image[0].source, combineImgPath: image[0].path, combineLoadingText: '正在上传' });
-						if (image[0].type === 'yingYeImg') this.setState({ yingyeImgSource: image[0].source, yingyeImgPath: image[0].path, yingYeLoadingText: '正在上传' });
- 						if (image[0].type === 'companyImg') this.setState({ companyImgSource: image[0].source, companyImgPath: image[0].path, companyLoadingText: '正在上传' });
- 						if (image[0].type === 'shuiwImg') this.setState({ shuiwImgSource: image[0].source, shuiwImgPath: image[0].path, shuiwLoadingText: '正在上传' });
-						this.props._getOssConfig({ type: image[0].type, path: image[0].path }, (type) => {
-							if (type === 'comBineImg') this.setState({ combineLoadingText: '' })
-							if (type === 'yingYeImg') this.setState({ yingYeLoadingText: '' })
-							if (type === 'companyImg') this.setState({ companyLoadingText: '' })
-							if (type === 'shuiwImg') this.setState({ shuiwLoadingText: '' })
-						}, reject => {
-							if (this.type === 'comBineImg') this.setState({ combineLoadingText: '重新上传' })
-							if (this.type === 'yingYeImg') this.setState({ yingYeLoadingText: '重新上传' })
-							if (this.type === 'companyImg') this.setState({ companyLoadingText: '重新上传' })
-							if (this.type === 'shuiwImg') this.setState({ shuiwLoadingText: '重新上传' })
-						});
-					}}
-					libraryAction={ image => {} }
-					exampleImage={ this.state.exampleImg }
-					cancleAction={ () => { this.setState({ showImagePicker: false }) }}
-					exampleImageIntroduction={ '' }/>
+				{/*<CommonImagePicker*/}
+					{/*type={ this.state.type }*/}
+					{/*show={ this.state.showImagePicker }*/}
+					{/*configData={{}}*/}
+					{/*cameraAction={ image => {}}*/}
+					{/*actionBack={ image => {*/}
+						{/*if (image[0].type === 'comBineImg') this.setState({ combineImgSource: image[0].source, combineImgPath: image[0].path, combineLoadingText: '正在上传' });*/}
+						{/*if (image[0].type === 'yingYeImg') this.setState({ yingyeImgSource: image[0].source, yingyeImgPath: image[0].path, yingYeLoadingText: '正在上传' });*/}
+ 						{/*if (image[0].type === 'companyImg') this.setState({ companyImgSource: image[0].source, companyImgPath: image[0].path, companyLoadingText: '正在上传' });*/}
+ 						{/*if (image[0].type === 'shuiwImg') this.setState({ shuiwImgSource: image[0].source, shuiwImgPath: image[0].path, shuiwLoadingText: '正在上传' });*/}
+						{/*this.props._getOssConfig({ type: image[0].type, path: image[0].path }, (type) => {*/}
+							{/*if (type === 'comBineImg') this.setState({ combineLoadingText: '' })*/}
+							{/*if (type === 'yingYeImg') this.setState({ yingYeLoadingText: '' })*/}
+							{/*if (type === 'companyImg') this.setState({ companyLoadingText: '' })*/}
+							{/*if (type === 'shuiwImg') this.setState({ shuiwLoadingText: '' })*/}
+						{/*}, reject => {*/}
+							{/*if (this.type === 'comBineImg') this.setState({ combineLoadingText: '重新上传' })*/}
+							{/*if (this.type === 'yingYeImg') this.setState({ yingYeLoadingText: '重新上传' })*/}
+							{/*if (this.type === 'companyImg') this.setState({ companyLoadingText: '重新上传' })*/}
+							{/*if (this.type === 'shuiwImg') this.setState({ shuiwLoadingText: '重新上传' })*/}
+						{/*});*/}
+					{/*}}*/}
+					{/*libraryAction={ image => {} }*/}
+					{/*exampleImage={ this.state.exampleImg }*/}
+					{/*cancleAction={ () => { this.setState({ showImagePicker: false }) }}*/}
+					{/*exampleImageIntroduction={ '' }/>*/}
 
 					{ this.props.loading ? this._renderLoadingView() : null }
 

@@ -18,7 +18,6 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.reactnative.photoview.PhotoViewPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -65,7 +64,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTPdfView(),
             new PickerViewPackage(),
             new PhotoViewPackage(),
-            new PickerPackage(),
               new PermissionManagerPackage(),
               new NativePackage(),
               new RCTCameraPackage(),

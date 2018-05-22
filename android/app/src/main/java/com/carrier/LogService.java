@@ -9,7 +9,6 @@ import android.os.IBinder;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.reactivex.annotations.Nullable;
 
 /**
  * Created by kaisun on 17/9/18.

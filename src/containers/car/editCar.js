@@ -27,7 +27,7 @@ import { dispatchGetCarInfo,dispatchRefreshCar } from '../../action/car';
 import HelperUtil from '../../utils/helper';
 import Regex from '../../utils/regex';
 import Toast from '../../utils/toast';
-import CommonImagePicker from '../../components/common/commonImagePicker';
+// import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/car_example.png';
 import ExampleImageLicense from '../../../assets/img/auth/driving_license.png';
 import ExampleImageTransport from '../../../assets/img/auth/yingyun_licence.png';
@@ -955,36 +955,36 @@ class EditCarContainer extends BaseComponent {
 					</View>
 				</ScrollView>
 
-				<CommonImagePicker
-					type={ this.state.type }
-					show={ this.state.showImagePicker }
-					configData={{}}
-					cameraAction={ image => {}}
-					actionBack={ image => {
-						if (image[0].type === 'addCarCarImg') this.setState({ addCarCarImgSource: image[0].source , driverLoadingTextAddCarCarImg: '正在上传' });
-						if (image[0].type === 'addCarLiencesImg') this.setState({ addCarLiencesImgSource: image[0].source , driverLoadingTextAddCarLiencesImg: '正在上传' });
-						if (image[0].type === 'addCarYunYImg') this.setState({ addCarYunYImgSource: image[0].source, driverLoadingTextAddCarYunYImg: '正在上传'  });
-						if (image[0].type === 'addGCarLiencesImg') this.setState({ addGCarLiencesImgSource: image[0].source , driverLoadingTextAddGCarLiencesImg: '正在上传' });
-						if (image[0].type === 'addGCarYunYImg') this.setState({ addGCarYunYImgSource: image[0].source, driverLoadingTextAddGCarYunYImg: '正在上传'  });
-						// this.props._getOssConfig({ type: image[0].type, path: image[0].path });
-						this.props._getOssConfig({ type: image[0].type, path: image[0].path }, (type) => {
-							if (type === 'addCarCarImg') this.setState({ driverLoadingTextAddCarCarImg: '' })
-							if (type === 'addCarLiencesImg') this.setState({ driverLoadingTextAddCarLiencesImg: '' })
-							if (type === 'addCarYunYImg') this.setState({ driverLoadingTextAddCarYunYImg: '' })
-							if (type === 'addGCarLiencesImg') this.setState({ driverLoadingTextAddGCarLiencesImg: '' })
-							if (type === 'addGCarYunYImg') this.setState({ driverLoadingTextAddGCarYunYImg: '' })
-						}, type => {
-							if (type === 'addCarCarImg') this.setState({ driverLoadingTextAddCarCarImg: '重新上传' })
-							if (type === 'addCarLiencesImg') this.setState({ driverLoadingTextAddCarLiencesImg: '重新上传' })
-							if (type === 'addCarYunYImg') this.setState({ driverLoadingTextAddCarYunYImg: '重新上传' })
-							if (type === 'addGCarLiencesImg') this.setState({ driverLoadingTextAddGCarLiencesImg: '重新上传' })
-							if (type === 'addGCarYunYImg') this.setState({ driverLoadingTextAddGCarYunYImg: '重新上传' })
-						});
-					}}
-					libraryAction={ image => {} }
-					exampleImage={ this.state.showExampleImage }
-					cancleAction={ () => { this.setState({ showImagePicker: false }) }}
-					exampleImageIntroduction={ '' }/>
+				{/*<CommonImagePicker*/}
+					{/*type={ this.state.type }*/}
+					{/*show={ this.state.showImagePicker }*/}
+					{/*configData={{}}*/}
+					{/*cameraAction={ image => {}}*/}
+					{/*actionBack={ image => {*/}
+						{/*if (image[0].type === 'addCarCarImg') this.setState({ addCarCarImgSource: image[0].source , driverLoadingTextAddCarCarImg: '正在上传' });*/}
+						{/*if (image[0].type === 'addCarLiencesImg') this.setState({ addCarLiencesImgSource: image[0].source , driverLoadingTextAddCarLiencesImg: '正在上传' });*/}
+						{/*if (image[0].type === 'addCarYunYImg') this.setState({ addCarYunYImgSource: image[0].source, driverLoadingTextAddCarYunYImg: '正在上传'  });*/}
+						{/*if (image[0].type === 'addGCarLiencesImg') this.setState({ addGCarLiencesImgSource: image[0].source , driverLoadingTextAddGCarLiencesImg: '正在上传' });*/}
+						{/*if (image[0].type === 'addGCarYunYImg') this.setState({ addGCarYunYImgSource: image[0].source, driverLoadingTextAddGCarYunYImg: '正在上传'  });*/}
+						{/*// this.props._getOssConfig({ type: image[0].type, path: image[0].path });*/}
+						{/*this.props._getOssConfig({ type: image[0].type, path: image[0].path }, (type) => {*/}
+							{/*if (type === 'addCarCarImg') this.setState({ driverLoadingTextAddCarCarImg: '' })*/}
+							{/*if (type === 'addCarLiencesImg') this.setState({ driverLoadingTextAddCarLiencesImg: '' })*/}
+							{/*if (type === 'addCarYunYImg') this.setState({ driverLoadingTextAddCarYunYImg: '' })*/}
+							{/*if (type === 'addGCarLiencesImg') this.setState({ driverLoadingTextAddGCarLiencesImg: '' })*/}
+							{/*if (type === 'addGCarYunYImg') this.setState({ driverLoadingTextAddGCarYunYImg: '' })*/}
+						{/*}, type => {*/}
+							{/*if (type === 'addCarCarImg') this.setState({ driverLoadingTextAddCarCarImg: '重新上传' })*/}
+							{/*if (type === 'addCarLiencesImg') this.setState({ driverLoadingTextAddCarLiencesImg: '重新上传' })*/}
+							{/*if (type === 'addCarYunYImg') this.setState({ driverLoadingTextAddCarYunYImg: '重新上传' })*/}
+							{/*if (type === 'addGCarLiencesImg') this.setState({ driverLoadingTextAddGCarLiencesImg: '重新上传' })*/}
+							{/*if (type === 'addGCarYunYImg') this.setState({ driverLoadingTextAddGCarYunYImg: '重新上传' })*/}
+						{/*});*/}
+					{/*}}*/}
+					{/*libraryAction={ image => {} }*/}
+					{/*exampleImage={ this.state.showExampleImage }*/}
+					{/*cancleAction={ () => { this.setState({ showImagePicker: false }) }}*/}
+					{/*exampleImageIntroduction={ '' }/>*/}
 
 				<SimplePicker
 					data={ this.state.data }

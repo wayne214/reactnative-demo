@@ -15,7 +15,7 @@ import {
 import PropTypes from 'prop-types';
 import * as COLOR from '../../constants/colors'
 import Button from 'apsl-react-native-button'
-import ImagePicker from 'react-native-image-crop-picker'
+// import ImagePicker from 'react-native-image-crop-picker'
 
 const { height,width } = Dimensions.get('window')
 const animationTime = 200
@@ -118,25 +118,25 @@ class CommonImagePicker extends Component{
 								textStyle={styles.buttonText}
 								onPress={()=>{
 									this._preCancleAction()
-									ImagePicker.openCamera({
-									  cropping: configData.cropping || false
-									}).then(image => {
-										if (cancleAction) {cancleAction()}
-										const targetObj = {
-											source: {
-												uri: image.path,
-												isStatic: true
-											},
-											type,
-											path: Platform.OS === 'android' ? image.path.replace('file://', '') : image.path
-										}
-										if (actionBack) {
-											if (actionBack) actionBack([targetObj]);
-										};
-									  console.log("---- 调用相机 结果：",image);
-									},reject=>{
-										console.log("相机 失败",reject);
-									}).catch(error => console.log(error) );
+								// 	ImagePicker.openCamera({
+								// 	  cropping: configData.cropping || false
+								// 	}).then(image => {
+								// 		if (cancleAction) {cancleAction()}
+								// 		const targetObj = {
+								// 			source: {
+								// 				uri: image.path,
+								// 				isStatic: true
+								// 			},
+								// 			type,
+								// 			path: Platform.OS === 'android' ? image.path.replace('file://', '') : image.path
+								// 		}
+								// 		if (actionBack) {
+								// 			if (actionBack) actionBack([targetObj]);
+								// 		};
+								// 	  console.log("---- 调用相机 结果：",image);
+								// 	},reject=>{
+								// 		console.log("相机 失败",reject);
+								// 	}).catch(error => console.log(error) );
 								}}>
 							 	拍照
 							</Button>
@@ -144,39 +144,39 @@ class CommonImagePicker extends Component{
 								textStyle={styles.buttonText}
 								onPress={()=>{
 									this._preCancleAction()
-									ImagePicker.openPicker({
-										multiple: configData.multiple || false,
-										maxFiles: configData.maxFiles || 20,
-										mediaType: 'photo',
-										loadingLabelText: '加载中...'
-									}).then(images => {
-										console.log("---- 调用相册 结果：",images);
-										if (cancleAction) {cancleAction()}
-										let targetImageArr = []
-										if (!Array.isArray(images)) {
-											targetImageArr = [{
-												source: {
-													uri: images.path,
-													isStatic: true
-												},
-												type,
-												path: Platform.OS === 'android' ? images.path.replace('file://', '') : images.path
-											}]
-										}else{
-											targetImageArr = images.map((item,index)=>{
-												const targetObj = {
-													source: {
-														uri: item.path,
-														isStatic: true
-													},
-													type,
-													path: Platform.OS === 'android' ? item.path.replace('file://', '') : item.path
-												}
-												return targetObj
-											})
-										}
-										if (actionBack && targetImageArr.length > 0) actionBack(targetImageArr)
-									}, reject => console.log(reject)).catch(error => console.log(error) );
+								// 	ImagePicker.openPicker({
+								// 		multiple: configData.multiple || false,
+								// 		maxFiles: configData.maxFiles || 20,
+								// 		mediaType: 'photo',
+								// 		loadingLabelText: '加载中...'
+								// 	}).then(images => {
+								// 		console.log("---- 调用相册 结果：",images);
+								// 		if (cancleAction) {cancleAction()}
+								// 		let targetImageArr = []
+								// 		if (!Array.isArray(images)) {
+								// 			targetImageArr = [{
+								// 				source: {
+								// 					uri: images.path,
+								// 					isStatic: true
+								// 				},
+								// 				type,
+								// 				path: Platform.OS === 'android' ? images.path.replace('file://', '') : images.path
+								// 			}]
+								// 		}else{
+								// 			targetImageArr = images.map((item,index)=>{
+								// 				const targetObj = {
+								// 					source: {
+								// 						uri: item.path,
+								// 						isStatic: true
+								// 					},
+								// 					type,
+								// 					path: Platform.OS === 'android' ? item.path.replace('file://', '') : item.path
+								// 				}
+								// 				return targetObj
+								// 			})
+								// 		}
+								// 		if (actionBack && targetImageArr.length > 0) actionBack(targetImageArr)
+								// 	}, reject => console.log(reject)).catch(error => console.log(error) );
 								}}>
 							 	相册
 							</Button>

@@ -19,7 +19,8 @@ import Storage from '../../utils/storage';
 import StorageKey from '../../constants/storageKeys';
 import PermissionsManager from '../../utils/permissionManager';
 import PermissionsManagerAndroid from '../../utils/permissionManagerAndroid';
-import ImageCropPicker from 'react-native-image-crop-picker';
+// import ImageCropPicker from 'react-native-image-crop-picker';
+import SyanImageCropPicker from 'react-native-syan-image-picker';
 import AlertSheetItem from '../../components/common/alertSelected';
 import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
 import {PHOTOREFNO} from '../../constants/setting';
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     driverIcon: {
         width: 90,
         height: 90,
-        resizeMode: 'stretch',
+        // resizeMode: 'stretch',
         borderRadius: 45,
     },
     titleContainer: {
@@ -330,39 +331,62 @@ class mine extends Component {
     }
 
     selectCamera() {
-        ImageCropPicker.openCamera({
-            width: 400,
-            height: 400,
-            cropping: true
-        }).then(image => {
+        SyanImageCropPicker.openCamera({
+            isCrop: true,
+            quality: 100,
+        },(err, image) => {
+            if(err){
+                this.setState({
+                    modalVisible: false,
+                });
+                console.log(err);
+                return;
+            }
             console.log('照相机image',image);
             this.setState({
                 modalVisible: false,
             });
             DeviceEventEmitter.emit('imageCameraCallBack', image);
-        }).catch(e => {
-            this.setState({
-                modalVisible: false,
-            });
-            console.log(e)});
+        })
+        // ImageCropPicker.openCamera({
+        //     width: 400,
+        //     height: 400,
+        //     cropping: true
+        // }).then(image => {
+        //     console.log('照相机image',image);
+        //     this.setState({
+        //         modalVisible: false,
+        //     });
+        //     DeviceEventEmitter.emit('imageCameraCallBack', image);
+        // }).catch(e => {
+        //     this.setState({
+        //         modalVisible: false,
+        //     });
+        //     console.log(e)});
     }
 
     selectPhoto() {
-        ImageCropPicker.openPicker({
-            width: 400,
-            height: 400,
-            cropping: true
-        }).then(image => {
+        SyanImageCropPicker.showImagePicker({
+            imageCount: 1,
+            isCamera: false,
+            quality: 100,
+            isCrop: true,
+        }, (err, image) => {
+            if (err) {
+                console.log(err);
+                this.setState({
+                    modalVisible: false,
+                });
+                // 取消选择
+                return;
+            }
+            // 选择成功，渲染图片
             console.log('图片image', image);
             this.setState({
                 modalVisible: false,
             });
             DeviceEventEmitter.emit('imagePhotoCallBack', image);
-        }).catch(e => {
-            this.setState({
-                modalVisible: false,
-            });
-            console.log(e)});
+        });
     }
 
     certificationCallback(result) {
@@ -482,8 +506,9 @@ class mine extends Component {
     }
 
     /*IOS获取头像照片数据*/
-    imageCropProcess(image) {
-        console.log('iamgeee',image)
+    imageCropProcess(images) {
+        console.log('images=',images);
+        let image = images[0];
         if (image.didCancel) {
             console.log('User cancelled image picker');
         }
@@ -497,7 +522,7 @@ class mine extends Component {
         }
         else {
 
-            let source = {uri: image.path};
+            let source = {uri: image.uri};
 
             this.setState({
                 avatarSource: source
@@ -505,35 +530,37 @@ class mine extends Component {
 
             let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
             let file = {
-                uri: image.path,
+                uri: image.uri,
                 type: 'multipart/form-data',
                 name: 'image.png'
-            };   //这里的key(uri和type和name)不能改变,
-            console.log('response.fileName', image.filename, 'file', file)
+            };
+            let arr = image.uri.split('/');
+            let filename = arr[arr.length - 1];
+            //这里的key(uri和type和name)不能改变,
+            console.log('response.fileName', filename, 'file', file)
             formData.append("photo", file);   //这里的files就是后台需要的key
             formData.append('userId', global.userId);
             formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
-            formData.append('fileName', image.filename);
-            formData.append('mimeType', image.mime);
+            formData.append('fileName', filename);
+            formData.append('mimeType', 'image/jpeg');
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }
     /*ANDROID获取头像照片数据*/
-    imageADCropProcess(image) {
+    imageADCropProcess(images) {
+        let image = images[0];
         if (image.didCancel) {
             console.log('User cancelled image picker');
         }
         else if (image.error) {
             console.log('ImagePicker Error: ', image.error);
-
         }
         else if (image.customButton) {
             console.log('User tapped custom button: ', image.customButton);
-
         }
         else {
 
-            let source = {uri: image.path};
+            let source = {uri: image.uri};
 
             this.setState({
                 avatarSource: source
@@ -541,75 +568,76 @@ class mine extends Component {
 
             let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
             let file = {
-                uri: image.path,
+                uri: image.uri,
                 type: 'multipart/form-data',
                 name: 'image.png'
-            };   //这里的key(uri和type和name)不能改变,
-            console.log('response.fileName', 'abc.jpg', 'file', file)
+            };
+            //这里的key(uri和type和name)不能改变,
+            let arr = image.uri.split('/');
+            let filename = arr[arr.length - 1];
+            console.log('response.fileName', filename, 'file', file)
             formData.append("photo", file);   //这里的files就是后台需要的key
             formData.append('userId', global.userId);
             formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
-            formData.append('fileName', 'abc.jpg');
-            formData.append('mimeType', image.mime);
+            formData.append('fileName', filename);
+            formData.append('mimeType', 'image/jpeg');
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }
 
     /*获取头像拍摄数据*/
-    imageCropCameraProcess(image) {
-
-
+    imageCropCameraProcess(images) {
+        let image = images[0];
         if (image.didCancel) {
             console.log('User cancelled image picker');
         }
         else if (image.error) {
             console.log('ImagePicker Error: ', image.error);
-
         }
         else if (image.customButton) {
             console.log('User tapped custom button: ', image.customButton);
-
         }
         else {
 
-            let source = {uri: image.path};
+            let source = {uri: image.uri};
 
             this.setState({
                 avatarSource: source
-            })
+            });
 
             let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
             let file = {
-                uri: image.path,
+                uri: image.uri,
                 type: 'multipart/form-data',
                 name: 'image.png'
-            };   //这里的key(uri和type和name)不能改变,
-            console.log('response.fileName', image.filename, 'file', file)
+            };
+            //这里的key(uri和type和name)不能改变,
+            let arr = image.uri.split('/');
+            let filename = arr[arr.length - 1];
+            console.log('response.fileName', filename, 'file', file)
             formData.append("photo", file);   //这里的files就是后台需要的key
             formData.append('userId', global.userId);
             formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
-            formData.append('fileName', 'abc.jpg');
-            formData.append('mimeType', image.mime);
+            formData.append('fileName', filename);
+            formData.append('mimeType', 'image/jpeg');
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }
     /*获取头像拍摄数据*/
-    imageADCropCameraProcess(image) {
-
+    imageADCropCameraProcess(images) {
+        let image = images[0];
         if (image.didCancel) {
             console.log('User cancelled image picker');
         }
         else if (image.error) {
             console.log('ImagePicker Error: ', image.error);
-
         }
         else if (image.customButton) {
             console.log('User tapped custom button: ', image.customButton);
-
         }
         else {
 
-            let source = {uri: image.path};
+            let source = {uri: image.uri};
 
             this.setState({
                 avatarSource: source
@@ -617,16 +645,18 @@ class mine extends Component {
 
             let formData = new FormData();//如果需要上传多张图片,需要遍历数组,把图片的路径数组放入formData中
             let file = {
-                uri: image.path,
+                uri: image.uri,
                 type: 'multipart/form-data',
                 name: 'image.png'
             };   //这里的key(uri和type和name)不能改变,
-            console.log('response.fileName', image.filename, 'file', file)
+            let arr = image.uri.split('/');
+            let filename = arr[arr.length - 1];
+            console.log('response.fileName', filename, 'file', file)
             formData.append("photo", file);   //这里的files就是后台需要的key
             formData.append('userId', global.userId);
             formData.append('userName', global.userName ? global.userName : this.state.phoneNum);
-            formData.append('fileName', 'abc.jpg');
-            formData.append('mimeType', image.mime);
+            formData.append('fileName', filename);
+            formData.append('mimeType', 'image/jpeg');
             this.upLoadImage(API.API_CHANGE_USER_AVATAR, formData);
         }
     }

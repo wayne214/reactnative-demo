@@ -33,7 +33,7 @@ import {OOS_CONFIG, ADD_COMPANY_AUTH, SELECT_DRIVER_INFO, SELECT_DRIVER_INFO_BY_
 import {fetchData, updateOSSConfig, appendLogToFile} from '../../action/app';
 import {HOST, OSS_ADD_DRIVER} from '../../constants/setting';
 import CardIDImg from '../../../assets/img/user/driveID.png';
-import CommonImagePicker from '../../components/common/commonImagePicker';
+// import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/driver_license.png';
 import HelperUtil from '../../utils/helper';
 import EnlargeImage from '../../../assets/img/enlarge.png';
@@ -331,31 +331,31 @@ class AddDriverContainer extends BaseComponent {
                                   this.setState({showPhoto: false})
                               }}/>
 
-                <CommonImagePicker
-                    type={this.state.type}
-                    show={this.state.showImagePicker}
-                    configData={{}}
-                    cameraAction={image => {
-                    }}
-                    actionBack={image => {
-                        if (image[0].type === 'addDriverLicense') this.setState({
-                            addDriverLicenseSource: image[0].source,
-                            addDriverLicensePath: image[0].path,
-                            driverLoadingText: '正在上传'
-                        });
-                        this.props._getOssConfig({type: image[0].type, path: image[0].path}, (type) => {
-                            this.setState({driverLoadingText: ''})
-                        }, () => {
-                            this.setState({driverLoadingText: '重新上传'})
-                        });
-                    }}
-                    libraryAction={image => {
-                    }}
-                    exampleImage={ExampleImage}
-                    cancleAction={() => {
-                        this.setState({showImagePicker: false})
-                    }}
-                    exampleImageIntroduction={''}/>
+                {/*<CommonImagePicker*/}
+                    {/*type={this.state.type}*/}
+                    {/*show={this.state.showImagePicker}*/}
+                    {/*configData={{}}*/}
+                    {/*cameraAction={image => {*/}
+                    {/*}}*/}
+                    {/*actionBack={image => {*/}
+                        {/*if (image[0].type === 'addDriverLicense') this.setState({*/}
+                            {/*addDriverLicenseSource: image[0].source,*/}
+                            {/*addDriverLicensePath: image[0].path,*/}
+                            {/*driverLoadingText: '正在上传'*/}
+                        {/*});*/}
+                        {/*this.props._getOssConfig({type: image[0].type, path: image[0].path}, (type) => {*/}
+                            {/*this.setState({driverLoadingText: ''})*/}
+                        {/*}, () => {*/}
+                            {/*this.setState({driverLoadingText: '重新上传'})*/}
+                        {/*});*/}
+                    {/*}}*/}
+                    {/*libraryAction={image => {*/}
+                    {/*}}*/}
+                    {/*exampleImage={ExampleImage}*/}
+                    {/*cancleAction={() => {*/}
+                        {/*this.setState({showImagePicker: false})*/}
+                    {/*}}*/}
+                    {/*exampleImageIntroduction={''}/>*/}
 
 
                 {this.state.visible ?

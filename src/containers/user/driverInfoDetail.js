@@ -21,7 +21,7 @@ import { dispatchGetDriverInfoDetail } from '../../action/driver';
 import { fetchData, updateOSSConfig } from '../../action/app';
 import { HOST, OSS_ADD_DRIVER } from '../../constants/setting';
 import CardIDImg from '../../../assets/img/user/driveID.png';
-import CommonImagePicker from '../../components/common/commonImagePicker';
+// import CommonImagePicker from '../../components/common/commonImagePicker';
 import ExampleImage from '../../../assets/img/auth/driver_license.png';
 import HelperUtil from '../../utils/helper';
 import ImagePreview from '../../components/common/singleImagePreview.js';
