@@ -102,14 +102,14 @@ android {
         applicationId "com.carrier"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 22
-        versionName "1.8.4"
+        versionCode 23
+        versionName "1.8.5"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
         manifestPlaceholders = [
-                JPUSH_APPKEY: "7964a2eff4441fb2d9133955", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
+                JPUSH_APPKEY: "fca499d00bccff3bcf99906b", //"fca499d00bccff3bcf99906b", // 7964a2eff4441fb2d9133955 是测试的key
                 APP_CHANNEL : "Android_CHANNEL"    //应用渠道号
         ]
     }
