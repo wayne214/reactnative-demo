@@ -643,6 +643,7 @@ const mapDispatchToProps = (dispatch) => {
                 api: API_QUERY_COMPANY_INFO,
                 success: (data) => {
                     dispatch(queryCompanyInfoAction(data))
+                    global.companyCode = data.companyCode;
                     DeviceEventEmitter.emit('resetCarrierGoods');
                 },
                 fail: (error) => {

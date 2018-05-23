@@ -137,6 +137,7 @@ class GoodsList extends Component {
           //     this.refresh();
           // },1000);
       }
+       this.refresh();
 
       this.resetCarrierGoodslistener = DeviceEventEmitter.addListener('resetCarrierGoods', () => {
           this.refresh();
@@ -160,11 +161,13 @@ class GoodsList extends Component {
     }
   _refreshList(getGoodListSuccess,getGoodListFail){
       //if (this.props.ownerStatus == '12' || this.props.ownerStatus == '22'){
+
+
+      console.log('global.companyCode',global.companyCode)
+      if (global.companyCode) {
           this.setState({
               appLoading: true,
           })
-      console.log('global.companyCode',global.companyCode)
-      if (global.companyCode) {
           this.props._getNormalGoodsList({
               companyCode: global.companyCode,
               num: page,
