@@ -304,7 +304,7 @@ class mine extends Component {
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.selectCamera();
                     },(err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置相机权限');
+                        Alert.alert('提示', '请到设置-应用-授权管理设置相机及存储权限');
                         this.setState({
                             modalVisible: false,
                         });
@@ -324,8 +324,13 @@ class mine extends Component {
                             modalVisible: false,
                         });
                     });
-                } else
-                    this.selectPhoto();
+                } else {
+                    PermissionsManagerAndroid.phonePermission().then((data) => {
+                        this.selectPhoto();
+                    }, (err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                    });
+                }
                 break;
         }
     }

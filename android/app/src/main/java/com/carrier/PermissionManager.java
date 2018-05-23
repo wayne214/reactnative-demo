@@ -84,13 +84,20 @@ public class PermissionManager extends ReactContextBaseJavaModule {
             return;
         }
         int hasPermission = ContextCompat.checkSelfPermission(currentActivity, CAMERA);
-        if (hasPermission == PackageManager.PERMISSION_GRANTED) {
-            promise.resolve(CAMERA);
-        } else if(hasPermission == PackageManager.PERMISSION_DENIED) {
-            promise.reject(E_PERMISSION_DENIED, "没有访问权限");
+        int hasWritePermission = ContextCompat.checkSelfPermission(currentActivity, WRITE_EXTERNAL_STORAGE);
+        if (hasPermission == PackageManager.PERMISSION_GRANTED
+                && hasWritePermission == PackageManager.PERMISSION_GRANTED) {
+                promise.resolve(CAMERA);
         }else {
             List<String> permList = new ArrayList<>();
             permList.add(CAMERA);
+            permList.add(WRITE_EXTERNAL_STORAGE);
+            for(int i = 0; i<permList.size(); i++){
+                if(!ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, permList.get(i))){
+                    promise.reject(E_PERMISSION_DENIED, "Permission request denied");
+                    return;
+                }
+            }
             requestPermission(permList, currentActivity, REQUEST_CAMERA_CODE, promise);
         }
     }
@@ -108,6 +115,10 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         } else {
             List<String> permList = new ArrayList<>();
             permList.add(WRITE_EXTERNAL_STORAGE);
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, WRITE_EXTERNAL_STORAGE)){
+                promise.reject(E_PERMISSION_DENIED, "Permission request denied");
+                return;
+            }
             requestPermission(permList, currentActivity, REQUEST_PHOTO_CODE, promise);
         }
     }
@@ -125,6 +136,10 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         } else {
             List<String> permList = new ArrayList<>();
             permList.add(ACCESS_FINE_LOCATION);
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, ACCESS_FINE_LOCATION)){
+                promise.reject(E_PERMISSION_DENIED, "Permission request denied");
+                return;
+            }
             requestPermission(permList, currentActivity, REQUEST_LOCATION_CODE, promise);
         }
     }
@@ -143,6 +158,10 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         } else {
             List<String> permList = new ArrayList<>();
             permList.add(READ_PHONE_STATE);
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, READ_PHONE_STATE)){
+                promise.reject(E_PERMISSION_DENIED, "Permission request denied");
+                return;
+            }
             requestPermission(permList, currentActivity, REQUEST_PHONE_CODE, promise);
         }
     }
@@ -175,7 +194,7 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         }
     }
 
-    protected static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if(requestPromises.containsKey(requestCode) && requestResults.containsKey(requestCode)) {
             Promise promise = requestPromises.get(requestCode);
             WritableNativeMap q = requestResults.get(requestCode);
@@ -201,8 +220,7 @@ public class PermissionManager extends ReactContextBaseJavaModule {
                 result.putMap("result", q);
 
                 promise.resolve(result); // some or all of permissions was granted...
-            }
-            else {
+            } else {
                 promise.reject(E_PERMISSION_DENIED, "Permission request denied");
             }
 

@@ -408,16 +408,14 @@ class personCarOwnerAuth extends Component {
                 if (Platform.OS === 'ios') {
                     PermissionsManager.cameraPermission().then(data=>{
                         this.selectCamera();
-
                     }).catch(err=>{
-                        // Toast.showShortCenter(err.message);
                         Alert.alert(null,err.message)
                     });
                 }else{
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.selectCamera();
                     }, (err) => {
-                        Alert.alert('提示','请到设置-应用-授权管理设置相机权限');
+                        Alert.alert('提示','请到设置-应用-授权管理设置相机及存储权限');
                     });
                 }
                 break;
@@ -428,13 +426,16 @@ class personCarOwnerAuth extends Component {
                         this.selectPhoto();
 
                     }).catch(err=>{
-                        // Toast.showShortCenter(err.message);
                         Alert.alert(null,err.message)
 
                     });
-                }else
-                    this.selectPhoto();
-
+                }else {
+                    PermissionsManagerAndroid.phonePermission().then((data) => {
+                        this.selectPhoto();
+                    }, (err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                    });
+                }
                 break;
         }
     }

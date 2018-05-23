@@ -170,7 +170,7 @@ class UploadReceipt extends Component {
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.takePhoto();
                     }, (err) => {
-                        Alert.alert('提示','请到设置-应用-授权管理设置相机权限');
+                        Alert.alert('提示','请到设置-应用-授权管理设置相机及存储权限');
                     });
                 }
                 break;
@@ -184,7 +184,11 @@ class UploadReceipt extends Component {
                         Alert.alert(null,err.message)
                     });
                 }else{
-                    this.pickMultiple();
+                    PermissionsManagerAndroid.phonePermission().then((data) => {
+                        this.pickMultiple();
+                    }, (err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                    });
                 }
                 break;
         }

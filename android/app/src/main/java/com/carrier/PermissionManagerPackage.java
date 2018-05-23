@@ -28,6 +28,7 @@ public class PermissionManagerPackage implements ReactPackage {
         return Collections.emptyList();
     }
 
+
     public static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

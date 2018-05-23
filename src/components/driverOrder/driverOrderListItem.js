@@ -104,7 +104,7 @@ class driverOrderListItem extends Component {
                                 type: RouteType.ROUTE_SCAN_GPS_PAGE,
                             })
                         }).catch(err=>{
-                            Alert.alert('提示','请到设置-应用-授权管理设置相机权限')
+                            Alert.alert('提示','请到设置-应用-授权管理设置相机及存储权限')
                         });
                     }
                 }}

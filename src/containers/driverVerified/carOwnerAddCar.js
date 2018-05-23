@@ -16,6 +16,7 @@ import {
     Alert
 } from 'react-native';
 
+
 import * as API from '../../constants/api';
 
 import ImagePicker from 'react-native-image-picker';
@@ -329,7 +330,7 @@ class certification extends Component {
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.selectCamera();
                     }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置相机权限');
+                        Alert.alert('提示', '请到设置-应用-授权管理设置相机及存储权限');
                     });
                 }
 
@@ -345,8 +346,13 @@ class certification extends Component {
                         Alert.alert(null, err.message)
 
                     });
-                } else
-                    this.selectPhoto();
+                } else{
+                    PermissionsManagerAndroid.phonePermission().then((data) => {
+                        this.selectPhoto();
+                    }, (err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                    });
+                }
                 break;
         }
     }

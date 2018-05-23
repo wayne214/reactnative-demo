@@ -150,35 +150,39 @@ class uploadODO extends Component {
     }
 
     callbackSelected(i){
-        switch (i){
+        switch (i) {
             case 0: // 拍照
                 if (Platform.OS === 'ios') {
                     PermissionsManager.cameraPermission().then(data => {
                         this.takePhoto();
-                    }).catch(err=>{
+                    }).catch(err => {
                         // Toast.showShortCenter(err.message);
-                        Alert.alert(null,err.message)
+                        Alert.alert(null, err.message)
 
                     });
-                }else{
+                } else {
                     PermissionsManagerAndroid.cameraPermission().then((data) => {
                         this.takePhoto();
                     }, (err) => {
-                        Alert.alert('提示','请到设置-应用-授权管理设置相机权限');
+                        Alert.alert('提示', '请到设置-应用-授权管理设置相机及存储权限');
                     });
                 }
                 break;
             case 1: // 图库
                 if (Platform.OS === 'ios') {
                     // 图库
-                    PermissionsManager.photoPermission().then(data=>{
+                    PermissionsManager.photoPermission().then(data => {
                         this.pickMultiple();
-                    }).catch(err=>{
+                    }).catch(err => {
                         // Toast.showShortCenter(err.message);
-                        Alert.alert(null,err.message)
+                        Alert.alert(null, err.message)
                     });
-                }else{
-                    this.pickMultiple();
+                } else {
+                    PermissionsManagerAndroid.phonePermission().then((data) => {
+                        this.pickMultiple();
+                    }, (err) => {
+                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                    });
                 }
                 break;
         }
