@@ -32,6 +32,7 @@ import * as ConstValue from '../../constants/constValue';
 import Validator from '../../utils/validator';
 import * as RouteType from '../../constants/routeType';
 import Toast from '../../utils/toast';
+import DeviceInfo from 'react-native-device-info';
 // 图标
 import PersonInfoIcon from '../../../assets/img/mine/personInfo.png';
 import CarInfoIcon from '../../../assets/img/mine/carInfo.png';
@@ -325,11 +326,20 @@ class mine extends Component {
                         });
                     });
                 } else {
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.selectPhoto();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
+
                 }
                 break;
         }

@@ -19,6 +19,7 @@ import {
     Alert,
     ImageBackground,
 } from 'react-native';
+import DeviceInfo from "react-native-device-info";
 
 import NavigationBar from '../../components/common/navigatorbar';
 import CommonCell from "../../containers/mine/cell/commonCell";
@@ -199,11 +200,19 @@ class batchUploadReceipt extends Component {
                         Alert.alert(null,err.message)
                     });
                 }else{
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.pickMultiple();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.pickMultiple();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.pickMultiple();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
                 }
                 break;
         }

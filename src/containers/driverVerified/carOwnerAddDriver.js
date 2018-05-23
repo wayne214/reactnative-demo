@@ -21,6 +21,7 @@ import {
 import * as API from '../../constants/api';
 import ImagePicker from 'react-native-image-picker';
 import TimePicker from 'react-native-picker-custom';
+import DeviceInfo from "react-native-device-info";
 
 import NavigatorBar from '../../components/common/navigatorbar';
 import VerifiedSpaceItem from './verifiedIDItem/verifiedSpaceItem';
@@ -394,11 +395,20 @@ class carOwnerAddDriver extends Component {
 
                     });
                 }else {
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.selectPhoto();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
+
                 }
                 break;
         }

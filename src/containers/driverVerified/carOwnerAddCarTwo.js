@@ -51,6 +51,7 @@ const travelRightImage = require('./images/travelCardHome_right.png');
 const travelTrunLeftImage = require('./images/guacheleft.png');
 const travelTrunRightImage = require('./images/guacheright.png');
 
+import DeviceInfo from "react-native-device-info";
 
 const selectedArr = ["拍照", "从手机相册选择"];
 
@@ -272,11 +273,19 @@ class certification extends Component {
 
                     });
                 } else {
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.selectPhoto();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
                 }
                 break;
         }

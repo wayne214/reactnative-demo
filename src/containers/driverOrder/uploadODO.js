@@ -27,6 +27,7 @@ import {upLoadImageManager} from '../../utils/upLoadImageToVerified';
 import {fetchData} from '../../action/app';
 import * as API from '../../constants/api';
 import Loading from '../../utils/loading';
+import DeviceInfo from "react-native-device-info";
 
 import {
     addImage,
@@ -178,11 +179,19 @@ class uploadODO extends Component {
                         Alert.alert(null, err.message)
                     });
                 } else {
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.pickMultiple();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.pickMultiple();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.pickMultiple();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
                 }
                 break;
         }

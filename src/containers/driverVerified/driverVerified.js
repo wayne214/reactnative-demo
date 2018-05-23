@@ -20,6 +20,7 @@ import {
 import * as API from '../../constants/api';
 import ImagePicker from 'react-native-image-picker';
 import TimePicker from 'react-native-picker-custom';
+import DeviceInfo from "react-native-device-info";
 
 import NavigatorBar from '../../components/common/navigatorbar';
 import VerifiedSpaceItem from './verifiedIDItem/verifiedSpaceItem';
@@ -370,7 +371,20 @@ class Verified extends Component {
 
                     });
                 }else{
-                    this.selectedphoto();
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.selectedphoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.selectedphoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
+
                 }
 
 

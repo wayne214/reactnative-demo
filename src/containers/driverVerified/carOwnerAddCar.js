@@ -16,7 +16,7 @@ import {
     Alert
 } from 'react-native';
 
-
+import DeviceInfo from "react-native-device-info";
 import * as API from '../../constants/api';
 
 import ImagePicker from 'react-native-image-picker';
@@ -347,11 +347,20 @@ class certification extends Component {
 
                     });
                 } else{
-                    PermissionsManagerAndroid.phonePermission().then((data) => {
-                        this.selectPhoto();
-                    }, (err) => {
-                        Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
-                    });
+                    if(DeviceInfo.getBrand() === 'Xiaomi'){
+                        PermissionsManagerAndroid.externalPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }else {
+                        PermissionsManagerAndroid.photoPermission().then((data) => {
+                            this.selectPhoto();
+                        }, (err) => {
+                            Alert.alert('提示', '请到设置-应用-授权管理设置存储权限');
+                        });
+                    }
+
                 }
                 break;
         }

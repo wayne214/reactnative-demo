@@ -72,6 +72,10 @@ public class PermissionManager extends ReactContextBaseJavaModule {
         } else {
             List<String> permList = new ArrayList<>();
             permList.add(READ_EXTERNAL_STORAGE);
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, READ_EXTERNAL_STORAGE)){
+                promise.reject(E_PERMISSION_DENIED, "Permission request denied");
+                return;
+            }
             requestPermission(permList, currentActivity,REQUEST_EXTERNAL_CODE, promise);
         }
     }
